@@ -86,10 +86,10 @@ export default function LoginPage() {
           transition={{ duration: 0.5, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
           className="order-2 lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2 flex"
         >
-          <div className="glow-card bg-[#0C1017] border border-slate-800/90 flex w-full flex-col justify-center rounded-2xl p-6 sm:p-10 shadow-xl">
+          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 flex w-full flex-col justify-center rounded-2xl p-6 sm:p-10 shadow-xl">
             {/* Centered Icon & Header Title "Đăng nhập hệ thống" */}
             <div className="mb-7 flex flex-col items-center text-center">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600/10 border border-indigo-500/30 text-indigo-400">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
                 <GraduationCap className="h-6 w-6" />
               </div>
               <h2 className="text-2xl font-bold tracking-tight text-white">
@@ -146,7 +146,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all active:scale-[0.98] disabled:opacity-50"
+                className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-5 text-sm font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all active:scale-[0.98] disabled:opacity-50"
               >
                 <span>{loading ? "Đang xác thực..." : "Đăng nhập ngay"}</span>
                 <ArrowRight className="h-4 w-4" />
@@ -162,7 +162,7 @@ export default function LoginPage() {
           transition={{ duration: 0.5, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
           className="order-3 lg:col-span-6 lg:row-start-2 grid grid-cols-1 gap-3.5 sm:grid-cols-12 self-end"
         >
-          <div className="glow-card bg-[#0C1017] border border-slate-800/90 sm:col-span-7 rounded-2xl p-4 sm:p-5">
+          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 sm:col-span-7 rounded-2xl p-4 sm:p-5">
             <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
               <FileSpreadsheet className="h-4 w-4" />
             </div>
@@ -174,8 +174,8 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="glow-card bg-[#0C1017] border border-slate-800/90 sm:col-span-5 rounded-2xl p-4 sm:p-5">
-            <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 sm:col-span-5 rounded-2xl p-4 sm:p-5">
+            <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
               <Clock className="h-4 w-4" />
             </div>
             <h3 className="text-sm font-bold text-white">
@@ -186,7 +186,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="glow-card bg-[#0C1017] border border-slate-800/90 sm:col-span-12 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3.5">
+          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 sm:col-span-12 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3.5">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
               <FileText className="h-5 w-5" />
             </div>

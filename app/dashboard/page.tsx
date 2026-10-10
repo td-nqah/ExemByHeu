@@ -76,7 +76,7 @@ export default function UserDashboardPage() {
 
         <Link
           href="/history"
-          className="inline-flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-200 px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm self-start md:self-auto"
+          className="inline-flex items-center gap-2 bg-slate-900/60 backdrop-blur-md hover:bg-slate-900/90 border border-slate-800/80 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] text-slate-200 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 self-start md:self-auto"
         >
           <Award className="h-4 w-4 text-indigo-400" />
           <span>Xem Lịch sử bài đã nộp ({submissions.length})</span>
@@ -89,7 +89,7 @@ export default function UserDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-sm flex items-center justify-between hover:border-slate-700 transition-all"
+          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
@@ -106,7 +106,7 @@ export default function UserDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-sm flex items-center justify-between hover:border-slate-700 transition-all"
+          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
@@ -116,7 +116,7 @@ export default function UserDashboardPage() {
               {submissions.length}
             </p>
           </div>
-          <div className="h-11 w-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+          <div className="h-11 w-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
             <CheckCircle2 className="h-5 w-5" />
           </div>
         </motion.div>
@@ -125,7 +125,7 @@ export default function UserDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-sm flex items-center justify-between hover:border-slate-700 transition-all"
+          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
@@ -133,7 +133,7 @@ export default function UserDashboardPage() {
             </p>
             <p className="text-2xl font-bold text-white mt-1">{pendingCount}</p>
           </div>
-          <div className="h-11 w-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+          <div className="h-11 w-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
             <Clock className="h-5 w-5" />
           </div>
         </motion.div>
@@ -141,13 +141,13 @@ export default function UserDashboardPage() {
 
       {/* Exam Cards Grid */}
       {loading ? (
-        <div className="bg-[#0C1017] border border-slate-800/90 flex h-48 items-center justify-center rounded-2xl">
+        <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 flex h-48 items-center justify-center rounded-2xl">
           <p className="text-sm text-slate-400">
             Đang tải danh sách đề thi thử...
           </p>
         </div>
       ) : exams.length === 0 ? (
-        <div className="bg-[#0C1017] border border-slate-800/90 flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center">
+        <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center">
           <BookOpen className="mb-3 h-10 w-10 text-indigo-400" />
           <h3 className="text-base font-bold text-white">
             Chưa có đề thi thử nào được xuất bản
@@ -178,23 +178,23 @@ export default function UserDashboardPage() {
                   delay: idx * 0.06,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="glow-card bg-[#0C1017] border border-slate-800/90 rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between space-y-5"
+                className="group bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between space-y-5"
               >
                 <div>
                   {/* Badges */}
                   <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-800/90 text-slate-300 border border-slate-700/50">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700/60">
                       <Clock className="h-3.5 w-3.5 text-indigo-400" />
                       {formatDuration(exam.duration_minutes)}
                     </span>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-800/90 text-slate-300 border border-slate-700/50">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700/60">
                       <HelpCircle className="h-3.5 w-3.5 text-indigo-400" />
                       {questionCount} câu hỏi
                     </span>
                   </div>
 
                   {/* Exam Title & Info */}
-                  <h3 className="text-xl font-bold text-white tracking-tight mb-2">
+                  <h3 className="text-xl font-bold text-slate-100 group-hover:text-indigo-300 transition-colors tracking-tight mb-2">
                     {exam.title}
                   </h3>
                   <p className="text-xs text-slate-400 leading-relaxed line-clamp-2">
@@ -210,7 +210,7 @@ export default function UserDashboardPage() {
                 </div>
 
                 {/* Recent Scores Component */}
-                <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl space-y-2">
+                <div className="bg-slate-950/60 border border-slate-800/80 p-3 rounded-xl space-y-2">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-400 font-medium flex items-center gap-1">
                       <TrendingUp className="h-3.5 w-3.5 text-indigo-400" /> 3 lần
@@ -232,7 +232,7 @@ export default function UserDashboardPage() {
                           ? "bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/20"
                           : attemptIdx === 1
                           ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20 hover:bg-indigo-500/20"
-                          : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20";
+                          : "bg-emerald-950/60 text-emerald-400 border-emerald-800/50 hover:bg-emerald-900/60";
 
                         return (
                           <Link
@@ -262,7 +262,7 @@ export default function UserDashboardPage() {
 
                   <Link
                     href={`/exam/${exam.id}`}
-                    className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-indigo-600/20 transition-all hover:translate-x-0.5"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-medium px-4 py-2.5 rounded-xl shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all hover:translate-x-0.5"
                   >
                     <span>Vào làm bài</span>
                     <ArrowRight className="h-3.5 w-3.5" />

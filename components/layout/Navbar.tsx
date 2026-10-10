@@ -38,21 +38,21 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#090D16]/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
         <Link
           href={user ? (user.role === "admin" ? "/admin/dashboard" : "/dashboard") : "/"}
-          className="flex items-center gap-3 transition-opacity hover:opacity-90"
+          className="group flex items-center gap-3 transition-opacity hover:opacity-95"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600/10 border border-indigo-500/30 text-indigo-400">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)] transition-all group-hover:border-indigo-500/40">
             <GraduationCap className="h-5 w-5" />
           </div>
-          <div>
-            <span className="text-lg font-bold tracking-tight text-white">
+          <div className="flex items-center">
+            <span className="text-lg text-white font-bold tracking-tight drop-shadow-[0_0_10px_rgba(99,102,241,0.3)]">
               ExamByHeu
             </span>
-            <span className="hidden sm:inline-block ml-2 text-xs text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full font-medium">
+            <span className="hidden sm:inline-block ml-2.5 text-[11px] text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full font-medium tracking-wide">
               v2.0 Cyber
             </span>
           </div>
@@ -60,7 +60,7 @@ export function Navbar() {
 
         {/* Navigation Links */}
         {user && (
-          <nav className="hidden md:flex items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-slate-800">
+          <nav className="hidden md:flex items-center gap-1 bg-slate-900/60 backdrop-blur-md p-1 rounded-xl border border-slate-800/80">
             {user.role === "admin" ? (
               <>
                 <Link
@@ -69,8 +69,8 @@ export function Navbar() {
                     pathname === "/admin" ||
                     pathname.startsWith("/admin/dashboard") ||
                     pathname.startsWith("/admin/exams")
-                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                      : "text-slate-400 hover:text-white hover:bg-slate-800/60"
                   }`}
                 >
                   <BookOpen className="h-4 w-4" />
@@ -80,8 +80,8 @@ export function Navbar() {
                   href="/admin/submissions"
                   className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
                     pathname.startsWith("/admin/submissions")
-                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                      : "text-slate-400 hover:text-white hover:bg-slate-800/60"
                   }`}
                 >
                   <CheckCircle2 className="h-4 w-4" />
@@ -94,8 +94,8 @@ export function Navbar() {
                   href="/dashboard"
                   className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
                     pathname === "/dashboard"
-                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                      : "text-slate-400 hover:text-white hover:bg-slate-800/60"
                   }`}
                 >
                   <BookOpen className="h-4 w-4" />
@@ -105,8 +105,8 @@ export function Navbar() {
                   href="/history"
                   className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
                     pathname.startsWith("/history")
-                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                      : "text-slate-400 hover:text-white hover:bg-slate-800/60"
                   }`}
                 >
                   <History className="h-4 w-4" />
@@ -121,7 +121,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
-              <div className="flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-3 py-1.5 rounded-xl">
+              <div className="flex items-center gap-2 bg-slate-900/60 backdrop-blur-md border border-slate-800/80 px-3 py-1.5 rounded-xl">
                 {user.role === "admin" ? (
                   <ShieldAlert className="h-4 w-4 text-indigo-400" />
                 ) : (
@@ -137,7 +137,7 @@ export function Navbar() {
 
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 px-3 py-1.5 rounded-xl text-sm transition-all"
+                className="flex items-center gap-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/30 border border-transparent hover:border-rose-900/40 px-3 py-1.5 rounded-xl text-sm transition-all"
                 title="Đăng xuất"
               >
                 <LogOut className="h-4 w-4" />
@@ -147,7 +147,7 @@ export function Navbar() {
           ) : (
             <Link
               href="/"
-              className="inline-flex items-center justify-center rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all"
+              className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all"
             >
               Đăng nhập
             </Link>

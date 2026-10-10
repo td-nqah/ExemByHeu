@@ -109,7 +109,7 @@ export default function AdminDashboardPage() {
         <div className="flex flex-wrap items-center gap-3">
           <Link
             href="/admin/submissions"
-            className="inline-flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-200 px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm"
+            className="inline-flex items-center gap-2 bg-slate-900/60 backdrop-blur-md hover:bg-slate-900/90 border border-slate-800/80 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] text-slate-200 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300"
           >
             <CheckCircle2 className="h-4 w-4 text-indigo-400" />
             <span>Phòng Chấm thi ({pendingGradingCount} bài chờ)</span>
@@ -123,7 +123,7 @@ export default function AdminDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-sm flex items-center justify-between hover:border-slate-700 transition-all"
+          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
@@ -140,7 +140,7 @@ export default function AdminDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-sm flex items-center justify-between hover:border-slate-700 transition-all"
+          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
@@ -148,7 +148,7 @@ export default function AdminDashboardPage() {
             </p>
             <p className="text-2xl font-bold text-white mt-1">{publishedCount}</p>
           </div>
-          <div className="h-11 w-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+          <div className="h-11 w-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
             <BookOpen className="h-5 w-5" />
           </div>
         </motion.div>
@@ -157,7 +157,7 @@ export default function AdminDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-sm flex items-center justify-between hover:border-slate-700 transition-all"
+          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
@@ -176,7 +176,7 @@ export default function AdminDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-sm flex items-center justify-between hover:border-slate-700 transition-all"
+          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
@@ -186,7 +186,7 @@ export default function AdminDashboardPage() {
               {pendingGradingCount}
             </p>
           </div>
-          <div className="h-11 w-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+          <div className="h-11 w-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
             <Clock className="h-5 w-5" />
           </div>
         </motion.div>
@@ -197,7 +197,7 @@ export default function AdminDashboardPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-[#0C1017] border border-slate-800/90 overflow-hidden rounded-2xl shadow-xl"
+        className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
       >
         <div className="flex flex-col gap-3 border-b border-slate-800/80 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
@@ -211,7 +211,7 @@ export default function AdminDashboardPage() {
 
           <Link
             href="/admin/exams/create"
-            className="inline-flex items-center gap-2 self-start rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all sm:self-auto"
+            className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2.5 text-xs transition-all sm:self-auto"
           >
             <FilePlus2 className="h-4 w-4" />
             <span>Tạo đề thi mới</span>
@@ -230,7 +230,7 @@ export default function AdminDashboardPage() {
             </p>
             <Link
               href="/admin/exams/create"
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2 text-xs transition-all"
             >
               <FilePlus2 className="h-3.5 w-3.5" />
               Tạo đề thi đầu tiên
@@ -239,7 +239,7 @@ export default function AdminDashboardPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-slate-800/80 bg-slate-900/60 text-[10px] uppercase tracking-wider text-slate-400">
+              <thead className="bg-slate-900/80 text-slate-400 uppercase tracking-wider text-xs border-b border-slate-800">
                 <tr>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
                   <th className="py-3.5 px-4 font-semibold">Thời lượng</th>
@@ -251,7 +251,7 @@ export default function AdminDashboardPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/70">
+              <tbody>
                 {exams.map((exam) => {
                   const isPublished = exam.status === "published";
                   const questionCount = exam.questions?.length || 0;
@@ -259,9 +259,9 @@ export default function AdminDashboardPage() {
                   return (
                     <tr
                       key={exam.id}
-                      className="transition hover:bg-slate-900/40"
+                      className="group border-b border-slate-800/50 hover:bg-indigo-950/20 transition-colors"
                     >
-                      <td className="max-w-sm truncate py-3.5 px-4 font-bold text-white">
+                      <td className="max-w-sm truncate py-3.5 px-4 font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">
                         {exam.title}
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 text-slate-300">
@@ -279,8 +279,8 @@ export default function AdminDashboardPage() {
                           onClick={() => handleToggleStatus(exam.id)}
                           className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold transition ${
                             isPublished
-                              ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
-                              : "border-slate-700 bg-slate-800/80 text-slate-400 hover:bg-slate-800"
+                              ? "bg-emerald-950/60 text-emerald-400 border-emerald-800/50 hover:bg-emerald-900/60"
+                              : "border-slate-700/60 bg-slate-800/80 text-slate-400 hover:bg-slate-800"
                           }`}
                           title="Bấm để bật/tắt xuất bản đề thi"
                         >
@@ -301,26 +301,26 @@ export default function AdminDashboardPage() {
                         <div className="inline-flex items-center justify-end gap-2">
                           <Link
                             href={`/admin/exams/preview?id=${exam.id}`}
-                            className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 px-2.5 py-1.5 text-[11px] font-semibold text-slate-200 transition"
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 text-slate-300 px-2.5 py-1.5 text-[11px] font-semibold transition"
                             title="Xem trước toàn bộ câu hỏi và đáp án"
                           >
-                            <Eye className="h-3.5 w-3.5 text-indigo-400" />
+                            <Eye className="h-3.5 w-3.5" />
                             <span>Xem trước</span>
                           </Link>
 
                           <Link
                             href={`/admin/exams/${exam.id}/edit`}
-                            className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 px-2.5 py-1.5 text-[11px] font-semibold text-indigo-300 hover:text-white transition"
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 text-slate-300 px-2.5 py-1.5 text-[11px] font-semibold transition"
                             title="Chỉnh sửa thông tin đề thi và câu hỏi"
                           >
-                            <Pencil className="h-3.5 w-3.5 text-indigo-400" />
+                            <Pencil className="h-3.5 w-3.5" />
                             <span>Chỉnh sửa</span>
                           </Link>
 
                           <button
                             type="button"
                             onClick={() => setExamToDelete(exam)}
-                            className="inline-flex items-center gap-1 rounded-xl border border-rose-500/20 bg-rose-500/10 px-2.5 py-1.5 text-[11px] font-semibold text-rose-400 transition hover:bg-rose-500/20 hover:text-rose-300"
+                            className="inline-flex items-center gap-1 rounded-xl bg-rose-950/30 text-rose-400 hover:bg-rose-600 hover:text-white border border-rose-900/40 px-2.5 py-1.5 text-[11px] font-semibold transition"
                             title="Xóa đề thi này"
                           >
                             <Trash2 className="h-3.5 w-3.5" />

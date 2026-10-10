@@ -96,10 +96,12 @@ export default function AdminSubmissionsListPage() {
               initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: Math.min(idx * 0.04, 0.2) }}
-              className="glow-card rounded-2xl p-5"
+              className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5"
             >
               <div className="mb-2 flex items-center gap-2">
-                <BookOpen className="h-4 w-4 text-indigo-400" />
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+                  <BookOpen className="h-3.5 w-3.5" />
+                </div>
                 <span className="text-xs font-semibold text-slate-400">
                   {exam.status === "published" ? "Đang mở" : "Bản nháp"}
                 </span>
@@ -119,7 +121,7 @@ export default function AdminSubmissionsListPage() {
                     {pendingCount} bài chờ chấm
                   </span>
                 ) : (
-                  <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
+                  <span className="rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-800/50 px-2.5 py-0.5 text-[11px] font-semibold">
                     Đã chấm xong
                   </span>
                 )}
@@ -134,7 +136,7 @@ export default function AdminSubmissionsListPage() {
         initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, delay: 0.08 }}
-        className="bg-[#0C1017] border border-slate-800/90 overflow-hidden rounded-2xl shadow-xl"
+        className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
       >
         {/* Table Toolbar */}
         <div className="flex flex-col gap-3 border-b border-slate-800/80 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
@@ -142,20 +144,20 @@ export default function AdminSubmissionsListPage() {
             <h2 className="text-sm font-bold text-white">
               Danh sách Bài làm
             </h2>
-            <span className="rounded-md bg-slate-800 border border-slate-700/60 px-2 py-0.5 text-xs font-semibold text-slate-300">
+            <span className="rounded-md bg-slate-800/80 border border-slate-700/60 px-2 py-0.5 text-xs font-semibold text-slate-300">
               {filteredSubmissions.length}
             </span>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-slate-800">
+          <div className="flex flex-wrap items-center gap-1 bg-slate-950/60 p-1 rounded-xl border border-slate-800/80">
             <button
               type="button"
               onClick={() => setFilterStatus("all")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                 filterStatus === "all"
-                  ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/25"
-                  : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
+                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                  : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
               }`}
             >
               Tất cả ({submissions.length})
@@ -165,8 +167,8 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("pending_grading")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                 filterStatus === "pending_grading"
-                  ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/25"
-                  : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
+                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                  : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
               }`}
             >
               Chờ chấm ({submissions.filter((s) => s.status === "pending_grading").length})
@@ -176,8 +178,8 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("graded")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                 filterStatus === "graded"
-                  ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/25"
-                  : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
+                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                  : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
               }`}
             >
               Đã hoàn thành ({submissions.filter((s) => s.status === "graded").length})
@@ -200,7 +202,7 @@ export default function AdminSubmissionsListPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-slate-800/80 bg-slate-900/60 text-[10px] uppercase tracking-wider text-slate-400">
+              <thead className="bg-slate-900/80 text-slate-400 uppercase tracking-wider text-xs border-b border-slate-800">
                 <tr>
                   <th className="py-3.5 px-4 font-semibold">Thí sinh</th>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
@@ -212,14 +214,14 @@ export default function AdminSubmissionsListPage() {
                   <th className="py-3.5 px-4 text-right font-semibold">Chấm thi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/70">
+              <tbody>
                 {filteredSubmissions.map((sub) => {
                   const isGraded = sub.status === "graded";
 
                   return (
                     <tr
                       key={sub.id}
-                      className="transition hover:bg-slate-900/40"
+                      className="group border-b border-slate-800/50 hover:bg-indigo-950/20 transition-colors"
                     >
                       <td className="whitespace-nowrap py-3.5 px-4 font-bold text-white">
                         <span className="flex items-center gap-1.5">
@@ -227,7 +229,7 @@ export default function AdminSubmissionsListPage() {
                           {sub.user?.username || "Thí sinh"}
                         </span>
                       </td>
-                      <td className="max-w-xs truncate py-3.5 px-4 text-slate-200">
+                      <td className="max-w-xs truncate py-3.5 px-4 font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">
                         {sub.exam?.title || "Đề thi"}
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 text-slate-400">
@@ -238,7 +240,7 @@ export default function AdminSubmissionsListPage() {
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4">
                         {isGraded ? (
-                          <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-800/50 px-2.5 py-0.5 text-[11px] font-semibold">
                             <CheckCircle2 className="h-3 w-3" />
                             Đã chấm xong
                           </span>
@@ -261,10 +263,10 @@ export default function AdminSubmissionsListPage() {
                       <td className="whitespace-nowrap py-3.5 px-4 text-right">
                         <Link
                           href={`/admin/submissions/${sub.id}`}
-                          className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
+                          className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium transition ${
                             isGraded
-                              ? "bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800 hover:text-white"
-                              : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/20"
+                              ? "bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 text-slate-300"
+                              : "bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
                           }`}
                         >
                           <span>{isGraded ? "Xem & Sửa điểm" : "Chấm bài ngay"}</span>
