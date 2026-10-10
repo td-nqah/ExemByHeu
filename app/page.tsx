@@ -56,8 +56,8 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-5xl grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center">
-        {/* Left Column: Brand & Platform Highlights */}
-        <div className="lg:col-span-7 space-y-6">
+        {/* Left Column: Brand & Platform Highlights (On mobile: order-2 below login) */}
+        <div className="order-2 lg:order-1 lg:col-span-7 space-y-6">
           <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700 shadow-xs dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
             <Sparkles className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>Nền tảng Khảo thí Thế hệ mới</span>
@@ -99,8 +99,8 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Right Column: Authentication Card */}
-        <div className="lg:col-span-5">
+        {/* Right Column: Authentication Card (On mobile: order-1 on top) */}
+        <div className="order-1 lg:order-2 lg:col-span-5">
           <div className="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
             <div className="mb-6">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 mb-3 shadow-xs">

@@ -287,15 +287,15 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                             onClick={() => handleSelectMCQ(question.id, optText)}
                             className={`flex w-full items-start gap-3 rounded-xl border p-3.5 text-left text-xs transition ${
                               isSelected
-                                ? "border-emerald-600 bg-emerald-50/70 text-emerald-950 ring-1 ring-emerald-600 dark:border-emerald-500 dark:bg-emerald-950/30 dark:text-emerald-100"
-                                : "border-zinc-200 bg-zinc-50/40 text-zinc-800 hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200 dark:hover:border-zinc-700"
+                                ? "border-emerald-600 bg-emerald-50 text-emerald-950 ring-1 ring-emerald-600 dark:border-emerald-500 dark:bg-emerald-950/50 dark:text-emerald-200 dark:ring-emerald-500"
+                                : "border-zinc-200 bg-zinc-50/60 text-zinc-800 hover:border-zinc-300 hover:bg-zinc-100/70 dark:border-zinc-800 dark:bg-zinc-950/50 dark:text-zinc-200 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/60"
                             }`}
                           >
                             <span
                               className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold transition ${
                                 isSelected
-                                ? "bg-emerald-600 text-white"
-                                : "border border-zinc-300 bg-white text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                                ? "bg-emerald-600 text-white dark:bg-emerald-500 dark:text-zinc-950"
+                                : "border border-zinc-300 bg-zinc-100 text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
                               }`}
                             >
                               {letter}
@@ -312,7 +312,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         value={currentVal}
                         onChange={(e) => handleEssayChange(question.id, e.target.value)}
                         placeholder="Nhập phần trả lời tự luận của bạn vào đây..."
-                        className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 p-4 text-xs leading-relaxed text-zinc-900 transition focus:border-zinc-400 focus:bg-white focus:outline-hidden dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-100 dark:focus:border-zinc-700"
+                        className="w-full rounded-xl border border-zinc-200 bg-zinc-50/60 p-4 text-xs leading-relaxed text-zinc-900 transition placeholder:text-zinc-400 focus:border-zinc-900 focus:bg-white focus:outline-hidden dark:border-zinc-800 dark:bg-zinc-950/80 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-600 dark:focus:bg-zinc-950"
                       />
                       <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400">
                         <span>Số từ: {currentVal.trim() ? currentVal.trim().split(/\s+/).length : 0} từ</span>
