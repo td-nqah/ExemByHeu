@@ -1,0 +1,717 @@
+"use client";
+
+import {
+  Exam,
+  Question,
+  Submission,
+  SubmissionAnswer,
+  Profile,
+  ParsedQuestionDraft,
+} from "@/types/exam";
+import { supabase, isSupabaseConfigured } from "./supabase/client";
+
+// Storage keys
+const STORAGE_PREFIX = "exampulse_";
+const KEY_USER = `${STORAGE_PREFIX}current_user`;
+const KEY_EXAMS = `${STORAGE_PREFIX}exams`;
+const KEY_QUESTIONS = `${STORAGE_PREFIX}questions`;
+const KEY_SUBMISSIONS = `${STORAGE_PREFIX}submissions`;
+const KEY_SUBMISSION_ANSWERS = `${STORAGE_PREFIX}sub_answers`;
+
+// Default Seed Profiles
+export const SEED_PROFILES: Profile[] = [
+  {
+    id: "00000000-0000-0000-0000-000000000001",
+    username: "admin",
+    role: "admin",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "00000000-0000-0000-0000-000000000002",
+    username: "user",
+    role: "user",
+    created_at: new Date().toISOString(),
+  },
+];
+
+// Default Seed Exams
+export const SEED_EXAMS: Exam[] = [
+  {
+    id: "11111111-1111-1111-1111-111111111111",
+    title: "Kiểm tra Kiến trúc Web Hiện đại: Next.js & PostgreSQL",
+    description: "Đánh giá hiểu biết chuyên sâu về Server Components, Client State, Database Indexing và Transaction Management.",
+    duration_minutes: 30,
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
+  },
+  {
+    id: "11111111-1111-1111-1111-222222222222",
+    title: "Technical English & Enterprise Architecture Fundamentals",
+    description: "Vocabulary, architectural reasoning, and fault tolerance strategies in distributed systems.",
+    duration_minutes: 45,
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: new Date(Date.now() - 86400000).toISOString(),
+  },
+];
+
+export const SEED_QUESTIONS: Question[] = [
+  // Exam 1 questions
+  {
+    id: "22222222-2222-2222-2222-222222220001",
+    exam_id: "11111111-1111-1111-1111-111111111111",
+    type: "multiple_choice",
+    content: "Trong Next.js App Router, thành phần nào theo mặc định được render tại server để giảm tải JavaScript bundle gửi về client?",
+    options: [
+      "A. React Server Components (RSC)",
+      "B. Client Components with useState",
+      "C. Web Workers",
+      "D. Redux Store",
+    ],
+    correct_answer: "A",
+    max_score: 2.0,
+    order_index: 1,
+  },
+  {
+    id: "22222222-2222-2222-2222-222222220002",
+    exam_id: "11111111-1111-1111-1111-111111111111",
+    type: "multiple_choice",
+    content: "Chỉ số (Index) nào trong PostgreSQL phù hợp và tối ưu nhất cho việc tra cứu chính xác theo khóa ngoại submission_id?",
+    options: [
+      "A. B-Tree Index",
+      "B. GIN Index",
+      "C. BRIN Index",
+      "D. Hash Index đơn thuần",
+    ],
+    correct_answer: "A",
+    max_score: 2.0,
+    order_index: 2,
+  },
+  {
+    id: "22222222-2222-2222-2222-222222220003",
+    exam_id: "11111111-1111-1111-1111-111111111111",
+    type: "multiple_choice",
+    content: "Khi nào bắt buộc phải khai báo chỉ thị 'use client' ở đầu tệp tin trong Next.js App Router?",
+    options: [
+      "A. Khi component cần truy vấn database trực tiếp",
+      "B. Khi component sử dụng React Hooks (useState, useEffect) hoặc lắng nghe sự kiện người dùng",
+      "C. Bắt buộc cho toàn bộ component trong dự án",
+      "D. Khi component chỉ render nội dung tĩnh",
+    ],
+    correct_answer: "B",
+    max_score: 2.0,
+    order_index: 3,
+  },
+  {
+    id: "22222222-2222-2222-2222-222222220004",
+    exam_id: "11111111-1111-1111-1111-111111111111",
+    type: "essay",
+    content: "Hãy trình bày chiến lược phân tách dữ liệu an toàn và kiểm soát quyền truy cập cấp hàng (Row Level Security - RLS) trên Supabase khi triển khai cho hệ thống thi cử trực tuyến có hàng ngàn thí sinh.",
+    options: [],
+    correct_answer: "",
+    max_score: 4.0,
+    order_index: 4,
+  },
+  // Exam 2 questions
+  {
+    id: "33333333-3333-3333-3333-333333330001",
+    exam_id: "11111111-1111-1111-1111-222222222222",
+    type: "multiple_choice",
+    content: "What does the acronym ACID stand for in relational database management systems?",
+    options: [
+      "A. Atomicity, Consistency, Isolation, Durability",
+      "B. Asynchronous, Concurrent, Isolated, Distributed",
+      "C. Automated, Consistent, Integrated, Decoupled",
+      "D. Analytical, Compact, Indexed, Dynamic",
+    ],
+    correct_answer: "A",
+    max_score: 2.5,
+    order_index: 1,
+  },
+  {
+    id: "33333333-3333-3333-3333-333333330002",
+    exam_id: "11111111-1111-1111-1111-222222222222",
+    type: "multiple_choice",
+    content: "Which HTTP status code signifies that the client request has succeeded and resulted in a new resource being created?",
+    options: [
+      "A. 200 OK",
+      "B. 201 Created",
+      "C. 204 No Content",
+      "D. 304 Not Modified",
+    ],
+    correct_answer: "B",
+    max_score: 2.5,
+    order_index: 2,
+  },
+  {
+    id: "33333333-3333-3333-3333-333333330003",
+    exam_id: "11111111-1111-1111-1111-222222222222",
+    type: "essay",
+    content: "Briefly explain why optimistic locking or idempotency keys are crucial when handling online exam submission endpoints under high network latency.",
+    options: [],
+    correct_answer: "",
+    max_score: 5.0,
+    order_index: 3,
+  },
+];
+
+// Initial Seed Submissions for User (demonstrates pending grading and completed review)
+export const SEED_SUBMISSIONS: Submission[] = [
+  {
+    id: "44444444-4444-4444-4444-444444440001",
+    exam_id: "11111111-1111-1111-1111-111111111111",
+    user_id: "00000000-0000-0000-0000-000000000002",
+    status: "pending_grading",
+    mcq_score: 6.0,
+    essay_score: null,
+    total_score: 6.0,
+    submitted_at: new Date(Date.now() - 3600000 * 3).toISOString(),
+  },
+];
+
+export const SEED_SUBMISSION_ANSWERS: SubmissionAnswer[] = [
+  {
+    id: "55555555-5555-5555-5555-555555550001",
+    submission_id: "44444444-4444-4444-4444-444444440001",
+    question_id: "22222222-2222-2222-2222-222222220001",
+    user_answer: "A",
+    is_correct: true,
+    score_awarded: 2.0,
+    admin_feedback: null,
+  },
+  {
+    id: "55555555-5555-5555-5555-555555550002",
+    submission_id: "44444444-4444-4444-4444-444444440001",
+    question_id: "22222222-2222-2222-2222-222222220002",
+    user_answer: "A",
+    is_correct: true,
+    score_awarded: 2.0,
+    admin_feedback: null,
+  },
+  {
+    id: "55555555-5555-5555-5555-555555550003",
+    submission_id: "44444444-4444-4444-4444-444444440001",
+    question_id: "22222222-2222-2222-2222-222222220003",
+    user_answer: "B",
+    is_correct: true,
+    score_awarded: 2.0,
+    admin_feedback: null,
+  },
+  {
+    id: "55555555-5555-5555-5555-555555550004",
+    submission_id: "44444444-4444-4444-4444-444444440001",
+    question_id: "22222222-2222-2222-2222-222222220004",
+    user_answer: "Thiết lập chính sách RLS với auth.uid() gắn chặt với user_id của bảng submissions. Chỉ cho phép thí sinh SELECT và INSERT bài làm của chính mình. Phân quyền Admin thông qua bảng profiles có role='admin' hoặc kiểm tra JWT custom claim để xem toàn bộ danh sách.",
+    is_correct: null,
+    score_awarded: 0,
+    admin_feedback: null,
+  },
+];
+
+// Helper: Local Storage wrapper
+function getLocal<T>(key: string, defaultValue: T): T {
+  if (typeof window === "undefined") return defaultValue;
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) {
+      localStorage.setItem(key, JSON.stringify(defaultValue));
+      return defaultValue;
+    }
+    return JSON.parse(raw);
+  } catch {
+    return defaultValue;
+  }
+}
+
+function setLocal<T>(key: string, value: T): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+    console.error("Lỗi lưu trữ cục bộ", e);
+  }
+}
+
+// Ensure database initialization
+export function initStore(): void {
+  if (typeof window === "undefined") return;
+  if (!localStorage.getItem(KEY_EXAMS)) {
+    setLocal(KEY_EXAMS, SEED_EXAMS);
+  }
+  if (!localStorage.getItem(KEY_QUESTIONS)) {
+    setLocal(KEY_QUESTIONS, SEED_QUESTIONS);
+  }
+  if (!localStorage.getItem(KEY_SUBMISSIONS)) {
+    setLocal(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  }
+  if (!localStorage.getItem(KEY_SUBMISSION_ANSWERS)) {
+    setLocal(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
+  }
+}
+
+// 1. AUTHENTICATION HELPERS
+export function getCurrentUser(): Profile | null {
+  if (typeof window === "undefined") return null;
+  const user = getLocal<Profile | null>(KEY_USER, null);
+  return user;
+}
+
+export function setCurrentUser(user: Profile | null): void {
+  if (typeof window === "undefined") return;
+  if (user) {
+    setLocal(KEY_USER, user);
+    document.cookie = `exampulse_role=${user.role}; path=/; max-age=86400; SameSite=Lax`;
+  } else {
+    localStorage.removeItem(KEY_USER);
+    document.cookie = `exampulse_role=; path=/; max-age=0`;
+  }
+}
+
+export async function loginUser(username: string, password: string): Promise<Profile | null> {
+  const cleanUsername = username.trim().toLowerCase();
+
+  // 1. Try Supabase if configured
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("username", cleanUsername)
+        .single();
+
+      if (!error && data) {
+        // Standard check: In seed data password is '1'
+        if (password === "1" || password === data.password_hash) {
+          const profile: Profile = {
+            id: data.id,
+            username: data.username,
+            role: data.role as "admin" | "user",
+            created_at: data.created_at,
+          };
+          setCurrentUser(profile);
+          return profile;
+        }
+      }
+    } catch {
+      // Fallback to local store if network or Supabase not populated yet
+    }
+  }
+
+  // 2. Local fallback
+  initStore();
+  const matched = SEED_PROFILES.find((p) => p.username === cleanUsername);
+  if (matched && password === "1") {
+    setCurrentUser(matched);
+    return matched;
+  }
+
+  return null;
+}
+
+// 2. EXAM OPERATIONS
+export async function getExams(onlyPublished = false): Promise<Exam[]> {
+  initStore();
+  if (isSupabaseConfigured && supabase) {
+    try {
+      let query = supabase.from("exams").select("*, questions(*)");
+      if (onlyPublished) {
+        query = query.eq("status", "published");
+      }
+      query = query.order("created_at", { ascending: false });
+      const { data, error } = await query;
+      if (!error && data && data.length > 0) {
+        return data as Exam[];
+      }
+    } catch {
+      // Use local fallback
+    }
+  }
+
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
+
+  const enriched = exams.map((exam) => ({
+    ...exam,
+    questions: questions.filter((q) => q.exam_id === exam.id),
+  }));
+
+  if (onlyPublished) {
+    return enriched.filter((e) => e.status === "published");
+  }
+  return enriched;
+}
+
+export async function getExamById(id: string): Promise<Exam | null> {
+  initStore();
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("exams")
+        .select("*, questions(*)")
+        .eq("id", id)
+        .single();
+      if (!error && data) {
+        // Sort questions by order_index
+        if (data.questions) {
+          data.questions.sort((a: Question, b: Question) => a.order_index - b.order_index);
+        }
+        return data as Exam;
+      }
+    } catch {
+      // Use local fallback
+    }
+  }
+
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
+  const exam = exams.find((e) => e.id === id);
+  if (!exam) return null;
+
+  const examQuestions = questions
+    .filter((q) => q.exam_id === id)
+    .sort((a, b) => a.order_index - b.order_index);
+
+  return {
+    ...exam,
+    questions: examQuestions,
+  };
+}
+
+export async function createExam(
+  examData: {
+    title: string;
+    description: string;
+    duration_minutes: number;
+    status: "draft" | "published";
+  },
+  questionsDraft: ParsedQuestionDraft[]
+): Promise<Exam> {
+  initStore();
+  const currentUser = getCurrentUser();
+  const createdBy = currentUser?.id || "00000000-0000-0000-0000-000000000001";
+  const examId = `exam_${Date.now()}`;
+
+  const newExam: Exam = {
+    id: examId,
+    title: examData.title.trim(),
+    description: examData.description.trim(),
+    duration_minutes: examData.duration_minutes || 45,
+    created_by: createdBy,
+    status: examData.status,
+    created_at: new Date().toISOString(),
+  };
+
+  const newQuestions: Question[] = questionsDraft.map((d, index) => ({
+    id: `q_${Date.now()}_${index + 1}`,
+    exam_id: examId,
+    type: d.type,
+    content: d.content,
+    options: d.options,
+    correct_answer: d.correct_answer,
+    max_score: d.max_score,
+    order_index: index + 1,
+  }));
+
+  // If Supabase configured, attempt insert
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data: insertedExam, error: examErr } = await supabase
+        .from("exams")
+        .insert({
+          title: newExam.title,
+          description: newExam.description,
+          duration_minutes: newExam.duration_minutes,
+          created_by: createdBy,
+          status: newExam.status,
+        })
+        .select()
+        .single();
+
+      if (!examErr && insertedExam) {
+        const dbExamId = insertedExam.id;
+        const dbQuestions = newQuestions.map((q) => ({
+          exam_id: dbExamId,
+          type: q.type,
+          content: q.content,
+          options: q.options,
+          correct_answer: q.correct_answer,
+          max_score: q.max_score,
+          order_index: q.order_index,
+        }));
+        await supabase.from("questions").insert(dbQuestions);
+      }
+    } catch {
+      // Local fallback handled below
+    }
+  }
+
+  // Update local storage
+  const currentExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const currentQuestions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
+
+  setLocal(KEY_EXAMS, [newExam, ...currentExams]);
+  setLocal(KEY_QUESTIONS, [...currentQuestions, ...newQuestions]);
+
+  return {
+    ...newExam,
+    questions: newQuestions,
+  };
+}
+
+export async function toggleExamStatus(id: string): Promise<Exam | null> {
+  initStore();
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const examIndex = exams.findIndex((e) => e.id === id);
+  if (examIndex === -1) return null;
+
+  const current = exams[examIndex];
+  const newStatus = current.status === "published" ? "draft" : "published";
+  const updated = { ...current, status: newStatus as "draft" | "published" };
+
+  exams[examIndex] = updated;
+  setLocal(KEY_EXAMS, exams);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from("exams").update({ status: newStatus }).eq("id", id);
+    } catch {}
+  }
+
+  return updated;
+}
+
+// 3. SUBMISSIONS & GRADING OPERATIONS
+export async function submitExam(
+  examId: string,
+  userAnswers: Record<string, string>
+): Promise<Submission> {
+  initStore();
+  const currentUser = getCurrentUser();
+  const userId = currentUser?.id || "00000000-0000-0000-0000-000000000002";
+  const submissionId = `sub_${Date.now()}`;
+
+  const exam = await getExamById(examId);
+  if (!exam || !exam.questions) {
+    throw new Error("Không tìm thấy dữ liệu đề thi.");
+  }
+
+  let mcqScore = 0;
+  let hasEssay = false;
+
+  const submissionAnswers: SubmissionAnswer[] = [];
+
+  for (const question of exam.questions) {
+    const rawAnswer = (userAnswers[question.id] || "").trim();
+
+    if (question.type === "multiple_choice") {
+      // Normalize user answer letter (e.g. "A" from "A. React")
+      const userLetter = rawAnswer.replace(/^([A-D])[\.\:\)].*/i, "$1").trim().toUpperCase();
+      const correctLetter = question.correct_answer.replace(/^([A-D])[\.\:\)].*/i, "$1").trim().toUpperCase();
+
+      const isCorrect = userLetter.length > 0 && userLetter === correctLetter;
+      const scoreAwarded = isCorrect ? Number(question.max_score) : 0;
+      mcqScore += scoreAwarded;
+
+      submissionAnswers.push({
+        id: `ans_${Date.now()}_${question.id}`,
+        submission_id: submissionId,
+        question_id: question.id,
+        user_answer: rawAnswer,
+        is_correct: isCorrect,
+        score_awarded: scoreAwarded,
+        admin_feedback: null,
+      });
+    } else {
+      hasEssay = true;
+      submissionAnswers.push({
+        id: `ans_${Date.now()}_${question.id}`,
+        submission_id: submissionId,
+        question_id: question.id,
+        user_answer: rawAnswer,
+        is_correct: null,
+        score_awarded: 0,
+        admin_feedback: null,
+      });
+    }
+  }
+
+  // If there are no essay questions, submission is immediately graded!
+  const status: "pending_grading" | "graded" = hasEssay ? "pending_grading" : "graded";
+  const essayScore = hasEssay ? null : 0;
+  const totalScore = mcqScore;
+
+  const newSubmission: Submission = {
+    id: submissionId,
+    exam_id: examId,
+    user_id: userId,
+    status,
+    mcq_score: mcqScore,
+    essay_score: essayScore,
+    total_score: totalScore,
+    submitted_at: new Date().toISOString(),
+    exam,
+    answers: submissionAnswers,
+  };
+
+  // Save to local store
+  const existingSubmissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  const existingAnswers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
+
+  setLocal(KEY_SUBMISSIONS, [newSubmission, ...existingSubmissions]);
+  setLocal(KEY_SUBMISSION_ANSWERS, [...existingAnswers, ...submissionAnswers]);
+
+  // Sync to Supabase if available
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data: insertedSub } = await supabase
+        .from("submissions")
+        .insert({
+          exam_id: examId,
+          user_id: userId,
+          status,
+          mcq_score: mcqScore,
+          essay_score: essayScore,
+          total_score: totalScore,
+        })
+        .select()
+        .single();
+
+      if (insertedSub) {
+        const dbAnswers = submissionAnswers.map((a) => ({
+          submission_id: insertedSub.id,
+          question_id: a.question_id,
+          user_answer: a.user_answer,
+          is_correct: a.is_correct,
+          score_awarded: a.score_awarded,
+          admin_feedback: a.admin_feedback,
+        }));
+        await supabase.from("submission_answers").insert(dbAnswers);
+      }
+    } catch {}
+  }
+
+  return newSubmission;
+}
+
+export async function getSubmissions(userId?: string): Promise<Submission[]> {
+  initStore();
+  const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const profiles = SEED_PROFILES;
+
+  const enriched = submissions.map((sub) => {
+    const exam = exams.find((e) => e.id === sub.exam_id);
+    const user = profiles.find((p) => p.id === sub.user_id);
+    return {
+      ...sub,
+      exam,
+      user,
+    };
+  });
+
+  if (userId) {
+    return enriched.filter((s) => s.user_id === userId);
+  }
+  return enriched;
+}
+
+export async function getSubmissionById(id: string): Promise<Submission | null> {
+  initStore();
+  const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  const answers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
+
+  const sub = submissions.find((s) => s.id === id);
+  if (!sub) return null;
+
+  const exam = exams.find((e) => e.id === sub.exam_id);
+  const examQuestions = questions.filter((q) => q.exam_id === sub.exam_id);
+  const subAnswers = answers.filter((a) => a.submission_id === id);
+
+  const enrichedAnswers = subAnswers.map((a) => ({
+    ...a,
+    question: examQuestions.find((q) => q.id === a.question_id),
+  }));
+
+  const user = SEED_PROFILES.find((p) => p.id === sub.user_id);
+
+  return {
+    ...sub,
+    exam: exam ? { ...exam, questions: examQuestions } : undefined,
+    user,
+    answers: enrichedAnswers,
+  };
+}
+
+export async function finalizeGrading(
+  submissionId: string,
+  essayGrades: { questionId: string; score: number; feedback: string }[]
+): Promise<Submission | null> {
+  initStore();
+  const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  const answers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
+
+  const subIndex = submissions.findIndex((s) => s.id === submissionId);
+  if (subIndex === -1) return null;
+
+  const sub = submissions[subIndex];
+  let calculatedEssayScore = 0;
+
+  // Update submission answers
+  const updatedAnswers = answers.map((ans) => {
+    if (ans.submission_id === submissionId) {
+      const grade = essayGrades.find((g) => g.questionId === ans.question_id);
+      if (grade) {
+        calculatedEssayScore += Number(grade.score);
+        return {
+          ...ans,
+          score_awarded: Number(grade.score),
+          admin_feedback: grade.feedback.trim() || null,
+        };
+      }
+    }
+    return ans;
+  });
+
+  const finalTotalScore = Number(sub.mcq_score) + calculatedEssayScore;
+
+  const updatedSubmission: Submission = {
+    ...sub,
+    status: "graded",
+    essay_score: calculatedEssayScore,
+    total_score: finalTotalScore,
+  };
+
+  submissions[subIndex] = updatedSubmission;
+
+  setLocal(KEY_SUBMISSIONS, submissions);
+  setLocal(KEY_SUBMISSION_ANSWERS, updatedAnswers);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase
+        .from("submissions")
+        .update({
+          status: "graded",
+          essay_score: calculatedEssayScore,
+          total_score: finalTotalScore,
+        })
+        .eq("id", submissionId);
+
+      for (const grade of essayGrades) {
+        await supabase
+          .from("submission_answers")
+          .update({
+            score_awarded: grade.score,
+            admin_feedback: grade.feedback,
+          })
+          .eq("submission_id", submissionId)
+          .eq("question_id", grade.questionId);
+      }
+    } catch {}
+  }
+
+  return updatedSubmission;
+}
