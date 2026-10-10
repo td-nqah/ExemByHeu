@@ -28,17 +28,17 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
     >
-      <body className="relative min-h-[100dvh] flex flex-col bg-[#090a0f] font-sans text-zinc-100 selection:bg-emerald-500/30 selection:text-emerald-200">
-        {/* Ambient Subsurface Light Sources for Dark Frosted Glass Refraction */}
+      <body className="relative min-h-[100dvh] flex flex-col bg-[#0B0E14] font-sans text-zinc-100 selection:bg-white/25 selection:text-white">
+        {/* Ambient Monochrome Subsurface Light Sources for Dark Frosted Glass Refraction */}
         <div
           aria-hidden="true"
           className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
         >
-          <div className="absolute -top-40 left-1/4 h-[520px] w-[520px] rounded-full bg-emerald-500/10 blur-[130px]" />
-          <div className="absolute top-1/3 -right-32 h-[460px] w-[460px] rounded-full bg-teal-500/8 blur-[140px]" />
-          <div className="absolute -bottom-48 left-1/3 h-[500px] w-[500px] rounded-full bg-zinc-400/6 blur-[150px]" />
+          <div className="absolute -top-40 left-1/4 h-[520px] w-[520px] rounded-full bg-white/[0.04] blur-[140px]" />
+          <div className="absolute top-1/3 -right-32 h-[460px] w-[460px] rounded-full bg-slate-300/[0.03] blur-[150px]" />
+          <div className="absolute -bottom-48 left-1/3 h-[500px] w-[500px] rounded-full bg-zinc-400/[0.04] blur-[150px]" />
         </div>
 
         <Suspense

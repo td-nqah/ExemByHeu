@@ -50,7 +50,7 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
       {isCritical ? (
         <AlertTriangle className="h-4 w-4 text-red-400" />
       ) : (
-        <Clock className="h-4 w-4 text-emerald-400" />
+        <Clock className="h-4 w-4 text-white" />
       )}
 
       <div className="flex flex-col">
@@ -66,7 +66,7 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
       <div className="hidden sm:block h-2 w-16 overflow-hidden rounded-full bg-zinc-900 border border-white/10">
         <div
           className={`h-full transition-all duration-1000 ${
-            isCritical ? "bg-red-500" : isWarning ? "bg-amber-400" : "bg-emerald-500"
+            isCritical ? "bg-red-500" : isWarning ? "bg-amber-400" : "bg-white"
           }`}
           style={{ width: `${percentage}%` }}
         />

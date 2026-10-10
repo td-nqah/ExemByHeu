@@ -3,15 +3,27 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { getExamById, submitExam, finalizeGrading, getCurrentUser } from "@/lib/store";
-import { Exam } from "@/types/exam";
+import { Exam, Submission } from "@/types/exam";
 import { StickyTimer } from "@/components/exam/StickyTimer";
 import { QuestionNav } from "@/components/exam/QuestionNav";
 import { SubmitConfirmModal } from "@/components/exam/SubmitConfirmModal";
-import { Send, AlertCircle, ArrowLeft, Sparkles } from "lucide-react";
+import {
+  Send,
+  AlertCircle,
+  ArrowLeft,
+  Sparkles,
+  CheckCircle2,
+  User,
+  ListChecks,
+  History,
+  ArrowRight,
+} from "lucide-react";
 import Link from "next/link";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 
 export function ExamRoomClient({ examId }: { examId: string }) {
   const router = useRouter();
+  const shouldReduceMotion = useReducedMotion();
 
   const [exam, setExam] = useState<Exam | null>(null);
   const [loading, setLoading] = useState(true);
@@ -19,6 +31,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [completedSubmission, setCompletedSubmission] = useState<Submission | null>(null);
   const [aiGradingState, setAiGradingState] = useState<{
     isGrading: boolean;
     statusText: string;
@@ -72,14 +85,17 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const handlePerformSubmit = useCallback(async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setShowConfirmModal(false);
     try {
       const submission = await submitExam(examId, userAnswers);
+      setCompletedSubmission(submission);
+
       const essayQuestions = (exam?.questions || []).filter((q) => q.type === "essay");
 
       if (essayQuestions.length > 0) {
         setAiGradingState({
           isGrading: true,
-          statusText: "Gemini AI đang chấm điểm các câu tự luận của bạn trong vòng vài giây...",
+          statusText: "Đang chờ chấm tự luận (Gemini AI đang phân tích câu trả lời)...",
         });
 
         try {
@@ -101,27 +117,28 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           if (res.ok) {
             const data = await res.json();
             if (data.results && data.results.length > 0) {
-              await finalizeGrading(submission.id, data.results);
+              const updatedSub = await finalizeGrading(submission.id, data.results);
+              if (updatedSub) {
+                setCompletedSubmission(updatedSub);
+              }
             }
           }
         } catch (e) {
           console.warn("Lỗi AI chấm nhanh:", e);
+        } finally {
+          setAiGradingState({
+            isGrading: false,
+            statusText: "Đã hoàn tất chấm điểm!",
+          });
         }
-
-        setAiGradingState({
-          isGrading: true,
-          statusText: "Đã hoàn thành chấm điểm! Đang mở bảng kết quả...",
-        });
       }
-
-      router.push(`/exam/${examId}/result?submissionId=${submission.id}`);
     } catch (err: any) {
       alert("Lỗi khi nộp bài: " + (err?.message || "Vui lòng thử lại"));
       setIsSubmitting(false);
       setShowConfirmModal(false);
       setAiGradingState({ isGrading: false, statusText: "" });
     }
-  }, [examId, exam, userAnswers, isSubmitting, router]);
+  }, [examId, exam, userAnswers, isSubmitting]);
 
   const scrollToQuestion = (questionId: string) => {
     setActiveQuestionId(questionId);
@@ -135,7 +152,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     return (
       <div className="flex min-h-[100dvh] items-center justify-center">
         <div className="glass-card rounded-2xl px-8 py-6 text-center">
-          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
           <p className="mt-3 text-xs font-semibold text-zinc-300">
             Đang tải phòng thi thử trực tuyến...
           </p>
@@ -152,7 +169,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           <h2 className="text-base font-bold text-white">Không tìm thấy bài thi</h2>
           <Link
             href="/dashboard"
-            className="mt-4 inline-block text-xs font-semibold text-emerald-400 underline"
+            className="mt-4 inline-block text-xs font-semibold text-white underline"
           >
             Quay lại Bảng điều khiển
           </Link>
@@ -163,41 +180,56 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
   const questions = exam.questions;
   const answeredCount = questions.filter((q) => (userAnswers[q.id] || "").trim().length > 0).length;
+  const hasEssay = questions.some((q) => q.type === "essay");
 
   return (
     <div className="min-h-[100dvh] pb-20">
+      {/* Top Header Bar: Left Side = Countdown Timer, Right Side = Total Questions + User Status + Submit CTA */}
       <header className="glass-nav sticky top-0 z-30">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex min-h-16 max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
+          {/* Left Side: Back Button + Prominent Digital Countdown Timer */}
           <div className="flex items-center gap-3">
             <Link
               href="/dashboard"
               className="glass-pill rounded-xl p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white"
               title="Quay lại danh sách"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4 text-white" />
             </Link>
-            <div className="hidden sm:block">
-              <h1 className="line-clamp-1 text-sm font-bold text-white">
+
+            {!completedSubmission && (
+              <StickyTimer
+                durationMinutes={exam.duration_minutes}
+                onTimeUp={handlePerformSubmit}
+              />
+            )}
+
+            <div className="hidden md:block pl-1">
+              <h1 className="line-clamp-1 max-w-xs text-sm font-bold text-white lg:max-w-md">
                 {exam.title}
               </h1>
-              <p className="text-[11px] text-zinc-400">
-                Thí sinh: {getCurrentUser()?.username || "Thí sinh"} • Tổng {questions.length} câu hỏi
-              </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <StickyTimer
-              durationMinutes={exam.duration_minutes}
-              onTimeUp={handlePerformSubmit}
-            />
+          {/* Right Side: Total Number of Questions + User Status + Submission CTA */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200">
+              <ListChecks className="h-3.5 w-3.5 text-white" />
+              <span>Tổng {questions.length} câu hỏi</span>
+            </div>
+
+            <div className="glass-pill hidden sm:inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium text-zinc-300">
+              <User className="h-3.5 w-3.5 text-white" />
+              <span>{getCurrentUser()?.username || "Thí sinh"}</span>
+            </div>
 
             <button
               type="button"
               onClick={() => setShowConfirmModal(true)}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-400/40 bg-emerald-500 px-4 py-2 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98]"
+              disabled={isSubmitting}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/40 bg-white px-4 py-2 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50"
             >
-              <Send className="h-3.5 w-3.5" />
+              <Send className="h-3.5 w-3.5 text-zinc-950" />
               <span>Nộp bài ({answeredCount}/{questions.length})</span>
             </button>
           </div>
@@ -219,7 +251,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 <p className="mb-1.5 font-bold text-white">Quy định phòng thi thử:</p>
                 <ul className="list-disc space-y-1 pl-4 text-[11px] text-zinc-400">
                   <li>Điểm trắc nghiệm được chấm tự động ngay khi nộp bài.</li>
-                  <li>Câu hỏi tự luận được Gemini AI chấm ngay trên thang điểm 5.</li>
+                  <li>Câu hỏi tự luận được lưu trữ và chấm điểm trên thang điểm chuẩn.</li>
                   <li>Khi hết thời gian, hệ thống tự động khóa và gửi bài làm.</li>
                 </ul>
               </div>
@@ -232,19 +264,22 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               const isAnswered = currentVal.trim().length > 0;
 
               return (
-                <article
+                <motion.article
                   key={question.id}
                   id={`q_${question.id}`}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.3) }}
                   onClick={() => setActiveQuestionId(question.id)}
                   className={`glass-card scroll-mt-24 rounded-2xl p-6 transition ${
                     activeQuestionId === question.id
-                      ? "border-emerald-500/50 ring-1 ring-emerald-500/30"
+                      ? "border-white/45 ring-1 ring-white/25"
                       : "hover:border-white/20"
                   }`}
                 >
                   <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/15 text-xs font-bold text-emerald-400">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/25 bg-white/10 text-xs font-bold text-white">
                         {index + 1}
                       </span>
                       <span className="text-xs font-bold text-white">
@@ -257,7 +292,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         Điểm tối đa: {question.max_score}
                       </span>
                       {isAnswered ? (
-                        <span className="rounded-md border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5 text-[11px] font-semibold text-emerald-300">
+                        <span className="rounded-md border border-white/30 bg-white/15 px-2 py-0.5 text-[11px] font-semibold text-white">
                           Đã làm
                         </span>
                       ) : (
@@ -273,7 +308,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   </p>
 
                   {question.type === "multiple_choice" ? (
-                    <div className="space-y-2.5">
+                    <div className="space-y-2.5" role="radiogroup" aria-label={`Câu hỏi ${index + 1}`}>
                       {question.options.map((optText, optIdx) => {
                         const letterMatch = optText.match(/^([A-D])[\.\:\)]/i);
                         const letter = letterMatch
@@ -282,27 +317,34 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         const isSelected = currentVal === letter;
 
                         return (
-                          <button
+                          <label
                             key={optIdx}
-                            type="button"
                             onClick={() => handleSelectMCQ(question.id, optText)}
-                            className={`flex w-full items-start gap-3 rounded-xl border p-3.5 text-left text-xs transition ${
+                            className={`flex w-full cursor-pointer items-start gap-3 rounded-xl border p-3.5 text-left text-xs transition ${
                               isSelected
-                                ? "border-emerald-500/60 bg-emerald-500/15 text-emerald-100 ring-1 ring-emerald-500/40"
-                                : "border-white/10 bg-zinc-950/55 text-zinc-200 hover:border-white/20 hover:bg-zinc-900/70"
+                                ? "border-white/60 bg-white/[0.12] text-white ring-1 ring-white/35"
+                                : "border-white/10 bg-zinc-950/55 text-zinc-200 hover:border-white/25 hover:bg-zinc-900/70"
                             }`}
                           >
+                            <input
+                              type="radio"
+                              name={`mcq_${question.id}`}
+                              value={letter}
+                              checked={isSelected}
+                              onChange={() => handleSelectMCQ(question.id, optText)}
+                              className="sr-only"
+                            />
                             <span
                               className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold transition ${
                                 isSelected
-                                  ? "bg-emerald-500 text-zinc-950"
-                                  : "border border-white/15 bg-zinc-900 text-zinc-300"
+                                  ? "bg-white text-zinc-950 shadow-[0_0_12px_rgba(255,255,255,0.3)]"
+                                  : "border border-white/20 bg-zinc-900 text-zinc-300"
                               }`}
                             >
                               {letter}
                             </span>
                             <span className="pt-0.5 leading-relaxed">{optText}</span>
-                          </button>
+                          </label>
                         );
                       })}
                     </div>
@@ -323,7 +365,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                       </div>
                     </div>
                   )}
-                </article>
+                </motion.article>
               );
             })}
 
@@ -340,9 +382,10 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               <button
                 type="button"
                 onClick={() => setShowConfirmModal(true)}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500 px-6 py-3 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98] sm:w-auto"
+                disabled={isSubmitting}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/40 bg-white px-6 py-3 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] sm:w-auto"
               >
-                <Send className="h-4 w-4" />
+                <Send className="h-4 w-4 text-zinc-950" />
                 <span>Nộp bài ngay</span>
               </button>
             </div>
@@ -359,28 +402,98 @@ export function ExamRoomClient({ examId }: { examId: string }) {
         isSubmitting={isSubmitting}
       />
 
-      {/* AI Fast Grading Modal */}
-      {aiGradingState.isGrading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-md">
-          <div className="glass-panel w-full max-w-sm rounded-2xl p-6 text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-400">
-              <Sparkles className="h-7 w-7 animate-spin text-emerald-400" />
-            </div>
+      {/* Instant Submission Summary Modal */}
+      <AnimatePresence>
+        {completedSubmission && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 12 }}
+              transition={{ duration: 0.22 }}
+              className="glass-panel w-full max-w-md rounded-2xl p-6 sm:p-7 text-center"
+            >
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/25 bg-white/10 text-white">
+                {aiGradingState.isGrading ? (
+                  <Sparkles className="h-7 w-7 animate-spin text-white" />
+                ) : (
+                  <CheckCircle2 className="h-8 w-8 text-white" />
+                )}
+              </div>
 
-            <h3 className="text-base font-bold text-white">
-              Gemini AI Đang Chấm Điểm Tự Luận
-            </h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-300">
-              {aiGradingState.statusText}
-            </p>
+              <h3 className="text-lg font-bold text-white">
+                Đã nộp bài thi thành công
+              </h3>
+              <p className="mt-1 text-xs text-zinc-400">
+                Kết quả chấm điểm tức thời cho bài làm của bạn
+              </p>
 
-            <div className="mt-5 flex items-center justify-center gap-2 text-[11px] font-semibold text-emerald-400">
-              <div className="h-2 w-2 animate-ping rounded-full bg-emerald-400" />
-              <span>Hoàn tất trong vòng dưới 30 giây</span>
-            </div>
-          </div>
-        </div>
-      )}
+              {/* Summary Pill Box: "Trắc nghiệm: X điểm - Tự luận: Đang chờ chấm" */}
+              <div className="my-5 space-y-2.5 rounded-xl border border-white/15 bg-zinc-950/75 p-4 text-left">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-zinc-300 font-medium">Trắc nghiệm:</span>
+                  <span className="font-bold text-white">
+                    {completedSubmission.mcq_score} điểm
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between border-t border-white/10 pt-2.5 text-xs">
+                  <span className="text-zinc-300 font-medium">Tự luận:</span>
+                  <span className="font-bold text-zinc-200">
+                    {!hasEssay
+                      ? "Không có câu tự luận"
+                      : completedSubmission.status === "graded" && completedSubmission.essay_score !== null
+                      ? `${completedSubmission.essay_score} điểm (Đã chấm)`
+                      : "Đang chờ chấm"}
+                  </span>
+                </div>
+
+                <div className="mt-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-center text-[11px] font-semibold text-zinc-200">
+                  Trắc nghiệm: {completedSubmission.mcq_score} điểm - Tự luận:{" "}
+                  {!hasEssay
+                    ? "0 điểm"
+                    : completedSubmission.status === "graded" && completedSubmission.essay_score !== null
+                    ? `${completedSubmission.essay_score} điểm`
+                    : "Đang chờ chấm"}
+                </div>
+              </div>
+
+              {aiGradingState.isGrading && (
+                <p className="mb-4 text-[11px] text-zinc-300">
+                  {aiGradingState.statusText}
+                </p>
+              )}
+
+              <div className="flex flex-col gap-2.5 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={() => router.push("/history")}
+                  className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-white/40 bg-white px-4 py-2.5 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200"
+                >
+                  <History className="h-3.5 w-3.5 text-zinc-950" />
+                  <span>Đến Lịch sử làm bài</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    router.push(`/history/${completedSubmission.id}`)
+                  }
+                  className="glass-pill inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
+                >
+                  <span>Xem chi tiết</span>
+                  <ArrowRight className="h-3.5 w-3.5 text-white" />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

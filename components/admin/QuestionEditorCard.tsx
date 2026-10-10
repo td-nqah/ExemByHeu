@@ -73,7 +73,7 @@ export function QuestionEditorCard({
       {/* Header Bar */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/15 text-xs font-bold text-emerald-400">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/25 bg-white/10 text-xs font-bold text-white">
             {index + 1}
           </span>
           <span className="text-xs font-medium text-zinc-400">
@@ -89,7 +89,7 @@ export function QuestionEditorCard({
               onClick={() => handleTypeChange("multiple_choice")}
               className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 question.type === "multiple_choice"
-                  ? "bg-emerald-500 text-zinc-950"
+                  ? "bg-white text-zinc-950"
                   : "text-zinc-400 hover:text-white"
               }`}
             >
@@ -101,7 +101,7 @@ export function QuestionEditorCard({
               onClick={() => handleTypeChange("essay")}
               className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 question.type === "essay"
-                  ? "bg-emerald-500 text-zinc-950"
+                  ? "bg-white text-zinc-950"
                   : "text-zinc-400 hover:text-white"
               }`}
             >
@@ -164,9 +164,9 @@ export function QuestionEditorCard({
             <button
               type="button"
               onClick={handleAddOption}
-              className="inline-flex items-center gap-1 text-xs font-medium text-emerald-400 hover:text-emerald-300"
+              className="inline-flex items-center gap-1 text-xs font-medium text-white hover:text-zinc-300"
             >
-              <Plus className="h-3 w-3" />
+              <Plus className="h-3 w-3 text-white" />
               Thêm lựa chọn
             </button>
           </div>
@@ -192,7 +192,7 @@ export function QuestionEditorCard({
                     }
                     className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border text-xs font-bold transition ${
                       isSelectedKey
-                        ? "border-emerald-400/50 bg-emerald-500 text-zinc-950"
+                        ? "border-white/50 bg-white text-zinc-950"
                         : "border-white/10 bg-zinc-950/60 text-zinc-400 hover:border-white/25 hover:text-white"
                     }`}
                     title={`Chọn ${letter} làm đáp án đúng`}
@@ -226,7 +226,7 @@ export function QuestionEditorCard({
         </div>
       ) : (
         <div className="rounded-xl border border-dashed border-white/15 bg-zinc-950/40 p-3 text-xs text-zinc-400">
-          Câu hỏi tự luận: Thí sinh nhập câu trả lời dạng văn bản trong phòng thi. Hệ thống Gemini AI sẽ tự động chấm trên thang điểm 5 ngay khi nộp bài.
+          Câu hỏi tự luận: Thí sinh nhập câu trả lời dạng văn bản trong phòng thi. Hệ thống sẽ chấm điểm tự luận trên thang điểm chuẩn.
         </div>
       )}
     </div>

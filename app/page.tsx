@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { motion, useReducedMotion } from "motion/react";
 import { loginUser, getCurrentUser } from "@/lib/store";
 import {
   GraduationCap,
@@ -14,6 +15,7 @@ import {
 
 export default function LoginPage() {
   const router = useRouter();
+  const reduceMotion = useReducedMotion();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -55,40 +57,51 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto w-full max-w-6xl grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8 lg:items-start">
-        {/* 1. Mobile Order 1 / Desktop Top-Left: Page Title & Hero Intro */}
-        <div className="order-1 lg:col-span-7 lg:row-start-1 space-y-4">
+      <div className="mx-auto w-full max-w-6xl grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8 lg:items-stretch">
+        {/* 1. Mobile Order 1 / Desktop Top-Left (col-span-6): Page Title & Hero Intro */}
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="order-1 lg:col-span-6 lg:row-start-1 space-y-4"
+        >
           <div className="glass-pill inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold text-zinc-200">
-            <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
+            <Sparkles className="h-3.5 w-3.5 text-white" />
             <span>ExemTest • Thi thử Trực tuyến</span>
           </div>
 
-          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl leading-[1.12]">
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.65rem] leading-[1.14]">
             Hệ thống Thi thử & Chấm thi Trực tuyến Chuẩn Mực
           </h1>
 
           <p className="max-w-[58ch] text-sm sm:text-base text-zinc-300 leading-relaxed">
             Bóc tách đề thi tự động từ Word, Excel, PDF. Chấm điểm trắc nghiệm và tự luận bằng AI trong phòng thi bảo mật.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 2. Mobile Order 2 / Desktop Right Column: Frosted Glass Login Panel */}
-        <div className="order-2 lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:row-span-2 lg:self-center">
-          <div className="glass-panel rounded-2xl p-6 sm:p-8">
-            <div className="mb-6">
-              <div className="mb-3.5 flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
-                <GraduationCap className="h-5 w-5" />
+        {/* 2. Mobile Order 2 / Desktop Right Column (col-span-6, stretched horizontally & height-aligned) */}
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+          className="order-2 lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2 flex"
+        >
+          <div className="glass-panel flex w-full flex-col justify-center rounded-2xl p-6 sm:p-10">
+            {/* Centered Icon & Header Title "Đăng nhập hệ thống" */}
+            <div className="mb-7 flex flex-col items-center text-center">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]">
+                <GraduationCap className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-bold tracking-tight text-white">
+              <h2 className="text-2xl font-bold tracking-tight text-white">
                 Đăng nhập hệ thống
               </h2>
-              <p className="mt-1 text-xs text-zinc-400">
-                Nhập thông tin tài khoản để vào phòng thi thử hoặc quản trị.
+              <p className="mt-1.5 max-w-xs text-xs text-zinc-400">
+                Nhập thông tin tài khoản để truy cập phòng thi thử hoặc trang quản trị.
               </p>
             </div>
 
             {error && (
-              <div className="mb-4 rounded-xl border border-red-500/30 bg-red-950/40 p-3 text-xs text-red-200 backdrop-blur-md">
+              <div className="mb-5 rounded-xl border border-red-500/30 bg-red-950/40 p-3 text-center text-xs text-red-200 backdrop-blur-md">
                 {error}
               </div>
             )}
@@ -133,20 +146,25 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500 px-4 text-sm font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_8px_24px_rgba(16,185,129,0.25)] transition hover:bg-emerald-400 active:scale-[0.98] disabled:opacity-50"
+                className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50"
               >
                 <span>{loading ? "Đang xác thực..." : "Đăng nhập ngay"}</span>
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 text-zinc-950" />
               </button>
             </form>
           </div>
-        </div>
+        </motion.div>
 
-        {/* 3. Mobile Order 3 / Desktop Bottom-Left: Asymmetric Bento Feature Highlights */}
-        <div className="order-3 lg:col-span-7 lg:row-start-2 grid grid-cols-1 gap-3.5 sm:grid-cols-12 pt-1">
+        {/* 3. Mobile Order 3 / Desktop Bottom-Left (col-span-6): Asymmetric Bento Feature Highlights */}
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+          className="order-3 lg:col-span-6 lg:row-start-2 grid grid-cols-1 gap-3.5 sm:grid-cols-12 self-end"
+        >
           <div className="glass-card-interactive sm:col-span-7 rounded-2xl p-4 sm:p-5">
-            <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/25 bg-emerald-500/10 text-emerald-400">
-              <FileSpreadsheet className="h-4 w-4" />
+            <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white">
+              <FileSpreadsheet className="h-4 w-4 text-white" />
             </div>
             <h3 className="text-sm font-bold text-white">
               Bóc tách Đề thi Đa định dạng
@@ -157,8 +175,8 @@ export default function LoginPage() {
           </div>
 
           <div className="glass-card-interactive sm:col-span-5 rounded-2xl p-4 sm:p-5">
-            <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/25 bg-emerald-500/10 text-emerald-400">
-              <Clock className="h-4 w-4" />
+            <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white">
+              <Clock className="h-4 w-4 text-white" />
             </div>
             <h3 className="text-sm font-bold text-white">
               Phòng thi Thời gian thực
@@ -168,20 +186,20 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="glass-card-interactive sm:col-span-12 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3.5 bg-gradient-to-r from-emerald-950/35 via-zinc-900/50 to-zinc-900/40">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-400">
-              <FileText className="h-5 w-5" />
+          <div className="glass-card-interactive sm:col-span-12 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3.5">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white">
+              <FileText className="h-5 w-5 text-white" />
             </div>
             <div>
               <h3 className="text-sm font-bold text-white">
                 Chấm điểm Trắc nghiệm & Tự luận AI Tức thì
               </h3>
               <p className="mt-0.5 text-xs leading-relaxed text-zinc-300">
-                Khóa điểm trắc nghiệm ngay khi nộp bài, kết hợp Gemini Pro chấm tự luận trên thang điểm 5 và trả lời phê chi tiết trong vòng dưới 30 giây.
+                Khóa điểm trắc nghiệm ngay khi nộp bài, kết hợp Gemini Pro chấm tự luận thang điểm 5 và trả lời phê chi tiết trong vòng dưới 30 giây.
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

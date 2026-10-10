@@ -12,10 +12,12 @@ import {
   Award,
   Sparkles,
 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 
 export function ExamResultClient({ examId }: { examId: string }) {
   const searchParams = useSearchParams();
   const submissionId = searchParams.get("submissionId");
+  const shouldReduceMotion = useReducedMotion();
 
   const [submission, setSubmission] = useState<Submission | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ export function ExamResultClient({ examId }: { examId: string }) {
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
       </div>
     );
   }
@@ -53,9 +55,14 @@ export function ExamResultClient({ examId }: { examId: string }) {
 
   return (
     <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4 sm:p-6 lg:p-8">
-      <div className="glass-panel w-full max-w-lg rounded-2xl p-6 sm:p-8 text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-400">
-          <CheckCircle2 className="h-8 w-8" />
+      <motion.div
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className="glass-panel w-full max-w-lg rounded-2xl p-6 sm:p-8 text-center"
+      >
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/25 bg-white/10 text-white">
+          <CheckCircle2 className="h-8 w-8 text-white" />
         </div>
 
         <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
@@ -65,19 +72,29 @@ export function ExamResultClient({ examId }: { examId: string }) {
           {submission?.exam?.title || "Bài thi thử trực tuyến"}
         </p>
 
+        {/* Summary Status Banner */}
+        <div className="mt-4 rounded-xl border border-white/15 bg-white/[0.04] px-4 py-2.5 text-xs font-semibold text-zinc-200">
+          Trắc nghiệm: {submission?.mcq_score ?? 0} điểm - Tự luận:{" "}
+          {essayQuestions.length === 0
+            ? "0 điểm"
+            : isGraded && submission?.essay_score !== null
+            ? `${submission?.essay_score} điểm`
+            : "Đang chờ chấm"}
+        </div>
+
         {/* Instant Score Breakdown Cards */}
         <div className="my-6 space-y-3 text-left">
           {/* MCQ Score Card */}
-          <div className="flex items-center justify-between rounded-xl border border-emerald-500/30 bg-emerald-950/35 p-4 backdrop-blur-md">
+          <div className="flex items-center justify-between rounded-xl border border-white/15 bg-zinc-900/65 p-4 backdrop-blur-md">
             <div className="flex items-center gap-3">
-              <Award className="h-5 w-5 text-emerald-400" />
+              <Award className="h-5 w-5 text-white" />
               <div>
                 <p className="text-xs font-bold text-white">Điểm trắc nghiệm (Tự động)</p>
                 <p className="text-[11px] text-zinc-400">Đã chấm theo đáp án chuẩn</p>
               </div>
             </div>
             <div className="text-right">
-              <span className="text-lg font-extrabold text-emerald-400">
+              <span className="text-lg font-extrabold text-white">
                 {submission?.mcq_score ?? 0}
               </span>
               <span className="text-xs text-zinc-400"> / {maxMcqScore} đ</span>
@@ -88,31 +105,33 @@ export function ExamResultClient({ examId }: { examId: string }) {
           {essayQuestions.length > 0 && (
             <div className="flex items-center justify-between rounded-xl border border-white/15 bg-zinc-900/65 p-4 backdrop-blur-md">
               <div className="flex items-center gap-3">
-                <Sparkles className="h-5 w-5 text-emerald-400" />
+                <Sparkles className="h-5 w-5 text-white" />
                 <div>
-                  <p className="text-xs font-bold text-white">Điểm tự luận (Gemini AI chấm ngay)</p>
+                  <p className="text-xs font-bold text-white">Điểm tự luận</p>
                   <p className="text-[11px] text-zinc-400">
-                    {isGraded ? "Đã chấm xong thang điểm 5 chuẩn" : "Đang xử lý"}
+                    {isGraded ? "Đã hoàn tất chấm điểm" : "Đang chờ chấm"}
                   </p>
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-lg font-extrabold text-emerald-300">
-                  {submission?.essay_score ?? 0}
+                <span className="text-lg font-extrabold text-white">
+                  {submission?.essay_score !== null ? submission?.essay_score : "Chờ chấm"}
                 </span>
-                <span className="text-xs text-zinc-400"> / {maxEssayScore} đ</span>
+                {submission?.essay_score !== null && (
+                  <span className="text-xs text-zinc-400"> / {maxEssayScore} đ</span>
+                )}
               </div>
             </div>
           )}
 
           {/* Total Score Highlight */}
-          <div className="flex items-center justify-between rounded-xl border border-emerald-400/40 bg-emerald-500/20 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+          <div className="flex items-center justify-between rounded-xl border border-white/30 bg-white/[0.1] p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
             <div>
               <p className="text-xs font-bold text-white">Tổng điểm kết quả</p>
-              <p className="text-[11px] text-emerald-200/80">Trắc nghiệm + Tự luận</p>
+              <p className="text-[11px] text-zinc-300">Trắc nghiệm + Tự luận</p>
             </div>
             <div className="text-right">
-              <span className="text-2xl font-black text-emerald-300">
+              <span className="text-2xl font-black text-white">
                 {submission?.total_score ?? 0}
               </span>
               <span className="text-xs text-zinc-300"> / {maxTotalScore} điểm</span>
@@ -126,21 +145,21 @@ export function ExamResultClient({ examId }: { examId: string }) {
             href="/history"
             className="glass-pill flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl px-5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
           >
-            <History className="h-4 w-4" />
+            <History className="h-4 w-4 text-white" />
             <span>Danh sách bài đã làm</span>
           </Link>
 
           {submissionId && (
             <Link
               href={`/history/${submissionId}`}
-              className="flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500 px-6 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98]"
+              className="flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl border border-white/40 bg-white px-6 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98]"
             >
-              <span>Xem chi tiết & Lời phê AI</span>
-              <ArrowRight className="h-3.5 w-3.5" />
+              <span>Xem chi tiết & Nhận xét</span>
+              <ArrowRight className="h-3.5 w-3.5 text-zinc-950" />
             </Link>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

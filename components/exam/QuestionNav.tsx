@@ -36,7 +36,7 @@ export function QuestionNav({
       {/* Progress Track */}
       <div className="mb-4 h-1.5 w-full overflow-hidden rounded-full bg-zinc-900/80 border border-white/5">
         <div
-          className="h-full bg-emerald-500 transition-all duration-300"
+          className="h-full bg-white transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
@@ -53,18 +53,18 @@ export function QuestionNav({
               onClick={() => onSelectQuestion(question.id)}
               className={`relative flex h-9 w-full items-center justify-center rounded-xl text-xs font-semibold transition ${
                 isActive
-                  ? "ring-2 ring-emerald-400 ring-offset-2 ring-offset-zinc-950"
+                  ? "ring-2 ring-white ring-offset-2 ring-offset-zinc-950"
                   : ""
               } ${
                 isAnswered
-                  ? "border border-emerald-400/40 bg-emerald-500 text-zinc-950 hover:bg-emerald-400"
-                  : "border border-white/10 bg-zinc-950/60 text-zinc-300 hover:border-white/20 hover:bg-zinc-900"
+                  ? "border border-white/40 bg-white text-zinc-950 hover:bg-zinc-200"
+                  : "border border-white/10 bg-zinc-950/60 text-zinc-300 hover:border-white/25 hover:bg-zinc-900"
               }`}
               title={`Câu ${index + 1}: ${isAnswered ? "Đã trả lời" : "Chưa trả lời"}`}
             >
               <span>{index + 1}</span>
               {isAnswered && (
-                <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-emerald-500/40 bg-zinc-950 text-emerald-400">
+                <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-white/40 bg-zinc-950 text-white">
                   <Check className="h-2.5 w-2.5 stroke-[3]" />
                 </span>
               )}
@@ -76,7 +76,7 @@ export function QuestionNav({
       {/* Legend */}
       <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-[11px] text-zinc-400">
         <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-emerald-500" />
+          <span className="h-2.5 w-2.5 rounded-sm bg-white" />
           <span>Đã trả lời</span>
         </div>
         <div className="flex items-center gap-1.5">

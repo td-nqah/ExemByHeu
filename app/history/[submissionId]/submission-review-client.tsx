@@ -15,9 +15,11 @@ import {
   Calendar,
   Sparkles,
 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 
 export function SubmissionReviewClient({ submissionId }: { submissionId: string }) {
   const router = useRouter();
+  const shouldReduceMotion = useReducedMotion();
 
   const [submission, setSubmission] = useState<Submission | null>(null);
   const [loading, setLoading] = useState(true);
@@ -44,7 +46,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
       </div>
     );
   }
@@ -56,7 +58,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
           <h2 className="text-base font-bold text-white">
             Không tìm thấy bài làm
           </h2>
-          <Link href="/history" className="mt-3 inline-block text-xs font-semibold text-emerald-400 underline">
+          <Link href="/history" className="mt-3 inline-block text-xs font-semibold text-white underline">
             Quay lại Lịch sử làm bài
           </Link>
         </div>
@@ -74,22 +76,27 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
           href="/history"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 transition hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5" />
+          <ArrowLeft className="h-3.5 w-3.5 text-white" />
           <span>Quay lại danh sách bài làm</span>
         </Link>
       </div>
 
-      <div className="glass-panel mb-8 rounded-2xl p-6 sm:p-8">
+      <motion.div
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="glass-panel mb-8 rounded-2xl p-6 sm:p-8"
+      >
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="mb-2 flex items-center gap-2">
               <span className="glass-pill inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-zinc-300">
-                <Calendar className="h-3 w-3 text-emerald-400" />
+                <Calendar className="h-3 w-3 text-white" />
                 {formatDate(submission.submitted_at)}
               </span>
               {isGraded ? (
-                <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5 text-[11px] font-semibold text-emerald-300">
-                  <CheckCircle2 className="h-3 w-3" />
+                <span className="inline-flex items-center gap-1 rounded-md border border-white/25 bg-white/10 px-2 py-0.5 text-[11px] font-semibold text-white">
+                  <CheckCircle2 className="h-3 w-3 text-white" />
                   Đã hoàn thành chấm điểm
                 </span>
               ) : (
@@ -111,7 +118,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
           <div className="flex items-center gap-4 rounded-xl border border-white/10 bg-zinc-950/60 p-4">
             <div className="text-right">
               <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Tổng điểm</p>
-              <p className="text-2xl font-black text-emerald-400">
+              <p className="text-2xl font-black text-white">
                 {submission.total_score}
               </p>
             </div>
@@ -129,7 +136,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <div className="space-y-6">
         <h2 className="text-sm font-bold text-zinc-300">
@@ -144,13 +151,16 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
           const isCorrect = answer.is_correct === true;
 
           return (
-            <article
+            <motion.article
               key={answer.id}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.25) }}
               className="glass-card rounded-2xl p-6"
             >
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/15 text-xs font-bold text-emerald-400">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/25 bg-white/10 text-xs font-bold text-white">
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">
@@ -161,8 +171,8 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                 <div className="flex items-center gap-2">
                   {isMCQ ? (
                     isCorrect ? (
-                      <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-xs font-bold text-emerald-300">
-                        <CheckCircle2 className="h-3.5 w-3.5" />
+                      <span className="inline-flex items-center gap-1 rounded-md border border-white/30 bg-white/15 px-2.5 py-0.5 text-xs font-bold text-white">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-white" />
                         Đúng (+{answer.score_awarded} / {q.max_score} điểm)
                       </span>
                     ) : (
@@ -172,8 +182,8 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                       </span>
                     )
                   ) : (
-                    <span className="glass-pill inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-bold text-emerald-300">
-                      <Award className="h-3.5 w-3.5 text-emerald-400" />
+                    <span className="glass-pill inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-bold text-white">
+                      <Award className="h-3.5 w-3.5 text-white" />
                       Điểm đạt: {answer.score_awarded} / {q.max_score} điểm
                     </span>
                   )}
@@ -198,7 +208,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                       "border-white/10 bg-zinc-950/50 text-zinc-300";
                     if (isCorrectAnswer) {
                       rowStyle =
-                        "border-emerald-500/60 bg-emerald-950/40 text-emerald-100 font-semibold ring-1 ring-emerald-500/40";
+                        "border-white/50 bg-white/[0.12] text-white font-semibold ring-1 ring-white/30";
                     } else if (isCandidateChoice && !isCorrectAnswer) {
                       rowStyle =
                         "border-red-500/50 bg-red-950/40 text-red-200 font-medium";
@@ -220,7 +230,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                             </span>
                           )}
                           {isCorrectAnswer && (
-                            <span className="rounded-md bg-emerald-500 px-2 py-0.5 text-[10px] font-bold text-zinc-950">
+                            <span className="rounded-md bg-white px-2 py-0.5 text-[10px] font-bold text-zinc-950">
                               Đáp án chuẩn
                             </span>
                           )}
@@ -240,11 +250,11 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                     </div>
                   </div>
 
-                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/25 p-4">
-                    <div className="mb-1.5 flex items-center gap-2 text-emerald-300">
-                      <Sparkles className="h-4 w-4 text-emerald-400" />
+                  <div className="rounded-xl border border-white/20 bg-white/[0.04] p-4">
+                    <div className="mb-1.5 flex items-center gap-2 text-white">
+                      <Sparkles className="h-4 w-4 text-white" />
                       <span className="text-xs font-bold">
-                        Đánh giá & Nhận xét chi tiết (Gemini AI & Giảng viên)
+                        Đánh giá & Nhận xét chi tiết (AI & Giảng viên)
                       </span>
                     </div>
                     <p className="whitespace-pre-wrap text-xs leading-relaxed text-zinc-200">
@@ -254,7 +264,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                   </div>
                 </div>
               )}
-            </article>
+            </motion.article>
           );
         })}
       </div>

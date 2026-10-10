@@ -16,10 +16,17 @@ import {
   Send,
   ArrowLeft,
   Layers,
+  Eye,
+  Edit3,
+  CheckCircle2,
+  Clock,
+  HelpCircle,
 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 
 export default function ExamCreatePage() {
   const router = useRouter();
+  const shouldReduceMotion = useReducedMotion();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState("");
@@ -28,6 +35,7 @@ export default function ExamCreatePage() {
   const [status, setStatus] = useState<"published" | "draft">("published");
 
   const [questions, setQuestions] = useState<ParsedQuestionDraft[]>([]);
+  const [viewMode, setViewMode] = useState<"edit" | "preview">("edit");
   const [isParsing, setIsParsing] = useState(false);
   const [parseError, setParseError] = useState("");
   const [parsedFileName, setParsedFileName] = useState("");
@@ -44,6 +52,7 @@ export default function ExamCreatePage() {
         throw new Error("Không thể bóc tách câu hỏi từ tệp tin này.");
       }
       setQuestions(parsedDrafts);
+      setViewMode("preview");
 
       if (!title) {
         const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
@@ -106,6 +115,7 @@ export default function ExamCreatePage() {
           max_score: 5.0,
         },
       ]);
+      setViewMode("preview");
     } else if (type === "excel") {
       setParsedFileName("ngan_hang_cau_hoi_database.xlsx");
       setTitle("Ngân hàng Câu hỏi Hệ Quản trị Cơ sở Dữ liệu");
@@ -147,6 +157,7 @@ export default function ExamCreatePage() {
           max_score: 5.0,
         },
       ]);
+      setViewMode("preview");
     } else {
       setParsedFileName("de_thi_an_ninh_mang.pdf");
       setTitle("Đề thi thử An toàn Thông tin & Mật mã học Ứng dụng");
@@ -188,6 +199,7 @@ export default function ExamCreatePage() {
           max_score: 5.0,
         },
       ]);
+      setViewMode("preview");
     }
   };
 
@@ -207,6 +219,7 @@ export default function ExamCreatePage() {
       max_score: 2.0,
     };
     setQuestions([...questions, newDraft]);
+    setViewMode("edit");
   };
 
   const handleUpdateQuestion = (index: number, updated: ParsedQuestionDraft) => {
@@ -261,7 +274,7 @@ export default function ExamCreatePage() {
           href="/admin/dashboard"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 transition hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5" />
+          <ArrowLeft className="h-3.5 w-3.5 text-white" />
           <span>Quay lại Bảng điều khiển Quản trị</span>
         </Link>
       </div>
@@ -273,7 +286,7 @@ export default function ExamCreatePage() {
             Tạo Đề thi thử & Bóc tách Tệp tin
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
-            Hỗ trợ nhập trực tiếp từ tài liệu Word (.docx), Excel (.xlsx), hoặc PDF với công cụ phân tích tự động.
+            Hỗ trợ nhập trực tiếp từ tài liệu Word (.docx), Excel (.xlsx), hoặc PDF với chế độ xem trước toàn bộ câu hỏi và đáp án chuẩn.
           </p>
         </div>
 
@@ -282,9 +295,9 @@ export default function ExamCreatePage() {
             type="button"
             onClick={handleConfirmAndPublish}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 self-start rounded-xl border border-emerald-400/40 bg-emerald-500 px-5 py-2.5 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 self-start rounded-xl border border-white/40 bg-white px-5 py-2.5 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50"
           >
-            <Send className="h-4 w-4" />
+            <Send className="h-4 w-4 text-zinc-950" />
             <span>{isSaving ? "Đang lưu..." : "Xác nhận & Xuất bản đề thi"}</span>
           </button>
         )}
@@ -300,8 +313,8 @@ export default function ExamCreatePage() {
           className="hidden"
         />
 
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-400">
-          <UploadCloud className="h-7 w-7" />
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-white">
+          <UploadCloud className="h-7 w-7 text-white" />
         </div>
 
         <h3 className="text-base font-bold text-white">
@@ -316,7 +329,7 @@ export default function ExamCreatePage() {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isParsing}
-            className="rounded-xl border border-emerald-400/40 bg-emerald-500 px-4 py-2 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98]"
+            className="rounded-xl border border-white/40 bg-white px-4 py-2 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98]"
           >
             {isParsing ? "Đang bóc tách dữ liệu..." : "Chọn tệp từ máy tính"}
           </button>
@@ -333,7 +346,7 @@ export default function ExamCreatePage() {
               onClick={() => loadDemoQuestions("word")}
               className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
             >
-              <FileText className="h-3.5 w-3.5 text-emerald-400" />
+              <FileText className="h-3.5 w-3.5 text-white" />
               <span>Nạp mẫu Word (.docx)</span>
             </button>
 
@@ -342,7 +355,7 @@ export default function ExamCreatePage() {
               onClick={() => loadDemoQuestions("excel")}
               className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
             >
-              <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" />
+              <FileSpreadsheet className="h-3.5 w-3.5 text-white" />
               <span>Nạp mẫu Excel (.xlsx)</span>
             </button>
 
@@ -351,7 +364,7 @@ export default function ExamCreatePage() {
               onClick={() => loadDemoQuestions("pdf")}
               className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
             >
-              <FileCode className="h-3.5 w-3.5 text-emerald-400" />
+              <FileCode className="h-3.5 w-3.5 text-white" />
               <span>Nạp mẫu PDF (.pdf)</span>
             </button>
           </div>
@@ -380,7 +393,7 @@ export default function ExamCreatePage() {
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="VD: Đề thi thử Giữa kỳ - Kiến trúc Hệ thống Phân tán"
+              placeholder="VD: Đề thi thử Giữa kỳ: Kiến trúc Hệ thống Phân tán"
               className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
             />
           </div>
@@ -432,12 +445,14 @@ export default function ExamCreatePage() {
         </div>
       </div>
 
-      {/* 3. Interactive Preview & Edit Mode before Saving */}
+      {/* 3. Interactive Read-Only Preview Mode & Edit Mode before Saving */}
       <div className="space-y-4">
         <div className="flex flex-col gap-3 border-b border-white/10 pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-base font-bold text-white">
-              Xem trước & Chỉnh sửa Câu hỏi ({questions.length} câu)
+              {viewMode === "preview"
+                ? `Chế độ Xem trước Đề thi (${questions.length} câu)`
+                : `Chỉnh sửa Cấu trúc Câu hỏi (${questions.length} câu)`}
             </h2>
             <p className="text-xs text-zinc-400">
               {parsedFileName && `Dữ liệu từ: ${parsedFileName} • `}
@@ -445,13 +460,42 @@ export default function ExamCreatePage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {questions.length > 0 && (
+              <div className="inline-flex rounded-xl border border-white/10 bg-zinc-950/70 p-1">
+                <button
+                  type="button"
+                  onClick={() => setViewMode("preview")}
+                  className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+                    viewMode === "preview"
+                      ? "bg-white text-zinc-950"
+                      : "text-zinc-300 hover:text-white"
+                  }`}
+                >
+                  <Eye className="h-3.5 w-3.5" />
+                  <span>Chế độ Xem trước</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode("edit")}
+                  className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+                    viewMode === "edit"
+                      ? "bg-white text-zinc-950"
+                      : "text-zinc-300 hover:text-white"
+                  }`}
+                >
+                  <Edit3 className="h-3.5 w-3.5" />
+                  <span>Chỉnh sửa câu hỏi</span>
+                </button>
+              </div>
+            )}
+
             <button
               type="button"
               onClick={handleAddQuestion}
               className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-semibold text-zinc-100 transition hover:bg-white/10"
             >
-              <Plus className="h-3.5 w-3.5 text-emerald-400" />
+              <Plus className="h-3.5 w-3.5 text-white" />
               <span>Thêm câu hỏi mới</span>
             </button>
           </div>
@@ -459,13 +503,153 @@ export default function ExamCreatePage() {
 
         {questions.length === 0 ? (
           <div className="glass-card rounded-2xl py-12 text-center">
-            <Layers className="mx-auto mb-2 h-8 w-8 text-zinc-500" />
+            <Layers className="mx-auto mb-2 h-8 w-8 text-zinc-400" />
             <p className="text-xs font-semibold text-zinc-200">
               Chưa có câu hỏi nào trong danh sách
             </p>
             <p className="mt-0.5 text-[11px] text-zinc-400">
               Tải lên tệp Word, Excel, PDF phía trên hoặc nhấn &ldquo;Thêm câu hỏi mới&rdquo; để soạn trực tiếp.
             </p>
+          </div>
+        ) : viewMode === "preview" ? (
+          /* Clean Read-Only Preview Mode (No timer, no answering required, shows options + correct answers) */
+          <div className="space-y-4">
+            <div className="glass-panel flex flex-wrap items-center justify-between gap-3 rounded-2xl p-4 text-xs text-zinc-300">
+              <div className="flex items-center gap-2">
+                <Eye className="h-4 w-4 text-white" />
+                <span>
+                  <strong className="text-white">Chế độ Xem trước (Chỉ đọc):</strong> Kiểm tra toàn bộ câu hỏi và đáp án chuẩn trước khi xuất bản. Không đếm ngược thời gian, không yêu cầu làm bài.
+                </span>
+              </div>
+              <span className="glass-pill inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-semibold text-zinc-200">
+                <Clock className="h-3.5 w-3.5 text-white" />
+                Thời lượng cấu hình: {durationMinutes} phút
+              </span>
+            </div>
+
+            {questions.map((q, idx) => {
+              const isMCQ = q.type === "multiple_choice";
+
+              return (
+                <motion.article
+                  key={q.id || idx}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: Math.min(idx * 0.03, 0.25) }}
+                  className="glass-card rounded-2xl p-6"
+                >
+                  <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                    <div className="flex items-center gap-2.5">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/25 bg-white/10 text-xs font-bold text-white">
+                        {idx + 1}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-white">
+                        {isMCQ ? (
+                          <>
+                            <HelpCircle className="h-3.5 w-3.5 text-white" />
+                            <span>Câu hỏi Trắc nghiệm</span>
+                          </>
+                        ) : (
+                          <>
+                            <FileText className="h-3.5 w-3.5 text-white" />
+                            <span>Câu hỏi Tự luận</span>
+                          </>
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="glass-pill rounded-md px-2.5 py-0.5 text-[11px] font-semibold text-zinc-200">
+                        Điểm tối đa: {q.max_score} điểm
+                      </span>
+                      {isMCQ && q.correct_answer && (
+                        <span className="inline-flex items-center gap-1 rounded-md border border-white/30 bg-white px-2.5 py-0.5 text-[11px] font-bold text-zinc-950">
+                          <CheckCircle2 className="h-3 w-3 text-zinc-950" />
+                          Đáp án đúng: {q.correct_answer}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <p className="mb-5 whitespace-pre-wrap text-sm font-medium leading-relaxed text-zinc-100">
+                    {q.content}
+                  </p>
+
+                  {isMCQ ? (
+                    <div className="space-y-2.5">
+                      {q.options.map((optText, optIdx) => {
+                        const letterMatch = optText.match(/^([A-Z])[\.\:\)]/i);
+                        const letter = letterMatch
+                          ? letterMatch[1].toUpperCase()
+                          : String.fromCharCode(65 + optIdx);
+                        const isCorrect =
+                          (q.correct_answer || "").trim().toUpperCase() === letter;
+
+                        return (
+                          <div
+                            key={optIdx}
+                            className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-xs transition ${
+                              isCorrect
+                                ? "border-white/50 bg-white/[0.12] text-white ring-1 ring-white/30"
+                                : "border-white/10 bg-zinc-950/55 text-zinc-300"
+                            }`}
+                          >
+                            <div className="flex items-start gap-3">
+                              <span
+                                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                                  isCorrect
+                                    ? "bg-white text-zinc-950"
+                                    : "border border-white/15 bg-zinc-900 text-zinc-300"
+                                }`}
+                              >
+                                {letter}
+                              </span>
+                              <span className="pt-0.5 leading-relaxed">{optText}</span>
+                            </div>
+
+                            {isCorrect && (
+                              <span className="shrink-0 rounded-md bg-white px-2 py-0.5 text-[10px] font-bold text-zinc-950">
+                                Đáp án chuẩn
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="rounded-xl border border-dashed border-white/15 bg-zinc-950/50 p-4 text-xs text-zinc-400">
+                      Câu hỏi tự luận (Thang điểm {q.max_score}). Thí sinh sẽ trình bày lập luận trực tiếp tại khung soạn thảo khi làm bài.
+                    </div>
+                  )}
+                </motion.article>
+              );
+            })}
+
+            {/* Bottom Review Actions: Back to Edit or Confirm & Publish */}
+            <div className="glass-panel flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
+              <button
+                type="button"
+                onClick={() => setViewMode("edit")}
+                className="glass-pill inline-flex w-full items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white sm:w-auto"
+              >
+                <Edit3 className="h-4 w-4 text-white" />
+                <span>Quay lại Chỉnh sửa (Back to Edit)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleConfirmAndPublish}
+                disabled={isSaving}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/40 bg-white px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+              >
+                <Send className="h-4 w-4 text-zinc-950" />
+                <span>
+                  {isSaving
+                    ? "Đang xử lý..."
+                    : "Xác nhận & Xuất bản (Confirm & Publish)"}
+                </span>
+              </button>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
@@ -480,24 +664,34 @@ export default function ExamCreatePage() {
               />
             ))}
 
-            {/* Bottom Add & Confirm Actions */}
+            {/* Bottom Add, Preview & Confirm Actions */}
             <div className="glass-panel flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
-              <button
-                type="button"
-                onClick={handleAddQuestion}
-                className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10"
-              >
-                <Plus className="h-4 w-4 text-emerald-400" />
-                <span>Thêm câu hỏi</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleAddQuestion}
+                  className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10"
+                >
+                  <Plus className="h-4 w-4 text-white" />
+                  <span>Thêm câu hỏi</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode("preview")}
+                  className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10"
+                >
+                  <Eye className="h-4 w-4 text-white" />
+                  <span>Xem trước toàn bộ đề</span>
+                </button>
+              </div>
 
               <button
                 type="button"
                 onClick={handleConfirmAndPublish}
                 disabled={isSaving}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500 px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/40 bg-white px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50 sm:w-auto"
               >
-                <Send className="h-4 w-4" />
+                <Send className="h-4 w-4 text-zinc-950" />
                 <span>{isSaving ? "Đang xử lý..." : "Xác nhận & Xuất bản đề thi"}</span>
               </button>
             </div>

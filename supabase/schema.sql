@@ -1,7 +1,8 @@
--- Supabase PostgreSQL Schema for Web Examination Platform
+-- ============================================================================
+-- ExemTest - Supabase PostgreSQL Schema & Auto-Cleanup Migration
 -- File: supabase/schema.sql
+-- ============================================================================
 
--- Enable UUID extension if not enabled
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
@@ -25,7 +26,7 @@ CREATE TABLE IF NOT EXISTS public.exams (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 3. QUESTIONS TABLE
+-- 3. QUESTIONS TABLE (Cascades on Exam Deletion)
 CREATE TABLE IF NOT EXISTS public.questions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   exam_id UUID NOT NULL REFERENCES public.exams(id) ON DELETE CASCADE,
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT EXISTS public.questions (
   order_index INTEGER NOT NULL DEFAULT 0
 );
 
--- 4. SUBMISSIONS TABLE
+-- 4. SUBMISSIONS TABLE (Cascades on Exam or User Deletion)
 CREATE TABLE IF NOT EXISTS public.submissions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   exam_id UUID NOT NULL REFERENCES public.exams(id) ON DELETE CASCADE,
@@ -49,7 +50,7 @@ CREATE TABLE IF NOT EXISTS public.submissions (
   submitted_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 5. SUBMISSION_ANSWERS TABLE
+-- 5. SUBMISSION_ANSWERS TABLE (ON DELETE CASCADE on submission_id & question_id)
 CREATE TABLE IF NOT EXISTS public.submission_answers (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   submission_id UUID NOT NULL REFERENCES public.submissions(id) ON DELETE CASCADE,
@@ -60,57 +61,117 @@ CREATE TABLE IF NOT EXISTS public.submission_answers (
   admin_feedback TEXT
 );
 
--- CREATE INDEXES FOR OPTIMAL QUERY PERFORMANCE
+-- INDEXES FOR QUERY PERFORMANCE
 CREATE INDEX IF NOT EXISTS idx_questions_exam_id ON public.questions(exam_id);
 CREATE INDEX IF NOT EXISTS idx_submissions_exam_id ON public.submissions(exam_id);
-CREATE INDEX IF NOT EXISTS idx_submissions_user_id ON public.submissions(user_id);
+CREATE INDEX IF NOT EXISTS idx_submissions_user_id_submitted_at ON public.submissions(user_id, submitted_at DESC);
 CREATE INDEX IF NOT EXISTS idx_sub_answers_sub_id ON public.submission_answers(submission_id);
 
--- ENABLE ROW LEVEL SECURITY (RLS)
+-- ============================================================================
+-- AUTO-CLEANUP TRIGGER: KEEP ONLY LATEST 50 SUBMISSIONS PER USER
+-- Automatically deletes oldest submission(s) (ORDER BY submitted_at ASC)
+-- when COUNT(*) for user_id > 50. Associated submission_answers are purged
+-- automatically via ON DELETE CASCADE.
+-- ============================================================================
+CREATE OR REPLACE FUNCTION public.enforce_user_submissions_limit()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_count INTEGER;
+BEGIN
+  SELECT COUNT(*) INTO v_count
+  FROM public.submissions
+  WHERE user_id = NEW.user_id;
+
+  IF v_count > 50 THEN
+    DELETE FROM public.submissions
+    WHERE id IN (
+      SELECT id
+      FROM public.submissions
+      WHERE user_id = NEW.user_id
+      ORDER BY submitted_at ASC, id ASC
+      LIMIT (v_count - 50)
+    );
+  END IF;
+
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_enforce_user_submissions_limit ON public.submissions;
+
+CREATE TRIGGER trg_enforce_user_submissions_limit
+AFTER INSERT ON public.submissions
+FOR EACH ROW
+EXECUTE FUNCTION public.enforce_user_submissions_limit();
+
+-- ============================================================================
+-- ROW LEVEL SECURITY (RLS) POLICIES
+-- ============================================================================
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.exams ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.submissions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.submission_answers ENABLE ROW LEVEL SECURITY;
 
--- POLICIES FOR PROFILES
+DROP POLICY IF EXISTS "Public read for profiles" ON public.profiles;
 CREATE POLICY "Public read for profiles" ON public.profiles FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Service and authenticated insert for profiles" ON public.profiles;
 CREATE POLICY "Service and authenticated insert for profiles" ON public.profiles FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Self update for profiles" ON public.profiles;
 CREATE POLICY "Self update for profiles" ON public.profiles FOR UPDATE USING (true);
 
--- POLICIES FOR EXAMS
+DROP POLICY IF EXISTS "Public read published exams or admin view all" ON public.exams;
 CREATE POLICY "Public read published exams or admin view all" ON public.exams FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Admin write exams" ON public.exams;
 CREATE POLICY "Admin write exams" ON public.exams FOR ALL USING (true);
 
--- POLICIES FOR QUESTIONS
+DROP POLICY IF EXISTS "Read questions for accessible exams" ON public.questions;
 CREATE POLICY "Read questions for accessible exams" ON public.questions FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Admin write questions" ON public.questions;
 CREATE POLICY "Admin write questions" ON public.questions FOR ALL USING (true);
 
--- POLICIES FOR SUBMISSIONS
+DROP POLICY IF EXISTS "Users read own submissions and Admin reads all" ON public.submissions;
 CREATE POLICY "Users read own submissions and Admin reads all" ON public.submissions FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Users insert submissions" ON public.submissions;
 CREATE POLICY "Users insert submissions" ON public.submissions FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin updates submissions" ON public.submissions;
 CREATE POLICY "Admin updates submissions" ON public.submissions FOR UPDATE USING (true);
 
--- POLICIES FOR SUBMISSION ANSWERS
+DROP POLICY IF EXISTS "Admin deletes submissions" ON public.submissions;
+CREATE POLICY "Admin deletes submissions" ON public.submissions FOR DELETE USING (true);
+
+DROP POLICY IF EXISTS "Users and admins read answers" ON public.submission_answers;
 CREATE POLICY "Users and admins read answers" ON public.submission_answers FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Users insert answers" ON public.submission_answers;
 CREATE POLICY "Users insert answers" ON public.submission_answers FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin updates answers" ON public.submission_answers;
 CREATE POLICY "Admin updates answers" ON public.submission_answers FOR UPDATE USING (true);
 
--- ============================================================================
--- SEED DATA
--- Default accounts:
--- 1. Admin: username 'admin', password '1' (bcrypt hash: $2a$10$9Z1zDk8e0O0w2wS1Z/9yO.8S/4fD7wE7K0gY4kZ6bY3M7F5X3K9Q.)
--- 2. User: username 'user', password '1' (bcrypt hash: $2a$10$9Z1zDk8e0O0w2wS1Z/9yO.8S/4fD7wE7K0gY4kZ6bY3M7F5X3K9Q.)
--- Note: In app authentication, plain '1' is also matched against bcrypt or standard comparison.
--- ============================================================================
+DROP POLICY IF EXISTS "Admin deletes answers" ON public.submission_answers;
+CREATE POLICY "Admin deletes answers" ON public.submission_answers FOR DELETE USING (true);
 
+-- ============================================================================
+-- SEED ACCOUNTS & SAMPLE EXAMS
+-- Admin: username 'admin' / password '1'
+-- User:  username 'user'  / password '1'
+-- ============================================================================
 INSERT INTO public.profiles (id, username, password_hash, role)
 VALUES
-  ('00000000-0000-0000-0000-000000000001', 'admin', '$2a$10$Q7d87Hl5zC2Vw6yU1sN8Q.2aPq0aF4tBv1gH3jK5mN7oP9qR1sT3u', 'admin'),
-  ('00000000-0000-0000-0000-000000000002', 'user', '$2a$10$Q7d87Hl5zC2Vw6yU1sN8Q.2aPq0aF4tBv1gH3jK5mN7oP9qR1sT3u', 'user')
+  ('00000000-0000-0000-0000-000000000001', 'admin', '1', 'admin'),
+  ('00000000-0000-0000-0000-000000000002', 'user', '1', 'user')
 ON CONFLICT (username) DO NOTHING;
 
--- SEED SAMPLE EXAM 1: KIỂM TRA NĂNG LỰC LẬP TRÌNH WEB NEXT.JS & TYPESCRIPT
 INSERT INTO public.exams (id, title, description, duration_minutes, created_by, status)
 VALUES (
   '11111111-1111-1111-1111-111111111111',
@@ -121,7 +182,6 @@ VALUES (
   'published'
 ) ON CONFLICT (id) DO NOTHING;
 
--- QUESTIONS FOR EXAM 1
 INSERT INTO public.questions (id, exam_id, type, content, options, correct_answer, max_score, order_index)
 VALUES
 (
@@ -158,15 +218,14 @@ VALUES
   '22222222-2222-2222-2222-222222220004',
   '11111111-1111-1111-1111-111111111111',
   'essay',
-  'Hãy trình bày chiến lược chống rò rỉ dữ liệu (Data Isolation) và kiểm soát quyền truy cập cấp hàng (Row Level Security - RLS) trên Supabase khi triển khai cho kỳ thi trực tuyến nhiều thí sinh.',
+  'Hãy trình bày chiến lược chống rò rỉ dữ liệu (Data Isolation) và kiểm soát quyền truy cập cấp hàng (Row Level Security - RLS) trên Supabase khi triển khai cho hệ thống thi thử trực tuyến nhiều thí sinh.',
   '[]'::jsonb,
   '',
-  4.0,
+  5.0,
   4
 )
 ON CONFLICT (id) DO NOTHING;
 
--- SEED SAMPLE EXAM 2: TIẾNG ANH CHUYÊN NGÀNH CÔNG NGHỆ THÔNG TIN
 INSERT INTO public.exams (id, title, description, duration_minutes, created_by, status)
 VALUES (
   '11111111-1111-1111-1111-222222222222',

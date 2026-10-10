@@ -481,6 +481,48 @@ export async function toggleExamStatus(id: string): Promise<Exam | null> {
   return updated;
 }
 
+export async function deleteExam(id: string): Promise<boolean> {
+  initStore();
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
+  const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  const answers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
+
+  const removedSubIds = new Set(
+    submissions.filter((s) => s.exam_id === id).map((s) => s.id)
+  );
+  const removedQuestionIds = new Set(
+    questions.filter((q) => q.exam_id === id).map((q) => q.id)
+  );
+
+  setLocal(
+    KEY_EXAMS,
+    exams.filter((e) => e.id !== id)
+  );
+  setLocal(
+    KEY_QUESTIONS,
+    questions.filter((q) => q.exam_id !== id)
+  );
+  setLocal(
+    KEY_SUBMISSIONS,
+    submissions.filter((s) => s.exam_id !== id)
+  );
+  setLocal(
+    KEY_SUBMISSION_ANSWERS,
+    answers.filter(
+      (a) => !removedSubIds.has(a.submission_id) && !removedQuestionIds.has(a.question_id)
+    )
+  );
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from("exams").delete().eq("id", id);
+    } catch {}
+  }
+
+  return true;
+}
+
 // 3. SUBMISSIONS & GRADING OPERATIONS
 export async function submitExam(
   examId: string,
@@ -554,14 +596,25 @@ export async function submitExam(
     answers: submissionAnswers,
   };
 
-  // Save to local store
+  // Save to local store & Enforce 50-submission limit per user (Cascading delete oldest)
   const existingSubmissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const existingAnswers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
 
-  setLocal(KEY_SUBMISSIONS, [newSubmission, ...existingSubmissions]);
-  setLocal(KEY_SUBMISSION_ANSWERS, [...existingAnswers, ...submissionAnswers]);
+  const allSubmissions = [newSubmission, ...existingSubmissions];
+  const userSubs = allSubmissions
+    .filter((s) => s.user_id === userId)
+    .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
 
-  // Sync to Supabase if available
+  const purgedSubIds = new Set(userSubs.slice(50).map((s) => s.id));
+  const retainedSubmissions = allSubmissions.filter((s) => !purgedSubIds.has(s.id));
+  const retainedAnswers = [...existingAnswers, ...submissionAnswers].filter(
+    (a) => !purgedSubIds.has(a.submission_id)
+  );
+
+  setLocal(KEY_SUBMISSIONS, retainedSubmissions);
+  setLocal(KEY_SUBMISSION_ANSWERS, retainedAnswers);
+
+  // Sync to Supabase if available (PostgreSQL trigger trg_enforce_user_submissions_limit handles DB cleanup)
   if (isSupabaseConfigured && supabase) {
     try {
       const { data: insertedSub } = await supabase
@@ -600,18 +653,20 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
   const profiles = SEED_PROFILES;
 
-  const enriched = submissions.map((sub) => {
-    const exam = exams.find((e) => e.id === sub.exam_id);
-    const user = profiles.find((p) => p.id === sub.user_id);
-    return {
-      ...sub,
-      exam,
-      user,
-    };
-  });
+  const enriched = submissions
+    .map((sub) => {
+      const exam = exams.find((e) => e.id === sub.exam_id);
+      const user = profiles.find((p) => p.id === sub.user_id);
+      return {
+        ...sub,
+        exam,
+        user,
+      };
+    })
+    .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
 
   if (userId) {
-    return enriched.filter((s) => s.user_id === userId);
+    return enriched.filter((s) => s.user_id === userId).slice(0, 50);
   }
   return enriched;
 }
