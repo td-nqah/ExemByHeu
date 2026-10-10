@@ -50,7 +50,7 @@ export function Navbar() {
           </div>
           <div>
             <span className="text-lg font-bold tracking-tight text-white">
-              Exambyheu
+              ExamByHeu
             </span>
             <span className="hidden sm:inline-block ml-2 text-xs text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full font-medium">
               v2.0 Cyber

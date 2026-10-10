@@ -102,7 +102,7 @@ export default function AdminDashboardPage() {
             </span>
           </h1>
           <p className="mt-1 text-sm text-slate-400">
-            Tổng quan hệ thống Exambyheu, quản lý ngân hàng đề thi và điều phối chấm bài.
+            Tổng quan hệ thống ExamByHeu, quản lý ngân hàng đề thi và điều phối chấm bài.
           </p>
         </div>
 

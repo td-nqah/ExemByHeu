@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Exambyheu - Nền tảng Thi thử Trực tuyến",
-    template: "%s | Exambyheu - Nền tảng Thi thử Trực tuyến",
+    default: "ExamByHeu - Nền tảng Thi thử Trực tuyến",
+    template: "%s | ExamByHeu - Nền tảng Thi thử Trực tuyến",
   },
   description: "Nền tảng thi thử và chấm điểm trực tuyến",
 };
