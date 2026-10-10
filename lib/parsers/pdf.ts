@@ -1,54 +1,53 @@
 import { parseQuestionsFromRawText } from "./text-extractor";
 import { ParsedQuestionDraft } from "@/types/exam";
 
+export async function extractTextFromPdf(file: File | ArrayBuffer): Promise<string> {
+  const arrayBuffer = file instanceof File ? await file.arrayBuffer() : file;
+  const uint8Array = new Uint8Array(arrayBuffer);
+  const textDecoder = new TextDecoder("latin1");
+  const rawContent = textDecoder.decode(uint8Array);
+
+  let extractedText = "";
+
+  // 1. Extract text in literal strings inside PDF text objects (BT ... ET)
+  const textObjectRegex = /BT[\s\S]*?ET/g;
+  const textMatches = rawContent.match(textObjectRegex);
+
+  if (textMatches && textMatches.length > 0) {
+    for (const block of textMatches) {
+      const stringRegex = /\(([^)]+)\)\s*(?:Tj|TJ|'|")/g;
+      let match;
+      while ((match = stringRegex.exec(block)) !== null) {
+        extractedText += match[1] + " ";
+      }
+      extractedText += "\n";
+    }
+  }
+
+  // 2. If simple stream extraction yielded limited text, attempt fallback scan
+  if (extractedText.trim().length < 50) {
+    const fallbackStrings = rawContent.match(/\(([A-Za-z0-9\s\.\,\:\?\-\_\/]{3,})\)/g);
+    if (fallbackStrings) {
+      extractedText = fallbackStrings
+        .map((s) => s.slice(1, -1))
+        .join(" ")
+        .replace(/\\n/g, "\n");
+    }
+  }
+
+  return extractedText.trim();
+}
+
 /**
  * Client-safe and server-safe PDF text extractor.
  * Extracts text characters from PDF literal strings and text streams without heavy native dependencies.
  */
 export async function parsePdfFile(file: File | ArrayBuffer): Promise<ParsedQuestionDraft[]> {
   try {
-    let arrayBuffer: ArrayBuffer;
-    if (file instanceof File) {
-      arrayBuffer = await file.arrayBuffer();
-    } else {
-      arrayBuffer = file;
-    }
-
-    const uint8Array = new Uint8Array(arrayBuffer);
-    const textDecoder = new TextDecoder("latin1");
-    const rawContent = textDecoder.decode(uint8Array);
-
-    let extractedText = "";
-
-    // 1. Extract text in literal strings inside PDF text objects (BT ... ET)
-    const textObjectRegex = /BT[\s\S]*?ET/g;
-    const textMatches = rawContent.match(textObjectRegex);
-
-    if (textMatches && textMatches.length > 0) {
-      for (const block of textMatches) {
-        // Extract string tokens inside parenthesis like (Sample question)
-        const stringRegex = /\(([^)]+)\)\s*(?:Tj|TJ|'|")/g;
-        let match;
-        while ((match = stringRegex.exec(block)) !== null) {
-          extractedText += match[1] + " ";
-        }
-        extractedText += "\n";
-      }
-    }
-
-    // 2. If simple stream extraction yielded limited text, attempt fallback scan
-    if (extractedText.trim().length < 50) {
-      const fallbackStrings = rawContent.match(/\(([A-Za-z0-9\s\.\,\:\?\-\_\/]{3,})\)/g);
-      if (fallbackStrings) {
-        extractedText = fallbackStrings
-          .map((s) => s.slice(1, -1))
-          .join(" ")
-          .replace(/\\n/g, "\n");
-      }
-    }
+    const extractedText = await extractTextFromPdf(file);
 
     // If PDF is encrypted or purely scanned image
-    if (!extractedText.trim() || extractedText.trim().length < 20) {
+    if (!extractedText || extractedText.length < 20) {
       // Provide a clean structured set of parsed questions from standard exam format
       // so the user still has an instant smooth experience when evaluating
       return [

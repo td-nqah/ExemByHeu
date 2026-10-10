@@ -1,6 +1,31 @@
 import * as XLSX from "xlsx";
 import { ParsedQuestionDraft } from "@/types/exam";
 
+export async function extractTextFromExcel(file: File | ArrayBuffer): Promise<string> {
+  const arrayBuffer = file instanceof File ? await file.arrayBuffer() : file;
+  const workbook = XLSX.read(arrayBuffer, { type: "array" });
+  const firstSheetName = workbook.SheetNames[0];
+  if (!firstSheetName) return "";
+
+  const worksheet = workbook.Sheets[firstSheetName];
+  const rows = XLSX.utils.sheet_to_json<any>(worksheet, { header: 1 });
+  if (!rows || rows.length === 0) return "";
+
+  const lines: string[] = [];
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    if (!Array.isArray(row)) continue;
+    const cells = row
+      .map((cell) => String(cell ?? "").trim())
+      .filter(Boolean);
+    if (cells.length > 0) {
+      lines.push(`Dòng ${i + 1}: ${cells.join(" | ")}`);
+    }
+  }
+
+  return lines.join("\n").trim();
+}
+
 export async function parseExcelFile(file: File | ArrayBuffer): Promise<ParsedQuestionDraft[]> {
   try {
     let arrayBuffer: ArrayBuffer;

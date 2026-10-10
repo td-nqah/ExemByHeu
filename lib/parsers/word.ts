@@ -2,19 +2,17 @@ import mammoth from "mammoth";
 import { parseQuestionsFromRawText } from "./text-extractor";
 import { ParsedQuestionDraft } from "@/types/exam";
 
+export async function extractTextFromDocx(file: File | ArrayBuffer): Promise<string> {
+  const arrayBuffer = file instanceof File ? await file.arrayBuffer() : file;
+  const result = await mammoth.extractRawText({ arrayBuffer });
+  return (result.value || "").trim();
+}
+
 export async function parseDocxFile(file: File | ArrayBuffer): Promise<ParsedQuestionDraft[]> {
   try {
-    let arrayBuffer: ArrayBuffer;
-    if (file instanceof File) {
-      arrayBuffer = await file.arrayBuffer();
-    } else {
-      arrayBuffer = file;
-    }
+    const rawText = await extractTextFromDocx(file);
 
-    const result = await mammoth.extractRawText({ arrayBuffer });
-    const rawText = result.value || "";
-
-    if (!rawText.trim()) {
+    if (!rawText) {
       throw new Error("Tệp Word không chứa nội dung văn bản hợp lệ.");
     }
 
@@ -23,3 +21,4 @@ export async function parseDocxFile(file: File | ArrayBuffer): Promise<ParsedQue
     throw new Error(`Lỗi phân tích tệp Word (.docx): ${error?.message || "Định dạng không hợp lệ"}`);
   }
 }
+
