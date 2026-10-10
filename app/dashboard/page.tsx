@@ -15,6 +15,7 @@ import {
   CheckCircle,
   FileText,
   Calendar,
+  Award,
 } from "lucide-react";
 
 export default function UserDashboardPage() {
@@ -34,7 +35,7 @@ export default function UserDashboardPage() {
     async function loadData() {
       try {
         const [examData, subData] = await Promise.all([
-          getExams(true),
+          getExams(true, user?.id),
           getSubmissions(user?.id),
         ]);
         setExams(examData);
@@ -140,6 +141,8 @@ export default function UserDashboardPage() {
             const essayCount =
               exam.questions?.filter((q) => q.type === "essay").length || 0;
 
+            const recentAttempts = exam.recent_submissions || [];
+
             return (
               <motion.div
                 key={exam.id}
@@ -175,9 +178,56 @@ export default function UserDashboardPage() {
                     <span>•</span>
                     <span>{essayCount} tự luận</span>
                   </div>
+
+                  {/* Latest 3 Attempts Score History Section */}
+                  <div className="mt-3.5 rounded-xl border border-white/10 bg-zinc-950/55 p-3">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-[11px] font-semibold text-zinc-300">
+                        <Award className="h-3.5 w-3.5 text-white" />
+                        <span>Kết quả 3 lần gần nhất</span>
+                      </span>
+                    </div>
+
+                    {recentAttempts.length === 0 ? (
+                      <p className="text-[11px] italic text-zinc-500">
+                        Chưa có lượt làm bài nào
+                      </p>
+                    ) : (
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        {recentAttempts.map((attempt, attemptIdx) => {
+                          const isPending = attempt.status === "pending_grading";
+                          const labelNum = attemptIdx + 1;
+
+                          return (
+                            <Link
+                              key={attempt.id}
+                              href={`/history/${attempt.id}`}
+                              title={`Xem chi tiết lượt nộp ngày ${formatDate(attempt.submitted_at)}`}
+                              className={`inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition ${
+                                isPending
+                                  ? "border-amber-500/35 bg-amber-950/40 text-amber-300 hover:bg-amber-950/60"
+                                  : "border-emerald-500/40 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-950/65"
+                              }`}
+                            >
+                              <span>Lần {labelNum}:</span>
+                              {isPending ? (
+                                <span>
+                                  Đang chấm ({attempt.mcq_score}đ TN)
+                                </span>
+                              ) : (
+                                <strong className="font-bold text-emerald-200">
+                                  {attempt.total_score} điểm
+                                </strong>
+                              )}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-                <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-3.5">
+                <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-3.5">
                   <span className="flex items-center gap-1.5 text-[11px] text-zinc-400">
                     <Calendar className="h-3 w-3 text-zinc-300" />
                     {formatDate(exam.created_at)}

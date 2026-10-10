@@ -32,6 +32,10 @@ export interface Exam {
   status: ExamStatus;
   created_at: string;
   questions?: Question[];
+  recent_submissions?: Pick<
+    Submission,
+    "id" | "total_score" | "mcq_score" | "status" | "submitted_at"
+  >[];
 }
 
 export interface SubmissionAnswer {

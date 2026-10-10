@@ -310,8 +310,52 @@ export async function loginUser(username: string, password: string): Promise<Pro
 }
 
 // 2. EXAM OPERATIONS
-export async function getExams(onlyPublished = false): Promise<Exam[]> {
+export async function getExams(
+  onlyPublished = false,
+  userId?: string
+): Promise<Exam[]> {
   initStore();
+
+  const localSubmissions = getLocal<Submission[]>(
+    KEY_SUBMISSIONS,
+    SEED_SUBMISSIONS
+  );
+
+  // Helper to attach latest 3 submissions for a given exam & user
+  const getTop3ForExam = (
+    examId: string,
+    dbSubs: Submission[] = []
+  ): Pick<
+    Submission,
+    "id" | "total_score" | "mcq_score" | "status" | "submitted_at"
+  >[] => {
+    if (!userId) return [];
+    const combined = [...dbSubs, ...localSubmissions].filter(
+      (s) => s.exam_id === examId && s.user_id === userId
+    );
+    // Deduplicate by id
+    const uniqueMap = new Map<string, Submission>();
+    for (const s of combined) {
+      if (!uniqueMap.has(s.id)) {
+        uniqueMap.set(s.id, s);
+      }
+    }
+    return Array.from(uniqueMap.values())
+      .sort(
+        (a, b) =>
+          new Date(b.submitted_at).getTime() -
+          new Date(a.submitted_at).getTime()
+      )
+      .slice(0, 3)
+      .map((s) => ({
+        id: s.id,
+        total_score: Number(s.total_score) || 0,
+        mcq_score: Number(s.mcq_score) || 0,
+        status: s.status,
+        submitted_at: s.submitted_at,
+      }));
+  };
+
   if (isSupabaseConfigured && supabase) {
     try {
       let query = supabase.from("exams").select("*, questions(*)");
@@ -319,9 +363,26 @@ export async function getExams(onlyPublished = false): Promise<Exam[]> {
         query = query.eq("status", "published");
       }
       query = query.order("created_at", { ascending: false });
-      const { data, error } = await query;
+
+      const [{ data, error }, subRes] = await Promise.all([
+        query,
+        userId
+          ? supabase
+              .from("submissions")
+              .select(
+                "id, exam_id, user_id, total_score, mcq_score, status, submitted_at"
+              )
+              .eq("user_id", userId)
+              .order("submitted_at", { ascending: false })
+          : Promise.resolve({ data: null, error: null }),
+      ]);
+
       if (!error && data && data.length > 0) {
-        return data as Exam[];
+        const dbSubs = (subRes.data || []) as Submission[];
+        return (data as Exam[]).map((exam) => ({
+          ...exam,
+          recent_submissions: getTop3ForExam(exam.id, dbSubs),
+        }));
       }
     } catch {
       // Use local fallback
@@ -334,6 +395,7 @@ export async function getExams(onlyPublished = false): Promise<Exam[]> {
   const enriched = exams.map((exam) => ({
     ...exam,
     questions: questions.filter((q) => q.exam_id === exam.id),
+    recent_submissions: getTop3ForExam(exam.id),
   }));
 
   if (onlyPublished) {
