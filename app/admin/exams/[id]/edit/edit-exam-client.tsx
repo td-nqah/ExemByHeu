@@ -13,18 +13,13 @@ import {
   Plus,
   Layers,
   Sliders,
-  Eye,
-  Edit3,
   CheckCircle2,
-  HelpCircle,
-  FileText,
   AlertCircle,
 } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 
 export function EditExamClient({ examId }: { examId: string }) {
   const router = useRouter();
-  const shouldReduceMotion = useReducedMotion();
 
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -38,7 +33,6 @@ export function EditExamClient({ examId }: { examId: string }) {
   const [mcqScorePerQuestion, setMcqScorePerQuestion] = useState<number>(0.5);
   const [essayScorePerQuestion, setEssayScorePerQuestion] = useState<number>(2.0);
   const [showQuickScoreConfig, setShowQuickScoreConfig] = useState<boolean>(true);
-  const [viewMode, setViewMode] = useState<"edit" | "preview">("edit");
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
@@ -249,24 +243,11 @@ export function EditExamClient({ examId }: { examId: string }) {
       max_score: mcqScorePerQuestion,
     };
     setQuestions([...questions, newDraft]);
-    setViewMode("edit");
   };
 
   const handleUpdateQuestion = (index: number, updated: ParsedQuestionDraft) => {
     const list = [...questions];
     list[index] = updated;
-    setQuestions(list);
-  };
-
-  const handleManualScoreOverride = (index: number, rawVal: string) => {
-    const parsed = parseFloat(rawVal);
-    const cleanScore =
-      !isNaN(parsed) && parsed >= 0 ? Math.round(parsed * 100) / 100 : 0;
-    const list = [...questions];
-    list[index] = {
-      ...list[index],
-      max_score: cleanScore,
-    };
     setQuestions(list);
   };
 
@@ -361,14 +342,6 @@ export function EditExamClient({ examId }: { examId: string }) {
         >
           <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
           <span>Quay lại Quản lý Ngân hàng Đề thi</span>
-        </Link>
-
-        <Link
-          href={`/admin/exams/preview?id=${examId}`}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
-        >
-          <Eye className="h-3.5 w-3.5 text-indigo-400" />
-          <span>Mở trang Xem trước</span>
         </Link>
       </div>
 
@@ -525,12 +498,12 @@ export function EditExamClient({ examId }: { examId: string }) {
         </div>
       )}
 
-      {/* 3. Questions Editor & Preview List */}
+      {/* 3. Questions Editor List (Always in Edit Mode) */}
       <div className="space-y-4">
         <div className="flex flex-col gap-3 border-b border-slate-800/80 pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-base font-bold text-white">
-              Danh sách Câu hỏi ({questions.length} câu)
+              Chỉnh sửa Danh sách Câu hỏi ({questions.length} câu)
             </h2>
             <p className="text-xs text-slate-400">
               {mcqCount} trắc nghiệm ({currentMcqTotal}đ) • {essayCount} tự luận (
@@ -539,35 +512,6 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            {questions.length > 0 && (
-              <div className="inline-flex rounded-xl border border-slate-800 bg-slate-900/70 p-1">
-                <button
-                  type="button"
-                  onClick={() => setViewMode("edit")}
-                  className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                    viewMode === "edit"
-                      ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/20"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  <Edit3 className="h-3.5 w-3.5" />
-                  <span>Chế độ Chỉnh sửa</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setViewMode("preview")}
-                  className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                    viewMode === "preview"
-                      ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/20"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  <Eye className="h-3.5 w-3.5" />
-                  <span>Xem trước</span>
-                </button>
-              </div>
-            )}
-
             <button
               type="button"
               onClick={handleAddQuestion}
@@ -593,129 +537,6 @@ export function EditExamClient({ examId }: { examId: string }) {
               <Plus className="h-3.5 w-3.5" />
               <span>Thêm câu hỏi đầu tiên</span>
             </button>
-          </div>
-        ) : viewMode === "preview" ? (
-          <div className="space-y-4">
-            {questions.map((q, idx) => {
-              const isMCQ = q.type === "multiple_choice";
-
-              return (
-                <motion.article
-                  key={q.id || idx}
-                  initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.2,
-                    delay: Math.min(idx * 0.03, 0.25),
-                  }}
-                  className="glow-card rounded-2xl p-6"
-                >
-                  <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
-                    <div className="flex items-center gap-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
-                        {idx + 1}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-white">
-                        {isMCQ ? (
-                          <>
-                            <HelpCircle className="h-3.5 w-3.5 text-indigo-400" />
-                            <span>Câu hỏi Trắc nghiệm</span>
-                          </>
-                        ) : (
-                          <>
-                            <FileText className="h-3.5 w-3.5 text-indigo-400" />
-                            <span>Câu hỏi Tự luận</span>
-                          </>
-                        )}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      <div className="flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/80 px-2.5 py-1">
-                        <span className="text-[11px] font-medium text-slate-400">
-                          Điểm câu này:
-                        </span>
-                        <input
-                          type="number"
-                          min="0.05"
-                          step="0.25"
-                          value={q.max_score}
-                          onChange={(e) =>
-                            handleManualScoreOverride(idx, e.target.value)
-                          }
-                          className="h-6 w-16 rounded-md border border-slate-700 bg-slate-950 px-1.5 text-center text-xs font-bold text-white focus:border-indigo-500 focus:outline-none"
-                        />
-                        <span className="text-[11px] font-semibold text-slate-300">
-                          đ
-                        </span>
-                      </div>
-
-                      {isMCQ && q.correct_answer && (
-                        <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/40 px-2.5 py-1 text-[11px] font-bold text-emerald-400">
-                          <CheckCircle2 className="h-3 w-3 text-emerald-400" />
-                          Đáp án đúng: {q.correct_answer}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <p className="mb-5 whitespace-pre-wrap text-sm font-medium leading-relaxed text-slate-100">
-                    {q.content}
-                  </p>
-
-                  {isMCQ ? (
-                    <div className="space-y-2.5">
-                      {q.options.map((optText, optIdx) => {
-                        const letterMatch = optText.match(/^([A-Z])[\.\:\)]/i);
-                        const letter = letterMatch
-                          ? letterMatch[1].toUpperCase()
-                          : String.fromCharCode(65 + optIdx);
-                        const isCorrect =
-                          (q.correct_answer || "").trim().toUpperCase() ===
-                          letter;
-
-                        return (
-                          <div
-                            key={optIdx}
-                            className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-xs transition ${
-                              isCorrect
-                                ? "border-emerald-500 bg-emerald-950/40 text-emerald-400 font-semibold shadow-[inset_0_1px_0_rgba(16,185,129,0.15)]"
-                                : "border-slate-800 bg-slate-900/50 text-slate-300"
-                            }`}
-                          >
-                            <div className="flex items-start gap-3">
-                              <span
-                                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                                  isCorrect
-                                    ? "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300"
-                                    : "border border-slate-700 bg-slate-800 text-slate-300"
-                                }`}
-                              >
-                                {letter}
-                              </span>
-                              <span className="pt-0.5 leading-relaxed">
-                                {optText}
-                              </span>
-                            </div>
-
-                            {isCorrect && (
-                              <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/70 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
-                                <CheckCircle2 className="h-3 w-3 text-emerald-400" />
-                                <span>Đáp án đúng</span>
-                              </span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div className="rounded-xl border border-dashed border-slate-800 bg-slate-900/50 p-4 text-xs text-slate-400">
-                      Câu hỏi tự luận (Điểm tối đa: {q.max_score} điểm).
-                    </div>
-                  )}
-                </motion.article>
-              );
-            })}
           </div>
         ) : (
           <div className="space-y-4">
