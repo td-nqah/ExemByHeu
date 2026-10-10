@@ -20,6 +20,7 @@ import {
   CheckCircle2,
   FileText,
   Send,
+  Pencil,
 } from "lucide-react";
 
 function AdminExamPreviewContent() {
@@ -260,11 +261,14 @@ function AdminExamPreviewContent() {
           <span>Quay lại Quản trị</span>
         </Link>
 
-        <div className="flex items-center gap-3">
-          <span className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200">
-            <Eye className="h-3.5 w-3.5 text-white" />
-            <span>Chế độ Xem trước & Phân bổ Điểm</span>
-          </span>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Link
+            href={`/admin/exams/${exam.id}/edit`}
+            className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/12 hover:text-white"
+          >
+            <Pencil className="h-3.5 w-3.5 text-white" />
+            <span>Chỉnh sửa câu hỏi</span>
+          </Link>
 
           <button
             type="button"

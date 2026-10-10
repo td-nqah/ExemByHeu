@@ -25,6 +25,7 @@ import {
   Trash2,
   AlertTriangle,
   X,
+  Pencil,
 } from "lucide-react";
 
 export default function AdminDashboardPage() {
@@ -252,6 +253,15 @@ export default function AdminDashboardPage() {
                           >
                             <Eye className="h-3.5 w-3.5 text-white" />
                             <span>Xem trước</span>
+                          </Link>
+
+                          <Link
+                            href={`/admin/exams/${exam.id}/edit`}
+                            className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-zinc-200 transition hover:bg-white/12 hover:text-white"
+                            title="Chỉnh sửa thông tin đề thi và câu hỏi"
+                          >
+                            <Pencil className="h-3.5 w-3.5 text-white" />
+                            <span>Chỉnh sửa</span>
                           </Link>
 
                           <button

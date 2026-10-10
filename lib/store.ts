@@ -538,6 +538,126 @@ export async function createExam(
   };
 }
 
+export async function updateExam(
+  examId: string,
+  examData: {
+    title: string;
+    description: string;
+    duration_minutes: number;
+    status: "draft" | "published";
+  },
+  questionsDraft: ParsedQuestionDraft[]
+): Promise<Exam | null> {
+  initStore();
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const allQuestions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
+
+  const examIdx = exams.findIndex((e) => e.id === examId);
+  if (examIdx !== -1) {
+    exams[examIdx] = {
+      ...exams[examIdx],
+      title: examData.title.trim(),
+      description: examData.description.trim(),
+      duration_minutes: Number(examData.duration_minutes) || 45,
+      status: examData.status,
+    };
+    setLocal(KEY_EXAMS, exams);
+  }
+
+  const existingLocalIds = new Set(
+    allQuestions.filter((q) => q.exam_id === examId).map((q) => q.id)
+  );
+
+  const updatedQuestionsList: Question[] = questionsDraft.map((d, index) => {
+    const cleanScore =
+      Math.round((Number(d.max_score) > 0 ? Number(d.max_score) : 1) * 100) / 100;
+    const keepId = d.id && existingLocalIds.has(d.id);
+    return {
+      id: keepId ? d.id : `q_${Date.now()}_${index + 1}`,
+      exam_id: examId,
+      type: d.type,
+      content: d.content,
+      options: d.options,
+      correct_answer: d.correct_answer,
+      max_score: cleanScore,
+      order_index: index + 1,
+    };
+  });
+
+  // Replace questions for this examId in localStorage
+  const otherQuestions = allQuestions.filter((q) => q.exam_id !== examId);
+  setLocal(KEY_QUESTIONS, [...otherQuestions, ...updatedQuestionsList]);
+
+  // Sync to Supabase if configured
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase
+        .from("exams")
+        .update({
+          title: examData.title.trim(),
+          description: examData.description.trim(),
+          duration_minutes: Number(examData.duration_minutes) || 45,
+          status: examData.status,
+        })
+        .eq("id", examId);
+
+      const { data: existingDbQuestions } = await supabase
+        .from("questions")
+        .select("id")
+        .eq("exam_id", examId);
+
+      const dbExistingIds = new Set(
+        (existingDbQuestions || []).map((q: { id: string }) => q.id)
+      );
+
+      // 1. Delete removed questions
+      const keptDbIds = new Set(
+        questionsDraft.map((q) => q.id).filter((id) => dbExistingIds.has(id))
+      );
+      const removedDbIds = Array.from(dbExistingIds).filter(
+        (id) => !keptDbIds.has(id)
+      );
+      if (removedDbIds.length > 0) {
+        await supabase.from("questions").delete().in("id", removedDbIds);
+      }
+
+      // 2. Update existing questions & Insert newly added questions
+      for (let i = 0; i < updatedQuestionsList.length; i++) {
+        const q = updatedQuestionsList[i];
+        const draftId = questionsDraft[i]?.id;
+
+        if (draftId && dbExistingIds.has(draftId)) {
+          await supabase
+            .from("questions")
+            .update({
+              type: q.type,
+              content: q.content,
+              options: q.options,
+              correct_answer: q.correct_answer,
+              max_score: Number(q.max_score),
+              order_index: q.order_index,
+            })
+            .eq("id", draftId);
+        } else {
+          await supabase.from("questions").insert({
+            exam_id: examId,
+            type: q.type,
+            content: q.content,
+            options: q.options,
+            correct_answer: q.correct_answer,
+            max_score: Number(q.max_score),
+            order_index: q.order_index,
+          });
+        }
+      }
+    } catch {
+      // Local storage already updated above
+    }
+  }
+
+  return getExamById(examId);
+}
+
 export async function updateExamQuestionsScore(
   examId: string,
   updatedQuestions: Question[],
