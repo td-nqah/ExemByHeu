@@ -31,7 +31,18 @@ export async function POST(request: Request) {
     }
 
     const apiKey = process.env.GEMINI_API_KEY || "";
-    const modelName = process.env.GEMINI_MODEL || "gemini-3.8-flash";
+    const configuredModel = (process.env.GEMINI_MODEL || "").trim();
+    const candidateModels = Array.from(
+      new Set(
+        [
+          configuredModel,
+          "gemini-1.5-pro",
+          "gemini-pro-latest",
+          "gemini-3.8-flash",
+          "gemini-flash-latest",
+        ].filter(Boolean)
+      )
+    );
 
     // Fallback if GEMINI_API_KEY is not configured yet
     if (!apiKey) {
@@ -43,7 +54,7 @@ export async function POST(request: Request) {
 
       return NextResponse.json({
         score: simulatedScore,
-        feedback: `[Mô phỏng AI]: Bài làm trình bày được các luận điểm cơ bản (${wordCount} từ). Để kích hoạt chấm thực tế bằng Gemini Pro, vui lòng cấu hình GEMINI_API_KEY trong tệp .env.local.`,
+        feedback: `[Mô phỏng AI]: Bài làm trình bày được các luận điểm cơ bản (${wordCount} từ). Để kích hoạt chấm thực tế bằng Gemini AI, vui lòng cấu hình GEMINI_API_KEY trong tệp .env.local.`,
         isMock: true,
         breakdown: {
           accuracy: simulatedScore * 0.5,
@@ -53,7 +64,7 @@ export async function POST(request: Request) {
       });
     }
 
-    // Call Gemini Pro API
+    // Call Gemini API with automatic model fallback
     const ai = new GoogleGenAI({ apiKey });
 
     const systemInstruction = `Bạn là một Giám khảo Học thuật chuyên nghiệp, công tâm và có kiến thức sâu rộng.
@@ -95,23 +106,38 @@ Hãy trả về duy nhất một đối tượng JSON có cấu trúc sau:
 }
 `;
 
-    const response = await ai.models.generateContent({
-      model: modelName,
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: `${systemInstruction}\n\n${userPrompt}` }],
-        },
-      ],
-      config: {
-        responseMimeType: "application/json",
-        temperature: 0.2,
-      },
-    });
+    let resultJson: any = null;
+    let lastErr: any = null;
 
-    const responseText = response.text || "{}";
-    const cleanedText = responseText.replace(/```json/g, "").replace(/```/g, "").trim();
-    const resultJson = JSON.parse(cleanedText);
+    for (const modelName of candidateModels) {
+      try {
+        const response = await ai.models.generateContent({
+          model: modelName,
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: `${systemInstruction}\n\n${userPrompt}` }],
+            },
+          ],
+          config: {
+            responseMimeType: "application/json",
+            temperature: 0.2,
+          },
+        });
+
+        const responseText = response.text || "{}";
+        const cleanedText = responseText.replace(/```json/g, "").replace(/```/g, "").trim();
+        resultJson = JSON.parse(cleanedText);
+        break;
+      } catch (e: any) {
+        lastErr = e;
+        continue;
+      }
+    }
+
+    if (!resultJson) {
+      throw lastErr || new Error("Không thể gọi model Gemini AI.");
+    }
 
     // Ensure score is valid and bounded
     let finalScore = typeof resultJson.score === "number" ? resultJson.score : 0;

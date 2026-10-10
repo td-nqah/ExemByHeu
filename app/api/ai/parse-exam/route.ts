@@ -123,11 +123,11 @@ export async function POST(request: Request) {
     const candidateModels = Array.from(
       new Set(
         [
-          "gemini-3.8-flash",
           configuredModel,
-          "gemini-3.8-pro",
-          "gemini-2.5-flash",
-          "gemini-2.5-pro",
+          "gemini-1.5-pro",
+          "gemini-pro-latest",
+          "gemini-3.8-flash",
+          "gemini-flash-latest",
         ].filter(Boolean)
       )
     );
@@ -254,9 +254,13 @@ export async function GET() {
   const configuredModel = (process.env.GEMINI_MODEL || "").trim();
   const candidateModels = Array.from(
     new Set(
-      ["gemini-3.8-flash", configuredModel, "gemini-3.8-pro", "gemini-2.5-flash"].filter(
-        Boolean
-      )
+      [
+        configuredModel,
+        "gemini-1.5-pro",
+        "gemini-pro-latest",
+        "gemini-3.8-flash",
+        "gemini-flash-latest",
+      ].filter(Boolean)
     )
   );
 

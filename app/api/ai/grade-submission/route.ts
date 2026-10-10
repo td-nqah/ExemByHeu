@@ -22,7 +22,18 @@ export async function POST(request: Request) {
     }
 
     const apiKey = process.env.GEMINI_API_KEY || "";
-    const modelName = process.env.GEMINI_MODEL || "gemini-3.8-flash";
+    const configuredModel = (process.env.GEMINI_MODEL || "").trim();
+    const candidateModels = Array.from(
+      new Set(
+        [
+          configuredModel,
+          "gemini-1.5-pro",
+          "gemini-pro-latest",
+          "gemini-3.8-flash",
+          "gemini-flash-latest",
+        ].filter(Boolean)
+      )
+    );
 
     // Grade each essay question concurrently with Promise.all
     const gradingPromises = essayQuestions.map(async (item: EssayItem) => {
@@ -48,7 +59,7 @@ export async function POST(request: Request) {
         return {
           questionId: item.questionId,
           score: simulatedScore,
-          feedback: `[Gemini AI Chấm nhanh]: Bài làm mạch lạc, nêu được ý chính (${wordCount} từ). Điểm đạt: ${simulatedScore}/${maxScore}. (Cấu hình GEMINI_API_KEY trong .env.local để kích hoạt Gemini Pro thực tế).`,
+          feedback: `[Gemini AI Chấm nhanh]: Bài làm mạch lạc, nêu được ý chính (${wordCount} từ). Điểm đạt: ${simulatedScore}/${maxScore}. (Cấu hình GEMINI_API_KEY trong .env.local để kích hoạt Gemini AI thực tế).`,
         };
       }
 
@@ -83,23 +94,38 @@ Trả về JSON duy nhất:
 }
 `;
 
-        const response = await ai.models.generateContent({
-          model: modelName,
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: `${systemInstruction}\n\n${userPrompt}` }],
-            },
-          ],
-          config: {
-            responseMimeType: "application/json",
-            temperature: 0.2,
-          },
-        });
+        let parsed: any = null;
+        let lastErr: any = null;
 
-        const text = response.text || "{}";
-        const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
-        const parsed = JSON.parse(cleaned);
+        for (const modelName of candidateModels) {
+          try {
+            const response = await ai.models.generateContent({
+              model: modelName,
+              contents: [
+                {
+                  role: "user",
+                  parts: [{ text: `${systemInstruction}\n\n${userPrompt}` }],
+                },
+              ],
+              config: {
+                responseMimeType: "application/json",
+                temperature: 0.2,
+              },
+            });
+
+            const text = response.text || "{}";
+            const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
+            parsed = JSON.parse(cleaned);
+            break;
+          } catch (e: any) {
+            lastErr = e;
+            continue;
+          }
+        }
+
+        if (!parsed) {
+          throw lastErr || new Error("Gemini model failed");
+        }
 
         let finalScore = typeof parsed.score === "number" ? parsed.score : 0;
         finalScore = Math.max(0, Math.min(maxScore, finalScore));
