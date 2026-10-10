@@ -18,15 +18,19 @@ export function getServerGeminiApiKey(): string {
 
 export function getCandidateGeminiModels(cachedModel?: string | null): string[] {
   const configuredModel = (process.env.GEMINI_MODEL || "").trim();
+  const safeConfigured =
+    configuredModel && !configuredModel.includes("pro") ? configuredModel : "";
   return Array.from(
     new Set(
       [
         cachedModel,
+        safeConfigured,
+        "gemini-3.6-flash",
+        "gemini-flash-lite-latest",
+        "gemini-3.5-flash-lite",
         "gemini-3.8-flash",
         "gemini-flash-latest",
-        configuredModel,
-        "gemini-1.5-pro",
-        "gemini-pro-latest",
+        "gemini-3.1-flash-lite",
       ].filter((m): m is string => Boolean(m))
     )
   );
