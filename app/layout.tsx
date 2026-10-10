@@ -15,9 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ExemTest - Nền tảng Thi thử & Chấm thi Trực tuyến",
-  description:
-    "Hệ thống thi thử trực tuyến, bóc tách đề thi tự động từ Word/Excel/PDF, phòng thi thời gian thực và chấm bài thông minh.",
+  title: {
+    default: "ExamTestByHeu - Hệ thống Thi thử Trực tuyến",
+    template: "%s | ExamTestByHeu - Hệ thống Thi thử Trực tuyến",
+  },
+  description: "Nền tảng thi thử và chấm điểm trực tuyến",
 };
 
 export default function RootLayout({

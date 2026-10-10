@@ -96,7 +96,7 @@ export default function AdminDashboardPage() {
             Quản trị Thi thử Trực tuyến
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
-            Tổng quan hệ thống ExemTest, quản lý ngân hàng đề thi và điều phối chấm bài.
+            Tổng quan hệ thống ExamTestByHeu, quản lý ngân hàng đề thi và điều phối chấm bài.
           </p>
         </div>
 

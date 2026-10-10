@@ -67,7 +67,7 @@ export default function LoginPage() {
         >
           <div className="glass-pill inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold text-zinc-200">
             <Sparkles className="h-3.5 w-3.5 text-white" />
-            <span>ExemTest • Thi thử Trực tuyến</span>
+            <span>ExamTestByHeu • Thi thử Trực tuyến</span>
           </div>
 
           <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.65rem] leading-[1.14]">

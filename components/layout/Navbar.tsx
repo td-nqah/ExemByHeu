@@ -51,7 +51,7 @@ export function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="text-base font-bold leading-none tracking-tight text-white">
-                ExemTest
+                ExamTestByHeu
               </span>
               <span className="mt-0.5 text-[10px] font-medium text-zinc-400">
                 Thi thử Trực tuyến
