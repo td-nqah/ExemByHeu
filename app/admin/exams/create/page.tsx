@@ -7,6 +7,7 @@ import { parseExamFile } from "@/lib/parsers";
 import { createExam } from "@/lib/store";
 import { ParsedQuestionDraft } from "@/types/exam";
 import { QuestionEditorCard } from "@/components/admin/QuestionEditorCard";
+import { ScoreConfigPanel } from "@/components/admin/ScoreConfigPanel";
 import {
   UploadCloud,
   FileSpreadsheet,
@@ -35,11 +36,20 @@ export default function ExamCreatePage() {
   const [status, setStatus] = useState<"published" | "draft">("published");
 
   const [questions, setQuestions] = useState<ParsedQuestionDraft[]>([]);
+  const [mcqScorePerQuestion, setMcqScorePerQuestion] = useState<number>(0.5);
+  const [essayScorePerQuestion, setEssayScorePerQuestion] = useState<number>(2.0);
   const [viewMode, setViewMode] = useState<"edit" | "preview">("edit");
   const [isParsing, setIsParsing] = useState(false);
   const [parseError, setParseError] = useState("");
   const [parsedFileName, setParsedFileName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+
+  const syncInitialScoreInputs = (drafts: ParsedQuestionDraft[]) => {
+    const firstMcq = drafts.find((q) => q.type === "multiple_choice");
+    const firstEssay = drafts.find((q) => q.type === "essay");
+    if (firstMcq) setMcqScorePerQuestion(Number(firstMcq.max_score) || 0.5);
+    if (firstEssay) setEssayScorePerQuestion(Number(firstEssay.max_score) || 2.0);
+  };
 
   const handleFileUpload = async (file: File) => {
     setIsParsing(true);
@@ -52,6 +62,7 @@ export default function ExamCreatePage() {
         throw new Error("Không thể bóc tách câu hỏi từ tệp tin này.");
       }
       setQuestions(parsedDrafts);
+      syncInitialScoreInputs(parsedDrafts);
       setViewMode("preview");
 
       if (!title) {
@@ -74,12 +85,14 @@ export default function ExamCreatePage() {
 
   const loadDemoQuestions = (type: "word" | "excel" | "pdf") => {
     setParseError("");
+    let demoList: ParsedQuestionDraft[] = [];
+
     if (type === "word") {
       setParsedFileName("de_thi_lap_trinh_web.docx");
       setTitle("Đề thi thử Trắc nghiệm & Tự luận Chuyên ngành Web Modern");
       setDescription("Đánh giá toàn diện kiến trúc React Server Components, Database Caching và Web Vitals.");
       setDurationMinutes(40);
-      setQuestions([
+      demoList = [
         {
           id: `q_demo_1`,
           type: "multiple_choice",
@@ -91,7 +104,7 @@ export default function ExamCreatePage() {
             "D. Luôn luôn chạy lại ở phía client sau khi hydration",
           ],
           correct_answer: "A",
-          max_score: 2.0,
+          max_score: 2.5,
         },
         {
           id: `q_demo_2`,
@@ -104,7 +117,7 @@ export default function ExamCreatePage() {
             "D. CONNECT",
           ],
           correct_answer: "B",
-          max_score: 2.0,
+          max_score: 2.5,
         },
         {
           id: `q_demo_3`,
@@ -114,14 +127,13 @@ export default function ExamCreatePage() {
           correct_answer: "",
           max_score: 5.0,
         },
-      ]);
-      setViewMode("preview");
+      ];
     } else if (type === "excel") {
       setParsedFileName("ngan_hang_cau_hoi_database.xlsx");
       setTitle("Ngân hàng Câu hỏi Hệ Quản trị Cơ sở Dữ liệu");
       setDescription("Trắc nghiệm SQL, Indexing B-Tree, Normalization và Transaction ACID.");
       setDurationMinutes(30);
-      setQuestions([
+      demoList = [
         {
           id: `q_demo_xl_1`,
           type: "multiple_choice",
@@ -156,14 +168,13 @@ export default function ExamCreatePage() {
           correct_answer: "",
           max_score: 5.0,
         },
-      ]);
-      setViewMode("preview");
+      ];
     } else {
       setParsedFileName("de_thi_an_ninh_mang.pdf");
       setTitle("Đề thi thử An toàn Thông tin & Mật mã học Ứng dụng");
       setDescription("Kiểm tra kiến thức về mã hóa bất đối xứng RSA/ECC, JWT Authentication và tấn công CSRF/XSS.");
       setDurationMinutes(45);
-      setQuestions([
+      demoList = [
         {
           id: `q_demo_pdf_1`,
           type: "multiple_choice",
@@ -198,9 +209,146 @@ export default function ExamCreatePage() {
           correct_answer: "",
           max_score: 5.0,
         },
-      ]);
-      setViewMode("preview");
+      ];
     }
+
+    setQuestions(demoList);
+    syncInitialScoreInputs(demoList);
+    setViewMode("preview");
+  };
+
+  // Bulk update all Multiple Choice questions when Admin changes "Điểm mỗi câu trắc nghiệm"
+  const handleBulkMcqScoreChange = (scorePerMcq: number) => {
+    setMcqScorePerQuestion(scorePerMcq);
+    setQuestions((prev) =>
+      prev.map((q) =>
+        q.type === "multiple_choice" ? { ...q, max_score: scorePerMcq } : q
+      )
+    );
+  };
+
+  // Bulk update all Essay questions when Admin changes "Điểm mỗi câu tự luận"
+  const handleBulkEssayScoreChange = (scorePerEssay: number) => {
+    setEssayScorePerQuestion(scorePerEssay);
+    setQuestions((prev) =>
+      prev.map((q) =>
+        q.type === "essay" ? { ...q, max_score: scorePerEssay } : q
+      )
+    );
+  };
+
+  // Auto-Calculate / Scale Score to Desired Total Score
+  const handleApplyAutoScale = (
+    desiredTotal: number,
+    mode: "proportional" | "fix_essay_split_mcq"
+  ): { newMcqScore: number; newEssayScore: number } => {
+    const mcqs = questions.filter((q) => q.type === "multiple_choice");
+    const essays = questions.filter((q) => q.type === "essay");
+    const mCount = mcqs.length;
+    const eCount = essays.length;
+
+    if (mCount === 0 && eCount === 0) {
+      return { newMcqScore: mcqScorePerQuestion, newEssayScore: essayScorePerQuestion };
+    }
+
+    // Case 1: Only MCQ questions
+    if (mCount > 0 && eCount === 0) {
+      const perMcq = Math.round((desiredTotal / mCount) * 100) / 100;
+      setMcqScorePerQuestion(perMcq);
+      setQuestions((prev) =>
+        prev.map((q, idx) => {
+          if (idx === prev.length - 1) {
+            const sumOthers = perMcq * (mCount - 1);
+            const lastScore = Math.max(
+              0.01,
+              Math.round((desiredTotal - sumOthers) * 100) / 100
+            );
+            return { ...q, max_score: lastScore };
+          }
+          return { ...q, max_score: perMcq };
+        })
+      );
+      return { newMcqScore: perMcq, newEssayScore: essayScorePerQuestion };
+    }
+
+    // Case 2: Only Essay questions
+    if (eCount > 0 && mCount === 0) {
+      const perEssay = Math.round((desiredTotal / eCount) * 100) / 100;
+      setEssayScorePerQuestion(perEssay);
+      setQuestions((prev) =>
+        prev.map((q, idx) => {
+          if (idx === prev.length - 1) {
+            const sumOthers = perEssay * (eCount - 1);
+            const lastScore = Math.max(
+              0.01,
+              Math.round((desiredTotal - sumOthers) * 100) / 100
+            );
+            return { ...q, max_score: lastScore };
+          }
+          return { ...q, max_score: perEssay };
+        })
+      );
+      return { newMcqScore: mcqScorePerQuestion, newEssayScore: perEssay };
+    }
+
+    // Case 3: Both MCQ and Essay exist
+    const currentEssaySum = essays.reduce((s, q) => s + Number(q.max_score || 0), 0);
+    if (mode === "fix_essay_split_mcq" && currentEssaySum < desiredTotal) {
+      const remainingForMcq = desiredTotal - currentEssaySum;
+      const perMcq = Math.round((remainingForMcq / mCount) * 100) / 100;
+      setMcqScorePerQuestion(perMcq);
+
+      let mcqSeen = 0;
+      setQuestions((prev) =>
+        prev.map((q) => {
+          if (q.type !== "multiple_choice") return q;
+          mcqSeen++;
+          if (mcqSeen === mCount) {
+            const sumOthers = perMcq * (mCount - 1);
+            const lastScore = Math.max(
+              0.01,
+              Math.round((remainingForMcq - sumOthers) * 100) / 100
+            );
+            return { ...q, max_score: lastScore };
+          }
+          return { ...q, max_score: perMcq };
+        })
+      );
+      return { newMcqScore: perMcq, newEssayScore: essayScorePerQuestion };
+    }
+
+    // Default Proportional Scaling across all questions
+    const currentTotal = questions.reduce((s, q) => s + Number(q.max_score || 0), 0);
+    const ratio = currentTotal > 0 ? desiredTotal / currentTotal : 1;
+
+    const scaledMcq = Math.max(0.05, Math.round(mcqScorePerQuestion * ratio * 100) / 100);
+    const scaledEssay = Math.max(0.25, Math.round(essayScorePerQuestion * ratio * 100) / 100);
+    setMcqScorePerQuestion(scaledMcq);
+    setEssayScorePerQuestion(scaledEssay);
+
+    setQuestions((prev) => {
+      let runningSum = 0;
+      return prev.map((q, idx) => {
+        if (idx === prev.length - 1) {
+          const remainder = Math.max(
+            0.05,
+            Math.round((desiredTotal - runningSum) * 100) / 100
+          );
+          return { ...q, max_score: remainder };
+        }
+        const rawBase =
+          Number(q.max_score) > 0
+            ? Number(q.max_score)
+            : q.type === "multiple_choice"
+            ? mcqScorePerQuestion
+            : essayScorePerQuestion;
+        const scaled = Math.max(0.05, Math.round(rawBase * ratio * 100) / 100);
+        runningSum = Math.round((runningSum + scaled) * 100) / 100;
+        return { ...q, max_score: scaled };
+      });
+    });
+
+    return { newMcqScore: scaledMcq, newEssayScore: scaledEssay };
   };
 
   const handleAddQuestion = () => {
@@ -216,7 +364,7 @@ export default function ExamCreatePage() {
         "D. Lựa chọn D",
       ],
       correct_answer: "A",
-      max_score: 2.0,
+      max_score: mcqScorePerQuestion,
     };
     setQuestions([...questions, newDraft]);
     setViewMode("edit");
@@ -225,6 +373,17 @@ export default function ExamCreatePage() {
   const handleUpdateQuestion = (index: number, updated: ParsedQuestionDraft) => {
     const list = [...questions];
     list[index] = updated;
+    setQuestions(list);
+  };
+
+  const handleManualScoreOverride = (index: number, rawVal: string) => {
+    const parsed = parseFloat(rawVal);
+    const cleanScore = !isNaN(parsed) && parsed >= 0 ? Math.round(parsed * 100) / 100 : 0;
+    const list = [...questions];
+    list[index] = {
+      ...list[index],
+      max_score: cleanScore,
+    };
     setQuestions(list);
   };
 
@@ -262,9 +421,15 @@ export default function ExamCreatePage() {
     }
   };
 
-  const mcqCount = questions.filter((q) => q.type === "multiple_choice").length;
-  const essayCount = questions.filter((q) => q.type === "essay").length;
-  const totalScore = questions.reduce((sum, q) => sum + Number(q.max_score || 0), 0);
+  const mcqQuestions = questions.filter((q) => q.type === "multiple_choice");
+  const essayQuestions = questions.filter((q) => q.type === "essay");
+  const mcqCount = mcqQuestions.length;
+  const essayCount = essayQuestions.length;
+  const currentMcqTotal =
+    Math.round(mcqQuestions.reduce((sum, q) => sum + Number(q.max_score || 0), 0) * 100) / 100;
+  const currentEssayTotal =
+    Math.round(essayQuestions.reduce((sum, q) => sum + Number(q.max_score || 0), 0) * 100) / 100;
+  const totalScore = Math.round((currentMcqTotal + currentEssayTotal) * 100) / 100;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
@@ -286,7 +451,7 @@ export default function ExamCreatePage() {
             Tạo Đề thi thử & Bóc tách Tệp tin
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
-            Hỗ trợ nhập trực tiếp từ tài liệu Word (.docx), Excel (.xlsx), hoặc PDF với chế độ xem trước toàn bộ câu hỏi và đáp án chuẩn.
+            Hỗ trợ nhập trực tiếp từ tài liệu Word (.docx), Excel (.xlsx), hoặc PDF với cấu hình phân bổ điểm số tự động.
           </p>
         </div>
 
@@ -298,7 +463,7 @@ export default function ExamCreatePage() {
             className="inline-flex items-center gap-2 self-start rounded-xl border border-white/40 bg-white px-5 py-2.5 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50"
           >
             <Send className="h-4 w-4 text-zinc-950" />
-            <span>{isSaving ? "Đang lưu..." : "Xác nhận & Xuất bản đề thi"}</span>
+            <span>{isSaving ? "Đang lưu..." : "Xác nhận & Tải đề lên"}</span>
           </button>
         )}
       </div>
@@ -445,7 +610,25 @@ export default function ExamCreatePage() {
         </div>
       </div>
 
-      {/* 3. Interactive Read-Only Preview Mode & Edit Mode before Saving */}
+      {/* 3. Score Configuration & Auto-Allocation Panel */}
+      {questions.length > 0 && (
+        <div className="mb-8">
+          <ScoreConfigPanel
+            mcqCount={mcqCount}
+            essayCount={essayCount}
+            currentTotalScore={totalScore}
+            currentMcqTotal={currentMcqTotal}
+            currentEssayTotal={currentEssayTotal}
+            initialMcqScore={mcqScorePerQuestion}
+            initialEssayScore={essayScorePerQuestion}
+            onChangeMcqScore={handleBulkMcqScoreChange}
+            onChangeEssayScore={handleBulkEssayScoreChange}
+            onApplyAutoScale={handleApplyAutoScale}
+          />
+        </div>
+      )}
+
+      {/* 4. Interactive Preview Mode & Edit Mode before Saving */}
       <div className="space-y-4">
         <div className="flex flex-col gap-3 border-b border-white/10 pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -456,7 +639,7 @@ export default function ExamCreatePage() {
             </h2>
             <p className="text-xs text-zinc-400">
               {parsedFileName && `Dữ liệu từ: ${parsedFileName} • `}
-              {mcqCount} trắc nghiệm • {essayCount} tự luận • Tổng {totalScore} điểm
+              {mcqCount} trắc nghiệm ({currentMcqTotal}đ) • {essayCount} tự luận ({currentEssayTotal}đ) • Tổng {totalScore} điểm
             </p>
           </div>
 
@@ -512,18 +695,18 @@ export default function ExamCreatePage() {
             </p>
           </div>
         ) : viewMode === "preview" ? (
-          /* Clean Read-Only Preview Mode (No timer, no answering required, shows options + correct answers) */
+          /* Clean Read-Only Preview Mode with Per-Question Score Override */
           <div className="space-y-4">
             <div className="glass-panel flex flex-wrap items-center justify-between gap-3 rounded-2xl p-4 text-xs text-zinc-300">
               <div className="flex items-center gap-2">
                 <Eye className="h-4 w-4 text-white" />
                 <span>
-                  <strong className="text-white">Chế độ Xem trước (Chỉ đọc):</strong> Kiểm tra toàn bộ câu hỏi và đáp án chuẩn trước khi xuất bản. Không đếm ngược thời gian, không yêu cầu làm bài.
+                  <strong className="text-white">Chế độ Xem trước:</strong> Kiểm tra toàn bộ câu hỏi và đáp án chuẩn. Bạn có thể ghi đè điểm số riêng cho từng câu ngay tại góc phải mỗi thẻ câu hỏi.
                 </span>
               </div>
               <span className="glass-pill inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-semibold text-zinc-200">
                 <Clock className="h-3.5 w-3.5 text-white" />
-                Thời lượng cấu hình: {durationMinutes} phút
+                Thời lượng: {durationMinutes} phút
               </span>
             </div>
 
@@ -558,12 +741,30 @@ export default function ExamCreatePage() {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <span className="glass-pill rounded-md px-2.5 py-0.5 text-[11px] font-semibold text-zinc-200">
-                        Điểm tối đa: {q.max_score} điểm
-                      </span>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      {/* Individual Question Manual Score Override */}
+                      <div className="flex items-center gap-1.5 rounded-xl border border-white/15 bg-zinc-950/75 px-2.5 py-1">
+                        <span className="text-[11px] font-medium text-zinc-400">
+                          Điểm câu này:
+                        </span>
+                        <input
+                          type="number"
+                          min="0.05"
+                          step="0.25"
+                          value={q.max_score}
+                          onChange={(e) =>
+                            handleManualScoreOverride(idx, e.target.value)
+                          }
+                          className="h-6 w-16 rounded-md border border-white/15 bg-zinc-900 px-1.5 text-center text-xs font-bold text-white focus:border-white focus:outline-none"
+                          title="Ghi đè điểm thủ công cho riêng câu hỏi này"
+                        />
+                        <span className="text-[11px] font-semibold text-zinc-300">
+                          đ
+                        </span>
+                      </div>
+
                       {isMCQ && q.correct_answer && (
-                        <span className="inline-flex items-center gap-1 rounded-md border border-white/30 bg-white px-2.5 py-0.5 text-[11px] font-bold text-zinc-950">
+                        <span className="inline-flex items-center gap-1 rounded-md border border-white/30 bg-white px-2.5 py-1 text-[11px] font-bold text-zinc-950">
                           <CheckCircle2 className="h-3 w-3 text-zinc-950" />
                           Đáp án đúng: {q.correct_answer}
                         </span>
@@ -618,7 +819,7 @@ export default function ExamCreatePage() {
                     </div>
                   ) : (
                     <div className="rounded-xl border border-dashed border-white/15 bg-zinc-950/50 p-4 text-xs text-zinc-400">
-                      Câu hỏi tự luận (Thang điểm {q.max_score}). Thí sinh sẽ trình bày lập luận trực tiếp tại khung soạn thảo khi làm bài.
+                      Câu hỏi tự luận (Điểm tối đa: {q.max_score} điểm). Thí sinh sẽ trình bày lập luận trực tiếp tại khung soạn thảo khi làm bài.
                     </div>
                   )}
                 </motion.article>
@@ -633,7 +834,7 @@ export default function ExamCreatePage() {
                 className="glass-pill inline-flex w-full items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white sm:w-auto"
               >
                 <Edit3 className="h-4 w-4 text-white" />
-                <span>Quay lại Chỉnh sửa (Back to Edit)</span>
+                <span>Quay lại Chỉnh sửa</span>
               </button>
 
               <button
@@ -646,7 +847,7 @@ export default function ExamCreatePage() {
                 <span>
                   {isSaving
                     ? "Đang xử lý..."
-                    : "Xác nhận & Xuất bản (Confirm & Publish)"}
+                    : `Xác nhận & Tải đề lên (Tổng ${totalScore}đ)`}
                 </span>
               </button>
             </div>
@@ -692,7 +893,11 @@ export default function ExamCreatePage() {
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/40 bg-white px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50 sm:w-auto"
               >
                 <Send className="h-4 w-4 text-zinc-950" />
-                <span>{isSaving ? "Đang xử lý..." : "Xác nhận & Xuất bản đề thi"}</span>
+                <span>
+                  {isSaving
+                    ? "Đang xử lý..."
+                    : `Xác nhận & Tải đề lên (Tổng ${totalScore}đ)`}
+                </span>
               </button>
             </div>
           </div>

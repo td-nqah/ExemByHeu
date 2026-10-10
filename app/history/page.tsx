@@ -113,6 +113,20 @@ export default function HistoryPage() {
               <tbody className="divide-y divide-white/10">
                 {submissions.map((sub) => {
                   const isGraded = sub.status === "graded";
+                  const examQuestions = sub.exam?.questions || [];
+                  const maxMcq =
+                    Math.round(
+                      examQuestions
+                        .filter((q) => q.type === "multiple_choice")
+                        .reduce((s, q) => s + Number(q.max_score || 0), 0) * 100
+                    ) / 100;
+                  const maxEssay =
+                    Math.round(
+                      examQuestions
+                        .filter((q) => q.type === "essay")
+                        .reduce((s, q) => s + Number(q.max_score || 0), 0) * 100
+                    ) / 100;
+                  const maxTotal = Math.round((maxMcq + maxEssay) * 100) / 100;
 
                   return (
                     <tr
@@ -142,14 +156,18 @@ export default function HistoryPage() {
                         )}
                       </td>
                       <td className="py-4 px-4 font-semibold text-zinc-200">
-                        {sub.mcq_score} điểm
+                        {sub.mcq_score}
+                        {maxMcq > 0 ? ` / ${maxMcq}` : ""} điểm
                       </td>
                       <td className="py-4 px-4 text-zinc-300">
-                        {sub.essay_score !== null ? `${sub.essay_score} điểm` : "Đang chờ chấm"}
+                        {sub.essay_score !== null
+                          ? `${sub.essay_score}${maxEssay > 0 ? ` / ${maxEssay}` : ""} điểm`
+                          : "Đang chờ chấm"}
                       </td>
                       <td className="py-4 px-4">
                         <span className="text-sm font-extrabold text-white">
-                          {sub.total_score} điểm
+                          {sub.total_score}
+                          {maxTotal > 0 ? ` / ${maxTotal}` : ""} điểm
                         </span>
                       </td>
                       <td className="whitespace-nowrap py-4 px-4 text-right">

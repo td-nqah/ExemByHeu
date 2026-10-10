@@ -402,18 +402,22 @@ export async function createExam(
     created_at: new Date().toISOString(),
   };
 
-  const newQuestions: Question[] = questionsDraft.map((d, index) => ({
-    id: `q_${Date.now()}_${index + 1}`,
-    exam_id: examId,
-    type: d.type,
-    content: d.content,
-    options: d.options,
-    correct_answer: d.correct_answer,
-    max_score: d.max_score,
-    order_index: index + 1,
-  }));
+  const newQuestions: Question[] = questionsDraft.map((d, index) => {
+    const cleanScore =
+      Math.round((Number(d.max_score) > 0 ? Number(d.max_score) : 1) * 100) / 100;
+    return {
+      id: `q_${Date.now()}_${index + 1}`,
+      exam_id: examId,
+      type: d.type,
+      content: d.content,
+      options: d.options,
+      correct_answer: d.correct_answer,
+      max_score: cleanScore,
+      order_index: index + 1,
+    };
+  });
 
-  // If Supabase configured, attempt insert
+  // If Supabase configured, attempt insert with exact allocated max_score per question
   if (isSupabaseConfigured && supabase) {
     try {
       const { data: insertedExam, error: examErr } = await supabase
@@ -430,16 +434,29 @@ export async function createExam(
 
       if (!examErr && insertedExam) {
         const dbExamId = insertedExam.id;
+        newExam.id = dbExamId;
         const dbQuestions = newQuestions.map((q) => ({
           exam_id: dbExamId,
           type: q.type,
           content: q.content,
           options: q.options,
           correct_answer: q.correct_answer,
-          max_score: q.max_score,
+          max_score: Number(q.max_score),
           order_index: q.order_index,
         }));
-        await supabase.from("questions").insert(dbQuestions);
+        const { data: insertedQuestions } = await supabase
+          .from("questions")
+          .insert(dbQuestions)
+          .select();
+
+        if (insertedQuestions && insertedQuestions.length > 0) {
+          for (let i = 0; i < newQuestions.length; i++) {
+            if (insertedQuestions[i]?.id) {
+              newQuestions[i].id = insertedQuestions[i].id;
+              newQuestions[i].exam_id = dbExamId;
+            }
+          }
+        }
       }
     } catch {
       // Local fallback handled below
@@ -457,6 +474,57 @@ export async function createExam(
     ...newExam,
     questions: newQuestions,
   };
+}
+
+export async function updateExamQuestionsScore(
+  examId: string,
+  updatedQuestions: Question[],
+  publishExam = false
+): Promise<Exam | null> {
+  initStore();
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const allQuestions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
+
+  const examIdx = exams.findIndex((e) => e.id === examId);
+  if (examIdx !== -1 && publishExam) {
+    exams[examIdx] = { ...exams[examIdx], status: "published" };
+    setLocal(KEY_EXAMS, exams);
+  }
+
+  const scoreMap = new Map<string, number>();
+  for (const uq of updatedQuestions) {
+    const cleanScore =
+      Math.round((Number(uq.max_score) > 0 ? Number(uq.max_score) : 0.25) * 100) / 100;
+    scoreMap.set(uq.id, cleanScore);
+  }
+
+  const mergedQuestions = allQuestions.map((q) => {
+    if (q.exam_id === examId && scoreMap.has(q.id)) {
+      return {
+        ...q,
+        max_score: scoreMap.get(q.id)!,
+      };
+    }
+    return q;
+  });
+  setLocal(KEY_QUESTIONS, mergedQuestions);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      if (publishExam) {
+        await supabase.from("exams").update({ status: "published" }).eq("id", examId);
+      }
+      for (const uq of updatedQuestions) {
+        const cleanScore = scoreMap.get(uq.id) ?? Number(uq.max_score);
+        await supabase
+          .from("questions")
+          .update({ max_score: cleanScore })
+          .eq("id", uq.id);
+      }
+    } catch {}
+  }
+
+  return getExamById(examId);
 }
 
 export async function toggleExamStatus(id: string): Promise<Exam | null> {
@@ -548,12 +616,20 @@ export async function submitExam(
 
     if (question.type === "multiple_choice") {
       // Normalize user answer letter (e.g. "A" from "A. React")
-      const userLetter = rawAnswer.replace(/^([A-D])[\.\:\)].*/i, "$1").trim().toUpperCase();
-      const correctLetter = question.correct_answer.replace(/^([A-D])[\.\:\)].*/i, "$1").trim().toUpperCase();
+      const userLetter = rawAnswer.replace(/^([A-Z])[\.\:\)].*/i, "$1").trim().toUpperCase();
+      const correctLetter = question.correct_answer
+        .replace(/^([A-Z])[\.\:\)].*/i, "$1")
+        .trim()
+        .toUpperCase();
 
       const isCorrect = userLetter.length > 0 && userLetter === correctLetter;
-      const scoreAwarded = isCorrect ? Number(question.max_score) : 0;
-      mcqScore += scoreAwarded;
+      // Award exact configured max_score for this MCQ question
+      const questionMaxScore =
+        Number(question.max_score) > 0 ? Number(question.max_score) : 1;
+      const scoreAwarded = isCorrect
+        ? Math.round(questionMaxScore * 100) / 100
+        : 0;
+      mcqScore = Math.round((mcqScore + scoreAwarded) * 100) / 100;
 
       submissionAnswers.push({
         id: `ans_${Date.now()}_${question.id}`,
@@ -581,7 +657,7 @@ export async function submitExam(
   // If there are no essay questions, submission is immediately graded!
   const status: "pending_grading" | "graded" = hasEssay ? "pending_grading" : "graded";
   const essayScore = hasEssay ? null : 0;
-  const totalScore = mcqScore;
+  const totalScore = Math.round(mcqScore * 100) / 100;
 
   const newSubmission: Submission = {
     id: submissionId,
@@ -651,15 +727,17 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
   initStore();
   const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
   const profiles = SEED_PROFILES;
 
   const enriched = submissions
     .map((sub) => {
       const exam = exams.find((e) => e.id === sub.exam_id);
+      const examQuestions = questions.filter((q) => q.exam_id === sub.exam_id);
       const user = profiles.find((p) => p.id === sub.user_id);
       return {
         ...sub,
-        exam,
+        exam: exam ? { ...exam, questions: examQuestions } : undefined,
         user,
       };
     })
@@ -719,10 +797,12 @@ export async function finalizeGrading(
     if (ans.submission_id === submissionId) {
       const grade = essayGrades.find((g) => g.questionId === ans.question_id);
       if (grade) {
-        calculatedEssayScore += Number(grade.score);
+        const cleanGradeScore = Math.round((Number(grade.score) || 0) * 100) / 100;
+        calculatedEssayScore =
+          Math.round((calculatedEssayScore + cleanGradeScore) * 100) / 100;
         return {
           ...ans,
-          score_awarded: Number(grade.score),
+          score_awarded: cleanGradeScore,
           admin_feedback: grade.feedback.trim() || null,
         };
       }
@@ -730,7 +810,8 @@ export async function finalizeGrading(
     return ans;
   });
 
-  const finalTotalScore = Number(sub.mcq_score) + calculatedEssayScore;
+  const finalTotalScore =
+    Math.round((Number(sub.mcq_score) + calculatedEssayScore) * 100) / 100;
 
   const updatedSubmission: Submission = {
     ...sub,
@@ -759,7 +840,7 @@ export async function finalizeGrading(
         await supabase
           .from("submission_answers")
           .update({
-            score_awarded: grade.score,
+            score_awarded: Math.round((Number(grade.score) || 0) * 100) / 100,
             admin_feedback: grade.feedback,
           })
           .eq("submission_id", submissionId)
