@@ -46,7 +46,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
       </div>
     );
   }
@@ -58,7 +58,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
           <h2 className="text-base font-bold text-white">
             Không tìm thấy bài làm
           </h2>
-          <Link href="/history" className="mt-3 inline-block text-xs font-semibold text-white underline">
+          <Link href="/history" className="mt-3 inline-block text-xs font-semibold text-indigo-400 underline">
             Quay lại Lịch sử làm bài
           </Link>
         </div>
@@ -74,9 +74,9 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
       <div className="mb-6">
         <Link
           href="/history"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 transition hover:text-white"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-white" />
+          <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
           <span>Quay lại danh sách bài làm</span>
         </Link>
       </div>
@@ -89,18 +89,18 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
       >
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2">
-              <span className="glass-pill inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-zinc-300">
-                <Calendar className="h-3 w-3 text-white" />
+            <div className="mb-2 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-300">
+                <Calendar className="h-3 w-3 text-indigo-400" />
                 {formatDate(submission.submitted_at)}
               </span>
               {isGraded ? (
-                <span className="inline-flex items-center gap-1 rounded-md border border-white/25 bg-white/10 px-2 py-0.5 text-[11px] font-semibold text-white">
-                  <CheckCircle2 className="h-3 w-3 text-white" />
+                <span className="inline-flex items-center gap-1 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
+                  <CheckCircle2 className="h-3 w-3" />
                   Đã hoàn thành chấm điểm
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-md border border-amber-500/30 bg-amber-500/15 px-2 py-0.5 text-[11px] font-semibold text-amber-300">
+                <span className="inline-flex items-center gap-1 rounded-lg border border-amber-500/20 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-amber-400">
                   <Clock className="h-3 w-3" />
                   Đang chờ chấm tự luận
                 </span>
@@ -110,20 +110,20 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
             <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
               {submission.exam?.title || "Bài kiểm tra"}
             </h1>
-            <p className="mt-1 text-xs text-zinc-400">
-              Thí sinh: {submission.user?.username || "Thí sinh"}
+            <p className="mt-1 text-xs text-slate-400">
+              Thí sinh: <strong className="text-white">{submission.user?.username || "Thí sinh"}</strong>
             </p>
           </div>
 
-          <div className="flex items-center gap-4 rounded-xl border border-white/10 bg-zinc-950/60 p-4">
+          <div className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900/80 p-4">
             <div className="text-right">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Tổng điểm</p>
-              <p className="text-2xl font-black text-white">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tổng điểm</p>
+              <p className="text-2xl font-black text-indigo-400">
                 {submission.total_score}
               </p>
             </div>
-            <div className="h-8 w-px bg-white/10" />
-            <div className="space-y-0.5 text-xs text-zinc-400">
+            <div className="h-8 w-px bg-slate-800" />
+            <div className="space-y-0.5 text-xs text-slate-400">
               <p>
                 Trắc nghiệm: <span className="font-bold text-white">{submission.mcq_score}</span>
               </p>
@@ -139,7 +139,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
       </motion.div>
 
       <div className="space-y-6">
-        <h2 className="text-sm font-bold text-zinc-300">
+        <h2 className="text-sm font-bold text-slate-300">
           Chi tiết từng câu hỏi ({answers.length} câu)
         </h2>
 
@@ -156,11 +156,11 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.25) }}
-              className="glass-card rounded-2xl p-6"
+              className="glow-card rounded-2xl p-6"
             >
-              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="mb-4 flex items-center justify-between border-b border-slate-800/80 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/25 bg-white/10 text-xs font-bold text-white">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">
@@ -182,15 +182,15 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                       </span>
                     )
                   ) : (
-                    <span className="glass-pill inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-bold text-white">
-                      <Award className="h-3.5 w-3.5 text-white" />
+                    <span className="inline-flex items-center gap-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-400">
+                      <Award className="h-3.5 w-3.5" />
                       Điểm đạt: {answer.score_awarded} / {q.max_score} điểm
                     </span>
                   )}
                 </div>
               </div>
 
-              <p className="mb-4 whitespace-pre-wrap text-sm font-medium leading-relaxed text-zinc-100">
+              <p className="mb-4 whitespace-pre-wrap text-sm font-medium leading-relaxed text-slate-100">
                 {q.content}
               </p>
 
@@ -216,9 +216,9 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                       correctKeyLetter.length > 0 && correctKeyLetter === letter;
 
                     let rowStyle =
-                      "border-white/10 bg-zinc-950/40 text-zinc-400 opacity-65";
+                      "border-slate-800 bg-slate-900/40 text-slate-400 opacity-65";
                     let letterBadgeStyle =
-                      "border border-white/15 bg-zinc-900 text-zinc-400";
+                      "border border-slate-700 bg-slate-800 text-slate-400";
 
                     if (isCorrectAnswer) {
                       rowStyle =
@@ -277,22 +277,22 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="mb-1.5 block text-[11px] font-semibold text-zinc-400">
+                    <label className="mb-1.5 block text-[11px] font-semibold text-slate-400">
                       Bài làm của thí sinh
                     </label>
-                    <div className="rounded-xl border border-white/10 bg-zinc-950/65 p-4 whitespace-pre-wrap text-xs leading-relaxed text-zinc-100">
+                    <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
                       {answer.user_answer || "(Thí sinh bỏ trống câu này)"}
                     </div>
                   </div>
 
-                  <div className="rounded-xl border border-white/20 bg-white/[0.04] p-4">
-                    <div className="mb-1.5 flex items-center gap-2 text-white">
-                      <Sparkles className="h-4 w-4 text-white" />
-                      <span className="text-xs font-bold">
+                  <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4">
+                    <div className="mb-1.5 flex items-center gap-2 text-indigo-400">
+                      <Sparkles className="h-4 w-4" />
+                      <span className="text-xs font-bold text-white">
                         Đánh giá & Nhận xét chi tiết (AI & Giảng viên)
                       </span>
                     </div>
-                    <p className="whitespace-pre-wrap text-xs leading-relaxed text-zinc-200">
+                    <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-200">
                       {answer.admin_feedback ||
                         "Chưa có nhận xét chi tiết hoặc bài thi đang trong quá trình chấm."}
                     </p>

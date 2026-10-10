@@ -65,27 +65,27 @@ export default function AdminSubmissionsListPage() {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
       {/* Header */}
       <motion.div
         initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center"
+        className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center"
       >
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          <h1 className="text-3xl font-bold tracking-tight text-white">
             Quản lý Bài nộp & Phòng Chấm thi
           </h1>
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-slate-400">
             Theo dõi danh sách thí sinh đã nộp bài thi thử, kiểm tra điểm trắc nghiệm và chấm điểm tự luận.
           </p>
         </div>
       </motion.div>
 
       {/* 1. Exam Summary Grid */}
-      <div className="mb-8">
-        <h2 className="mb-3 text-sm font-bold text-zinc-300">
+      <div>
+        <h2 className="mb-3 text-sm font-bold text-slate-300">
           Thống kê theo từng Đề thi thử
         </h2>
 
@@ -96,11 +96,11 @@ export default function AdminSubmissionsListPage() {
               initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: Math.min(idx * 0.04, 0.2) }}
-              className="glass-card rounded-2xl p-5"
+              className="glow-card rounded-2xl p-5"
             >
               <div className="mb-2 flex items-center gap-2">
-                <BookOpen className="h-4 w-4 text-white" />
-                <span className="text-xs font-semibold text-zinc-400">
+                <BookOpen className="h-4 w-4 text-indigo-400" />
+                <span className="text-xs font-semibold text-slate-400">
                   {exam.status === "published" ? "Đang mở" : "Bản nháp"}
                 </span>
               </div>
@@ -109,17 +109,17 @@ export default function AdminSubmissionsListPage() {
                 {exam.title}
               </h3>
 
-              <div className="flex items-center justify-between border-t border-white/10 pt-3 text-xs">
-                <span className="text-zinc-400">
+              <div className="flex items-center justify-between border-t border-slate-800/80 pt-3 text-xs">
+                <span className="text-slate-400">
                   Tổng lượt thi: <strong className="text-white">{totalTakers}</strong>
                 </span>
 
                 {pendingCount > 0 ? (
-                  <span className="rounded-full border border-amber-500/30 bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-bold text-amber-300">
+                  <span className="rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-bold text-amber-400">
                     {pendingCount} bài chờ chấm
                   </span>
                 ) : (
-                  <span className="rounded-full border border-white/25 bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-white">
+                  <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
                     Đã chấm xong
                   </span>
                 )}
@@ -134,28 +134,28 @@ export default function AdminSubmissionsListPage() {
         initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, delay: 0.08 }}
-        className="glass-panel overflow-hidden rounded-2xl"
+        className="bg-[#0C1017] border border-slate-800/90 overflow-hidden rounded-2xl shadow-xl"
       >
         {/* Table Toolbar */}
-        <div className="flex flex-col gap-3 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-slate-800/80 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-center gap-2">
             <h2 className="text-sm font-bold text-white">
               Danh sách Bài làm
             </h2>
-            <span className="glass-pill rounded-md px-2 py-0.5 text-xs font-semibold text-zinc-300">
+            <span className="rounded-md bg-slate-800 border border-slate-700/60 px-2 py-0.5 text-xs font-semibold text-slate-300">
               {filteredSubmissions.length}
             </span>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-slate-800">
             <button
               type="button"
               onClick={() => setFilterStatus("all")}
-              className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                 filterStatus === "all"
-                  ? "bg-white text-zinc-950"
-                  : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                  ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/25"
+                  : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
               }`}
             >
               Tất cả ({submissions.length})
@@ -163,10 +163,10 @@ export default function AdminSubmissionsListPage() {
             <button
               type="button"
               onClick={() => setFilterStatus("pending_grading")}
-              className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                 filterStatus === "pending_grading"
-                  ? "bg-white text-zinc-950"
-                  : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                  ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/25"
+                  : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
               }`}
             >
               Chờ chấm ({submissions.filter((s) => s.status === "pending_grading").length})
@@ -174,10 +174,10 @@ export default function AdminSubmissionsListPage() {
             <button
               type="button"
               onClick={() => setFilterStatus("graded")}
-              className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                 filterStatus === "graded"
-                  ? "bg-white text-zinc-950"
-                  : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                  ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/25"
+                  : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
               }`}
             >
               Đã hoàn thành ({submissions.filter((s) => s.status === "graded").length})
@@ -188,19 +188,19 @@ export default function AdminSubmissionsListPage() {
         {/* Table Body */}
         {loading ? (
           <div className="flex h-40 items-center justify-center">
-            <p className="text-xs text-zinc-400">Đang tải dữ liệu bài làm...</p>
+            <p className="text-xs text-slate-400">Đang tải dữ liệu bài làm...</p>
           </div>
         ) : filteredSubmissions.length === 0 ? (
           <div className="py-12 text-center">
-            <CheckCircle2 className="mx-auto mb-2 h-8 w-8 text-white" />
-            <p className="text-xs font-semibold text-zinc-300">
+            <CheckCircle2 className="mx-auto mb-2 h-8 w-8 text-indigo-400" />
+            <p className="text-xs font-semibold text-slate-300">
               Không có bài nộp nào phù hợp với bộ lọc
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-white/10 bg-zinc-950/50 text-[10px] uppercase tracking-wider text-zinc-400">
+              <thead className="border-b border-slate-800/80 bg-slate-900/60 text-[10px] uppercase tracking-wider text-slate-400">
                 <tr>
                   <th className="py-3.5 px-4 font-semibold">Thí sinh</th>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
@@ -212,59 +212,59 @@ export default function AdminSubmissionsListPage() {
                   <th className="py-3.5 px-4 text-right font-semibold">Chấm thi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/10">
+              <tbody className="divide-y divide-slate-800/70">
                 {filteredSubmissions.map((sub) => {
                   const isGraded = sub.status === "graded";
 
                   return (
                     <tr
                       key={sub.id}
-                      className="transition hover:bg-white/[0.04]"
+                      className="transition hover:bg-slate-900/40"
                     >
                       <td className="whitespace-nowrap py-3.5 px-4 font-bold text-white">
                         <span className="flex items-center gap-1.5">
-                          <User className="h-3.5 w-3.5 text-white" />
+                          <User className="h-3.5 w-3.5 text-indigo-400" />
                           {sub.user?.username || "Thí sinh"}
                         </span>
                       </td>
-                      <td className="max-w-xs truncate py-3.5 px-4 text-zinc-200">
+                      <td className="max-w-xs truncate py-3.5 px-4 text-slate-200">
                         {sub.exam?.title || "Đề thi"}
                       </td>
-                      <td className="whitespace-nowrap py-3.5 px-4 text-zinc-400">
+                      <td className="whitespace-nowrap py-3.5 px-4 text-slate-400">
                         <span className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3 text-white" />
+                          <Calendar className="h-3 w-3 text-indigo-400" />
                           {formatDate(sub.submitted_at)}
                         </span>
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4">
                         {isGraded ? (
-                          <span className="inline-flex items-center gap-1 rounded-full border border-white/25 bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-white">
-                            <CheckCircle2 className="h-3 w-3 text-white" />
+                          <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
+                            <CheckCircle2 className="h-3 w-3" />
                             Đã chấm xong
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-amber-300">
+                          <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-amber-400">
                             <Clock className="h-3 w-3" />
                             Chờ chấm tự luận
                           </span>
                         )}
                       </td>
-                      <td className="py-3.5 px-4 font-semibold text-zinc-200">
+                      <td className="py-3.5 px-4 font-semibold text-slate-200">
                         {sub.mcq_score} điểm
                       </td>
-                      <td className="py-3.5 px-4 text-zinc-300">
+                      <td className="py-3.5 px-4 text-slate-300">
                         {sub.essay_score !== null ? `${sub.essay_score} điểm` : "Chưa chấm"}
                       </td>
-                      <td className="py-3.5 px-4 text-sm font-black text-white">
+                      <td className="py-3.5 px-4 text-sm font-black text-indigo-400">
                         {sub.total_score} điểm
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 text-right">
                         <Link
                           href={`/admin/submissions/${sub.id}`}
-                          className={`inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
+                          className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
                             isGraded
-                              ? "glass-pill text-zinc-200 hover:bg-white/10 hover:text-white"
-                              : "border border-white/40 bg-white text-zinc-950 font-bold hover:bg-zinc-200"
+                              ? "bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800 hover:text-white"
+                              : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/20"
                           }`}
                         >
                           <span>{isGraded ? "Xem & Sửa điểm" : "Chấm bài ngay"}</span>

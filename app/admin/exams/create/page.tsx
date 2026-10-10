@@ -217,7 +217,6 @@ export default function ExamCreatePage() {
     setViewMode("preview");
   };
 
-  // Bulk update all Multiple Choice questions when Admin changes "Điểm mỗi câu trắc nghiệm"
   const handleBulkMcqScoreChange = (scorePerMcq: number) => {
     setMcqScorePerQuestion(scorePerMcq);
     setQuestions((prev) =>
@@ -227,7 +226,6 @@ export default function ExamCreatePage() {
     );
   };
 
-  // Bulk update all Essay questions when Admin changes "Điểm mỗi câu tự luận"
   const handleBulkEssayScoreChange = (scorePerEssay: number) => {
     setEssayScorePerQuestion(scorePerEssay);
     setQuestions((prev) =>
@@ -237,7 +235,6 @@ export default function ExamCreatePage() {
     );
   };
 
-  // Auto-Calculate / Scale Score to Desired Total Score
   const handleApplyAutoScale = (
     desiredTotal: number,
     mode: "proportional" | "fix_essay_split_mcq"
@@ -251,7 +248,6 @@ export default function ExamCreatePage() {
       return { newMcqScore: mcqScorePerQuestion, newEssayScore: essayScorePerQuestion };
     }
 
-    // Case 1: Only MCQ questions
     if (mCount > 0 && eCount === 0) {
       const perMcq = Math.round((desiredTotal / mCount) * 100) / 100;
       setMcqScorePerQuestion(perMcq);
@@ -271,7 +267,6 @@ export default function ExamCreatePage() {
       return { newMcqScore: perMcq, newEssayScore: essayScorePerQuestion };
     }
 
-    // Case 2: Only Essay questions
     if (eCount > 0 && mCount === 0) {
       const perEssay = Math.round((desiredTotal / eCount) * 100) / 100;
       setEssayScorePerQuestion(perEssay);
@@ -291,7 +286,6 @@ export default function ExamCreatePage() {
       return { newMcqScore: mcqScorePerQuestion, newEssayScore: perEssay };
     }
 
-    // Case 3: Both MCQ and Essay exist
     const currentEssaySum = essays.reduce((s, q) => s + Number(q.max_score || 0), 0);
     if (mode === "fix_essay_split_mcq" && currentEssaySum < desiredTotal) {
       const remainingForMcq = desiredTotal - currentEssaySum;
@@ -317,7 +311,6 @@ export default function ExamCreatePage() {
       return { newMcqScore: perMcq, newEssayScore: essayScorePerQuestion };
     }
 
-    // Default Proportional Scaling across all questions
     const currentTotal = questions.reduce((s, q) => s + Number(q.max_score || 0), 0);
     const ratio = currentTotal > 0 ? desiredTotal / currentTotal : 1;
 
@@ -437,9 +430,9 @@ export default function ExamCreatePage() {
       <div className="mb-6">
         <Link
           href="/admin/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 transition hover:text-white"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-white" />
+          <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
           <span>Quay lại Bảng điều khiển Quản trị</span>
         </Link>
       </div>
@@ -450,7 +443,7 @@ export default function ExamCreatePage() {
           <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
             Tạo Đề thi thử & Bóc tách Tệp tin
           </h1>
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-slate-400">
             Hỗ trợ nhập trực tiếp từ tài liệu Word (.docx), Excel (.xlsx), hoặc PDF với cấu hình phân bổ điểm số tự động.
           </p>
         </div>
@@ -460,9 +453,9 @@ export default function ExamCreatePage() {
             type="button"
             onClick={handleConfirmAndPublish}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 self-start rounded-xl border border-white/40 bg-white px-5 py-2.5 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 self-start rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
           >
-            <Send className="h-4 w-4 text-zinc-950" />
+            <Send className="h-4 w-4" />
             <span>{isSaving ? "Đang lưu..." : "Xác nhận & Tải đề lên"}</span>
           </button>
         )}
@@ -478,14 +471,14 @@ export default function ExamCreatePage() {
           className="hidden"
         />
 
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-white">
-          <UploadCloud className="h-7 w-7 text-white" />
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-400">
+          <UploadCloud className="h-7 w-7" />
         </div>
 
         <h3 className="text-base font-bold text-white">
           Kéo thả tệp đề thi hoặc nhấn để chọn tệp
         </h3>
-        <p className="mx-auto mt-1 max-w-md text-xs text-zinc-400">
+        <p className="mx-auto mt-1 max-w-md text-xs text-slate-400">
           Hỗ trợ định dạng Microsoft Word (.docx), Microsoft Excel (.xlsx), và tài liệu PDF.
         </p>
 
@@ -494,49 +487,49 @@ export default function ExamCreatePage() {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isParsing}
-            className="rounded-xl border border-white/40 bg-white px-4 py-2 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98]"
+            className="rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98]"
           >
             {isParsing ? "Đang bóc tách dữ liệu..." : "Chọn tệp từ máy tính"}
           </button>
         </div>
 
         {/* 1-Click Demo File Presets */}
-        <div className="mt-6 border-t border-white/10 pt-5">
-          <span className="mb-2.5 block text-[11px] font-semibold text-zinc-400">
+        <div className="mt-6 border-t border-slate-800/80 pt-5">
+          <span className="mb-2.5 block text-[11px] font-semibold text-slate-400">
             Hoặc thử nghiệm nhanh với dữ liệu mẫu chuẩn hóa:
           </span>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <button
               type="button"
               onClick={() => loadDemoQuestions("word")}
-              className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
             >
-              <FileText className="h-3.5 w-3.5 text-white" />
+              <FileText className="h-3.5 w-3.5 text-indigo-400" />
               <span>Nạp mẫu Word (.docx)</span>
             </button>
 
             <button
               type="button"
               onClick={() => loadDemoQuestions("excel")}
-              className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
             >
-              <FileSpreadsheet className="h-3.5 w-3.5 text-white" />
+              <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" />
               <span>Nạp mẫu Excel (.xlsx)</span>
             </button>
 
             <button
               type="button"
               onClick={() => loadDemoQuestions("pdf")}
-              className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
             >
-              <FileCode className="h-3.5 w-3.5 text-white" />
+              <FileCode className="h-3.5 w-3.5 text-amber-400" />
               <span>Nạp mẫu PDF (.pdf)</span>
             </button>
           </div>
         </div>
 
         {parseError && (
-          <div className="mt-4 rounded-xl border border-red-500/30 bg-red-950/40 p-3 text-xs text-red-200">
+          <div className="mt-4 rounded-xl border border-rose-500/30 bg-rose-950/40 p-3 text-xs text-rose-200">
             {parseError}
           </div>
         )}
@@ -550,8 +543,8 @@ export default function ExamCreatePage() {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-zinc-300">
-              Tiêu đề đề thi <span className="text-red-400">*</span>
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
+              Tiêu đề đề thi <span className="text-rose-400">*</span>
             </label>
             <input
               type="text"
@@ -564,7 +557,7 @@ export default function ExamCreatePage() {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-zinc-300">
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Mô tả / Hướng dẫn làm bài
             </label>
             <textarea
@@ -577,7 +570,7 @@ export default function ExamCreatePage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-zinc-300">
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Thời gian làm bài (Phút)
             </label>
             <input
@@ -591,7 +584,7 @@ export default function ExamCreatePage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-zinc-300">
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Trạng thái đề thi
             </label>
             <select
@@ -599,10 +592,10 @@ export default function ExamCreatePage() {
               onChange={(e) => setStatus(e.target.value as "published" | "draft")}
               className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
             >
-              <option value="published" className="bg-zinc-900 text-white">
+              <option value="published" className="bg-slate-900 text-white">
                 Xuất bản ngay (Thí sinh có thể thấy và thi)
               </option>
-              <option value="draft" className="bg-zinc-900 text-white">
+              <option value="draft" className="bg-slate-900 text-white">
                 Lưu nháp (Chỉ quản trị viên thấy)
               </option>
             </select>
@@ -630,14 +623,14 @@ export default function ExamCreatePage() {
 
       {/* 4. Interactive Preview Mode & Edit Mode before Saving */}
       <div className="space-y-4">
-        <div className="flex flex-col gap-3 border-b border-white/10 pb-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-b border-slate-800/80 pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-base font-bold text-white">
               {viewMode === "preview"
                 ? `Chế độ Xem trước Đề thi (${questions.length} câu)`
                 : `Chỉnh sửa Cấu trúc Câu hỏi (${questions.length} câu)`}
             </h2>
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-slate-400">
               {parsedFileName && `Dữ liệu từ: ${parsedFileName} • `}
               {mcqCount} trắc nghiệm ({currentMcqTotal}đ) • {essayCount} tự luận ({currentEssayTotal}đ) • Tổng {totalScore} điểm
             </p>
@@ -645,14 +638,14 @@ export default function ExamCreatePage() {
 
           <div className="flex flex-wrap items-center gap-2">
             {questions.length > 0 && (
-              <div className="inline-flex rounded-xl border border-white/10 bg-zinc-950/70 p-1">
+              <div className="inline-flex rounded-xl border border-slate-800 bg-slate-900/70 p-1">
                 <button
                   type="button"
                   onClick={() => setViewMode("preview")}
                   className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
                     viewMode === "preview"
-                      ? "bg-white text-zinc-950"
-                      : "text-zinc-300 hover:text-white"
+                      ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/20"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   <Eye className="h-3.5 w-3.5" />
@@ -663,8 +656,8 @@ export default function ExamCreatePage() {
                   onClick={() => setViewMode("edit")}
                   className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
                     viewMode === "edit"
-                      ? "bg-white text-zinc-950"
-                      : "text-zinc-300 hover:text-white"
+                      ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/20"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   <Edit3 className="h-3.5 w-3.5" />
@@ -676,9 +669,9 @@ export default function ExamCreatePage() {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-semibold text-zinc-100 transition hover:bg-white/10"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
             >
-              <Plus className="h-3.5 w-3.5 text-white" />
+              <Plus className="h-3.5 w-3.5 text-indigo-400" />
               <span>Thêm câu hỏi mới</span>
             </button>
           </div>
@@ -686,26 +679,26 @@ export default function ExamCreatePage() {
 
         {questions.length === 0 ? (
           <div className="glass-card rounded-2xl py-12 text-center">
-            <Layers className="mx-auto mb-2 h-8 w-8 text-zinc-400" />
-            <p className="text-xs font-semibold text-zinc-200">
+            <Layers className="mx-auto mb-2 h-8 w-8 text-indigo-400" />
+            <p className="text-xs font-semibold text-slate-200">
               Chưa có câu hỏi nào trong danh sách
             </p>
-            <p className="mt-0.5 text-[11px] text-zinc-400">
+            <p className="mt-0.5 text-[11px] text-slate-400">
               Tải lên tệp Word, Excel, PDF phía trên hoặc nhấn &ldquo;Thêm câu hỏi mới&rdquo; để soạn trực tiếp.
             </p>
           </div>
         ) : viewMode === "preview" ? (
           /* Clean Read-Only Preview Mode with Per-Question Score Override */
           <div className="space-y-4">
-            <div className="glass-panel flex flex-wrap items-center justify-between gap-3 rounded-2xl p-4 text-xs text-zinc-300">
+            <div className="glass-panel flex flex-wrap items-center justify-between gap-3 rounded-2xl p-4 text-xs text-slate-300">
               <div className="flex items-center gap-2">
-                <Eye className="h-4 w-4 text-white" />
+                <Eye className="h-4 w-4 text-indigo-400" />
                 <span>
                   <strong className="text-white">Chế độ Xem trước:</strong> Kiểm tra toàn bộ câu hỏi và đáp án chuẩn. Bạn có thể ghi đè điểm số riêng cho từng câu ngay tại góc phải mỗi thẻ câu hỏi.
                 </span>
               </div>
-              <span className="glass-pill inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-semibold text-zinc-200">
-                <Clock className="h-3.5 w-3.5 text-white" />
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-1 text-[11px] font-semibold text-slate-200">
+                <Clock className="h-3.5 w-3.5 text-indigo-400" />
                 Thời lượng: {durationMinutes} phút
               </span>
             </div>
@@ -719,22 +712,22 @@ export default function ExamCreatePage() {
                   initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.2, delay: Math.min(idx * 0.03, 0.25) }}
-                  className="glass-card rounded-2xl p-6"
+                  className="glow-card rounded-2xl p-6"
                 >
-                  <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                  <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/25 bg-white/10 text-xs font-bold text-white">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
                         {idx + 1}
                       </span>
                       <span className="inline-flex items-center gap-1.5 text-xs font-bold text-white">
                         {isMCQ ? (
                           <>
-                            <HelpCircle className="h-3.5 w-3.5 text-white" />
+                            <HelpCircle className="h-3.5 w-3.5 text-indigo-400" />
                             <span>Câu hỏi Trắc nghiệm</span>
                           </>
                         ) : (
                           <>
-                            <FileText className="h-3.5 w-3.5 text-white" />
+                            <FileText className="h-3.5 w-3.5 text-indigo-400" />
                             <span>Câu hỏi Tự luận</span>
                           </>
                         )}
@@ -742,9 +735,8 @@ export default function ExamCreatePage() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2.5">
-                      {/* Individual Question Manual Score Override */}
-                      <div className="flex items-center gap-1.5 rounded-xl border border-white/15 bg-zinc-950/75 px-2.5 py-1">
-                        <span className="text-[11px] font-medium text-zinc-400">
+                      <div className="flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/80 px-2.5 py-1">
+                        <span className="text-[11px] font-medium text-slate-400">
                           Điểm câu này:
                         </span>
                         <input
@@ -755,10 +747,10 @@ export default function ExamCreatePage() {
                           onChange={(e) =>
                             handleManualScoreOverride(idx, e.target.value)
                           }
-                          className="h-6 w-16 rounded-md border border-white/15 bg-zinc-900 px-1.5 text-center text-xs font-bold text-white focus:border-white focus:outline-none"
+                          className="h-6 w-16 rounded-md border border-slate-700 bg-slate-950 px-1.5 text-center text-xs font-bold text-white focus:border-indigo-500 focus:outline-none"
                           title="Ghi đè điểm thủ công cho riêng câu hỏi này"
                         />
-                        <span className="text-[11px] font-semibold text-zinc-300">
+                        <span className="text-[11px] font-semibold text-slate-300">
                           đ
                         </span>
                       </div>
@@ -772,7 +764,7 @@ export default function ExamCreatePage() {
                     </div>
                   </div>
 
-                  <p className="mb-5 whitespace-pre-wrap text-sm font-medium leading-relaxed text-zinc-100">
+                  <p className="mb-5 whitespace-pre-wrap text-sm font-medium leading-relaxed text-slate-100">
                     {q.content}
                   </p>
 
@@ -792,7 +784,7 @@ export default function ExamCreatePage() {
                             className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-xs transition ${
                               isCorrect
                                 ? "border-emerald-500 bg-emerald-950/40 text-emerald-400 font-semibold shadow-[inset_0_1px_0_rgba(16,185,129,0.15)]"
-                                : "border-white/10 bg-zinc-950/55 text-zinc-300"
+                                : "border-slate-800 bg-slate-900/50 text-slate-300"
                             }`}
                           >
                             <div className="flex items-start gap-3">
@@ -800,7 +792,7 @@ export default function ExamCreatePage() {
                                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                                   isCorrect
                                     ? "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300"
-                                    : "border border-white/15 bg-zinc-900 text-zinc-300"
+                                    : "border border-slate-700 bg-slate-800 text-slate-300"
                                 }`}
                               >
                                 {letter}
@@ -819,7 +811,7 @@ export default function ExamCreatePage() {
                       })}
                     </div>
                   ) : (
-                    <div className="rounded-xl border border-dashed border-white/15 bg-zinc-950/50 p-4 text-xs text-zinc-400">
+                    <div className="rounded-xl border border-dashed border-slate-800 bg-slate-900/50 p-4 text-xs text-slate-400">
                       Câu hỏi tự luận (Điểm tối đa: {q.max_score} điểm). Thí sinh sẽ trình bày lập luận trực tiếp tại khung soạn thảo khi làm bài.
                     </div>
                   )}
@@ -827,14 +819,14 @@ export default function ExamCreatePage() {
               );
             })}
 
-            {/* Bottom Review Actions: Back to Edit or Confirm & Publish */}
+            {/* Bottom Review Actions */}
             <div className="glass-panel flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
               <button
                 type="button"
                 onClick={() => setViewMode("edit")}
-                className="glass-pill inline-flex w-full items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white sm:w-auto"
               >
-                <Edit3 className="h-4 w-4 text-white" />
+                <Edit3 className="h-4 w-4 text-indigo-400" />
                 <span>Quay lại Chỉnh sửa</span>
               </button>
 
@@ -842,9 +834,9 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={handleConfirmAndPublish}
                 disabled={isSaving}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/40 bg-white px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
               >
-                <Send className="h-4 w-4 text-zinc-950" />
+                <Send className="h-4 w-4" />
                 <span>
                   {isSaving
                     ? "Đang xử lý..."
@@ -872,17 +864,17 @@ export default function ExamCreatePage() {
                 <button
                   type="button"
                   onClick={handleAddQuestion}
-                  className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
                 >
-                  <Plus className="h-4 w-4 text-white" />
+                  <Plus className="h-4 w-4 text-indigo-400" />
                   <span>Thêm câu hỏi</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setViewMode("preview")}
-                  className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
                 >
-                  <Eye className="h-4 w-4 text-white" />
+                  <Eye className="h-4 w-4 text-indigo-400" />
                   <span>Xem trước toàn bộ đề</span>
                 </button>
               </div>
@@ -891,9 +883,9 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={handleConfirmAndPublish}
                 disabled={isSaving}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/40 bg-white px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-[0_8px_24px_rgba(255,255,255,0.14)] transition hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
               >
-                <Send className="h-4 w-4 text-zinc-950" />
+                <Send className="h-4 w-4" />
                 <span>
                   {isSaving
                     ? "Đang xử lý..."

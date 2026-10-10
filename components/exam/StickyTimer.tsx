@@ -41,20 +41,20 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
     <div
       className={`inline-flex items-center gap-2.5 rounded-xl border px-3.5 py-1.5 backdrop-blur-xl transition ${
         isCritical
-          ? "border-red-500/50 bg-red-950/50 text-red-200 animate-pulse"
+          ? "border-rose-500/50 bg-rose-950/50 text-rose-200 animate-pulse"
           : isWarning
           ? "border-amber-500/40 bg-amber-950/40 text-amber-200"
-          : "glass-pill text-zinc-100"
+          : "border-slate-800 bg-slate-900/90 text-slate-100"
       }`}
     >
       {isCritical ? (
-        <AlertTriangle className="h-4 w-4 text-red-400" />
+        <AlertTriangle className="h-4 w-4 text-rose-400" />
       ) : (
-        <Clock className="h-4 w-4 text-white" />
+        <Clock className="h-4 w-4 text-indigo-400" />
       )}
 
       <div className="flex flex-col">
-        <span className="text-[10px] font-semibold text-zinc-400">
+        <span className="text-[10px] font-semibold text-slate-400">
           Thời gian còn lại
         </span>
         <span className="font-mono text-sm font-bold tracking-tight text-white">
@@ -63,10 +63,10 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
       </div>
 
       {/* Mini Progress Bar */}
-      <div className="hidden sm:block h-2 w-16 overflow-hidden rounded-full bg-zinc-900 border border-white/10">
+      <div className="hidden sm:block h-2 w-16 overflow-hidden rounded-full bg-slate-950 border border-slate-800">
         <div
           className={`h-full transition-all duration-1000 ${
-            isCritical ? "bg-red-500" : isWarning ? "bg-amber-400" : "bg-white"
+            isCritical ? "bg-rose-500" : isWarning ? "bg-amber-400" : "bg-indigo-500"
           }`}
           style={{ width: `${percentage}%` }}
         />

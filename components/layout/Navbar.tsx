@@ -11,7 +11,7 @@ import {
   History,
   BookOpen,
   LogOut,
-  UserCheck,
+  User,
   ShieldAlert,
 } from "lucide-react";
 
@@ -38,116 +38,116 @@ export function Navbar() {
   }
 
   return (
-    <header className="glass-nav sticky top-0 z-40 w-full">
+    <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#090D16]/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
-        <div className="flex items-center gap-6">
-          <Link
-            href={user ? (user.role === "admin" ? "/admin/dashboard" : "/dashboard") : "/"}
-            className="flex items-center gap-2.5 font-bold tracking-tight text-white transition-opacity hover:opacity-90"
-          >
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
-              <GraduationCap className="h-5 w-5 text-white" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-base font-bold leading-none tracking-tight text-white">
-                ExamTestByHeu
-              </span>
-              <span className="mt-0.5 text-[10px] font-medium text-zinc-400">
-                Thi thử Trực tuyến
-              </span>
-            </div>
-          </Link>
+        <Link
+          href={user ? (user.role === "admin" ? "/admin/dashboard" : "/dashboard") : "/"}
+          className="flex items-center gap-3 transition-opacity hover:opacity-90"
+        >
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600/10 border border-indigo-500/30 text-indigo-400">
+            <GraduationCap className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="text-lg font-bold tracking-tight text-white">
+              Exambyheu
+            </span>
+            <span className="hidden sm:inline-block ml-2 text-xs text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full font-medium">
+              v2.0 Cyber
+            </span>
+          </div>
+        </Link>
 
-          {/* Navigation Links based on role (No "Tạo đề mới" button on main navbar) */}
-          {user && (
-            <nav className="hidden md:flex items-center gap-1.5">
-              {user.role === "admin" ? (
-                <>
-                  <Link
-                    href="/admin/dashboard"
-                    className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all ${
-                      pathname.startsWith("/admin/dashboard") || pathname.startsWith("/admin/exams")
-                        ? "border border-white/20 bg-white/12 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
-                        : "text-zinc-300 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    <BookOpen className="h-3.5 w-3.5 text-white" />
-                    Quản lý Đề thi
-                  </Link>
-                  <Link
-                    href="/admin/submissions"
-                    className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all ${
-                      pathname.startsWith("/admin/submissions")
-                        ? "border border-white/20 bg-white/12 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
-                        : "text-zinc-300 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    <CheckCircle2 className="h-3.5 w-3.5 text-white" />
-                    Phòng Chấm bài
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/dashboard"
-                    className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all ${
-                      pathname === "/dashboard"
-                        ? "border border-white/20 bg-white/12 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
-                        : "text-zinc-300 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    <BookOpen className="h-3.5 w-3.5 text-white" />
-                    Đề thi khả dụng
-                  </Link>
-                  <Link
-                    href="/history"
-                    className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all ${
-                      pathname.startsWith("/history")
-                        ? "border border-white/20 bg-white/12 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
-                        : "text-zinc-300 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    <History className="h-3.5 w-3.5 text-white" />
-                    Lịch sử làm bài
-                  </Link>
-                </>
-              )}
-            </nav>
-          )}
-        </div>
+        {/* Navigation Links */}
+        {user && (
+          <nav className="hidden md:flex items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-slate-800">
+            {user.role === "admin" ? (
+              <>
+                <Link
+                  href="/admin/dashboard"
+                  className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                    pathname === "/admin" ||
+                    pathname.startsWith("/admin/dashboard") ||
+                    pathname.startsWith("/admin/exams")
+                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25"
+                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                  }`}
+                >
+                  <BookOpen className="h-4 w-4" />
+                  Quản lý Đề thi
+                </Link>
+                <Link
+                  href="/admin/submissions"
+                  className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                    pathname.startsWith("/admin/submissions")
+                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25"
+                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                  }`}
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  Phòng Chấm bài
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/dashboard"
+                  className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                    pathname === "/dashboard"
+                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25"
+                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                  }`}
+                >
+                  <BookOpen className="h-4 w-4" />
+                  Đề thi khả dụng
+                </Link>
+                <Link
+                  href="/history"
+                  className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                    pathname.startsWith("/history")
+                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/25"
+                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                  }`}
+                >
+                  <History className="h-4 w-4" />
+                  Lịch sử làm bài
+                </Link>
+              </>
+            )}
+          </nav>
+        )}
 
-        {/* User Status and Controls */}
-        <div className="flex items-center gap-2.5">
+        {/* User Profile & Action */}
+        <div className="flex items-center gap-3">
           {user ? (
-            <div className="flex items-center gap-2.5">
-              {/* Role Badge */}
-              <div className="glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-zinc-200">
+            <>
+              <div className="flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-3 py-1.5 rounded-xl">
                 {user.role === "admin" ? (
-                  <ShieldAlert className="h-3.5 w-3.5 text-white" />
+                  <ShieldAlert className="h-4 w-4 text-indigo-400" />
                 ) : (
-                  <UserCheck className="h-3.5 w-3.5 text-white" />
+                  <User className="h-4 w-4 text-indigo-400" />
                 )}
-                <span className="hidden sm:inline text-zinc-300">
-                  {user.role === "admin" ? "Quản trị viên" : "Thí sinh"}:
+                <span className="text-sm font-medium text-slate-300">
+                  <span className="hidden sm:inline">
+                    {user.role === "admin" ? "Quản trị: " : "Thí sinh: "}
+                  </span>
+                  <strong className="text-white">{user.username}</strong>
                 </span>
-                <span className="font-bold text-white">{user.username}</span>
               </div>
 
-              {/* Logout button */}
               <button
                 onClick={handleLogout}
-                className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:border-white/30 hover:bg-white/12 hover:text-white active:scale-[0.98]"
+                className="flex items-center gap-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 px-3 py-1.5 rounded-xl text-sm transition-all"
                 title="Đăng xuất"
               >
-                <LogOut className="h-3.5 w-3.5 text-white" />
+                <LogOut className="h-4 w-4" />
                 <span className="hidden sm:inline">Thoát</span>
               </button>
-            </div>
+            </>
           ) : (
             <Link
               href="/"
-              className="inline-flex items-center justify-center rounded-xl bg-white px-4 py-2 text-xs font-bold text-zinc-950 shadow-xs transition hover:bg-zinc-200 active:scale-[0.98]"
+              className="inline-flex items-center justify-center rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all"
             >
               Đăng nhập
             </Link>

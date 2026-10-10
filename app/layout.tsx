@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "vietnamese"],
 });
 
 const geistMono = Geist_Mono({
@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "ExamTestByHeu - Hệ thống Thi thử Trực tuyến",
-    template: "%s | ExamTestByHeu - Hệ thống Thi thử Trực tuyến",
+    default: "Exambyheu - Nền tảng Thi thử Trực tuyến",
+    template: "%s | Exambyheu - Nền tảng Thi thử Trực tuyến",
   },
   description: "Nền tảng thi thử và chấm điểm trực tuyến",
 };
@@ -30,25 +30,25 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${geistSans.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
+      className={`${inter.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
     >
-      <body className="relative min-h-[100dvh] flex flex-col bg-[#0B0E14] font-sans text-zinc-100 selection:bg-white/25 selection:text-white">
-        {/* Ambient Monochrome Subsurface Light Sources for Dark Frosted Glass Refraction */}
+      <body className="min-h-screen bg-[#090D16] font-sans text-slate-100 antialiased selection:bg-indigo-500 selection:text-white relative overflow-x-hidden custom-scrollbar">
+        {/* Subtle Top Radial Gradient */}
         <div
           aria-hidden="true"
-          className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
-        >
-          <div className="absolute -top-40 left-1/4 h-[520px] w-[520px] rounded-full bg-white/[0.04] blur-[140px]" />
-          <div className="absolute top-1/3 -right-32 h-[460px] w-[460px] rounded-full bg-slate-300/[0.03] blur-[150px]" />
-          <div className="absolute -bottom-48 left-1/3 h-[500px] w-[500px] rounded-full bg-zinc-400/[0.04] blur-[150px]" />
-        </div>
+          className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-slate-950/60 to-[#090D16]"
+        />
 
-        <Suspense
-          fallback={<div className="glass-nav sticky top-0 z-40 h-16 w-full" />}
-        >
-          <Navbar />
-        </Suspense>
-        <main className="relative z-10 flex-1">{children}</main>
+        <div className="relative z-10 flex min-h-screen flex-col">
+          <Suspense
+            fallback={
+              <div className="sticky top-0 z-50 h-16 w-full border-b border-slate-800/80 bg-[#090D16]/80 backdrop-blur-md" />
+            }
+          >
+            <Navbar />
+          </Suspense>
+          <main className="flex-1">{children}</main>
+        </div>
       </body>
     </html>
   );
