@@ -91,12 +91,26 @@ function normalizeAiQuestions(rawItems: any[]): ParsedQuestionDraft[] {
   return normalized;
 }
 
+// Cache working model in server memory to avoid repeated 404/429 round-trips
+let cachedWorkingModel: string | null = null;
+
+function compressExamText(text: string): string {
+  return text
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/\u00A0/g, " ")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\n[ \t]+/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 export async function POST(request: Request) {
   let rawText = "";
 
   try {
     const body = await request.json();
-    rawText = String(body?.rawText || "").trim();
+    rawText = compressExamText(String(body?.rawText || ""));
 
     if (!rawText) {
       return NextResponse.json(
@@ -113,45 +127,34 @@ export async function POST(request: Request) {
       return NextResponse.json({
         questions: fallbackQuestions,
         mode: "fallback",
-        reason: "Chưa cấu hình GEMINI_API_KEY trong .env.local, hệ thống tự động dùng bộ phân tích Regex dự phòng.",
+        reason:
+          "Chưa cấu hình GEMINI_API_KEY trong .env.local, hệ thống tự động dùng bộ phân tích Regex dự phòng.",
       });
     }
 
-    // 2. Smart Parsing with Google Gemini AI
+    // 2. Smart Parsing with Google Gemini AI (Token-Optimized Prompt & Cached Model)
     const ai = new GoogleGenAI({ apiKey });
     const configuredModel = (process.env.GEMINI_MODEL || "").trim();
     const candidateModels = Array.from(
       new Set(
         [
+          cachedWorkingModel,
           configuredModel,
           "gemini-1.5-pro",
           "gemini-pro-latest",
           "gemini-3.8-flash",
           "gemini-flash-latest",
-        ].filter(Boolean)
+        ].filter((m): m is string => Boolean(m))
       )
     );
 
-    const prompt = `Hãy phân tích đoạn văn bản đề thi dưới đây và trả về một mảng JSON chuẩn cấu trúc gồm các trường: \`type\` ('multiple_choice' | 'essay'), \`content\` (nội dung câu hỏi), \`options\` (danh sách các lựa chọn A, B, C, D nếu là trắc nghiệm), \`correct_answer\` (đáp án đúng nếu nhận diện được), và \`max_score\`.
-
-Quy tắc chi tiết:
-1. Nhận diện linh hoạt mọi định dạng đề thi (kể cả khi các lựa chọn trắc nghiệm nằm trên cùng 1 dòng, không có ký tự A. B. C. D. rõ ràng, hoặc câu hỏi tự luận trình bày tự do).
-2. Với câu trắc nghiệm (\`type\`: "multiple_choice"):
-   - \`content\`: Nội dung câu hỏi (đã lược bỏ tiền tố "Câu 1:", "Question 1:", v.v.).
-   - \`options\`: Mảng các chuỗi lựa chọn được chuẩn hóa có tiền tố "A. ...", "B. ...", "C. ...", "D. ...".
-   - \`correct_answer\`: Chữ cái đáp án đúng ("A", "B", "C", hoặc "D"). Nếu trong văn bản có đánh dấu đáp án đúng (như "Đáp án: B", dấu *, gạch chân, chữ Đúng) thì lấy chính xác; nếu đề không ghi sẵn đáp án đúng, hãy tự suy luận đáp án đúng dựa trên kiến thức chuyên môn của bạn!
-   - \`max_score\`: Điểm số của câu hỏi nếu đề bài có ghi (ví dụ "(0.5 điểm)"), nếu không ghi thì mặc định là 0.5.
-3. Với câu tự luận (\`type\`: "essay"):
-   - \`content\`: Nội dung câu hỏi tự luận đầy đủ.
-   - \`options\`: [] (mảng rỗng).
-   - \`correct_answer\`: "" (chuỗi rỗng).
-   - \`max_score\`: Điểm số của câu tự luận nếu đề bài có ghi (ví dụ "(2 điểm)"), nếu không ghi thì mặc định là 2.0.
-4. Chỉ trả về DUY NHẤT một mảng JSON hợp lệ (ví dụ: [ { "type": "multiple_choice", ... } ]), không kèm giải thích ngoài JSON.
-
-NỘI DUNG ĐỀ THI CẦN BÓC TÁCH:
-"""
-${rawText.slice(0, 45000)}
-"""`;
+    // Compact, token-efficient instruction
+    const prompt = `Phân tích đề thi sau thành mảng JSON: [{"type":"multiple_choice"|"essay","content":"nội dung câu hỏi (bỏ 'Câu X:')","options":["A. ...","B. ...","C. ...","D. ..."],"correct_answer":"A"|"B"|"C"|"D"|"","max_score":number}].
+Quy tắc:
+- Trắc nghiệm: chuẩn hóa options có tiền tố A./B./C./D., correct_answer chỉ gồm 1 chữ cái A-D (tự giải nếu đề chưa ghi đáp án), max_score mặc định 0.5.
+- Tự luận: options=[], correct_answer="", max_score mặc định 2.0.
+ĐỀ THI:
+${rawText.slice(0, 35000)}`;
 
     let aiQuestions: ParsedQuestionDraft[] = [];
     let activeModelUsed = "";
@@ -161,12 +164,7 @@ ${rawText.slice(0, 45000)}
       try {
         const response = await ai.models.generateContent({
           model: modelName,
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: prompt }],
-            },
-          ],
+          contents: prompt,
           config: {
             responseMimeType: "application/json",
             temperature: 0.1,
@@ -191,6 +189,7 @@ ${rawText.slice(0, 45000)}
         if (normalized.length > 0) {
           aiQuestions = normalized;
           activeModelUsed = modelName;
+          cachedWorkingModel = modelName;
           break;
         }
       } catch (err: any) {
@@ -255,12 +254,13 @@ export async function GET() {
   const candidateModels = Array.from(
     new Set(
       [
+        cachedWorkingModel,
         configuredModel,
         "gemini-1.5-pro",
         "gemini-pro-latest",
         "gemini-3.8-flash",
         "gemini-flash-latest",
-      ].filter(Boolean)
+      ].filter((m): m is string => Boolean(m))
     )
   );
 
@@ -269,10 +269,14 @@ export async function GET() {
       const start = Date.now();
       const res = await ai.models.generateContent({
         model: modelName,
-        contents: "Trả về đúng 1 từ: READY",
+        contents: "OK",
+        config: {
+          maxOutputTokens: 5,
+        },
       });
       const latencyMs = Date.now() - start;
       if (res.text) {
+        cachedWorkingModel = modelName;
         return NextResponse.json({
           connected: true,
           model: modelName,

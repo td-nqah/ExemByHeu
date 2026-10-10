@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
+let cachedEssayModel: string | null = null;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -30,17 +32,18 @@ export async function POST(request: Request) {
       });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY || "";
+    const apiKey = (process.env.GEMINI_API_KEY || "").trim();
     const configuredModel = (process.env.GEMINI_MODEL || "").trim();
     const candidateModels = Array.from(
       new Set(
         [
+          cachedEssayModel,
           configuredModel,
           "gemini-1.5-pro",
           "gemini-pro-latest",
           "gemini-3.8-flash",
           "gemini-flash-latest",
-        ].filter(Boolean)
+        ].filter((m): m is string => Boolean(m))
       )
     );
 
@@ -64,47 +67,13 @@ export async function POST(request: Request) {
       });
     }
 
-    // Call Gemini API with automatic model fallback
     const ai = new GoogleGenAI({ apiKey });
 
-    const systemInstruction = `Bạn là một Giám khảo Học thuật chuyên nghiệp, công tâm và có kiến thức sâu rộng.
-Nhiệm vụ của bạn là chấm điểm bài thi tự luận của thí sinh trên thang điểm tối đa là ${maxScore} (thang điểm 5 chuẩn).
-
-Quy tắc chấm điểm:
-1. Thang điểm: từ 0.0 đến ${maxScore}, bước nhảy làm tròn 0.25 (ví dụ: 3.25, 3.5, 4.0, 4.75, 5.0).
-2. Tiêu chí đánh giá:
-   - Tính chính xác và bám sát câu hỏi (50% trọng số).
-   - Độ sâu kiến thức, lập luận logic và ví dụ minh họa (30% trọng số).
-   - Khả năng diễn đạt, hành văn mạch lạc, thuật ngữ chuẩn mực (20% trọng số).
-3. Đưa ra nhận xét khách quan: chỉ ra điểm sáng, thiếu sót cần bổ sung, và giải thích vì sao cho mức điểm đó.
-4. Trả về định dạng JSON thuần túy, không có markdown backticks xung quanh.`;
-
-    const userPrompt = `
-ĐỀ BÀI CÂU HỎI TỰ LUẬN:
-"""
-${questionContent}
-"""
-
-${rubric ? `HƯỚNG DẪN CHẤM / ĐÁP ÁN MẪU:\n"""\n${rubric}\n"""\n` : ""}
-
-BÀI LÀM CỦA THÍ SINH:
-"""
-${studentAnswer}
-"""
-
-THANG ĐIỂM TỐI ĐA: ${maxScore}
-
-Hãy trả về duy nhất một đối tượng JSON có cấu trúc sau:
-{
-  "score": <số điểm chấm được, kiểu float từ 0 đến ${maxScore}>,
-  "feedback": "<lời nhận xét chi tiết và công tâm bằng tiếng Việt>",
-  "breakdown": {
-    "accuracy": <điểm độ chính xác>,
-    "depth": <điểm độ sâu luận điểm>,
-    "expression": <điểm hành văn diễn đạt>
-  }
-}
-`;
+    const compactPrompt = `Chấm câu tự luận trên thang điểm ${maxScore} (làm tròn bước 0.25).
+Tiêu chí: Chính xác (50%), Lập luận & dẫn chứng (30%), Diễn đạt (20%).
+ĐỀ BÀI: ${String(questionContent).trim()}
+${rubric ? `ĐÁP ÁN MẪU: ${String(rubric).trim()}\n` : ""}BÀI LÀM: ${String(studentAnswer).trim()}
+Trả về JSON: {"score":number,"feedback":"nhận xét khách quan bằng tiếng Việt","breakdown":{"accuracy":number,"depth":number,"expression":number}}`;
 
     let resultJson: any = null;
     let lastErr: any = null;
@@ -113,12 +82,7 @@ Hãy trả về duy nhất một đối tượng JSON có cấu trúc sau:
       try {
         const response = await ai.models.generateContent({
           model: modelName,
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: `${systemInstruction}\n\n${userPrompt}` }],
-            },
-          ],
+          contents: compactPrompt,
           config: {
             responseMimeType: "application/json",
             temperature: 0.2,
@@ -128,6 +92,7 @@ Hãy trả về duy nhất một đối tượng JSON có cấu trúc sau:
         const responseText = response.text || "{}";
         const cleanedText = responseText.replace(/```json/g, "").replace(/```/g, "").trim();
         resultJson = JSON.parse(cleanedText);
+        cachedEssayModel = modelName;
         break;
       } catch (e: any) {
         lastErr = e;

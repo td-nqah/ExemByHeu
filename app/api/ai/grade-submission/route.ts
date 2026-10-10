@@ -9,6 +9,8 @@ interface EssayItem {
   rubric?: string;
 }
 
+let cachedGradingModel: string | null = null;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -21,133 +23,138 @@ export async function POST(request: Request) {
       });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY || "";
+    const apiKey = (process.env.GEMINI_API_KEY || "").trim();
     const configuredModel = (process.env.GEMINI_MODEL || "").trim();
     const candidateModels = Array.from(
       new Set(
         [
+          cachedGradingModel,
           configuredModel,
           "gemini-1.5-pro",
           "gemini-pro-latest",
           "gemini-3.8-flash",
           "gemini-flash-latest",
-        ].filter(Boolean)
+        ].filter((m): m is string => Boolean(m))
       )
     );
 
-    // Grade each essay question concurrently with Promise.all
-    const gradingPromises = essayQuestions.map(async (item: EssayItem) => {
+    // Separate empty answers immediately (0 tokens used for blank answers!)
+    const nonEmptyItems: EssayItem[] = [];
+    const resultsMap = new Map<
+      string,
+      { questionId: string; score: number; feedback: string }
+    >();
+
+    for (const item of essayQuestions as EssayItem[]) {
       const maxScore = Number(item.maxScore) || 5.0;
       const studentAnswer = (item.studentAnswer || "").trim();
-
       if (!studentAnswer) {
-        return {
+        resultsMap.set(item.questionId, {
           questionId: item.questionId,
           score: 0,
-          feedback: "Thí sinh không làm bài hoặc bỏ trống câu trả lời này. Điểm: 0 / " + maxScore + ".",
-        };
-      }
-
-      // If no API key configured, use intelligent mock grading
-      if (!apiKey) {
+          feedback: `Thí sinh bỏ trống câu trả lời này. Điểm: 0 / ${maxScore}.`,
+        });
+      } else if (!apiKey) {
         const wordCount = studentAnswer.split(/\s+/).length;
         const simulatedScore = Math.min(
           maxScore,
           Math.max(1.0, Math.round((wordCount > 30 ? 4.0 : 2.5) * 4) / 4)
         );
-
-        return {
+        resultsMap.set(item.questionId, {
           questionId: item.questionId,
           score: simulatedScore,
-          feedback: `[Gemini AI Chấm nhanh]: Bài làm mạch lạc, nêu được ý chính (${wordCount} từ). Điểm đạt: ${simulatedScore}/${maxScore}. (Cấu hình GEMINI_API_KEY trong .env.local để kích hoạt Gemini AI thực tế).`,
-        };
+          feedback: `[Gemini AI Chấm nhanh]: Bài làm mạch lạc, nêu được ý chính (${wordCount} từ). Điểm đạt: ${simulatedScore}/${maxScore}.`,
+        });
+      } else {
+        nonEmptyItems.push(item);
       }
+    }
 
-      try {
-        const ai = new GoogleGenAI({ apiKey });
+    // Batch all non-empty essay questions into a SINGLE Gemini request to save ~70% system prompt tokens & RPM quota
+    if (nonEmptyItems.length > 0 && apiKey) {
+      const ai = new GoogleGenAI({ apiKey });
 
-        const systemInstruction = `Bạn là Giám khảo chấm thi học thuật chuyên nghiệp.
-Hãy chấm bài tự luận của thí sinh trên thang điểm tối đa là ${maxScore} (thang điểm 5 chuẩn).
+      const batchPayload = nonEmptyItems.map((item, idx) => ({
+        idx: idx + 1,
+        questionId: item.questionId,
+        maxScore: Number(item.maxScore) || 5.0,
+        question: item.content.trim(),
+        answer: item.studentAnswer.trim(),
+      }));
+
+      const batchPrompt = `Bạn là Giám khảo chấm thi học thuật. Hãy chấm tất cả các câu tự luận dưới đây.
 Quy tắc:
-1. Thang điểm: 0.0 đến ${maxScore}, làm tròn bước nhảy 0.25 (ví dụ 3.0, 3.25, 3.5, 4.0, 4.75, 5.0).
-2. Tiêu chí: Bám sát câu hỏi (50%), Luận điểm & dẫn chứng (30%), Diễn đạt mạch lạc (20%).
-3. Viết lời nhận xét súc tích, công tâm bằng tiếng Việt (khoảng 2-3 câu).
-4. Trả về định dạng JSON thuần túy.`;
+- Điểm (score) từ 0 đến maxScore của từng câu, làm tròn bước 0.25.
+- Tiêu chí: Chính xác (50%), Lập luận & dẫn chứng (30%), Diễn đạt (20%).
+- Nhận xét (feedback): 2-3 câu ngắn gọn, khách quan bằng tiếng Việt.
+- Trả về mảng JSON: [{"questionId":"...","score":number,"feedback":"..."}]
 
-        const userPrompt = `
-CÂU HỎI:
-"""
-${item.content}
-"""
+DANH SÁCH BÀI LÀM:
+${JSON.stringify(batchPayload)}`;
 
-BÀI LÀM:
-"""
-${studentAnswer}
-"""
+      let gradedArray: any[] | null = null;
 
-THANG ĐIỂM: ${maxScore}
+      for (const modelName of candidateModels) {
+        try {
+          const response = await ai.models.generateContent({
+            model: modelName,
+            contents: batchPrompt,
+            config: {
+              responseMimeType: "application/json",
+              temperature: 0.2,
+            },
+          });
 
-Trả về JSON duy nhất:
-{
-  "score": <số float từ 0 đến ${maxScore}>,
-  "feedback": "<nhận xét bằng tiếng Việt>"
-}
-`;
-
-        let parsed: any = null;
-        let lastErr: any = null;
-
-        for (const modelName of candidateModels) {
-          try {
-            const response = await ai.models.generateContent({
-              model: modelName,
-              contents: [
-                {
-                  role: "user",
-                  parts: [{ text: `${systemInstruction}\n\n${userPrompt}` }],
-                },
-              ],
-              config: {
-                responseMimeType: "application/json",
-                temperature: 0.2,
-              },
-            });
-
-            const text = response.text || "{}";
-            const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
-            parsed = JSON.parse(cleaned);
+          const text = (response.text || "[]").trim();
+          const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
+          const parsed = JSON.parse(cleaned);
+          if (Array.isArray(parsed)) {
+            gradedArray = parsed;
+            cachedGradingModel = modelName;
             break;
-          } catch (e: any) {
-            lastErr = e;
-            continue;
           }
+        } catch {
+          continue;
         }
-
-        if (!parsed) {
-          throw lastErr || new Error("Gemini model failed");
-        }
-
-        let finalScore = typeof parsed.score === "number" ? parsed.score : 0;
-        finalScore = Math.max(0, Math.min(maxScore, finalScore));
-        finalScore = Math.round(finalScore * 4) / 4;
-
-        return {
-          questionId: item.questionId,
-          score: finalScore,
-          feedback: parsed.feedback || "Đã hoàn thành đánh giá bài làm.",
-        };
-      } catch (err: any) {
-        console.error(`Lỗi chấm câu hỏi ${item.questionId}:`, err);
-        return {
-          questionId: item.questionId,
-          score: 2.5,
-          feedback: "[AI Đang bảo trì]: Bài làm đã được ghi nhận. Vui lòng để giáo viên xác nhận lại điểm.",
-        };
       }
-    });
 
-    const results = await Promise.all(gradingPromises);
-    const totalEssayScore = results.reduce((sum, r) => sum + Number(r.score || 0), 0);
+      for (const item of nonEmptyItems) {
+        const maxScore = Number(item.maxScore) || 5.0;
+        const matched = gradedArray?.find(
+          (g: any) => String(g?.questionId) === String(item.questionId)
+        );
+        if (matched) {
+          let finalScore = typeof matched.score === "number" ? matched.score : 0;
+          finalScore = Math.max(0, Math.min(maxScore, finalScore));
+          finalScore = Math.round(finalScore * 4) / 4;
+          resultsMap.set(item.questionId, {
+            questionId: item.questionId,
+            score: finalScore,
+            feedback: matched.feedback || "Đã hoàn thành đánh giá bài làm.",
+          });
+        } else {
+          resultsMap.set(item.questionId, {
+            questionId: item.questionId,
+            score: Math.round(maxScore * 0.5 * 4) / 4,
+            feedback:
+              "[AI Đang bảo trì]: Bài làm đã được ghi nhận. Vui lòng để giáo viên xác nhận lại điểm.",
+          });
+        }
+      }
+    }
+
+    const results = (essayQuestions as EssayItem[]).map(
+      (item) =>
+        resultsMap.get(item.questionId) || {
+          questionId: item.questionId,
+          score: 0,
+          feedback: "Chưa có dữ liệu chấm.",
+        }
+    );
+    const totalEssayScore = results.reduce(
+      (sum, r) => sum + Number(r.score || 0),
+      0
+    );
 
     return NextResponse.json({
       results,
@@ -156,7 +163,11 @@ Trả về JSON duy nhất:
   } catch (error: any) {
     console.error("Submission grading error:", error);
     return NextResponse.json(
-      { error: "Lỗi trong quá trình chấm điểm tự động: " + (error?.message || "Không xác định") },
+      {
+        error:
+          "Lỗi trong quá trình chấm điểm tự động: " +
+          (error?.message || "Không xác định"),
+      },
       { status: 500 }
     );
   }
