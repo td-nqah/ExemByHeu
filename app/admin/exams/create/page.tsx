@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { parseExamFileWithAI, parseExamTextWithAI } from "@/lib/parsers";
@@ -95,6 +95,10 @@ export default function ExamCreatePage() {
       setIsTestingAi(false);
     }
   };
+
+  useEffect(() => {
+    handleTestAiConnection();
+  }, []);
 
   const syncInitialScoreInputs = (drafts: ParsedQuestionDraft[]) => {
     const firstMcq = drafts.find((q) => q.type === "multiple_choice");

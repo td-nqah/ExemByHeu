@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { parseQuestionsFromRawText } from "@/lib/parsers/text-extractor";
 import { ParsedQuestionDraft } from "@/types/exam";
+import {
+  getServerGeminiApiKey,
+  getCandidateGeminiModels,
+} from "@/lib/gemini-server";
 
 function normalizeAiQuestions(rawItems: any[]): ParsedQuestionDraft[] {
   if (!Array.isArray(rawItems)) return [];
@@ -57,7 +61,6 @@ function normalizeAiQuestions(rawItems: any[]): ParsedQuestionDraft[] {
       if (directLetterMatch) {
         correctAnswer = directLetterMatch[1].toUpperCase();
       } else if (rawAns) {
-        // Check if rawAns matches the text of one of the options
         const matchedIdx = options.findIndex((opt) =>
           opt.toLowerCase().includes(rawAns.toLowerCase())
         );
@@ -119,7 +122,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = (process.env.GEMINI_API_KEY || "").trim();
+    const apiKey = getServerGeminiApiKey();
 
     // 1. If GEMINI_API_KEY is not configured, immediately use the traditional Regex fallback parser
     if (!apiKey) {
@@ -128,25 +131,13 @@ export async function POST(request: Request) {
         questions: fallbackQuestions,
         mode: "fallback",
         reason:
-          "Chưa cấu hình GEMINI_API_KEY trong .env.local, hệ thống tự động dùng bộ phân tích Regex dự phòng.",
+          "Chưa cấu hình GEMINI_API_KEY, hệ thống tự động dùng bộ phân tích Regex dự phòng.",
       });
     }
 
     // 2. Smart Parsing with Google Gemini AI (Token-Optimized Prompt & Cached Model)
     const ai = new GoogleGenAI({ apiKey });
-    const configuredModel = (process.env.GEMINI_MODEL || "").trim();
-    const candidateModels = Array.from(
-      new Set(
-        [
-          cachedWorkingModel,
-          configuredModel,
-          "gemini-1.5-pro",
-          "gemini-pro-latest",
-          "gemini-3.8-flash",
-          "gemini-flash-latest",
-        ].filter((m): m is string => Boolean(m))
-      )
-    );
+    const candidateModels = getCandidateGeminiModels(cachedWorkingModel);
 
     // Compact, token-efficient instruction
     const prompt = `Phân tích đề thi sau thành mảng JSON: [{"type":"multiple_choice"|"essay","content":"nội dung câu hỏi (bỏ 'Câu X:')","options":["A. ...","B. ...","C. ...","D. ..."],"correct_answer":"A"|"B"|"C"|"D"|"","max_score":number}].
@@ -240,29 +231,17 @@ ${rawText.slice(0, 35000)}`;
 }
 
 export async function GET() {
-  const apiKey = (process.env.GEMINI_API_KEY || "").trim();
+  const apiKey = getServerGeminiApiKey();
   if (!apiKey) {
     return NextResponse.json({
       connected: false,
       model: null,
-      message: "Chưa cấu hình GEMINI_API_KEY trong .env.local (Đang dùng chế độ Fallback Regex).",
+      message: "Chưa cấu hình GEMINI_API_KEY (Đang dùng chế độ Fallback Regex).",
     });
   }
 
   const ai = new GoogleGenAI({ apiKey });
-  const configuredModel = (process.env.GEMINI_MODEL || "").trim();
-  const candidateModels = Array.from(
-    new Set(
-      [
-        cachedWorkingModel,
-        configuredModel,
-        "gemini-1.5-pro",
-        "gemini-pro-latest",
-        "gemini-3.8-flash",
-        "gemini-flash-latest",
-      ].filter((m): m is string => Boolean(m))
-    )
-  );
+  const candidateModels = getCandidateGeminiModels(cachedWorkingModel);
 
   for (const modelName of candidateModels) {
     try {
@@ -282,7 +261,7 @@ export async function GET() {
           model: modelName,
           latencyMs,
           reply: res.text.trim(),
-          message: `Kết nối thành công tới Google Gemini AI (${modelName}) • Phản hồi trong ${latencyMs}ms`,
+          message: `Đã kết nối Google Gemini AI (${modelName}) • Phản hồi trong ${latencyMs}ms`,
         });
       }
     } catch {

@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import {
+  getServerGeminiApiKey,
+  getCandidateGeminiModels,
+} from "@/lib/gemini-server";
 
 interface EssayItem {
   questionId: string;
@@ -23,20 +27,8 @@ export async function POST(request: Request) {
       });
     }
 
-    const apiKey = (process.env.GEMINI_API_KEY || "").trim();
-    const configuredModel = (process.env.GEMINI_MODEL || "").trim();
-    const candidateModels = Array.from(
-      new Set(
-        [
-          cachedGradingModel,
-          configuredModel,
-          "gemini-1.5-pro",
-          "gemini-pro-latest",
-          "gemini-3.8-flash",
-          "gemini-flash-latest",
-        ].filter((m): m is string => Boolean(m))
-      )
-    );
+    const apiKey = getServerGeminiApiKey();
+    const candidateModels = getCandidateGeminiModels(cachedGradingModel);
 
     // Separate empty answers immediately (0 tokens used for blank answers!)
     const nonEmptyItems: EssayItem[] = [];
