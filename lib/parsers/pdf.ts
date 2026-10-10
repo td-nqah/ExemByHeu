@@ -68,7 +68,7 @@ export async function parsePdfFile(file: File | ArrayBuffer): Promise<ParsedQues
         {
           id: `draft_pdf_${Date.now()}_2`,
           type: "essay",
-          content: "Nội dung tự luận trích xuất từ PDF: Phân tích ưu nhược điểm của việc ứng dụng công nghệ Microservices so với Kiến trúc Monolithic trong hệ thống khảo thí trực tuyến quy mô 100.000 người dùng.",
+          content: "Nội dung tự luận trích xuất từ PDF: Phân tích ưu nhược điểm của việc ứng dụng công nghệ Microservices so với Kiến trúc Monolithic trong hệ thống thi thử trực tuyến quy mô 100.000 người dùng.",
           options: [],
           correct_answer: "",
           max_score: 5.0,

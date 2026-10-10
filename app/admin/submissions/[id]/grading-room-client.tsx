@@ -158,7 +158,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-zinc-900 border-t-transparent dark:border-zinc-100" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
       </div>
     );
   }
@@ -166,13 +166,15 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
   if (!submission) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center p-4">
-        <AlertCircle className="h-10 w-10 text-red-500 mb-2" />
-        <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
-          Không tìm thấy bài nộp
-        </h2>
-        <Link href="/admin/submissions" className="mt-3 text-xs font-semibold text-zinc-700 underline">
-          Quay lại danh sách bài làm
-        </Link>
+        <div className="glass-card rounded-2xl p-8 text-center">
+          <AlertCircle className="mx-auto mb-2 h-10 w-10 text-red-400" />
+          <h2 className="text-base font-bold text-white">
+            Không tìm thấy bài nộp
+          </h2>
+          <Link href="/admin/submissions" className="mt-3 inline-block text-xs font-semibold text-emerald-400 underline">
+            Quay lại danh sách bài làm
+          </Link>
+        </div>
       </div>
     );
   }
@@ -187,54 +189,58 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
       <div className="mb-6">
         <Link
           href="/admin/submissions"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 transition hover:text-white"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Quay lại Quản lý Bài nộp</span>
         </Link>
       </div>
 
-      <div className="mb-8 rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="glass-panel mb-8 rounded-2xl p-6 sm:p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
-                <User className="h-3 w-3" />
+            <div className="mb-2 flex items-center gap-2">
+              <span className="glass-pill inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-zinc-200">
+                <User className="h-3 w-3 text-emerald-400" />
                 Thí sinh: <strong>{submission.user?.username || "Thí sinh"}</strong>
               </span>
-              <span className="inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                <Calendar className="h-3 w-3" />
+              <span className="glass-pill inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-zinc-300">
+                <Calendar className="h-3 w-3 text-emerald-400" />
                 {formatDate(submission.submitted_at)}
               </span>
             </div>
 
-            <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-2xl">
+            <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
               Phòng Chấm thi: {submission.exam?.title}
             </h1>
-            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1 text-xs text-zinc-400">
               Kiểm tra điểm trắc nghiệm (đã khóa tự động) và chấm các câu hỏi tự luận bên dưới.
             </p>
           </div>
 
-          <div className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-800/40">
+          <div className="flex items-center gap-4 rounded-xl border border-white/10 bg-zinc-950/60 p-4">
             <div className="text-right">
-              <p className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Tổng điểm tính lại</p>
-              <p className="text-2xl font-black text-zinc-950 dark:text-zinc-50">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Tổng điểm tính lại</p>
+              <p className="text-2xl font-black text-emerald-400">
                 {liveTotalScore}
               </p>
             </div>
-            <div className="h-8 w-px bg-zinc-200 dark:bg-zinc-700" />
-            <div className="text-xs text-zinc-600 dark:text-zinc-400 space-y-0.5">
-              <p>Trắc nghiệm (Khóa): <strong className="text-zinc-900 dark:text-zinc-100">{mcqScore}</strong></p>
-              <p>Tự luận đang chấm: <strong className="text-zinc-900 dark:text-zinc-100">{currentEssayTotal}</strong></p>
+            <div className="h-8 w-px bg-white/10" />
+            <div className="space-y-0.5 text-xs text-zinc-400">
+              <p>
+                Trắc nghiệm (Khóa): <strong className="text-white">{mcqScore}</strong>
+              </p>
+              <p>
+                Tự luận đang chấm: <strong className="text-white">{currentEssayTotal}</strong>
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between border-t border-zinc-100 pt-4 dark:border-zinc-800 gap-3">
-          <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
+          <div className="flex items-center gap-2 text-xs text-zinc-400">
             {savedSuccess ? (
-              <span className="flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
+              <span className="flex items-center gap-1.5 font-bold text-emerald-400">
                 <Check className="h-4 w-4 stroke-[3]" />
                 Đã hoàn tất chấm điểm và đồng bộ vào hệ thống!
               </span>
@@ -247,7 +253,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             type="button"
             onClick={handleFinalize}
             disabled={isSubmitting}
-            className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-zinc-800 active:scale-[0.98] disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="inline-flex items-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500 px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98] disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             <span>{isSubmitting ? "Đang lưu..." : "Hoàn tất Chấm thi & Cập nhật điểm"}</span>
@@ -264,18 +270,16 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
           return (
             <article
               key={ans.id}
-              className={`rounded-2xl border bg-white p-6 shadow-xs transition dark:bg-zinc-900 ${
-                isMCQ
-                  ? "border-zinc-200 dark:border-zinc-800"
-                  : "border-blue-200/80 ring-1 ring-blue-100 dark:border-blue-900/60 dark:ring-blue-950/40"
+              className={`glass-card rounded-2xl p-6 ${
+                !isMCQ ? "border-emerald-500/30 ring-1 ring-emerald-500/20" : ""
               }`}
             >
-              <div className="mb-4 flex items-center justify-between border-b border-zinc-100 pb-3 dark:border-zinc-800">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-100 text-xs font-bold text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
+              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/15 text-xs font-bold text-emerald-400">
                     {index + 1}
                   </span>
-                  <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
+                  <span className="text-xs font-bold text-white">
                     {isMCQ ? "Trắc nghiệm" : "Tự luận (Cần chấm)"}
                   </span>
                 </div>
@@ -283,43 +287,43 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                 <div>
                   {isMCQ ? (
                     <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                        <Lock className="h-3 w-3" />
+                      <span className="glass-pill inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium text-zinc-300">
+                        <Lock className="h-3 w-3 text-emerald-400" />
                         Tự động chấm
                       </span>
                       <span
-                        className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold ${
+                        className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-bold ${
                           ans.is_correct
-                            ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"
-                            : "bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-300"
+                            ? "border-emerald-500/30 bg-emerald-500/15 text-emerald-300"
+                            : "border-red-500/30 bg-red-500/15 text-red-300"
                         }`}
                       >
                         {ans.is_correct ? `+${ans.score_awarded} điểm` : "0 điểm"}
                       </span>
                     </div>
                   ) : (
-                    <span className="rounded-md bg-blue-50 px-2.5 py-0.5 text-xs font-bold text-blue-700 dark:bg-blue-950/60 dark:text-blue-300">
+                    <span className="glass-pill rounded-md px-2.5 py-0.5 text-xs font-bold text-emerald-300">
                       Điểm tối đa: {q.max_score} điểm
                     </span>
                   )}
                 </div>
               </div>
 
-              <p className="text-sm font-medium leading-relaxed text-zinc-900 dark:text-zinc-100 mb-4 whitespace-pre-wrap">
+              <p className="mb-4 whitespace-pre-wrap text-sm font-medium leading-relaxed text-zinc-100">
                 {q.content}
               </p>
 
               {isMCQ ? (
-                <div className="space-y-2 rounded-xl border border-zinc-100 bg-zinc-50/60 p-4 dark:border-zinc-800/80 dark:bg-zinc-800/30">
+                <div className="space-y-2 rounded-xl border border-white/10 bg-zinc-950/55 p-4">
                   <div className="flex items-center justify-between text-xs font-semibold">
-                    <span className="text-zinc-600 dark:text-zinc-400">
-                      Thí sinh chọn: <strong className="text-zinc-900 dark:text-zinc-100">{ans.user_answer || "Bỏ trống"}</strong>
+                    <span className="text-zinc-400">
+                      Thí sinh chọn: <strong className="text-white">{ans.user_answer || "Bỏ trống"}</strong>
                     </span>
-                    <span className="text-emerald-700 dark:text-emerald-400">
+                    <span className="text-emerald-400">
                       Đáp án chuẩn: <strong>{q.correct_answer}</strong>
                     </span>
                   </div>
-                  <div className="mt-2 text-[11px] text-zinc-500">
+                  <div className="mt-2 text-[11px] text-zinc-400">
                     {q.options.map((opt, optI) => (
                       <div key={optI} className="py-0.5">
                         {opt}
@@ -330,29 +334,29 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block mb-1">
+                    <label className="mb-1.5 block text-[11px] font-semibold text-zinc-400">
                       Bài làm của thí sinh
                     </label>
-                    <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-xs leading-relaxed text-zinc-900 whitespace-pre-wrap dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-100">
+                    <div className="rounded-xl border border-white/10 bg-zinc-950/65 p-4 whitespace-pre-wrap text-xs leading-relaxed text-zinc-100">
                       {ans.user_answer ? ans.user_answer : "(Thí sinh bỏ trống câu này)"}
                     </div>
                   </div>
 
-                  <div className="rounded-xl border border-blue-200 bg-blue-50/40 p-4 dark:border-blue-900/60 dark:bg-blue-950/20">
+                  <div className="rounded-xl border border-emerald-500/25 bg-emerald-950/20 p-4">
                     <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2.5">
-                        <label className="text-xs font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
-                          <Award className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                        <label className="flex items-center gap-1.5 text-xs font-bold text-white">
+                          <Award className="h-4 w-4 text-emerald-400" />
                           Điểm số cho câu này (Tối đa: {q.max_score} điểm)
                         </label>
                         <button
                           type="button"
                           disabled={aiLoadingId === q.id}
                           onClick={() => handleGradeWithAI(q.id, q.content, ans.user_answer, q.max_score)}
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-purple-200 bg-purple-50 px-2.5 py-1 text-[11px] font-semibold text-purple-700 shadow-xs transition hover:bg-purple-100 active:scale-[0.98] disabled:opacity-50 dark:border-purple-900/60 dark:bg-purple-950/40 dark:text-purple-300"
+                          className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-2.5 py-1 text-[11px] font-semibold text-emerald-300 transition hover:bg-emerald-500/20 hover:text-white active:scale-[0.98] disabled:opacity-50"
                           title="Sử dụng Gemini Pro để phân tích câu trả lời và chấm gợi ý"
                         >
-                          <Sparkles className="h-3 w-3 text-purple-600 dark:text-purple-400" />
+                          <Sparkles className="h-3 w-3 text-emerald-400" />
                           <span>{aiLoadingId === q.id ? "Gemini Pro đang chấm..." : "Chấm gợi ý với Gemini Pro"}</span>
                         </button>
                       </div>
@@ -365,15 +369,15 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                           step="0.25"
                           value={essayGrades[q.id]?.score ?? 0}
                           onChange={(e) => handleScoreChange(q.id, q.max_score, e.target.value)}
-                          className="h-8 w-20 rounded-md border border-zinc-300 bg-white px-2 text-center text-xs font-bold text-zinc-900 focus:border-zinc-500 focus:outline-hidden dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+                          className="glass-input h-8 w-20 rounded-lg px-2 text-center text-xs font-bold"
                         />
-                        <span className="text-xs text-zinc-500">/ {q.max_score}</span>
+                        <span className="text-xs text-zinc-400">/ {q.max_score}</span>
                       </div>
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-zinc-700 dark:text-zinc-300 flex items-center gap-1">
-                        <MessageSquare className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                      <label className="mb-1.5 flex items-center gap-1 text-xs font-medium text-zinc-300">
+                        <MessageSquare className="h-3.5 w-3.5 text-emerald-400" />
                         Nhận xét và phản hồi của Giảng viên
                       </label>
                       <textarea
@@ -381,7 +385,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                         value={essayGrades[q.id]?.feedback ?? ""}
                         onChange={(e) => handleFeedbackChange(q.id, e.target.value)}
                         placeholder="Nhập nhận xét chi tiết, chỉ ra lỗi sai hoặc khen ngợi thí sinh..."
-                        className="w-full rounded-lg border border-zinc-200 bg-white p-2.5 text-xs text-zinc-900 focus:border-zinc-400 focus:outline-hidden dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
+                        className="glass-input w-full rounded-xl p-3 text-xs leading-relaxed"
                       />
                     </div>
                   </div>
@@ -392,12 +396,12 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
         })}
       </div>
 
-      <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="glass-panel mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl p-6 sm:flex-row">
         <div>
-          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+          <h4 className="text-sm font-bold text-white">
             Xác nhận hoàn tất phiên chấm thi?
           </h4>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-zinc-400">
             Điểm tự luận ({currentEssayTotal} đ) sẽ cộng cùng điểm trắc nghiệm ({mcqScore} đ) thành {liveTotalScore} điểm.
           </p>
         </div>
@@ -406,7 +410,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
           type="button"
           onClick={handleFinalize}
           disabled={isSubmitting}
-          className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-xs font-bold text-white shadow-xs transition hover:bg-zinc-800 active:scale-[0.98] disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500 px-6 py-3 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98] disabled:opacity-50 sm:w-auto"
         >
           <Save className="h-4 w-4" />
           <span>{isSubmitting ? "Đang lưu..." : "Hoàn tất Chấm thi & Cập nhật điểm"}</span>

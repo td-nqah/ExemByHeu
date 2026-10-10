@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { parseExamFile } from "@/lib/parsers";
 import { createExam } from "@/lib/store";
-import { ParsedQuestionDraft, QuestionType } from "@/types/exam";
+import { ParsedQuestionDraft } from "@/types/exam";
 import { QuestionEditorCard } from "@/components/admin/QuestionEditorCard";
 import {
   UploadCloud,
@@ -14,32 +14,25 @@ import {
   FileCode,
   Plus,
   Send,
-  AlertCircle,
-  CheckCircle2,
   ArrowLeft,
-  Sparkles,
   Layers,
-  Clock,
 } from "lucide-react";
 
 export default function ExamCreatePage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Form states
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [durationMinutes, setDurationMinutes] = useState(45);
   const [status, setStatus] = useState<"published" | "draft">("published");
 
-  // Parser & Questions state
   const [questions, setQuestions] = useState<ParsedQuestionDraft[]>([]);
   const [isParsing, setIsParsing] = useState(false);
   const [parseError, setParseError] = useState("");
   const [parsedFileName, setParsedFileName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
-  // Handle File Upload & Parse
   const handleFileUpload = async (file: File) => {
     setIsParsing(true);
     setParseError("");
@@ -52,7 +45,6 @@ export default function ExamCreatePage() {
       }
       setQuestions(parsedDrafts);
 
-      // Auto-populate title if empty
       if (!title) {
         const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
         setTitle(`Đề thi: ${cleanName.charAt(0).toUpperCase() + cleanName.slice(1)}`);
@@ -71,12 +63,11 @@ export default function ExamCreatePage() {
     }
   };
 
-  // Demo file presets for instant reviewer testing
   const loadDemoQuestions = (type: "word" | "excel" | "pdf") => {
     setParseError("");
     if (type === "word") {
       setParsedFileName("de_thi_lap_trinh_web.docx");
-      setTitle("Đề thi Trắc nghiệm & Tự luận Chuyên ngành Web Modern");
+      setTitle("Đề thi thử Trắc nghiệm & Tự luận Chuyên ngành Web Modern");
       setDescription("Đánh giá toàn diện kiến trúc React Server Components, Database Caching và Web Vitals.");
       setDurationMinutes(40);
       setQuestions([
@@ -112,7 +103,7 @@ export default function ExamCreatePage() {
           content: "Hãy phân tích chi tiết cơ chế hoạt động của Connection Pooling trong PostgreSQL và lợi ích của Supabase Connection Pooler (PgBouncer) khi ứng dụng chịu tải 10,000 requests/giây.",
           options: [],
           correct_answer: "",
-          max_score: 6.0,
+          max_score: 5.0,
         },
       ]);
     } else if (type === "excel") {
@@ -158,7 +149,7 @@ export default function ExamCreatePage() {
       ]);
     } else {
       setParsedFileName("de_thi_an_ninh_mang.pdf");
-      setTitle("Đề thi An toàn Thông tin & Mật mã học Ứng dụng");
+      setTitle("Đề thi thử An toàn Thông tin & Mật mã học Ứng dụng");
       setDescription("Kiểm tra kiến thức về mã hóa bất đối xứng RSA/ECC, JWT Authentication và tấn công CSRF/XSS.");
       setDurationMinutes(45);
       setQuestions([
@@ -173,7 +164,7 @@ export default function ExamCreatePage() {
             "D. DES",
           ],
           correct_answer: "A",
-          max_score: 3.0,
+          max_score: 2.5,
         },
         {
           id: `q_demo_pdf_2`,
@@ -186,7 +177,7 @@ export default function ExamCreatePage() {
             "D. Path=/",
           ],
           correct_answer: "B",
-          max_score: 3.0,
+          max_score: 2.5,
         },
         {
           id: `q_demo_pdf_3`,
@@ -194,13 +185,12 @@ export default function ExamCreatePage() {
           content: "Trình bày nguyên lý hoạt động của cơ chế bảo vệ CSRF Token và giải thích tại sao SameSite Cookie chưa đủ để thay thế hoàn toàn CSRF Token trong các hệ thống đa miền (Cross-Origin).",
           options: [],
           correct_answer: "",
-          max_score: 4.0,
+          max_score: 5.0,
         },
       ]);
     }
   };
 
-  // Add a blank question manually
   const handleAddQuestion = () => {
     const nextIdx = questions.length + 1;
     const newDraft: ParsedQuestionDraft = {
@@ -219,19 +209,16 @@ export default function ExamCreatePage() {
     setQuestions([...questions, newDraft]);
   };
 
-  // Update a question in place
   const handleUpdateQuestion = (index: number, updated: ParsedQuestionDraft) => {
     const list = [...questions];
     list[index] = updated;
     setQuestions(list);
   };
 
-  // Delete a question
   const handleDeleteQuestion = (index: number) => {
     setQuestions(questions.filter((_, idx) => idx !== index));
   };
 
-  // Submit and Publish Exam
   const handleConfirmAndPublish = async () => {
     if (!title.trim()) {
       alert("Vui lòng nhập tiêu đề cho đề thi.");
@@ -272,7 +259,7 @@ export default function ExamCreatePage() {
       <div className="mb-6">
         <Link
           href="/admin/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 transition hover:text-white"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Quay lại Bảng điều khiển Quản trị</span>
@@ -282,10 +269,10 @@ export default function ExamCreatePage() {
       {/* Header */}
       <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-950 sm:text-3xl dark:text-zinc-50">
-            Tạo Đề thi & Bóc tách Tệp tin
+          <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            Tạo Đề thi thử & Bóc tách Tệp tin
           </h1>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-400">
             Hỗ trợ nhập trực tiếp từ tài liệu Word (.docx), Excel (.xlsx), hoặc PDF với công cụ phân tích tự động.
           </p>
         </div>
@@ -295,7 +282,7 @@ export default function ExamCreatePage() {
             type="button"
             onClick={handleConfirmAndPublish}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 self-start rounded-xl bg-zinc-900 px-5 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-zinc-800 active:scale-[0.98] disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="inline-flex items-center gap-2 self-start rounded-xl border border-emerald-400/40 bg-emerald-500 px-5 py-2.5 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98] disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
             <span>{isSaving ? "Đang lưu..." : "Xác nhận & Xuất bản đề thi"}</span>
@@ -304,7 +291,7 @@ export default function ExamCreatePage() {
       </div>
 
       {/* 1. File Upload Dropzone */}
-      <div className="mb-8 rounded-2xl border-2 border-dashed border-zinc-200 bg-white p-6 sm:p-8 text-center transition hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900/60">
+      <div className="glass-panel mb-8 rounded-2xl p-6 text-center sm:p-8">
         <input
           ref={fileInputRef}
           type="file"
@@ -313,14 +300,14 @@ export default function ExamCreatePage() {
           className="hidden"
         />
 
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 mb-4 shadow-xs">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-400">
           <UploadCloud className="h-7 w-7" />
         </div>
 
-        <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+        <h3 className="text-base font-bold text-white">
           Kéo thả tệp đề thi hoặc nhấn để chọn tệp
         </h3>
-        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400 max-w-md mx-auto">
+        <p className="mx-auto mt-1 max-w-md text-xs text-zinc-400">
           Hỗ trợ định dạng Microsoft Word (.docx), Microsoft Excel (.xlsx), và tài liệu PDF.
         </p>
 
@@ -329,77 +316,77 @@ export default function ExamCreatePage() {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isParsing}
-            className="rounded-xl bg-zinc-900 px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-zinc-800 active:scale-[0.98] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="rounded-xl border border-emerald-400/40 bg-emerald-500 px-4 py-2 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98]"
           >
             {isParsing ? "Đang bóc tách dữ liệu..." : "Chọn tệp từ máy tính"}
           </button>
         </div>
 
         {/* 1-Click Demo File Presets */}
-        <div className="mt-6 border-t border-zinc-100 pt-5 dark:border-zinc-800">
-          <span className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2.5">
+        <div className="mt-6 border-t border-white/10 pt-5">
+          <span className="mb-2.5 block text-[11px] font-semibold text-zinc-400">
             Hoặc thử nghiệm nhanh với dữ liệu mẫu chuẩn hóa:
           </span>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <button
               type="button"
               onClick={() => loadDemoQuestions("word")}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-800/60 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
             >
-              <FileText className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+              <FileText className="h-3.5 w-3.5 text-emerald-400" />
               <span>Nạp mẫu Word (.docx)</span>
             </button>
 
             <button
               type="button"
               onClick={() => loadDemoQuestions("excel")}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-800/60 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
             >
-              <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" />
               <span>Nạp mẫu Excel (.xlsx)</span>
             </button>
 
             <button
               type="button"
               onClick={() => loadDemoQuestions("pdf")}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-800/60 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
             >
-              <FileCode className="h-3.5 w-3.5 text-red-600 dark:text-red-400" />
+              <FileCode className="h-3.5 w-3.5 text-emerald-400" />
               <span>Nạp mẫu PDF (.pdf)</span>
             </button>
           </div>
         </div>
 
         {parseError && (
-          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300">
+          <div className="mt-4 rounded-xl border border-red-500/30 bg-red-950/40 p-3 text-xs text-red-200">
             {parseError}
           </div>
         )}
       </div>
 
       {/* 2. Exam Metadata Form */}
-      <div className="mb-8 rounded-2xl border border-zinc-200 bg-white p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100 mb-4">
-          Thông tin cơ bản của Kỳ thi
+      <div className="glass-card mb-8 rounded-2xl p-6">
+        <h2 className="mb-4 text-base font-bold text-white">
+          Thông tin cơ bản của Đề thi thử
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-zinc-700 dark:text-zinc-300">
-              Tiêu đề đề thi <span className="text-red-500">*</span>
+            <label className="mb-1.5 block text-xs font-medium text-zinc-300">
+              Tiêu đề đề thi <span className="text-red-400">*</span>
             </label>
             <input
               type="text"
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="VD: Kiểm tra giữa kỳ - Kiến trúc Hệ thống Phân tán"
-              className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-900 transition focus:border-zinc-400 focus:bg-white focus:outline-hidden dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-zinc-100"
+              placeholder="VD: Đề thi thử Giữa kỳ - Kiến trúc Hệ thống Phân tán"
+              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
             />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-zinc-700 dark:text-zinc-300">
+            <label className="mb-1.5 block text-xs font-medium text-zinc-300">
               Mô tả / Hướng dẫn làm bài
             </label>
             <textarea
@@ -407,12 +394,12 @@ export default function ExamCreatePage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Ghi chú thêm về quy chế phòng thi, thời gian hoặc tài liệu cho phép..."
-              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-xs text-zinc-900 transition focus:border-zinc-400 focus:bg-white focus:outline-hidden dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-zinc-100"
+              className="glass-input w-full rounded-xl p-3 text-xs"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-zinc-700 dark:text-zinc-300">
+            <label className="mb-1.5 block text-xs font-medium text-zinc-300">
               Thời gian làm bài (Phút)
             </label>
             <input
@@ -421,21 +408,25 @@ export default function ExamCreatePage() {
               max="300"
               value={durationMinutes}
               onChange={(e) => setDurationMinutes(parseInt(e.target.value) || 45)}
-              className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-900 transition focus:border-zinc-400 focus:bg-white focus:outline-hidden dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-zinc-100"
+              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-zinc-700 dark:text-zinc-300">
+            <label className="mb-1.5 block text-xs font-medium text-zinc-300">
               Trạng thái đề thi
             </label>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as "published" | "draft")}
-              className="h-10 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-900 transition focus:border-zinc-400 focus:bg-white focus:outline-hidden dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-zinc-100"
+              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
             >
-              <option value="published">Xuất bản ngay (Thí sinh có thể thấy và thi)</option>
-              <option value="draft">Lưu nháp (Chỉ quản trị viên thấy)</option>
+              <option value="published" className="bg-zinc-900 text-white">
+                Xuất bản ngay (Thí sinh có thể thấy và thi)
+              </option>
+              <option value="draft" className="bg-zinc-900 text-white">
+                Lưu nháp (Chỉ quản trị viên thấy)
+              </option>
             </select>
           </div>
         </div>
@@ -443,12 +434,12 @@ export default function ExamCreatePage() {
 
       {/* 3. Interactive Preview & Edit Mode before Saving */}
       <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-200 pb-3 dark:border-zinc-800">
+        <div className="flex flex-col gap-3 border-b border-white/10 pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-base font-bold text-white">
               Xem trước & Chỉnh sửa Câu hỏi ({questions.length} câu)
             </h2>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-zinc-400">
               {parsedFileName && `Dữ liệu từ: ${parsedFileName} • `}
               {mcqCount} trắc nghiệm • {essayCount} tự luận • Tổng {totalScore} điểm
             </p>
@@ -458,22 +449,22 @@ export default function ExamCreatePage() {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-800 shadow-xs transition hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"
+              className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-semibold text-zinc-100 transition hover:bg-white/10"
             >
-              <Plus className="h-3.5 w-3.5" />
+              <Plus className="h-3.5 w-3.5 text-emerald-400" />
               <span>Thêm câu hỏi mới</span>
             </button>
           </div>
         </div>
 
         {questions.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-zinc-300 bg-white py-12 text-center dark:border-zinc-800 dark:bg-zinc-900">
-            <Layers className="mx-auto h-8 w-8 text-zinc-400 mb-2" />
-            <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+          <div className="glass-card rounded-2xl py-12 text-center">
+            <Layers className="mx-auto mb-2 h-8 w-8 text-zinc-500" />
+            <p className="text-xs font-semibold text-zinc-200">
               Chưa có câu hỏi nào trong danh sách
             </p>
-            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
-              Tải lên tệp Word, Excel, PDF phía trên hoặc nhấn "Thêm câu hỏi mới" để soạn trực tiếp.
+            <p className="mt-0.5 text-[11px] text-zinc-400">
+              Tải lên tệp Word, Excel, PDF phía trên hoặc nhấn &ldquo;Thêm câu hỏi mới&rdquo; để soạn trực tiếp.
             </p>
           </div>
         ) : (
@@ -490,13 +481,13 @@ export default function ExamCreatePage() {
             ))}
 
             {/* Bottom Add & Confirm Actions */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
+            <div className="glass-panel flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
               <button
                 type="button"
                 onClick={handleAddQuestion}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-4 py-2 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                className="glass-pill inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10"
               >
-                <Plus className="h-4 w-4" />
+                <Plus className="h-4 w-4 text-emerald-400" />
                 <span>Thêm câu hỏi</span>
               </button>
 
@@ -504,7 +495,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={handleConfirmAndPublish}
                 disabled={isSaving}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-zinc-800 active:scale-[0.98] disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500 px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98] disabled:opacity-50 sm:w-auto"
               >
                 <Send className="h-4 w-4" />
                 <span>{isSaving ? "Đang xử lý..." : "Xác nhận & Xuất bản đề thi"}</span>

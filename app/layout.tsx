@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ExamPulse - Nền tảng Khảo thí & Chấm thi Trực tuyến",
-  description: "Hệ thống quản lý kỳ thi, bóc tách đề thi tự động từ Word/Excel/PDF, phòng thi thời gian thực và chấm bài thông minh.",
+  title: "ExemTest - Nền tảng Thi thử & Chấm thi Trực tuyến",
+  description:
+    "Hệ thống thi thử trực tuyến, bóc tách đề thi tự động từ Word/Excel/PDF, phòng thi thời gian thực và chấm bài thông minh.",
 };
 
 export default function RootLayout({
@@ -25,12 +26,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-[100dvh] flex flex-col bg-zinc-50 font-sans text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
-        <Suspense fallback={<div className="h-16 border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950" />}>
+    <html
+      lang="vi"
+      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+    >
+      <body className="relative min-h-[100dvh] flex flex-col bg-[#090a0f] font-sans text-zinc-100 selection:bg-emerald-500/30 selection:text-emerald-200">
+        {/* Ambient Subsurface Light Sources for Dark Frosted Glass Refraction */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+        >
+          <div className="absolute -top-40 left-1/4 h-[520px] w-[520px] rounded-full bg-emerald-500/10 blur-[130px]" />
+          <div className="absolute top-1/3 -right-32 h-[460px] w-[460px] rounded-full bg-teal-500/8 blur-[140px]" />
+          <div className="absolute -bottom-48 left-1/3 h-[500px] w-[500px] rounded-full bg-zinc-400/6 blur-[150px]" />
+        </div>
+
+        <Suspense
+          fallback={<div className="glass-nav sticky top-0 z-40 h-16 w-full" />}
+        >
           <Navbar />
         </Suspense>
-        <main className="flex-1">{children}</main>
+        <main className="relative z-10 flex-1">{children}</main>
       </body>
     </html>
   );

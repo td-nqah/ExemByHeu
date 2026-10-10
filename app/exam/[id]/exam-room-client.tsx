@@ -73,10 +73,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     if (isSubmitting) return;
     setIsSubmitting(true);
     try {
-      // 1. Lưu bài làm và chấm điểm trắc nghiệm tức thì
       const submission = await submitExam(examId, userAnswers);
-
-      // 2. Kiểm tra nếu có câu hỏi tự luận, kích hoạt Gemini AI chấm ngay
       const essayQuestions = (exam?.questions || []).filter((q) => q.type === "essay");
 
       if (essayQuestions.length > 0) {
@@ -117,7 +114,6 @@ export function ExamRoomClient({ examId }: { examId: string }) {
         });
       }
 
-      // 3. Chuyển sang trang xem kết quả
       router.push(`/exam/${examId}/result?submissionId=${submission.id}`);
     } catch (err: any) {
       alert("Lỗi khi nộp bài: " + (err?.message || "Vui lòng thử lại"));
@@ -137,11 +133,11 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-zinc-50 dark:bg-zinc-950">
-        <div className="text-center">
-          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-zinc-900 border-t-transparent dark:border-zinc-100" />
-          <p className="mt-3 text-xs font-semibold text-zinc-600 dark:text-zinc-400">
-            Đang tải phòng thi an toàn...
+      <div className="flex min-h-[100dvh] items-center justify-center">
+        <div className="glass-card rounded-2xl px-8 py-6 text-center">
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
+          <p className="mt-3 text-xs font-semibold text-zinc-300">
+            Đang tải phòng thi thử trực tuyến...
           </p>
         </div>
       </div>
@@ -151,11 +147,16 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   if (!exam || !exam.questions) {
     return (
       <div className="flex min-h-[100dvh] flex-col items-center justify-center p-4">
-        <AlertCircle className="h-10 w-10 text-red-500 mb-2" />
-        <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Không tìm thấy bài thi</h2>
-        <Link href="/dashboard" className="mt-4 text-xs font-semibold text-zinc-900 underline">
-          Quay lại Bảng điều khiển
-        </Link>
+        <div className="glass-card rounded-2xl p-8 text-center">
+          <AlertCircle className="mx-auto mb-3 h-10 w-10 text-red-400" />
+          <h2 className="text-base font-bold text-white">Không tìm thấy bài thi</h2>
+          <Link
+            href="/dashboard"
+            className="mt-4 inline-block text-xs font-semibold text-emerald-400 underline"
+          >
+            Quay lại Bảng điều khiển
+          </Link>
+        </div>
       </div>
     );
   }
@@ -164,22 +165,22 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const answeredCount = questions.filter((q) => (userAnswers[q.id] || "").trim().length > 0).length;
 
   return (
-    <div className="min-h-[100dvh] bg-zinc-100/60 pb-20 dark:bg-zinc-950">
-      <header className="sticky top-0 z-30 border-b border-zinc-200 bg-white/95 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-900/95">
+    <div className="min-h-[100dvh] pb-20">
+      <header className="glass-nav sticky top-0 z-30">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <Link
               href="/dashboard"
-              className="rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+              className="glass-pill rounded-xl p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white"
               title="Quay lại danh sách"
             >
               <ArrowLeft className="h-4 w-4" />
             </Link>
             <div className="hidden sm:block">
-              <h1 className="text-sm font-bold text-zinc-900 line-clamp-1 dark:text-zinc-100">
+              <h1 className="line-clamp-1 text-sm font-bold text-white">
                 {exam.title}
               </h1>
-              <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+              <p className="text-[11px] text-zinc-400">
                 Thí sinh: {getCurrentUser()?.username || "Thí sinh"} • Tổng {questions.length} câu hỏi
               </p>
             </div>
@@ -194,7 +195,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={() => setShowConfirmModal(true)}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-zinc-900 px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-zinc-800 active:scale-[0.98] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-400/40 bg-emerald-500 px-4 py-2 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98]"
             >
               <Send className="h-3.5 w-3.5" />
               <span>Nộp bài ({answeredCount}/{questions.length})</span>
@@ -214,18 +215,18 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 onSelectQuestion={scrollToQuestion}
               />
 
-              <div className="rounded-xl border border-zinc-200 bg-white p-4 text-xs text-zinc-600 shadow-xs dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
-                <p className="font-semibold text-zinc-900 dark:text-zinc-100 mb-1">Quy định phòng thi:</p>
-                <ul className="list-disc pl-4 space-y-1 text-[11px]">
+              <div className="glass-card rounded-2xl p-4 text-xs text-zinc-300">
+                <p className="mb-1.5 font-bold text-white">Quy định phòng thi thử:</p>
+                <ul className="list-disc space-y-1 pl-4 text-[11px] text-zinc-400">
                   <li>Điểm trắc nghiệm được chấm tự động ngay khi nộp bài.</li>
-                  <li>Câu hỏi tự luận sẽ do giáo viên xem xét và đánh giá.</li>
+                  <li>Câu hỏi tự luận được Gemini AI chấm ngay trên thang điểm 5.</li>
                   <li>Khi hết thời gian, hệ thống tự động khóa và gửi bài làm.</li>
                 </ul>
               </div>
             </div>
           </aside>
 
-          <main className="lg:col-span-8 xl:col-span-9 space-y-6">
+          <main className="space-y-6 lg:col-span-8 xl:col-span-9">
             {questions.map((question, index) => {
               const currentVal = userAnswers[question.id] || "";
               const isAnswered = currentVal.trim().length > 0;
@@ -235,39 +236,39 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   key={question.id}
                   id={`q_${question.id}`}
                   onClick={() => setActiveQuestionId(question.id)}
-                  className={`scroll-mt-24 rounded-2xl border bg-white p-6 shadow-xs transition dark:bg-zinc-900 ${
+                  className={`glass-card scroll-mt-24 rounded-2xl p-6 transition ${
                     activeQuestionId === question.id
-                      ? "border-zinc-900 ring-1 ring-zinc-900 dark:border-zinc-100 dark:ring-zinc-100"
-                      : "border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700"
+                      ? "border-emerald-500/50 ring-1 ring-emerald-500/30"
+                      : "hover:border-white/20"
                   }`}
                 >
-                  <div className="mb-4 flex items-center justify-between border-b border-zinc-100 pb-3 dark:border-zinc-800">
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-900 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+                  <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+                    <div className="flex items-center gap-2.5">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/15 text-xs font-bold text-emerald-400">
                         {index + 1}
                       </span>
-                      <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
+                      <span className="text-xs font-bold text-white">
                         {question.type === "multiple_choice" ? "Trắc nghiệm" : "Tự luận"}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                      <span className="glass-pill rounded-md px-2 py-0.5 text-[11px] font-semibold text-zinc-300">
                         Điểm tối đa: {question.max_score}
                       </span>
                       {isAnswered ? (
-                        <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                        <span className="rounded-md border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5 text-[11px] font-semibold text-emerald-300">
                           Đã làm
                         </span>
                       ) : (
-                        <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                        <span className="glass-pill rounded-md px-2 py-0.5 text-[11px] font-semibold text-zinc-400">
                           Chưa làm
                         </span>
                       )}
                     </div>
                   </div>
 
-                  <p className="text-sm font-medium leading-relaxed text-zinc-900 dark:text-zinc-100 mb-5 whitespace-pre-wrap">
+                  <p className="mb-5 whitespace-pre-wrap text-sm font-medium leading-relaxed text-zinc-100">
                     {question.content}
                   </p>
 
@@ -287,15 +288,15 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                             onClick={() => handleSelectMCQ(question.id, optText)}
                             className={`flex w-full items-start gap-3 rounded-xl border p-3.5 text-left text-xs transition ${
                               isSelected
-                                ? "border-emerald-600 bg-emerald-50 text-emerald-950 ring-1 ring-emerald-600 dark:border-emerald-500 dark:bg-emerald-950/50 dark:text-emerald-200 dark:ring-emerald-500"
-                                : "border-zinc-200 bg-zinc-50/60 text-zinc-800 hover:border-zinc-300 hover:bg-zinc-100/70 dark:border-zinc-800 dark:bg-zinc-950/50 dark:text-zinc-200 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/60"
+                                ? "border-emerald-500/60 bg-emerald-500/15 text-emerald-100 ring-1 ring-emerald-500/40"
+                                : "border-white/10 bg-zinc-950/55 text-zinc-200 hover:border-white/20 hover:bg-zinc-900/70"
                             }`}
                           >
                             <span
                               className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold transition ${
                                 isSelected
-                                ? "bg-emerald-600 text-white dark:bg-emerald-500 dark:text-zinc-950"
-                                : "border border-zinc-300 bg-zinc-100 text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                                  ? "bg-emerald-500 text-zinc-950"
+                                  : "border border-white/15 bg-zinc-900 text-zinc-300"
                               }`}
                             >
                               {letter}
@@ -312,10 +313,12 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         value={currentVal}
                         onChange={(e) => handleEssayChange(question.id, e.target.value)}
                         placeholder="Nhập phần trả lời tự luận của bạn vào đây..."
-                        className="w-full rounded-xl border border-zinc-200 bg-zinc-50/60 p-4 text-xs leading-relaxed text-zinc-900 transition placeholder:text-zinc-400 focus:border-zinc-900 focus:bg-white focus:outline-hidden dark:border-zinc-800 dark:bg-zinc-950/80 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-600 dark:focus:bg-zinc-950"
+                        className="glass-input w-full rounded-xl p-4 text-xs leading-relaxed"
                       />
-                      <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400">
-                        <span>Số từ: {currentVal.trim() ? currentVal.trim().split(/\s+/).length : 0} từ</span>
+                      <div className="flex items-center justify-between text-[11px] text-zinc-400">
+                        <span>
+                          Số từ: {currentVal.trim() ? currentVal.trim().split(/\s+/).length : 0} từ
+                        </span>
                         <span>{currentVal.length} ký tự</span>
                       </div>
                     </div>
@@ -324,12 +327,12 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               );
             })}
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
+            <div className="glass-panel flex flex-col items-center justify-between gap-4 rounded-2xl p-6 sm:flex-row">
               <div>
-                <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                <h4 className="text-sm font-bold text-white">
                   Hoàn thành bài làm của bạn?
                 </h4>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-zinc-400">
                   Bạn đã trả lời {answeredCount} trên tổng số {questions.length} câu hỏi.
                 </p>
               </div>
@@ -337,7 +340,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               <button
                 type="button"
                 onClick={() => setShowConfirmModal(true)}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-xs font-bold text-white shadow-xs transition hover:bg-zinc-800 active:scale-[0.98] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500 px-6 py-3 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98] sm:w-auto"
               >
                 <Send className="h-4 w-4" />
                 <span>Nộp bài ngay</span>
@@ -358,21 +361,21 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
       {/* AI Fast Grading Modal */}
       {aiGradingState.isGrading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-2xl border border-purple-200 bg-white p-6 shadow-2xl dark:border-purple-900/60 dark:bg-zinc-900 text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-50 text-purple-600 dark:bg-purple-950/60 dark:text-purple-300 mb-4 shadow-xs">
-              <Sparkles className="h-7 w-7 text-purple-600 dark:text-purple-400 animate-spin" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-md">
+          <div className="glass-panel w-full max-w-sm rounded-2xl p-6 text-center">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-400">
+              <Sparkles className="h-7 w-7 animate-spin text-emerald-400" />
             </div>
 
-            <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-base font-bold text-white">
               Gemini AI Đang Chấm Điểm Tự Luận
             </h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">
+            <p className="mt-2 text-xs leading-relaxed text-zinc-300">
               {aiGradingState.statusText}
             </p>
 
-            <div className="mt-5 flex items-center justify-center gap-2 text-[11px] font-semibold text-purple-700 dark:text-purple-300">
-              <div className="h-2 w-2 rounded-full bg-purple-600 animate-ping" />
+            <div className="mt-5 flex items-center justify-center gap-2 text-[11px] font-semibold text-emerald-400">
+              <div className="h-2 w-2 animate-ping rounded-full bg-emerald-400" />
               <span>Hoàn tất trong vòng dưới 30 giây</span>
             </div>
           </div>

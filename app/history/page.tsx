@@ -13,7 +13,6 @@ import {
   ArrowRight,
   BookOpen,
   Calendar,
-  Award,
 } from "lucide-react";
 
 export default function HistoryPage() {
@@ -45,17 +44,17 @@ export default function HistoryPage() {
       {/* Header */}
       <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-950 sm:text-3xl dark:text-zinc-50">
+          <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
             Lịch sử Làm bài
           </h1>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            Xem lại tất cả các bài thi đã tham gia, điểm số chi tiết và nhận xét từ giảng viên.
+          <p className="mt-1 text-sm text-zinc-400">
+            Xem lại tất cả các bài thi thử đã tham gia, điểm số chi tiết và nhận xét từ AI & giảng viên.
           </p>
         </div>
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 self-start rounded-xl bg-zinc-900 px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="inline-flex items-center gap-2 self-start rounded-xl border border-emerald-400/40 bg-emerald-500 px-4 py-2.5 text-xs font-bold text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:bg-emerald-400 active:scale-[0.98]"
         >
           <BookOpen className="h-4 w-4" />
           <span>Làm bài thi mới</span>
@@ -64,31 +63,31 @@ export default function HistoryPage() {
 
       {/* History Table / Card List */}
       {loading ? (
-        <div className="flex h-48 items-center justify-center rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
-          <p className="text-sm text-zinc-500">Đang tải lịch sử bài thi...</p>
+        <div className="glass-card flex h-48 items-center justify-center rounded-2xl">
+          <p className="text-sm text-zinc-400">Đang tải lịch sử bài thi...</p>
         </div>
       ) : submissions.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-300 bg-white py-12 px-4 text-center dark:border-zinc-800 dark:bg-zinc-900">
-          <History className="h-10 w-10 text-zinc-400 mb-3" />
-          <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
-            Bạn chưa thực hiện bài thi nào
+        <div className="glass-card flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center">
+          <History className="mb-3 h-10 w-10 text-zinc-500" />
+          <h3 className="text-base font-bold text-white">
+            Bạn chưa thực hiện bài thi thử nào
           </h3>
-          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400 max-w-sm mb-4">
-            Hãy bắt đầu bằng cách chọn một trong các bài kiểm tra khả dụng tại Bảng điều khiển.
+          <p className="mt-1 mb-4 max-w-sm text-xs text-zinc-400">
+            Hãy bắt đầu bằng cách chọn một trong các đề thi thử khả dụng tại Bảng điều khiển.
           </p>
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-900 px-4 py-2 text-xs font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-400/40 bg-emerald-500 px-4 py-2 text-xs font-bold text-zinc-950 transition hover:bg-emerald-400"
           >
             <span>Đến danh sách đề thi</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
+        <div className="glass-panel overflow-hidden rounded-2xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-zinc-100 bg-zinc-50/70 text-zinc-500 uppercase tracking-wider text-[10px] dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-400">
+              <thead className="border-b border-white/10 bg-zinc-950/50 text-[10px] uppercase tracking-wider text-zinc-400">
                 <tr>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
                   <th className="py-3.5 px-4 font-semibold">Thời gian nộp</th>
@@ -96,55 +95,55 @@ export default function HistoryPage() {
                   <th className="py-3.5 px-4 font-semibold">Điểm trắc nghiệm</th>
                   <th className="py-3.5 px-4 font-semibold">Điểm tự luận</th>
                   <th className="py-3.5 px-4 font-semibold">Tổng điểm</th>
-                  <th className="py-3.5 px-4 font-semibold text-right">Thao tác</th>
+                  <th className="py-3.5 px-4 text-right font-semibold">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/60">
+              <tbody className="divide-y divide-white/10">
                 {submissions.map((sub) => {
                   const isGraded = sub.status === "graded";
 
                   return (
                     <tr
                       key={sub.id}
-                      className="transition hover:bg-zinc-50/70 dark:hover:bg-zinc-800/30"
+                      className="transition hover:bg-white/[0.04]"
                     >
-                      <td className="py-4 px-4 font-bold text-zinc-900 dark:text-zinc-100 max-w-xs truncate">
-                        {sub.exam?.title || "Đề thi khảo thí"}
+                      <td className="max-w-xs truncate py-4 px-4 font-bold text-white">
+                        {sub.exam?.title || "Đề thi thử trực tuyến"}
                       </td>
-                      <td className="py-4 px-4 text-zinc-500 dark:text-zinc-400 whitespace-nowrap">
+                      <td className="whitespace-nowrap py-4 px-4 text-zinc-400">
                         <span className="flex items-center gap-1.5">
                           <Calendar className="h-3.5 w-3.5" />
                           {formatDate(sub.submitted_at)}
                         </span>
                       </td>
-                      <td className="py-4 px-4 whitespace-nowrap">
+                      <td className="whitespace-nowrap py-4 px-4">
                         {isGraded ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                          <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-300">
                             <CheckCircle2 className="h-3 w-3" />
                             Đã hoàn thành
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-semibold text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
+                          <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-amber-300">
                             <Clock className="h-3 w-3" />
                             Đang chấm
                           </span>
                         )}
                       </td>
-                      <td className="py-4 px-4 font-semibold text-zinc-800 dark:text-zinc-200">
+                      <td className="py-4 px-4 font-semibold text-zinc-200">
                         {sub.mcq_score} điểm
                       </td>
-                      <td className="py-4 px-4 text-zinc-600 dark:text-zinc-400">
+                      <td className="py-4 px-4 text-zinc-300">
                         {sub.essay_score !== null ? `${sub.essay_score} điểm` : "Chờ chấm"}
                       </td>
                       <td className="py-4 px-4">
-                        <span className="font-extrabold text-sm text-zinc-900 dark:text-zinc-100">
+                        <span className="text-sm font-extrabold text-emerald-400">
                           {sub.total_score} điểm
                         </span>
                       </td>
-                      <td className="py-4 px-4 text-right whitespace-nowrap">
+                      <td className="whitespace-nowrap py-4 px-4 text-right">
                         <Link
                           href={`/history/${sub.id}`}
-                          className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-800 shadow-xs transition hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                          className="glass-pill inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 hover:text-white"
                         >
                           <span>Xem chi tiết</span>
                           <ArrowRight className="h-3 w-3" />
