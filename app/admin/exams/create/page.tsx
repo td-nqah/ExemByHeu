@@ -70,7 +70,31 @@ export default function ExamCreatePage() {
   const [parsedFileName, setParsedFileName] = useState("");
   const [parseMode, setParseMode] = useState<"ai" | "fallback" | null>(null);
   const [parseNotice, setParseNotice] = useState("");
+  const [aiStatusMessage, setAiStatusMessage] = useState("");
+  const [aiConnected, setAiConnected] = useState<boolean | null>(null);
+  const [isTestingAi, setIsTestingAi] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  const handleTestAiConnection = async () => {
+    setIsTestingAi(true);
+    setAiStatusMessage("");
+    try {
+      const res = await fetch("/api/ai/parse-exam", { method: "GET" });
+      const data = await res.json();
+      setAiConnected(Boolean(data?.connected));
+      setAiStatusMessage(
+        data?.message ||
+          (data?.connected
+            ? `Đã kết nối Gemini AI (${data?.model})`
+            : "Chưa kết nối được Gemini AI (Đang dùng Fallback Regex).")
+      );
+    } catch {
+      setAiConnected(false);
+      setAiStatusMessage("Không thể kiểm tra kết nối AI lúc này.");
+    } finally {
+      setIsTestingAi(false);
+    }
+  };
 
   const syncInitialScoreInputs = (drafts: ParsedQuestionDraft[]) => {
     const firstMcq = drafts.find((q) => q.type === "multiple_choice");
@@ -614,11 +638,37 @@ export default function ExamCreatePage() {
             </button>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-slate-400">
-            <Cpu className="h-3.5 w-3.5 text-indigo-400" />
-            <span>Tích hợp Gemini AI + Tự động Fallback Regex</span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleTestAiConnection}
+              disabled={isTestingAi}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-3 py-1.5 text-[11px] font-semibold text-slate-300 transition disabled:opacity-50"
+              title="Kiểm tra xem Server có gọi được model Gemini AI thành công hay không"
+            >
+              <Cpu className="h-3.5 w-3.5 text-indigo-400" />
+              <span>{isTestingAi ? "Đang ping AI..." : "Kiểm tra kết nối AI"}</span>
+            </button>
           </div>
         </div>
+
+        {aiStatusMessage && (
+          <div
+            className={`mx-6 mt-4 flex items-center justify-between gap-2 rounded-xl border px-4 py-2.5 text-xs ${
+              aiConnected
+                ? "border-emerald-800/50 bg-emerald-950/40 text-emerald-300"
+                : "border-amber-800/50 bg-amber-950/40 text-amber-300"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-3.5 w-3.5 shrink-0" />
+              <span>{aiStatusMessage}</span>
+            </div>
+            <span className="font-semibold">
+              {aiConnected ? "ONLINE" : "FALLBACK MODE"}
+            </span>
+          </div>
+        )}
 
         {/* Tab Content */}
         {importerTab === "file" ? (

@@ -122,9 +122,13 @@ export async function POST(request: Request) {
     const configuredModel = (process.env.GEMINI_MODEL || "").trim();
     const candidateModels = Array.from(
       new Set(
-        [configuredModel, "gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.0-flash"].filter(
-          Boolean
-        )
+        [
+          "gemini-3.8-flash",
+          configuredModel,
+          "gemini-3.8-pro",
+          "gemini-2.5-flash",
+          "gemini-2.5-pro",
+        ].filter(Boolean)
       )
     );
 
@@ -150,6 +154,7 @@ ${rawText.slice(0, 45000)}
 """`;
 
     let aiQuestions: ParsedQuestionDraft[] = [];
+    let activeModelUsed = "";
     let lastError = "";
 
     for (const modelName of candidateModels) {
@@ -185,6 +190,7 @@ ${rawText.slice(0, 45000)}
         const normalized = normalizeAiQuestions(rawArray);
         if (normalized.length > 0) {
           aiQuestions = normalized;
+          activeModelUsed = modelName;
           break;
         }
       } catch (err: any) {
@@ -197,6 +203,7 @@ ${rawText.slice(0, 45000)}
       return NextResponse.json({
         questions: aiQuestions,
         mode: "ai",
+        model: activeModelUsed,
       });
     }
 
@@ -211,7 +218,6 @@ ${rawText.slice(0, 45000)}
     });
   } catch (error: any) {
     console.error("Smart Exam Parser Error:", error);
-    // Even on unexpected exception, try fallback parser if rawText is available
     if (rawText) {
       const fallbackQuestions = parseQuestionsFromRawText(rawText);
       if (fallbackQuestions.length > 0) {
@@ -232,4 +238,53 @@ ${rawText.slice(0, 45000)}
       { status: 500 }
     );
   }
+}
+
+export async function GET() {
+  const apiKey = (process.env.GEMINI_API_KEY || "").trim();
+  if (!apiKey) {
+    return NextResponse.json({
+      connected: false,
+      model: null,
+      message: "Chưa cấu hình GEMINI_API_KEY trong .env.local (Đang dùng chế độ Fallback Regex).",
+    });
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
+  const configuredModel = (process.env.GEMINI_MODEL || "").trim();
+  const candidateModels = Array.from(
+    new Set(
+      ["gemini-3.8-flash", configuredModel, "gemini-3.8-pro", "gemini-2.5-flash"].filter(
+        Boolean
+      )
+    )
+  );
+
+  for (const modelName of candidateModels) {
+    try {
+      const start = Date.now();
+      const res = await ai.models.generateContent({
+        model: modelName,
+        contents: "Trả về đúng 1 từ: READY",
+      });
+      const latencyMs = Date.now() - start;
+      if (res.text) {
+        return NextResponse.json({
+          connected: true,
+          model: modelName,
+          latencyMs,
+          reply: res.text.trim(),
+          message: `Kết nối thành công tới Google Gemini AI (${modelName}) • Phản hồi trong ${latencyMs}ms`,
+        });
+      }
+    } catch {
+      continue;
+    }
+  }
+
+  return NextResponse.json({
+    connected: false,
+    model: null,
+    message: "Không thể kết nối tới Gemini API (kiểm tra lại GEMINI_API_KEY hoặc hạn mức).",
+  });
 }

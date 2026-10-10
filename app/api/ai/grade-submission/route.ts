@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     }
 
     const apiKey = process.env.GEMINI_API_KEY || "";
-    const modelName = process.env.GEMINI_MODEL || "gemini-2.5-pro";
+    const modelName = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 
     // Grade each essay question concurrently with Promise.all
     const gradingPromises = essayQuestions.map(async (item: EssayItem) => {
