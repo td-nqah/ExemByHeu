@@ -302,10 +302,10 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                         Tự động chấm
                       </span>
                       <span
-                        className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-bold ${
+                        className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-bold ${
                           ans.is_correct
-                            ? "border-white/30 bg-white/15 text-white"
-                            : "border-red-500/30 bg-red-500/15 text-red-300"
+                            ? "border-emerald-500/40 bg-emerald-950/50 text-emerald-400"
+                            : "border-rose-500/40 bg-rose-950/50 text-rose-400"
                         }`}
                       >
                         {ans.is_correct ? `+${ans.score_awarded} điểm` : "0 điểm"}
@@ -324,22 +324,84 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
               </p>
 
               {isMCQ ? (
-                <div className="space-y-2 rounded-xl border border-white/10 bg-zinc-950/55 p-4">
-                  <div className="flex items-center justify-between text-xs font-semibold">
-                    <span className="text-zinc-400">
-                      Thí sinh chọn: <strong className="text-white">{ans.user_answer || "Bỏ trống"}</strong>
-                    </span>
-                    <span className="text-white">
-                      Đáp án chuẩn: <strong>{q.correct_answer}</strong>
-                    </span>
-                  </div>
-                  <div className="mt-2 text-[11px] text-zinc-400">
-                    {q.options.map((opt, optI) => (
-                      <div key={optI} className="py-0.5">
-                        {opt}
+                <div className="space-y-2.5">
+                  {q.options.map((optText, optI) => {
+                    const letterMatch = optText.match(/^([A-Z])[\.\:\)]/i);
+                    const letter = letterMatch
+                      ? letterMatch[1].toUpperCase()
+                      : String.fromCharCode(65 + optI);
+                    const userChoiceLetter = (ans.user_answer || "")
+                      .replace(/^([A-Z])[\.\:\)].*/i, "$1")
+                      .trim()
+                      .toUpperCase();
+                    const correctKeyLetter = (q.correct_answer || "")
+                      .replace(/^([A-Z])[\.\:\)].*/i, "$1")
+                      .trim()
+                      .toUpperCase();
+
+                    const isCandidateChoice =
+                      userChoiceLetter.length > 0 && userChoiceLetter === letter;
+                    const isCorrectAnswer =
+                      correctKeyLetter.length > 0 && correctKeyLetter === letter;
+
+                    let rowStyle =
+                      "border-white/10 bg-zinc-950/40 text-zinc-400 opacity-65";
+                    let letterBadgeStyle =
+                      "border border-white/15 bg-zinc-900 text-zinc-400";
+
+                    if (isCorrectAnswer) {
+                      rowStyle =
+                        "border-emerald-500 bg-emerald-950/50 text-emerald-400 font-semibold shadow-[inset_0_1px_0_rgba(16,185,129,0.15)]";
+                      letterBadgeStyle =
+                        "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300";
+                    } else if (isCandidateChoice && !isCorrectAnswer) {
+                      rowStyle =
+                        "border-rose-500 bg-rose-950/50 text-rose-400 font-semibold shadow-[inset_0_1px_0_rgba(244,63,94,0.15)]";
+                      letterBadgeStyle =
+                        "border border-rose-400/50 bg-rose-500/20 text-rose-300";
+                    }
+
+                    return (
+                      <div
+                        key={optI}
+                        className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-xs leading-relaxed transition ${rowStyle}`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <span
+                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${letterBadgeStyle}`}
+                          >
+                            {letter}
+                          </span>
+                          <span className="pt-0.5">
+                            {optText.replace(/^[A-Z][\.\:\)]\s*/i, "")}
+                          </span>
+                        </div>
+
+                        <div className="flex shrink-0 flex-wrap items-center gap-1.5 text-[11px] font-semibold">
+                          {isCandidateChoice && isCorrectAnswer && (
+                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                              <Check className="h-3 w-3 text-emerald-400" />
+                              <span>Thí sinh chọn (Đáp án đúng)</span>
+                            </span>
+                          )}
+
+                          {isCandidateChoice && !isCorrectAnswer && (
+                            <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/40 bg-rose-950/80 px-2.5 py-0.5 text-[10px] font-bold text-rose-400">
+                              <AlertCircle className="h-3 w-3 text-rose-400" />
+                              <span>Lựa chọn của bạn / Thí sinh</span>
+                            </span>
+                          )}
+
+                          {!isCandidateChoice && isCorrectAnswer && (
+                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                              <Check className="h-3 w-3 text-emerald-400" />
+                              <span>Đáp án đúng</span>
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="space-y-4">

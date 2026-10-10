@@ -171,13 +171,13 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                 <div className="flex items-center gap-2">
                   {isMCQ ? (
                     isCorrect ? (
-                      <span className="inline-flex items-center gap-1 rounded-md border border-white/30 bg-white/15 px-2.5 py-0.5 text-xs font-bold text-white">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                      <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/50 px-2.5 py-0.5 text-xs font-bold text-emerald-400">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
                         Đúng (+{answer.score_awarded} / {q.max_score} điểm)
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 rounded-md border border-red-500/30 bg-red-500/15 px-2.5 py-0.5 text-xs font-bold text-red-300">
-                        <XCircle className="h-3.5 w-3.5" />
+                      <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/40 bg-rose-950/50 px-2.5 py-0.5 text-xs font-bold text-rose-400">
+                        <XCircle className="h-3.5 w-3.5 text-rose-400" />
                         Sai (0 / {q.max_score} điểm)
                       </span>
                     )
@@ -195,43 +195,78 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               </p>
 
               {isMCQ ? (
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {q.options.map((optText, optIdx) => {
-                    const letterMatch = optText.match(/^([A-D])[\.\:\)]/i);
+                    const letterMatch = optText.match(/^([A-Z])[\.\:\)]/i);
                     const letter = letterMatch
                       ? letterMatch[1].toUpperCase()
                       : String.fromCharCode(65 + optIdx);
-                    const isCandidateChoice = answer.user_answer.toUpperCase() === letter;
-                    const isCorrectAnswer = q.correct_answer.toUpperCase() === letter;
+                    const userChoiceLetter = (answer.user_answer || "")
+                      .replace(/^([A-Z])[\.\:\)].*/i, "$1")
+                      .trim()
+                      .toUpperCase();
+                    const correctKeyLetter = (q.correct_answer || "")
+                      .replace(/^([A-Z])[\.\:\)].*/i, "$1")
+                      .trim()
+                      .toUpperCase();
+
+                    const isCandidateChoice =
+                      userChoiceLetter.length > 0 && userChoiceLetter === letter;
+                    const isCorrectAnswer =
+                      correctKeyLetter.length > 0 && correctKeyLetter === letter;
 
                     let rowStyle =
-                      "border-white/10 bg-zinc-950/50 text-zinc-300";
+                      "border-white/10 bg-zinc-950/40 text-zinc-400 opacity-65";
+                    let letterBadgeStyle =
+                      "border border-white/15 bg-zinc-900 text-zinc-400";
+
                     if (isCorrectAnswer) {
                       rowStyle =
-                        "border-white/50 bg-white/[0.12] text-white font-semibold ring-1 ring-white/30";
+                        "border-emerald-500 bg-emerald-950/50 text-emerald-400 font-semibold shadow-[inset_0_1px_0_rgba(16,185,129,0.15)]";
+                      letterBadgeStyle =
+                        "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300";
                     } else if (isCandidateChoice && !isCorrectAnswer) {
                       rowStyle =
-                        "border-red-500/50 bg-red-950/40 text-red-200 font-medium";
+                        "border-rose-500 bg-rose-950/50 text-rose-400 font-semibold shadow-[inset_0_1px_0_rgba(244,63,94,0.15)]";
+                      letterBadgeStyle =
+                        "border border-rose-400/50 bg-rose-500/20 text-rose-300";
                     }
 
                     return (
                       <div
                         key={optIdx}
-                        className={`flex items-start justify-between gap-3 rounded-xl border p-3 text-xs leading-relaxed ${rowStyle}`}
+                        className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-xs leading-relaxed transition ${rowStyle}`}
                       >
-                        <div className="flex items-start gap-2.5">
-                          <span className="font-bold">{letter}.</span>
-                          <span>{optText.replace(/^[A-D][\.\:\)]\s*/i, "")}</span>
+                        <div className="flex items-start gap-3">
+                          <span
+                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${letterBadgeStyle}`}
+                          >
+                            {letter}
+                          </span>
+                          <span className="pt-0.5">
+                            {optText.replace(/^[A-Z][\.\:\)]\s*/i, "")}
+                          </span>
                         </div>
-                        <div className="flex shrink-0 items-center gap-1.5 text-[11px] font-semibold">
-                          {isCandidateChoice && (
-                            <span className="rounded-md border border-white/20 bg-white/10 px-2 py-0.5 text-[10px] text-white">
-                              Lựa chọn của bạn
+
+                        <div className="flex shrink-0 flex-wrap items-center gap-1.5 text-[11px] font-semibold">
+                          {isCandidateChoice && isCorrectAnswer && (
+                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                              <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                              <span>Lựa chọn của bạn (Đáp án đúng)</span>
                             </span>
                           )}
-                          {isCorrectAnswer && (
-                            <span className="rounded-md bg-white px-2 py-0.5 text-[10px] font-bold text-zinc-950">
-                              Đáp án chuẩn
+
+                          {isCandidateChoice && !isCorrectAnswer && (
+                            <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/40 bg-rose-950/80 px-2.5 py-0.5 text-[10px] font-bold text-rose-400">
+                              <XCircle className="h-3 w-3 text-rose-400" />
+                              <span>Lựa chọn của bạn</span>
+                            </span>
+                          )}
+
+                          {!isCandidateChoice && isCorrectAnswer && (
+                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                              <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                              <span>Đáp án đúng</span>
                             </span>
                           )}
                         </div>

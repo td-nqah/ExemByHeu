@@ -764,8 +764,8 @@ export default function ExamCreatePage() {
                       </div>
 
                       {isMCQ && q.correct_answer && (
-                        <span className="inline-flex items-center gap-1 rounded-md border border-white/30 bg-white px-2.5 py-1 text-[11px] font-bold text-zinc-950">
-                          <CheckCircle2 className="h-3 w-3 text-zinc-950" />
+                        <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/40 px-2.5 py-1 text-[11px] font-bold text-emerald-400">
+                          <CheckCircle2 className="h-3 w-3 text-emerald-400" />
                           Đáp án đúng: {q.correct_answer}
                         </span>
                       )}
@@ -791,7 +791,7 @@ export default function ExamCreatePage() {
                             key={optIdx}
                             className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-xs transition ${
                               isCorrect
-                                ? "border-white/50 bg-white/[0.12] text-white ring-1 ring-white/30"
+                                ? "border-emerald-500 bg-emerald-950/40 text-emerald-400 font-semibold shadow-[inset_0_1px_0_rgba(16,185,129,0.15)]"
                                 : "border-white/10 bg-zinc-950/55 text-zinc-300"
                             }`}
                           >
@@ -799,7 +799,7 @@ export default function ExamCreatePage() {
                               <span
                                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                                   isCorrect
-                                    ? "bg-white text-zinc-950"
+                                    ? "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300"
                                     : "border border-white/15 bg-zinc-900 text-zinc-300"
                                 }`}
                               >
@@ -809,8 +809,9 @@ export default function ExamCreatePage() {
                             </div>
 
                             {isCorrect && (
-                              <span className="shrink-0 rounded-md bg-white px-2 py-0.5 text-[10px] font-bold text-zinc-950">
-                                Đáp án chuẩn
+                              <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/70 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                                <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                                <span>Đáp án chuẩn</span>
                               </span>
                             )}
                           </div>

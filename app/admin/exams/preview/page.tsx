@@ -367,8 +367,8 @@ function AdminExamPreviewContent() {
                   </div>
 
                   {isMCQ && q.correct_answer && (
-                    <span className="inline-flex items-center gap-1 rounded-md border border-white/25 bg-white/15 px-2.5 py-1 text-xs font-bold text-white">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                    <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/40 px-2.5 py-1 text-xs font-bold text-emerald-400">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
                       Đáp án đúng: {q.correct_answer}
                     </span>
                   )}
@@ -382,7 +382,7 @@ function AdminExamPreviewContent() {
               {isMCQ ? (
                 <div className="space-y-2">
                   {q.options.map((optText, optIdx) => {
-                    const letterMatch = optText.match(/^([A-D])[\.\:\)]/i);
+                    const letterMatch = optText.match(/^([A-Z])[\.\:\)]/i);
                     const letter = letterMatch
                       ? letterMatch[1].toUpperCase()
                       : String.fromCharCode(65 + optIdx);
@@ -393,9 +393,9 @@ function AdminExamPreviewContent() {
                     return (
                       <div
                         key={optIdx}
-                        className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-xs leading-relaxed ${
+                        className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-xs leading-relaxed transition ${
                           isCorrect
-                            ? "border-white/40 bg-white/12 text-white font-semibold"
+                            ? "border-emerald-500 bg-emerald-950/40 text-emerald-400 font-semibold shadow-[inset_0_1px_0_rgba(16,185,129,0.15)]"
                             : "border-white/10 bg-zinc-950/50 text-zinc-300"
                         }`}
                       >
@@ -403,7 +403,7 @@ function AdminExamPreviewContent() {
                           <span
                             className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                               isCorrect
-                                ? "bg-white text-zinc-950"
+                                ? "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300"
                                 : "border border-white/15 bg-zinc-900 text-zinc-300"
                             }`}
                           >
@@ -413,8 +413,9 @@ function AdminExamPreviewContent() {
                         </div>
 
                         {isCorrect && (
-                          <span className="shrink-0 rounded-md bg-white px-2 py-0.5 text-[10px] font-bold text-zinc-950">
-                            Đáp án đúng
+                          <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/70 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                            <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                            <span>Đáp án đúng</span>
                           </span>
                         )}
                       </div>
