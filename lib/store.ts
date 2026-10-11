@@ -93,25 +93,25 @@ export const SEED_AUDIT_LOGS: LoginAuditLog[] = [
 export const SEED_PROFILES: Profile[] = [
   {
     id: "00000000-0000-0000-0000-000000000001",
-    username: "admin",
+    username: "Admin",
     role: "admin",
     created_at: new Date().toISOString(),
   },
   {
     id: "00000000-0000-0000-0000-000000000002",
-    username: "user1",
+    username: "User1",
     role: "user",
     created_at: new Date().toISOString(),
   },
   {
     id: "00000000-0000-0000-0000-000000000003",
-    username: "user2",
+    username: "User2",
     role: "user",
     created_at: new Date().toISOString(),
   },
   {
     id: "00000000-0000-0000-0000-000000000004",
-    username: "user3",
+    username: "User3",
     role: "user",
     created_at: new Date().toISOString(),
   },
@@ -425,6 +425,17 @@ export function initStore(): void {
 export function getCurrentUser(): Profile | null {
   if (typeof window === "undefined") return null;
   const user = getLocal<Profile | null>(KEY_USER, null);
+  if (user && user.username) {
+    const raw = user.username.trim().replace(/!+$/, "");
+    let formatted = raw;
+    if (raw.toLowerCase() === "admin") formatted = "Admin";
+    else if (raw.toLowerCase() === "user1") formatted = "User1";
+    else formatted = raw.charAt(0).toUpperCase() + raw.slice(1);
+    if (formatted !== user.username) {
+      user.username = formatted;
+      setLocal(KEY_USER, user);
+    }
+  }
   return user;
 }
 
@@ -440,7 +451,7 @@ export function setCurrentUser(user: Profile | null): void {
 }
 
 export async function loginUser(username: string, password: string): Promise<Profile | null> {
-  const cleanUsername = username.trim().toLowerCase();
+  const cleanUsername = username.trim().toLowerCase().replace(/!+$/, "");
 
   // Explicitly disallow removed legacy account 'user'
   if (cleanUsername === "user") {
@@ -454,7 +465,7 @@ export async function loginUser(username: string, password: string): Promise<Pro
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("username", cleanUsername)
+        .ilike("username", cleanUsername)
         .single();
 
       if (!error && data) {
@@ -471,12 +482,12 @@ export async function loginUser(username: string, password: string): Promise<Pro
 
         // Direct credential check
         if (!isMatch) {
-          if (data.username === "admin" && password === "123") {
+          if (data.username.toLowerCase() === "admin" && password === "123") {
             isMatch = true;
           } else if (
-            (data.username === "user1" ||
-              data.username === "user2" ||
-              data.username === "user3") &&
+            (data.username.toLowerCase() === "user1" ||
+              data.username.toLowerCase() === "user2" ||
+              data.username.toLowerCase() === "user3") &&
             password === "1"
           ) {
             isMatch = true;
@@ -486,9 +497,10 @@ export async function loginUser(username: string, password: string): Promise<Pro
         }
 
         if (isMatch) {
+          const formattedUsername = data.username.toLowerCase() === "admin" ? "Admin" : data.username.toLowerCase() === "user1" ? "User1" : data.username;
           const profile: Profile = {
             id: data.id,
-            username: data.username,
+            username: formattedUsername,
             role: data.role as "admin" | "user",
             created_at: data.created_at,
           };
@@ -504,24 +516,26 @@ export async function loginUser(username: string, password: string): Promise<Pro
 
   // 2. Local fallback
   initStore();
-  const matched = SEED_PROFILES.find((p) => p.username === cleanUsername);
+  const matched = SEED_PROFILES.find((p) => p.username.toLowerCase() === cleanUsername);
   if (matched) {
     let isMatch = false;
-    if (matched.username === "admin" && password === "123") {
+    if (matched.username.toLowerCase() === "admin" && password === "123") {
       isMatch = true;
     } else if (
-      (matched.username === "user1" ||
-        matched.username === "user2" ||
-        matched.username === "user3") &&
+      (matched.username.toLowerCase() === "user1" ||
+        matched.username.toLowerCase() === "user2" ||
+        matched.username.toLowerCase() === "user3") &&
       password === "1"
     ) {
       isMatch = true;
     }
 
     if (isMatch) {
-      setCurrentUser(matched);
-      recordLoginAudit(matched.username, "success");
-      return matched;
+      const formattedUsername = matched.username.toLowerCase() === "admin" ? "Admin" : matched.username.toLowerCase() === "user1" ? "User1" : matched.username;
+      const formattedMatched = { ...matched, username: formattedUsername };
+      setCurrentUser(formattedMatched);
+      recordLoginAudit(formattedMatched.username, "success");
+      return formattedMatched;
     }
   }
 

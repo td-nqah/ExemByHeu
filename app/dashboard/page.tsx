@@ -21,6 +21,15 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+function formatDisplayName(name?: string): string {
+  if (!name) return "";
+  const cleaned = name.trim().replace(/!+$/, "");
+  const lower = cleaned.toLowerCase();
+  if (lower === "admin") return "Admin";
+  if (lower === "user1") return "User1";
+  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+}
+
 // Helper: Filter exams by category keywords or exact slug
 function matchCategory(exam: Exam, categorySlug: string): boolean {
   if (!categorySlug || categorySlug === "all") return true;
@@ -223,7 +232,7 @@ function UserDashboardContent() {
                   greetingInfo.gradient
                 )}
               >
-                {currentUser?.username || "user1"}!
+                {formatDisplayName(currentUser?.username || "user1")}
               </span>
             </h1>
 

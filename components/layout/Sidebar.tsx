@@ -39,6 +39,15 @@ interface SidebarProps {
   onCloseMobile: () => void;
 }
 
+function formatDisplayName(name?: string): string {
+  if (!name) return "";
+  const cleaned = name.trim().replace(/!+$/, "");
+  const lower = cleaned.toLowerCase();
+  if (lower === "admin") return "Admin";
+  if (lower === "user1") return "User1";
+  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+}
+
 export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -428,11 +437,11 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             <div className="flex items-center justify-between rounded-xl bg-slate-950/60 border border-white/10 p-2.5">
               <div className="flex items-center gap-2.5 min-w-0">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 font-bold text-white text-xs shadow-[0_0_12px_rgba(99,102,241,0.3)]">
-                  {user.username.charAt(0).toUpperCase()}
+                  {formatDisplayName(user.username).charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0">
                   <p className="truncate text-xs font-semibold text-white">
-                    {user.username}
+                    {formatDisplayName(user.username)}
                   </p>
                   <p className="text-[10px] text-slate-400 truncate">
                     {user.role === "admin" ? "Quản trị viên" : "Người dùng"}

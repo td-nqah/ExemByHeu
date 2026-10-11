@@ -15,6 +15,15 @@ import {
   ShieldAlert,
 } from "lucide-react";
 
+function formatDisplayName(name?: string): string {
+  if (!name) return "";
+  const cleaned = name.trim().replace(/!+$/, "");
+  const lower = cleaned.toLowerCase();
+  if (lower === "admin") return "Admin";
+  if (lower === "user1") return "User1";
+  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+}
+
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -131,7 +140,7 @@ export function Navbar() {
                   <span className="hidden sm:inline">
                     {user.role === "admin" ? "Quản trị: " : "Thí sinh: "}
                   </span>
-                  <strong className="text-white">{user.username}</strong>
+                  <strong className="text-white">{formatDisplayName(user.username)}</strong>
                 </span>
               </div>
 
