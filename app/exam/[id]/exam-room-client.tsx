@@ -19,9 +19,14 @@ import {
   History,
   ArrowRight,
   Flag,
+  Maximize2,
+  Minimize2,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { cn } from "@/lib/utils";
 
 export function ExamRoomClient({ examId }: { examId: string }) {
   const router = useRouter();
@@ -35,6 +40,41 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [completedSubmission, setCompletedSubmission] = useState<Submission | null>(null);
+  const [isFocusMode, setIsFocusMode] = useState(false);
+
+  const toggleFocusMode = async () => {
+    const nextState = !isFocusMode;
+    setIsFocusMode(nextState);
+
+    // Fullscreen API integration (optional browser enhancement)
+    try {
+      if (typeof document !== "undefined") {
+        if (nextState) {
+          if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
+            await document.documentElement.requestFullscreen().catch(() => {});
+          }
+        } else {
+          if (document.exitFullscreen && document.fullscreenElement) {
+            await document.exitFullscreen().catch(() => {});
+          }
+        }
+      }
+    } catch {
+      // Ignored if browser policy denies fullscreen request
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement && isFocusMode) {
+        setIsFocusMode(false);
+      }
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, [isFocusMode]);
 
   const toggleFlagQuestion = (questionId: string) => {
     setFlaggedQuestions((prev) => ({
@@ -193,19 +233,38 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const hasEssay = questions.some((q) => q.type === "essay");
 
   return (
-    <div className="min-h-[100dvh] pb-20">
-      {/* Top Header Bar: Left Side = Countdown Timer, Right Side = Total Questions + User Status + Submit CTA */}
-      <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#090D16]/85 backdrop-blur-md">
-        <div className="mx-auto flex min-h-16 max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
-          {/* Left Side: Back Button + Prominent Digital Countdown Timer */}
+    <div
+      className={cn(
+        "min-h-[100dvh] pb-24 transition-colors duration-500",
+        isFocusMode ? "bg-[#070A10]" : "bg-[#0B0F17]"
+      )}
+    >
+      {/* Top Header Bar: Dynamic between Standard & Zen Focus Mode */}
+      <header
+        className={cn(
+          "sticky top-0 z-30 transition-all duration-300",
+          isFocusMode
+            ? "border-b border-indigo-500/20 bg-[#070A10]/95 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
+            : "border-b border-slate-800/80 bg-[#090D16]/85 backdrop-blur-md"
+        )}
+      >
+        <div
+          className={cn(
+            "mx-auto flex min-h-16 flex-wrap items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8 transition-all duration-300",
+            isFocusMode ? "max-w-4xl" : "max-w-7xl"
+          )}
+        >
+          {/* Left Side: Back Button / Mode Badge + Digital Countdown Timer */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/dashboard"
-              className="rounded-xl bg-slate-900/90 border border-slate-800 p-2 text-slate-300 transition hover:bg-slate-800 hover:text-white"
-              title="Quay lại danh sách"
-            >
-              <ArrowLeft className="h-4 w-4 text-indigo-400" />
-            </Link>
+            {!isFocusMode && (
+              <Link
+                href="/dashboard"
+                className="rounded-xl bg-slate-900/90 border border-slate-800 p-2 text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                title="Quay lại danh sách"
+              >
+                <ArrowLeft className="h-4 w-4 text-indigo-400" />
+              </Link>
+            )}
 
             {!completedSubmission && (
               <StickyTimer
@@ -214,25 +273,68 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               />
             )}
 
-            <div className="hidden md:block pl-1">
-              <h1 className="line-clamp-1 max-w-xs text-sm font-bold text-white lg:max-w-md">
-                {exam.title}
-              </h1>
-            </div>
+            {isFocusMode ? (
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 text-xs font-semibold text-indigo-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
+                <span>Chế độ Tập trung</span>
+              </div>
+            ) : (
+              <div className="hidden md:block pl-1">
+                <h1 className="line-clamp-1 max-w-xs text-sm font-bold text-white lg:max-w-md">
+                  {exam.title}
+                </h1>
+              </div>
+            )}
           </div>
 
-          {/* Right Side: Total Number of Questions + User Status + Submission CTA */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            <div className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200">
-              <ListChecks className="h-3.5 w-3.5 text-indigo-400" />
-              <span>Tổng {questions.length} câu hỏi</span>
-            </div>
+          {/* Right Side: Total Questions + User Status + Focus Mode Toggle + Submit CTA */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {!isFocusMode && (
+              <>
+                <div className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200">
+                  <ListChecks className="h-3.5 w-3.5 text-indigo-400" />
+                  <span>Tổng {questions.length} câu hỏi</span>
+                </div>
 
-            <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300">
-              <User className="h-3.5 w-3.5 text-indigo-400" />
-              <span>{getCurrentUser()?.username || "Thí sinh"}</span>
-            </div>
+                <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300">
+                  <User className="h-3.5 w-3.5 text-indigo-400" />
+                  <span>{getCurrentUser()?.username || "Thí sinh"}</span>
+                </div>
+              </>
+            )}
 
+            {isFocusMode && (
+              <span className="hidden sm:inline-block text-xs font-medium text-slate-400">
+                Đã làm: <strong className="text-emerald-400 font-semibold">{answeredCount}/{questions.length}</strong>
+              </span>
+            )}
+
+            {/* Focus Mode Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleFocusMode}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition active:scale-95 border",
+                isFocusMode
+                  ? "bg-amber-500/15 text-amber-300 border-amber-500/30 hover:bg-amber-500/25 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
+                  : "bg-slate-900/90 text-slate-300 border-slate-800 hover:border-indigo-500/40 hover:bg-slate-800 hover:text-white"
+              )}
+              title={isFocusMode ? "Thoát Chế độ Tập trung" : "Bật Chế độ Tập trung (Zen Mode)"}
+            >
+              {isFocusMode ? (
+                <>
+                  <Minimize2 className="h-3.5 w-3.5 text-amber-300" />
+                  <span className="hidden sm:inline">Thoát Tập trung</span>
+                </>
+              ) : (
+                <>
+                  <Maximize2 className="h-3.5 w-3.5 text-indigo-400" />
+                  <span className="hidden sm:inline">Chế độ Tập trung</span>
+                </>
+              )}
+            </button>
+
+            {/* Submit Button */}
             <button
               type="button"
               onClick={() => setShowConfirmModal(true)}
@@ -246,31 +348,43 @@ export function ExamRoomClient({ examId }: { examId: string }) {
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-          {/* Desktop Question Index Sidebar - Hidden on mobile (< 768px) */}
-          <aside className="hidden md:block md:col-span-4 lg:col-span-4 xl:col-span-3">
-            <div className="sticky top-20 space-y-4">
-              <QuestionNav
-                questions={questions}
-                userAnswers={userAnswers}
-                flaggedQuestions={flaggedQuestions}
-                activeQuestionId={activeQuestionId}
-                onSelectQuestion={scrollToQuestion}
-              />
+      <div
+        className={cn(
+          "mx-auto px-4 py-6 sm:px-6 lg:px-8 transition-all duration-300",
+          isFocusMode ? "max-w-4xl" : "max-w-7xl"
+        )}
+      >
+        <div className={cn("grid grid-cols-1 gap-6", !isFocusMode && "md:grid-cols-12")}>
+          {/* Desktop Question Index Sidebar - Hidden on mobile (< 768px) and Hidden in Focus Mode */}
+          {!isFocusMode && (
+            <aside className="hidden md:block md:col-span-4 lg:col-span-4 xl:col-span-3">
+              <div className="sticky top-20 space-y-4">
+                <QuestionNav
+                  questions={questions}
+                  userAnswers={userAnswers}
+                  flaggedQuestions={flaggedQuestions}
+                  activeQuestionId={activeQuestionId}
+                  onSelectQuestion={scrollToQuestion}
+                />
 
-              <div className="bg-[#0C1017] border border-slate-800/90 rounded-2xl p-4 text-xs text-slate-300">
-                <p className="mb-1.5 font-bold text-white">Quy định phòng thi thử:</p>
-                <ul className="list-disc space-y-1 pl-4 text-[11px] text-slate-400">
-                  <li>Điểm trắc nghiệm được chấm tự động ngay khi nộp bài.</li>
-                  <li>Câu hỏi tự luận được lưu trữ và chấm điểm trên thang điểm chuẩn.</li>
-                  <li>Khi hết thời gian, hệ thống tự động khóa và gửi bài làm.</li>
-                </ul>
+                <div className="bg-[#0C1017] border border-slate-800/90 rounded-2xl p-4 text-xs text-slate-300">
+                  <p className="mb-1.5 font-bold text-white">Quy định phòng thi thử:</p>
+                  <ul className="list-disc space-y-1 pl-4 text-[11px] text-slate-400">
+                    <li>Điểm trắc nghiệm được chấm tự động ngay khi nộp bài.</li>
+                    <li>Câu hỏi tự luận được lưu trữ và chấm điểm trên thang điểm chuẩn.</li>
+                    <li>Khi hết thời gian, hệ thống tự động khóa và gửi bài làm.</li>
+                  </ul>
+                </div>
               </div>
-            </div>
-          </aside>
+            </aside>
+          )}
 
-          <main className="space-y-6 md:col-span-8 lg:col-span-8 xl:col-span-9">
+          <main
+            className={cn(
+              "space-y-6",
+              isFocusMode ? "w-full" : "md:col-span-8 lg:col-span-8 xl:col-span-9"
+            )}
+          >
             {questions.map((question, index) => {
               const currentVal = userAnswers[question.id] || "";
               const isAnswered = currentVal.trim().length > 0;
@@ -284,13 +398,17 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.3) }}
                   onClick={() => setActiveQuestionId(question.id)}
-                  className={`glow-card scroll-mt-24 rounded-2xl p-6 transition ${
+                  className={cn(
+                    "glow-card scroll-mt-24 rounded-2xl transition",
+                    isFocusMode
+                      ? "p-6 sm:p-8 bg-slate-950/85 border-slate-800/80 shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
+                      : "p-6",
                     activeQuestionId === question.id
                       ? "border-indigo-500/60 ring-1 ring-indigo-500/30"
                       : isFlagged
                       ? "border-amber-400/60 ring-1 ring-amber-400/20"
                       : ""
-                  }`}
+                  )}
                 >
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
                     <div className="flex items-center gap-2.5">
@@ -345,7 +463,14 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                     </div>
                   </div>
 
-                  <p className="mb-5 whitespace-pre-wrap text-sm font-medium leading-relaxed text-slate-100">
+                  <p
+                    className={cn(
+                      "mb-5 whitespace-pre-wrap font-medium text-slate-100",
+                      isFocusMode
+                        ? "text-base sm:text-[17px] leading-relaxed"
+                        : "text-sm leading-relaxed"
+                    )}
+                  >
                     {question.content}
                   </p>
 
@@ -407,6 +532,55 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                       </div>
                     </div>
                   )}
+
+                  {/* Prev / Next Question Navigation Toolbar */}
+                  <div className="mt-6 flex items-center justify-between border-t border-slate-800/80 pt-3.5 text-xs">
+                    {index > 0 ? (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToQuestion(questions[index - 1].id);
+                        }}
+                        className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent hover:border-slate-800 transition active:scale-95"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                        <span>Câu trước</span>
+                      </button>
+                    ) : (
+                      <div />
+                    )}
+
+                    <span className="text-[11px] text-slate-500 font-mono">
+                      Câu {index + 1} / {questions.length}
+                    </span>
+
+                    {index < questions.length - 1 ? (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToQuestion(questions[index + 1].id);
+                        }}
+                        className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 border border-indigo-500/20 transition active:scale-95 font-medium"
+                      >
+                        <span>Câu tiếp theo</span>
+                        <ChevronRight className="h-4 w-4" />
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowConfirmModal(true);
+                        }}
+                        className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white transition active:scale-95 font-medium shadow-md shadow-indigo-600/30"
+                      >
+                        <span>Hoàn thành & Nộp</span>
+                        <Send className="h-3 w-3" />
+                      </button>
+                    )}
+                  </div>
                 </motion.article>
               );
             })}
@@ -545,6 +719,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           flaggedQuestions={flaggedQuestions}
           activeQuestionId={activeQuestionId}
           onSelectQuestion={scrollToQuestion}
+          isFocusMode={isFocusMode}
         />
       )}
     </div>
