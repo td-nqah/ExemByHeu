@@ -10,6 +10,8 @@ import { UserExamCard } from "@/components/dashboard/UserExamCard";
 import {
   BookOpen,
   ChevronRight,
+  Files,
+  ClipboardCheck,
 } from "lucide-react";
 
 export default function UserDashboardPage() {
@@ -66,31 +68,35 @@ export default function UserDashboardPage() {
         <Link
           href="/history"
           title="Bấm để xem Lịch sử làm bài"
-          className="group inline-flex items-center gap-3.5 sm:gap-4 bg-slate-900/60 backdrop-blur-md hover:bg-slate-900/90 border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.18)] rounded-xl p-3 px-4 shadow-lg transition-all duration-300 self-start md:self-auto cursor-pointer"
+          className="group flex items-center justify-between gap-3 sm:gap-4 w-full sm:w-[360px] md:w-[380px] bg-slate-900/70 backdrop-blur-md hover:bg-slate-900/90 border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_30px_rgba(99,102,241,0.22)] rounded-2xl p-4 px-5 sm:px-6 shadow-xl transition-all duration-300 self-start md:self-auto cursor-pointer"
         >
-          {/* Số đề hiện có */}
-          <div className="flex items-center gap-1.5 text-xs text-slate-300">
-            <span className="text-sm select-none" aria-hidden="true">📚</span>
-            <span>Đề hiện có:</span>
-            <span className="font-bold text-white tracking-wide">
-              {loading ? "..." : exams.length}
-            </span>
+          {/* Cụm Đề hiện có */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Files className="h-5 w-5 text-indigo-400 shrink-0 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+            <div className="text-sm font-medium text-slate-300 truncate">
+              <span>Đề hiện có: </span>
+              <strong className="text-base md:text-lg font-bold text-white tracking-wide">
+                {loading ? "..." : exams.length}
+              </strong>
+            </div>
           </div>
 
-          {/* Đường phân cách mảnh */}
-          <div className="h-4 w-px bg-white/10 group-hover:bg-white/20 transition-colors" />
+          {/* Đường phân cách */}
+          <div className="h-6 w-px bg-white/10 shrink-0 group-hover:bg-white/20 transition-colors" />
 
-          {/* Số đề đã hoàn thành */}
-          <div className="flex items-center gap-1.5 text-xs text-slate-300">
-            <span className="text-sm select-none" aria-hidden="true">✅</span>
-            <span>Đã hoàn thành:</span>
-            <span className="font-bold text-indigo-400 group-hover:text-indigo-300 tracking-wide">
-              {loading ? "..." : submissions.length}
-            </span>
+          {/* Cụm Đã hoàn thành */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <ClipboardCheck className="h-5 w-5 text-emerald-400 shrink-0 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+            <div className="text-sm font-medium text-slate-300 truncate">
+              <span>Đã hoàn thành: </span>
+              <strong className="text-base md:text-lg font-bold text-emerald-400 group-hover:text-emerald-300 tracking-wide">
+                {loading ? "..." : submissions.length}
+              </strong>
+            </div>
           </div>
 
           {/* Mũi tên chuyển hướng */}
-          <ChevronRight className="h-3.5 w-3.5 text-slate-400 group-hover:text-white transition-transform duration-200 group-hover:translate-x-0.5 ml-0.5" />
+          <ChevronRight className="h-4 w-4 shrink-0 text-slate-500 group-hover:text-white transition-transform duration-200 group-hover:translate-x-0.5 ml-0.5" />
         </Link>
       </motion.div>
 
