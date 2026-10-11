@@ -23,13 +23,13 @@ export function formatTimeLeft(seconds: number): string {
 export function formatDate(isoString: string): string {
   try {
     const date = new Date(isoString);
-    return date.toLocaleDateString("vi-VN", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    if (isNaN(date.getTime())) return isoString;
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${hours}:${minutes} ${day}/${month}/${year}`;
   } catch {
     return isoString;
   }

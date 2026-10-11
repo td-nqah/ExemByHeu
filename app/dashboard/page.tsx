@@ -6,17 +6,13 @@ import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
 import { getExams, getSubmissions, getCurrentUser } from "@/lib/store";
 import { Exam, Submission } from "@/types/exam";
-import { formatDuration, formatDate } from "@/lib/utils";
+import { UserExamCard } from "@/components/dashboard/UserExamCard";
 import {
   BookOpen,
   BookCheck,
   Clock,
-  HelpCircle,
-  ArrowRight,
   CheckCircle2,
-  Calendar,
   Award,
-  TrendingUp,
 } from "lucide-react";
 
 export default function UserDashboardPage() {
@@ -158,119 +154,9 @@ export default function UserDashboardPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {exams.map((exam, idx) => {
-            const questionCount = exam.questions?.length || 0;
-            const mcqCount =
-              exam.questions?.filter((q) => q.type === "multiple_choice")
-                .length || 0;
-            const essayCount =
-              exam.questions?.filter((q) => q.type === "essay").length || 0;
-
-            const recentAttempts = exam.recent_submissions || [];
-
-            return (
-              <motion.div
-                key={exam.id}
-                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.45,
-                  delay: idx * 0.06,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="group bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between space-y-5"
-              >
-                <div>
-                  {/* Badges */}
-                  <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700/60">
-                      <Clock className="h-3.5 w-3.5 text-indigo-400" />
-                      {formatDuration(exam.duration_minutes)}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700/60">
-                      <HelpCircle className="h-3.5 w-3.5 text-indigo-400" />
-                      {questionCount} câu hỏi
-                    </span>
-                  </div>
-
-                  {/* Exam Title & Info */}
-                  <h3 className="text-xl font-bold text-slate-100 group-hover:text-indigo-300 transition-colors tracking-tight mb-2">
-                    {exam.title}
-                  </h3>
-                  <p className="text-xs text-slate-400 leading-relaxed line-clamp-2">
-                    {exam.description ||
-                      "Bài thi thử trực tuyến đánh giá năng lực toàn diện."}
-                  </p>
-
-                  <div className="mt-4 pt-3 border-t border-slate-800/60 text-xs text-slate-400 flex items-center justify-between">
-                    <span>{mcqCount} trắc nghiệm</span>
-                    <span className="h-1 w-1 rounded-full bg-slate-700" />
-                    <span>{essayCount} tự luận</span>
-                  </div>
-                </div>
-
-                {/* Recent Scores Component */}
-                <div className="bg-slate-950/60 border border-slate-800/80 p-3 rounded-xl space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400 font-medium flex items-center gap-1">
-                      <TrendingUp className="h-3.5 w-3.5 text-indigo-400" /> 3 lần
-                      gần nhất:
-                    </span>
-                  </div>
-
-                  {recentAttempts.length === 0 ? (
-                    <p className="text-[11px] text-slate-500 italic py-0.5">
-                      Chưa có lượt làm bài nào
-                    </p>
-                  ) : (
-                    <div className="flex flex-wrap items-center gap-1.5 overflow-x-auto">
-                      {recentAttempts.map((attempt, attemptIdx) => {
-                        const isPending = attempt.status === "pending_grading";
-                        const labelNum = attemptIdx + 1;
-
-                        const badgeColor = isPending
-                          ? "bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/20"
-                          : attemptIdx === 1
-                          ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20 hover:bg-indigo-500/20"
-                          : "bg-emerald-950/60 text-emerald-400 border-emerald-800/50 hover:bg-emerald-900/60";
-
-                        return (
-                          <Link
-                            key={attempt.id}
-                            href={`/history/${attempt.id}`}
-                            title={`Xem chi tiết lượt nộp ngày ${formatDate(
-                              attempt.submitted_at
-                            )}`}
-                            className={`text-[11px] font-semibold border px-2 py-0.5 rounded-md transition ${badgeColor}`}
-                          >
-                            {isPending
-                              ? `Lần ${labelNum}: Đang chấm`
-                              : `Lần ${labelNum}: ${attempt.total_score}`}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                {/* Card Footer */}
-                <div className="pt-2 flex items-center justify-between border-t border-slate-800/60">
-                  <span className="text-xs text-slate-500 flex items-center gap-1.5">
-                    <Calendar className="h-3.5 w-3.5" />
-                    {formatDate(exam.created_at)}
-                  </span>
-
-                  <Link
-                    href={`/exam/${exam.id}`}
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-medium px-4 py-2.5 rounded-xl shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all hover:translate-x-0.5"
-                  >
-                    <span>Vào làm bài</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </motion.div>
-            );
-          })}
+          {exams.map((exam, idx) => (
+            <UserExamCard key={exam.id} exam={exam} index={idx} />
+          ))}
         </div>
       )}
     </div>
