@@ -9,9 +9,6 @@ import { Exam, Submission } from "@/types/exam";
 import { UserExamCard } from "@/components/dashboard/UserExamCard";
 import {
   BookOpen,
-  BookCheck,
-  Clock,
-  CheckCircle2,
   Award,
 } from "lucide-react";
 
@@ -45,10 +42,6 @@ export default function UserDashboardPage() {
     loadData();
   }, [router]);
 
-  const pendingCount = submissions.filter(
-    (s) => s.status === "pending_grading"
-  ).length;
-
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Title & Quick Action */}
@@ -79,66 +72,6 @@ export default function UserDashboardPage() {
         </Link>
       </motion.div>
 
-      {/* Stats Widgets */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stats-focus-container">
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0, ease: [0.16, 1, 0.3, 1] }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
-          <div>
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Đề thi đang mở
-            </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
-              {exams.length}
-            </p>
-          </div>
-          <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
-            <BookCheck className="h-6 w-6" />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
-          <div>
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Bài đã hoàn thành
-            </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
-              {submissions.length}
-            </p>
-          </div>
-          <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-            <CheckCircle2 className="h-6 w-6" />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-amber-500/40 hover:shadow-[0_0_25px_rgba(245,158,11,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
-          <div>
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Chờ giáo viên duyệt
-            </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
-              {pendingCount}
-            </p>
-          </div>
-          <div className="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
-            <Clock className="h-6 w-6" />
-          </div>
-        </motion.div>
-      </div>
-
       {/* Exam Cards Grid */}
       {loading ? (
         <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 flex h-48 items-center justify-center rounded-2xl">
@@ -157,7 +90,7 @@ export default function UserDashboardPage() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 exam-cards-container">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {exams.map((exam, idx) => (
             <UserExamCard key={exam.id} exam={exam} index={idx} />
           ))}
