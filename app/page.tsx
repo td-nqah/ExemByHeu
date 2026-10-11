@@ -79,16 +79,16 @@ export default function LoginPage() {
           </p>
         </motion.div>
 
-        {/* 2. Mobile Order 2 / Desktop Right Column (col-span-6, stretched horizontally & height-aligned) */}
+        {/* 2. Mobile Order 2 / Desktop Right Column (col-span-6, centered & width-constrained) */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
-          className="order-2 lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2 flex"
+          className="order-2 lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2 flex items-center justify-center"
         >
-          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 flex w-full flex-col justify-center rounded-2xl p-6 sm:p-10 shadow-xl">
+          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 flex w-full max-w-[440px] mx-auto flex-col justify-center rounded-2xl p-6 md:p-8 shadow-xl">
             {/* Centered Icon & Header Title "Đăng nhập hệ thống" */}
-            <div className="mb-7 flex flex-col items-center text-center">
+            <div className="mb-6 flex flex-col items-center text-center">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
                 <GraduationCap className="h-6 w-6" />
               </div>
