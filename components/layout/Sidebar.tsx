@@ -80,14 +80,14 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       title: "Các câu đánh dấu",
       href: "/bookmarks",
       icon: Bookmark,
-      badge: "Mới",
+      badge: "MỚI",
       active: pathname.startsWith("/bookmarks"),
     },
     {
       title: "Phân tích phong độ",
       href: "/analytics",
       icon: TrendingUp,
-      badge: "Hot",
+      badge: "HOT",
       active: pathname.startsWith("/analytics"),
     },
     {
@@ -196,7 +196,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             </p>
 
             <nav className="space-y-1">
-              {/* Accordion Item: Đề thi khả dụng */}
+              {/* Accordion Item: Đề thi */}
               <div className="space-y-1">
                 <button
                   type="button"
@@ -209,36 +209,36 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     }
                   }}
                   className={cn(
-                    "group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200 select-none",
+                    "group flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all duration-200 select-none",
                     isDashboardRoute
                       ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_18px_rgba(99,102,241,0.35)]"
                       : "text-slate-300 hover:bg-slate-900/80 hover:text-white hover:border hover:border-white/10"
                   )}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
                     <BookOpen
                       className={cn(
-                        "h-4 w-4 transition-transform group-hover:scale-110",
+                        "h-4 w-4 shrink-0 transition-transform group-hover:scale-110",
                         isDashboardRoute ? "text-white" : "text-indigo-400"
                       )}
                     />
-                    <span>Đề thi khả dụng</span>
+                    <span className="truncate whitespace-nowrap">Đề thi</span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 shrink-0">
                     <span
                       className={cn(
-                        "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+                        "rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider leading-none",
                         isDashboardRoute
                           ? "bg-white/25 text-white border border-white/40 shadow-sm"
                           : "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
                       )}
                     >
-                      Thi thử
+                      THI THỬ
                     </span>
                     <ChevronDown
                       className={cn(
-                        "h-4 w-4 transition-transform duration-300",
+                        "h-3.5 w-3.5 shrink-0 transition-transform duration-300",
                         isExamsOpen
                           ? "rotate-180 text-white"
                           : "rotate-0 text-slate-400 group-hover:text-white"
@@ -329,26 +329,26 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     href={item.href}
                     onClick={onCloseMobile}
                     className={cn(
-                      "group flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200",
+                      "group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all duration-200",
                       item.active
                         ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_18px_rgba(99,102,241,0.35)]"
                         : "text-slate-300 hover:bg-slate-900/80 hover:text-white hover:border hover:border-white/10"
                     )}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
                       <Icon
                         className={cn(
-                          "h-4 w-4 transition-transform group-hover:scale-110",
+                          "h-4 w-4 shrink-0 transition-transform group-hover:scale-110",
                           item.active ? "text-white" : "text-indigo-400"
                         )}
                       />
-                      <span>{item.title}</span>
+                      <span className="truncate whitespace-nowrap">{item.title}</span>
                     </div>
 
                     {item.badge && (
                       <span
                         className={cn(
-                          "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+                          "rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider leading-none shrink-0",
                           item.active
                             ? "bg-white/25 text-white border border-white/40 shadow-sm"
                             : "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
@@ -385,26 +385,26 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     href={item.href}
                     onClick={onCloseMobile}
                     className={cn(
-                      "group flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200 relative",
+                      "group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all duration-200 relative",
                       item.active
                         ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] border border-indigo-400/30 font-semibold"
                         : "text-slate-300 hover:bg-slate-900/80 hover:text-white hover:border hover:border-white/10"
                     )}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
                       <Icon
                         className={cn(
-                          "h-4 w-4 transition-transform group-hover:scale-110",
+                          "h-4 w-4 shrink-0 transition-transform group-hover:scale-110",
                           item.active ? "text-white" : "text-indigo-400"
                         )}
                       />
-                      <span>{item.title}</span>
+                      <span className="truncate whitespace-nowrap">{item.title}</span>
                     </div>
 
                     {item.badge && (
                       <span
                         className={cn(
-                          "rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider",
+                          "rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider leading-none shrink-0",
                           item.active
                             ? "bg-white/25 text-white border border-white/40 shadow-sm"
                             : "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
