@@ -80,12 +80,12 @@ export default function UserDashboardPage() {
       </motion.div>
 
       {/* Stats Widgets */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stats-focus-container">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
+          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
@@ -104,7 +104,7 @@ export default function UserDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
+          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
@@ -123,7 +123,7 @@ export default function UserDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-amber-500/40 hover:shadow-[0_0_25px_rgba(245,158,11,0.15)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
+          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-amber-500/40 hover:shadow-[0_0_25px_rgba(245,158,11,0.15)] rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
