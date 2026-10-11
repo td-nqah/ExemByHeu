@@ -151,6 +151,58 @@ export default function LoginPage() {
                 <span>{loading ? "Đang xác thực..." : "Đăng nhập ngay"}</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
+
+              <div className="pt-3 border-t border-white/5 space-y-2">
+                <p className="text-[11px] font-medium text-slate-400 text-center">
+                  Nhấp để điền nhanh tài khoản:
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUsername("admin");
+                      setPassword("123");
+                    }}
+                    className="flex items-center justify-between rounded-lg bg-slate-950/60 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1.5 text-slate-300 hover:text-white transition-all text-[11px]"
+                  >
+                    <span className="font-semibold text-indigo-400">admin</span>
+                    <span className="text-slate-500 font-mono text-[10px]">mk: 123</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUsername("user1");
+                      setPassword("1");
+                    }}
+                    className="flex items-center justify-between rounded-lg bg-slate-950/60 border border-white/10 hover:border-emerald-500/40 px-2.5 py-1.5 text-slate-300 hover:text-white transition-all text-[11px]"
+                  >
+                    <span className="font-semibold text-emerald-400">user1</span>
+                    <span className="text-slate-500 font-mono text-[10px]">mk: 1</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUsername("user2");
+                      setPassword("1");
+                    }}
+                    className="flex items-center justify-between rounded-lg bg-slate-950/60 border border-white/10 hover:border-sky-500/40 px-2.5 py-1.5 text-slate-300 hover:text-white transition-all text-[11px]"
+                  >
+                    <span className="font-semibold text-sky-400">user2</span>
+                    <span className="text-slate-500 font-mono text-[10px]">mk: 1</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUsername("user3");
+                      setPassword("1");
+                    }}
+                    className="flex items-center justify-between rounded-lg bg-slate-950/60 border border-white/10 hover:border-purple-500/40 px-2.5 py-1.5 text-slate-300 hover:text-white transition-all text-[11px]"
+                  >
+                    <span className="font-semibold text-purple-400">user3</span>
+                    <span className="text-slate-500 font-mono text-[10px]">mk: 1</span>
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
         </motion.div>

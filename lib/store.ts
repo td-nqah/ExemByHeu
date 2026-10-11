@@ -10,6 +10,8 @@ import {
 } from "@/types/exam";
 import { supabase, isSupabaseConfigured } from "./supabase/client";
 
+import bcrypt from "bcryptjs";
+
 // Storage keys
 const STORAGE_PREFIX = "exampulse_";
 const KEY_USER = `${STORAGE_PREFIX}current_user`;
@@ -28,7 +30,19 @@ export const SEED_PROFILES: Profile[] = [
   },
   {
     id: "00000000-0000-0000-0000-000000000002",
-    username: "user",
+    username: "user1",
+    role: "user",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "00000000-0000-0000-0000-000000000003",
+    username: "user2",
+    role: "user",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "00000000-0000-0000-0000-000000000004",
+    username: "user3",
     role: "user",
     created_at: new Date().toISOString(),
   },
@@ -269,7 +283,11 @@ export function setCurrentUser(user: Profile | null): void {
 }
 
 export async function loginUser(username: string, password: string): Promise<Profile | null> {
-  const cleanUsername = username.trim().toLowerCase();
+  let cleanUsername = username.trim().toLowerCase();
+  // Map legacy "user" alias to "user1"
+  if (cleanUsername === "user") {
+    cleanUsername = "user1";
+  }
 
   // 1. Try Supabase if configured
   if (isSupabaseConfigured && supabase) {
@@ -281,8 +299,34 @@ export async function loginUser(username: string, password: string): Promise<Pro
         .single();
 
       if (!error && data) {
-        // Standard check: In seed data password is '1'
-        if (password === "1" || password === data.password_hash) {
+        let isMatch = false;
+
+        // Bcrypt check
+        if (data.password_hash) {
+          try {
+            isMatch = bcrypt.compareSync(password, data.password_hash);
+          } catch {
+            isMatch = false;
+          }
+        }
+
+        // Direct credential check
+        if (!isMatch) {
+          if (data.username === "admin" && password === "123") {
+            isMatch = true;
+          } else if (
+            (data.username === "user1" ||
+              data.username === "user2" ||
+              data.username === "user3") &&
+            password === "1"
+          ) {
+            isMatch = true;
+          } else if (data.password_hash === password) {
+            isMatch = true;
+          }
+        }
+
+        if (isMatch) {
           const profile: Profile = {
             id: data.id,
             username: data.username,
@@ -301,9 +345,23 @@ export async function loginUser(username: string, password: string): Promise<Pro
   // 2. Local fallback
   initStore();
   const matched = SEED_PROFILES.find((p) => p.username === cleanUsername);
-  if (matched && password === "1") {
-    setCurrentUser(matched);
-    return matched;
+  if (matched) {
+    let isMatch = false;
+    if (matched.username === "admin" && password === "123") {
+      isMatch = true;
+    } else if (
+      (matched.username === "user1" ||
+        matched.username === "user2" ||
+        matched.username === "user3") &&
+      password === "1"
+    ) {
+      isMatch = true;
+    }
+
+    if (isMatch) {
+      setCurrentUser(matched);
+      return matched;
+    }
   }
 
   return null;
