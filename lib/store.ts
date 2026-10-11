@@ -170,58 +170,10 @@ export const SEED_QUESTIONS: Question[] = [
   },
 ];
 
-// Initial Seed Submissions for User (demonstrates pending grading and completed review)
-export const SEED_SUBMISSIONS: Submission[] = [
-  {
-    id: "44444444-4444-4444-4444-444444440001",
-    exam_id: "11111111-1111-1111-1111-111111111111",
-    user_id: "00000000-0000-0000-0000-000000000002",
-    status: "pending_grading",
-    mcq_score: 6.0,
-    essay_score: null,
-    total_score: 6.0,
-    submitted_at: new Date(Date.now() - 3600000 * 3).toISOString(),
-  },
-];
+// Initial Seed Submissions for User (Empty by default: user starts with clean history)
+export const SEED_SUBMISSIONS: Submission[] = [];
 
-export const SEED_SUBMISSION_ANSWERS: SubmissionAnswer[] = [
-  {
-    id: "55555555-5555-5555-5555-555555550001",
-    submission_id: "44444444-4444-4444-4444-444444440001",
-    question_id: "22222222-2222-2222-2222-222222220001",
-    user_answer: "A",
-    is_correct: true,
-    score_awarded: 2.0,
-    admin_feedback: null,
-  },
-  {
-    id: "55555555-5555-5555-5555-555555550002",
-    submission_id: "44444444-4444-4444-4444-444444440001",
-    question_id: "22222222-2222-2222-2222-222222220002",
-    user_answer: "A",
-    is_correct: true,
-    score_awarded: 2.0,
-    admin_feedback: null,
-  },
-  {
-    id: "55555555-5555-5555-5555-555555550003",
-    submission_id: "44444444-4444-4444-4444-444444440001",
-    question_id: "22222222-2222-2222-2222-222222220003",
-    user_answer: "B",
-    is_correct: true,
-    score_awarded: 2.0,
-    admin_feedback: null,
-  },
-  {
-    id: "55555555-5555-5555-5555-555555550004",
-    submission_id: "44444444-4444-4444-4444-444444440001",
-    question_id: "22222222-2222-2222-2222-222222220004",
-    user_answer: "Thiết lập chính sách RLS với auth.uid() gắn chặt với user_id của bảng submissions. Chỉ cho phép thí sinh SELECT và INSERT bài làm của chính mình. Phân quyền Admin thông qua bảng profiles có role='admin' hoặc kiểm tra JWT custom claim để xem toàn bộ danh sách.",
-    is_correct: null,
-    score_awarded: 0,
-    admin_feedback: null,
-  },
-];
+export const SEED_SUBMISSION_ANSWERS: SubmissionAnswer[] = [];
 
 // Helper: Local Storage wrapper
 function getLocal<T>(key: string, defaultValue: T): T {
@@ -250,6 +202,15 @@ function setLocal<T>(key: string, value: T): void {
 // Ensure database initialization
 export function initStore(): void {
   if (typeof window === "undefined") return;
+
+  // Clear legacy submission history flag (reset history per user request)
+  const KEY_HISTORY_CLEARED = `${STORAGE_PREFIX}history_cleared_v1`;
+  if (!localStorage.getItem(KEY_HISTORY_CLEARED)) {
+    setLocal(KEY_SUBMISSIONS, []);
+    setLocal(KEY_SUBMISSION_ANSWERS, []);
+    localStorage.setItem(KEY_HISTORY_CLEARED, "true");
+  }
+
   if (!localStorage.getItem(KEY_EXAMS)) {
     setLocal(KEY_EXAMS, SEED_EXAMS);
   }
@@ -965,6 +926,42 @@ export async function submitExam(
 
 export async function getSubmissions(userId?: string): Promise<Submission[]> {
   initStore();
+
+  // 1. Live Supabase fetch if configured
+  if (isSupabaseConfigured && supabase) {
+    try {
+      let query = supabase
+        .from("submissions")
+        .select("*, exam:exams(*, questions(*)), user:profiles(*)")
+        .order("submitted_at", { ascending: false });
+
+      if (userId) {
+        query = query.eq("user_id", userId);
+      }
+
+      const { data, error } = await query;
+      if (!error && Array.isArray(data)) {
+        const mapped: Submission[] = data.map((sub: any) => ({
+          id: sub.id,
+          exam_id: sub.exam_id,
+          user_id: sub.user_id,
+          status: sub.status,
+          mcq_score: Number(sub.mcq_score) || 0,
+          essay_score: sub.essay_score !== null ? Number(sub.essay_score) : null,
+          total_score: Number(sub.total_score) || 0,
+          submitted_at: sub.submitted_at,
+          exam: sub.exam,
+          user: sub.user,
+        }));
+        if (!userId) {
+          setLocal(KEY_SUBMISSIONS, mapped);
+        }
+        return mapped.slice(0, 50);
+      }
+    } catch {}
+  }
+
+  // 2. Local fallback
   const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
   const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
