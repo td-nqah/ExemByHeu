@@ -559,7 +559,9 @@ export default function ExamCreatePage() {
         ? "essay"
         : "multiple_choice";
 
-    const selectedCat = categories.find((c) => c.id === categoryId);
+    const selectedCat = categories.find((c) => c.id === categoryId) || categories.find((c) => c.slug === "cnxh") || categories[0];
+    const catId = selectedCat?.id || "cat_cnxh";
+    const catSlug = selectedCat?.slug || "cnxh";
 
     setIsSaving(true);
     try {
@@ -569,8 +571,8 @@ export default function ExamCreatePage() {
           description: description.trim(),
           duration_minutes: Number(durationMinutes) || 45,
           status,
-          category_id: selectedCat?.id,
-          category_slug: selectedCat?.slug,
+          category_id: catId,
+          category_slug: catSlug,
           question_count: questions.length,
           question_type: resolvedType,
           expires_at: expiresAt ? new Date(expiresAt).toISOString() : null,
@@ -579,6 +581,7 @@ export default function ExamCreatePage() {
       );
 
       router.push("/admin/dashboard");
+      router.refresh();
     } catch (err: any) {
       alert("Lỗi khi lưu đề thi: " + (err?.message || "Vui lòng thử lại"));
     } finally {

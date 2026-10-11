@@ -529,6 +529,59 @@ export async function loginUser(username: string, password: string): Promise<Pro
   return null;
 }
 
+// Helper: unpack metadata & infer missing fields from raw exam record
+function parseExamRecord(
+  rawExam: any,
+  recentSubs?: Pick<Submission, "id" | "total_score" | "mcq_score" | "status" | "submitted_at">[]
+): Exam {
+  let category_id = rawExam.category_id;
+  let category_slug = rawExam.category_slug;
+  let question_count = rawExam.question_count || rawExam.questions?.length;
+  let question_type = rawExam.question_type;
+  let expires_at = rawExam.expires_at;
+  let cleanDescription = rawExam.description || "";
+
+  if (cleanDescription.startsWith("<!--meta:")) {
+    const endIdx = cleanDescription.indexOf("-->");
+    if (endIdx > 0) {
+      try {
+        const meta = JSON.parse(cleanDescription.slice(9, endIdx));
+        category_id = category_id || meta.category_id;
+        category_slug = category_slug || meta.category_slug;
+        question_count = question_count || meta.question_count;
+        question_type = question_type || meta.question_type;
+        expires_at = expires_at || meta.expires_at;
+        cleanDescription = cleanDescription.slice(endIdx + 3).trim();
+      } catch {}
+    }
+  }
+
+  if (!category_slug) {
+    const lower = (rawExam.title || "").toLowerCase();
+    if (lower.includes("cnxh") || lower.includes("chủ nghĩa xã hội")) {
+      category_slug = "cnxh";
+      category_id = category_id || "cat_cnxh";
+    }
+  }
+
+  if (!question_type && rawExam.questions && rawExam.questions.length > 0) {
+    const hasMcq = rawExam.questions.some((q: any) => q.type === "multiple_choice");
+    const hasEssay = rawExam.questions.some((q: any) => q.type === "essay");
+    question_type = hasMcq && hasEssay ? "mixed" : hasEssay ? "essay" : "multiple_choice";
+  }
+
+  return {
+    ...rawExam,
+    description: cleanDescription,
+    category_id: category_id || "cat_cnxh",
+    category_slug: category_slug || "cnxh",
+    question_count: question_count || rawExam.questions?.length || 0,
+    question_type: question_type || "multiple_choice",
+    expires_at: expires_at || null,
+    recent_submissions: recentSubs ?? rawExam.recent_submissions,
+  };
+}
+
 // 2. EXAM OPERATIONS
 export async function getExams(
   onlyPublished = false,
@@ -576,6 +629,8 @@ export async function getExams(
       }));
   };
 
+  let dbExams: Exam[] = [];
+
   if (isSupabaseConfigured && supabase) {
     try {
       let query = supabase.from("exams").select("*, questions(*)");
@@ -599,29 +654,80 @@ export async function getExams(
 
       if (!error && data && data.length > 0) {
         const dbSubs = (subRes.data || []) as Submission[];
-        return (data as Exam[]).map((exam) => ({
-          ...exam,
-          recent_submissions: getTop3ForExam(exam.id, dbSubs),
-        }));
+        dbExams = (data as any[]).map((exam) => parseExamRecord(exam, dbSubs));
       }
     } catch {
       // Use local fallback
     }
   }
 
-  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const localExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
   const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
 
-  const enriched = exams.map((exam) => ({
-    ...exam,
-    questions: questions.filter((q) => q.exam_id === exam.id),
-    recent_submissions: getTop3ForExam(exam.id),
-  }));
+  // Merge any local exams that are NOT already in dbExams (ensures locally created exams always show)
+  const dbIds = new Set(dbExams.map((e) => e.id));
+  const missingLocals: Exam[] = [];
+
+  for (const rawLocal of localExams) {
+    if (!dbIds.has(rawLocal.id)) {
+      const parsedLocal = parseExamRecord({
+        ...rawLocal,
+        questions: rawLocal.questions || questions.filter((q) => q.exam_id === rawLocal.id),
+      });
+      missingLocals.push(parsedLocal);
+
+      // Background async sync to Supabase with base columns fallback
+      if (isSupabaseConfigured && supabase) {
+        (async () => {
+          try {
+            const meta = {
+              category_id: parsedLocal.category_id,
+              category_slug: parsedLocal.category_slug,
+              question_count: parsedLocal.question_count,
+              question_type: parsedLocal.question_type,
+              expires_at: parsedLocal.expires_at,
+            };
+            const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${parsedLocal.description || ""}`.trim();
+            const { data: inserted } = await supabase.from("exams").insert({
+              title: parsedLocal.title,
+              description: descWithMeta,
+              duration_minutes: parsedLocal.duration_minutes || 45,
+              created_by: parsedLocal.created_by || "00000000-0000-0000-0000-000000000001",
+              status: parsedLocal.status || "published",
+            }).select().single();
+
+            if (inserted && parsedLocal.questions && parsedLocal.questions.length > 0) {
+              const qs = parsedLocal.questions.map((q, idx) => ({
+                exam_id: inserted.id,
+                type: q.type,
+                content: q.content,
+                options: q.options,
+                correct_answer: q.correct_answer,
+                max_score: Number(q.max_score) || 1,
+                order_index: q.order_index || idx + 1,
+              }));
+              await supabase.from("questions").insert(qs);
+            }
+          } catch {}
+        })();
+      }
+    }
+  }
+
+  const combined = [...missingLocals, ...dbExams];
+
+  if (combined.length === 0) {
+    const fallback = SEED_EXAMS.map((e) => parseExamRecord({
+      ...e,
+      questions: questions.filter((q) => q.exam_id === e.id),
+    }));
+    return onlyPublished ? fallback.filter((e) => e.status === "published") : fallback;
+  }
 
   if (onlyPublished) {
-    return enriched.filter((e) => e.status === "published");
+    return combined.filter((e) => e.status === "published");
   }
-  return enriched;
+  return combined;
 }
 
 export async function getExamById(id: string): Promise<Exam | null> {
@@ -634,11 +740,10 @@ export async function getExamById(id: string): Promise<Exam | null> {
         .eq("id", id)
         .single();
       if (!error && data) {
-        // Sort questions by order_index
         if (data.questions) {
           data.questions.sort((a: Question, b: Question) => a.order_index - b.order_index);
         }
-        return data as Exam;
+        return parseExamRecord(data);
       }
     } catch {
       // Use local fallback
@@ -654,10 +759,10 @@ export async function getExamById(id: string): Promise<Exam | null> {
     .filter((q) => q.exam_id === id)
     .sort((a, b) => a.order_index - b.order_index);
 
-  return {
+  return parseExamRecord({
     ...exam,
     questions: examQuestions,
-  };
+  });
 }
 
 export async function createExam(
@@ -679,13 +784,16 @@ export async function createExam(
   const createdBy = currentUser?.id || "00000000-0000-0000-0000-000000000001";
   const examId = `exam_${Date.now()}`;
 
+  const cleanCategorySlug = examData.category_slug || (examData.title.toLowerCase().includes("cnxh") ? "cnxh" : "cnxh");
+  const cleanCategoryId = examData.category_id || "cat_cnxh";
+
   const newExam: Exam = {
     id: examId,
     title: examData.title.trim(),
     description: examData.description ? examData.description.trim() : "",
     duration_minutes: examData.duration_minutes || 45,
-    category_id: examData.category_id,
-    category_slug: examData.category_slug,
+    category_id: cleanCategoryId,
+    category_slug: cleanCategorySlug,
     question_count: examData.question_count || questionsDraft.length || 0,
     question_type: examData.question_type || "multiple_choice",
     expires_at: examData.expires_at || null,
@@ -709,25 +817,61 @@ export async function createExam(
     };
   });
 
-  // If Supabase configured, attempt insert with exact allocated max_score per question
+  // If Supabase configured, attempt insert with fallback to base columns + embedded meta
   if (isSupabaseConfigured && supabase) {
     try {
-      const { data: insertedExam, error: examErr } = await supabase
-        .from("exams")
-        .insert({
-          title: newExam.title,
-          description: newExam.description,
-          duration_minutes: newExam.duration_minutes,
-          category_id: newExam.category_id,
-          category_slug: newExam.category_slug,
-          question_count: newExam.question_count,
-          question_type: newExam.question_type,
-          expires_at: newExam.expires_at,
-          created_by: createdBy,
-          status: newExam.status,
-        })
-        .select()
-        .single();
+      const meta = {
+        category_id: newExam.category_id,
+        category_slug: newExam.category_slug,
+        question_count: newExam.question_count,
+        question_type: newExam.question_type,
+        expires_at: newExam.expires_at,
+      };
+      const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${newExam.description || ""}`.trim();
+
+      let insertedExam: any = null;
+      let examErr: any = null;
+
+      // 1. Attempt full schema insert first
+      try {
+        const fullRes = await supabase
+          .from("exams")
+          .insert({
+            title: newExam.title,
+            description: descWithMeta,
+            duration_minutes: newExam.duration_minutes,
+            category_id: newExam.category_id,
+            category_slug: newExam.category_slug,
+            question_count: newExam.question_count,
+            question_type: newExam.question_type,
+            expires_at: newExam.expires_at,
+            created_by: createdBy,
+            status: newExam.status,
+          })
+          .select()
+          .single();
+        insertedExam = fullRes.data;
+        examErr = fullRes.error;
+      } catch (err) {
+        examErr = err;
+      }
+
+      // 2. Fallback to base columns insert if full columns failed (e.g. PGRST204)
+      if (examErr || !insertedExam) {
+        const baseRes = await supabase
+          .from("exams")
+          .insert({
+            title: newExam.title,
+            description: descWithMeta,
+            duration_minutes: newExam.duration_minutes,
+            created_by: createdBy,
+            status: newExam.status,
+          })
+          .select()
+          .single();
+        insertedExam = baseRes.data;
+        examErr = baseRes.error;
+      }
 
       if (!examErr && insertedExam) {
         const dbExamId = insertedExam.id;
@@ -948,18 +1092,36 @@ export async function toggleExamStatus(id: string): Promise<Exam | null> {
   initStore();
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
   const examIndex = exams.findIndex((e) => e.id === id);
-  if (examIndex === -1) return null;
 
-  const current = exams[examIndex];
-  const newStatus = current.status === "published" ? "draft" : "published";
-  const updated = { ...current, status: newStatus as "draft" | "published" };
+  let updated: Exam | null = null;
+  let nextStatus: "published" | "draft" = "published";
 
-  exams[examIndex] = updated;
-  setLocal(KEY_EXAMS, exams);
+  if (examIndex !== -1) {
+    const current = exams[examIndex];
+    nextStatus = current.status === "published" ? "draft" : "published";
+    updated = { ...current, status: nextStatus };
+    exams[examIndex] = updated;
+    setLocal(KEY_EXAMS, exams);
+  }
 
   if (isSupabaseConfigured && supabase) {
     try {
-      await supabase.from("exams").update({ status: newStatus }).eq("id", id);
+      const { data: dbItem } = await supabase.from("exams").select("*").eq("id", id).single();
+      if (dbItem) {
+        nextStatus = dbItem.status === "published" ? "draft" : "published";
+        const { data: res } = await supabase
+          .from("exams")
+          .update({ status: nextStatus })
+          .eq("id", id)
+          .select()
+          .single();
+        if (res) {
+          updated = {
+            ...(updated || (res as Exam)),
+            status: res.status,
+          };
+        }
+      }
     } catch {}
   }
 
