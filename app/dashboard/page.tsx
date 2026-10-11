@@ -9,7 +9,7 @@ import { Exam, Submission } from "@/types/exam";
 import { UserExamCard } from "@/components/dashboard/UserExamCard";
 import {
   BookOpen,
-  Award,
+  ChevronRight,
 } from "lucide-react";
 
 export default function UserDashboardPage() {
@@ -65,10 +65,32 @@ export default function UserDashboardPage() {
 
         <Link
           href="/history"
-          className="inline-flex items-center gap-2 bg-slate-900/60 backdrop-blur-md hover:bg-slate-900/90 border border-slate-800/80 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] text-slate-200 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 self-start md:self-auto"
+          title="Bấm để xem Lịch sử làm bài"
+          className="group inline-flex items-center gap-3.5 sm:gap-4 bg-slate-900/60 backdrop-blur-md hover:bg-slate-900/90 border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.18)] rounded-xl p-3 px-4 shadow-lg transition-all duration-300 self-start md:self-auto cursor-pointer"
         >
-          <Award className="h-4 w-4 text-indigo-400" />
-          <span>Xem Lịch sử bài đã nộp ({submissions.length})</span>
+          {/* Số đề hiện có */}
+          <div className="flex items-center gap-1.5 text-xs text-slate-300">
+            <span className="text-sm select-none" aria-hidden="true">📚</span>
+            <span>Đề hiện có:</span>
+            <span className="font-bold text-white tracking-wide">
+              {loading ? "..." : exams.length}
+            </span>
+          </div>
+
+          {/* Đường phân cách mảnh */}
+          <div className="h-4 w-px bg-white/10 group-hover:bg-white/20 transition-colors" />
+
+          {/* Số đề đã hoàn thành */}
+          <div className="flex items-center gap-1.5 text-xs text-slate-300">
+            <span className="text-sm select-none" aria-hidden="true">✅</span>
+            <span>Đã hoàn thành:</span>
+            <span className="font-bold text-indigo-400 group-hover:text-indigo-300 tracking-wide">
+              {loading ? "..." : submissions.length}
+            </span>
+          </div>
+
+          {/* Mũi tên chuyển hướng */}
+          <ChevronRight className="h-3.5 w-3.5 text-slate-400 group-hover:text-white transition-transform duration-200 group-hover:translate-x-0.5 ml-0.5" />
         </Link>
       </motion.div>
 
