@@ -123,16 +123,16 @@ export default function AdminDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
+          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Tổng số đề thi
             </p>
-            <p className="text-2xl font-bold text-white mt-1">{exams.length}</p>
+            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">{exams.length}</p>
           </div>
-          <div className="h-11 w-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-            <Layers className="h-5 w-5" />
+          <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+            <Layers className="h-6 w-6" />
           </div>
         </motion.div>
 
@@ -140,16 +140,16 @@ export default function AdminDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
+          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Đã xuất bản
             </p>
-            <p className="text-2xl font-bold text-white mt-1">{publishedCount}</p>
+            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">{publishedCount}</p>
           </div>
-          <div className="h-11 w-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-            <BookOpen className="h-5 w-5" />
+          <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+            <BookOpen className="h-6 w-6" />
           </div>
         </motion.div>
 
@@ -157,18 +157,18 @@ export default function AdminDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
+          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Lượt nộp bài
             </p>
-            <p className="text-2xl font-bold text-white mt-1">
+            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
               {submissions.length}
             </p>
           </div>
-          <div className="h-11 w-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-            <Users className="h-5 w-5" />
+          <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+            <Users className="h-6 w-6" />
           </div>
         </motion.div>
 
@@ -176,18 +176,18 @@ export default function AdminDashboardPage() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
+          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-amber-500/40 hover:shadow-[0_0_25px_rgba(245,158,11,0.15)] transition-all duration-300 rounded-2xl p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Chờ chấm tự luận
             </p>
-            <p className="text-2xl font-bold text-white mt-1">
+            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
               {pendingGradingCount}
             </p>
           </div>
-          <div className="h-11 w-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-            <Clock className="h-5 w-5" />
+          <div className="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+            <Clock className="h-6 w-6" />
           </div>
         </motion.div>
       </div>
@@ -197,9 +197,9 @@ export default function AdminDashboardPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
+        className="bg-slate-950/60 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
       >
-        <div className="flex flex-col gap-3 border-b border-slate-800/80 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
             <h2 className="text-base font-bold text-white">
               Quản lý Ngân hàng Đề thi ({exams.length})

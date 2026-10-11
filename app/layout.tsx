@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
+import { AppShell } from "@/components/layout/AppShell";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -47,12 +47,13 @@ export default function RootLayout({
         <div className="relative z-10 flex min-h-screen flex-col">
           <Suspense
             fallback={
-              <div className="sticky top-0 z-50 h-16 w-full bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80" />
+              <div className="h-screen w-full flex items-center justify-center">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+              </div>
             }
           >
-            <Navbar />
+            <AppShell>{children}</AppShell>
           </Suspense>
-          <main className="flex-1">{children}</main>
         </div>
       </body>
     </html>

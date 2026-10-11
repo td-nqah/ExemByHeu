@@ -74,7 +74,7 @@ export default function HistoryPage() {
           <p className="text-sm text-slate-400">Đang tải lịch sử bài thi...</p>
         </div>
       ) : submissions.length === 0 ? (
-        <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center">
+        <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center shadow-xl">
           <History className="mb-3 h-10 w-10 text-indigo-400" />
           <h3 className="text-base font-bold text-white">
             Bạn chưa thực hiện bài thi thử nào
@@ -95,11 +95,11 @@ export default function HistoryPage() {
           initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
+          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
         >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/80 text-slate-400 uppercase tracking-wider text-xs border-b border-slate-800">
+              <thead className="bg-slate-900/90 text-slate-400 uppercase tracking-wider text-xs border-b border-white/10">
                 <tr>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
                   <th className="py-3.5 px-4 font-semibold">Thời gian nộp</th>
@@ -131,7 +131,7 @@ export default function HistoryPage() {
                   return (
                     <tr
                       key={sub.id}
-                      className="group border-b border-slate-800/50 hover:bg-indigo-950/20 transition-colors"
+                      className="group border-b border-white/5 hover:bg-indigo-950/20 transition-colors"
                     >
                       <td className="max-w-xs truncate py-4 px-4 font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">
                         {sub.exam?.title || "Đề thi thử trực tuyến"}

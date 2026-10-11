@@ -17,6 +17,7 @@ import {
   ListChecks,
   History,
   ArrowRight,
+  Flag,
 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
@@ -28,10 +29,18 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const [exam, setExam] = useState<Exam | null>(null);
   const [loading, setLoading] = useState(true);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
+  const [flaggedQuestions, setFlaggedQuestions] = useState<Record<string, boolean>>({});
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [completedSubmission, setCompletedSubmission] = useState<Submission | null>(null);
+
+  const toggleFlagQuestion = (questionId: string) => {
+    setFlaggedQuestions((prev) => ({
+      ...prev,
+      [questionId]: !prev[questionId],
+    }));
+  };
   const [aiGradingState, setAiGradingState] = useState<{
     isGrading: boolean;
     statusText: string;
@@ -243,6 +252,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               <QuestionNav
                 questions={questions}
                 userAnswers={userAnswers}
+                flaggedQuestions={flaggedQuestions}
                 activeQuestionId={activeQuestionId}
                 onSelectQuestion={scrollToQuestion}
               />
@@ -262,6 +272,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             {questions.map((question, index) => {
               const currentVal = userAnswers[question.id] || "";
               const isAnswered = currentVal.trim().length > 0;
+              const isFlagged = Boolean(flaggedQuestions[question.id]);
 
               return (
                 <motion.article
@@ -274,10 +285,12 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   className={`glow-card scroll-mt-24 rounded-2xl p-6 transition ${
                     activeQuestionId === question.id
                       ? "border-indigo-500/60 ring-1 ring-indigo-500/30"
+                      : isFlagged
+                      ? "border-amber-400/60 ring-1 ring-amber-400/20"
                       : ""
                   }`}
                 >
-                  <div className="mb-4 flex items-center justify-between border-b border-slate-800/80 pb-3">
+                  <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
                     <div className="flex items-center gap-2.5">
                       <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
                         {index + 1}
@@ -287,16 +300,43 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <span className="rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-medium text-slate-300">
-                        Điểm tối đa: {question.max_score}
+                    <div className="flex flex-wrap items-center gap-2">
+                      {/* Bookmark / Review Flag button */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFlagQuestion(question.id);
+                        }}
+                        className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-semibold border transition-all ${
+                          isFlagged
+                            ? "border-amber-400 bg-amber-500/20 text-amber-300 ring-1 ring-amber-400/50 shadow-[0_0_12px_rgba(251,191,36,0.25)]"
+                            : "border-slate-700/60 bg-slate-900/80 text-slate-400 hover:border-amber-500/50 hover:text-amber-300"
+                        }`}
+                        title={
+                          isFlagged
+                            ? "Bỏ cờ đánh dấu xem lại"
+                            : "Đánh dấu câu hỏi này để xem lại trước khi nộp bài"
+                        }
+                      >
+                        <Flag
+                          className={`h-3 w-3 ${
+                            isFlagged ? "fill-current text-amber-300" : "text-slate-400"
+                          }`}
+                        />
+                        <span>{isFlagged ? "Đang đánh dấu" : "Đánh dấu xem lại"}</span>
+                      </button>
+
+                      <span className="rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-1 text-[11px] font-medium text-slate-300">
+                        Điểm: {question.max_score}
                       </span>
+
                       {isAnswered ? (
-                        <span className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
+                        <span className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-400">
                           Đã làm
                         </span>
                       ) : (
-                        <span className="rounded-lg bg-slate-900 border border-slate-800 px-2.5 py-0.5 text-[11px] font-medium text-slate-400">
+                        <span className="rounded-lg bg-slate-900 border border-slate-800 px-2.5 py-1 text-[11px] font-medium text-slate-400">
                           Chưa làm
                         </span>
                       )}

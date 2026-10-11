@@ -96,7 +96,7 @@ export default function AdminSubmissionsListPage() {
               initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: Math.min(idx * 0.04, 0.2) }}
-              className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 rounded-2xl p-5"
+              className="bg-slate-950/60 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 rounded-2xl p-5 shadow-xl"
             >
               <div className="mb-2 flex items-center gap-2">
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
@@ -111,7 +111,7 @@ export default function AdminSubmissionsListPage() {
                 {exam.title}
               </h3>
 
-              <div className="flex items-center justify-between border-t border-slate-800/80 pt-3 text-xs">
+              <div className="flex items-center justify-between border-t border-white/10 pt-3 text-xs">
                 <span className="text-slate-400">
                   Tổng lượt thi: <strong className="text-white">{totalTakers}</strong>
                 </span>
@@ -136,10 +136,10 @@ export default function AdminSubmissionsListPage() {
         initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, delay: 0.08 }}
-        className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
+        className="bg-slate-950/60 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
       >
         {/* Table Toolbar */}
-        <div className="flex flex-col gap-3 border-b border-slate-800/80 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-center gap-2">
             <h2 className="text-sm font-bold text-white">
               Danh sách Bài làm
