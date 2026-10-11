@@ -34,11 +34,25 @@ export interface UserBookmark {
   exam?: Exam;
 }
 
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  icon?: string;
+  status: "active" | "hidden";
+  created_at: string;
+}
+
 export interface Exam {
   id: string;
   title: string;
   description: string;
   duration_minutes: number;
+  category_id?: string;
+  category_slug?: string;
+  question_count?: number;
+  question_type?: "multiple_choice" | "essay" | "mixed";
+  expires_at?: string | null;
   created_by: string;
   status: ExamStatus;
   created_at: string;

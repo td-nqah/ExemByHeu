@@ -3,8 +3,8 @@
 import { useEffect, useState, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
-import { getExams, getSubmissions, getCurrentUser } from "@/lib/store";
-import { Exam, Submission, Profile } from "@/types/exam";
+import { getExams, getSubmissions, getCurrentUser, getCategories } from "@/lib/store";
+import { Exam, Submission, Profile, Category } from "@/types/exam";
 import { UserExamCard } from "@/components/dashboard/UserExamCard";
 import {
   BookOpen,
@@ -15,74 +15,30 @@ import {
   Moon,
   Sparkles,
   Layers,
-  Code2,
-  Boxes,
   BookText,
-  Languages,
   Clock,
   RotateCcw,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Category definitions matching the Sidebar Accordion
-export const EXAM_CATEGORIES = [
-  { id: "all", slug: "", label: "Tất cả đề thi", icon: Layers },
-  { id: "web", slug: "web", label: "Lập trình Web", icon: Code2 },
-  { id: "oop", slug: "oop", label: "Lập trình OOP", icon: Boxes },
-  { id: "cnxh", slug: "cnxh", label: "Chủ nghĩa xã hội (CNXH)", icon: BookText },
-  { id: "triet-hoc", slug: "triet-hoc", label: "Triết học Mác - Lênin", icon: Sparkles },
-  { id: "tieng-anh", slug: "tieng-anh", label: "Tiếng Anh Chuyên ngành", icon: Languages },
-];
-
-// Helper: Filter exams by category keywords
+// Helper: Filter exams by category keywords or exact slug
 function matchCategory(exam: Exam, categorySlug: string): boolean {
   if (!categorySlug || categorySlug === "all") return true;
-  const content = `${exam.title} ${exam.description}`.toLowerCase();
-  switch (categorySlug) {
-    case "web":
-      return (
-        content.includes("web") ||
-        content.includes("next.js") ||
-        content.includes("react") ||
-        content.includes("postgresql") ||
-        content.includes("frontend") ||
-        content.includes("backend")
-      );
-    case "oop":
-      return (
-        content.includes("oop") ||
-        content.includes("đối tượng") ||
-        content.includes("hướng đối tượng") ||
-        content.includes("clean architecture") ||
-        content.includes("solid") ||
-        content.includes("design pattern") ||
-        content.includes("java")
-      );
-    case "cnxh":
-      return (
-        content.includes("cnxh") ||
-        content.includes("chủ nghĩa xã hội") ||
-        content.includes("công nhân") ||
-        content.includes("xã hội khoa học")
-      );
-    case "triet-hoc":
-      return (
-        content.includes("triết") ||
-        content.includes("mác") ||
-        content.includes("lênin") ||
-        content.includes("biện chứng") ||
-        content.includes("duy vật")
-      );
-    case "tieng-anh":
-      return (
-        content.includes("english") ||
-        content.includes("tiếng anh") ||
-        content.includes("toeic") ||
-        content.includes("technical english")
-      );
-    default:
-      return true;
+  if (
+    exam.category_slug &&
+    exam.category_slug.toLowerCase() === categorySlug.toLowerCase()
+  ) {
+    return true;
   }
+  const content = `${exam.title} ${exam.description || ""}`.toLowerCase();
+  if (categorySlug === "cnxh") {
+    return (
+      content.includes("cnxh") ||
+      content.includes("chủ nghĩa xã hội") ||
+      content.includes("công nhân")
+    );
+  }
+  return content.includes(categorySlug.toLowerCase());
 }
 
 // Client Vietnam Time Logic (Asia/Ho_Chi_Minh - GMT+7)
@@ -139,13 +95,14 @@ function UserDashboardContent() {
 
   const [exams, setExams] = useState<Exam[]>([]);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<Profile | null>(null);
 
   // Vietnam Time state (default calculated from client)
   const [vnHour, setVnHour] = useState<number>(20);
 
-  // Active Category from URL searchParams (e.g. ?category=web)
+  // Active Category from URL searchParams (e.g. ?category=cnxh)
   const activeCategory = searchParams ? searchParams.get("category") || "" : "";
 
   useEffect(() => {
@@ -168,15 +125,17 @@ function UserDashboardContent() {
     }
     setCurrentUser(user);
 
-    // 3. Load exam and submission data
+    // 3. Load exam, submission, and dynamic categories data
     async function loadData() {
       try {
-        const [examData, subData] = await Promise.all([
+        const [examData, subData, catData] = await Promise.all([
           getExams(true, user?.id),
           getSubmissions(user?.id),
+          getCategories(true),
         ]);
         setExams(examData);
         setSubmissions(subData);
+        setCategories(catData);
       } finally {
         setLoading(false);
       }
@@ -197,9 +156,22 @@ function UserDashboardContent() {
 
   const GreetingIcon = greetingInfo.icon;
 
+  // Dynamic Category Pills for Filter Tags Bar (Default: Tất cả đề thi + CNXH)
+  const categoryPills = useMemo(() => {
+    return [
+      { id: "all", slug: "", label: "Tất cả đề thi", icon: Layers },
+      ...categories.map((c) => ({
+        id: c.id,
+        slug: c.slug,
+        label: c.name,
+        icon: BookText,
+      })),
+    ];
+  }, [categories]);
+
   // Active category display metadata
   const currentCategoryObj =
-    EXAM_CATEGORIES.find((c) => c.slug === activeCategory) || EXAM_CATEGORIES[0];
+    categoryPills.find((c) => c.slug === activeCategory) || categoryPills[0];
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -342,7 +314,7 @@ function UserDashboardContent() {
           3. CATEGORY FILTER TABS / PILLS (SYNCHRONIZED WITH SIDEBAR ACCORDION)
           ========================================================================= */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 scrollbar-none">
-        {EXAM_CATEGORIES.map((cat) => {
+        {categoryPills.map((cat) => {
           const isActive = activeCategory === cat.slug;
           const CatIcon = cat.icon;
           const count = exams.filter((e) => matchCategory(e, cat.slug)).length;

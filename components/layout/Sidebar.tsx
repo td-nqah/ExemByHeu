@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import { getCurrentUser, setCurrentUser } from "@/lib/store";
-import { Profile } from "@/types/exam";
+import { getCurrentUser, setCurrentUser, getCategories } from "@/lib/store";
+import { Profile, Category } from "@/types/exam";
 import { cn } from "@/lib/utils";
 import {
   GraduationCap,
@@ -31,6 +31,7 @@ import {
   BookText,
   Languages,
   Layers,
+  FolderTree,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -57,51 +58,22 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const activeCategory = searchParams ? searchParams.get("category") || "" : "";
   const isDashboardRoute = pathname === "/dashboard";
   const [isExamsOpen, setIsExamsOpen] = useState(true);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     if (pathname === "/dashboard") {
       setIsExamsOpen(true);
     }
+    async function loadDynamicCategories() {
+      try {
+        const data = await getCategories(true);
+        setCategories(data);
+      } catch {
+        setCategories([]);
+      }
+    }
+    loadDynamicCategories();
   }, [pathname, activeCategory]);
-
-  const EXAM_SUB_CATEGORIES = [
-    {
-      title: "Tất cả đề thi",
-      slug: "",
-      href: "/dashboard",
-      icon: Layers,
-    },
-    {
-      title: "Lập trình Web",
-      slug: "web",
-      href: "/dashboard?category=web",
-      icon: Code2,
-    },
-    {
-      title: "Lập trình OOP",
-      slug: "oop",
-      href: "/dashboard?category=oop",
-      icon: Boxes,
-    },
-    {
-      title: "Chủ nghĩa xã hội (CNXH)",
-      slug: "cnxh",
-      href: "/dashboard?category=cnxh",
-      icon: BookText,
-    },
-    {
-      title: "Triết học Mác - Lênin",
-      slug: "triet-hoc",
-      href: "/dashboard?category=triet-hoc",
-      icon: Sparkles,
-    },
-    {
-      title: "Tiếng Anh Chuyên ngành",
-      slug: "tieng-anh",
-      href: "/dashboard?category=tieng-anh",
-      icon: Languages,
-    },
-  ];
 
   const secondaryNavLinks = [
     {
@@ -137,6 +109,13 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         pathname === "/admin" ||
         pathname.startsWith("/admin/dashboard") ||
         pathname.startsWith("/admin/exams"),
+    },
+    {
+      title: "Quản lý Danh mục",
+      href: "/admin/categories",
+      icon: FolderTree,
+      badge: "Mới",
+      active: pathname.startsWith("/admin/categories"),
     },
     {
       title: "Tạo Đề thi mới",
@@ -277,14 +256,39 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                       className="overflow-hidden"
                     >
                       <div className="ml-3 pl-3 border-l border-white/10 my-1 space-y-0.5">
-                        {EXAM_SUB_CATEGORIES.map((sub) => {
+                        {/* 1. Tất cả đề thi */}
+                        <Link
+                          href="/dashboard"
+                          onClick={onCloseMobile}
+                          className={cn(
+                            "group flex items-center justify-between rounded-lg px-2.5 py-1.5 text-[11px] font-medium transition-all duration-200",
+                            isDashboardRoute && !activeCategory
+                              ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 shadow-[0_0_10px_rgba(99,102,241,0.2)] font-semibold"
+                              : "text-slate-400 hover:bg-slate-900/60 hover:text-white"
+                          )}
+                        >
+                          <div className="flex items-center gap-2 truncate">
+                            <Layers
+                              className={cn(
+                                "h-3.5 w-3.5 shrink-0 transition-transform group-hover:scale-110",
+                                isDashboardRoute && !activeCategory ? "text-indigo-400" : "text-slate-500"
+                              )}
+                            />
+                            <span className="truncate">Tất cả đề thi</span>
+                          </div>
+                          {isDashboardRoute && !activeCategory && (
+                            <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.8)]" />
+                          )}
+                        </Link>
+
+                        {/* 2. Dynamically loaded categories (Default: Only CNXH) */}
+                        {categories.map((cat) => {
                           const isSubActive =
-                            isDashboardRoute && activeCategory === sub.slug;
-                          const SubIcon = sub.icon;
+                            isDashboardRoute && activeCategory === cat.slug;
                           return (
                             <Link
-                              key={sub.slug || "all"}
-                              href={sub.href}
+                              key={cat.id}
+                              href={`/dashboard?category=${cat.slug}`}
                               onClick={onCloseMobile}
                               className={cn(
                                 "group flex items-center justify-between rounded-lg px-2.5 py-1.5 text-[11px] font-medium transition-all duration-200",
@@ -294,13 +298,13 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                               )}
                             >
                               <div className="flex items-center gap-2 truncate">
-                                <SubIcon
+                                <BookText
                                   className={cn(
                                     "h-3.5 w-3.5 shrink-0 transition-transform group-hover:scale-110",
                                     isSubActive ? "text-indigo-400" : "text-slate-500"
                                   )}
                                 />
-                                <span className="truncate">{sub.title}</span>
+                                <span className="truncate">{cat.name}</span>
                               </div>
                               {isSubActive && (
                                 <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.8)]" />

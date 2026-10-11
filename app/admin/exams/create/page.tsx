@@ -4,8 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { parseExamFileWithAI, parseExamTextWithAI } from "@/lib/parsers";
-import { createExam } from "@/lib/store";
-import { ParsedQuestionDraft } from "@/types/exam";
+import { createExam, getCategories } from "@/lib/store";
+import { ParsedQuestionDraft, Category } from "@/types/exam";
 import { QuestionEditorCard } from "@/components/admin/QuestionEditorCard";
 import { ScoreConfigPanel } from "@/components/admin/ScoreConfigPanel";
 import {
@@ -23,6 +23,11 @@ import {
   Trash2,
   CheckCircle2,
   Cpu,
+  ShieldCheck,
+  FolderTree,
+  FilePlus2,
+  Target,
+  Settings,
 } from "lucide-react";
 
 const SAMPLE_CLIPBOARD_EXAM = `PHẦN I: TRẮC NGHIỆM KHÁCH QUAN
@@ -61,6 +66,10 @@ export default function ExamCreatePage() {
   const [description, setDescription] = useState("");
   const [durationMinutes, setDurationMinutes] = useState(45);
   const [status, setStatus] = useState<"published" | "draft">("published");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [categoryId, setCategoryId] = useState<string>("");
+  const [questionTypeOverride, setQuestionTypeOverride] = useState<"auto" | "multiple_choice" | "essay" | "mixed">("auto");
+  const [expiresAt, setExpiresAt] = useState<string>("");
 
   const [questions, setQuestions] = useState<ParsedQuestionDraft[]>([]);
   const [mcqScorePerQuestion, setMcqScorePerQuestion] = useState<number>(0.5);
@@ -98,6 +107,12 @@ export default function ExamCreatePage() {
 
   useEffect(() => {
     handleTestAiConnection();
+    getCategories(true).then((cats) => {
+      setCategories(cats);
+      if (cats.length > 0) {
+        setCategoryId(cats[0].id);
+      }
+    });
   }, []);
 
   const syncInitialScoreInputs = (drafts: ParsedQuestionDraft[]) => {
@@ -533,6 +548,19 @@ export default function ExamCreatePage() {
       return;
     }
 
+    const mcqs = questions.filter((q) => q.type === "multiple_choice");
+    const essays = questions.filter((q) => q.type === "essay");
+    const resolvedType =
+      questionTypeOverride !== "auto"
+        ? questionTypeOverride
+        : mcqs.length > 0 && essays.length > 0
+        ? "mixed"
+        : essays.length > 0
+        ? "essay"
+        : "multiple_choice";
+
+    const selectedCat = categories.find((c) => c.id === categoryId);
+
     setIsSaving(true);
     try {
       await createExam(
@@ -541,6 +569,11 @@ export default function ExamCreatePage() {
           description: description.trim(),
           duration_minutes: Number(durationMinutes) || 45,
           status,
+          category_id: selectedCat?.id,
+          category_slug: selectedCat?.slug,
+          question_count: questions.length,
+          question_type: resolvedType,
+          expires_at: expiresAt ? new Date(expiresAt).toISOString() : null,
         },
         questions
       );
@@ -566,13 +599,52 @@ export default function ExamCreatePage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Top Breadcrumb */}
-      <div className="mb-6">
+      <div className="mb-4">
         <Link
           href="/admin/dashboard"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
         >
           <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
           <span>Quay lại Bảng điều khiển Quản trị</span>
+        </Link>
+      </div>
+
+      {/* Prominent Admin Top Bar Navigation */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none border-b border-white/10 mb-8">
+        <Link
+          href="/admin"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-all shrink-0"
+        >
+          <ShieldCheck className="h-4 w-4 text-slate-400" />
+          <span>Quản lý Đề thi</span>
+        </Link>
+        <Link
+          href="/admin/categories"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-all shrink-0"
+        >
+          <FolderTree className="h-4 w-4 text-slate-400" />
+          <span>Quản lý Danh mục con</span>
+        </Link>
+        <Link
+          href="/admin/create"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow-[0_0_12px_rgba(99,102,241,0.35)] shrink-0"
+        >
+          <FilePlus2 className="h-4 w-4 text-white" />
+          <span>Tạo Đề thi mới</span>
+        </Link>
+        <Link
+          href="/admin/grading"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-all shrink-0"
+        >
+          <Target className="h-4 w-4 text-emerald-400" />
+          <span>Phòng Chấm bài</span>
+        </Link>
+        <Link
+          href="/admin/settings"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-all shrink-0"
+        >
+          <Settings className="h-4 w-4 text-amber-400" />
+          <span>Cài đặt Hệ thống</span>
         </Link>
       </div>
 
@@ -898,6 +970,48 @@ export default function ExamCreatePage() {
 
           <div>
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
+              Danh mục con (Chuyên đề / Môn học) <span className="text-indigo-400">*</span>
+            </label>
+            <select
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
+            >
+              <option value="" className="bg-slate-900 text-white">-- Chưa phân loại --</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id} className="bg-slate-900 text-white">
+                  {c.icon || "📁"} {c.name} ({c.slug})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
+              Hình thức câu hỏi
+            </label>
+            <select
+              value={questionTypeOverride}
+              onChange={(e) => setQuestionTypeOverride(e.target.value as any)}
+              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
+            >
+              <option value="auto" className="bg-slate-900 text-white">
+                Tự động nhận diện theo tệp / câu hỏi ({questions.length} câu)
+              </option>
+              <option value="multiple_choice" className="bg-slate-900 text-white">
+                Trắc nghiệm khách quan
+              </option>
+              <option value="essay" className="bg-slate-900 text-white">
+                Tự luận
+              </option>
+              <option value="mixed" className="bg-slate-900 text-white">
+                Kết hợp Trắc nghiệm & Tự luận
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Thời gian làm bài (Phút)
             </label>
             <input
@@ -911,6 +1025,18 @@ export default function ExamCreatePage() {
           </div>
 
           <div>
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
+              Thời hạn / Hạn chót nộp bài (Tùy chọn)
+            </label>
+            <input
+              type="datetime-local"
+              value={expiresAt}
+              onChange={(e) => setExpiresAt(e.target.value)}
+              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm [color-scheme:dark]"
+            />
+          </div>
+
+          <div className="sm:col-span-2">
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Trạng thái đề thi
             </label>

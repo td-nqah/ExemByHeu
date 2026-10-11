@@ -8,6 +8,7 @@ import {
   Profile,
   ParsedQuestionDraft,
   UserBookmark,
+  Category,
 } from "@/types/exam";
 import { supabase, isSupabaseConfigured } from "./supabase/client";
 
@@ -23,6 +24,18 @@ const KEY_SUBMISSION_ANSWERS = `${STORAGE_PREFIX}sub_answers`;
 const KEY_BOOKMARKS = `${STORAGE_PREFIX}user_bookmarks`;
 const KEY_AUDIT_LOGS = `${STORAGE_PREFIX}audit_logs`;
 const KEY_PROFILES = `${STORAGE_PREFIX}profiles`;
+const KEY_CATEGORIES = `${STORAGE_PREFIX}categories`;
+
+export const SEED_CATEGORIES: Category[] = [
+  {
+    id: "cat_cnxh",
+    name: "Chủ nghĩa xã hội (CNXH)",
+    slug: "cnxh",
+    icon: "BookText",
+    status: "active",
+    created_at: new Date().toISOString(),
+  },
+];
 
 export interface LoginAuditLog {
   id: string;
@@ -135,9 +148,14 @@ export const SEED_EXAMS: Exam[] = [
   },
   {
     id: "11111111-1111-1111-1111-444444444444",
-    title: "Chủ nghĩa Xã hội Khoa học (CNXH): Sứ mệnh Lịch sử",
-    description: "Hệ thống tri thức về quy luật chính trị - xã hội trong giai đoạn quá độ lên chủ nghĩa xã hội và vai trò của giai cấp công nhân.",
-    duration_minutes: 45,
+    title: "Đề cương CNXH: Đề 1(K24)",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    duration_minutes: 60,
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    question_count: 75,
+    question_type: "multiple_choice",
+    expires_at: "2026-10-11T23:59:00Z",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
     created_at: new Date(Date.now() - 86400000 * 4).toISOString(),
@@ -147,6 +165,11 @@ export const SEED_EXAMS: Exam[] = [
     title: "Triết học Mác - Lênin: Phép Biện chứng & Quy luật Xã hội",
     description: "Thế giới quan duy vật biện chứng, quy luật mâu thuẫn, phủ định của phủ định và thực tiễn phát triển nhận thức.",
     duration_minutes: 50,
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    question_count: 50,
+    question_type: "multiple_choice",
+    expires_at: "2026-10-11T23:59:00Z",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
     created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
@@ -392,6 +415,9 @@ export function initStore(): void {
   }
   if (!localStorage.getItem(KEY_PROFILES)) {
     setLocal(KEY_PROFILES, SEED_PROFILES);
+  }
+  if (!localStorage.getItem(KEY_CATEGORIES)) {
+    setLocal(KEY_CATEGORIES, SEED_CATEGORIES);
   }
 }
 
@@ -640,6 +666,11 @@ export async function createExam(
     description: string;
     duration_minutes: number;
     status: "draft" | "published";
+    category_id?: string;
+    category_slug?: string;
+    question_count?: number;
+    question_type?: "multiple_choice" | "essay" | "mixed";
+    expires_at?: string | null;
   },
   questionsDraft: ParsedQuestionDraft[]
 ): Promise<Exam> {
@@ -651,8 +682,13 @@ export async function createExam(
   const newExam: Exam = {
     id: examId,
     title: examData.title.trim(),
-    description: examData.description.trim(),
+    description: examData.description ? examData.description.trim() : "",
     duration_minutes: examData.duration_minutes || 45,
+    category_id: examData.category_id,
+    category_slug: examData.category_slug,
+    question_count: examData.question_count || questionsDraft.length || 0,
+    question_type: examData.question_type || "multiple_choice",
+    expires_at: examData.expires_at || null,
     created_by: createdBy,
     status: examData.status,
     created_at: new Date().toISOString(),
@@ -682,6 +718,11 @@ export async function createExam(
           title: newExam.title,
           description: newExam.description,
           duration_minutes: newExam.duration_minutes,
+          category_id: newExam.category_id,
+          category_slug: newExam.category_slug,
+          question_count: newExam.question_count,
+          question_type: newExam.question_type,
+          expires_at: newExam.expires_at,
           created_by: createdBy,
           status: newExam.status,
         })
@@ -1557,4 +1598,129 @@ export async function adminResetUserPassword(
     return { success: false, message: msg };
   }
 }
+
+// 9. CATEGORY OPERATIONS (QUẢN LÝ DANH MỤC CON)
+export async function getCategories(activeOnly = false): Promise<Category[]> {
+  initStore();
+  if (isSupabaseConfigured && supabase) {
+    try {
+      let query = supabase
+        .from("categories")
+        .select("*")
+        .order("created_at", { ascending: true });
+      if (activeOnly) {
+        query = query.eq("status", "active");
+      }
+      const { data, error } = await query;
+      if (!error && data && data.length > 0) {
+        return data as Category[];
+      }
+    } catch {}
+  }
+  const categories = getLocal<Category[]>(KEY_CATEGORIES, SEED_CATEGORIES);
+  if (activeOnly) {
+    return categories.filter((c) => c.status === "active");
+  }
+  return categories;
+}
+
+export async function getCategoryById(id: string): Promise<Category | null> {
+  const categories = await getCategories();
+  return categories.find((c) => c.id === id || c.slug === id) || null;
+}
+
+export async function createCategory(categoryData: {
+  name: string;
+  slug: string;
+  icon?: string;
+  status: "active" | "hidden";
+}): Promise<Category> {
+  initStore();
+  const id = `cat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+  const cleanSlug = categoryData.slug
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]/g, "");
+
+  const newCat: Category = {
+    id,
+    name: categoryData.name.trim(),
+    slug: cleanSlug || `cat-${Date.now()}`,
+    icon: categoryData.icon?.trim() || "BookText",
+    status: categoryData.status,
+    created_at: new Date().toISOString(),
+  };
+
+  const categories = getLocal<Category[]>(KEY_CATEGORIES, SEED_CATEGORIES);
+  const updated = [...categories, newCat];
+  setLocal(KEY_CATEGORIES, updated);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from("categories").insert({
+        id: newCat.id,
+        name: newCat.name,
+        slug: newCat.slug,
+        icon: newCat.icon,
+        status: newCat.status,
+        created_at: newCat.created_at,
+      });
+    } catch {}
+  }
+
+  return newCat;
+}
+
+export async function updateCategory(
+  id: string,
+  updates: Partial<Category>
+): Promise<Category | null> {
+  initStore();
+  const categories = getLocal<Category[]>(KEY_CATEGORIES, SEED_CATEGORIES);
+  const index = categories.findIndex((c) => c.id === id || c.slug === id);
+  if (index === -1) return null;
+
+  const updatedItem: Category = {
+    ...categories[index],
+    ...updates,
+    slug: updates.slug
+      ? updates.slug.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "")
+      : categories[index].slug,
+  };
+
+  categories[index] = updatedItem;
+  setLocal(KEY_CATEGORIES, categories);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase
+        .from("categories")
+        .update({
+          name: updatedItem.name,
+          slug: updatedItem.slug,
+          icon: updatedItem.icon,
+          status: updatedItem.status,
+        })
+        .eq("id", id);
+    } catch {}
+  }
+
+  return updatedItem;
+}
+
+export async function deleteCategory(id: string): Promise<boolean> {
+  initStore();
+  const categories = getLocal<Category[]>(KEY_CATEGORIES, SEED_CATEGORIES);
+  const filtered = categories.filter((c) => c.id !== id && c.slug !== id);
+  setLocal(KEY_CATEGORIES, filtered);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from("categories").delete().eq("id", id);
+    } catch {}
+  }
+
+  return true;
+}
+
 
