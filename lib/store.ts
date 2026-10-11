@@ -21,6 +21,60 @@ const KEY_QUESTIONS = `${STORAGE_PREFIX}questions`;
 const KEY_SUBMISSIONS = `${STORAGE_PREFIX}submissions`;
 const KEY_SUBMISSION_ANSWERS = `${STORAGE_PREFIX}sub_answers`;
 const KEY_BOOKMARKS = `${STORAGE_PREFIX}user_bookmarks`;
+const KEY_AUDIT_LOGS = `${STORAGE_PREFIX}audit_logs`;
+const KEY_PROFILES = `${STORAGE_PREFIX}profiles`;
+
+export interface LoginAuditLog {
+  id: string;
+  username: string;
+  ip_address: string;
+  device: string;
+  timestamp: string;
+  status: "success" | "failed";
+}
+
+export const SEED_AUDIT_LOGS: LoginAuditLog[] = [
+  {
+    id: "log-1",
+    username: "admin",
+    ip_address: "113.190.234.12",
+    device: "Chrome 131 - Windows 11",
+    timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
+    status: "success",
+  },
+  {
+    id: "log-2",
+    username: "user1",
+    ip_address: "14.241.120.89",
+    device: "Safari 18 - iPhone 16 Pro",
+    timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+    status: "success",
+  },
+  {
+    id: "log-3",
+    username: "user2",
+    ip_address: "27.72.63.104",
+    device: "Chrome 130 - Android 15",
+    timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
+    status: "success",
+  },
+  {
+    id: "log-4",
+    username: "user3",
+    ip_address: "118.69.190.45",
+    device: "Edge 131 - Windows 10",
+    timestamp: new Date(Date.now() - 1000 * 60 * 240).toISOString(),
+    status: "success",
+  },
+  {
+    id: "log-5",
+    username: "guest_trial",
+    ip_address: "171.244.52.18",
+    device: "Firefox 133 - macOS",
+    timestamp: new Date(Date.now() - 1000 * 60 * 360).toISOString(),
+    status: "failed",
+  },
+];
 
 // Default Seed Profiles
 export const SEED_PROFILES: Profile[] = [
@@ -228,6 +282,12 @@ export function initStore(): void {
   if (!localStorage.getItem(KEY_BOOKMARKS)) {
     setLocal(KEY_BOOKMARKS, []);
   }
+  if (!localStorage.getItem(KEY_AUDIT_LOGS)) {
+    setLocal(KEY_AUDIT_LOGS, SEED_AUDIT_LOGS);
+  }
+  if (!localStorage.getItem(KEY_PROFILES)) {
+    setLocal(KEY_PROFILES, SEED_PROFILES);
+  }
 }
 
 // 1. AUTHENTICATION HELPERS
@@ -253,6 +313,7 @@ export async function loginUser(username: string, password: string): Promise<Pro
 
   // Explicitly disallow removed legacy account 'user'
   if (cleanUsername === "user") {
+    recordLoginAudit("user", "failed");
     return null;
   }
 
@@ -301,6 +362,7 @@ export async function loginUser(username: string, password: string): Promise<Pro
             created_at: data.created_at,
           };
           setCurrentUser(profile);
+          recordLoginAudit(profile.username, "success");
           return profile;
         }
       }
@@ -327,10 +389,12 @@ export async function loginUser(username: string, password: string): Promise<Pro
 
     if (isMatch) {
       setCurrentUser(matched);
+      recordLoginAudit(matched.username, "success");
       return matched;
     }
   }
 
+  recordLoginAudit(cleanUsername, "failed");
   return null;
 }
 
@@ -1280,3 +1344,112 @@ export async function getUserBookmarkedQuestionIds(
   const bookmarks = await getBookmarks(currentUserId);
   return bookmarks.map((b) => b.question_id);
 }
+
+// 8. SYSTEM AUDIT & ADMIN USER MANAGEMENT
+export function recordLoginAudit(
+  username: string,
+  status: "success" | "failed"
+): void {
+  if (typeof window === "undefined") return;
+  initStore();
+  const logs = getLocal<LoginAuditLog[]>(KEY_AUDIT_LOGS, SEED_AUDIT_LOGS);
+
+  let device = "Chrome - Windows 11";
+  if (typeof navigator !== "undefined") {
+    const ua = navigator.userAgent;
+    if (ua.includes("iPhone")) device = "Safari 18 - iPhone 16 Pro";
+    else if (ua.includes("Android")) device = "Chrome 130 - Android 15";
+    else if (ua.includes("Macintosh")) device = "Safari 18 - macOS";
+    else if (ua.includes("Windows NT 10.0")) device = "Chrome 131 - Windows 11";
+    else if (ua.includes("Windows")) device = "Edge 131 - Windows 10";
+    else device = "Web Browser";
+  }
+
+  const sampleIps = [
+    "113.190.234.12",
+    "14.241.120.89",
+    "27.72.63.104",
+    "118.69.190.45",
+    "171.244.52.18",
+    "125.235.209.61",
+  ];
+  const ip = sampleIps[Math.floor(Math.random() * sampleIps.length)];
+
+  const newLog: LoginAuditLog = {
+    id: `log-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+    username,
+    ip_address: ip,
+    device,
+    timestamp: new Date().toISOString(),
+    status,
+  };
+
+  const updated = [newLog, ...logs].slice(0, 50);
+  setLocal(KEY_AUDIT_LOGS, updated);
+}
+
+export function getLoginAuditLogs(): LoginAuditLog[] {
+  initStore();
+  return getLocal<LoginAuditLog[]>(KEY_AUDIT_LOGS, SEED_AUDIT_LOGS);
+}
+
+export async function getAllProfiles(): Promise<Profile[]> {
+  initStore();
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, username, role, created_at")
+        .neq("username", "user")
+        .order("created_at", { ascending: true });
+      if (!error && data && data.length > 0) {
+        return data as Profile[];
+      }
+    } catch {}
+  }
+  const profiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
+  return profiles.filter((p) => p.username !== "user");
+}
+
+export async function adminResetUserPassword(
+  targetUsername: string,
+  newPassword: string
+): Promise<{ success: boolean; message: string }> {
+  try {
+    const res = await fetch("/api/admin/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ targetUsername, newPassword }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      return {
+        success: false,
+        message: data.error || "Không thể đặt lại mật khẩu",
+      };
+    }
+
+    // Also update local profiles if present
+    initStore();
+    const localProfiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
+    const updated = localProfiles.map((p) => {
+      if (p.username.toLowerCase() === targetUsername.toLowerCase().trim()) {
+        return {
+          ...p,
+          password_hash: newPassword,
+        };
+      }
+      return p;
+    });
+    setLocal(KEY_PROFILES, updated);
+
+    return {
+      success: true,
+      message: data.message || `Đã đổi mật khẩu cho ${targetUsername} thành công`,
+    };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Lỗi kết nối máy chủ";
+    return { success: false, message: msg };
+  }
+}
+

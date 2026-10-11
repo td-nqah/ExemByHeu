@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   Wand2,
   Target,
+  Settings,
   FilePlus2,
   CheckCircle2,
   LogOut,
@@ -104,6 +105,13 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       active:
         pathname.startsWith("/admin/grading") ||
         pathname.startsWith("/admin/submissions"),
+    },
+    {
+      title: "Cài đặt Hệ thống",
+      href: "/admin/settings",
+      icon: Settings,
+      badge: "Hệ thống",
+      active: pathname.startsWith("/admin/settings"),
     },
   ];
 
