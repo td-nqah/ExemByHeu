@@ -664,59 +664,48 @@ export async function getExams(
   const localExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
   const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
 
-  // Merge any local exams that are NOT already in dbExams (ensures locally created exams always show)
+  // If Supabase returned exams: Supabase is our source of truth
   const dbIds = new Set(dbExams.map((e) => e.id));
+  const dbTitles = new Set(dbExams.map((e) => (e.title || "").trim().toLowerCase()));
+
+  // Only consider local exams that are NOT already in Supabase (by ID or Title)
   const missingLocals: Exam[] = [];
-
   for (const rawLocal of localExams) {
-    if (!dbIds.has(rawLocal.id)) {
-      const parsedLocal = parseExamRecord({
-        ...rawLocal,
-        questions: rawLocal.questions || questions.filter((q) => q.exam_id === rawLocal.id),
-      });
-      missingLocals.push(parsedLocal);
-
-      // Background async sync to Supabase with base columns fallback
-      if (isSupabaseConfigured && supabase) {
-        (async () => {
-          try {
-            const meta = {
-              category_id: parsedLocal.category_id,
-              category_slug: parsedLocal.category_slug,
-              question_count: parsedLocal.question_count,
-              question_type: parsedLocal.question_type,
-              expires_at: parsedLocal.expires_at,
-            };
-            const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${parsedLocal.description || ""}`.trim();
-            const { data: inserted } = await supabase.from("exams").insert({
-              title: parsedLocal.title,
-              description: descWithMeta,
-              duration_minutes: parsedLocal.duration_minutes || 45,
-              created_by: parsedLocal.created_by || "00000000-0000-0000-0000-000000000001",
-              status: parsedLocal.status || "published",
-            }).select().single();
-
-            if (inserted && parsedLocal.questions && parsedLocal.questions.length > 0) {
-              const qs = parsedLocal.questions.map((q, idx) => ({
-                exam_id: inserted.id,
-                type: q.type,
-                content: q.content,
-                options: q.options,
-                correct_answer: q.correct_answer,
-                max_score: Number(q.max_score) || 1,
-                order_index: q.order_index || idx + 1,
-              }));
-              await supabase.from("questions").insert(qs);
-            }
-          } catch {}
-        })();
-      }
+    const localTitle = (rawLocal.title || "").trim().toLowerCase();
+    if (!dbIds.has(rawLocal.id) && !dbTitles.has(localTitle)) {
+      missingLocals.push(
+        parseExamRecord({
+          ...rawLocal,
+          questions: rawLocal.questions || questions.filter((q) => q.exam_id === rawLocal.id),
+        })
+      );
     }
   }
 
-  const combined = [...missingLocals, ...dbExams];
+  // Purge redundant local copies from localStorage so they don't linger
+  if (dbExams.length > 0) {
+    const purgedLocals = localExams.filter(
+      (e) => !dbIds.has(e.id) && !dbTitles.has((e.title || "").trim().toLowerCase())
+    );
+    setLocal(KEY_EXAMS, purgedLocals);
+  }
 
-  if (combined.length === 0) {
+  // Combine and strictly deduplicate by ID and by Title to guarantee 0 duplicate rows
+  const combined = [...dbExams, ...missingLocals];
+  const seenIds = new Set<string>();
+  const seenTitles = new Set<string>();
+  const finalExams: Exam[] = [];
+
+  for (const exam of combined) {
+    const t = (exam.title || "").trim().toLowerCase();
+    if (!seenIds.has(exam.id) && !seenTitles.has(t)) {
+      seenIds.add(exam.id);
+      seenTitles.add(t);
+      finalExams.push(exam);
+    }
+  }
+
+  if (finalExams.length === 0) {
     const fallback = SEED_EXAMS.map((e) => parseExamRecord({
       ...e,
       questions: questions.filter((q) => q.exam_id === e.id),
@@ -725,9 +714,9 @@ export async function getExams(
   }
 
   if (onlyPublished) {
-    return combined.filter((e) => e.status === "published");
+    return finalExams.filter((e) => e.status === "published");
   }
-  return combined;
+  return finalExams;
 }
 
 export async function getExamById(id: string): Promise<Exam | null> {
@@ -1163,6 +1152,7 @@ export async function deleteExam(id: string): Promise<boolean> {
 
   if (isSupabaseConfigured && supabase) {
     try {
+      await supabase.from("questions").delete().eq("exam_id", id);
       await supabase.from("exams").delete().eq("id", id);
     } catch {}
   }
