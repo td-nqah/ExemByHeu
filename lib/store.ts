@@ -634,6 +634,7 @@ export async function getExams(
   if (isSupabaseConfigured && supabase) {
     try {
       let query = supabase.from("exams").select("*, questions(*)");
+      query = query.neq("title", "__SYSTEM_CATEGORIES__");
       if (onlyPublished) {
         query = query.eq("status", "published");
       }
@@ -661,7 +662,9 @@ export async function getExams(
     }
   }
 
-  const localExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const localExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS).filter(
+    (e) => e.title !== "__SYSTEM_CATEGORIES__"
+  );
   const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
 
   // If Supabase returned exams: Supabase is our source of truth
@@ -904,6 +907,109 @@ export async function createExam(
     ...newExam,
     questions: newQuestions,
   };
+}
+
+export async function assignExamCategory(
+  examId: string,
+  categoryId: string,
+  categorySlug: string,
+  status: "published" | "draft" = "published",
+  durationMinutes?: number,
+  questionCount?: number
+): Promise<Exam | null> {
+  initStore();
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const examIdx = exams.findIndex((e) => e.id === examId);
+
+  if (examIdx !== -1) {
+    const target = exams[examIdx];
+    const meta = {
+      category_id: categoryId,
+      category_slug: categorySlug,
+      question_count: questionCount || target.question_count || target.questions?.length || 40,
+      question_type: target.question_type || "multiple_choice",
+      expires_at: target.expires_at || null,
+    };
+    const cleanDesc = (target.description || "").replace(/^<!--meta:[\s\S]*?-->\n?/, "");
+    const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${cleanDesc}`.trim();
+
+    const updatedExam: Exam = {
+      ...target,
+      category_id: categoryId,
+      category_slug: categorySlug,
+      status,
+      description: cleanDesc,
+      duration_minutes: durationMinutes ? Number(durationMinutes) : target.duration_minutes,
+    };
+
+    exams[examIdx] = updatedExam;
+    setLocal(KEY_EXAMS, exams);
+
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase
+          .from("exams")
+          .update({
+            description: descWithMeta,
+            status,
+            ...(durationMinutes ? { duration_minutes: Number(durationMinutes) } : {}),
+          })
+          .eq("id", examId);
+      } catch (err) {
+        console.warn("assignExamCategory Supabase error:", err);
+      }
+    }
+
+    return updatedExam;
+  }
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data: supaExam } = await supabase
+        .from("exams")
+        .select("*")
+        .eq("id", examId)
+        .maybeSingle();
+
+      if (supaExam) {
+        const meta = {
+          category_id: categoryId,
+          category_slug: categorySlug,
+          question_count: questionCount || 40,
+          question_type: "multiple_choice",
+        };
+        const cleanDesc = (supaExam.description || "").replace(/^<!--meta:[\s\S]*?-->\n?/, "");
+        const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${cleanDesc}`.trim();
+
+        await supabase
+          .from("exams")
+          .update({
+            description: descWithMeta,
+            status,
+            ...(durationMinutes ? { duration_minutes: Number(durationMinutes) } : {}),
+          })
+          .eq("id", examId);
+
+        const newLocal: Exam = {
+          id: supaExam.id,
+          title: supaExam.title,
+          description: cleanDesc,
+          duration_minutes: durationMinutes ? Number(durationMinutes) : supaExam.duration_minutes,
+          status,
+          created_by: supaExam.created_by || "admin_user",
+          created_at: supaExam.created_at,
+          category_id: categoryId,
+          category_slug: categorySlug,
+        };
+        setLocal(KEY_EXAMS, [newLocal, ...exams]);
+        return newLocal;
+      }
+    } catch (err) {
+      console.warn("assignExamCategory remote fetch error:", err);
+    }
+  }
+
+  return null;
 }
 
 export async function updateExam(
@@ -1751,29 +1857,93 @@ export async function adminResetUserPassword(
   }
 }
 
+// Helper: Sync categories list to Supabase __SYSTEM_CATEGORIES__ exam record
+async function syncCategoriesToSupabase(categoriesList: Category[]) {
+  if (!isSupabaseConfigured || !supabase) return;
+  try {
+    const { data: existing } = await supabase
+      .from("exams")
+      .select("id")
+      .eq("title", "__SYSTEM_CATEGORIES__")
+      .maybeSingle();
+
+    if (existing) {
+      await supabase
+        .from("exams")
+        .update({ description: JSON.stringify(categoriesList) })
+        .eq("id", existing.id);
+    } else {
+      await supabase.from("exams").insert({
+        title: "__SYSTEM_CATEGORIES__",
+        description: JSON.stringify(categoriesList),
+        duration_minutes: 0,
+        created_by: "00000000-0000-0000-0000-000000000001",
+        status: "draft",
+      });
+    }
+  } catch {}
+}
+
 // 9. CATEGORY OPERATIONS (QUẢN LÝ DANH MỤC CON)
 export async function getCategories(activeOnly = false): Promise<Category[]> {
   initStore();
+  let dbCats: Category[] | null = null;
+
   if (isSupabaseConfigured && supabase) {
     try {
-      let query = supabase
+      // 1. Try dedicated categories table if it exists
+      const { data, error } = await supabase
         .from("categories")
         .select("*")
         .order("created_at", { ascending: true });
-      if (activeOnly) {
-        query = query.eq("status", "active");
-      }
-      const { data, error } = await query;
       if (!error && data && data.length > 0) {
-        return data as Category[];
+        dbCats = data as Category[];
       }
     } catch {}
+
+    // 2. Fallback to system categories record in exams table
+    if (!dbCats) {
+      try {
+        const { data: sysRecord } = await supabase
+          .from("exams")
+          .select("description")
+          .eq("title", "__SYSTEM_CATEGORIES__")
+          .maybeSingle();
+
+        if (sysRecord && sysRecord.description) {
+          const parsed = JSON.parse(sysRecord.description);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            dbCats = parsed as Category[];
+          }
+        }
+      } catch {}
+    }
   }
-  const categories = getLocal<Category[]>(KEY_CATEGORIES, SEED_CATEGORIES);
+
+  const localCats = getLocal<Category[]>(KEY_CATEGORIES, SEED_CATEGORIES);
+  const combined = dbCats ? [...dbCats, ...localCats] : localCats;
+
+  const seenSlugs = new Set<string>();
+  const uniqueCats: Category[] = [];
+
+  for (const c of combined) {
+    const slug = (c.slug || "").trim().toLowerCase();
+    if (slug && !seenSlugs.has(slug)) {
+      seenSlugs.add(slug);
+      uniqueCats.push(c);
+    }
+  }
+
+  if (!seenSlugs.has("cnxh")) {
+    uniqueCats.unshift(SEED_CATEGORIES[0]);
+  }
+
+  setLocal(KEY_CATEGORIES, uniqueCats);
+
   if (activeOnly) {
-    return categories.filter((c) => c.status === "active");
+    return uniqueCats.filter((c) => c.status === "active");
   }
-  return categories;
+  return uniqueCats;
 }
 
 export async function getCategoryById(id: string): Promise<Category | null> {
@@ -1803,8 +1973,8 @@ export async function createCategory(categoryData: {
     created_at: new Date().toISOString(),
   };
 
-  const categories = getLocal<Category[]>(KEY_CATEGORIES, SEED_CATEGORIES);
-  const updated = [...categories, newCat];
+  const categories = await getCategories(false);
+  const updated = [...categories.filter((c) => c.slug !== newCat.slug), newCat];
   setLocal(KEY_CATEGORIES, updated);
 
   if (isSupabaseConfigured && supabase) {
@@ -1818,6 +1988,7 @@ export async function createCategory(categoryData: {
         created_at: newCat.created_at,
       });
     } catch {}
+    await syncCategoriesToSupabase(updated);
   }
 
   return newCat;
@@ -1828,7 +1999,7 @@ export async function updateCategory(
   updates: Partial<Category>
 ): Promise<Category | null> {
   initStore();
-  const categories = getLocal<Category[]>(KEY_CATEGORIES, SEED_CATEGORIES);
+  const categories = await getCategories(false);
   const index = categories.findIndex((c) => c.id === id || c.slug === id);
   if (index === -1) return null;
 
@@ -1855,6 +2026,7 @@ export async function updateCategory(
         })
         .eq("id", id);
     } catch {}
+    await syncCategoriesToSupabase(categories);
   }
 
   return updatedItem;
@@ -1862,7 +2034,7 @@ export async function updateCategory(
 
 export async function deleteCategory(id: string): Promise<boolean> {
   initStore();
-  const categories = getLocal<Category[]>(KEY_CATEGORIES, SEED_CATEGORIES);
+  const categories = await getCategories(false);
   const filtered = categories.filter((c) => c.id !== id && c.slug !== id);
   setLocal(KEY_CATEGORIES, filtered);
 
@@ -1870,6 +2042,7 @@ export async function deleteCategory(id: string): Promise<boolean> {
     try {
       await supabase.from("categories").delete().eq("id", id);
     } catch {}
+    await syncCategoriesToSupabase(filtered);
   }
 
   return true;

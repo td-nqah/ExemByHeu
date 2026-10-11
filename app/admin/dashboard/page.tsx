@@ -12,6 +12,7 @@ import {
   getCurrentUser,
   getCategories,
   createExam,
+  assignExamCategory,
 } from "@/lib/store";
 import { Exam, Submission, Category } from "@/types/exam";
 import { formatDuration, formatDate } from "@/lib/utils";
@@ -56,6 +57,7 @@ export default function AdminDashboardPage() {
   const [quickExpiresAt, setQuickExpiresAt] = useState("2026-10-11T23:59");
   const [quickStatus, setQuickStatus] = useState<"published" | "draft">("published");
   const [isCreatingQuick, setIsCreatingQuick] = useState(false);
+  const [showAdvancedQuick, setShowAdvancedQuick] = useState(false);
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -111,36 +113,69 @@ export default function AdminDashboardPage() {
 
     setIsCreatingQuick(true);
     try {
-      const selectedCat = categories.find((c) => c.slug === quickCategorySlug);
-      const created = await createExam(
-        {
-          title: quickTitle.trim(),
-          description: `Bài thi trực tuyến thuộc danh mục ${selectedCat?.name || "Chuyên đề"}.`,
-          duration_minutes: Number(quickDuration) || 60,
-          category_id: selectedCat?.id || "cat_cnxh",
-          category_slug: quickCategorySlug,
-          question_count: Number(quickQuestionCount) || 75,
-          question_type: quickQuestionType,
-          expires_at: quickExpiresAt ? new Date(quickExpiresAt).toISOString() : null,
-          status: quickStatus,
-        },
-        // Seed default template questions
-        Array.from({ length: Math.min(Number(quickQuestionCount) || 5, 5) }).map((_, idx) => ({
-          id: `quick_q_${Date.now()}_${idx}`,
-          content: `Câu hỏi ôn tập số ${idx + 1} môn ${selectedCat?.name || "CNXH"}: Khái niệm và nguyên lý cốt lõi.`,
-          options: [
-            "A. Phương án đáp án mẫu A",
-            "B. Phương án đáp án mẫu B",
-            "C. Phương án đáp án mẫu C",
-            "D. Phương án đáp án mẫu D",
-          ],
-          correct_answer: "A",
-          type: (quickQuestionType === "essay" ? "essay" : "multiple_choice") as "multiple_choice" | "essay",
-          max_score: 2.0,
-        }))
+      const selectedCat = categories.find((c) => c.slug === quickCategorySlug) || categories[0];
+      const catSlug = selectedCat?.slug || quickCategorySlug || "cnxh";
+      const catId = selectedCat?.id || "cat_cnxh";
+
+      // 1. Check if an exam with this title already exists (e.g. imported from file)
+      const existingExam = exams.find(
+        (ex) => ex.title.trim().toLowerCase() === quickTitle.trim().toLowerCase()
       );
 
-      setExams((prev) => [created, ...prev]);
+      if (existingExam) {
+        // Direct update of category on existing exam (syncs Supabase and local cache)
+        const updatedExam = await assignExamCategory(
+          existingExam.id,
+          catId,
+          catSlug,
+          quickStatus,
+          quickDuration,
+          quickQuestionCount
+        );
+
+        if (updatedExam) {
+          setExams((prev) => prev.map((e) => (e.id === existingExam.id ? updatedExam : e)));
+        } else {
+          setExams((prev) =>
+            prev.map((e) =>
+              e.id === existingExam.id
+                ? { ...e, category_id: catId, category_slug: catSlug, status: quickStatus }
+                : e
+            )
+          );
+        }
+      } else {
+        // Create brand new exam
+        const created = await createExam(
+          {
+            title: quickTitle.trim(),
+            description: `Bài thi trực tuyến thuộc danh mục ${selectedCat?.name || "Chuyên đề"}.`,
+            duration_minutes: Number(quickDuration) || 60,
+            category_id: catId,
+            category_slug: catSlug,
+            question_count: Number(quickQuestionCount) || 75,
+            question_type: quickQuestionType,
+            expires_at: quickExpiresAt ? new Date(quickExpiresAt).toISOString() : null,
+            status: quickStatus,
+          },
+          Array.from({ length: Math.min(Number(quickQuestionCount) || 5, 5) }).map((_, idx) => ({
+            id: `quick_q_${Date.now()}_${idx}`,
+            content: `Câu hỏi ôn tập số ${idx + 1} môn ${selectedCat?.name || "Chuyên đề"}: Khái niệm và nguyên lý cốt lõi.`,
+            options: [
+              "A. Phương án đáp án mẫu A",
+              "B. Phương án đáp án mẫu B",
+              "C. Phương án đáp án mẫu C",
+              "D. Phương án đáp án mẫu D",
+            ],
+            correct_answer: "A",
+            type: (quickQuestionType === "essay" ? "essay" : "multiple_choice") as "multiple_choice" | "essay",
+            max_score: 2.0,
+          }))
+        );
+
+        setExams((prev) => [created, ...prev.filter((e) => e.id !== created.id)]);
+      }
+
       setIsQuickExamModalOpen(false);
       setQuickTitle("");
     } finally {
@@ -238,7 +273,7 @@ export default function AdminDashboardPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => {
-                setQuickTitle("Đề cương CNXH: Đề 1(K24)");
+                setQuickTitle("");
                 setIsQuickExamModalOpen(true);
               }}
               className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 hover:border-indigo-500/30 text-white font-medium px-3.5 py-2.5 text-xs transition-all"
@@ -420,17 +455,28 @@ export default function AdminDashboardPage() {
               <form onSubmit={handleCreateQuickExam} className="space-y-4 mt-5">
                 {/* Title */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-slate-300">
-                    Tiêu đề bài thi (Title) *
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-medium text-slate-300">
+                      Tiêu đề bài thi (Title) *
+                    </label>
+                    <span className="text-[11px] text-slate-400">
+                      Gõ tên mới hoặc chọn đề có sẵn
+                    </span>
+                  </div>
                   <input
                     type="text"
                     required
+                    list="existing-exams-suggestions"
                     value={quickTitle}
                     onChange={(e) => setQuickTitle(e.target.value)}
-                    placeholder="Ví dụ: Đề cương CNXH: Đề 1(K24)"
+                    placeholder="Nhập tên đề (Ví dụ: Đề cương CTMT: Đề 1)"
                     className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
                   />
+                  <datalist id="existing-exams-suggestions">
+                    {exams.map((ex) => (
+                      <option key={ex.id} value={ex.title} />
+                    ))}
+                  </datalist>
                 </div>
 
                 {/* Sub-category Dropdown */}
@@ -451,104 +497,123 @@ export default function AdminDashboardPage() {
                   </select>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Duration */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-slate-300">
-                      Thời lượng làm bài (phút) *
-                    </label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={300}
-                      value={quickDuration}
-                      onChange={(e) => setQuickDuration(Number(e.target.value))}
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
-                    />
-                  </div>
+                {/* Collapsible Advanced Settings (Optional) */}
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowAdvancedQuick(!showAdvancedQuick)}
+                    className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1.5 transition-colors font-medium"
+                  >
+                    <span>
+                      {showAdvancedQuick
+                        ? "▾ Thu gọn cấu hình nâng cao"
+                        : "▸ + Cấu hình nâng cao (Thời lượng, số câu, hạn thi...)"}
+                    </span>
+                  </button>
 
-                  {/* Question Count */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-slate-300">
-                      Số lượng câu hỏi (Question Count) *
-                    </label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={500}
-                      value={quickQuestionCount}
-                      onChange={(e) => setQuickQuestionCount(Number(e.target.value))}
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
-                    />
-                  </div>
-                </div>
+                  {showAdvancedQuick && (
+                    <div className="mt-3 space-y-4 p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* Duration */}
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-medium text-slate-300">
+                            Thời lượng làm bài (phút)
+                          </label>
+                          <input
+                            type="number"
+                            min={1}
+                            max={300}
+                            value={quickDuration}
+                            onChange={(e) => setQuickDuration(Number(e.target.value))}
+                            className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
+                          />
+                        </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Question Type */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-slate-300">
-                      Dạng câu hỏi (Question Type)
-                    </label>
-                    <select
-                      value={quickQuestionType}
-                      onChange={(e) =>
-                        setQuickQuestionType(
-                          e.target.value as "multiple_choice" | "essay" | "mixed"
-                        )
-                      }
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
-                    >
-                      <option value="multiple_choice">Trắc nghiệm</option>
-                      <option value="essay">Tự luận</option>
-                      <option value="mixed">Kết hợp Trắc nghiệm & Tự luận</option>
-                    </select>
-                  </div>
+                        {/* Question Count */}
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-medium text-slate-300">
+                            Số lượng câu hỏi (Question Count)
+                          </label>
+                          <input
+                            type="number"
+                            min={1}
+                            max={500}
+                            value={quickQuestionCount}
+                            onChange={(e) => setQuickQuestionCount(Number(e.target.value))}
+                            className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
+                          />
+                        </div>
+                      </div>
 
-                  {/* Expiration / Scheduled Date-Time */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-slate-300">
-                      Hạn thi / Lên lịch (Expiration Date-Time)
-                    </label>
-                    <input
-                      type="datetime-local"
-                      value={quickExpiresAt}
-                      onChange={(e) => setQuickExpiresAt(e.target.value)}
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
-                    />
-                  </div>
-                </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* Question Type */}
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-medium text-slate-300">
+                            Dạng câu hỏi (Question Type)
+                          </label>
+                          <select
+                            value={quickQuestionType}
+                            onChange={(e) =>
+                              setQuickQuestionType(
+                                e.target.value as "multiple_choice" | "essay" | "mixed"
+                              )
+                            }
+                            className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
+                          >
+                            <option value="multiple_choice">Trắc nghiệm</option>
+                            <option value="essay">Tự luận</option>
+                            <option value="mixed">Kết hợp Trắc nghiệm & Tự luận</option>
+                          </select>
+                        </div>
 
-                {/* Status action: Save draft vs Publish */}
-                <div className="space-y-1.5 pt-1">
-                  <label className="text-xs font-medium text-slate-300">
-                    Trạng thái xuất bản
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setQuickStatus("published")}
-                      className={cn(
-                        "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
-                        quickStatus === "published"
-                          ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 font-semibold"
-                          : "bg-slate-900 border-white/5 text-slate-400 hover:text-white"
-                      )}
-                    >
-                      Xuất bản ngay (Mở thi)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setQuickStatus("draft")}
-                      className={cn(
-                        "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
-                        quickStatus === "draft"
-                          ? "bg-amber-500/20 border-amber-500/40 text-amber-300 font-semibold"
-                          : "bg-slate-900 border-white/5 text-slate-400 hover:text-white"
-                      )}
-                    >
-                      Lưu bản nháp (Đóng)
-                    </button>
-                  </div>
+                        {/* Expiration / Scheduled Date-Time */}
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-medium text-slate-300">
+                            Hạn thi / Lên lịch (Expiration Date-Time)
+                          </label>
+                          <input
+                            type="datetime-local"
+                            value={quickExpiresAt}
+                            onChange={(e) => setQuickExpiresAt(e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Status action: Save draft vs Publish */}
+                      <div className="space-y-1.5 pt-1">
+                        <label className="text-xs font-medium text-slate-300">
+                          Trạng thái xuất bản
+                        </label>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setQuickStatus("published")}
+                            className={cn(
+                              "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
+                              quickStatus === "published"
+                                ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 font-semibold"
+                                : "bg-slate-900 border-white/5 text-slate-400 hover:text-white"
+                            )}
+                          >
+                            Xuất bản ngay (Mở thi)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setQuickStatus("draft")}
+                            className={cn(
+                              "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
+                              quickStatus === "draft"
+                                ? "bg-amber-500/20 border-amber-500/40 text-amber-300 font-semibold"
+                                : "bg-slate-900 border-white/5 text-slate-400 hover:text-white"
+                            )}
+                          >
+                            Lưu bản nháp (Đóng)
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Submit buttons */}
@@ -566,7 +631,7 @@ export default function AdminDashboardPage() {
                     className="px-5 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium text-xs rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-1.5 disabled:opacity-50"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5" />
-                    <span>{isCreatingQuick ? "Đang lưu..." : "Lưu & Tạo bài thi"}</span>
+                    <span>{isCreatingQuick ? "Đang lưu..." : "✓ Xác nhận & Thêm vào Danh mục"}</span>
                   </button>
                 </div>
               </form>
