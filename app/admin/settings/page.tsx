@@ -12,7 +12,6 @@ import {
 } from "@/lib/store";
 import { Profile } from "@/types/exam";
 import {
-  Settings,
   HardDrive,
   Database,
   KeyRound,
@@ -25,11 +24,8 @@ import {
   AlertCircle,
   Eye,
   EyeOff,
-  Sliders,
   FolderArchive,
   Layers,
-  Activity,
-  Server,
 } from "lucide-react";
 
 export default function AdminSettingsPage() {
@@ -46,12 +42,10 @@ export default function AdminSettingsPage() {
   const [dbTablesMB, setDbTablesMB] = useState(85.4);
   const [filesStorageMB, setFilesStorageMB] = useState(124.2);
   const [cacheLogsMB, setCacheLogsMB] = useState(36.2);
-  const [simulatedHigh, setSimulatedHigh] = useState(false);
 
   const usedStorageMB = useMemo(() => {
-    if (simulatedHigh) return 428.6;
     return Number((dbTablesMB + filesStorageMB + cacheLogsMB).toFixed(1));
-  }, [dbTablesMB, filesStorageMB, cacheLogsMB, simulatedHigh]);
+  }, [dbTablesMB, filesStorageMB, cacheLogsMB]);
 
   const storagePercentage = useMemo(() => {
     return Number(((usedStorageMB / maxStorageMB) * 100).toFixed(1));
@@ -75,14 +69,15 @@ export default function AdminSettingsPage() {
       });
 
       // Realistic granular calculation
-      const calculatedDbMB = Number((60.0 + exams.length * 2.1 + totalQuestions * 0.08 + subs.length * 0.45).toFixed(1));
+      const calculatedDbMB = Number(
+        (60.0 + exams.length * 2.1 + totalQuestions * 0.08 + subs.length * 0.45).toFixed(1)
+      );
       const calculatedFilesMB = Number((100.0 + exams.length * 2.8).toFixed(1));
       const calculatedCacheMB = Number((30.0 + subs.length * 0.3).toFixed(1));
 
       setDbTablesMB(calculatedDbMB);
       setFilesStorageMB(calculatedFilesMB);
       setCacheLogsMB(calculatedCacheMB);
-      setSimulatedHigh(false);
     } finally {
       setTimeout(() => setIsScanning(false), 400);
     }
@@ -256,42 +251,6 @@ export default function AdminSettingsPage() {
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* =========================================================================
-          PAGE HEADER
-          ========================================================================= */}
-      <div className="rounded-2xl bg-[#151b27] border border-white/[0.06] p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1e2538] border border-white/[0.08] text-indigo-400">
-              <Settings className="h-5 w-5" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
-                Cài đặt Hệ thống
-                <span className="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2.5 py-0.5 rounded-full font-medium">
-                  Quản trị viên
-                </span>
-              </h1>
-              <p className="mt-0.5 text-xs text-slate-400">
-                Theo dõi dung lượng tài nguyên thực tế và quản lý mật khẩu hệ thống.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Status badges */}
-        <div className="flex items-center gap-3">
-          <div className="inline-flex items-center gap-2 bg-[#1b2230] border border-white/[0.06] px-3 py-1.5 rounded-xl text-xs text-slate-300">
-            <Activity className="h-3.5 w-3.5 text-emerald-400" />
-            <span>Hệ thống trực tuyến</span>
-          </div>
-          <div className="inline-flex items-center gap-2 bg-[#1b2230] border border-white/[0.06] px-3 py-1.5 rounded-xl text-xs text-slate-300">
-            <Server className="h-3.5 w-3.5 text-indigo-400" />
-            <span>Supabase Free Tier</span>
-          </div>
-        </div>
-      </div>
-
-      {/* =========================================================================
           CHỨC NĂNG 1: THEO DÕI BỘ NHỚ TÀI NGUYÊN THỰC TẾ (ĐO TỪNG MB)
           ========================================================================= */}
       <section className="space-y-4">
@@ -329,27 +288,16 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
 
-              {/* Simulation Toggle & Recalculate Button */}
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setSimulatedHigh((prev) => !prev)}
-                  className="px-2.5 py-1.5 rounded-lg bg-[#20293d] border border-white/[0.08] text-[11px] text-slate-300 hover:text-white transition-colors flex items-center gap-1.5"
-                >
-                  <Sliders className="h-3 w-3 text-indigo-400" />
-                  <span>{simulatedHigh ? "Bình thường" : "Mô phỏng > 80%"}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleRecalculateStorage}
-                  disabled={isScanning}
-                  className="px-2.5 py-1.5 rounded-lg bg-[#4f57ea] hover:bg-[#434ac9] text-[11px] text-white font-medium transition-colors flex items-center gap-1.5 disabled:opacity-50"
-                >
-                  <RefreshCw className={`h-3 w-3 ${isScanning ? "animate-spin" : ""}`} />
-                  <span>Đo lại thực tế</span>
-                </button>
-              </div>
+              {/* Recalculate Button */}
+              <button
+                type="button"
+                onClick={handleRecalculateStorage}
+                disabled={isScanning}
+                className="px-3 py-1.5 rounded-lg bg-[#4f57ea] hover:bg-[#434ac9] active:bg-[#3d43b6] text-xs text-white font-medium transition-colors flex items-center gap-1.5 disabled:opacity-50"
+              >
+                <RefreshCw className={`h-3.5 w-3.5 ${isScanning ? "animate-spin" : ""}`} />
+                <span>Đo lại thực tế</span>
+              </button>
             </div>
           )}
 
@@ -373,9 +321,7 @@ export default function AdminSettingsPage() {
             <div className="w-full h-3 bg-[#111622] rounded-full overflow-hidden p-0.5 border border-white/[0.08]">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${
-                  isHighStorage
-                    ? "bg-rose-500"
-                    : "bg-[#4f57ea]"
+                  isHighStorage ? "bg-rose-500" : "bg-[#4f57ea]"
                 }`}
                 style={{ width: `${Math.min(100, storagePercentage)}%` }}
               />
