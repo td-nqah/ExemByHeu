@@ -181,8 +181,8 @@ export default function AdminCategoriesPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* 1. Header & Prominent Admin Navigation Bar */}
+    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      {/* 1. Header Block */}
       <motion.div
         initial={reduceMotion ? false : { opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
@@ -209,45 +209,6 @@ export default function AdminCategoriesPage() {
             <Plus className="h-4 w-4" />
             <span>Thêm Danh mục mới</span>
           </button>
-        </div>
-
-        {/* Prominent Admin Top Bar Navigation */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none border-b border-white/10 pt-2">
-          <Link
-            href="/admin"
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-all shrink-0"
-          >
-            <ShieldCheck className="h-4 w-4 text-slate-400" />
-            <span>Quản lý Đề thi</span>
-          </Link>
-          <Link
-            href="/admin/categories"
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow-[0_0_12px_rgba(99,102,241,0.35)] shrink-0"
-          >
-            <FolderTree className="h-4 w-4 text-white" />
-            <span>Quản lý Danh mục con</span>
-          </Link>
-          <Link
-            href="/admin/create"
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-all shrink-0"
-          >
-            <FilePlus2 className="h-4 w-4 text-indigo-400" />
-            <span>Tạo Đề thi mới</span>
-          </Link>
-          <Link
-            href="/admin/grading"
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-all shrink-0"
-          >
-            <Target className="h-4 w-4 text-emerald-400" />
-            <span>Phòng Chấm bài</span>
-          </Link>
-          <Link
-            href="/admin/settings"
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-all shrink-0"
-          >
-            <Settings className="h-4 w-4 text-amber-400" />
-            <span>Cài đặt Hệ thống</span>
-          </Link>
         </div>
       </motion.div>
 

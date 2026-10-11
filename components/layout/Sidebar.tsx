@@ -104,17 +104,18 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       title: "Quản lý Đề thi",
       href: "/admin",
       icon: ShieldCheck,
-      badge: "Admin",
+      badge: "ADMIN",
       active:
         pathname === "/admin" ||
-        pathname.startsWith("/admin/dashboard") ||
-        pathname.startsWith("/admin/exams"),
+        pathname === "/admin/dashboard" ||
+        (pathname.startsWith("/admin/exams") &&
+          !pathname.startsWith("/admin/exams/create")),
     },
     {
       title: "Quản lý Danh mục",
       href: "/admin/categories",
       icon: FolderTree,
-      badge: "Mới",
+      badge: "MỚI",
       active: pathname.startsWith("/admin/categories"),
     },
     {
@@ -123,6 +124,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       icon: Wand2,
       badge: "AI",
       active:
+        pathname === "/admin/create" ||
         pathname.startsWith("/admin/create") ||
         pathname.startsWith("/admin/exams/create"),
     },
@@ -130,7 +132,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       title: "Phòng Chấm bài",
       href: "/admin/grading",
       icon: Target,
-      badge: "Duyệt",
+      badge: "DUYỆT",
       active:
         pathname.startsWith("/admin/grading") ||
         pathname.startsWith("/admin/submissions"),
@@ -139,7 +141,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       title: "Cài đặt Hệ thống",
       href: "/admin/settings",
       icon: Settings,
-      badge: "Hệ thống",
+      badge: "HỆ THỐNG",
       active: pathname.startsWith("/admin/settings"),
     },
   ];
@@ -383,9 +385,9 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     href={item.href}
                     onClick={onCloseMobile}
                     className={cn(
-                      "group flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200",
+                      "group flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200 relative",
                       item.active
-                        ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_18px_rgba(99,102,241,0.35)]"
+                        ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] border border-indigo-400/30 font-semibold"
                         : "text-slate-300 hover:bg-slate-900/80 hover:text-white hover:border hover:border-white/10"
                     )}
                   >
@@ -402,10 +404,10 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     {item.badge && (
                       <span
                         className={cn(
-                          "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+                          "rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider",
                           item.active
-                            ? "bg-white/20 text-white"
-                            : "bg-slate-900 text-slate-300 border border-white/5"
+                            ? "bg-white/25 text-white border border-white/40 shadow-sm"
+                            : "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
                         )}
                       >
                         {item.badge}
