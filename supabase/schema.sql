@@ -61,11 +61,22 @@ CREATE TABLE IF NOT EXISTS public.submission_answers (
   admin_feedback TEXT
 );
 
+-- 6. USER_BOOKMARKS TABLE (Bookmarked questions by users)
+CREATE TABLE IF NOT EXISTS public.user_bookmarks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  question_id UUID NOT NULL REFERENCES public.questions(id) ON DELETE CASCADE,
+  exam_id UUID NOT NULL REFERENCES public.exams(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(user_id, question_id)
+);
+
 -- INDEXES FOR QUERY PERFORMANCE
 CREATE INDEX IF NOT EXISTS idx_questions_exam_id ON public.questions(exam_id);
 CREATE INDEX IF NOT EXISTS idx_submissions_exam_id ON public.submissions(exam_id);
 CREATE INDEX IF NOT EXISTS idx_submissions_user_id_submitted_at ON public.submissions(user_id, submitted_at DESC);
 CREATE INDEX IF NOT EXISTS idx_sub_answers_sub_id ON public.submission_answers(submission_id);
+CREATE INDEX IF NOT EXISTS idx_user_bookmarks_user_id ON public.user_bookmarks(user_id, created_at DESC);
 
 -- ============================================================================
 -- AUTO-CLEANUP TRIGGER: KEEP ONLY LATEST 50 SUBMISSIONS PER USER
@@ -160,6 +171,13 @@ CREATE POLICY "Admin updates answers" ON public.submission_answers FOR UPDATE US
 
 DROP POLICY IF EXISTS "Admin deletes answers" ON public.submission_answers;
 CREATE POLICY "Admin deletes answers" ON public.submission_answers FOR DELETE USING (true);
+
+-- USER_BOOKMARKS POLICIES
+ALTER TABLE public.user_bookmarks ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users read bookmarks" ON public.user_bookmarks;
+CREATE POLICY "Users read bookmarks" ON public.user_bookmarks FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Users manage bookmarks" ON public.user_bookmarks;
+CREATE POLICY "Users manage bookmarks" ON public.user_bookmarks FOR ALL USING (true);
 
 -- ============================================================================
 -- SEED ACCOUNTS & SAMPLE EXAMS

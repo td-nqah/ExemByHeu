@@ -21,6 +21,17 @@ export interface Question {
   correct_answer: string; // "A" or "A. Option 1"
   max_score: number;
   order_index: number;
+  explanation?: string;
+}
+
+export interface UserBookmark {
+  id: string;
+  user_id: string;
+  question_id: string;
+  exam_id: string;
+  created_at: string;
+  question?: Question;
+  exam?: Exam;
 }
 
 export interface Exam {

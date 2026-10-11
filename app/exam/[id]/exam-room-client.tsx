@@ -2,7 +2,14 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { getExamById, submitExam, finalizeGrading, getCurrentUser } from "@/lib/store";
+import {
+  getExamById,
+  submitExam,
+  finalizeGrading,
+  getCurrentUser,
+  toggleBookmark,
+  getUserBookmarkedQuestionIds,
+} from "@/lib/store";
 import { Exam, Submission } from "@/types/exam";
 import { StickyTimer } from "@/components/exam/StickyTimer";
 import { QuestionNav } from "@/components/exam/QuestionNav";
@@ -76,11 +83,21 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     };
   }, [isFocusMode]);
 
-  const toggleFlagQuestion = (questionId: string) => {
+  const toggleFlagQuestion = async (questionId: string) => {
+    const nextVal = !flaggedQuestions[questionId];
     setFlaggedQuestions((prev) => ({
       ...prev,
-      [questionId]: !prev[questionId],
+      [questionId]: nextVal,
     }));
+
+    const user = getCurrentUser();
+    if (user && exam) {
+      try {
+        await toggleBookmark(user.id, questionId, exam.id);
+      } catch (err) {
+        console.error("Failed to sync bookmark:", err);
+      }
+    }
   };
   const [aiGradingState, setAiGradingState] = useState<{
     isGrading: boolean;
@@ -99,7 +116,10 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
     async function loadExam() {
       try {
-        const data = await getExamById(examId);
+        const [data, bookmarkedIds] = await Promise.all([
+          getExamById(examId),
+          getUserBookmarkedQuestionIds(user?.id),
+        ]);
         if (!data) {
           router.push("/dashboard");
           return;
@@ -107,6 +127,13 @@ export function ExamRoomClient({ examId }: { examId: string }) {
         setExam(data);
         if (data.questions && data.questions.length > 0) {
           setActiveQuestionId(data.questions[0].id);
+        }
+        if (bookmarkedIds && bookmarkedIds.length > 0) {
+          const initialFlags: Record<string, boolean> = {};
+          bookmarkedIds.forEach((id) => {
+            initialFlags[id] = true;
+          });
+          setFlaggedQuestions(initialFlags);
         }
       } finally {
         setLoading(false);

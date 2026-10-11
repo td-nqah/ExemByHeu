@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getSubmissionById, getCurrentUser } from "@/lib/store";
+import { getSubmissionById, getCurrentUser, toggleBookmark, getUserBookmarkedQuestionIds } from "@/lib/store";
 import { Submission } from "@/types/exam";
-import { formatDate } from "@/lib/utils";
+import { formatDate, cn } from "@/lib/utils";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -14,6 +14,7 @@ import {
   Award,
   Calendar,
   Sparkles,
+  Bookmark,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
@@ -22,6 +23,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
   const shouldReduceMotion = useReducedMotion();
 
   const [submission, setSubmission] = useState<Submission | null>(null);
+  const [bookmarkedIds, setBookmarkedIds] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,8 +35,18 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
 
     async function loadData() {
       try {
-        const data = await getSubmissionById(submissionId);
+        const [data, bmIds] = await Promise.all([
+          getSubmissionById(submissionId),
+          getUserBookmarkedQuestionIds(user?.id),
+        ]);
         setSubmission(data);
+        if (bmIds && bmIds.length > 0) {
+          const map: Record<string, boolean> = {};
+          bmIds.forEach((id) => {
+            map[id] = true;
+          });
+          setBookmarkedIds(map);
+        }
       } finally {
         setLoading(false);
       }
@@ -168,7 +180,37 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* Bookmark Button */}
+                  <button
+                    type="button"
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      const user = getCurrentUser();
+                      if (!user || !submission.exam_id) return;
+                      const nextVal = !bookmarkedIds[q.id];
+                      setBookmarkedIds((prev) => ({ ...prev, [q.id]: nextVal }));
+                      try {
+                        await toggleBookmark(user.id, q.id, submission.exam_id);
+                      } catch {}
+                    }}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-md px-2.5 py-0.5 text-xs font-semibold border transition-all cursor-pointer",
+                      bookmarkedIds[q.id]
+                        ? "border-amber-400 bg-amber-500/20 text-amber-300 ring-1 ring-amber-400/50 shadow-[0_0_12px_rgba(251,191,36,0.25)]"
+                        : "border-slate-800 bg-slate-900/60 text-slate-400 hover:border-amber-500/50 hover:text-amber-300"
+                    )}
+                    title={bookmarkedIds[q.id] ? "Bỏ đánh dấu câu hỏi này" : "Đánh dấu câu hỏi này để ôn tập"}
+                  >
+                    <Bookmark
+                      className={cn(
+                        "h-3 w-3",
+                        bookmarkedIds[q.id] ? "fill-current text-amber-300" : "text-slate-400"
+                      )}
+                    />
+                    <span>{bookmarkedIds[q.id] ? "Đã đánh dấu" : "Đánh dấu"}</span>
+                  </button>
+
                   {isMCQ ? (
                     isCorrect ? (
                       <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/50 px-2.5 py-0.5 text-xs font-bold text-emerald-400">

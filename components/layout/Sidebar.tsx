@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import {
   GraduationCap,
   BookOpen,
+  Bookmark,
   History,
   TrendingUp,
   ShieldCheck,
@@ -51,18 +52,25 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       active: pathname === "/dashboard",
     },
     {
-      title: "Lịch sử làm bài",
-      href: "/history",
-      icon: History,
-      badge: null,
-      active: pathname.startsWith("/history"),
+      title: "Các câu đánh dấu",
+      href: "/bookmarks",
+      icon: Bookmark,
+      badge: "Mới",
+      active: pathname.startsWith("/bookmarks"),
     },
     {
       title: "Phân tích phong độ",
       href: "/analytics",
       icon: TrendingUp,
-      badge: "Mới",
+      badge: "Hot",
       active: pathname.startsWith("/analytics"),
+    },
+    {
+      title: "Lịch sử làm bài",
+      href: "/history",
+      icon: History,
+      badge: null,
+      active: pathname.startsWith("/history"),
     },
   ];
 
@@ -166,9 +174,9 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                   {item.badge && (
                     <span
                       className={cn(
-                        "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+                        "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider",
                         item.active
-                          ? "bg-white/20 text-white"
+                          ? "bg-white/25 text-white border border-white/40 shadow-sm"
                           : "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
                       )}
                     >

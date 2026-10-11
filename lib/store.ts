@@ -7,6 +7,7 @@ import {
   SubmissionAnswer,
   Profile,
   ParsedQuestionDraft,
+  UserBookmark,
 } from "@/types/exam";
 import { supabase, isSupabaseConfigured } from "./supabase/client";
 
@@ -19,6 +20,7 @@ const KEY_EXAMS = `${STORAGE_PREFIX}exams`;
 const KEY_QUESTIONS = `${STORAGE_PREFIX}questions`;
 const KEY_SUBMISSIONS = `${STORAGE_PREFIX}submissions`;
 const KEY_SUBMISSION_ANSWERS = `${STORAGE_PREFIX}sub_answers`;
+const KEY_BOOKMARKS = `${STORAGE_PREFIX}user_bookmarks`;
 
 // Default Seed Profiles
 export const SEED_PROFILES: Profile[] = [
@@ -222,6 +224,9 @@ export function initStore(): void {
   }
   if (!localStorage.getItem(KEY_SUBMISSION_ANSWERS)) {
     setLocal(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
+  }
+  if (!localStorage.getItem(KEY_BOOKMARKS)) {
+    setLocal(KEY_BOOKMARKS, []);
   }
 }
 
@@ -1087,4 +1092,190 @@ export async function finalizeGrading(
   }
 
   return updatedSubmission;
+}
+
+// 8. BOOKMARK FUNCTIONS
+export async function getBookmarks(userId?: string): Promise<UserBookmark[]> {
+  initStore();
+  const currentUserId = userId || getCurrentUser()?.id;
+  if (!currentUserId) return [];
+
+  let bookmarks: UserBookmark[] = [];
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("user_bookmarks")
+        .select("*")
+        .eq("user_id", currentUserId)
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        bookmarks = data as UserBookmark[];
+        const allLocal = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []);
+        const otherUsers = allLocal.filter((b) => b.user_id !== currentUserId);
+        setLocal(KEY_BOOKMARKS, [...otherUsers, ...bookmarks]);
+      } else {
+        bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []).filter(
+          (b) => b.user_id === currentUserId
+        );
+      }
+    } catch {
+      bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []).filter(
+        (b) => b.user_id === currentUserId
+      );
+    }
+  } else {
+    bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []).filter(
+      (b) => b.user_id === currentUserId
+    );
+  }
+
+  // Enrich bookmarks with questions and exams
+  const localQuestions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
+  const localExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+
+  let enrichedQuestions = [...localQuestions];
+  let enrichedExams = [...localExams];
+
+  if (isSupabaseConfigured && supabase && bookmarks.length > 0) {
+    const missingQuestionIds = bookmarks
+      .map((b) => b.question_id)
+      .filter((qId) => !enrichedQuestions.some((eq) => eq.id === qId));
+
+    if (missingQuestionIds.length > 0) {
+      try {
+        const { data: dbQuestions } = await supabase
+          .from("questions")
+          .select("*")
+          .in("id", missingQuestionIds);
+        if (dbQuestions) {
+          enrichedQuestions.push(...dbQuestions);
+        }
+      } catch {}
+    }
+
+    const missingExamIds = bookmarks
+      .map((b) => b.exam_id)
+      .filter((eId) => !enrichedExams.some((ee) => ee.id === eId));
+
+    if (missingExamIds.length > 0) {
+      try {
+        const { data: dbExams } = await supabase
+          .from("exams")
+          .select("*")
+          .in("id", missingExamIds);
+        if (dbExams) {
+          enrichedExams.push(...dbExams);
+        }
+      } catch {}
+    }
+  }
+
+  return bookmarks.map((b) => {
+    const q = enrichedQuestions.find((item) => item.id === b.question_id);
+    const exam = enrichedExams.find((e) => e.id === b.exam_id);
+    return {
+      ...b,
+      question: q,
+      exam,
+    };
+  });
+}
+
+export async function addBookmark(
+  userId: string,
+  questionId: string,
+  examId: string
+): Promise<UserBookmark> {
+  initStore();
+  const bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []);
+  const existing = bookmarks.find(
+    (b) => b.user_id === userId && b.question_id === questionId
+  );
+  if (existing) return existing;
+
+  const newBookmark: UserBookmark = {
+    id:
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `bm_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+    user_id: userId,
+    question_id: questionId,
+    exam_id: examId,
+    created_at: new Date().toISOString(),
+  };
+
+  bookmarks.unshift(newBookmark);
+  setLocal(KEY_BOOKMARKS, bookmarks);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from("user_bookmarks").upsert(
+        {
+          id: newBookmark.id,
+          user_id: userId,
+          question_id: questionId,
+          exam_id: examId,
+          created_at: newBookmark.created_at,
+        },
+        { onConflict: "user_id,question_id" }
+      );
+    } catch {}
+  }
+
+  return newBookmark;
+}
+
+export async function removeBookmark(
+  userId: string,
+  questionId: string
+): Promise<void> {
+  initStore();
+  const bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []);
+  const updated = bookmarks.filter(
+    (b) => !(b.user_id === userId && b.question_id === questionId)
+  );
+  setLocal(KEY_BOOKMARKS, updated);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase
+        .from("user_bookmarks")
+        .delete()
+        .eq("user_id", userId)
+        .eq("question_id", questionId);
+    } catch {}
+  }
+}
+
+export async function toggleBookmark(
+  userId: string,
+  questionId: string,
+  examId: string
+): Promise<boolean> {
+  initStore();
+  const bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []);
+  const exists = bookmarks.some(
+    (b) => b.user_id === userId && b.question_id === questionId
+  );
+
+  if (exists) {
+    await removeBookmark(userId, questionId);
+    return false;
+  } else {
+    await addBookmark(userId, questionId, examId);
+    return true;
+  }
+}
+
+export async function getUserBookmarkedQuestionIds(
+  userId?: string
+): Promise<string[]> {
+  initStore();
+  const currentUserId = userId || getCurrentUser()?.id;
+  if (!currentUserId) return [];
+
+  const bookmarks = await getBookmarks(currentUserId);
+  return bookmarks.map((b) => b.question_id);
 }
