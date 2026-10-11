@@ -179,3 +179,54 @@ body {
     filter: none !important;
   }
 }
+
+/*
+ * Exam Cards Grid: Hover Focus & Peer Blur Effect
+ * Focus on hovered exam card (scale 1.03, border-indigo-500/60, glow shadow)
+ * Peer cards blur (4px), scale down (0.97), and dim (opacity 0.5) over 300ms ease-in-out
+ */
+.exam-cards-container {
+  /* Container context */
+}
+
+.exam-card-item {
+  cursor: pointer;
+  transform-origin: center center;
+  will-change: transform, scale, filter, opacity, border-color, box-shadow;
+  transition: all 300ms ease-in-out !important;
+}
+
+/* When any exam card in the grid is hovered, other exam cards blur, dim and scale down */
+.exam-cards-container:has(.exam-card-item:hover) .exam-card-item:not(:hover) {
+  filter: blur(4px) !important;
+  opacity: 0.5 !important;
+  scale: 0.97 !important;
+}
+
+/* The hovered exam card scales up, highlights border with indigo, and increases ambient glow */
+.exam-card-item:hover {
+  filter: blur(0px) !important;
+  opacity: 1 !important;
+  scale: 1.03 !important;
+  border-color: rgba(99, 102, 241, 0.6) !important; /* border-indigo-500/60 */
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.25) !important; /* shadow-[0_0_30px_rgba(99,102,241,0.25)] */
+  z-index: 20 !important;
+  position: relative !important;
+}
+
+/* Fallback for older browsers without :has */
+@supports not (selector(:has(*))) {
+  .exam-cards-container:hover .exam-card-item:not(:hover) {
+    filter: blur(4px) !important;
+    opacity: 0.5 !important;
+    scale: 0.97 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exam-card-item {
+    transition: none !important;
+    scale: 1 !important;
+    filter: none !important;
+  }
+}

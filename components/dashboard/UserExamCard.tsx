@@ -220,9 +220,9 @@ export function UserExamCard({ exam, index }: UserExamCardProps) {
         ease: [0.16, 1, 0.3, 1],
       }}
       className={cn(
-        "group relative flex flex-col justify-between overflow-hidden rounded-2xl p-6 transition-all duration-300",
+        "exam-card-item group relative flex flex-col justify-between overflow-hidden rounded-2xl p-6",
         "bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.5)]",
-        "hover:border-indigo-500/40 hover:shadow-[0_16px_48px_rgba(99,102,241,0.22)] hover:-translate-y-0.5"
+        "transition-all duration-300 ease-in-out cursor-pointer"
       )}
     >
       {/* Subtle Ambient Glow Overlays (3D Depth) */}
