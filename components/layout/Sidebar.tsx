@@ -252,7 +252,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     {user.username}
                   </p>
                   <p className="text-[10px] text-slate-400 truncate">
-                    {user.role === "admin" ? "Quản trị viên" : "Thí sinh tự do"}
+                    {user.role === "admin" ? "Quản trị viên" : "Người dùng"}
                   </p>
                 </div>
               </div>
