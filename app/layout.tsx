@@ -33,7 +33,7 @@ export default function RootLayout({
       lang="vi"
       className={`${inter.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
     >
-      <body className="min-h-screen bg-[#090D16] font-sans text-slate-100 antialiased selection:bg-indigo-500 selection:text-white relative overflow-x-hidden custom-scrollbar">
+      <body className="min-h-screen bg-[#0d111a] font-sans text-slate-100 antialiased selection:bg-indigo-500 selection:text-white relative overflow-x-hidden custom-scrollbar">
         {/* DYNAMIC OBSIDIAN CYBER BACKGROUND */}
         <ObsidianCyberBackground />
 

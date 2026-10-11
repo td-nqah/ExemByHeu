@@ -23,7 +23,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen w-full relative flex">
+    <div className="min-h-screen w-full relative flex bg-[#0d111a]">
       {/* Left Sidebar */}
       <Suspense fallback={null}>
         <Sidebar
@@ -35,19 +35,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Main Content Area */}
       <div className="flex-1 md:pl-64 flex flex-col min-h-screen w-full transition-all duration-300">
         {/* Mobile Top Header */}
-        <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-white/10 bg-slate-950/80 px-4 backdrop-blur-xl md:hidden">
+        <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-white/[0.06] bg-[#10141e] px-4 md:hidden">
           <Link
             href="/dashboard"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
-              <GraduationCap className="h-4 w-4" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e2538] border border-white/[0.08] text-white">
+              <GraduationCap className="h-4.5 w-4.5 text-slate-200" />
             </div>
             <span className="text-base font-bold text-white tracking-tight">
               ExamByHeu
-            </span>
-            <span className="rounded-full bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.2 text-[9px] font-semibold text-indigo-300">
-              v2.0
             </span>
           </Link>
 
@@ -55,7 +52,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             type="button"
             onClick={() => setMobileOpen(true)}
             aria-label="Mở Menu điều hướng"
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-slate-900/80 text-slate-300 hover:text-white hover:bg-slate-800 transition"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-[#151b27] text-slate-300 hover:text-white hover:bg-[#1e2538] transition"
           >
             <Menu className="h-5 w-5" />
           </button>
