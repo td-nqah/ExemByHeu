@@ -49,39 +49,116 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const [completedSubmission, setCompletedSubmission] = useState<Submission | null>(null);
   const [isFocusMode, setIsFocusMode] = useState(false);
 
-  const toggleFocusMode = async () => {
-    const nextState = !isFocusMode;
-    setIsFocusMode(nextState);
+  // Cross-browser Native Fullscreen Handlers (Desktop & Mobile iOS/Android)
+  const requestNativeFullscreen = useCallback(async () => {
+    if (typeof document === "undefined") return;
+    const docEl = document.documentElement as HTMLElement & {
+      webkitRequestFullscreen?: () => Promise<void>;
+      mozRequestFullScreen?: () => Promise<void>;
+      msRequestFullscreen?: () => Promise<void>;
+    };
 
-    // Fullscreen API integration (optional browser enhancement)
     try {
-      if (typeof document !== "undefined") {
-        if (nextState) {
-          if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
-            await document.documentElement.requestFullscreen().catch(() => {});
-          }
-        } else {
-          if (document.exitFullscreen && document.fullscreenElement) {
-            await document.exitFullscreen().catch(() => {});
-          }
+      if (docEl.requestFullscreen) {
+        await docEl.requestFullscreen().catch(() => {});
+      } else if (docEl.webkitRequestFullscreen) {
+        await docEl.webkitRequestFullscreen().catch(() => {});
+      } else if (docEl.mozRequestFullScreen) {
+        await docEl.mozRequestFullScreen().catch(() => {});
+      } else if (docEl.msRequestFullscreen) {
+        await docEl.msRequestFullscreen().catch(() => {});
+      }
+    } catch {
+      // Graceful fallback if browser permissions restrict fullscreen
+    }
+  }, []);
+
+  const exitNativeFullscreen = useCallback(async () => {
+    if (typeof document === "undefined") return;
+    const doc = document as Document & {
+      webkitExitFullscreen?: () => Promise<void>;
+      mozCancelFullScreen?: () => Promise<void>;
+      msExitFullscreen?: () => Promise<void>;
+      webkitFullscreenElement?: Element;
+      mozFullScreenElement?: Element;
+      msFullscreenElement?: Element;
+    };
+
+    try {
+      const isFs = Boolean(
+        doc.fullscreenElement ||
+        doc.webkitFullscreenElement ||
+        doc.mozFullScreenElement ||
+        doc.msFullscreenElement
+      );
+      if (isFs) {
+        if (doc.exitFullscreen) {
+          await doc.exitFullscreen().catch(() => {});
+        } else if (doc.webkitExitFullscreen) {
+          await doc.webkitExitFullscreen().catch(() => {});
+        } else if (doc.mozCancelFullScreen) {
+          await doc.mozCancelFullScreen().catch(() => {});
+        } else if (doc.msExitFullscreen) {
+          await doc.msExitFullscreen().catch(() => {});
         }
       }
     } catch {
-      // Ignored if browser policy denies fullscreen request
+      // Graceful fallback
     }
-  };
+  }, []);
 
+  const toggleFocusMode = useCallback(async () => {
+    const nextState = !isFocusMode;
+    setIsFocusMode(nextState);
+
+    if (nextState) {
+      await requestNativeFullscreen();
+    } else {
+      await exitNativeFullscreen();
+    }
+  }, [isFocusMode, requestNativeFullscreen, exitNativeFullscreen]);
+
+  // Sync native fullscreen changes (Esc key, browser address bar expand, etc.)
   useEffect(() => {
     const handleFullscreenChange = () => {
-      if (!document.fullscreenElement && isFocusMode) {
+      const doc = document as Document & {
+        webkitFullscreenElement?: Element;
+        mozFullScreenElement?: Element;
+        msFullscreenElement?: Element;
+      };
+      const isCurrentlyFs = Boolean(
+        doc.fullscreenElement ||
+        doc.webkitFullscreenElement ||
+        doc.mozFullScreenElement ||
+        doc.msFullscreenElement
+      );
+
+      if (!isCurrentlyFs && isFocusMode) {
         setIsFocusMode(false);
       }
     };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isFocusMode) {
+        setIsFocusMode(false);
+        exitNativeFullscreen();
+      }
+    };
+
     document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+    window.addEventListener("keydown", handleKeyDown);
+
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+      document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
+      document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isFocusMode]);
+  }, [isFocusMode, exitNativeFullscreen]);
 
   const toggleFlagQuestion = async (questionId: string) => {
     const nextVal = !flaggedQuestions[questionId];
@@ -263,7 +340,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     <div
       className={cn(
         "min-h-[100dvh] pb-24 transition-colors duration-500",
-        isFocusMode ? "bg-[#070A10]" : "bg-[#0B0F17]"
+        isFocusMode ? "bg-[#060911]" : "bg-[#090D16]"
       )}
     >
       {/* Top Header Bar: Dynamic between Standard & Zen Focus Mode */}
@@ -271,18 +348,18 @@ export function ExamRoomClient({ examId }: { examId: string }) {
         className={cn(
           "sticky top-0 z-30 transition-all duration-300",
           isFocusMode
-            ? "border-b border-indigo-500/20 bg-[#070A10]/95 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
+            ? "border-b border-indigo-500/20 bg-[#060911]/95 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
             : "border-b border-slate-800/80 bg-[#090D16]/85 backdrop-blur-md"
         )}
       >
         <div
           className={cn(
-            "mx-auto flex min-h-16 flex-wrap items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8 transition-all duration-300",
+            "mx-auto flex h-16 items-center justify-between gap-2.5 px-3 sm:px-6 lg:px-8 transition-all duration-300",
             isFocusMode ? "max-w-4xl" : "max-w-7xl"
           )}
         >
-          {/* Left Side: Back Button / Mode Badge + Digital Countdown Timer */}
-          <div className="flex items-center gap-3">
+          {/* Left Side: Back Button + Sticky Timer + (Title / Mode Badge) */}
+          <div className="flex items-center gap-2 sm:gap-3">
             {!isFocusMode && (
               <Link
                 href="/dashboard"
@@ -301,7 +378,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             )}
 
             {isFocusMode ? (
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 text-xs font-semibold text-indigo-400">
+              <div className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 text-xs font-semibold text-indigo-400">
                 <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
                 <span>Chế độ Tập trung</span>
               </div>
@@ -314,16 +391,16 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             )}
           </div>
 
-          {/* Right Side: Total Questions + User Status + Focus Mode Toggle + Submit CTA */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Right Side: Questions badge + User + Focus Mode Button + Submit CTA */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             {!isFocusMode && (
               <>
-                <div className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200">
+                <div className="hidden md:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200">
                   <ListChecks className="h-3.5 w-3.5 text-indigo-400" />
-                  <span>Tổng {questions.length} câu hỏi</span>
+                  <span>Tổng {questions.length} câu</span>
                 </div>
 
-                <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300">
+                <div className="hidden lg:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300">
                   <User className="h-3.5 w-3.5 text-indigo-400" />
                   <span>{getCurrentUser()?.username || "Thí sinh"}</span>
                 </div>
@@ -336,41 +413,77 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               </span>
             )}
 
-            {/* Focus Mode Toggle Button */}
+            {/* Desktop Focus Mode Toggle Button */}
             <button
               type="button"
               onClick={toggleFocusMode}
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition active:scale-95 border",
+                "group hidden sm:inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-300 border cursor-pointer select-none",
                 isFocusMode
-                  ? "bg-amber-500/15 text-amber-300 border-amber-500/30 hover:bg-amber-500/25 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
-                  : "bg-slate-900/90 text-slate-300 border-slate-800 hover:border-indigo-500/40 hover:bg-slate-800 hover:text-white"
+                  ? "bg-indigo-500/20 text-indigo-300 border-indigo-500/40 shadow-[0_0_15px_rgba(99,102,241,0.4)]"
+                  : "bg-slate-900/80 backdrop-blur-md border-white/10 text-slate-300 hover:border-indigo-500/50 hover:text-white hover:bg-slate-800/80"
               )}
-              title={isFocusMode ? "Thoát Chế độ Tập trung" : "Bật Chế độ Tập trung (Zen Mode)"}
+              title={isFocusMode ? "Thoát Chế độ Toàn màn hình Tập trung (Esc)" : "Bật Chế độ Toàn màn hình Tập trung"}
             >
-              {isFocusMode ? (
-                <>
-                  <Minimize2 className="h-3.5 w-3.5 text-amber-300" />
-                  <span className="hidden sm:inline">Thoát Tập trung</span>
-                </>
-              ) : (
-                <>
-                  <Maximize2 className="h-3.5 w-3.5 text-indigo-400" />
-                  <span className="hidden sm:inline">Chế độ Tập trung</span>
-                </>
+              <div
+                className={cn(
+                  "transition-all duration-300 ease-in-out transform flex items-center justify-center",
+                  isFocusMode
+                    ? "rotate-90 scale-110 text-indigo-400"
+                    : "rotate-0 scale-100 text-slate-400 group-hover:text-white"
+                )}
+              >
+                {isFocusMode ? (
+                  <Minimize2 className="h-4 w-4" />
+                ) : (
+                  <Maximize2 className="h-4 w-4" />
+                )}
+              </div>
+              <span>{isFocusMode ? "Thoát tập trung" : "Tập trung"}</span>
+            </button>
+
+            {/* Mobile Focus Mode Toggle Button: Positioned in topbar horizontally parallel with Timer */}
+            <button
+              type="button"
+              onClick={toggleFocusMode}
+              className={cn(
+                "group sm:hidden flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-all duration-300 border cursor-pointer active:scale-90",
+                isFocusMode
+                  ? "bg-indigo-500/20 text-indigo-400 border-indigo-500/40 shadow-[0_0_15px_rgba(99,102,241,0.4)]"
+                  : "bg-slate-900/80 backdrop-blur-md border-white/10 text-slate-300 hover:border-indigo-500/40"
               )}
+              title={isFocusMode ? "Thoát Toàn màn hình (Esc)" : "Toàn màn hình Tập trung"}
+              aria-label={isFocusMode ? "Thoát toàn màn hình" : "Toàn màn hình tập trung"}
+            >
+              <div
+                className={cn(
+                  "transition-all duration-300 ease-in-out transform flex items-center justify-center",
+                  isFocusMode
+                    ? "rotate-90 scale-110 text-indigo-400"
+                    : "rotate-0 scale-100 text-slate-400"
+                )}
+              >
+                {isFocusMode ? (
+                  <Minimize2 className="h-4 w-4" />
+                ) : (
+                  <Maximize2 className="h-4 w-4" />
+                )}
+              </div>
             </button>
 
             {/* Submit Button */}
-            <button
-              type="button"
-              onClick={() => setShowConfirmModal(true)}
-              disabled={isSubmitting}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/25 transition active:scale-[0.98] disabled:opacity-50"
-            >
-              <Send className="h-3.5 w-3.5" />
-              <span>Nộp bài ({answeredCount}/{questions.length})</span>
-            </button>
+            {!completedSubmission && (
+              <button
+                type="button"
+                onClick={() => setShowConfirmModal(true)}
+                disabled={isSubmitting}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-3 sm:px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/25 transition active:scale-[0.98] disabled:opacity-50 shrink-0"
+              >
+                <Send className="h-3.5 w-3.5" />
+                <span>Nộp bài</span>
+                <span className="hidden sm:inline">({answeredCount}/{questions.length})</span>
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -494,8 +607,8 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                     className={cn(
                       "mb-5 whitespace-pre-wrap font-medium text-slate-100",
                       isFocusMode
-                        ? "text-base sm:text-[17px] leading-relaxed"
-                        : "text-sm leading-relaxed"
+                        ? "text-base sm:text-lg leading-relaxed text-white font-medium"
+                        : "text-sm sm:text-base leading-relaxed"
                     )}
                   >
                     {question.content}
@@ -514,11 +627,15 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                           <label
                             key={optIdx}
                             onClick={() => handleSelectMCQ(question.id, optText)}
-                            className={`flex w-full cursor-pointer items-start gap-3 rounded-xl border p-3.5 text-left text-xs transition ${
+                            className={cn(
+                              "flex w-full cursor-pointer items-start gap-3.5 rounded-xl border text-left transition select-none",
+                              isFocusMode
+                                ? "p-4 text-sm sm:text-[15px]"
+                                : "p-3.5 text-xs sm:text-sm",
                               isSelected
                                 ? "border-indigo-500 bg-indigo-500/10 text-white ring-1 ring-indigo-500/30"
                                 : "border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-700 hover:bg-slate-900"
-                            }`}
+                            )}
                           >
                             <input
                               type="radio"
@@ -529,11 +646,13 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                               className="sr-only"
                             />
                             <span
-                              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold transition ${
+                              className={cn(
+                                "flex shrink-0 items-center justify-center rounded-full font-bold transition",
+                                isFocusMode ? "h-7 w-7 text-xs sm:text-sm" : "h-6 w-6 text-xs",
                                 isSelected
                                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
                                   : "border border-slate-700 bg-slate-800 text-slate-300"
-                              }`}
+                              )}
                             >
                               {letter}
                             </span>
@@ -545,11 +664,14 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   ) : (
                     <div className="space-y-2">
                       <textarea
-                        rows={6}
+                        rows={isFocusMode ? 8 : 6}
                         value={currentVal}
                         onChange={(e) => handleEssayChange(question.id, e.target.value)}
                         placeholder="Nhập phần trả lời tự luận của bạn vào đây..."
-                        className="glass-input w-full rounded-xl p-4 text-xs leading-relaxed"
+                        className={cn(
+                          "glass-input w-full rounded-xl p-4 leading-relaxed",
+                          isFocusMode ? "text-sm sm:text-base min-h-[200px]" : "text-xs"
+                        )}
                       />
                       <div className="flex items-center justify-between text-[11px] text-slate-400">
                         <span>
