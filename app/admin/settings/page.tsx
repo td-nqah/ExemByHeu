@@ -39,9 +39,10 @@ export default function AdminSettingsPage() {
   const [isScanning, setIsScanning] = useState(false);
 
   // Granular MB measurements
-  const [dbTablesMB, setDbTablesMB] = useState(85.4);
-  const [filesStorageMB, setFilesStorageMB] = useState(124.2);
-  const [cacheLogsMB, setCacheLogsMB] = useState(36.2);
+  const [stats, setStats] = useState({ exams: 11, questions: 440, submissions: 0 });
+  const [dbTablesMB, setDbTablesMB] = useState(118.3);
+  const [filesStorageMB, setFilesStorageMB] = useState(130.8);
+  const [cacheLogsMB, setCacheLogsMB] = useState(30.0);
 
   const usedStorageMB = useMemo(() => {
     return Number((dbTablesMB + filesStorageMB + cacheLogsMB).toFixed(1));
@@ -68,6 +69,12 @@ export default function AdminSettingsPage() {
         totalQuestions += e.questions?.length || 0;
       });
 
+      setStats({
+        exams: exams.length,
+        questions: totalQuestions,
+        submissions: subs.length,
+      });
+
       // Realistic granular calculation
       const calculatedDbMB = Number(
         (60.0 + exams.length * 2.1 + totalQuestions * 0.08 + subs.length * 0.45).toFixed(1)
@@ -79,7 +86,7 @@ export default function AdminSettingsPage() {
       setFilesStorageMB(calculatedFilesMB);
       setCacheLogsMB(calculatedCacheMB);
     } finally {
-      setTimeout(() => setIsScanning(false), 400);
+      setTimeout(() => setIsScanning(false), 350);
     }
   };
 
@@ -124,6 +131,7 @@ export default function AdminSettingsPage() {
       if (profiles.length > 0 && !profiles.some((p) => p.username === selectedUser)) {
         setSelectedUser(profiles[0].username);
       }
+      handleRecalculateStorage();
     }
     loadInitialData();
   }, [router, selectedUser]);
@@ -346,7 +354,7 @@ export default function AdminSettingsPage() {
                 />
               </div>
               <p className="text-[10.5px] text-slate-400 pt-0.5">
-                Đề thi, câu hỏi trắc nghiệm, lịch sử nộp bài
+                Đo đếm theo {stats.exams} đề thi, {stats.questions} câu hỏi & bài nộp
               </p>
             </div>
 
@@ -366,7 +374,7 @@ export default function AdminSettingsPage() {
                 />
               </div>
               <p className="text-[10.5px] text-slate-400 pt-0.5">
-                Tệp Word, Excel, PDF và hình ảnh đề thi
+                Kho lưu trữ tệp đính kèm cho {stats.exams} bộ đề thi
               </p>
             </div>
 
