@@ -13,6 +13,8 @@ import {
   History,
   TrendingUp,
   ShieldCheck,
+  Wand2,
+  Target,
   FilePlus2,
   CheckCircle2,
   LogOut,
@@ -77,24 +79,31 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const adminNavLinks = [
     {
       title: "Quản lý Đề thi",
-      href: "/admin/dashboard",
+      href: "/admin",
       icon: ShieldCheck,
       badge: "Admin",
-      active: pathname === "/admin" || pathname.startsWith("/admin/dashboard"),
+      active:
+        pathname === "/admin" ||
+        pathname.startsWith("/admin/dashboard") ||
+        pathname.startsWith("/admin/exams"),
     },
     {
       title: "Tạo Đề thi mới",
-      href: "/admin/exams/create",
-      icon: FilePlus2,
+      href: "/admin/create",
+      icon: Wand2,
       badge: "AI",
-      active: pathname.startsWith("/admin/exams/create"),
+      active:
+        pathname.startsWith("/admin/create") ||
+        pathname.startsWith("/admin/exams/create"),
     },
     {
       title: "Phòng Chấm bài",
-      href: "/admin/submissions",
-      icon: CheckCircle2,
+      href: "/admin/grading",
+      icon: Target,
       badge: "Duyệt",
-      active: pathname.startsWith("/admin/submissions"),
+      active:
+        pathname.startsWith("/admin/grading") ||
+        pathname.startsWith("/admin/submissions"),
     },
   ];
 
@@ -105,7 +114,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         {/* Brand & Version */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <Link
-            href={user?.role === "admin" ? "/admin/dashboard" : "/dashboard"}
+            href={user?.role === "admin" ? "/admin" : "/dashboard"}
             onClick={onCloseMobile}
             className="group flex items-center gap-3 transition-opacity hover:opacity-95"
           >
@@ -140,58 +149,60 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           </button>
         </div>
 
-        {/* Section: Main Navigation */}
-        <div className="space-y-1.5">
-          <p className="px-3 text-[10px] font-semibold tracking-widest text-slate-400 uppercase">
-            ĐIỀU HƯỚNG CHÍNH
-          </p>
+        {/* Section: Main Navigation (Chỉ hiển thị cho người dùng thông thường) */}
+        {user?.role !== "admin" && (
+          <div className="space-y-1.5">
+            <p className="px-3 text-[10px] font-semibold tracking-widest text-slate-400 uppercase">
+              ĐIỀU HƯỚNG CHÍNH
+            </p>
 
-          <nav className="space-y-1">
-            {navLinks.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={onCloseMobile}
-                  className={cn(
-                    "group flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200",
-                    item.active
-                      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_18px_rgba(99,102,241,0.35)]"
-                      : "text-slate-300 hover:bg-slate-900/80 hover:text-white hover:border hover:border-white/10"
-                  )}
-                >
-                  <div className="flex items-center gap-3">
-                    <Icon
-                      className={cn(
-                        "h-4 w-4 transition-transform group-hover:scale-110",
-                        item.active ? "text-white" : "text-indigo-400"
-                      )}
-                    />
-                    <span>{item.title}</span>
-                  </div>
+            <nav className="space-y-1">
+              {navLinks.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onCloseMobile}
+                    className={cn(
+                      "group flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200",
+                      item.active
+                        ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_18px_rgba(99,102,241,0.35)]"
+                        : "text-slate-300 hover:bg-slate-900/80 hover:text-white hover:border hover:border-white/10"
+                    )}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon
+                        className={cn(
+                          "h-4 w-4 transition-transform group-hover:scale-110",
+                          item.active ? "text-white" : "text-indigo-400"
+                        )}
+                      />
+                      <span>{item.title}</span>
+                    </div>
 
-                  {item.badge && (
-                    <span
-                      className={cn(
-                        "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider",
-                        item.active
-                          ? "bg-white/25 text-white border border-white/40 shadow-sm"
-                          : "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
-                      )}
-                    >
-                      {item.badge}
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+                    {item.badge && (
+                      <span
+                        className={cn(
+                          "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+                          item.active
+                            ? "bg-white/25 text-white border border-white/40 shadow-sm"
+                            : "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
+                        )}
+                      >
+                        {item.badge}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        )}
 
-        {/* Section: Admin / Teacher Navigation (Chỉ hiển thị cho tài khoản Admin) */}
+        {/* Section: Admin Navigation (CHỈ HIỂN THỊ DUY NHẤT cho tài khoản Admin) */}
         {user?.role === "admin" && (
-          <div className="space-y-1.5 pt-2 border-t border-white/5">
+          <div className="space-y-1.5">
             <div className="flex items-center justify-between px-3">
               <p className="text-[10px] font-semibold tracking-widest text-slate-400 uppercase">
                 QUẢN TRỊ & CHẤM THI

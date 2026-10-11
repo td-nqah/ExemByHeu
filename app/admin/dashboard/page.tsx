@@ -16,12 +16,9 @@ import { formatDuration, formatDate } from "@/lib/utils";
 import {
   BookOpen,
   FilePlus2,
-  CheckCircle2,
   Clock,
-  Users,
   Eye,
   Check,
-  Layers,
   Trash2,
   AlertTriangle,
   X,
@@ -80,11 +77,6 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const publishedCount = exams.filter((e) => e.status === "published").length;
-  const pendingGradingCount = submissions.filter(
-    (s) => s.status === "pending_grading"
-  ).length;
-
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Page Header */}
@@ -107,96 +99,18 @@ export default function AdminDashboardPage() {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <Link
-            href="/admin/submissions"
-            className="inline-flex items-center gap-2 bg-slate-900/60 backdrop-blur-md hover:bg-slate-900/90 border border-slate-800/80 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] text-slate-200 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300"
-          >
-            <CheckCircle2 className="h-4 w-4 text-indigo-400" />
-            <span>Phòng Chấm thi ({pendingGradingCount} bài chờ)</span>
-          </Link>
+          <div className="inline-flex items-center gap-2 bg-slate-900/70 backdrop-blur-md border border-white/10 rounded-xl px-4 py-2 text-sm text-slate-300 font-medium shadow-lg select-none cursor-default">
+            <BookOpen className="h-4 w-4 text-indigo-400 shrink-0 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+            <span>Tổng số đề: <strong className="text-white font-bold">{loading ? "..." : exams.length}</strong></span>
+          </div>
         </div>
       </motion.div>
-
-      {/* Overview Metrics Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 stats-focus-container">
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0, ease: [0.16, 1, 0.3, 1] }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
-          <div>
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Tổng số đề thi
-            </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">{exams.length}</p>
-          </div>
-          <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
-            <Layers className="h-6 w-6" />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
-          <div>
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Đã xuất bản
-            </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">{publishedCount}</p>
-          </div>
-          <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
-            <BookOpen className="h-6 w-6" />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
-          <div>
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Lượt nộp bài
-            </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
-              {submissions.length}
-            </p>
-          </div>
-          <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-            <Users className="h-6 w-6" />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-amber-500/40 hover:shadow-[0_0_25px_rgba(245,158,11,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
-          <div>
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Chờ chấm tự luận
-            </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
-              {pendingGradingCount}
-            </p>
-          </div>
-          <div className="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
-            <Clock className="h-6 w-6" />
-          </div>
-        </motion.div>
-      </div>
 
       {/* Exams Management Section */}
       <motion.div
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
         className="bg-slate-950/60 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
       >
         <div className="flex flex-col gap-3 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
@@ -210,7 +124,7 @@ export default function AdminDashboardPage() {
           </div>
 
           <Link
-            href="/admin/exams/create"
+            href="/admin/create"
             className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2.5 text-xs transition-all sm:self-auto"
           >
             <FilePlus2 className="h-4 w-4" />
