@@ -181,13 +181,15 @@ CREATE POLICY "Users manage bookmarks" ON public.user_bookmarks FOR ALL USING (t
 
 -- ============================================================================
 -- SEED ACCOUNTS & SAMPLE EXAMS
--- Admin: username 'admin' / password '1'
--- User:  username 'user'  / password '1'
+-- Admin: username 'admin' / password '123'
+-- Users: username 'user1', 'user2', 'user3' / password '1'
 -- ============================================================================
 INSERT INTO public.profiles (id, username, password_hash, role)
 VALUES
-  ('00000000-0000-0000-0000-000000000001', 'admin', '1', 'admin'),
-  ('00000000-0000-0000-0000-000000000002', 'user', '1', 'user')
+  ('00000000-0000-0000-0000-000000000001', 'admin', '$2b$10$.Ezwh/Y49t0gJ0WybjlrvOyiyOSDHiopiDEbPJYFZpNOnvT1vf8.G', 'admin'),
+  ('00000000-0000-0000-0000-000000000002', 'user1', '$2b$10$pXWjjD4N5J4KpV4aEG7cpOlLQasOwwCSUlCGdpcvA6PeQWrPYRtDC', 'user'),
+  ('00000000-0000-0000-0000-000000000003', 'user2', '$2b$10$pXWjjD4N5J4KpV4aEG7cpOlLQasOwwCSUlCGdpcvA6PeQWrPYRtDC', 'user'),
+  ('00000000-0000-0000-0000-000000000004', 'user3', '$2b$10$pXWjjD4N5J4KpV4aEG7cpOlLQasOwwCSUlCGdpcvA6PeQWrPYRtDC', 'user')
 ON CONFLICT (username) DO NOTHING;
 
 INSERT INTO public.exams (id, title, description, duration_minutes, created_by, status)

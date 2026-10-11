@@ -249,10 +249,11 @@ export function setCurrentUser(user: Profile | null): void {
 }
 
 export async function loginUser(username: string, password: string): Promise<Profile | null> {
-  let cleanUsername = username.trim().toLowerCase();
-  // Map legacy "user" alias to "user1"
+  const cleanUsername = username.trim().toLowerCase();
+
+  // Explicitly disallow removed legacy account 'user'
   if (cleanUsername === "user") {
-    cleanUsername = "user1";
+    return null;
   }
 
   // 1. Try Supabase if configured

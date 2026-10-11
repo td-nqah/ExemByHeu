@@ -19,8 +19,10 @@ const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY || env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 async function testLogin(username, password) {
-  let cleanUsername = username.trim().toLowerCase();
-  if (cleanUsername === 'user') cleanUsername = 'user1';
+  const cleanUsername = username.trim().toLowerCase();
+  if (cleanUsername === 'user') {
+    return { success: false, reason: "Account 'user' is removed/disallowed" };
+  }
 
   const { data, error } = await supabase
     .from('profiles')
@@ -59,9 +61,10 @@ async function run() {
     { u: 'admin', p: '123', expect: true },
     { u: 'admin', p: '1', expect: false },
     { u: 'user1', p: '1', expect: true },
-    { u: 'user', p: '1', expect: true }, // alias check
     { u: 'user2', p: '1', expect: true },
     { u: 'user3', p: '1', expect: true },
+    { u: 'user', p: '1', expect: false }, // 'user' is removed, must be rejected!
+    { u: 'user', p: '123', expect: false },
     { u: 'user1', p: 'wrong', expect: false },
   ];
 
