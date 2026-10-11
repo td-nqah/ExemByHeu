@@ -157,7 +157,7 @@ function UserDashboardContent() {
     categoryPills.find((c) => c.slug === activeCategory) || categoryPills[0];
 
   return (
-    <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="mx-auto w-full max-w-[1750px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* =========================================================================
           1. MINIMALIST FLAT GREETING HEADER CARD
           ========================================================================= */}
@@ -312,7 +312,7 @@ function UserDashboardContent() {
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
           {filteredExams.map((exam, idx) => (
             <UserExamCard key={exam.id} exam={exam} index={idx} />
           ))}
@@ -326,14 +326,15 @@ export default function UserDashboardPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        <div className="mx-auto w-full max-w-[1750px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
           <div className="h-36 rounded-2xl bg-[#151b27] animate-pulse" />
           <div className="h-10 rounded-xl bg-[#151b27] animate-pulse" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            <div className="h-64 rounded-2xl bg-[#151b27] animate-pulse" />
-            <div className="h-64 rounded-2xl bg-[#151b27] animate-pulse" />
-            <div className="h-64 rounded-2xl bg-[#151b27] animate-pulse" />
-            <div className="h-64 rounded-2xl bg-[#151b27] animate-pulse" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
+            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
           </div>
         </div>
       }
