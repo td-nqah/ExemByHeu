@@ -181,61 +181,61 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           </nav>
         </div>
 
-        {/* Section: Admin / Teacher Navigation */}
-        <div className="space-y-1.5 pt-2 border-t border-white/5">
-          <div className="flex items-center justify-between px-3">
-            <p className="text-[10px] font-semibold tracking-widest text-slate-400 uppercase">
-              QUẢN TRỊ & CHẤM THI
-            </p>
-            {user?.role === "admin" && (
+        {/* Section: Admin / Teacher Navigation (Chỉ hiển thị cho tài khoản Admin) */}
+        {user?.role === "admin" && (
+          <div className="space-y-1.5 pt-2 border-t border-white/5">
+            <div className="flex items-center justify-between px-3">
+              <p className="text-[10px] font-semibold tracking-widest text-slate-400 uppercase">
+                QUẢN TRỊ & CHẤM THI
+              </p>
               <span className="rounded-full bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.2 text-[9px] font-semibold text-amber-300">
                 Admin
               </span>
-            )}
+            </div>
+
+            <nav className="space-y-1">
+              {adminNavLinks.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onCloseMobile}
+                    className={cn(
+                      "group flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200",
+                      item.active
+                        ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_18px_rgba(99,102,241,0.35)]"
+                        : "text-slate-300 hover:bg-slate-900/80 hover:text-white hover:border hover:border-white/10"
+                    )}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon
+                        className={cn(
+                          "h-4 w-4 transition-transform group-hover:scale-110",
+                          item.active ? "text-white" : "text-indigo-400"
+                        )}
+                      />
+                      <span>{item.title}</span>
+                    </div>
+
+                    {item.badge && (
+                      <span
+                        className={cn(
+                          "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+                          item.active
+                            ? "bg-white/20 text-white"
+                            : "bg-slate-900 text-slate-300 border border-white/5"
+                        )}
+                      >
+                        {item.badge}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
           </div>
-
-          <nav className="space-y-1">
-            {adminNavLinks.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={onCloseMobile}
-                  className={cn(
-                    "group flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200",
-                    item.active
-                      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_18px_rgba(99,102,241,0.35)]"
-                      : "text-slate-300 hover:bg-slate-900/80 hover:text-white hover:border hover:border-white/10"
-                  )}
-                >
-                  <div className="flex items-center gap-3">
-                    <Icon
-                      className={cn(
-                        "h-4 w-4 transition-transform group-hover:scale-110",
-                        item.active ? "text-white" : "text-indigo-400"
-                      )}
-                    />
-                    <span>{item.title}</span>
-                  </div>
-
-                  {item.badge && (
-                    <span
-                      className={cn(
-                        "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
-                        item.active
-                          ? "bg-white/20 text-white"
-                          : "bg-slate-900 text-slate-300 border border-white/5"
-                      )}
-                    >
-                      {item.badge}
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+        )}
       </div>
 
       {/* Bottom Section: User Profile & Logout */}

@@ -122,8 +122,8 @@ export default function AnalyticsPage() {
     if (chartPoints.length === 1) {
       const pt = chartPoints[0];
       return {
-        pathD: `M ${pt.x - 40} ${pt.y} L ${pt.x + 40} ${pt.y}`,
-        areaD: `M ${pt.x - 40} ${pt.y} L ${pt.x + 40} ${pt.y} L ${pt.x + 40} 210 L ${pt.x - 40} 210 Z`,
+        pathD: `M 40 ${pt.y} L 720 ${pt.y}`,
+        areaD: `M 40 ${pt.y} L 720 ${pt.y} L 720 210 L 40 210 Z`,
       };
     }
 
@@ -496,87 +496,6 @@ export default function AnalyticsPage() {
             )}
           </div>
         )}
-      </div>
-
-      {/* 2 Diagnostic Insight Cards (Điểm Mạnh / Điểm Cần Cải Thiện & Khuyến Nghị) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Card: Điểm Mạnh Nổi Bật */}
-        <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl rounded-2xl p-6 space-y-4">
-          <div className="flex items-center gap-3 border-b border-white/10 pb-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-              <CheckCircle2 className="h-5 w-5" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-white">
-                Điểm Mạnh & Lợi Thế Cạnh Tranh
-              </h3>
-              <p className="text-[11px] text-slate-400">
-                Được tổng hợp từ độ chính xác các bài thi đã làm
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-3 text-xs text-slate-300 leading-relaxed">
-            <div className="flex items-start gap-2.5 rounded-xl bg-slate-900/60 border border-white/5 p-3">
-              <div className="h-2 w-2 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
-              <p>
-                <strong className="text-white">Tốc độ & phản xạ Trắc nghiệm:</strong>{" "}
-                Đạt tỉ lệ đúng <span className="text-emerald-400 font-semibold">{mcqMetrics.rate}%</span>. Bạn có nền tảng kiến thức trắc nghiệm vững chắc và tốc độ chọn đáp án ổn định.
-              </p>
-            </div>
-
-            <div className="flex items-start gap-2.5 rounded-xl bg-slate-900/60 border border-white/5 p-3">
-              <div className="h-2 w-2 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
-              <p>
-                <strong className="text-white">Xu hướng tiến bộ tích cực:</strong>{" "}
-                {scoreDelta >= 0 ? (
-                  <>
-                    Điểm số của bạn có biên độ cải thiện rõ rệt (+{scoreDelta} điểm). Khả năng thích ứng với các dạng đề thi phân hóa tốt.
-                  </>
-                ) : (
-                  <>
-                    Điểm số giữa các đề thi khá đồng đều, cho thấy phong độ ổn định không bị trồi sụt quá mức.
-                  </>
-                )}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Card: Chiến Lược Tối Ưu & Khuyến Nghị */}
-        <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl rounded-2xl p-6 space-y-4">
-          <div className="flex items-center gap-3 border-b border-white/10 pb-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
-              <Lightbulb className="h-5 w-5" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-white">
-                Chiến Lược Tối Ưu Hóa Điểm Số
-              </h3>
-              <p className="text-[11px] text-slate-400">
-                Gợi ý phương pháp ôn tập cá nhân hóa
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-3 text-xs text-slate-300 leading-relaxed">
-            <div className="flex items-start gap-2.5 rounded-xl bg-slate-900/60 border border-white/5 p-3">
-              <div className="h-2 w-2 rounded-full bg-amber-400 mt-1.5 shrink-0" />
-              <p>
-                <strong className="text-white">Đầu tư sâu vào phần Tự luận:</strong>{" "}
-                Các câu hỏi tự luận chiếm tỉ trọng điểm số lớn. Khi làm bài, hãy phân bổ cấu trúc câu trả lời rõ ràng (định nghĩa, phân tích, ví dụ thực tế) để nhận điểm tối đa từ giáo viên/AI.
-              </p>
-            </div>
-
-            <div className="flex items-start gap-2.5 rounded-xl bg-slate-900/60 border border-white/5 p-3">
-              <div className="h-2 w-2 rounded-full bg-violet-400 mt-1.5 shrink-0" />
-              <p>
-                <strong className="text-white">Tận dụng tính năng Đánh dấu xem lại:</strong>{" "}
-                Trong phòng thi, hãy gắn cờ các câu hỏi phân vân để quay lại kiểm tra trước khi bấm nộp, tránh mất điểm ở các câu hỏi bẫy.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
