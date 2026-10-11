@@ -6,6 +6,7 @@ import { getExamById, submitExam, finalizeGrading, getCurrentUser } from "@/lib/
 import { Exam, Submission } from "@/types/exam";
 import { StickyTimer } from "@/components/exam/StickyTimer";
 import { QuestionNav } from "@/components/exam/QuestionNav";
+import { MobileQuestionDrawer } from "@/components/exam/MobileQuestionDrawer";
 import { SubmitConfirmModal } from "@/components/exam/SubmitConfirmModal";
 import {
   Send,
@@ -246,8 +247,9 @@ export function ExamRoomClient({ examId }: { examId: string }) {
       </header>
 
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <aside className="lg:col-span-4 xl:col-span-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
+          {/* Desktop Question Index Sidebar - Hidden on mobile (< 768px) */}
+          <aside className="hidden md:block md:col-span-4 lg:col-span-4 xl:col-span-3">
             <div className="sticky top-20 space-y-4">
               <QuestionNav
                 questions={questions}
@@ -268,7 +270,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             </div>
           </aside>
 
-          <main className="space-y-6 lg:col-span-8 xl:col-span-9">
+          <main className="space-y-6 md:col-span-8 lg:col-span-8 xl:col-span-9">
             {questions.map((question, index) => {
               const currentVal = userAnswers[question.id] || "";
               const isAnswered = currentVal.trim().length > 0;
@@ -534,6 +536,17 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobile Floating Menu Button & Drawer (< 768px) */}
+      {!completedSubmission && (
+        <MobileQuestionDrawer
+          questions={questions}
+          userAnswers={userAnswers}
+          flaggedQuestions={flaggedQuestions}
+          activeQuestionId={activeQuestionId}
+          onSelectQuestion={scrollToQuestion}
+        />
+      )}
     </div>
   );
 }
