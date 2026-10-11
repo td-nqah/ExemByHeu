@@ -56,18 +56,18 @@ export function UserExamCard({ exam }: UserExamCardProps) {
       : "Trắc nghiệm";
 
   return (
-    <div className="group flex flex-col justify-between h-full min-h-[160px] rounded-2xl bg-[#151b27] border border-white/[0.06] p-4 transition-all duration-200 hover:border-white/10 hover:bg-[#171e2c]">
+    <div className="group flex flex-col justify-between h-full min-h-[150px] rounded-2xl bg-[#151b27] border border-white/[0.06] p-4 transition-all duration-200 hover:border-white/10 hover:bg-[#171e2c]">
       {/* Top Header & Metadata */}
-      <div className="space-y-2.5">
+      <div className="space-y-2">
         {/* Top Badges Row */}
         <div className="flex items-center justify-between gap-1.5">
-          {/* Top-Left: S-SL / Skill badge */}
+          {/* Top-Left: Skill badge */}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#202738] px-2 py-0.5 text-[10px] font-medium text-indigo-300 border border-indigo-500/20">
             <span className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
             <span>Skill</span>
           </span>
 
-          {/* Top-Right: Duration / 1 bộ + Questions count */}
+          {/* Top-Right: Time + Questions count */}
           <div className="flex items-center gap-2 text-[11px] text-slate-400">
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3 w-3 text-slate-400 shrink-0" />
@@ -80,7 +80,7 @@ export function UserExamCard({ exam }: UserExamCardProps) {
           </div>
         </div>
 
-        {/* Title (Bold, Clear, Single-line truncate) */}
+        {/* Card Title */}
         <h3
           className="text-sm font-bold text-white tracking-tight truncate leading-snug"
           title={exam.title}
@@ -88,19 +88,19 @@ export function UserExamCard({ exam }: UserExamCardProps) {
           {renderHighlightedExamTitle(exam.title)}
         </h3>
 
-        {/* Compact Metadata Row(s) */}
-        <div className="text-[11px] leading-tight space-y-0.5 select-none">
+        {/* Directly below the title: Line 1: "40 câu hỏi", Line 2: "Trắc nghiệm" */}
+        <div className="text-[11px] leading-snug select-none space-y-0.5">
           <p className="text-slate-300 font-medium truncate">
-            {questionCount} câu hỏi • {examTypeLabel}
+            {questionCount} câu hỏi
           </p>
-          <p className="text-slate-400 text-[10.5px] truncate">
-            Đánh giá năng lực • Toàn diện
+          <p className="text-slate-400 truncate">
+            {examTypeLabel}
           </p>
         </div>
       </div>
 
-      {/* Uniform Bottom Edge: Calendar Date & CTA Button */}
-      <div className="mt-3.5 pt-2.5 border-t border-white/[0.06] flex items-center justify-between gap-2">
+      {/* Uniform Bottom Edge: Calendar Date & Solid Purple CTA Button */}
+      <div className="mt-3 pt-2.5 border-t border-white/[0.06] flex items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1 text-[11px] text-slate-400 truncate">
           <Calendar className="h-3 w-3 text-slate-500 shrink-0" />
           <span className="truncate">{formatDate(exam.created_at)}</span>

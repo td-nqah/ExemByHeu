@@ -10,10 +10,8 @@ import {
   GraduationCap,
   Home,
   BookOpen,
-  Clock,
-  BarChart2,
-  TrendingUp,
   History,
+  BarChart2,
   ShieldCheck,
   FolderTree,
   Wand2,
@@ -53,6 +51,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     router.push("/");
   };
 
+  // Exactly 4 streamlined menu items: 'Trang chủ', 'Đề thi', 'Lịch sử', 'Phân tích'
   const userNavLinks = [
     {
       title: "Trang chủ",
@@ -69,26 +68,14 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     {
       title: "Lịch sử",
       href: "/history",
-      icon: Clock,
-      active: pathname === "/history",
+      icon: History,
+      active: pathname.startsWith("/history"),
     },
     {
       title: "Phân tích",
       href: "/analytics",
       icon: BarChart2,
-      active: false,
-    },
-    {
-      title: "Các sức phong độ",
-      href: "/analytics",
-      icon: TrendingUp,
       active: pathname.startsWith("/analytics"),
-    },
-    {
-      title: "Lịch sử làm bài",
-      href: "/history",
-      icon: History,
-      active: false,
     },
   ];
 
@@ -168,7 +155,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           </button>
         </div>
 
-        {/* User Navigation Items */}
+        {/* User Navigation Items (Only 4 items) */}
         <nav className="space-y-1">
           {userNavLinks.map((item) => {
             const Icon = item.icon;
@@ -242,14 +229,8 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         )}
       </div>
 
-      {/* Bottom Section: Footer Info & Profile */}
-      <div className="space-y-3 pt-4 border-t border-white/[0.06]">
-        {/* Subtle Brand Info */}
-        <div className="px-1 text-[10px] text-slate-500 space-y-0.5">
-          <p>Đồng bộ hóa nâng cao ExamByHeu</p>
-          <p>Đánh giá sức chứa</p>
-        </div>
-
+      {/* Bottom Section: Minimal Profile & Logout */}
+      <div className="space-y-2.5 pt-3 border-t border-white/[0.06]">
         {user ? (
           <>
             <div className="flex items-center justify-between rounded-xl bg-[#151b27] border border-white/[0.06] p-2.5">
