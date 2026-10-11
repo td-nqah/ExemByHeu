@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
 import { getExams, getSubmissions, getCurrentUser } from "@/lib/store";
@@ -9,8 +8,7 @@ import { Exam, Submission } from "@/types/exam";
 import { UserExamCard } from "@/components/dashboard/UserExamCard";
 import {
   BookOpen,
-  ChevronRight,
-  Files,
+  Clipboard,
   ClipboardCheck,
 } from "lucide-react";
 
@@ -65,15 +63,14 @@ export default function UserDashboardPage() {
           </p>
         </div>
 
-        <Link
-          href="/history"
-          title="Bấm để xem Lịch sử làm bài"
-          className="group flex items-center justify-between gap-3 sm:gap-4 w-full sm:w-[360px] md:w-[380px] bg-slate-900/70 backdrop-blur-md hover:bg-slate-900/90 border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_30px_rgba(99,102,241,0.22)] rounded-2xl p-4 px-5 sm:px-6 shadow-xl transition-all duration-300 self-start md:self-auto cursor-pointer"
+        {/* Read-only Stats Overview Card */}
+        <div
+          className="flex items-center justify-between gap-3 sm:gap-4 w-full sm:w-[360px] md:w-[380px] bg-slate-900/70 backdrop-blur-md border border-white/10 rounded-2xl p-4 px-5 sm:px-6 shadow-xl select-none self-start md:self-auto"
         >
           {/* Cụm Đề hiện có */}
-          <div className="flex items-center gap-2.5 min-w-0">
-            <Files className="h-5 w-5 text-indigo-400 shrink-0 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
-            <div className="text-sm font-medium text-slate-300 truncate">
+          <div className="flex items-center gap-2.5 shrink-0">
+            <Clipboard className="h-5 w-5 text-indigo-400 shrink-0 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+            <div className="text-sm font-medium text-slate-300 whitespace-nowrap">
               <span>Đề hiện có: </span>
               <strong className="text-base md:text-lg font-bold text-white tracking-wide">
                 {loading ? "..." : exams.length}
@@ -82,22 +79,19 @@ export default function UserDashboardPage() {
           </div>
 
           {/* Đường phân cách */}
-          <div className="h-6 w-px bg-white/10 shrink-0 group-hover:bg-white/20 transition-colors" />
+          <div className="h-6 w-px bg-white/10 shrink-0" />
 
           {/* Cụm Đã hoàn thành */}
-          <div className="flex items-center gap-2.5 min-w-0">
+          <div className="flex items-center gap-2.5 shrink-0">
             <ClipboardCheck className="h-5 w-5 text-emerald-400 shrink-0 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-            <div className="text-sm font-medium text-slate-300 truncate">
+            <div className="text-sm font-medium text-slate-300 whitespace-nowrap">
               <span>Đã hoàn thành: </span>
-              <strong className="text-base md:text-lg font-bold text-emerald-400 group-hover:text-emerald-300 tracking-wide">
+              <strong className="text-base md:text-lg font-bold text-emerald-400 tracking-wide">
                 {loading ? "..." : submissions.length}
               </strong>
             </div>
           </div>
-
-          {/* Mũi tên chuyển hướng */}
-          <ChevronRight className="h-4 w-4 shrink-0 text-slate-500 group-hover:text-white transition-transform duration-200 group-hover:translate-x-0.5 ml-0.5" />
-        </Link>
+        </div>
       </motion.div>
 
       {/* Exam Cards Grid */}
