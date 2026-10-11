@@ -86,7 +86,7 @@ export default function LoginPage() {
           transition={{ duration: 0.5, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
           className="order-2 lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2 flex items-center justify-center"
         >
-          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 flex w-full max-w-[440px] mx-auto flex-col justify-center rounded-2xl p-6 md:p-8 shadow-xl">
+          <div className="relative bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 flex w-full max-w-[440px] mx-auto flex-col justify-center rounded-2xl p-6 md:p-8 shadow-xl">
             {/* Centered Icon & Header Title "Đăng nhập hệ thống" */}
             <div className="mb-6 flex flex-col items-center text-center">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
@@ -152,6 +152,13 @@ export default function LoginPage() {
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
+
+            {/* Subdued Glassmorphism Watermark */}
+            <div className="absolute bottom-2.5 left-4 md:bottom-3 md:left-5 select-none pointer-events-auto">
+              <span className="font-mono text-[10px] font-medium tracking-wider uppercase text-white/20 hover:text-indigo-400/60 transition-colors duration-300 cursor-default">
+                MadeByHeu
+              </span>
+            </div>
           </div>
         </motion.div>
 
