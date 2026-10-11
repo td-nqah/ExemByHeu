@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { usePathname } from "next/navigation";
 import { Sidebar } from "./Sidebar";
 import { Menu, GraduationCap } from "lucide-react";
@@ -25,10 +25,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen w-full relative flex">
       {/* Left Sidebar */}
-      <Sidebar
-        mobileOpen={mobileOpen}
-        onCloseMobile={() => setMobileOpen(false)}
-      />
+      <Suspense fallback={null}>
+        <Sidebar
+          mobileOpen={mobileOpen}
+          onCloseMobile={() => setMobileOpen(false)}
+        />
+      </Suspense>
 
       {/* Main Content Area */}
       <div className="flex-1 md:pl-64 flex flex-col min-h-screen w-full transition-all duration-300">

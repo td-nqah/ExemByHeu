@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { motion, AnimatePresence } from "motion/react";
 import { getCurrentUser, setCurrentUser } from "@/lib/store";
 import { Profile } from "@/types/exam";
 import { cn } from "@/lib/utils";
@@ -23,7 +24,13 @@ import {
   Menu,
   X,
   ChevronRight,
+  ChevronDown,
   Sparkles,
+  Code2,
+  Boxes,
+  BookText,
+  Languages,
+  Layers,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -46,14 +53,57 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     router.push("/");
   };
 
-  const navLinks = [
+  const searchParams = useSearchParams();
+  const activeCategory = searchParams ? searchParams.get("category") || "" : "";
+  const isDashboardRoute = pathname === "/dashboard";
+  const [isExamsOpen, setIsExamsOpen] = useState(true);
+
+  useEffect(() => {
+    if (pathname === "/dashboard") {
+      setIsExamsOpen(true);
+    }
+  }, [pathname, activeCategory]);
+
+  const EXAM_SUB_CATEGORIES = [
     {
-      title: "Đề thi khả dụng",
+      title: "Tất cả đề thi",
+      slug: "",
       href: "/dashboard",
-      icon: BookOpen,
-      badge: "Thi thử",
-      active: pathname === "/dashboard",
+      icon: Layers,
     },
+    {
+      title: "Lập trình Web",
+      slug: "web",
+      href: "/dashboard?category=web",
+      icon: Code2,
+    },
+    {
+      title: "Lập trình OOP",
+      slug: "oop",
+      href: "/dashboard?category=oop",
+      icon: Boxes,
+    },
+    {
+      title: "Chủ nghĩa xã hội (CNXH)",
+      slug: "cnxh",
+      href: "/dashboard?category=cnxh",
+      icon: BookText,
+    },
+    {
+      title: "Triết học Mác - Lênin",
+      slug: "triet-hoc",
+      href: "/dashboard?category=triet-hoc",
+      icon: Sparkles,
+    },
+    {
+      title: "Tiếng Anh Chuyên ngành",
+      slug: "tieng-anh",
+      href: "/dashboard?category=tieng-anh",
+      icon: Languages,
+    },
+  ];
+
+  const secondaryNavLinks = [
     {
       title: "Các câu đánh dấu",
       href: "/bookmarks",
@@ -165,7 +215,107 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             </p>
 
             <nav className="space-y-1">
-              {navLinks.map((item) => {
+              {/* Accordion Item: Đề thi khả dụng */}
+              <div className="space-y-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!isDashboardRoute) {
+                      router.push("/dashboard");
+                      setIsExamsOpen(true);
+                    } else {
+                      setIsExamsOpen((prev) => !prev);
+                    }
+                  }}
+                  className={cn(
+                    "group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200 select-none",
+                    isDashboardRoute
+                      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_18px_rgba(99,102,241,0.35)]"
+                      : "text-slate-300 hover:bg-slate-900/80 hover:text-white hover:border hover:border-white/10"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <BookOpen
+                      className={cn(
+                        "h-4 w-4 transition-transform group-hover:scale-110",
+                        isDashboardRoute ? "text-white" : "text-indigo-400"
+                      )}
+                    />
+                    <span>Đề thi khả dụng</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={cn(
+                        "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+                        isDashboardRoute
+                          ? "bg-white/25 text-white border border-white/40 shadow-sm"
+                          : "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
+                      )}
+                    >
+                      Thi thử
+                    </span>
+                    <ChevronDown
+                      className={cn(
+                        "h-4 w-4 transition-transform duration-300",
+                        isExamsOpen
+                          ? "rotate-180 text-white"
+                          : "rotate-0 text-slate-400 group-hover:text-white"
+                      )}
+                    />
+                  </div>
+                </button>
+
+                {/* Sub-menu with smooth downward expansion */}
+                <AnimatePresence initial={false}>
+                  {isExamsOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="ml-3 pl-3 border-l border-white/10 my-1 space-y-0.5">
+                        {EXAM_SUB_CATEGORIES.map((sub) => {
+                          const isSubActive =
+                            isDashboardRoute && activeCategory === sub.slug;
+                          const SubIcon = sub.icon;
+                          return (
+                            <Link
+                              key={sub.slug || "all"}
+                              href={sub.href}
+                              onClick={onCloseMobile}
+                              className={cn(
+                                "group flex items-center justify-between rounded-lg px-2.5 py-1.5 text-[11px] font-medium transition-all duration-200",
+                                isSubActive
+                                  ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 shadow-[0_0_10px_rgba(99,102,241,0.2)] font-semibold"
+                                  : "text-slate-400 hover:bg-slate-900/60 hover:text-white"
+                              )}
+                            >
+                              <div className="flex items-center gap-2 truncate">
+                                <SubIcon
+                                  className={cn(
+                                    "h-3.5 w-3.5 shrink-0 transition-transform group-hover:scale-110",
+                                    isSubActive ? "text-indigo-400" : "text-slate-500"
+                                  )}
+                                />
+                                <span className="truncate">{sub.title}</span>
+                              </div>
+                              {isSubActive && (
+                                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.8)]" />
+                              )}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Other Navigation items */}
+              {secondaryNavLinks.map((item) => {
                 const Icon = item.icon;
                 return (
                   <Link
