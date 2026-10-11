@@ -65,7 +65,7 @@ export default function UserDashboardPage() {
 
         {/* Read-only Stats Overview Card */}
         <div
-          className="flex items-center justify-between gap-3 sm:gap-4 w-full sm:w-[360px] md:w-[380px] bg-slate-900/70 backdrop-blur-md border border-white/10 rounded-2xl p-4 px-5 sm:px-6 shadow-xl select-none self-start md:self-auto"
+          className="flex items-center justify-between gap-3 sm:gap-4 w-full sm:w-[360px] md:w-[380px] bg-slate-900/70 backdrop-blur-md border border-white/10 rounded-2xl p-4 px-5 sm:px-6 shadow-xl select-none self-start md:self-auto cursor-default"
         >
           {/* Cụm Đề hiện có */}
           <div className="flex items-center gap-2.5 shrink-0">
@@ -81,11 +81,11 @@ export default function UserDashboardPage() {
           {/* Đường phân cách */}
           <div className="h-6 w-px bg-white/10 shrink-0" />
 
-          {/* Cụm Đã hoàn thành */}
+          {/* Cụm Hoàn thành */}
           <div className="flex items-center gap-2.5 shrink-0">
             <ClipboardCheck className="h-5 w-5 text-emerald-400 shrink-0 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
             <div className="text-sm font-medium text-slate-300 whitespace-nowrap">
-              <span>Đã hoàn thành: </span>
+              <span>Hoàn thành: </span>
               <strong className="text-base md:text-lg font-bold text-emerald-400 tracking-wide">
                 {loading ? "..." : submissions.length}
               </strong>
