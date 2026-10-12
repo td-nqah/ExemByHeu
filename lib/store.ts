@@ -1714,6 +1714,7 @@ export async function createCategory(categoryData: {
     await syncCategoriesToSupabase(updated);
   }
 
+  if (typeof window !== "undefined") window.dispatchEvent(new Event("categories_updated"));
   return newCat;
 }
 
@@ -1752,6 +1753,7 @@ export async function updateCategory(
     await syncCategoriesToSupabase(categories);
   }
 
+  if (typeof window !== "undefined") window.dispatchEvent(new Event("categories_updated"));
   return updatedItem;
 }
 
@@ -1768,6 +1770,7 @@ export async function deleteCategory(id: string): Promise<boolean> {
     await syncCategoriesToSupabase(filtered);
   }
 
+  if (typeof window !== "undefined") window.dispatchEvent(new Event("categories_updated"));
   return true;
 }
 

@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { getCurrentUser, setCurrentUser } from "@/lib/store";
-import { Profile } from "@/types/exam";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getCurrentUser, setCurrentUser, getCategories } from "@/lib/store";
+import { Profile, Category } from "@/types/exam";
 import { cn } from "@/lib/utils";
 import {
   GraduationCap,
@@ -20,6 +20,7 @@ import {
   LogOut,
   User,
   X,
+  ChevronDown,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -41,10 +42,39 @@ function formatDisplayName(name?: string): string {
 export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeCategory = searchParams ? searchParams.get("category") || "" : "";
+
   const [user, setUser] = useState<Profile | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [examsExpanded, setExamsExpanded] = useState<boolean>(true);
 
   useEffect(() => {
     setUser(getCurrentUser());
+  }, [pathname]);
+
+  // Load categories and sync dynamically with admin updates
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const cats = await getCategories(true);
+        setCategories(cats);
+      } catch {}
+    }
+    fetchCategories();
+
+    const handleUpdate = () => {
+      fetchCategories();
+    };
+    window.addEventListener("categories_updated", handleUpdate);
+    return () => window.removeEventListener("categories_updated", handleUpdate);
+  }, []);
+
+  // Auto-expand accordion when viewing exams
+  useEffect(() => {
+    if (pathname === "/dashboard" || pathname.startsWith("/exam")) {
+      setExamsExpanded(true);
+    }
   }, [pathname]);
 
   const handleLogout = () => {
@@ -75,15 +105,9 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     },
   ];
 
-  // Group 2: HỌC TẬP / LUYỆN THI
-  const studyNavLinks = [
-    {
-      title: "Danh sách Đề thi",
-      href: "/dashboard",
-      icon: BookOpen,
-      active: pathname === "/dashboard" || pathname.startsWith("/exam"),
-    },
-  ];
+  const isExamsRoute = pathname === "/dashboard" || pathname.startsWith("/exam");
+  const isParentActive =
+    (pathname === "/dashboard" && !activeCategory) || pathname.startsWith("/exam");
 
   // Group 3: QUẢN TRỊ & CẤU HÌNH
   const adminNavLinks = [
@@ -195,32 +219,90 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           <p className="px-3 text-[10px] font-bold tracking-wider text-slate-200 uppercase">
             HỌC TẬP / LUYỆN THI
           </p>
-          <nav className="space-y-1">
-            {studyNavLinks.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.title}
-                  href={item.href}
-                  onClick={onCloseMobile}
+          <div className="space-y-1">
+            {/* Accordion Parent: Danh sách Đề thi */}
+            <div
+              className={cn(
+                "group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors select-none",
+                isParentActive
+                  ? "bg-[#1e2538] text-white font-semibold"
+                  : isExamsRoute
+                  ? "text-slate-200 hover:bg-[#151b27]"
+                  : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+              )}
+            >
+              <Link
+                href="/dashboard"
+                onClick={() => {
+                  if (pathname === "/dashboard" && !activeCategory) {
+                    setExamsExpanded((prev) => !prev);
+                  } else {
+                    setExamsExpanded(true);
+                  }
+                  onCloseMobile();
+                }}
+                className="flex flex-1 items-center gap-3 truncate"
+              >
+                <BookOpen
                   className={cn(
-                    "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
-                    item.active
-                      ? "bg-[#1e2538] text-white font-semibold"
-                      : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+                    "h-4 w-4 shrink-0",
+                    isParentActive || isExamsRoute
+                      ? "text-white"
+                      : "text-slate-400 group-hover:text-white"
                   )}
-                >
-                  <Icon
-                    className={cn(
-                      "h-4 w-4 shrink-0",
-                      item.active ? "text-white" : "text-slate-400 group-hover:text-white"
-                    )}
-                  />
-                  <span className="truncate">{item.title}</span>
-                </Link>
-              );
-            })}
-          </nav>
+                />
+                <span className="truncate">Danh sách Đề thi</span>
+              </Link>
+
+              {/* Chevron toggle button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setExamsExpanded((prev) => !prev);
+                }}
+                aria-label="Mở hoặc đóng danh mục đề thi"
+                className="p-1 -mr-1 rounded-md text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors"
+              >
+                <ChevronDown
+                  className={cn(
+                    "h-4 w-4 shrink-0 transition-transform duration-200",
+                    examsExpanded && "rotate-180 text-white"
+                  )}
+                />
+              </button>
+            </div>
+
+            {/* Sub-menu: Dynamic Categories (Tree View) */}
+            {examsExpanded && categories.length > 0 && (
+              <div className="relative mt-1 ml-5 pl-2.5 space-y-1 border-l border-[#2A2F45]">
+                {categories.map((cat) => {
+                  const isSubActive =
+                    pathname === "/dashboard" &&
+                    (activeCategory === cat.slug || activeCategory === cat.id);
+                  return (
+                    <Link
+                      key={cat.id}
+                      href={`/dashboard?category=${encodeURIComponent(cat.slug || cat.id)}`}
+                      onClick={onCloseMobile}
+                      className={cn(
+                        "group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-medium transition-all duration-150",
+                        isSubActive
+                          ? "bg-[#1e2538] text-white font-semibold border border-cyan-500/20 text-cyan-200"
+                          : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+                      )}
+                    >
+                      <span className="truncate">{cat.name}</span>
+                      {isSubActive && (
+                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.9)]" />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* 3. QUẢN TRỊ & CẤU HÌNH (Only when Admin) */}
