@@ -24,6 +24,13 @@ const KEY_SUBMISSION_ANSWERS = `${STORAGE_PREFIX}sub_answers`;
 const KEY_PROFILES = `${STORAGE_PREFIX}profiles`;
 const KEY_CATEGORIES = `${STORAGE_PREFIX}categories`;
 const KEY_STUDY_MATERIALS = `${STORAGE_PREFIX}study_materials`;
+const KEY_SHUFFLE_CONFIG = `${STORAGE_PREFIX}shuffle_config`;
+
+export interface ShuffleConfig {
+  is_global_shuffle: boolean;
+  shuffle_map: Record<string, boolean>; // examId -> is_shuffled
+  updated_at: string;
+}
 
 export const SEED_CATEGORIES: Category[] = [
   {
@@ -477,10 +484,95 @@ export function shuffleArray<T>(array: T[]): T[] {
   return result;
 }
 
+const DEFAULT_SHUFFLE_CONFIG: ShuffleConfig = {
+  is_global_shuffle: false,
+  shuffle_map: {},
+  updated_at: new Date().toISOString(),
+};
+
+export async function getShuffleConfig(): Promise<ShuffleConfig> {
+  initStore();
+  let config = getLocal<ShuffleConfig>(KEY_SHUFFLE_CONFIG, DEFAULT_SHUFFLE_CONFIG);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("exams")
+        .select("description")
+        .eq("title", "__SYSTEM_SHUFFLE_CONFIG__")
+        .maybeSingle();
+
+      if (!error && data && data.description) {
+        const remote = JSON.parse(data.description);
+        if (remote && typeof remote === "object") {
+          config = {
+            ...config,
+            ...remote,
+            shuffle_map: { ...(config.shuffle_map || {}), ...(remote.shuffle_map || {}) },
+          };
+          setLocal(KEY_SHUFFLE_CONFIG, config);
+        }
+      }
+    } catch {}
+  }
+
+  return config;
+}
+
+export async function saveShuffleConfig(newConfig: Partial<ShuffleConfig>): Promise<ShuffleConfig> {
+  initStore();
+  const current = await getShuffleConfig();
+  const merged: ShuffleConfig = {
+    is_global_shuffle:
+      newConfig.is_global_shuffle !== undefined
+        ? Boolean(newConfig.is_global_shuffle)
+        : current.is_global_shuffle,
+    shuffle_map: { ...(current.shuffle_map || {}), ...(newConfig.shuffle_map || {}) },
+    updated_at: new Date().toISOString(),
+  };
+
+  setLocal(KEY_SHUFFLE_CONFIG, merged);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const desc = JSON.stringify(merged);
+      const { data: existing } = await supabase
+        .from("exams")
+        .select("id")
+        .eq("title", "__SYSTEM_SHUFFLE_CONFIG__")
+        .maybeSingle();
+
+      if (existing) {
+        await supabase
+          .from("exams")
+          .update({ description: desc })
+          .eq("id", existing.id);
+      } else {
+        await supabase.from("exams").insert({
+          title: "__SYSTEM_SHUFFLE_CONFIG__",
+          description: desc,
+          duration_minutes: 0,
+          status: "draft",
+          created_by: "00000000-0000-0000-0000-000000000001",
+        });
+      }
+    } catch (err) {
+      console.warn("saveShuffleConfig Supabase error:", err);
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("shuffle_config_updated"));
+  }
+
+  return merged;
+}
+
 // Helper: unpack metadata & infer missing fields from raw exam record
 function parseExamRecord(
   rawExam: any,
-  recentSubs?: Pick<Submission, "id" | "total_score" | "mcq_score" | "status" | "submitted_at">[]
+  recentSubs?: Pick<Submission, "id" | "total_score" | "mcq_score" | "status" | "submitted_at">[],
+  shuffleConfig?: ShuffleConfig | null
 ): Exam {
   let category_id = rawExam.category_id;
   let category_slug = rawExam.category_slug;
@@ -490,21 +582,39 @@ function parseExamRecord(
   let is_shuffled = rawExam.is_shuffled === true;
   let cleanDescription = rawExam.description || "";
 
-  if (cleanDescription.startsWith("<!--meta:")) {
-    const endIdx = cleanDescription.indexOf("-->");
-    if (endIdx > 0) {
-      try {
-        const meta = JSON.parse(cleanDescription.slice(9, endIdx));
-        category_id = category_id || meta.category_id;
-        category_slug = category_slug || meta.category_slug;
-        question_count = question_count || meta.question_count;
-        question_type = question_type || meta.question_type;
-        expires_at = expires_at || meta.expires_at;
-        if (meta.is_shuffled !== undefined) {
-          is_shuffled = meta.is_shuffled === true;
-        }
-        cleanDescription = cleanDescription.slice(endIdx + 3).trim();
-      } catch {}
+  // Robust meta extraction from description
+  const metaMatch = cleanDescription.match(/^[\s\r\n]*<!--meta:([\s\S]*?)-->/);
+  if (metaMatch) {
+    try {
+      const meta = JSON.parse(metaMatch[1]);
+      category_id = category_id || meta.category_id;
+      category_slug = category_slug || meta.category_slug;
+      question_count = question_count || meta.question_count;
+      question_type = question_type || meta.question_type;
+      expires_at = expires_at || meta.expires_at;
+      if (meta.is_shuffled !== undefined) {
+        is_shuffled = Boolean(meta.is_shuffled);
+      }
+      cleanDescription = cleanDescription.replace(/^[\s\r\n]*<!--meta:[\s\S]*?-->\n?/, "").trim();
+    } catch {}
+  }
+
+  // Apply shuffleConfig priority
+  if (shuffleConfig) {
+    if (shuffleConfig.shuffle_map && shuffleConfig.shuffle_map[rawExam.id] !== undefined) {
+      is_shuffled = Boolean(shuffleConfig.shuffle_map[rawExam.id]);
+    } else if (shuffleConfig.is_global_shuffle) {
+      is_shuffled = true;
+    }
+  } else {
+    // If not passed, check localStorage cached shuffle config
+    const cachedConfig = getLocal<ShuffleConfig | null>(KEY_SHUFFLE_CONFIG, null);
+    if (cachedConfig) {
+      if (cachedConfig.shuffle_map && cachedConfig.shuffle_map[rawExam.id] !== undefined) {
+        is_shuffled = Boolean(cachedConfig.shuffle_map[rawExam.id]);
+      } else if (cachedConfig.is_global_shuffle) {
+        is_shuffled = true;
+      }
     }
   }
 
@@ -593,6 +703,7 @@ export async function getExams(
   );
 
   let dbExams: Exam[] = [];
+  const shuffleConfig = await getShuffleConfig();
 
   if (isSupabaseConfigured && supabase) {
     try {
@@ -619,7 +730,7 @@ export async function getExams(
 
       if (!error && data && data.length > 0) {
         const dbSubs = (subRes.data || []) as Submission[];
-        dbExams = (data as any[]).map((exam) => parseExamRecord(exam, dbSubs));
+        dbExams = (data as any[]).map((exam) => parseExamRecord(exam, dbSubs, shuffleConfig));
       }
     } catch {
       // Use local fallback
@@ -634,7 +745,7 @@ export async function getExams(
         if (json.success && json.exams && json.exams.length > 0) {
           dbExams = (json.exams as any[])
             .filter((e: any) => !e.title?.startsWith("__SYSTEM_") && (!onlyPublished || e.status === "published"))
-            .map((e: any) => parseExamRecord(e));
+            .map((e: any) => parseExamRecord(e, undefined, shuffleConfig));
         }
       }
     } catch {}
@@ -653,9 +764,9 @@ export async function getExams(
   }
 
   const localExams = sortExamsAscending(
-    getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS).filter(
-      (e) => !e.title?.startsWith("__SYSTEM_")
-    )
+    getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS)
+      .filter((e) => !e.title?.startsWith("__SYSTEM_"))
+      .map((e) => parseExamRecord(e, undefined, shuffleConfig))
   );
   const fallbackResult = onlyPublished ? localExams.filter((e) => e.status === "published") : localExams;
   examMemoryCache = {
@@ -668,6 +779,7 @@ export async function getExams(
 
 export async function getExamById(id: string): Promise<Exam | null> {
   initStore();
+  const shuffleConfig = await getShuffleConfig();
   if (isSupabaseConfigured && supabase) {
     try {
       const { data, error } = await supabase
@@ -679,7 +791,7 @@ export async function getExamById(id: string): Promise<Exam | null> {
         if (data.questions) {
           data.questions.sort((a: Question, b: Question) => a.order_index - b.order_index);
         }
-        return parseExamRecord(data);
+        return parseExamRecord(data, undefined, shuffleConfig);
       }
     } catch {
       // Use local fallback
@@ -695,7 +807,7 @@ export async function getExamById(id: string): Promise<Exam | null> {
         if (found.questions) {
           found.questions.sort((a: Question, b: Question) => a.order_index - b.order_index);
         }
-        return parseExamRecord(found);
+        return parseExamRecord(found, undefined, shuffleConfig);
       }
     }
   } catch {}
@@ -712,7 +824,7 @@ export async function getExamById(id: string): Promise<Exam | null> {
   return parseExamRecord({
     ...exam,
     questions: examQuestions,
-  });
+  }, undefined, shuffleConfig);
 }
 
 export async function createExam(
@@ -1050,21 +1162,28 @@ export async function updateExam(
   const otherQuestions = allQuestions.filter((q) => q.exam_id !== examId);
   setLocal(KEY_QUESTIONS, [...otherQuestions, ...updatedQuestionsList]);
 
+  // Save shuffle state in dedicated config as well
+  if (examData.is_shuffled !== undefined) {
+    await saveShuffleConfig({
+      shuffle_map: { [examId]: Boolean(examData.is_shuffled) },
+    });
+  }
+
   // Sync to Supabase if configured
   if (isSupabaseConfigured && supabase) {
     try {
-      try {
-        await supabase
-          .from("exams")
-          .update({
-            title: examData.title.trim(),
-            description: descWithMeta,
-            duration_minutes: Number(examData.duration_minutes) || 45,
-            status: examData.status,
-            is_shuffled: isShuffled,
-          })
-          .eq("id", examId);
-      } catch {
+      const res = await supabase
+        .from("exams")
+        .update({
+          title: examData.title.trim(),
+          description: descWithMeta,
+          duration_minutes: Number(examData.duration_minutes) || 45,
+          status: examData.status,
+          is_shuffled: isShuffled,
+        })
+        .eq("id", examId);
+
+      if (res.error) {
         await supabase
           .from("exams")
           .update({
@@ -1229,8 +1348,11 @@ export async function toggleExamStatus(id: string): Promise<Exam | null> {
 export async function toggleAllExamsShuffle(enable: boolean): Promise<Exam[]> {
   initStore();
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const shuffleMap: Record<string, boolean> = {};
+
   const updatedExams = exams.map((exam) => {
-    const cleanDesc = (exam.description || "").replace(/^<!--meta:[\s\S]*?-->\n?/, "").trim();
+    shuffleMap[exam.id] = enable;
+    const cleanDesc = (exam.description || "").replace(/^[\s\r\n]*<!--meta:[\s\S]*?-->\n?/, "").trim();
     const meta = {
       category_id: exam.category_id,
       category_slug: exam.category_slug,
@@ -1243,40 +1365,40 @@ export async function toggleAllExamsShuffle(enable: boolean): Promise<Exam[]> {
       ...exam,
       is_shuffled: enable,
       description: cleanDesc,
+      _metaDesc: `<!--meta:${JSON.stringify(meta)}-->\n${cleanDesc}`.trim(),
     };
   });
 
-  setLocal(KEY_EXAMS, updatedExams);
+  // 1. Save to dedicated shuffle config (localStorage + Supabase __SYSTEM_SHUFFLE_CONFIG__)
+  await saveShuffleConfig({
+    is_global_shuffle: enable,
+    shuffle_map: shuffleMap,
+  });
+
+  // 2. Save exams locally
+  const cleaned = updatedExams.map(({ _metaDesc, ...rest }) => rest);
+  setLocal(KEY_EXAMS, cleaned);
   invalidateExamCache();
 
+  // 3. Sync to Supabase
   if (isSupabaseConfigured && supabase) {
     try {
-      for (const exam of updatedExams) {
-        const cleanDesc = (exam.description || "").replace(/^<!--meta:[\s\S]*?-->\n?/, "").trim();
-        const meta = {
-          category_id: exam.category_id,
-          category_slug: exam.category_slug,
-          question_count: exam.question_count || 40,
-          question_type: exam.question_type || "multiple_choice",
-          is_shuffled: enable,
-          expires_at: exam.expires_at || null,
-        };
-        const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${cleanDesc}`.trim();
-        try {
+      for (const item of updatedExams) {
+        const res = await supabase
+          .from("exams")
+          .update({
+            description: item._metaDesc,
+            is_shuffled: enable,
+          })
+          .eq("id", item.id);
+
+        if (res.error) {
           await supabase
             .from("exams")
             .update({
-              description: descWithMeta,
-              is_shuffled: enable,
+              description: item._metaDesc,
             })
-            .eq("id", exam.id);
-        } catch {
-          await supabase
-            .from("exams")
-            .update({
-              description: descWithMeta,
-            })
-            .eq("id", exam.id);
+            .eq("id", item.id);
         }
       }
     } catch (err) {
@@ -1288,7 +1410,7 @@ export async function toggleAllExamsShuffle(enable: boolean): Promise<Exam[]> {
     window.dispatchEvent(new Event("exams_updated"));
   }
 
-  return updatedExams;
+  return cleaned;
 }
 
 export async function toggleSingleExamShuffle(
@@ -1304,7 +1426,12 @@ export async function toggleSingleExamShuffle(
   const nextShuffled =
     forceValue !== undefined ? Boolean(forceValue) : !Boolean(current.is_shuffled);
 
-  const cleanDesc = (current.description || "").replace(/^<!--meta:[\s\S]*?-->\n?/, "").trim();
+  // 1. Save to dedicated shuffle config
+  await saveShuffleConfig({
+    shuffle_map: { [id]: nextShuffled },
+  });
+
+  const cleanDesc = (current.description || "").replace(/^[\s\r\n]*<!--meta:[\s\S]*?-->\n?/, "").trim();
   const meta = {
     category_id: current.category_id,
     category_slug: current.category_slug,
@@ -1324,17 +1451,18 @@ export async function toggleSingleExamShuffle(
   setLocal(KEY_EXAMS, exams);
   invalidateExamCache();
 
+  // 2. Sync to Supabase
   if (isSupabaseConfigured && supabase) {
     try {
-      try {
-        await supabase
-          .from("exams")
-          .update({
-            description: descWithMeta,
-            is_shuffled: nextShuffled,
-          })
-          .eq("id", id);
-      } catch {
+      const res = await supabase
+        .from("exams")
+        .update({
+          description: descWithMeta,
+          is_shuffled: nextShuffled,
+        })
+        .eq("id", id);
+
+      if (res.error) {
         await supabase
           .from("exams")
           .update({
