@@ -767,10 +767,12 @@ export default function AdminSettingsPage() {
           </div>
 
           {/* KHỐI 2: THÍCH HỢP CHUNG CẢ TẠO TÀI KHOẢN VÀ ĐẶT LẠI MẬT KHẨU */}
-          <div className="relative overflow-hidden rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between">
-            {/* Ambient glow accent line at top */}
-            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#4f46e5]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between">
+            {/* Ambient glow accent line & blur circle clipped to container */}
+            <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+              <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#4f46e5]/10 rounded-full blur-3xl" />
+            </div>
 
             <div>
               <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
@@ -967,7 +969,7 @@ export default function AdminSettingsPage() {
                             </span>
                           </div>
 
-                          <div className="max-h-56 overflow-y-auto space-y-1 py-0.5 custom-scrollbar">
+                          <div className="max-h-[114px] overflow-y-auto space-y-1 py-0.5 pr-1 custom-scrollbar">
                             {allProfiles.map((p) => {
                               const isSelected = p.username === selectedUser;
                               const sec = accountsSecurity.find((a) => a.username === p.username);
