@@ -24,6 +24,7 @@ import {
   Tag,
   Table as TableIcon,
   FolderPlus,
+  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -46,6 +47,7 @@ export default function AdminMaterialsPage() {
   // Filters
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
 
   // Modal / Form state (Full Editor / AI)
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -379,53 +381,181 @@ export default function AdminMaterialsPage() {
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-        <div className="md:col-span-5 relative">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm kiếm theo tiêu đề hoặc nội dung tóm tắt..."
-            className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-4 py-2.5 text-xs text-white placeholder-[#9ca3af] focus:border-[#4f46e5] focus:outline-none transition-colors"
-          />
+      <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+          <div className="md:col-span-5 relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Tìm kiếm theo tiêu đề hoặc nội dung tóm tắt..."
+              className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-4 py-2.5 text-xs text-white placeholder-[#9ca3af] focus:border-[#4f46e5] focus:outline-none transition-colors"
+            />
+          </div>
+
+          {/* Interactive Category Selector with Secondary Content Bars */}
+          <div className="md:col-span-4 relative">
+            <button
+              type="button"
+              onClick={() => setIsCategoryMenuOpen((prev) => !prev)}
+              className={cn(
+                "w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer",
+                selectedCategory !== "all"
+                  ? "bg-[#4f46e5]/15 border-[#4f46e5]/50 text-indigo-200 shadow-sm"
+                  : "bg-[#111827] border-[#1f2937] text-slate-200 hover:border-[#374151] hover:text-white"
+              )}
+            >
+              <div className="flex items-center gap-2 truncate">
+                <FolderTree className="h-4 w-4 text-[#6366f1] shrink-0" />
+                <span className="text-[#9ca3af] font-normal">Danh mục:</span>
+                <span className="font-bold text-white truncate">
+                  {selectedCategory === "all"
+                    ? "Tất cả môn học"
+                    : categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <span className="px-1.5 py-0.5 rounded-md bg-white/10 text-[10px] font-mono text-slate-300">
+                  {selectedCategory === "all"
+                    ? materials.length
+                    : materials.filter((m) => m.category_id === selectedCategory || m.category_slug === selectedCategory).length}
+                </span>
+                <ChevronDown className={cn("h-4 w-4 text-[#9ca3af] transition-transform duration-200", isCategoryMenuOpen && "rotate-180")} />
+              </div>
+            </button>
+
+            {/* Secondary Content Bars Popover */}
+            <AnimatePresence>
+              {isCategoryMenuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-30"
+                    onClick={() => setIsCategoryMenuOpen(false)}
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-[#1f2937] bg-[#0b0f19]/95 backdrop-blur-xl p-2 shadow-2xl space-y-1.5 min-w-[280px]"
+                  >
+                    <div className="px-2.5 py-1.5 text-[11px] font-bold text-[#9ca3af] uppercase tracking-wider flex items-center justify-between border-b border-[#1f2937]/80 pb-2">
+                      <span>Chọn danh mục môn học</span>
+                      <span>{categories.length + 1} chuyên mục</span>
+                    </div>
+
+                    {/* Thanh nội dung phụ: Tất cả môn học */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedCategory("all");
+                        setIsCategoryMenuOpen(false);
+                      }}
+                      className={cn(
+                        "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
+                        selectedCategory === "all"
+                          ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
+                          : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
+                      )}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="h-8 w-8 rounded-lg bg-[#4f46e5]/15 border border-[#4f46e5]/30 flex items-center justify-center text-[#6366f1] shrink-0">
+                          <Library className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-white group-hover:text-indigo-300 transition">
+                            Tất cả môn học
+                          </p>
+                          <p className="text-[10px] text-[#9ca3af]">Toàn bộ tài liệu trong hệ thống</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-white/5 border border-white/10 text-slate-300 font-bold">
+                          {materials.length} bài
+                        </span>
+                        {selectedCategory === "all" && (
+                          <CheckCircle2 className="h-4 w-4 text-[#6366f1]" />
+                        )}
+                      </div>
+                    </button>
+
+                    {/* Các thanh nội dung phụ cho từng Chuyên mục */}
+                    <div className="max-h-60 overflow-y-auto space-y-1.5 custom-scrollbar pr-1">
+                      {categories.map((c) => {
+                        const count = materials.filter(
+                          (m) => m.category_id === c.id || m.category_slug === c.slug
+                        ).length;
+                        const isSelected = selectedCategory === c.id || selectedCategory === c.slug;
+
+                        return (
+                          <button
+                            key={c.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedCategory(c.id);
+                              setIsCategoryMenuOpen(false);
+                            }}
+                            className={cn(
+                              "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
+                              isSelected
+                                ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
+                                : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
+                            )}
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div className="h-8 w-8 rounded-lg bg-[#064e3b]/50 border border-[#064e3b] flex items-center justify-center text-[#34d399] shrink-0">
+                                <Tag className="h-4 w-4" />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-xs font-bold text-white group-hover:text-emerald-300 transition truncate">
+                                  {c.name}
+                                </p>
+                                <p className="text-[10px] text-[#9ca3af] font-mono truncate">
+                                  Mã: {c.slug}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0 ml-2">
+                              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#064e3b]/40 border border-[#064e3b] text-[#34d399] font-bold">
+                                {count} bài
+                              </span>
+                              {isSelected && (
+                                <CheckCircle2 className="h-4 w-4 text-[#34d399]" />
+                              )}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="md:col-span-3 text-right text-xs text-[#9ca3af]">
+            Hiển thị <span className="font-bold text-white">{filteredMaterials.length}</span> bài viết
+          </div>
         </div>
 
-        <div className="md:col-span-4 flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
-          <button
-            onClick={() => setSelectedCategory("all")}
-            className={cn(
-              "px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition cursor-pointer",
-              selectedCategory === "all"
-                ? "bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40"
-                : "bg-[#111827] text-[#9ca3af] border border-[#1f2937] hover:text-white hover:bg-[#1f2937]"
-            )}
-          >
-            Tất cả ({materials.length})
-          </button>
-          {categories.map((c) => {
-            const count = materials.filter(
-              (m) => m.category_id === c.id || m.category_slug === c.slug
-            ).length;
-            return (
+        {/* Active category filter pill */}
+        {selectedCategory !== "all" && (
+          <div className="flex items-center gap-2 text-xs text-[#9ca3af]">
+            <span>Đang lọc theo:</span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 text-xs font-bold">
+              <Tag className="h-3 w-3" />
+              {categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
               <button
-                key={c.id}
-                onClick={() => setSelectedCategory(c.id)}
-                className={cn(
-                  "px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition cursor-pointer",
-                  selectedCategory === c.id
-                    ? "bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40"
-                    : "bg-[#111827] text-[#9ca3af] border border-[#1f2937] hover:text-white hover:bg-[#1f2937]"
-                )}
+                type="button"
+                onClick={() => setSelectedCategory("all")}
+                className="hover:text-white ml-1 p-0.5 cursor-pointer rounded hover:bg-white/10 transition"
+                title="Bỏ lọc, xem tất cả"
               >
-                {c.name} ({count})
+                <X className="h-3 w-3" />
               </button>
-            );
-          })}
-        </div>
-
-        <div className="md:col-span-3 text-right text-xs text-[#9ca3af]">
-          Hiển thị <span className="font-bold text-white">{filteredMaterials.length}</span> bài viết
-        </div>
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Materials List */}
@@ -470,18 +600,14 @@ export default function AdminMaterialsPage() {
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b]">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b]">
                     <Tag className="h-3 w-3 text-[#34d399]" />
                     {item.category_name || "Chuyên đề"}
-                  </span>
-                  <span className="text-[11px] text-[#9ca3af] flex items-center gap-1 font-mono">
-                    <Clock className="h-3 w-3 text-[#9ca3af]" />
-                    {item.reading_time || 5} phút đọc
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="font-heading text-sm font-bold text-white group-hover:text-indigo-300 transition line-clamp-2">
+                  <h3 className="font-heading text-base font-bold text-white group-hover:text-indigo-300 transition line-clamp-2 leading-snug">
                     {item.title}
                   </h3>
                   <p className="text-xs text-[#9ca3af] mt-1.5 line-clamp-3 leading-relaxed">
@@ -607,34 +733,18 @@ export default function AdminMaterialsPage() {
                   />
                 </div>
 
-                {/* Reading Time & Author */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-slate-300">
-                      Thời gian đọc (phút)
-                    </label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={120}
-                      value={quickReadingTime}
-                      onChange={(e) => setQuickReadingTime(Number(e.target.value))}
-                      className="w-full px-3.5 py-2 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-slate-300">
-                      Tác giả / Nguồn
-                    </label>
-                    <input
-                      type="text"
-                      value={quickAuthor}
-                      onChange={(e) => setQuickAuthor(e.target.value)}
-                      placeholder="VD: Ban Giảng huấn"
-                      className="w-full px-3.5 py-2 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
-                    />
-                  </div>
+                {/* Author */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-200">
+                    Tác giả / Nguồn biên soạn
+                  </label>
+                  <input
+                    type="text"
+                    value={quickAuthor}
+                    onChange={(e) => setQuickAuthor(e.target.value)}
+                    placeholder="VD: Ban Giảng huấn, ThS. Nguyễn Văn A"
+                    className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
+                  />
                 </div>
 
                 {/* Actions */}
@@ -946,18 +1056,18 @@ export default function AdminMaterialsPage() {
                   <div className="space-y-4">
                     {/* Meta info row */}
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
-                      <div className="md:col-span-6 space-y-1">
+                      <div className="md:col-span-7 space-y-1">
                         <label className="text-[11px] font-bold text-slate-300">Tiêu đề bài viết (*)</label>
                         <input
                           type="text"
                           value={formTitle}
                           onChange={(e) => setFormTitle(e.target.value)}
                           placeholder="VD: Tổng quan Hệ điều hành & Quản lý Tiến trình"
-                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3.5 py-2 text-xs text-white focus:border-[#4f46e5] focus:outline-none"
+                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3.5 py-2 text-xs text-white focus:border-[#4f46e5] focus:outline-none font-bold"
                         />
                       </div>
 
-                      <div className="md:col-span-3 space-y-1">
+                      <div className="md:col-span-5 space-y-1">
                         <label className="text-[11px] font-bold text-slate-300">Danh mục môn học (*)</label>
                         <select
                           value={formCategoryId}
@@ -970,18 +1080,6 @@ export default function AdminMaterialsPage() {
                             </option>
                           ))}
                         </select>
-                      </div>
-
-                      <div className="md:col-span-3 space-y-1">
-                        <label className="text-[11px] font-bold text-slate-300">Thời gian đọc (phút)</label>
-                        <input
-                          type="number"
-                          min={1}
-                          max={120}
-                          value={formReadingTime}
-                          onChange={(e) => setFormReadingTime(Number(e.target.value))}
-                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3.5 py-2 text-xs text-white focus:border-[#4f46e5] focus:outline-none"
-                        />
                       </div>
                     </div>
 
@@ -1092,12 +1190,8 @@ export default function AdminMaterialsPage() {
                       {/* Header Preview */}
                       <div className="space-y-3 pb-6 border-b border-[#1f2937]">
                         <div className="flex items-center gap-2">
-                          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#4f46e5]/15 text-indigo-300 border border-[#4f46e5]/25">
+                          <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#4f46e5]/15 text-indigo-300 border border-[#4f46e5]/25">
                             {categories.find((c) => c.id === formCategoryId)?.name || "Chuyên đề"}
-                          </span>
-                          <span className="text-xs text-[#9ca3af] flex items-center gap-1">
-                            <Clock className="h-3 w-3 text-[#9ca3af]" />
-                            {formReadingTime || 5} phút đọc
                           </span>
                         </div>
                         <h1 className="text-xl sm:text-3xl font-heading font-extrabold text-white leading-tight">

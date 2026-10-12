@@ -84,7 +84,7 @@ export function UserExamCard({ exam }: UserExamCardProps) {
 
         {/* Card Title with line-clamp-2 and consistent height */}
         <h3
-          className="text-sm font-semibold text-white tracking-tight line-clamp-2 leading-snug min-h-[2.5rem]"
+          className="text-sm font-bold text-white tracking-tight line-clamp-2 leading-snug min-h-[2.5rem]"
           title={exam.title}
         >
           {renderHighlightedExamTitle(exam.title)}

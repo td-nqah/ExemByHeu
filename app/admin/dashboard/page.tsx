@@ -259,7 +259,7 @@ export default function AdminDashboardPage() {
       >
         <div className="flex flex-col gap-3 border-b border-[#1f2937] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
-            <h2 className="text-base sm:text-lg font-semibold tracking-tight text-white">
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-white">
               Ngân hàng Đề thi ({exams.length})
             </h2>
             <p className="mt-0.5 text-xs text-[#9ca3af]">
@@ -368,7 +368,7 @@ export default function AdminDashboardPage() {
                       key={exam.id}
                       className="group border-b border-[#1f2937] hover:bg-[#1f2937]/40 transition-colors"
                     >
-                      <td className="max-w-xs truncate py-3.5 px-4 font-medium text-white group-hover:text-indigo-300 transition-colors">
+                      <td className="max-w-xs truncate py-3.5 px-4 font-bold text-white group-hover:text-indigo-300 transition-colors">
                         {exam.title}
                       </td>
 

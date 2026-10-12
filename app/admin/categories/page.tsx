@@ -282,7 +282,7 @@ export default function AdminCategoriesPage() {
                           <span className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                             <BookText className="h-4 w-4" />
                           </span>
-                          <span className="text-sm font-medium">{cat.name}</span>
+                          <span className="text-sm font-bold text-white">{cat.name}</span>
                         </div>
                       </td>
 

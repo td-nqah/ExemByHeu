@@ -240,11 +240,6 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
               {material.category_name || "Chuyên đề"}
             </span>
 
-            <span className="text-xs text-[#9ca3af] flex items-center gap-1 font-mono">
-              <Clock className="h-3.5 w-3.5 text-[#9ca3af]" />
-              {material.reading_time || 5} phút đọc
-            </span>
-
             <span className="text-xs text-[#9ca3af] flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5" />
               {formattedDate}
@@ -315,8 +310,8 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                       href={`/knowledge/${rel.id}`}
                       className="p-4 rounded-xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-[#3b82f6] hover:bg-[#1f2937] transition block group hover:-translate-y-0.5"
                     >
-                      <span className="text-[10px] font-semibold text-[#34d399] font-mono">
-                        {rel.category_name || "Chuyên đề"} • {rel.reading_time || 5} phút đọc
+                      <span className="text-[10px] font-bold text-[#34d399] font-mono">
+                        {rel.category_name || "Chuyên đề"}
                       </span>
                       <h4 className="font-heading text-xs sm:text-sm font-bold text-white group-hover:text-indigo-300 transition mt-1 line-clamp-2">
                         {rel.title}
@@ -373,7 +368,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
               <div className="mt-4 pt-3 border-t border-[#1f2937] text-[11px] text-[#9ca3af] flex items-center justify-between">
                 <span>Cuộn để theo dõi tiến độ</span>
-                <span className="text-[#6366f1] font-semibold">{material.reading_time || 5} phút đọc</span>
+                <span className="text-[#34d399] font-semibold">Tự do ôn tập</span>
               </div>
             </div>
           </aside>

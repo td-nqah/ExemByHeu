@@ -101,7 +101,7 @@ function UserDashboardContent() {
           ========================================================================= */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base sm:text-lg font-semibold tracking-tight text-white flex items-center gap-2.5">
+          <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2.5">
             {activeCategory
               ? `Chuyên mục: ${currentCategoryObj.label}`
               : "Đề thi thử Khả dụng"}
@@ -181,7 +181,7 @@ function UserDashboardContent() {
           <div className="p-3 rounded-xl bg-[#0b0f19] text-[#6366f1] border border-[#1f2937]">
             <BookOpen className="h-7 w-7" />
           </div>
-          <h3 className="text-base font-semibold text-white">
+          <h3 className="text-base font-bold text-white">
             {activeCategory
               ? `Chưa có đề thi nào trong danh mục "${currentCategoryObj.label}"`
               : "Chưa có đề thi thử nào được xuất bản"}
