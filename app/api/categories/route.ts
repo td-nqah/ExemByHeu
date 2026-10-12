@@ -11,6 +11,14 @@ const DEFAULT_CATEGORIES = [
     status: "active",
     created_at: new Date().toISOString(),
   },
+  {
+    id: "cat_ctmthdh",
+    name: "Cấu trúc máy tính & Hệ điều hành",
+    slug: "ctmthdh",
+    icon: "Cpu",
+    status: "active",
+    created_at: new Date().toISOString(),
+  },
 ];
 
 function getSupabaseClient() {

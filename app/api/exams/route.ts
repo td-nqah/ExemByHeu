@@ -15,12 +15,16 @@ function getSupabaseClient() {
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
+    const examId = searchParams.get("id");
     const categorySlug = searchParams.get("category");
     const categoryId = searchParams.get("categoryId");
 
     const supabase = getSupabaseClient();
     if (supabase) {
       let query = supabase.from("exams").select("*, questions(*)");
+      if (examId) {
+        query = query.eq("id", examId);
+      }
       if (categorySlug) {
         query = query.eq("category_slug", categorySlug);
       }

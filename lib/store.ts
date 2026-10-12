@@ -32,6 +32,14 @@ export const SEED_CATEGORIES: Category[] = [
     status: "active",
     created_at: new Date().toISOString(),
   },
+  {
+    id: "cat_ctmthdh",
+    name: "Cấu trúc máy tính & Hệ điều hành",
+    slug: "ctmthdh",
+    icon: "Cpu",
+    status: "active",
+    created_at: new Date().toISOString(),
+  },
 ];
 
 // Default Seed Profiles
@@ -62,37 +70,75 @@ export const SEED_PROFILES: Profile[] = [
   },
 ];
 
-// Default Seed Exams
+// Default Seed Exams (Synchronized with 11 real published exams)
 export const SEED_EXAMS: Exam[] = [
   {
-    id: "11111111-1111-1111-1111-111111111111",
-    title: "Kiểm tra Kiến trúc Web Hiện đại: Next.js & PostgreSQL",
-    description: "Đánh giá hiểu biết chuyên sâu về Server Components, Client State, Database Indexing và Transaction Management.",
-    duration_minutes: 30,
+    id: "c710433a-4a91-4c2d-aeaf-120dbef8ddb3",
+    title: "Đề cương CTMT: Đề 5",
+    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    duration_minutes: 60,
+    category_id: "cat_ctmthdh",
+    category_slug: "ctmthdh",
+    question_count: 40,
+    question_type: "multiple_choice",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
-    created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
+    created_at: "2026-10-11T17:08:14.472Z",
   },
   {
-    id: "11111111-1111-1111-1111-222222222222",
-    title: "Technical English & Enterprise Architecture Fundamentals",
-    description: "Vocabulary, architectural reasoning, and fault tolerance strategies in distributed systems.",
-    duration_minutes: 45,
+    id: "dd7f262b-e1ab-4bd9-9470-bf9b04d39914",
+    title: "Đề cương CTMT: Đề 4",
+    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    duration_minutes: 60,
+    category_id: "cat_ctmthdh",
+    category_slug: "ctmthdh",
+    question_count: 40,
+    question_type: "multiple_choice",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
-    created_at: new Date(Date.now() - 86400000).toISOString(),
+    created_at: "2026-10-11T17:07:05.225Z",
   },
   {
-    id: "11111111-1111-1111-1111-333333333333",
-    title: "Lập trình Hướng đối tượng (OOP) & Clean Architecture",
-    description: "Khảo sát chuyên sâu 4 đặc trưng cốt lõi (Tính đóng gói, Kế thừa, Đa hình, Trừu tượng) cùng các nguyên lý thiết kế SOLID.",
-    duration_minutes: 40,
+    id: "11e943ad-d35e-4655-91df-1b2fded8600a",
+    title: "Đề cương CTMT: Đề 3",
+    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    duration_minutes: 60,
+    category_id: "cat_ctmthdh",
+    category_slug: "ctmthdh",
+    question_count: 40,
+    question_type: "multiple_choice",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
-    created_at: new Date(Date.now() - 86400000 * 3).toISOString(),
+    created_at: "2026-10-11T17:06:06.334Z",
   },
   {
-    id: "11111111-1111-1111-1111-444444444444",
+    id: "99e9f019-b61c-4cdd-b24a-4d38b4d817d0",
+    title: "Đề cương CTMT: Đề 2",
+    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    duration_minutes: 60,
+    category_id: "cat_ctmthdh",
+    category_slug: "ctmthdh",
+    question_count: 40,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-11T17:02:17.586Z",
+  },
+  {
+    id: "ce2b9f0f-73bf-4813-9d8b-00b09e5062a1",
+    title: "Đề cương CTMT: Đề 1",
+    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    duration_minutes: 60,
+    category_id: "cat_ctmthdh",
+    category_slug: "ctmthdh",
+    question_count: 40,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-11T13:58:12.166Z",
+  },
+  {
+    id: "02eaf730-8a1c-445a-8b9b-126a435b5343",
     title: "Đề cương CNXH: Đề 1(K24)",
     description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
     duration_minutes: 60,
@@ -100,204 +146,78 @@ export const SEED_EXAMS: Exam[] = [
     category_slug: "cnxh",
     question_count: 75,
     question_type: "multiple_choice",
-    expires_at: "2026-10-11T23:59:00Z",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
-    created_at: new Date(Date.now() - 86400000 * 4).toISOString(),
+    created_at: "2026-10-10T22:42:32.465Z",
   },
   {
-    id: "11111111-1111-1111-1111-555555555555",
-    title: "Triết học Mác - Lênin: Phép Biện chứng & Quy luật Xã hội",
-    description: "Thế giới quan duy vật biện chứng, quy luật mâu thuẫn, phủ định của phủ định và thực tiễn phát triển nhận thức.",
-    duration_minutes: 50,
+    id: "bd754608-a772-4291-94d9-5072a35cf7be",
+    title: "Đề mở CNXH: Đề 5",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    duration_minutes: 60,
     category_id: "cat_cnxh",
     category_slug: "cnxh",
-    question_count: 50,
+    question_count: 21,
     question_type: "multiple_choice",
-    expires_at: "2026-10-11T23:59:00Z",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
-    created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
+    created_at: "2026-10-10T20:47:08.752Z",
+  },
+  {
+    id: "5cb8cfd2-3aab-4920-ba68-ad09c4454c73",
+    title: "Đề mở CNXH: Đề 4",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    duration_minutes: 60,
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    question_count: 21,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-10T20:46:29.933Z",
+  },
+  {
+    id: "4e881658-00db-4991-8d6f-739d20c3ee8e",
+    title: "Đề mở CNXH: Đề 3",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    duration_minutes: 60,
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    question_count: 21,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-10T20:44:50.100Z",
+  },
+  {
+    id: "e9f9cf02-a194-467c-8849-869115f128dc",
+    title: "Đề mở CNXH: Đề 2",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    duration_minutes: 60,
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    question_count: 21,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-10T20:42:19.567Z",
+  },
+  {
+    id: "1568ed83-9fbd-4ebe-9695-f66218d96e00",
+    title: "Đề mở CNXH: Đề 1",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    duration_minutes: 60,
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    question_count: 21,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-10T20:08:34.947Z",
   },
 ];
 
-export const SEED_QUESTIONS: Question[] = [
-  // Exam 1 questions
-  {
-    id: "22222222-2222-2222-2222-222222220001",
-    exam_id: "11111111-1111-1111-1111-111111111111",
-    type: "multiple_choice",
-    content: "Trong Next.js App Router, thành phần nào theo mặc định được render tại server để giảm tải JavaScript bundle gửi về client?",
-    options: [
-      "A. React Server Components (RSC)",
-      "B. Client Components with useState",
-      "C. Web Workers",
-      "D. Redux Store",
-    ],
-    correct_answer: "A",
-    max_score: 2.0,
-    order_index: 1,
-  },
-  {
-    id: "22222222-2222-2222-2222-222222220002",
-    exam_id: "11111111-1111-1111-1111-111111111111",
-    type: "multiple_choice",
-    content: "Chỉ số (Index) nào trong PostgreSQL phù hợp và tối ưu nhất cho việc tra cứu chính xác theo khóa ngoại submission_id?",
-    options: [
-      "A. B-Tree Index",
-      "B. GIN Index",
-      "C. BRIN Index",
-      "D. Hash Index đơn thuần",
-    ],
-    correct_answer: "A",
-    max_score: 2.0,
-    order_index: 2,
-  },
-  {
-    id: "22222222-2222-2222-2222-222222220003",
-    exam_id: "11111111-1111-1111-1111-111111111111",
-    type: "multiple_choice",
-    content: "Khi nào bắt buộc phải khai báo chỉ thị 'use client' ở đầu tệp tin trong Next.js App Router?",
-    options: [
-      "A. Khi component cần truy vấn database trực tiếp",
-      "B. Khi component sử dụng React Hooks (useState, useEffect) hoặc lắng nghe sự kiện người dùng",
-      "C. Bắt buộc cho toàn bộ component trong dự án",
-      "D. Khi component chỉ render nội dung tĩnh",
-    ],
-    correct_answer: "B",
-    max_score: 2.0,
-    order_index: 3,
-  },
-  {
-    id: "22222222-2222-2222-2222-222222220004",
-    exam_id: "11111111-1111-1111-1111-111111111111",
-    type: "essay",
-    content: "Hãy trình bày chiến lược phân tách dữ liệu an toàn và kiểm soát quyền truy cập cấp hàng (Row Level Security - RLS) trên Supabase khi triển khai cho hệ thống thi cử trực tuyến có hàng ngàn thí sinh.",
-    options: [],
-    correct_answer: "",
-    max_score: 4.0,
-    order_index: 4,
-  },
-  // Exam 2 questions
-  {
-    id: "33333333-3333-3333-3333-333333330001",
-    exam_id: "11111111-1111-1111-1111-222222222222",
-    type: "multiple_choice",
-    content: "What does the acronym ACID stand for in relational database management systems?",
-    options: [
-      "A. Atomicity, Consistency, Isolation, Durability",
-      "B. Asynchronous, Concurrent, Isolated, Distributed",
-      "C. Automated, Consistent, Integrated, Decoupled",
-      "D. Analytical, Compact, Indexed, Dynamic",
-    ],
-    correct_answer: "A",
-    max_score: 2.5,
-    order_index: 1,
-  },
-  {
-    id: "33333333-3333-3333-3333-333333330002",
-    exam_id: "11111111-1111-1111-1111-222222222222",
-    type: "multiple_choice",
-    content: "Which HTTP status code signifies that the client request has succeeded and resulted in a new resource being created?",
-    options: [
-      "A. 200 OK",
-      "B. 201 Created",
-      "C. 204 No Content",
-      "D. 304 Not Modified",
-    ],
-    correct_answer: "B",
-    max_score: 2.5,
-    order_index: 2,
-  },
-  {
-    id: "33333333-3333-3333-3333-333333330003",
-    exam_id: "11111111-1111-1111-1111-222222222222",
-    type: "essay",
-    content: "Briefly explain why optimistic locking or idempotency keys are crucial when handling online exam submission endpoints under high network latency.",
-    options: [],
-    correct_answer: "",
-    max_score: 5.0,
-    order_index: 3,
-  },
-  // Exam 3: OOP
-  {
-    id: "44444444-4444-4444-4444-444444440001",
-    exam_id: "11111111-1111-1111-1111-333333333333",
-    type: "multiple_choice",
-    content: "Tính chất nào trong OOP cho phép một đối tượng có thể nhận nhiều hình thái khác nhau thông qua Overriding hoặc Overloading?",
-    options: [
-      "A. Tính Đa hình (Polymorphism)",
-      "B. Tính Đóng gói (Encapsulation)",
-      "C. Tính Kế thừa (Inheritance)",
-      "D. Tính Trừu tượng (Abstraction)",
-    ],
-    correct_answer: "A",
-    max_score: 5.0,
-    order_index: 1,
-  },
-  {
-    id: "44444444-4444-4444-4444-444444440002",
-    exam_id: "11111111-1111-1111-1111-333333333333",
-    type: "essay",
-    content: "Hãy phân tích nguyên lý Dependency Inversion Principle (DIP) trong bộ nguyên lý SOLID và viết ví dụ minh họa ngắn bằng TypeScript hoặc Java.",
-    options: [],
-    correct_answer: "",
-    max_score: 5.0,
-    order_index: 2,
-  },
-  // Exam 4: CNXH
-  {
-    id: "55555555-5555-5555-5555-555555550001",
-    exam_id: "11111111-1111-1111-1111-444444444444",
-    type: "multiple_choice",
-    content: "Điều kiện khách quan quy định sứ mệnh lịch sử của giai cấp công nhân là gì?",
-    options: [
-      "A. Địa vị kinh tế - xã hội và địa vị chính trị - xã hội của giai cấp công nhân",
-      "B. Do có sự lãnh đạo của Đảng Cộng sản",
-      "C. Do giai cấp công nhân có số lượng đông đảo nhất",
-      "D. Do tinh thần đấu tranh tự phát",
-    ],
-    correct_answer: "A",
-    max_score: 5.0,
-    order_index: 1,
-  },
-  {
-    id: "55555555-5555-5555-5555-555555550002",
-    exam_id: "11111111-1111-1111-1111-444444444444",
-    type: "essay",
-    content: "Trình bày nội dung sứ mệnh lịch sử của giai cấp công nhân trên các lĩnh vực kinh tế, chính trị - xã hội và văn hóa tư tưởng.",
-    options: [],
-    correct_answer: "",
-    max_score: 5.0,
-    order_index: 2,
-  },
-  // Exam 5: Triết học
-  {
-    id: "66666666-6666-6666-6666-666666660001",
-    exam_id: "11111111-1111-1111-1111-555555555555",
-    type: "multiple_choice",
-    content: "Theo phép biện chứng duy vật, nguồn gốc và động lực cơ bản của sự vận động, phát triển là gì?",
-    options: [
-      "A. Sự giải quyết các mâu thuẫn biện chứng nội tại",
-      "B. Ý niệm tuyệt đối hoặc thần linh thúc đẩy",
-      "C. Ý muốn chủ quan của con người",
-      "D. Sự tích lũy ngẫu nhiên của các yếu tố bên ngoài",
-    ],
-    correct_answer: "A",
-    max_score: 5.0,
-    order_index: 1,
-  },
-  {
-    id: "66666666-6666-6666-6666-666666660002",
-    exam_id: "11111111-1111-1111-1111-555555555555",
-    type: "essay",
-    content: "Phân tích quy luật chuyển hóa từ những thay đổi về lượng dẫn đến những thay đổi về chất và ngược lại. Rút ra bài học thực tiễn trong học tập.",
-    options: [],
-    correct_answer: "",
-    max_score: 5.0,
-    order_index: 2,
-  },
-];
+export const SEED_QUESTIONS: Question[] = [];
 
 // Initial Seed Submissions for User (Empty by default: user starts with clean history)
 export const SEED_SUBMISSIONS: Submission[] = [];
@@ -340,7 +260,23 @@ export function initStore(): void {
     localStorage.setItem(KEY_HISTORY_CLEARED, "true");
   }
 
-  if (!localStorage.getItem(KEY_EXAMS)) {
+  // Clean up legacy demo exams from localStorage if stored on client devices
+  const legacyDemoIds = new Set([
+    "11111111-1111-1111-1111-111111111111",
+    "11111111-1111-1111-1111-222222222222",
+    "11111111-1111-1111-1111-333333333333",
+    "11111111-1111-1111-1111-444444444444",
+    "11111111-1111-1111-1111-555555555555",
+  ]);
+  const storedExams = getLocal<Exam[]>(KEY_EXAMS, []);
+  if (storedExams.some((e) => legacyDemoIds.has(e.id))) {
+    setLocal(
+      KEY_EXAMS,
+      storedExams.filter((e) => !legacyDemoIds.has(e.id))
+    );
+  }
+
+  if (!localStorage.getItem(KEY_EXAMS) || getLocal<Exam[]>(KEY_EXAMS, []).length === 0) {
     setLocal(KEY_EXAMS, SEED_EXAMS);
   }
   if (!localStorage.getItem(KEY_QUESTIONS)) {
@@ -618,64 +554,29 @@ export async function getExams(
     }
   }
 
+  if (dbExams.length === 0) {
+    try {
+      const res = await fetch("/api/exams");
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.exams && json.exams.length > 0) {
+          dbExams = (json.exams as any[])
+            .filter((e: any) => e.title !== "__SYSTEM_CATEGORIES__" && (!onlyPublished || e.status === "published"))
+            .map((e: any) => parseExamRecord(e));
+        }
+      }
+    } catch {}
+  }
+
+  if (dbExams.length > 0) {
+    setLocal(KEY_EXAMS, dbExams);
+    return onlyPublished ? dbExams.filter((e) => e.status === "published") : dbExams;
+  }
+
   const localExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS).filter(
     (e) => e.title !== "__SYSTEM_CATEGORIES__"
   );
-  const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
-
-  // If Supabase returned exams: Supabase is our source of truth
-  const dbIds = new Set(dbExams.map((e) => e.id));
-  const dbTitles = new Set(dbExams.map((e) => (e.title || "").trim().toLowerCase()));
-
-  // Only consider local exams that are NOT already in Supabase (by ID or Title)
-  const missingLocals: Exam[] = [];
-  for (const rawLocal of localExams) {
-    const localTitle = (rawLocal.title || "").trim().toLowerCase();
-    if (!dbIds.has(rawLocal.id) && !dbTitles.has(localTitle)) {
-      missingLocals.push(
-        parseExamRecord({
-          ...rawLocal,
-          questions: rawLocal.questions || questions.filter((q) => q.exam_id === rawLocal.id),
-        })
-      );
-    }
-  }
-
-  // Purge redundant local copies from localStorage so they don't linger
-  if (dbExams.length > 0) {
-    const purgedLocals = localExams.filter(
-      (e) => !dbIds.has(e.id) && !dbTitles.has((e.title || "").trim().toLowerCase())
-    );
-    setLocal(KEY_EXAMS, purgedLocals);
-  }
-
-  // Combine and strictly deduplicate by ID and by Title to guarantee 0 duplicate rows
-  const combined = [...dbExams, ...missingLocals];
-  const seenIds = new Set<string>();
-  const seenTitles = new Set<string>();
-  const finalExams: Exam[] = [];
-
-  for (const exam of combined) {
-    const t = (exam.title || "").trim().toLowerCase();
-    if (!seenIds.has(exam.id) && !seenTitles.has(t)) {
-      seenIds.add(exam.id);
-      seenTitles.add(t);
-      finalExams.push(exam);
-    }
-  }
-
-  if (finalExams.length === 0) {
-    const fallback = SEED_EXAMS.map((e) => parseExamRecord({
-      ...e,
-      questions: questions.filter((q) => q.exam_id === e.id),
-    }));
-    return onlyPublished ? fallback.filter((e) => e.status === "published") : fallback;
-  }
-
-  if (onlyPublished) {
-    return finalExams.filter((e) => e.status === "published");
-  }
-  return finalExams;
+  return onlyPublished ? localExams.filter((e) => e.status === "published") : localExams;
 }
 
 export async function getExamById(id: string): Promise<Exam | null> {
@@ -697,6 +598,20 @@ export async function getExamById(id: string): Promise<Exam | null> {
       // Use local fallback
     }
   }
+
+  try {
+    const res = await fetch(`/api/exams?id=${encodeURIComponent(id)}`);
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success && json.exams && json.exams.length > 0) {
+        const found = json.exams[0];
+        if (found.questions) {
+          found.questions.sort((a: Question, b: Question) => a.order_index - b.order_index);
+        }
+        return parseExamRecord(found);
+      }
+    }
+  } catch {}
 
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
   const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
