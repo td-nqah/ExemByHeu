@@ -3,28 +3,16 @@
 import { useEffect, useState, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getExams, getSubmissions, getCurrentUser, getCategories } from "@/lib/store";
-import { Exam, Submission, Profile, Category } from "@/types/exam";
+import { Exam, Submission, Category } from "@/types/exam";
 import { UserExamCard } from "@/components/dashboard/UserExamCard";
 import {
   BookOpen,
   ClipboardList,
   CheckSquare,
-  Sparkles,
-  Clock,
   RotateCcw,
   Square,
-  CheckCircle2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-function formatDisplayName(name?: string): string {
-  if (!name) return "";
-  const cleaned = name.trim().replace(/!+$/, "");
-  const lower = cleaned.toLowerCase();
-  if (lower === "admin") return "Admin";
-  if (lower === "user1") return "User1";
-  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-}
 
 // Helper: Filter exams by category keywords or exact slug
 function matchCategory(exam: Exam, categorySlug: string): boolean {
@@ -46,35 +34,6 @@ function matchCategory(exam: Exam, categorySlug: string): boolean {
   return content.includes(categorySlug.toLowerCase());
 }
 
-// Client Vietnam Time Logic (Asia/Ho_Chi_Minh - GMT+7)
-const getVNTime = () => {
-  const options: Intl.DateTimeFormatOptions = {
-    timeZone: "Asia/Ho_Chi_Minh",
-    hour: "2-digit",
-    hour12: false,
-  };
-  return parseInt(new Intl.DateTimeFormat("en-US", options).format(new Date()), 10);
-};
-
-function getGreetingData(hour: number) {
-  if (hour >= 5 && hour < 12) {
-    return {
-      greeting: "Good Morning",
-      emoji: "☀️",
-    };
-  } else if (hour >= 12 && hour < 18) {
-    return {
-      greeting: "Good Afternoon",
-      emoji: "🌤️",
-    };
-  } else {
-    return {
-      greeting: "Good Night",
-      emoji: "🌙",
-    };
-  }
-}
-
 function UserDashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -83,35 +42,19 @@ function UserDashboardContent() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<Profile | null>(null);
-
-  // Vietnam Time state (default calculated from client)
-  const [vnHour, setVnHour] = useState<number>(9);
 
   // Active Category from URL searchParams (e.g. ?category=cnxh)
   const activeCategory = searchParams ? searchParams.get("category") || "" : "";
 
   useEffect(() => {
-    // 1. Calculate Vietnam Timezone strictly
-    try {
-      const currentVnHour = getVNTime();
-      if (!isNaN(currentVnHour)) {
-        setVnHour(currentVnHour);
-      }
-    } catch {
-      const now = new Date();
-      setVnHour((now.getUTCHours() + 7) % 24);
-    }
-
-    // 2. Auth check
+    // 1. Auth check
     const user = getCurrentUser();
     if (!user) {
       router.push("/");
       return;
     }
-    setCurrentUser(user);
 
-    // 3. Load exam, submission, and dynamic categories data
+    // 2. Load exam, submission, and dynamic categories data
     async function loadData() {
       try {
         const [examData, subData, catData] = await Promise.all([
@@ -135,12 +78,7 @@ function UserDashboardContent() {
     return exams.filter((exam) => matchCategory(exam, activeCategory));
   }, [exams, activeCategory]);
 
-  // Greeting Configuration based on Vietnam Hour
-  const greetingInfo = useMemo(() => {
-    return getGreetingData(vnHour);
-  }, [vnHour]);
-
-  // Dynamic Category Pills for Filter Tags Bar (Default: Tất cả đề thi + dynamic categories)
+  // Dynamic Category Pills for Filter Tags Bar
   const categoryPills = useMemo(() => {
     return [
       { id: "all", slug: "", label: "Tất cả đề thi" },
@@ -159,54 +97,7 @@ function UserDashboardContent() {
   return (
     <div className="mx-auto w-full max-w-[1750px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* =========================================================================
-          1. MINIMALIST FLAT GREETING HEADER CARD
-          ========================================================================= */}
-      <div className="rounded-2xl bg-[#151b27] border border-white/[0.06] p-6 sm:p-7">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
-          <div className="space-y-3">
-            {/* Top Badges: Greeting status + Vietnam Timezone */}
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#24221b] border border-amber-500/20 text-amber-300">
-                <span>{greetingInfo.emoji}</span>
-                <span>{greetingInfo.greeting} •</span>
-              </span>
-
-              <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 bg-[#162723] border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                <span>Asia/Ho_Chi_Minh (GMT+7)</span>
-              </span>
-            </div>
-
-            {/* Dynamic Greeting Title */}
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white flex flex-wrap items-center gap-2">
-              <span>{greetingInfo.greeting},</span>
-              <span className="text-[#818cf8]">
-                {formatDisplayName(currentUser?.username || "User1")}
-              </span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-sm text-slate-400">
-              Welcome back to ExamByHeu! Ready for today&apos;s test?
-            </p>
-          </div>
-
-          {/* Right Toggles (Flat Minimal) */}
-          <div className="hidden lg:flex flex-col items-end gap-2 shrink-0">
-            <div className="inline-flex items-center gap-2 bg-[#1b2230] border border-white/[0.06] px-3.5 py-1.5 rounded-xl text-xs text-slate-300 select-none">
-              <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-              <span>Chế độ Tập trung Toàn màn hình</span>
-            </div>
-            <div className="inline-flex items-center gap-2 bg-[#182623] border border-emerald-500/20 px-3.5 py-1.5 rounded-xl text-xs text-emerald-300 select-none">
-              <Clock className="h-3.5 w-3.5 text-emerald-400" />
-              <span>Đồng hồ đếm ngược tự động</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* =========================================================================
-          2. SECTION TITLE ROW & STATS OVERVIEW CARD
+          1. SECTION TITLE ROW & STATS OVERVIEW CARD
           ========================================================================= */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -249,7 +140,7 @@ function UserDashboardContent() {
       </div>
 
       {/* =========================================================================
-          3. CATEGORY FILTER TABS / PILLS
+          2. CATEGORY FILTER TABS / PILLS
           ========================================================================= */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
         {categoryPills.map((cat) => {
@@ -280,7 +171,7 @@ function UserDashboardContent() {
       </div>
 
       {/* =========================================================================
-          4. EXAM CARDS GRID (4 COLUMNS FLAT MINIMALIST)
+          3. EXAM CARDS GRID (5 COLUMNS ULTRA-COMPACT UNIFORM TILES)
           ========================================================================= */}
       {loading ? (
         <div className="bg-[#151b27] border border-white/[0.06] flex h-48 items-center justify-center rounded-2xl">
@@ -327,7 +218,6 @@ export default function UserDashboardPage() {
     <Suspense
       fallback={
         <div className="mx-auto w-full max-w-[1750px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-          <div className="h-36 rounded-2xl bg-[#151b27] animate-pulse" />
           <div className="h-10 rounded-xl bg-[#151b27] animate-pulse" />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
             <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />

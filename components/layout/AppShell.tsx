@@ -37,7 +37,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* Mobile Top Header */}
         <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-white/[0.06] bg-[#10141e] px-4 md:hidden">
           <Link
-            href="/dashboard"
+            href="/home"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e2538] border border-white/[0.08] text-white">

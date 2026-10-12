@@ -55,9 +55,9 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const userNavLinks = [
     {
       title: "Trang chủ",
-      href: "/dashboard",
+      href: "/home",
       icon: Home,
-      active: false,
+      active: pathname === "/home",
     },
     {
       title: "Đề thi",
@@ -133,7 +133,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         {/* Brand Header */}
         <div className="flex items-center justify-between pb-2">
           <Link
-            href={user?.role === "admin" ? "/admin" : "/dashboard"}
+            href={user?.role === "admin" ? "/admin" : "/home"}
             onClick={onCloseMobile}
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
           >

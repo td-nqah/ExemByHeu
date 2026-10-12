@@ -27,7 +27,7 @@ export default function LoginPage() {
       if (user.role === "admin") {
         router.push("/admin/dashboard");
       } else {
-        router.push("/dashboard");
+        router.push("/home");
       }
     }
   }, [router]);
@@ -43,7 +43,7 @@ export default function LoginPage() {
         if (user.role === "admin") {
           router.push("/admin/dashboard");
         } else {
-          router.push("/dashboard");
+          router.push("/home");
         }
       } else {
         setError("Tên đăng nhập hoặc mật khẩu không chính xác.");
