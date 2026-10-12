@@ -22,12 +22,20 @@ export type ExamStatus = "draft" | "published";
 export type QuestionType = "multiple_choice" | "essay";
 export type SubmissionStatus = "pending_grading" | "graded";
 
+export interface QuestionOptionItem {
+  id: string; // Unique option ID, e.g. `${question_id}_opt_${original_index}`
+  original_letter: string; // Canonical letter A, B, C, D
+  display_letter: string; // Shuffled display letter A, B, C, D
+  text: string; // Content of option without letter prefix
+}
+
 export interface Question {
   id: string;
   exam_id: string;
   type: QuestionType;
   content: string;
   options: string[]; // e.g. ["A. Option 1", "B. Option 2", "C. Option 3", "D. Option 4"]
+  option_items?: QuestionOptionItem[];
   correct_answer: string; // "A" or "A. Option 1"
   max_score: number;
   order_index: number;
@@ -55,6 +63,7 @@ export interface Exam {
   expires_at?: string | null;
   created_by: string;
   status: ExamStatus;
+  is_shuffled?: boolean;
   created_at: string;
   questions?: Question[];
   recent_submissions?: Pick<

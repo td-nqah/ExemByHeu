@@ -413,6 +413,65 @@ export async function loginUser(username: string, password: string): Promise<Pro
   return null;
 }
 
+// Helper: Question option with ID structure
+export interface QuestionOptionWithId {
+  id: string; // unique option_id e.g. `${question_id}_opt_${index}`
+  index: number;
+  original_letter: string; // A, B, C, D
+  raw_text: string;
+  clean_text: string;
+  is_correct: boolean;
+}
+
+/**
+ * Normalizes question options into structured items with unique IDs
+ * and identifies the correct option ID based on question.correct_answer.
+ */
+export function getQuestionOptionsWithIds(question: Question): QuestionOptionWithId[] {
+  const options = Array.isArray(question.options) ? question.options : [];
+  const correctLetter = (question.correct_answer || "")
+    .replace(/^([A-Z])[\.\:\)].*/i, "$1")
+    .trim()
+    .toUpperCase();
+  const cleanCorrect = (question.correct_answer || "").trim().toLowerCase();
+
+  return options.map((optText, idx) => {
+    const letterMatch = optText.match(/^([A-Z])[\.\:\)]/i);
+    const originalLetter = letterMatch
+      ? letterMatch[1].toUpperCase()
+      : String.fromCharCode(65 + idx);
+    const cleanText = optText.replace(/^[A-Z][\.\:\)]\s*/i, "").trim();
+    const id = `${question.id}_opt_${idx}`;
+
+    const isCorrect =
+      (correctLetter.length > 0 && originalLetter === correctLetter) ||
+      (cleanCorrect.length > 0 &&
+        (optText.trim().toLowerCase() === cleanCorrect ||
+          cleanText.toLowerCase() === cleanCorrect));
+
+    return {
+      id,
+      index: idx,
+      original_letter: originalLetter,
+      raw_text: optText,
+      clean_text: cleanText || optText,
+      is_correct: isCorrect,
+    };
+  });
+}
+
+/**
+ * Standard Fisher-Yates (Knuth) Shuffle algorithm (unbiased O(N))
+ */
+export function shuffleArray<T>(array: T[]): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 // Helper: unpack metadata & infer missing fields from raw exam record
 function parseExamRecord(
   rawExam: any,
@@ -423,6 +482,7 @@ function parseExamRecord(
   let question_count = rawExam.question_count || rawExam.questions?.length;
   let question_type = rawExam.question_type;
   let expires_at = rawExam.expires_at;
+  let is_shuffled = rawExam.is_shuffled === true;
   let cleanDescription = rawExam.description || "";
 
   if (cleanDescription.startsWith("<!--meta:")) {
@@ -435,6 +495,9 @@ function parseExamRecord(
         question_count = question_count || meta.question_count;
         question_type = question_type || meta.question_type;
         expires_at = expires_at || meta.expires_at;
+        if (meta.is_shuffled !== undefined) {
+          is_shuffled = meta.is_shuffled === true;
+        }
         cleanDescription = cleanDescription.slice(endIdx + 3).trim();
       } catch {}
     }
@@ -471,6 +534,7 @@ function parseExamRecord(
     question_count: question_count || rawExam.questions?.length || 0,
     question_type: question_type || "multiple_choice",
     expires_at: expires_at || null,
+    is_shuffled,
     recent_submissions: recentSubs ?? rawExam.recent_submissions,
   };
 }
@@ -657,6 +721,7 @@ export async function createExam(
     question_count?: number;
     question_type?: "multiple_choice" | "essay" | "mixed";
     expires_at?: string | null;
+    is_shuffled?: boolean;
   },
   questionsDraft: ParsedQuestionDraft[]
 ): Promise<Exam> {
@@ -667,6 +732,7 @@ export async function createExam(
 
   const cleanCategorySlug = examData.category_slug || (examData.title.toLowerCase().includes("cnxh") ? "cnxh" : "cnxh");
   const cleanCategoryId = examData.category_id || "cat_cnxh";
+  const isShuffled = Boolean(examData.is_shuffled);
 
   const newExam: Exam = {
     id: examId,
@@ -680,6 +746,7 @@ export async function createExam(
     expires_at: examData.expires_at || null,
     created_by: createdBy,
     status: examData.status,
+    is_shuffled: isShuffled,
     created_at: new Date().toISOString(),
   };
 
@@ -707,6 +774,7 @@ export async function createExam(
         question_count: newExam.question_count,
         question_type: newExam.question_type,
         expires_at: newExam.expires_at,
+        is_shuffled: isShuffled,
       };
       const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${newExam.description || ""}`.trim();
 
@@ -728,6 +796,7 @@ export async function createExam(
             expires_at: newExam.expires_at,
             created_by: createdBy,
             status: newExam.status,
+            is_shuffled: isShuffled,
           })
           .select()
           .single();
@@ -911,6 +980,7 @@ export async function updateExam(
     description: string;
     duration_minutes: number;
     status: "draft" | "published";
+    is_shuffled?: boolean;
   },
   questionsDraft: ParsedQuestionDraft[]
 ): Promise<Exam | null> {
@@ -919,17 +989,12 @@ export async function updateExam(
   const allQuestions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
 
   const examIdx = exams.findIndex((e) => e.id === examId);
-  if (examIdx !== -1) {
-    exams[examIdx] = {
-      ...exams[examIdx],
-      title: examData.title.trim(),
-      description: examData.description.trim(),
-      duration_minutes: Number(examData.duration_minutes) || 45,
-      status: examData.status,
-    };
-    setLocal(KEY_EXAMS, exams);
-    invalidateExamCache();
-  }
+  const isShuffled =
+    examData.is_shuffled !== undefined
+      ? Boolean(examData.is_shuffled)
+      : examIdx !== -1
+      ? Boolean(exams[examIdx].is_shuffled)
+      : false;
 
   const existingLocalIds = new Set(
     allQuestions.filter((q) => q.exam_id === examId).map((q) => q.id)
@@ -951,6 +1016,31 @@ export async function updateExam(
     };
   });
 
+  const cleanDesc = (examData.description || "")
+    .replace(/^<!--meta:[\s\S]*?-->\n?/, "")
+    .trim();
+  const meta = {
+    category_id: examIdx !== -1 ? exams[examIdx].category_id : undefined,
+    category_slug: examIdx !== -1 ? exams[examIdx].category_slug : undefined,
+    question_count: updatedQuestionsList.length,
+    question_type: examIdx !== -1 ? exams[examIdx].question_type : "multiple_choice",
+    is_shuffled: isShuffled,
+  };
+  const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${cleanDesc}`.trim();
+
+  if (examIdx !== -1) {
+    exams[examIdx] = {
+      ...exams[examIdx],
+      title: examData.title.trim(),
+      description: cleanDesc,
+      duration_minutes: Number(examData.duration_minutes) || 45,
+      status: examData.status,
+      is_shuffled: isShuffled,
+    };
+    setLocal(KEY_EXAMS, exams);
+    invalidateExamCache();
+  }
+
   // Replace questions for this examId in localStorage
   const otherQuestions = allQuestions.filter((q) => q.exam_id !== examId);
   setLocal(KEY_QUESTIONS, [...otherQuestions, ...updatedQuestionsList]);
@@ -958,15 +1048,28 @@ export async function updateExam(
   // Sync to Supabase if configured
   if (isSupabaseConfigured && supabase) {
     try {
-      await supabase
-        .from("exams")
-        .update({
-          title: examData.title.trim(),
-          description: examData.description.trim(),
-          duration_minutes: Number(examData.duration_minutes) || 45,
-          status: examData.status,
-        })
-        .eq("id", examId);
+      try {
+        await supabase
+          .from("exams")
+          .update({
+            title: examData.title.trim(),
+            description: descWithMeta,
+            duration_minutes: Number(examData.duration_minutes) || 45,
+            status: examData.status,
+            is_shuffled: isShuffled,
+          })
+          .eq("id", examId);
+      } catch {
+        await supabase
+          .from("exams")
+          .update({
+            title: examData.title.trim(),
+            description: descWithMeta,
+            duration_minutes: Number(examData.duration_minutes) || 45,
+            status: examData.status,
+          })
+          .eq("id", examId);
+      }
 
       const { data: existingDbQuestions } = await supabase
         .from("questions")
@@ -1191,14 +1294,28 @@ export async function submitExam(
     const rawAnswer = (userAnswers[question.id] || "").trim();
 
     if (question.type === "multiple_choice") {
-      // Normalize user answer letter (e.g. "A" from "A. React")
-      const userLetter = rawAnswer.replace(/^([A-Z])[\.\:\)].*/i, "$1").trim().toUpperCase();
-      const correctLetter = question.correct_answer
-        .replace(/^([A-Z])[\.\:\)].*/i, "$1")
-        .trim()
-        .toUpperCase();
+      const optionsWithIds = getQuestionOptionsWithIds(question);
+      const correctOption = optionsWithIds.find((o) => o.is_correct);
+      const correctOptionId = correctOption?.id || "";
 
-      const isCorrect = userLetter.length > 0 && userLetter === correctLetter;
+      // Lookup candidate's selected option by option_id, original letter, or matching option text
+      const selectedOption = optionsWithIds.find(
+        (o) =>
+          o.id === rawAnswer ||
+          o.original_letter.toUpperCase() === rawAnswer.toUpperCase() ||
+          rawAnswer.toUpperCase().startsWith(o.original_letter.toUpperCase()) ||
+          o.raw_text.trim().toLowerCase() === rawAnswer.trim().toLowerCase() ||
+          o.clean_text.trim().toLowerCase() === rawAnswer.trim().toLowerCase()
+      );
+
+      // Requirement 4: Compare selected_option_id with correct_option_id for 100% accurate grading
+      const selectedOptionId = selectedOption?.id || rawAnswer;
+      const isCorrect = Boolean(
+        selectedOptionId &&
+          correctOptionId &&
+          selectedOptionId === correctOptionId
+      );
+
       // Award exact configured max_score for this MCQ question
       const questionMaxScore =
         Number(question.max_score) > 0 ? Number(question.max_score) : 1;
@@ -1209,7 +1326,7 @@ export async function submitExam(
 
       rawAnswersForGrading.push({
         question_id: question.id,
-        user_answer: rawAnswer,
+        user_answer: selectedOption ? selectedOption.original_letter : rawAnswer,
         is_correct: isCorrect,
         score_awarded: scoreAwarded,
         admin_feedback: null,

@@ -210,8 +210,11 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                       .trim()
                       .toUpperCase();
 
+                    const optId = `${q.id}_opt_${optIdx}`;
                     const isCandidateChoice =
-                      userChoiceLetter.length > 0 && userChoiceLetter === letter;
+                      (userChoiceLetter.length > 0 && userChoiceLetter === letter) ||
+                      answer.user_answer === optId ||
+                      answer.user_answer === optText;
                     const isCorrectAnswer =
                       correctKeyLetter.length > 0 && correctKeyLetter === letter;
 

@@ -15,6 +15,7 @@ import {
   Sliders,
   CheckCircle2,
   AlertCircle,
+  Shuffle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -28,6 +29,7 @@ export function EditExamClient({ examId }: { examId: string }) {
   const [description, setDescription] = useState("");
   const [durationMinutes, setDurationMinutes] = useState(45);
   const [status, setStatus] = useState<"published" | "draft">("published");
+  const [isShuffled, setIsShuffled] = useState(false);
 
   const [questions, setQuestions] = useState<ParsedQuestionDraft[]>([]);
   const [mcqScorePerQuestion, setMcqScorePerQuestion] = useState<number>(0.5);
@@ -55,6 +57,7 @@ export function EditExamClient({ examId }: { examId: string }) {
         setDescription(data.description || "");
         setDurationMinutes(Number(data.duration_minutes) || 45);
         setStatus(data.status);
+        setIsShuffled(Boolean(data.is_shuffled));
 
         const loadedDrafts: ParsedQuestionDraft[] = (data.questions || []).map(
           (q) => ({
@@ -275,6 +278,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           description: description.trim(),
           duration_minutes: Number(durationMinutes) || 45,
           status,
+          is_shuffled: isShuffled,
         },
         questions
       );
@@ -444,6 +448,60 @@ export function EditExamClient({ examId }: { examId: string }) {
                 Đóng thi (Bản nháp)
               </option>
             </select>
+          </div>
+
+          {/* Toggle Switch: Shuffle Exam */}
+          <div className="sm:col-span-2 rounded-xl bg-slate-900/60 border border-white/10 p-4 transition-all duration-200 hover:border-cyan-500/40">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <div
+                  className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
+                    isShuffled
+                      ? "border-cyan-500/50 bg-cyan-500/15 text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.3)]"
+                      : "border-slate-800 bg-slate-800/60 text-slate-400"
+                  }`}
+                >
+                  <Shuffle className="h-4 w-4" />
+                </div>
+                <div>
+                  <label
+                    htmlFor="shuffle-toggle-edit"
+                    className="text-sm font-semibold text-white flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>Trộn ngẫu nhiên câu hỏi & đáp án</span>
+                    {isShuffled && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-mono">
+                        BẬT (ACTIVE)
+                      </span>
+                    )}
+                  </label>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Tự động xáo trộn vị trí câu hỏi và các lựa chọn A, B, C, D cho từng lượt thi.
+                  </p>
+                </div>
+              </div>
+
+              {/* Custom Cyberpunk Switch */}
+              <button
+                type="button"
+                id="shuffle-toggle-edit"
+                role="switch"
+                aria-checked={isShuffled}
+                onClick={() => setIsShuffled(!isShuffled)}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${
+                  isShuffled
+                    ? "border-cyan-400 bg-cyan-500/80 shadow-[0_0_14px_rgba(6,182,212,0.5)]"
+                    : "border-slate-700 bg-slate-800"
+                }`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
+                    isShuffled ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
           </div>
         </div>
       </div>

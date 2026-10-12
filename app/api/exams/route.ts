@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
       question_type = "multiple_choice",
       expires_at = null,
       status = "published",
+      is_shuffled = false,
       created_by = "00000000-0000-0000-0000-000000000001",
     } = body;
 
@@ -92,6 +93,7 @@ export async function POST(req: NextRequest) {
       expires_at: expires_at || null,
       created_by,
       status: status === "draft" ? "draft" : "published",
+      is_shuffled: Boolean(is_shuffled),
       created_at: new Date().toISOString(),
     };
 

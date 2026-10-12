@@ -339,8 +339,11 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                       .trim()
                       .toUpperCase();
 
+                    const optId = `${q.id}_opt_${optI}`;
                     const isCandidateChoice =
-                      userChoiceLetter.length > 0 && userChoiceLetter === letter;
+                      (userChoiceLetter.length > 0 && userChoiceLetter === letter) ||
+                      ans.user_answer === optId ||
+                      ans.user_answer === optText;
                     const isCorrectAnswer =
                       correctKeyLetter.length > 0 && correctKeyLetter === letter;
 

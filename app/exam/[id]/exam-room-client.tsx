@@ -7,8 +7,10 @@ import {
   submitExam,
   finalizeGrading,
   getCurrentUser,
+  getQuestionOptionsWithIds,
+  shuffleArray,
 } from "@/lib/store";
-import { Exam, Submission } from "@/types/exam";
+import { Exam, Submission, QuestionOptionItem } from "@/types/exam";
 import { StickyTimer } from "@/components/exam/StickyTimer";
 import { QuestionNav } from "@/components/exam/QuestionNav";
 import { MobileQuestionDrawer } from "@/components/exam/MobileQuestionDrawer";
@@ -26,6 +28,7 @@ import {
   Flag,
   ChevronLeft,
   ChevronRight,
+  Shuffle,
 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
@@ -73,9 +76,47 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           router.push("/dashboard");
           return;
         }
-        setExam(data);
+
+        let processedExam = data;
         if (data.questions && data.questions.length > 0) {
-          setActiveQuestionId(data.questions[0].id);
+          let questionsList = [...data.questions];
+
+          // If is_shuffled is active:
+          // 1. Shuffle question order with Fisher-Yates
+          if (data.is_shuffled) {
+            questionsList = shuffleArray(questionsList);
+          }
+
+          // 2. Prepare and shuffle option_items for each question
+          const processedQuestions = questionsList.map((q) => {
+            if (q.type === "multiple_choice" && Array.isArray(q.options) && q.options.length > 0) {
+              const baseOpts = getQuestionOptionsWithIds(q);
+              const finalOpts = data.is_shuffled ? shuffleArray(baseOpts) : baseOpts;
+
+              const option_items: QuestionOptionItem[] = finalOpts.map((opt, idx) => ({
+                id: opt.id,
+                original_letter: opt.original_letter,
+                display_letter: String.fromCharCode(65 + idx),
+                text: opt.clean_text,
+              }));
+
+              return {
+                ...q,
+                option_items,
+              };
+            }
+            return q;
+          });
+
+          processedExam = {
+            ...data,
+            questions: processedQuestions,
+          };
+        }
+
+        setExam(processedExam);
+        if (processedExam.questions && processedExam.questions.length > 0) {
+          setActiveQuestionId(processedExam.questions[0].id);
         }
       } catch (err) {
         console.error("Failed to load exam:", err);
@@ -87,12 +128,10 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     loadExam();
   }, [examId, router]);
 
-  const handleSelectMCQ = (questionId: string, optionText: string) => {
-    const letterMatch = optionText.match(/^([A-D])[\.\:\)]/i);
-    const letter = letterMatch ? letterMatch[1].toUpperCase() : optionText;
+  const handleSelectMCQ = (questionId: string, optionId: string) => {
     setUserAnswers((prev) => ({
       ...prev,
-      [questionId]: letter,
+      [questionId]: optionId,
     }));
   };
 
@@ -237,6 +276,13 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
           {/* Right Side: Questions badge + User + Submit CTA */}
           <div className="flex items-center gap-1.5 sm:gap-2.5">
+            {exam.is_shuffled && (
+              <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-cyan-500/15 border border-cyan-500/35 px-2.5 py-1.5 text-xs font-semibold text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.2)]">
+                <Shuffle className="h-3.5 w-3.5 text-cyan-400" />
+                <span>Đề thi đảo câu & đáp án</span>
+              </div>
+            )}
+
             <div className="hidden md:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200">
               <ListChecks className="h-3.5 w-3.5 text-indigo-400" />
               <span>Tổng {questions.length} câu</span>
@@ -370,30 +416,41 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
                   {question.type === "multiple_choice" ? (
                     <div className="space-y-2.5" role="radiogroup" aria-label={`Câu hỏi ${index + 1}`}>
-                      {question.options.map((optText, optIdx) => {
-                        const letterMatch = optText.match(/^([A-D])[\.\:\)]/i);
-                        const letter = letterMatch
-                          ? letterMatch[1].toUpperCase()
-                          : String.fromCharCode(65 + optIdx);
-                        const isSelected = currentVal === letter;
+                      {(question.option_items && question.option_items.length > 0
+                        ? question.option_items
+                        : (question.options || []).map((optText, optIdx) => {
+                            const letterMatch = optText.match(/^([A-D])[\.\:\)]/i);
+                            const letter = letterMatch
+                              ? letterMatch[1].toUpperCase()
+                              : String.fromCharCode(65 + optIdx);
+                            const cleanText = optText.replace(/^[A-Z][\.\:\)]\s*/i, "").trim();
+                            return {
+                              id: `${question.id}_opt_${optIdx}`,
+                              original_letter: letter,
+                              display_letter: letter,
+                              text: cleanText || optText,
+                            };
+                          })
+                      ).map((optItem) => {
+                        const isSelected = currentVal === optItem.id;
 
                         return (
                           <label
-                            key={optIdx}
-                            onClick={() => handleSelectMCQ(question.id, optText)}
+                            key={optItem.id}
+                            onClick={() => handleSelectMCQ(question.id, optItem.id)}
                             className={cn(
                               "flex w-full cursor-pointer items-start gap-3.5 rounded-xl border text-left transition select-none p-3.5 text-xs sm:text-sm",
                               isSelected
-                                ? "border-indigo-500 bg-indigo-500/10 text-white ring-1 ring-indigo-500/30"
+                                ? "border-indigo-500 bg-indigo-500/10 text-white ring-1 ring-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.2)]"
                                 : "border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-700 hover:bg-slate-900"
                             )}
                           >
                             <input
                               type="radio"
                               name={`mcq_${question.id}`}
-                              value={letter}
+                              value={optItem.id}
                               checked={isSelected}
-                              onChange={() => handleSelectMCQ(question.id, optText)}
+                              onChange={() => handleSelectMCQ(question.id, optItem.id)}
                               className="sr-only"
                             />
                             <span
@@ -404,9 +461,9 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                                   : "border border-slate-700 bg-slate-800 text-slate-300"
                               )}
                             >
-                              {letter}
+                              {optItem.display_letter}
                             </span>
-                            <span className="pt-0.5 leading-relaxed">{optText}</span>
+                            <span className="pt-0.5 leading-relaxed">{optItem.text}</span>
                           </label>
                         );
                       })}

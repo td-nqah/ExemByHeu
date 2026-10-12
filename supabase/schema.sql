@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS public.exams (
   duration_minutes INTEGER NOT NULL DEFAULT 45,
   created_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
   status TEXT NOT NULL CHECK (status IN ('draft', 'published')) DEFAULT 'published',
+  is_shuffled BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
