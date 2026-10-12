@@ -175,8 +175,10 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1f2937] border border-[#1f2937] text-white shadow-sm">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
-            <span className="font-heading text-xl font-bold tracking-tight text-white">
-              ExamByHeu
+            <span className="font-heading text-xl font-bold tracking-tight">
+              <span className="text-[#818cf8]">Exam</span>
+              <span className="text-white">By</span>
+              <span className="text-[#818cf8]">Heu</span>
             </span>
           </Link>
 

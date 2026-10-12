@@ -68,7 +68,11 @@ export default function LoginPage() {
         >
           <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-medium text-indigo-400">
             <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-indigo-400" />
-            <span>ExamByHeu v2.0 Cyber • Thi thử Trực tuyến</span>
+            <span>
+              <span className="text-[#818cf8] font-bold">Exam</span>
+              <span className="text-white font-bold">By</span>
+              <span className="text-[#818cf8] font-bold">Heu</span> v2.0 Cyber • Thi thử Trực tuyến
+            </span>
           </div>
 
           <h1 className="text-xl sm:text-3xl lg:text-[2.65rem] font-bold tracking-tight text-white leading-snug sm:leading-[1.14]">

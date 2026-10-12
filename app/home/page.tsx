@@ -136,7 +136,13 @@ export default function HomePage() {
 
         {/* Subtitle Line Centered */}
         <p className="text-sm sm:text-base text-[#8b949e] font-normal max-w-xl mx-auto leading-relaxed">
-          Welcome back to ExamByHeu! Ready for today&apos;s test?
+          Welcome back to{" "}
+          <span className="font-semibold">
+            <span className="text-[#818cf8]">Exam</span>
+            <span className="text-white">By</span>
+            <span className="text-[#818cf8]">Heu</span>
+          </span>
+          ! Ready for today&apos;s test?
         </p>
 
         {/* Centered Primary Actions */}
