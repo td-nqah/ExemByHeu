@@ -387,7 +387,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   return (
     <>
       {/* Desktop Fixed Left Sidebar */}
-      <aside className="hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:w-64 md:flex-col bg-[#161b22] border-r border-[#21262d]">
+      <aside className="hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:w-64 md:flex-col bg-[#141829]/95 backdrop-blur-xl border-r border-white/[0.08]">
         {sidebarContent}
       </aside>
 
@@ -400,7 +400,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             onClick={onCloseMobile}
           />
           {/* Drawer content */}
-          <div className="relative flex w-4/5 max-w-xs flex-1 flex-col bg-[#161b22] border-r border-[#21262d]">
+          <div className="relative flex w-4/5 max-w-xs flex-1 flex-col bg-[#141829]/98 backdrop-blur-2xl border-r border-white/[0.08]">
             {sidebarContent}
           </div>
         </div>

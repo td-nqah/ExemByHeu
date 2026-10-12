@@ -38,7 +38,7 @@ export default function RootLayout({
       lang="vi"
       className={`${inter.variable} ${plusJakartaSans.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
     >
-      <body className="min-h-screen bg-[#0d1117] font-sans text-slate-100 antialiased selection:bg-[#5852d6] selection:text-white relative overflow-x-hidden custom-scrollbar">
+      <body className="min-h-screen bg-[#0b0e17] font-sans text-slate-100 antialiased selection:bg-[#5852d6] selection:text-white relative overflow-x-hidden custom-scrollbar">
         {/* DYNAMIC OBSIDIAN CYBER BACKGROUND */}
         <ObsidianCyberBackground />
 

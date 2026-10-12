@@ -245,10 +245,10 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   return (
     <div
       ref={containerRef}
-      className="min-h-[100dvh] pb-24 bg-[#090D16]"
+      className="min-h-[100dvh] pb-24 bg-transparent"
     >
       {/* Top Header Bar */}
-      <header className="sticky top-0 z-30 shrink-0 border-b border-slate-800/80 bg-[#090D16]/85 backdrop-blur-md">
+      <header className="sticky top-0 z-30 shrink-0 border-b border-white/[0.08] bg-[#0b0e17]/85 backdrop-blur-md">
         <div className="mx-auto flex h-16 items-center justify-between gap-2.5 px-3 sm:px-6 lg:px-8 max-w-7xl">
           {/* Left Side: Back Button + Sticky Timer + Title */}
           <div className="flex items-center gap-2 sm:gap-3">
