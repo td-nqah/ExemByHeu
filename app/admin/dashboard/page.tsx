@@ -268,50 +268,15 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            {/* Card Bật/Tắt Trộn Đề */}
+            {/* Nút Bật/Tắt Trộn Đề (đồng bộ UX kích thước với 2 card bên cạnh) */}
             <div
               className={cn(
-                "inline-flex items-center gap-2.5 rounded-xl border px-3 py-1.5 transition-all duration-200 select-none",
-                shuffledCount > 0
-                  ? "bg-[#5852d6]/10 border-[#5852d6]/50 shadow-[0_0_12px_rgba(88,82,214,0.15)] text-white"
-                  : "bg-[#0d1117] border-[#21262d] text-slate-400 hover:border-slate-700"
+                "inline-flex items-center gap-2 rounded-xl border border-[#21262d] bg-[#0d1117] px-3.5 py-2 text-xs select-none transition-colors",
+                shuffledCount > 0 && "border-[#5852d6]/50"
               )}
             >
-              <div
-                className={cn(
-                  "flex h-7 w-7 items-center justify-center rounded-lg border transition-all",
-                  shuffledCount > 0
-                    ? "bg-[#5852d6]/20 border-[#5852d6]/50 text-indigo-400 shadow-[0_0_8px_rgba(88,82,214,0.3)]"
-                    : "bg-white/5 border-white/10 text-slate-400"
-                )}
-              >
-                <Shuffle className="h-3.5 w-3.5" />
-              </div>
-
-              <div className="text-left">
-                <div className="flex items-center gap-1.5 leading-none">
-                  <span className="text-xs font-bold text-white">Trộn đề thi</span>
-                  <span
-                    className={cn(
-                      "text-[9px] px-1.5 py-0.5 rounded-full font-mono font-bold uppercase",
-                      shuffledCount === exams.length && exams.length > 0
-                        ? "bg-[#5852d6]/25 text-indigo-300 border border-[#5852d6]/40"
-                        : shuffledCount > 0
-                        ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
-                        : "bg-white/10 text-slate-400"
-                    )}
-                  >
-                    {shuffledCount === exams.length && exams.length > 0
-                      ? "BẬT HẾT"
-                      : shuffledCount > 0
-                      ? `${shuffledCount}/${exams.length}`
-                      : "TẮT"}
-                  </span>
-                </div>
-                <p className="text-[10px] text-slate-400 mt-0.5 leading-none">
-                  {shuffledCount > 0 ? `${shuffledCount} đề đang tráo` : "Chưa bật tráo đề"}
-                </p>
-              </div>
+              <Shuffle className="h-4 w-4 text-[#5852d6] shrink-0" />
+              <span className="font-medium text-slate-200">Trộn đề thi</span>
 
               {/* Toggle Switch */}
               <button
@@ -321,17 +286,15 @@ export default function AdminDashboardPage() {
                 onClick={handleToggleGlobalShuffle}
                 disabled={isTogglingGlobalShuffle}
                 className={cn(
-                  "relative ml-1 inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50",
-                  shuffledCount > 0
-                    ? "bg-[#5852d6] shadow-[0_0_10px_rgba(88,82,214,0.5)]"
-                    : "bg-slate-700"
+                  "relative ml-0.5 inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50",
+                  shuffledCount > 0 ? "bg-[#5852d6]" : "bg-slate-700"
                 )}
-                title="Bật/Tắt chế độ trộn đề cho toàn bộ đề thi (Đề nào không muốn tráo có thể vào trong đề đấy chọn tắt đi)"
+                title="Bật/Tắt chế độ trộn đề cho toàn bộ đề thi"
               >
                 <span
                   className={cn(
-                    "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out",
-                    shuffledCount > 0 ? "translate-x-5" : "translate-x-0"
+                    "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                    shuffledCount > 0 ? "translate-x-4" : "translate-x-0"
                   )}
                 />
               </button>
