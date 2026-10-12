@@ -21,8 +21,8 @@ export async function GET(req: NextRequest) {
 
     const supabase = getSupabaseClient();
     if (supabase) {
-      // Lightweight fetch: Only join questions(*) when querying a specific exam by id
-      const selectFields = examId ? "*, questions(*)" : "*";
+      // Lightweight fetch: questions(id, type) for counts & type, or questions(*) for single exam
+      const selectFields = examId ? "*, questions(*)" : "*, questions(id, type)";
       let query = supabase.from("exams").select(selectFields);
       if (examId) {
         query = query.eq("id", examId);

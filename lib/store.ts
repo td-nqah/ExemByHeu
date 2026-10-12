@@ -456,6 +456,15 @@ function parseExamRecord(
     }
   }
 
+  if (!question_count) {
+    const seedMatch = SEED_EXAMS.find(
+      (s) => s.id === rawExam.id || s.title.trim().toLowerCase() === (rawExam.title || "").trim().toLowerCase()
+    );
+    if (seedMatch) {
+      question_count = seedMatch.question_count;
+    }
+  }
+
   if (!question_type && rawExam.questions && rawExam.questions.length > 0) {
     const hasMcq = rawExam.questions.some((q: any) => q.type === "multiple_choice");
     const hasEssay = rawExam.questions.some((q: any) => q.type === "essay");
@@ -526,8 +535,8 @@ export async function getExams(
 
   if (isSupabaseConfigured && supabase) {
     try {
-      // Lightweight fetch: Only select exam columns, questions(*) are loaded on-demand
-      let query = supabase.from("exams").select("*");
+      // Lightweight fetch: Select exam columns and lightweight questions(id, type) for counts & type
+      let query = supabase.from("exams").select("*, questions(id, type)");
       query = query.neq("title", "__SYSTEM_CATEGORIES__");
       if (onlyPublished) {
         query = query.eq("status", "published");

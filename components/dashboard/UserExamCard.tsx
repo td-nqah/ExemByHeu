@@ -42,7 +42,7 @@ function renderHighlightedExamTitle(title: string) {
 }
 
 export function UserExamCard({ exam }: UserExamCardProps) {
-  const questionCount = exam.questions?.length || 0;
+  const questionCount = exam.question_count || exam.questions?.length || 0;
   const mcqCount =
     exam.questions?.filter((q) => q.type === "multiple_choice").length || 0;
   const essayCount =
@@ -51,8 +51,10 @@ export function UserExamCard({ exam }: UserExamCardProps) {
   const examTypeLabel =
     mcqCount > 0 && essayCount > 0
       ? "Trắc nghiệm & Tự luận"
-      : essayCount > 0
+      : essayCount > 0 || exam.question_type === "essay"
       ? "Tự luận"
+      : exam.question_type === "mixed"
+      ? "Trắc nghiệm & Tự luận"
       : "Trắc nghiệm";
 
   return (
