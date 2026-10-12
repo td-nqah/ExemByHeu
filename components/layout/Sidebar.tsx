@@ -82,7 +82,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const adminNavLinks = [
     {
       title: "Quản lý Đề thi",
-      href: "/admin",
+      href: "/admin/dashboard",
       icon: ShieldCheck,
       badge: "ADMIN",
       active:
@@ -100,7 +100,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     },
     {
       title: "Tạo Đề thi mới",
-      href: "/admin/create",
+      href: "/admin/exams/create",
       icon: Wand2,
       badge: "AI",
       active:
@@ -110,7 +110,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     },
     {
       title: "Phòng Chấm bài",
-      href: "/admin/grading",
+      href: "/admin/submissions",
       icon: Target,
       badge: "DUYỆT",
       active:
@@ -133,7 +133,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         {/* Brand Header */}
         <div className="flex items-center justify-between pb-2">
           <Link
-            href={user?.role === "admin" ? "/admin" : "/home"}
+            href={user?.role === "admin" ? "/admin/dashboard" : "/home"}
             onClick={onCloseMobile}
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
           >

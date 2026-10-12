@@ -7,8 +7,6 @@ import {
   submitExam,
   finalizeGrading,
   getCurrentUser,
-  toggleBookmark,
-  getUserBookmarkedQuestionIds,
 } from "@/lib/store";
 import { Exam, Submission } from "@/types/exam";
 import { StickyTimer } from "@/components/exam/StickyTimer";
@@ -160,21 +158,11 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     };
   }, [isFocusMode, exitNativeFullscreen]);
 
-  const toggleFlagQuestion = async (questionId: string) => {
-    const nextVal = !flaggedQuestions[questionId];
+  const toggleFlagQuestion = (questionId: string) => {
     setFlaggedQuestions((prev) => ({
       ...prev,
-      [questionId]: nextVal,
+      [questionId]: !prev[questionId],
     }));
-
-    const user = getCurrentUser();
-    if (user && exam) {
-      try {
-        await toggleBookmark(user.id, questionId, exam.id);
-      } catch (err) {
-        console.error("Failed to sync bookmark:", err);
-      }
-    }
   };
   const [aiGradingState, setAiGradingState] = useState<{
     isGrading: boolean;
@@ -193,10 +181,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
     async function loadExam() {
       try {
-        const [data, bookmarkedIds] = await Promise.all([
-          getExamById(examId),
-          getUserBookmarkedQuestionIds(user?.id),
-        ]);
+        const data = await getExamById(examId);
         if (!data) {
           router.push("/dashboard");
           return;
@@ -205,13 +190,8 @@ export function ExamRoomClient({ examId }: { examId: string }) {
         if (data.questions && data.questions.length > 0) {
           setActiveQuestionId(data.questions[0].id);
         }
-        if (bookmarkedIds && bookmarkedIds.length > 0) {
-          const initialFlags: Record<string, boolean> = {};
-          bookmarkedIds.forEach((id) => {
-            initialFlags[id] = true;
-          });
-          setFlaggedQuestions(initialFlags);
-        }
+      } catch (err) {
+        console.error("Failed to load exam:", err);
       } finally {
         setLoading(false);
       }

@@ -240,7 +240,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <Link
-              href="/admin/create"
+              href="/admin/exams/create"
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2.5 text-xs transition-all"
             >
               <FilePlus2 className="h-4 w-4" />

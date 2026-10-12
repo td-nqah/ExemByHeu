@@ -7,7 +7,6 @@ import {
   SubmissionAnswer,
   Profile,
   ParsedQuestionDraft,
-  UserBookmark,
   Category,
 } from "@/types/exam";
 import { supabase, isSupabaseConfigured } from "./supabase/client";
@@ -21,8 +20,6 @@ const KEY_EXAMS = `${STORAGE_PREFIX}exams`;
 const KEY_QUESTIONS = `${STORAGE_PREFIX}questions`;
 const KEY_SUBMISSIONS = `${STORAGE_PREFIX}submissions`;
 const KEY_SUBMISSION_ANSWERS = `${STORAGE_PREFIX}sub_answers`;
-const KEY_BOOKMARKS = `${STORAGE_PREFIX}user_bookmarks`;
-const KEY_AUDIT_LOGS = `${STORAGE_PREFIX}audit_logs`;
 const KEY_PROFILES = `${STORAGE_PREFIX}profiles`;
 const KEY_CATEGORIES = `${STORAGE_PREFIX}categories`;
 
@@ -34,58 +31,6 @@ export const SEED_CATEGORIES: Category[] = [
     icon: "BookText",
     status: "active",
     created_at: new Date().toISOString(),
-  },
-];
-
-export interface LoginAuditLog {
-  id: string;
-  username: string;
-  ip_address: string;
-  device: string;
-  timestamp: string;
-  status: "success" | "failed";
-}
-
-export const SEED_AUDIT_LOGS: LoginAuditLog[] = [
-  {
-    id: "log-1",
-    username: "admin",
-    ip_address: "113.190.234.12",
-    device: "Chrome 131 - Windows 11",
-    timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
-    status: "success",
-  },
-  {
-    id: "log-2",
-    username: "user1",
-    ip_address: "14.241.120.89",
-    device: "Safari 18 - iPhone 16 Pro",
-    timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
-    status: "success",
-  },
-  {
-    id: "log-3",
-    username: "user2",
-    ip_address: "27.72.63.104",
-    device: "Chrome 130 - Android 15",
-    timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
-    status: "success",
-  },
-  {
-    id: "log-4",
-    username: "user3",
-    ip_address: "118.69.190.45",
-    device: "Edge 131 - Windows 10",
-    timestamp: new Date(Date.now() - 1000 * 60 * 240).toISOString(),
-    status: "success",
-  },
-  {
-    id: "log-5",
-    username: "guest_trial",
-    ip_address: "171.244.52.18",
-    device: "Firefox 133 - macOS",
-    timestamp: new Date(Date.now() - 1000 * 60 * 360).toISOString(),
-    status: "failed",
   },
 ];
 
@@ -407,11 +352,12 @@ export function initStore(): void {
   if (!localStorage.getItem(KEY_SUBMISSION_ANSWERS)) {
     setLocal(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
   }
-  if (!localStorage.getItem(KEY_BOOKMARKS)) {
-    setLocal(KEY_BOOKMARKS, []);
+  // Clean up obsolete legacy storage keys to free browser memory
+  if (localStorage.getItem(`${STORAGE_PREFIX}user_bookmarks`)) {
+    localStorage.removeItem(`${STORAGE_PREFIX}user_bookmarks`);
   }
-  if (!localStorage.getItem(KEY_AUDIT_LOGS)) {
-    setLocal(KEY_AUDIT_LOGS, SEED_AUDIT_LOGS);
+  if (localStorage.getItem(`${STORAGE_PREFIX}audit_logs`)) {
+    localStorage.removeItem(`${STORAGE_PREFIX}audit_logs`);
   }
   if (!localStorage.getItem(KEY_PROFILES)) {
     setLocal(KEY_PROFILES, SEED_PROFILES);
@@ -455,7 +401,6 @@ export async function loginUser(username: string, password: string): Promise<Pro
 
   // Explicitly disallow removed legacy account 'user'
   if (cleanUsername === "user") {
-    recordLoginAudit("user", "failed");
     return null;
   }
 
@@ -505,7 +450,6 @@ export async function loginUser(username: string, password: string): Promise<Pro
             created_at: data.created_at,
           };
           setCurrentUser(profile);
-          recordLoginAudit(profile.username, "success");
           return profile;
         }
       }
@@ -534,12 +478,10 @@ export async function loginUser(username: string, password: string): Promise<Pro
       const formattedUsername = matched.username.toLowerCase() === "admin" ? "Admin" : matched.username.toLowerCase() === "user1" ? "User1" : matched.username;
       const formattedMatched = { ...matched, username: formattedUsername };
       setCurrentUser(formattedMatched);
-      recordLoginAudit(formattedMatched.username, "success");
       return formattedMatched;
     }
   }
 
-  recordLoginAudit(cleanUsername, "failed");
   return null;
 }
 
@@ -1577,239 +1519,7 @@ export async function finalizeGrading(
   return updatedSubmission;
 }
 
-// 8. BOOKMARK FUNCTIONS
-export async function getBookmarks(userId?: string): Promise<UserBookmark[]> {
-  initStore();
-  const currentUserId = userId || getCurrentUser()?.id;
-  if (!currentUserId) return [];
 
-  let bookmarks: UserBookmark[] = [];
-
-  if (isSupabaseConfigured && supabase) {
-    try {
-      const { data, error } = await supabase
-        .from("user_bookmarks")
-        .select("*")
-        .eq("user_id", currentUserId)
-        .order("created_at", { ascending: false });
-
-      if (!error && data) {
-        bookmarks = data as UserBookmark[];
-        const allLocal = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []);
-        const otherUsers = allLocal.filter((b) => b.user_id !== currentUserId);
-        setLocal(KEY_BOOKMARKS, [...otherUsers, ...bookmarks]);
-      } else {
-        bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []).filter(
-          (b) => b.user_id === currentUserId
-        );
-      }
-    } catch {
-      bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []).filter(
-        (b) => b.user_id === currentUserId
-      );
-    }
-  } else {
-    bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []).filter(
-      (b) => b.user_id === currentUserId
-    );
-  }
-
-  // Enrich bookmarks with questions and exams
-  const localQuestions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
-  const localExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
-
-  let enrichedQuestions = [...localQuestions];
-  let enrichedExams = [...localExams];
-
-  if (isSupabaseConfigured && supabase && bookmarks.length > 0) {
-    const missingQuestionIds = bookmarks
-      .map((b) => b.question_id)
-      .filter((qId) => !enrichedQuestions.some((eq) => eq.id === qId));
-
-    if (missingQuestionIds.length > 0) {
-      try {
-        const { data: dbQuestions } = await supabase
-          .from("questions")
-          .select("*")
-          .in("id", missingQuestionIds);
-        if (dbQuestions) {
-          enrichedQuestions.push(...dbQuestions);
-        }
-      } catch {}
-    }
-
-    const missingExamIds = bookmarks
-      .map((b) => b.exam_id)
-      .filter((eId) => !enrichedExams.some((ee) => ee.id === eId));
-
-    if (missingExamIds.length > 0) {
-      try {
-        const { data: dbExams } = await supabase
-          .from("exams")
-          .select("*")
-          .in("id", missingExamIds);
-        if (dbExams) {
-          enrichedExams.push(...dbExams);
-        }
-      } catch {}
-    }
-  }
-
-  return bookmarks.map((b) => {
-    const q = enrichedQuestions.find((item) => item.id === b.question_id);
-    const exam = enrichedExams.find((e) => e.id === b.exam_id);
-    return {
-      ...b,
-      question: q,
-      exam,
-    };
-  });
-}
-
-export async function addBookmark(
-  userId: string,
-  questionId: string,
-  examId: string
-): Promise<UserBookmark> {
-  initStore();
-  const bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []);
-  const existing = bookmarks.find(
-    (b) => b.user_id === userId && b.question_id === questionId
-  );
-  if (existing) return existing;
-
-  const newBookmark: UserBookmark = {
-    id:
-      typeof crypto !== "undefined" && crypto.randomUUID
-        ? crypto.randomUUID()
-        : `bm_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-    user_id: userId,
-    question_id: questionId,
-    exam_id: examId,
-    created_at: new Date().toISOString(),
-  };
-
-  bookmarks.unshift(newBookmark);
-  setLocal(KEY_BOOKMARKS, bookmarks);
-
-  if (isSupabaseConfigured && supabase) {
-    try {
-      await supabase.from("user_bookmarks").upsert(
-        {
-          id: newBookmark.id,
-          user_id: userId,
-          question_id: questionId,
-          exam_id: examId,
-          created_at: newBookmark.created_at,
-        },
-        { onConflict: "user_id,question_id" }
-      );
-    } catch {}
-  }
-
-  return newBookmark;
-}
-
-export async function removeBookmark(
-  userId: string,
-  questionId: string
-): Promise<void> {
-  initStore();
-  const bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []);
-  const updated = bookmarks.filter(
-    (b) => !(b.user_id === userId && b.question_id === questionId)
-  );
-  setLocal(KEY_BOOKMARKS, updated);
-
-  if (isSupabaseConfigured && supabase) {
-    try {
-      await supabase
-        .from("user_bookmarks")
-        .delete()
-        .eq("user_id", userId)
-        .eq("question_id", questionId);
-    } catch {}
-  }
-}
-
-export async function toggleBookmark(
-  userId: string,
-  questionId: string,
-  examId: string
-): Promise<boolean> {
-  initStore();
-  const bookmarks = getLocal<UserBookmark[]>(KEY_BOOKMARKS, []);
-  const exists = bookmarks.some(
-    (b) => b.user_id === userId && b.question_id === questionId
-  );
-
-  if (exists) {
-    await removeBookmark(userId, questionId);
-    return false;
-  } else {
-    await addBookmark(userId, questionId, examId);
-    return true;
-  }
-}
-
-export async function getUserBookmarkedQuestionIds(
-  userId?: string
-): Promise<string[]> {
-  initStore();
-  const currentUserId = userId || getCurrentUser()?.id;
-  if (!currentUserId) return [];
-
-  const bookmarks = await getBookmarks(currentUserId);
-  return bookmarks.map((b) => b.question_id);
-}
-
-// 8. SYSTEM AUDIT & ADMIN USER MANAGEMENT
-export function recordLoginAudit(
-  username: string,
-  status: "success" | "failed"
-): void {
-  if (typeof window === "undefined") return;
-  initStore();
-  const logs = getLocal<LoginAuditLog[]>(KEY_AUDIT_LOGS, SEED_AUDIT_LOGS);
-
-  let device = "Chrome - Windows 11";
-  if (typeof navigator !== "undefined") {
-    const ua = navigator.userAgent;
-    if (ua.includes("iPhone")) device = "Safari 18 - iPhone 16 Pro";
-    else if (ua.includes("Android")) device = "Chrome 130 - Android 15";
-    else if (ua.includes("Macintosh")) device = "Safari 18 - macOS";
-    else if (ua.includes("Windows NT 10.0")) device = "Chrome 131 - Windows 11";
-    else if (ua.includes("Windows")) device = "Edge 131 - Windows 10";
-    else device = "Web Browser";
-  }
-
-  const sampleIps = [
-    "113.190.234.12",
-    "14.241.120.89",
-    "27.72.63.104",
-    "118.69.190.45",
-    "171.244.52.18",
-    "125.235.209.61",
-  ];
-  const ip = sampleIps[Math.floor(Math.random() * sampleIps.length)];
-
-  const newLog: LoginAuditLog = {
-    id: `log-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-    username,
-    ip_address: ip,
-    device,
-    timestamp: new Date().toISOString(),
-    status,
-  };
-
-  const updated = [newLog, ...logs].slice(0, 50);
-  setLocal(KEY_AUDIT_LOGS, updated);
-}
-
-export function getLoginAuditLogs(): LoginAuditLog[] {
-  initStore();
-  return getLocal<LoginAuditLog[]>(KEY_AUDIT_LOGS, SEED_AUDIT_LOGS);
-}
 
 export async function getAllProfiles(): Promise<Profile[]> {
   initStore();
