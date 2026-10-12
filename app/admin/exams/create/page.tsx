@@ -12,9 +12,6 @@ import { ExamStatusSelector } from "@/components/admin/ExamStatusSelector";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
 import {
   UploadCloud,
-  FileSpreadsheet,
-  FileText,
-  FileCode,
   Plus,
   Send,
   ArrowLeft,
@@ -249,142 +246,6 @@ export default function ExamCreatePage() {
     if (file) {
       handleFileUpload(file);
     }
-  };
-
-  const loadDemoQuestions = (type: "word" | "excel" | "pdf") => {
-    setParseError("");
-    let demoList: ParsedQuestionDraft[] = [];
-
-    if (type === "word") {
-      setParsedFileName("de_thi_lap_trinh_web.docx");
-      setTitle("Đề thi thử Trắc nghiệm & Tự luận Chuyên ngành Web Modern");
-      setDescription("Đánh giá toàn diện kiến trúc React Server Components, Database Caching và Web Vitals.");
-      setDurationMinutes(40);
-      demoList = [
-        {
-          id: `q_demo_1`,
-          type: "multiple_choice",
-          content: "Trong kiến trúc Next.js App Router, dữ liệu fetch() tại Server Component mặc định có hành vi nào?",
-          options: [
-            "A. Tự động được cache hoặc tái xác thực tùy theo cấu hình fetch cache",
-            "B. Không thể thực hiện fetch() tại Server Component",
-            "C. Bắt buộc phải thông qua Axios",
-            "D. Luôn luôn chạy lại ở phía client sau khi hydration",
-          ],
-          correct_answer: "A",
-          max_score: 2.5,
-        },
-        {
-          id: `q_demo_2`,
-          type: "multiple_choice",
-          content: "Phương thức HTTP nào an toàn (Safe) và có tính lũy kế (Idempotent) theo chuẩn RFC 7231?",
-          options: [
-            "A. POST",
-            "B. GET",
-            "C. PATCH",
-            "D. CONNECT",
-          ],
-          correct_answer: "B",
-          max_score: 2.5,
-        },
-        {
-          id: `q_demo_3`,
-          type: "essay",
-          content: "Hãy phân tích chi tiết cơ chế hoạt động của Connection Pooling trong PostgreSQL và lợi ích của Supabase Connection Pooler (PgBouncer) khi ứng dụng chịu tải 10,000 requests/giây.",
-          options: [],
-          correct_answer: "",
-          max_score: 5.0,
-        },
-      ];
-    } else if (type === "excel") {
-      setParsedFileName("ngan_hang_cau_hoi_database.xlsx");
-      setTitle("Ngân hàng Câu hỏi Hệ Quản trị Cơ sở Dữ liệu");
-      setDescription("Trắc nghiệm SQL, Indexing B-Tree, Normalization và Transaction ACID.");
-      setDurationMinutes(30);
-      demoList = [
-        {
-          id: `q_demo_xl_1`,
-          type: "multiple_choice",
-          content: "Phép chuẩn hóa cơ sở dữ liệu 3NF yêu cầu loại bỏ sự phụ thuộc nào sau đây?",
-          options: [
-            "A. Phụ thuộc bắc cầu (Transitive dependency)",
-            "B. Phụ thuộc một phần vào khóa chính",
-            "C. Phụ thuộc đa trị (Multivalued dependency)",
-            "D. Khóa ngoại tham chiếu",
-          ],
-          correct_answer: "A",
-          max_score: 2.5,
-        },
-        {
-          id: `q_demo_xl_2`,
-          type: "multiple_choice",
-          content: "Lệnh SQL nào dùng để giải phóng bộ nhớ và cập nhật thống kê cho query planner trong PostgreSQL?",
-          options: [
-            "A. TRUNCATE TABLE",
-            "B. VACUUM ANALYZE",
-            "C. OPTIMIZE QUERY",
-            "D. REINDEX DATABASE",
-          ],
-          correct_answer: "B",
-          max_score: 2.5,
-        },
-        {
-          id: `q_demo_xl_3`,
-          type: "essay",
-          content: "Trình bày sự khác biệt giữa Deadlock và Livelock trong xử lý đồng thời, đồng thời nêu các phương pháp phát hiện hoặc phòng ngừa Deadlock trong hệ thống tài chính.",
-          options: [],
-          correct_answer: "",
-          max_score: 5.0,
-        },
-      ];
-    } else {
-      setParsedFileName("de_thi_an_ninh_mang.pdf");
-      setTitle("Đề thi thử An toàn Thông tin & Mật mã học Ứng dụng");
-      setDescription("Kiểm tra kiến thức về mã hóa bất đối xứng RSA/ECC, JWT Authentication và tấn công CSRF/XSS.");
-      setDurationMinutes(45);
-      demoList = [
-        {
-          id: `q_demo_pdf_1`,
-          type: "multiple_choice",
-          content: "Thuật toán nào sau đây là thuật toán mã hóa công khai (Asymmetric Key Cryptography)?",
-          options: [
-            "A. RSA",
-            "B. AES-256",
-            "C. ChaCha20",
-            "D. DES",
-          ],
-          correct_answer: "A",
-          max_score: 2.5,
-        },
-        {
-          id: `q_demo_pdf_2`,
-          type: "multiple_choice",
-          content: "Thuộc tính nào của Cookie giúp ngăn chặn JavaScript phía Client đánh cắp Session qua tấn công XSS?",
-          options: [
-            "A. Secure",
-            "B. HttpOnly",
-            "C. SameSite=Strict",
-            "D. Path=/",
-          ],
-          correct_answer: "B",
-          max_score: 2.5,
-        },
-        {
-          id: `q_demo_pdf_3`,
-          type: "essay",
-          content: "Trình bày nguyên lý hoạt động của cơ chế bảo vệ CSRF Token và giải thích tại sao SameSite Cookie chưa đủ để thay thế hoàn toàn CSRF Token trong các hệ thống đa miền (Cross-Origin).",
-          options: [],
-          correct_answer: "",
-          max_score: 5.0,
-        },
-      ];
-    }
-
-    setQuestions(demoList);
-    setParseMode("ai");
-    setParseNotice(`Đã nạp bộ đề mẫu (${demoList.length} câu hỏi). Hãy rà soát cấu trúc bên dưới và bấm "Xác nhận & Lưu đề".`);
-    syncInitialScoreInputs(demoList);
-    scrollToPreviewSection();
   };
 
   const handleBulkMcqScoreChange = (scorePerMcq: number) => {
@@ -647,20 +508,20 @@ export default function ExamCreatePage() {
       </div>
 
       {/* 1. Smart Exam Importer Panel (Tab 1: File Upload | Tab 2: Paste from Clipboard) */}
-      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 mb-8 overflow-hidden rounded-2xl shadow-xl">
+      <div className="bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] mb-8 overflow-hidden rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
         {/* Importer Mode Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 bg-slate-950/60 px-4 py-3 sm:px-6">
-          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-slate-900/80 p-1 border border-slate-800/80">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1f2937] bg-[#0b0f19]/80 px-4 py-3 sm:px-6">
+          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-[#0b0f19] p-1 border border-[#1f2937]">
             <button
               type="button"
               onClick={() => {
                 setImporterTab("file");
                 setParseError("");
               }}
-              className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-medium transition-all ${
+              className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
                 importerTab === "file"
-                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
-                  : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
+                  ? "bg-[#4f46e5] text-white shadow-[0_0_15px_rgba(79,70,229,0.35)]"
+                  : "text-[#9ca3af] hover:bg-[#1f2937] hover:text-white"
               }`}
             >
               <UploadCloud className="h-4 w-4" />
@@ -673,10 +534,10 @@ export default function ExamCreatePage() {
                 setImporterTab("clipboard");
                 setParseError("");
               }}
-              className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-medium transition-all ${
+              className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
                 importerTab === "clipboard"
-                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
-                  : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
+                  ? "bg-[#4f46e5] text-white shadow-[0_0_15px_rgba(79,70,229,0.35)]"
+                  : "text-[#9ca3af] hover:bg-[#1f2937] hover:text-white"
               }`}
             >
               <ClipboardPaste className="h-4 w-4" />
@@ -689,7 +550,7 @@ export default function ExamCreatePage() {
               type="button"
               onClick={handleTestAiConnection}
               disabled={isTestingAi}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-3 py-1.5 text-[11px] font-semibold text-slate-300 transition disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#4f46e5] hover:text-white border border-[#1f2937] px-3 py-1.5 text-[11px] font-semibold text-slate-300 transition disabled:opacity-50 cursor-pointer"
               title="Kiểm tra xem Server có gọi được model Gemini AI thành công hay không"
             >
               <Cpu className="h-3.5 w-3.5 text-indigo-400" />
@@ -750,7 +611,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isParsing}
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-5 py-2.5 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] px-5 py-2.5 text-xs font-semibold text-white shadow-[0_0_18px_rgba(79,70,229,0.35)] hover:shadow-[0_0_24px_rgba(99,102,241,0.5)] transition active:scale-[0.98] disabled:opacity-50 cursor-pointer"
               >
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>
@@ -763,46 +624,11 @@ export default function ExamCreatePage() {
               <button
                 type="button"
                 onClick={() => setImporterTab("clipboard")}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-4 py-2.5 text-xs font-medium text-slate-300 transition"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#1f2937] hover:text-white border border-[#1f2937] px-4 py-2.5 text-xs font-medium text-slate-300 transition cursor-pointer"
               >
                 <ClipboardPaste className="h-3.5 w-3.5" />
                 <span>Chuyển sang Dán từ Clipboard</span>
               </button>
-            </div>
-
-            {/* 1-Click Demo File Presets */}
-            <div className="mt-6 border-t border-slate-800/80 pt-5">
-              <span className="mb-2.5 block text-[11px] font-semibold text-slate-400">
-                Hoặc thử nghiệm nhanh với dữ liệu mẫu chuẩn hóa:
-              </span>
-              <div className="flex flex-wrap items-center justify-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => loadDemoQuestions("word")}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-slate-300 transition"
-                >
-                  <FileText className="h-3.5 w-3.5 text-indigo-400" />
-                  <span>Nạp mẫu Word (.docx)</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => loadDemoQuestions("excel")}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-slate-300 transition"
-                >
-                  <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" />
-                  <span>Nạp mẫu Excel (.xlsx)</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => loadDemoQuestions("pdf")}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-slate-300 transition"
-                >
-                  <FileCode className="h-3.5 w-3.5 text-amber-400" />
-                  <span>Nạp mẫu PDF (.pdf)</span>
-                </button>
-              </div>
             </div>
           </div>
         ) : (
