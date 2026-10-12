@@ -24,16 +24,6 @@ export interface Question {
   explanation?: string;
 }
 
-export interface UserBookmark {
-  id: string;
-  user_id: string;
-  question_id: string;
-  exam_id: string;
-  created_at: string;
-  question?: Question;
-  exam?: Exam;
-}
-
 export interface Category {
   id: string;
   name: string;

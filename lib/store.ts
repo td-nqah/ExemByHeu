@@ -1674,11 +1674,6 @@ export async function getCategories(activeOnly = false): Promise<Category[]> {
   return uniqueCats;
 }
 
-export async function getCategoryById(id: string): Promise<Category | null> {
-  const categories = await getCategories();
-  return categories.find((c) => c.id === id || c.slug === id) || null;
-}
-
 export async function createCategory(categoryData: {
   name: string;
   slug: string;
