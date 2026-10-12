@@ -312,6 +312,8 @@ export function getCurrentUser(): Profile | null {
     let formatted = raw;
     if (raw.toLowerCase() === "admin") formatted = "Admin";
     else if (raw.toLowerCase() === "user1") formatted = "User1";
+    else if (raw.toLowerCase() === "user2") formatted = "User2";
+    else if (raw.toLowerCase() === "user3") formatted = "User3";
     else formatted = raw.charAt(0).toUpperCase() + raw.slice(1);
     if (formatted !== user.username) {
       user.username = formatted;
@@ -333,10 +335,18 @@ export function setCurrentUser(user: Profile | null): void {
 }
 
 export async function loginUser(username: string, password: string): Promise<Profile | null> {
-  const cleanUsername = username.trim().toLowerCase().replace(/!+$/, "");
+  let cleanUsername = username.trim().toLowerCase().replace(/!+$/, "");
 
-  // Explicitly disallow removed legacy account 'user'
+  // Support alias "user" mapped by password to user1, user2, user3
   if (cleanUsername === "user") {
+    if (password === "1") cleanUsername = "user1";
+    else if (password === "2") cleanUsername = "user2";
+    else if (password === "3") cleanUsername = "user3";
+    else return null;
+  }
+
+  // Strictly allow only the 4 specified accounts
+  if (!["admin", "user1", "user2", "user3"].includes(cleanUsername)) {
     return null;
   }
 
@@ -363,14 +373,13 @@ export async function loginUser(username: string, password: string): Promise<Pro
 
         // Direct credential check
         if (!isMatch) {
-          if (data.username.toLowerCase() === "admin" && password === "123") {
+          if (cleanUsername === "admin" && password === "123") {
             isMatch = true;
-          } else if (
-            (data.username.toLowerCase() === "user1" ||
-              data.username.toLowerCase() === "user2" ||
-              data.username.toLowerCase() === "user3") &&
-            password === "1"
-          ) {
+          } else if (cleanUsername === "user1" && password === "1") {
+            isMatch = true;
+          } else if (cleanUsername === "user2" && password === "2") {
+            isMatch = true;
+          } else if (cleanUsername === "user3" && password === "3") {
             isMatch = true;
           } else if (data.password_hash === password) {
             isMatch = true;
@@ -378,7 +387,11 @@ export async function loginUser(username: string, password: string): Promise<Pro
         }
 
         if (isMatch) {
-          const formattedUsername = data.username.toLowerCase() === "admin" ? "Admin" : data.username.toLowerCase() === "user1" ? "User1" : data.username;
+          let formattedUsername = "User1";
+          if (cleanUsername === "admin") formattedUsername = "Admin";
+          else if (cleanUsername === "user2") formattedUsername = "User2";
+          else if (cleanUsername === "user3") formattedUsername = "User3";
+
           const profile: Profile = {
             id: data.id,
             username: formattedUsername,
@@ -399,19 +412,22 @@ export async function loginUser(username: string, password: string): Promise<Pro
   const matched = SEED_PROFILES.find((p) => p.username.toLowerCase() === cleanUsername);
   if (matched) {
     let isMatch = false;
-    if (matched.username.toLowerCase() === "admin" && password === "123") {
+    if (cleanUsername === "admin" && password === "123") {
       isMatch = true;
-    } else if (
-      (matched.username.toLowerCase() === "user1" ||
-        matched.username.toLowerCase() === "user2" ||
-        matched.username.toLowerCase() === "user3") &&
-      password === "1"
-    ) {
+    } else if (cleanUsername === "user1" && password === "1") {
+      isMatch = true;
+    } else if (cleanUsername === "user2" && password === "2") {
+      isMatch = true;
+    } else if (cleanUsername === "user3" && password === "3") {
       isMatch = true;
     }
 
     if (isMatch) {
-      const formattedUsername = matched.username.toLowerCase() === "admin" ? "Admin" : matched.username.toLowerCase() === "user1" ? "User1" : matched.username;
+      let formattedUsername = "User1";
+      if (cleanUsername === "admin") formattedUsername = "Admin";
+      else if (cleanUsername === "user2") formattedUsername = "User2";
+      else if (cleanUsername === "user3") formattedUsername = "User3";
+
       const formattedMatched = { ...matched, username: formattedUsername };
       setCurrentUser(formattedMatched);
       return formattedMatched;

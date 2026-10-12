@@ -33,6 +33,8 @@ function formatDisplayName(name?: string): string {
   const lower = cleaned.toLowerCase();
   if (lower === "admin") return "Admin";
   if (lower === "user1") return "User1";
+  if (lower === "user2") return "User2";
+  if (lower === "user3") return "User3";
   return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
 }
 
