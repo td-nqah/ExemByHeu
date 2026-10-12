@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   getExamById,
@@ -13,6 +13,7 @@ import { StickyTimer } from "@/components/exam/StickyTimer";
 import { QuestionNav } from "@/components/exam/QuestionNav";
 import { MobileQuestionDrawer } from "@/components/exam/MobileQuestionDrawer";
 import { SubmitConfirmModal } from "@/components/exam/SubmitConfirmModal";
+import { useFullscreen } from "@/hooks/useFullscreen";
 import {
   Send,
   AlertCircle,
@@ -36,6 +37,7 @@ import { cn } from "@/lib/utils";
 export function ExamRoomClient({ examId }: { examId: string }) {
   const router = useRouter();
   const shouldReduceMotion = useReducedMotion();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [exam, setExam] = useState<Exam | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,118 +47,13 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [completedSubmission, setCompletedSubmission] = useState<Submission | null>(null);
-  const [isFocusMode, setIsFocusMode] = useState(false);
 
-  // Cross-browser Native Fullscreen Handlers (Desktop & Mobile iOS/Android)
-  const requestNativeFullscreen = useCallback(async () => {
-    if (typeof document === "undefined") return;
-    const docEl = document.documentElement as HTMLElement & {
-      webkitRequestFullscreen?: () => Promise<void>;
-      mozRequestFullScreen?: () => Promise<void>;
-      msRequestFullscreen?: () => Promise<void>;
-    };
-
-    try {
-      if (docEl.requestFullscreen) {
-        await docEl.requestFullscreen().catch(() => {});
-      } else if (docEl.webkitRequestFullscreen) {
-        await docEl.webkitRequestFullscreen().catch(() => {});
-      } else if (docEl.mozRequestFullScreen) {
-        await docEl.mozRequestFullScreen().catch(() => {});
-      } else if (docEl.msRequestFullscreen) {
-        await docEl.msRequestFullscreen().catch(() => {});
-      }
-    } catch {
-      // Graceful fallback if browser permissions restrict fullscreen
-    }
-  }, []);
-
-  const exitNativeFullscreen = useCallback(async () => {
-    if (typeof document === "undefined") return;
-    const doc = document as Document & {
-      webkitExitFullscreen?: () => Promise<void>;
-      mozCancelFullScreen?: () => Promise<void>;
-      msExitFullscreen?: () => Promise<void>;
-      webkitFullscreenElement?: Element;
-      mozFullScreenElement?: Element;
-      msFullscreenElement?: Element;
-    };
-
-    try {
-      const isFs = Boolean(
-        doc.fullscreenElement ||
-        doc.webkitFullscreenElement ||
-        doc.mozFullScreenElement ||
-        doc.msFullscreenElement
-      );
-      if (isFs) {
-        if (doc.exitFullscreen) {
-          await doc.exitFullscreen().catch(() => {});
-        } else if (doc.webkitExitFullscreen) {
-          await doc.webkitExitFullscreen().catch(() => {});
-        } else if (doc.mozCancelFullScreen) {
-          await doc.mozCancelFullScreen().catch(() => {});
-        } else if (doc.msExitFullscreen) {
-          await doc.msExitFullscreen().catch(() => {});
-        }
-      }
-    } catch {
-      // Graceful fallback
-    }
-  }, []);
-
-  const toggleFocusMode = useCallback(async () => {
-    const nextState = !isFocusMode;
-    setIsFocusMode(nextState);
-
-    if (nextState) {
-      await requestNativeFullscreen();
-    } else {
-      await exitNativeFullscreen();
-    }
-  }, [isFocusMode, requestNativeFullscreen, exitNativeFullscreen]);
-
-  // Sync native fullscreen changes (Esc key, browser address bar expand, etc.)
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      const doc = document as Document & {
-        webkitFullscreenElement?: Element;
-        mozFullScreenElement?: Element;
-        msFullscreenElement?: Element;
-      };
-      const isCurrentlyFs = Boolean(
-        doc.fullscreenElement ||
-        doc.webkitFullscreenElement ||
-        doc.mozFullScreenElement ||
-        doc.msFullscreenElement
-      );
-
-      if (!isCurrentlyFs && isFocusMode) {
-        setIsFocusMode(false);
-      }
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isFocusMode) {
-        setIsFocusMode(false);
-        exitNativeFullscreen();
-      }
-    };
-
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
-      document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
-      document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isFocusMode, exitNativeFullscreen]);
+  // True Fullscreen & Focus Mode via useFullscreen hook (Native + iOS Safari Fallbacks)
+  const {
+    isFullscreen: isFocusMode,
+    isIos,
+    toggleFullscreen: toggleFocusMode,
+  } = useFullscreen(containerRef);
 
   const toggleFlagQuestion = (questionId: string) => {
     setFlaggedQuestions((prev) => ({
@@ -318,15 +215,18 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
   return (
     <div
+      ref={containerRef}
       className={cn(
-        "min-h-[100dvh] pb-24 transition-colors duration-500",
-        isFocusMode ? "bg-[#060911]" : "bg-[#090D16]"
+        "transition-colors duration-500",
+        isFocusMode
+          ? "fixed inset-0 z-30 flex flex-col h-[100dvh] min-h-[-webkit-fill-available] w-screen overflow-hidden overscroll-none touch-manipulation bg-[#060911]"
+          : "min-h-[100dvh] pb-24 bg-[#090D16]"
       )}
     >
       {/* Top Header Bar: Dynamic between Standard & Zen Focus Mode */}
       <header
         className={cn(
-          "sticky top-0 z-30 transition-all duration-300",
+          "sticky top-0 z-30 shrink-0 transition-all duration-300",
           isFocusMode
             ? "border-b border-indigo-500/20 bg-[#060911]/95 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
             : "border-b border-slate-800/80 bg-[#090D16]/85 backdrop-blur-md"
@@ -470,8 +370,10 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
       <div
         className={cn(
-          "mx-auto px-4 py-6 sm:px-6 lg:px-8 transition-all duration-300",
-          isFocusMode ? "max-w-4xl" : "max-w-7xl"
+          "mx-auto px-4 py-6 sm:px-6 lg:px-8 transition-all duration-300 w-full",
+          isFocusMode
+            ? "flex-1 overflow-y-auto overscroll-contain max-w-4xl custom-scrollbar pb-32"
+            : "max-w-7xl"
         )}
       >
         <div className={cn("grid grid-cols-1 gap-6", !isFocusMode && "md:grid-cols-12")}>

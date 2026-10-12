@@ -221,3 +221,21 @@ body {
   min-height: 100dvh;
 }
 
+/*
+ * True Fullscreen Mode Styles (iOS Safari & Android Chrome)
+ */
+.exam-fullscreen-active {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: manipulation !important;
+  height: 100dvh !important;
+  min-height: -webkit-fill-available !important;
+}
+
+.fullscreen-viewport {
+  height: 100dvh;
+  min-height: -webkit-fill-available;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+

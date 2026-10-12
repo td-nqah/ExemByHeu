@@ -58,7 +58,7 @@ export function MobileQuestionDrawer({
       {/* 1. Floating Menu Button (FAB) - Visible ONLY on Mobile (< 768px) */}
       <div
         className={cn(
-          "fixed z-40 md:hidden transition-all duration-300",
+          "fixed z-50 md:hidden transition-all duration-300",
           isFocusMode ? "bottom-4 right-4" : "bottom-5 right-5"
         )}
       >
