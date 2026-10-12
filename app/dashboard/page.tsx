@@ -10,7 +10,6 @@ import {
   ClipboardList,
   CheckSquare,
   RotateCcw,
-  Square,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -157,13 +156,12 @@ function UserDashboardContent() {
                 }
               }}
               className={cn(
-                "group flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium transition-colors shrink-0 select-none",
+                "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-medium text-center transition-colors shrink-0 select-none",
                 isActive
                   ? "bg-[#4f57ea] text-white shadow-sm"
                   : "bg-[#151b27] border border-white/[0.06] text-slate-300 hover:text-white hover:bg-[#1b2230]"
               )}
             >
-              <Square className={cn("h-3 w-3 shrink-0", isActive ? "text-white/80" : "text-slate-500")} />
               <span>{cat.label}</span>
             </button>
           );

@@ -131,16 +131,16 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       {/* Top Section */}
       <div className="space-y-6">
         {/* Brand Header */}
-        <div className="flex items-center justify-between pb-2">
+        <div className="relative flex items-center justify-center pb-2 pt-1">
           <Link
             href={user?.role === "admin" ? "/admin/dashboard" : "/home"}
             onClick={onCloseMobile}
-            className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
+            className="flex items-center justify-center gap-3 transition-opacity hover:opacity-90"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e2538] border border-white/[0.08] text-white">
-              <GraduationCap className="h-4.5 w-4.5 text-slate-200" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1e2538] border border-white/[0.08] text-white shadow-sm">
+              <GraduationCap className="h-6 w-6 text-white" />
             </div>
-            <span className="text-base font-bold tracking-tight text-white">
+            <span className="text-xl font-bold tracking-tight text-white">
               ExamByHeu
             </span>
           </Link>
@@ -149,7 +149,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           <button
             type="button"
             onClick={onCloseMobile}
-            className="md:hidden rounded-lg p-1.5 text-slate-400 hover:bg-[#161c28] hover:text-white transition"
+            className="md:hidden absolute right-0 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-400 hover:bg-[#161c28] hover:text-white transition"
           >
             <X className="h-5 w-5" />
           </button>
@@ -255,7 +255,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-950/20 hover:bg-rose-900/40 text-rose-300 border border-rose-900/30 px-3 py-2 text-xs font-semibold transition-colors"
             >
               <LogOut className="h-3.5 w-3.5" />
-              <span>Đăng xuất / Thoát</span>
+              <span>Đăng xuất</span>
             </button>
           </>
         ) : (
