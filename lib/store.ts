@@ -335,19 +335,20 @@ export function setCurrentUser(user: Profile | null): void {
 }
 
 export async function loginUser(username: string, password: string): Promise<Profile | null> {
-  let cleanUsername = username.trim().toLowerCase().replace(/!+$/, "");
+  const inputUsername = username.trim().toLowerCase().replace(/!+$/, "");
 
-  // Support alias "user" mapped by password to user1, user2, user3
-  if (cleanUsername === "user") {
-    if (password === "1") cleanUsername = "user1";
-    else if (password === "2") cleanUsername = "user2";
-    else if (password === "3") cleanUsername = "user3";
-    else return null;
+  // Chỉ cho phép gõ đúng 'admin' hoặc 'user' (nghiêm cấm gõ 'user1', 'user2', 'user3' hay bất kỳ tên nào khác)
+  if (inputUsername !== "admin" && inputUsername !== "user") {
+    return null;
   }
 
-  // Strictly allow only the 4 specified accounts
-  if (!["admin", "user1", "user2", "user3"].includes(cleanUsername)) {
-    return null;
+  // Tùy theo mật khẩu 1, 2, 3 mà ánh xạ tài khoản 'user' thành User1, User2, User3
+  let targetAccount = inputUsername;
+  if (inputUsername === "user") {
+    if (password === "1") targetAccount = "user1";
+    else if (password === "2") targetAccount = "user2";
+    else if (password === "3") targetAccount = "user3";
+    else return null;
   }
 
   // 1. Try Supabase if configured
@@ -356,7 +357,7 @@ export async function loginUser(username: string, password: string): Promise<Pro
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .ilike("username", cleanUsername)
+        .ilike("username", targetAccount)
         .single();
 
       if (!error && data) {
@@ -373,13 +374,13 @@ export async function loginUser(username: string, password: string): Promise<Pro
 
         // Direct credential check
         if (!isMatch) {
-          if (cleanUsername === "admin" && password === "123") {
+          if (targetAccount === "admin" && password === "123") {
             isMatch = true;
-          } else if (cleanUsername === "user1" && password === "1") {
+          } else if (targetAccount === "user1" && password === "1") {
             isMatch = true;
-          } else if (cleanUsername === "user2" && password === "2") {
+          } else if (targetAccount === "user2" && password === "2") {
             isMatch = true;
-          } else if (cleanUsername === "user3" && password === "3") {
+          } else if (targetAccount === "user3" && password === "3") {
             isMatch = true;
           } else if (data.password_hash === password) {
             isMatch = true;
@@ -388,9 +389,9 @@ export async function loginUser(username: string, password: string): Promise<Pro
 
         if (isMatch) {
           let formattedUsername = "User1";
-          if (cleanUsername === "admin") formattedUsername = "Admin";
-          else if (cleanUsername === "user2") formattedUsername = "User2";
-          else if (cleanUsername === "user3") formattedUsername = "User3";
+          if (targetAccount === "admin") formattedUsername = "Admin";
+          else if (targetAccount === "user2") formattedUsername = "User2";
+          else if (targetAccount === "user3") formattedUsername = "User3";
 
           const profile: Profile = {
             id: data.id,
@@ -409,24 +410,24 @@ export async function loginUser(username: string, password: string): Promise<Pro
 
   // 2. Local fallback
   initStore();
-  const matched = SEED_PROFILES.find((p) => p.username.toLowerCase() === cleanUsername);
+  const matched = SEED_PROFILES.find((p) => p.username.toLowerCase() === targetAccount);
   if (matched) {
     let isMatch = false;
-    if (cleanUsername === "admin" && password === "123") {
+    if (targetAccount === "admin" && password === "123") {
       isMatch = true;
-    } else if (cleanUsername === "user1" && password === "1") {
+    } else if (targetAccount === "user1" && password === "1") {
       isMatch = true;
-    } else if (cleanUsername === "user2" && password === "2") {
+    } else if (targetAccount === "user2" && password === "2") {
       isMatch = true;
-    } else if (cleanUsername === "user3" && password === "3") {
+    } else if (targetAccount === "user3" && password === "3") {
       isMatch = true;
     }
 
     if (isMatch) {
       let formattedUsername = "User1";
-      if (cleanUsername === "admin") formattedUsername = "Admin";
-      else if (cleanUsername === "user2") formattedUsername = "User2";
-      else if (cleanUsername === "user3") formattedUsername = "User3";
+      if (targetAccount === "admin") formattedUsername = "Admin";
+      else if (targetAccount === "user2") formattedUsername = "User2";
+      else if (targetAccount === "user3") formattedUsername = "User3";
 
       const formattedMatched = { ...matched, username: formattedUsername };
       setCurrentUser(formattedMatched);
