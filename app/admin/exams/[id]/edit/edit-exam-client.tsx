@@ -315,7 +315,7 @@ export function EditExamClient({ examId }: { examId: string }) {
             href="/admin/dashboard"
             className="mt-4 inline-block text-xs font-semibold text-indigo-400 underline"
           >
-            Quay lại Quản lý Ngân hàng Đề thi
+            Quay lại Ngân hàng Đề thi
           </Link>
         </div>
       </div>
@@ -346,7 +346,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
         >
           <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
-          <span>Quay lại Quản lý Ngân hàng Đề thi</span>
+          <span>Quay lại Ngân hàng Đề thi</span>
         </Link>
       </div>
 

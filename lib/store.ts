@@ -1226,6 +1226,134 @@ export async function toggleExamStatus(id: string): Promise<Exam | null> {
   return updated;
 }
 
+export async function toggleAllExamsShuffle(enable: boolean): Promise<Exam[]> {
+  initStore();
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const updatedExams = exams.map((exam) => {
+    const cleanDesc = (exam.description || "").replace(/^<!--meta:[\s\S]*?-->\n?/, "").trim();
+    const meta = {
+      category_id: exam.category_id,
+      category_slug: exam.category_slug,
+      question_count: exam.question_count || exam.questions?.length || 40,
+      question_type: exam.question_type || "multiple_choice",
+      is_shuffled: enable,
+      expires_at: exam.expires_at || null,
+    };
+    return {
+      ...exam,
+      is_shuffled: enable,
+      description: cleanDesc,
+    };
+  });
+
+  setLocal(KEY_EXAMS, updatedExams);
+  invalidateExamCache();
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      for (const exam of updatedExams) {
+        const cleanDesc = (exam.description || "").replace(/^<!--meta:[\s\S]*?-->\n?/, "").trim();
+        const meta = {
+          category_id: exam.category_id,
+          category_slug: exam.category_slug,
+          question_count: exam.question_count || 40,
+          question_type: exam.question_type || "multiple_choice",
+          is_shuffled: enable,
+          expires_at: exam.expires_at || null,
+        };
+        const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${cleanDesc}`.trim();
+        try {
+          await supabase
+            .from("exams")
+            .update({
+              description: descWithMeta,
+              is_shuffled: enable,
+            })
+            .eq("id", exam.id);
+        } catch {
+          await supabase
+            .from("exams")
+            .update({
+              description: descWithMeta,
+            })
+            .eq("id", exam.id);
+        }
+      }
+    } catch (err) {
+      console.warn("toggleAllExamsShuffle Supabase sync error:", err);
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("exams_updated"));
+  }
+
+  return updatedExams;
+}
+
+export async function toggleSingleExamShuffle(
+  id: string,
+  forceValue?: boolean
+): Promise<Exam | null> {
+  initStore();
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const examIndex = exams.findIndex((e) => e.id === id);
+  if (examIndex === -1) return null;
+
+  const current = exams[examIndex];
+  const nextShuffled =
+    forceValue !== undefined ? Boolean(forceValue) : !Boolean(current.is_shuffled);
+
+  const cleanDesc = (current.description || "").replace(/^<!--meta:[\s\S]*?-->\n?/, "").trim();
+  const meta = {
+    category_id: current.category_id,
+    category_slug: current.category_slug,
+    question_count: current.question_count || current.questions?.length || 40,
+    question_type: current.question_type || "multiple_choice",
+    is_shuffled: nextShuffled,
+    expires_at: current.expires_at || null,
+  };
+  const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${cleanDesc}`.trim();
+
+  const updated: Exam = {
+    ...current,
+    is_shuffled: nextShuffled,
+    description: cleanDesc,
+  };
+  exams[examIndex] = updated;
+  setLocal(KEY_EXAMS, exams);
+  invalidateExamCache();
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      try {
+        await supabase
+          .from("exams")
+          .update({
+            description: descWithMeta,
+            is_shuffled: nextShuffled,
+          })
+          .eq("id", id);
+      } catch {
+        await supabase
+          .from("exams")
+          .update({
+            description: descWithMeta,
+          })
+          .eq("id", id);
+      }
+    } catch (err) {
+      console.warn("toggleSingleExamShuffle Supabase error:", err);
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("exams_updated"));
+  }
+
+  return updated;
+}
+
 export async function deleteExam(id: string): Promise<boolean> {
   initStore();
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);

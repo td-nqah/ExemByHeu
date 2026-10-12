@@ -8,6 +8,8 @@ import {
   getExams,
   getSubmissions,
   toggleExamStatus,
+  toggleAllExamsShuffle,
+  toggleSingleExamShuffle,
   deleteExam,
   getCurrentUser,
   getCategories,
@@ -31,6 +33,7 @@ import {
   CheckCircle2,
   Calendar,
   Layers,
+  Shuffle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -60,6 +63,37 @@ export default function AdminDashboardPage() {
   const sortedExams = useMemo(() => {
     return sortExamsAscending(exams);
   }, [exams]);
+
+  // Shuffle Exam States & Handlers
+  const [isTogglingGlobalShuffle, setIsTogglingGlobalShuffle] = useState(false);
+
+  const shuffledCount = useMemo(() => {
+    return exams.filter((e) => Boolean(e.is_shuffled)).length;
+  }, [exams]);
+
+  const handleToggleGlobalShuffle = async () => {
+    setIsTogglingGlobalShuffle(true);
+    try {
+      const nextState = shuffledCount < exams.length;
+      const updated = await toggleAllExamsShuffle(nextState);
+      setExams(updated);
+    } catch (err) {
+      console.error("Error toggling global shuffle:", err);
+    } finally {
+      setIsTogglingGlobalShuffle(false);
+    }
+  };
+
+  const handleToggleSingleShuffle = async (examId: string) => {
+    try {
+      const updated = await toggleSingleExamShuffle(examId);
+      if (updated) {
+        setExams((prev) => prev.map((e) => (e.id === examId ? updated : e)));
+      }
+    } catch (err) {
+      console.error("Error toggling single exam shuffle:", err);
+    }
+  };
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -226,14 +260,83 @@ export default function AdminDashboardPage() {
         <div className="flex flex-col gap-3 border-b border-[#21262d] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
             <h2 className="text-base sm:text-lg font-semibold tracking-tight text-[#e6edf3]">
-              Quản lý Ngân hàng Đề thi ({exams.length})
+              Ngân hàng Đề thi ({exams.length})
             </h2>
             <p className="mt-0.5 text-xs text-[#8b949e]">
               Xem trước cấu trúc đề, chỉnh sửa câu hỏi, đóng/mở xuất bản hoặc gán chuyên mục.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
+            {/* Card Bật/Tắt Trộn Đề */}
+            <div
+              className={cn(
+                "inline-flex items-center gap-2.5 rounded-xl border px-3 py-1.5 transition-all duration-200 select-none",
+                shuffledCount > 0
+                  ? "bg-cyan-950/40 border-cyan-500/50 shadow-[0_0_12px_rgba(6,182,212,0.15)] text-white"
+                  : "bg-[#0d1117] border-[#21262d] text-slate-400 hover:border-slate-700"
+              )}
+            >
+              <div
+                className={cn(
+                  "flex h-7 w-7 items-center justify-center rounded-lg border transition-all",
+                  shuffledCount > 0
+                    ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.3)]"
+                    : "bg-white/5 border-white/10 text-slate-400"
+                )}
+              >
+                <Shuffle className="h-3.5 w-3.5" />
+              </div>
+
+              <div className="text-left">
+                <div className="flex items-center gap-1.5 leading-none">
+                  <span className="text-xs font-bold text-white">Trộn đề thi</span>
+                  <span
+                    className={cn(
+                      "text-[9px] px-1.5 py-0.5 rounded-full font-mono font-bold uppercase",
+                      shuffledCount === exams.length && exams.length > 0
+                        ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                        : shuffledCount > 0
+                        ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
+                        : "bg-white/10 text-slate-400"
+                    )}
+                  >
+                    {shuffledCount === exams.length && exams.length > 0
+                      ? "BẬT HẾT"
+                      : shuffledCount > 0
+                      ? `${shuffledCount}/${exams.length}`
+                      : "TẮT"}
+                  </span>
+                </div>
+                <p className="text-[10px] text-slate-400 mt-0.5 leading-none">
+                  {shuffledCount > 0 ? `${shuffledCount} đề đang tráo` : "Chưa bật tráo đề"}
+                </p>
+              </div>
+
+              {/* Toggle Switch */}
+              <button
+                type="button"
+                role="switch"
+                aria-checked={shuffledCount > 0}
+                onClick={handleToggleGlobalShuffle}
+                disabled={isTogglingGlobalShuffle}
+                className={cn(
+                  "relative ml-1 inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50",
+                  shuffledCount > 0
+                    ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.4)]"
+                    : "bg-slate-700"
+                )}
+                title="Bật/Tắt chế độ trộn đề cho toàn bộ đề thi (Đề nào không muốn tráo có thể vào trong đề đấy chọn tắt đi)"
+              >
+                <span
+                  className={cn(
+                    "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out",
+                    shuffledCount > 0 ? "translate-x-5" : "translate-x-0"
+                  )}
+                />
+              </button>
+            </div>
+
             <button
               onClick={() => {
                 setQuickTitle("");
@@ -320,12 +423,30 @@ export default function AdminDashboardPage() {
                         {questionCount} câu
                       </td>
 
-                      <td className="py-3.5 px-4 text-[#8b949e] capitalize">
-                        {exam.question_type === "essay"
-                          ? "Tự luận"
-                          : exam.question_type === "mixed"
-                          ? "Kết hợp"
-                          : "Trắc nghiệm"}
+                      <td className="py-3.5 px-4 text-[#8b949e]">
+                        <div className="flex flex-col gap-1 items-start">
+                          <span className="capitalize font-medium text-slate-300">
+                            {exam.question_type === "essay"
+                              ? "Tự luận"
+                              : exam.question_type === "mixed"
+                              ? "Kết hợp"
+                              : "Trắc nghiệm"}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleToggleSingleShuffle(exam.id)}
+                            className={cn(
+                              "inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-md border font-mono transition cursor-pointer select-none",
+                              exam.is_shuffled
+                                ? "bg-cyan-950/60 text-cyan-400 border-cyan-500/40 hover:bg-cyan-900/60 shadow-[0_0_8px_rgba(6,182,212,0.15)]"
+                                : "bg-slate-900/50 text-slate-500 border-white/5 hover:text-slate-300 hover:border-white/10"
+                            )}
+                            title={exam.is_shuffled ? "Đề này đang bật trộn (bấm để tắt nhanh)" : "Đề này đang tắt trộn (bấm để bật nhanh)"}
+                          >
+                            <Shuffle className="h-2.5 w-2.5 shrink-0" />
+                            <span>{exam.is_shuffled ? "Trộn đề: Bật" : "Không trộn"}</span>
+                          </button>
+                        </div>
                       </td>
 
                       <td className="whitespace-nowrap py-3.5 px-4">
