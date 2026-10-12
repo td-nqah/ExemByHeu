@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { getSubmissions, getCurrentUser } from "@/lib/store";
 import { Submission } from "@/types/exam";
 import { formatDate } from "@/lib/utils";
-import { motion, useReducedMotion } from "motion/react";
 import {
   TrendingUp,
   CheckCircle2,
@@ -17,15 +16,10 @@ import {
   ArrowRight,
   ChevronRight,
   BookOpen,
-  Calendar,
-  AlertCircle,
-  Lightbulb,
-  Clock,
 } from "lucide-react";
 
 export default function AnalyticsPage() {
   const router = useRouter();
-  const reduceMotion = useReducedMotion();
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [hoveredPointIndex, setHoveredPointIndex] = useState<number | null>(null);
@@ -59,44 +53,40 @@ export default function AnalyticsPage() {
   // Aggregate Metrics
   const totalSubmissions = submissions.length;
 
-  const validScores = submissions
-    .filter((s) => s.status === "graded" || typeof s.total_score === "number")
-    .map((s) => Number(s.total_score || 0));
+  const averageScore = useMemo(() => {
+    if (totalSubmissions === 0) return 0;
+    const sum = submissions.reduce(
+      (acc, s) => acc + (Number(s.total_score) || 0),
+      0
+    );
+    return Number((sum / totalSubmissions).toFixed(1));
+  }, [submissions, totalSubmissions]);
 
-  const averageScore =
-    validScores.length > 0
-      ? Math.round(
-          (validScores.reduce((sum, sc) => sum + sc, 0) / validScores.length) * 10
-        ) / 10
-      : 0;
+  const peakScore = useMemo(() => {
+    if (totalSubmissions === 0) return 0;
+    return Math.max(...submissions.map((s) => Number(s.total_score) || 0));
+  }, [submissions, totalSubmissions]);
 
-  const peakScore = validScores.length > 0 ? Math.max(...validScores) : 0;
-
-  // Calculate MCQ Accuracy across submissions
   const mcqMetrics = useMemo(() => {
+    if (totalSubmissions === 0) return { earned: 0, max: 0, rate: 0 };
     let earned = 0;
-    let possible = 0;
-    submissions.forEach((sub) => {
-      earned += Number(sub.mcq_score || 0);
-      const qList = sub.exam?.questions || [];
-      const mcqMax = qList
-        .filter((q) => q.type === "multiple_choice")
-        .reduce((sum, q) => sum + Number(q.max_score || 0), 0);
-      possible += mcqMax > 0 ? mcqMax : Number(sub.mcq_score || 5);
+    let max = 0;
+    submissions.forEach((s) => {
+      earned += Number(s.mcq_score) || 0;
+      max += Number(s.mcq_score) > 0 ? 10 : 0;
     });
-    const rate = possible > 0 ? Math.round((earned / possible) * 100) : 0;
-    return { earned, possible, rate };
-  }, [submissions]);
+    const rate = max > 0 ? Math.round((earned / max) * 100) : 0;
+    return { earned, max, rate };
+  }, [submissions, totalSubmissions]);
 
-  // Calculate trend delta (last score vs first score)
   const scoreDelta = useMemo(() => {
     if (chronological.length < 2) return 0;
-    const first = Number(chronological[0].total_score || 0);
-    const last = Number(chronological[chronological.length - 1].total_score || 0);
-    return Math.round((last - first) * 10) / 10;
+    const first = Number(chronological[0].total_score) || 0;
+    const latest = Number(chronological[chronological.length - 1].total_score) || 0;
+    return Number((latest - first).toFixed(1));
   }, [chronological]);
 
-  // SVG Chart Geometry
+  // SVG Chart Dimensions & Coordinates
   const chartPoints = useMemo(() => {
     if (chronological.length === 0) return [];
     const width = 760;
@@ -143,45 +133,35 @@ export default function AnalyticsPage() {
   }, [chartPoints]);
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Page Header */}
-      <motion.div
-        initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="flex flex-col md:flex-row md:items-center justify-between gap-4"
-      >
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 text-[11px] font-medium text-indigo-400">
+          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-[#1e2538] border border-white/[0.08] px-3 py-1 text-[11px] font-medium text-indigo-400">
             <Sparkles className="h-3.5 w-3.5" />
             <span>AI Performance Diagnostics Engine</span>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-3">
             Phân tích Phong độ & Tiến độ Ôn luyện
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-xs sm:text-sm text-slate-400">
             Theo dõi sự tiến bộ điểm số qua từng lần làm bài, chẩn đoán điểm mạnh và chiến lược tối ưu điểm số.
           </p>
         </div>
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-2.5 text-xs font-semibold text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all self-start md:self-auto"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#4f57ea] hover:bg-[#434ac9] active:bg-[#3d43b6] px-4 py-2.5 text-xs font-semibold text-white transition-colors self-start md:self-auto shadow-sm"
         >
           <BookOpen className="h-4 w-4" />
           <span>Vào làm bài thi mới</span>
         </Link>
-      </motion.div>
+      </div>
 
-      {/* 4 Stats Cards (SaaS Premium Glassmorphism) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stats-focus-container">
+      {/* 4 Flat Stats Cards (NO hover blur or sibling shrink) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Điểm Trung Bình */}
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.05 }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
+        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex items-center justify-between hover:border-white/10 transition-colors">
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Điểm Trung Bình
@@ -203,18 +183,13 @@ export default function AnalyticsPage() {
               <span>so với lượt đầu</span>
             </p>
           </div>
-          <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
-            <TrendingUp className="h-6 w-6" />
+          <div className="h-10 w-10 rounded-xl bg-[#202738] flex items-center justify-center text-indigo-400">
+            <TrendingUp className="h-5 w-5" />
           </div>
-        </motion.div>
+        </div>
 
         {/* Card 2: Tỉ Lệ Đúng Trắc Nghiệm */}
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
+        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex items-center justify-between hover:border-white/10 transition-colors">
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Độ Chính Xác Trắc Nghiệm
@@ -226,18 +201,13 @@ export default function AnalyticsPage() {
               {mcqMetrics.earned} điểm trắc nghiệm đã ghi
             </p>
           </div>
-          <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-            <CheckCircle2 className="h-6 w-6" />
+          <div className="h-10 w-10 rounded-xl bg-[#202738] flex items-center justify-center text-emerald-400">
+            <CheckCircle2 className="h-5 w-5" />
           </div>
-        </motion.div>
+        </div>
 
         {/* Card 3: Số Lượt Bài Thi Đã Nộp */}
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
+        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex items-center justify-between hover:border-white/10 transition-colors">
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Số Bài Đã Nộp
@@ -249,18 +219,13 @@ export default function AnalyticsPage() {
               Được lưu trữ chi tiết lịch sử
             </p>
           </div>
-          <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
-            <Award className="h-6 w-6" />
+          <div className="h-10 w-10 rounded-xl bg-[#202738] flex items-center justify-center text-indigo-400">
+            <Award className="h-5 w-5" />
           </div>
-        </motion.div>
+        </div>
 
         {/* Card 4: Điểm Cao Nhất */}
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className="stats-focus-card bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl hover:border-amber-500/40 hover:shadow-[0_0_25px_rgba(245,158,11,0.15)] rounded-2xl p-5 flex items-center justify-between"
-        >
+        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex items-center justify-between hover:border-white/10 transition-colors">
           <div>
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Điểm Kỷ Lục Đạt Được
@@ -273,18 +238,18 @@ export default function AnalyticsPage() {
               Phong độ cao nhất từng đạt
             </p>
           </div>
-          <div className="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
-            <Zap className="h-6 w-6" />
+          <div className="h-10 w-10 rounded-xl bg-[#202738] flex items-center justify-center text-amber-400">
+            <Zap className="h-5 w-5" />
           </div>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Main Section: Interactive Score Trend Line Chart */}
-      <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 shadow-xl rounded-2xl p-6 sm:p-8 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+      {/* Main Section: Flat Interactive Score Trend Line Chart */}
+      <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-6 sm:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.06] pb-4">
           <div>
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-indigo-400" />
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <TrendingUp className="h-4.5 w-4.5 text-indigo-400" />
               <span>Biểu đồ Tiến trình Điểm số (Performance Timeline)</span>
             </h2>
             <p className="text-xs text-slate-400 mt-0.5">
@@ -294,7 +259,7 @@ export default function AnalyticsPage() {
 
           <div className="flex items-center gap-2 text-xs">
             <span className="flex items-center gap-1.5 text-slate-400">
-              <span className="h-2.5 w-2.5 rounded-full bg-indigo-500" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#4f57ea]" />
               Tổng điểm
             </span>
             <span className="text-slate-600">•</span>
@@ -317,7 +282,7 @@ export default function AnalyticsPage() {
             </p>
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/30"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#4f57ea] hover:bg-[#434ac9] px-4 py-2 text-xs font-semibold text-white transition-colors"
             >
               <span>Bắt đầu thi ngay</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -341,12 +306,12 @@ export default function AnalyticsPage() {
                       <stop offset="100%" stopColor="#10B981" />
                     </linearGradient>
                     <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#6366F1" stopOpacity="0.35" />
+                      <stop offset="0%" stopColor="#6366F1" stopOpacity="0.25" />
                       <stop offset="100%" stopColor="#6366F1" stopOpacity="0" />
                     </linearGradient>
                   </defs>
 
-                  {/* Horizontal Grid lines for 10, 7.5, 5, 2.5, 0 */}
+                  {/* Horizontal Grid lines */}
                   {[
                     { label: "10 đ", y: 30 },
                     { label: "7.5 đ", y: 75 },
@@ -360,7 +325,7 @@ export default function AnalyticsPage() {
                         y1={grid.y}
                         x2="720"
                         y2={grid.y}
-                        stroke="rgba(255, 255, 255, 0.08)"
+                        stroke="rgba(255, 255, 255, 0.06)"
                         strokeDasharray="4 4"
                       />
                       <text
@@ -400,26 +365,15 @@ export default function AnalyticsPage() {
                         onMouseEnter={() => setHoveredPointIndex(pIdx)}
                         onMouseLeave={() => setHoveredPointIndex(null)}
                       >
-                        {/* Glow ring on hover */}
-                        {isHovered && (
-                          <circle
-                            cx={pt.x}
-                            cy={pt.y}
-                            r="12"
-                            fill="#818CF8"
-                            fillOpacity="0.3"
-                          />
-                        )}
-
-                        {/* Outer Dot */}
+                        {/* Dot */}
                         <circle
                           cx={pt.x}
                           cy={pt.y}
-                          r={isHovered ? "7" : "5"}
+                          r={isHovered ? "6" : "4.5"}
                           fill="#4F46E5"
                           stroke="#FFFFFF"
                           strokeWidth="2"
-                          className="transition-all duration-200"
+                          className="transition-all duration-150"
                         />
 
                         {/* X-Axis Label */}
@@ -442,7 +396,7 @@ export default function AnalyticsPage() {
 
             {/* Hover Tooltip Card */}
             {hoveredPointIndex !== null && chartPoints[hoveredPointIndex] && (
-              <div className="mt-3 rounded-xl bg-slate-900/90 border border-white/10 p-3.5 shadow-2xl backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+              <div className="mt-3 rounded-xl bg-[#1b2230] border border-white/[0.08] p-3.5 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                 <div>
                   <span className="text-[10px] uppercase tracking-wider text-indigo-400 font-semibold">
                     Chi tiết lượt thi #{hoveredPointIndex + 1}
@@ -475,7 +429,7 @@ export default function AnalyticsPage() {
                     </span>
                   </div>
 
-                  <div className="rounded-xl bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 text-center">
+                  <div className="rounded-xl bg-[#202738] border border-white/[0.06] px-3 py-1.5 text-center">
                     <span className="text-[10px] text-indigo-300 block">
                       TỔNG ĐIỂM
                     </span>
@@ -486,7 +440,7 @@ export default function AnalyticsPage() {
 
                   <Link
                     href={`/history/${chartPoints[hoveredPointIndex].sub.id}`}
-                    className="inline-flex items-center gap-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 text-xs font-semibold transition"
+                    className="inline-flex items-center gap-1 rounded-lg bg-[#4f57ea] hover:bg-[#434ac9] text-white px-3 py-1.5 text-xs font-semibold transition-colors"
                   >
                     <span>Xem bài</span>
                     <ChevronRight className="h-3 w-3" />

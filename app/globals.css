@@ -187,53 +187,6 @@ body {
   }
 }
 
-/*
- * Stats Cards: Hover Focus & Blur Effect
- * Smooth focus on hovered card (scale 1.05) while sibling cards blur (4px) and scale down (0.95)
- */
-.stats-focus-container {
-  /* Container context */
-}
-
-.stats-focus-card {
-  cursor: pointer;
-  transform-origin: center center;
-  will-change: transform, scale, filter, opacity;
-  transition: all 400ms ease !important;
-}
-
-/* When any stats card inside the container is hovered, blur & shrink the other cards */
-.stats-focus-container:has(.stats-focus-card:hover) .stats-focus-card:not(:hover) {
-  filter: blur(4px) !important;
-  opacity: 0.6 !important;
-  scale: 0.95 !important;
-}
-
-/* The hovered card scales up smoothly with elevated z-index */
-.stats-focus-card:hover {
-  filter: blur(0px) !important;
-  opacity: 1 !important;
-  scale: 1.05 !important;
-  z-index: 20 !important;
-  position: relative !important;
-}
-
-/* Fallback for older browsers without :has */
-@supports not (selector(:has(*))) {
-  .stats-focus-container:hover .stats-focus-card:not(:hover) {
-    filter: blur(4px) !important;
-    opacity: 0.6 !important;
-    scale: 0.95 !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stats-focus-card {
-    transition: none !important;
-    scale: 1 !important;
-    filter: none !important;
-  }
-}
 
 /*
  * iOS Safari Safe Area & Mobile Viewport Utilities
