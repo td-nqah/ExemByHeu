@@ -117,14 +117,6 @@ export async function POST(req: NextRequest) {
       targetAccount = "adm";
     }
 
-    // Strictly allowed accounts only
-    if (!["adm", "tth", "tmh", "user"].includes(targetAccount)) {
-      return NextResponse.json(
-        { error: "Tên đăng nhập hoặc mật khẩu không chính xác." },
-        { status: 401 }
-      );
-    }
-
     // Determine client IP address
     const forwarded = req.headers.get("x-forwarded-for");
     const clientIp =
@@ -135,6 +127,12 @@ export async function POST(req: NextRequest) {
     const currentDevice = String(deviceId || "device_browser").trim();
 
     const sb = getSupabaseAdmin();
+    const secMap = await getSecurityMap(sb);
+
+    let isKnownAccount =
+      ["adm", "tth", "tmh", "user"].includes(targetAccount) ||
+      Boolean(secMap[targetAccount]);
+
     let profile: Profile | null = null;
     let isMatch = false;
 
@@ -148,6 +146,7 @@ export async function POST(req: NextRequest) {
           .maybeSingle();
 
         if (data) {
+          isKnownAccount = true;
           profile = {
             id: data.id,
             username: data.username,
@@ -168,6 +167,13 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    if (!isKnownAccount) {
+      return NextResponse.json(
+        { error: "Tên đăng nhập hoặc mật khẩu không chính xác." },
+        { status: 401 }
+      );
+    }
+
     // Fallback credential check
     if (!isMatch) {
       if (targetAccount === "adm" && password === "5555") {
@@ -178,6 +184,12 @@ export async function POST(req: NextRequest) {
         isMatch = true;
       } else if (targetAccount === "user" && password === "3") {
         isMatch = true;
+      } else if (secMap[targetAccount]?.password_hash) {
+        try {
+          isMatch = bcrypt.compareSync(password, secMap[targetAccount].password_hash!);
+        } catch {
+          isMatch = false;
+        }
       }
     }
 
@@ -197,15 +209,14 @@ export async function POST(req: NextRequest) {
         user: "00000000-0000-0000-0000-000000000004",
       };
       profile = {
-        id: idMap[targetAccount] || "00000000-0000-0000-0000-000000000001",
+        id: idMap[targetAccount] || crypto.randomUUID(),
         username: targetAccount,
-        role: targetAccount === "adm" ? "admin" : "user",
+        role: (secMap[targetAccount]?.role as "admin" | "user") || "user",
         created_at: new Date().toISOString(),
       };
     }
 
     // Load Security State
-    const secMap = await getSecurityMap(sb);
     const sec = secMap[targetAccount] || {
       username: targetAccount,
       role: profile.role,

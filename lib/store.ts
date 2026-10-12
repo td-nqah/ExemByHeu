@@ -1742,6 +1742,56 @@ export async function adminResetUserPassword(
   }
 }
 
+export async function adminCreateAccount(
+  username: string,
+  password: string,
+  role: "user" | "admin" = "user"
+): Promise<{ success: boolean; message: string; user?: Profile }> {
+  try {
+    const res = await fetch("/api/admin/accounts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "create_account",
+        username,
+        password,
+        role,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      return {
+        success: false,
+        message: data.error || "Không thể tạo tài khoản.",
+      };
+    }
+
+    // Also update local profiles so UI updates immediately
+    initStore();
+    const cleanUser = username.trim().toLowerCase();
+    const localProfiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
+    if (!localProfiles.some((p) => p.username.toLowerCase() === cleanUser)) {
+      const newProf: Profile = {
+        id: crypto.randomUUID(),
+        username: cleanUser,
+        role,
+        is_active: true,
+        password_hash: password,
+        created_at: new Date().toISOString(),
+      };
+      setLocal(KEY_PROFILES, [...localProfiles, newProf]);
+    }
+
+    return {
+      success: true,
+      message: data.message || `Đã tạo tài khoản '${cleanUser}' thành công.`,
+    };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Lỗi kết nối máy chủ";
+    return { success: false, message: msg };
+  }
+}
+
 // Helper: Sync categories list to Supabase __SYSTEM_CATEGORIES__ exam record
 async function syncCategoriesToSupabase(categoriesList: Category[]) {
   if (!isSupabaseConfigured || !supabase) return;

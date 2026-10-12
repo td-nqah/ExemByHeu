@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import bcrypt from "bcryptjs";
 import { AccountSecurity } from "@/types/exam";
 
 const DEFAULT_SECURITY_MAP: Record<string, AccountSecurity> = {
@@ -113,7 +114,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { action, username, is_active } = body;
+    const { action, username, is_active, password, role } = body;
 
     if (!username) {
       return NextResponse.json(
@@ -125,6 +126,78 @@ export async function POST(req: NextRequest) {
     const cleanUser = String(username).trim().toLowerCase();
     const sb = getSupabaseAdmin();
     const secMap = await getSecurityMap(sb);
+
+    if (action === "create_account") {
+      if (!password || String(password).trim().length === 0) {
+        return NextResponse.json(
+          { error: "Vui lòng nhập mật khẩu cho tài khoản mới." },
+          { status: 400 }
+        );
+      }
+
+      if (cleanUser.length < 2) {
+        return NextResponse.json(
+          { error: "Tên tài khoản phải có ít nhất 2 ký tự." },
+          { status: 400 }
+        );
+      }
+
+      // Check if user already exists
+      if (secMap[cleanUser] && (["adm", "tth", "tmh", "user"].includes(cleanUser) || secMap[cleanUser].password_hash)) {
+        return NextResponse.json(
+          { error: `Tài khoản '${cleanUser}' đã tồn tại trong hệ thống.` },
+          { status: 400 }
+        );
+      }
+
+      const assignedRole = role === "admin" ? "admin" : "user";
+      const hash = bcrypt.hashSync(String(password).trim(), 10);
+
+      // Insert into Supabase if configured
+      if (sb) {
+        try {
+          const { data: existingProf } = await sb
+            .from("profiles")
+            .select("id")
+            .ilike("username", cleanUser)
+            .maybeSingle();
+
+          if (existingProf) {
+            return NextResponse.json(
+              { error: `Tài khoản '${cleanUser}' đã tồn tại trong cơ sở dữ liệu.` },
+              { status: 400 }
+            );
+          }
+
+          await sb.from("profiles").insert({
+            id: crypto.randomUUID(),
+            username: cleanUser,
+            password_hash: hash,
+            role: assignedRole,
+            created_at: new Date().toISOString(),
+          });
+        } catch (dbErr) {
+          console.error("Error creating profile in Supabase:", dbErr);
+        }
+      }
+
+      secMap[cleanUser] = {
+        username: cleanUser,
+        role: assignedRole,
+        is_active: true,
+        ips: [],
+        devices: [],
+        password_hash: hash,
+        updated_at: new Date().toISOString(),
+      };
+      await saveSecurityMap(sb, secMap);
+
+      return NextResponse.json({
+        success: true,
+        message: `Đã tạo thành công tài khoản '${cleanUser}' (${assignedRole === "admin" ? "Quản trị viên" : "Thí sinh"}).`,
+        account: secMap[cleanUser],
+      });
+    }
 
     if (!secMap[cleanUser]) {
       secMap[cleanUser] = {

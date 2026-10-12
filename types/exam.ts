@@ -15,6 +15,7 @@ export interface AccountSecurity {
   is_active: boolean;
   ips: string[];
   devices: string[];
+  password_hash?: string;
   updated_at?: string;
 }
 

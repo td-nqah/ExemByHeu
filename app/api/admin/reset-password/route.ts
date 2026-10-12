@@ -30,6 +30,29 @@ export async function POST(req: NextRequest) {
         .eq("username", cleanUsername)
         .select();
 
+      // Also update security map record
+      try {
+        const { data: secData } = await supabaseAdmin
+          .from("exams")
+          .select("id, description")
+          .eq("title", "__SYSTEM_ACCOUNT_SECURITY__")
+          .maybeSingle();
+
+        if (secData && secData.description) {
+          const map = JSON.parse(secData.description);
+          if (map[cleanUsername]) {
+            map[cleanUsername].password_hash = hash;
+            map[cleanUsername].updated_at = new Date().toISOString();
+            await supabaseAdmin
+              .from("exams")
+              .update({ description: JSON.stringify(map) })
+              .eq("id", secData.id);
+          }
+        }
+      } catch (secErr) {
+        console.error("Failed to sync secMap in reset-password:", secErr);
+      }
+
       if (error) {
         return NextResponse.json(
           { error: `Lỗi cập nhật CSDL: ${error.message}` },
