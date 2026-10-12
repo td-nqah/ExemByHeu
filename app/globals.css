@@ -172,25 +172,26 @@ body {
 
 .glass-card {
   position: relative;
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(17, 24, 39, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(30, 41, 59, 0.8);
+  border: 1px solid #1f2937;
 }
 
 .glass-card-interactive {
   position: relative;
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(17, 24, 39, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(30, 41, 59, 0.8);
+  border: 1px solid #1f2937;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card-interactive:hover {
-  background: rgba(15, 23, 42, 0.9);
-  border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: 0 0 25px rgba(99, 102, 241, 0.12);
+  background: rgba(17, 24, 39, 0.95);
+  border-color: #3b82f6;
+  box-shadow: 0 12px 30px -10px rgba(59, 130, 246, 0.15);
+  transform: translateY(-4px);
 }
 
 .glass-input {

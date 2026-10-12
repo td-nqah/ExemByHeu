@@ -64,6 +64,30 @@ export function useFullscreen(targetRef?: React.RefObject<HTMLElement | null>): 
     setIsSupported(nativeSupported && !isIosDevice);
   }, []);
 
+  // Exit Fullscreen
+  const exitFullscreen = useCallback(async () => {
+    const doc = document as FullscreenDocument;
+
+    try {
+      if (doc.exitFullscreen) {
+        await doc.exitFullscreen().catch(() => {});
+      } else if (doc.webkitExitFullscreen) {
+        await doc.webkitExitFullscreen().catch(() => {});
+      } else if (doc.mozCancelFullScreen) {
+        await doc.mozCancelFullScreen().catch(() => {});
+      } else if (doc.msExitFullscreen) {
+        await doc.msExitFullscreen().catch(() => {});
+      }
+    } catch {
+      // Ignore
+    } finally {
+      setIsFullscreen(false);
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
+    }
+  }, []);
+
   // 2. Synchronize state with browser native fullscreen events
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -108,7 +132,7 @@ export function useFullscreen(targetRef?: React.RefObject<HTMLElement | null>): 
       document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isIos, isFullscreen]);
+  }, [isIos, isFullscreen, exitFullscreen]);
 
   // 3. Viewport & Body scroll management for Mobile / iOS Safari
   useEffect(() => {
@@ -186,30 +210,6 @@ export function useFullscreen(targetRef?: React.RefObject<HTMLElement | null>): 
       }, 50);
     }
   }, [targetRef]);
-
-  // 5. Exit Fullscreen
-  const exitFullscreen = useCallback(async () => {
-    const doc = document as FullscreenDocument;
-
-    try {
-      if (doc.exitFullscreen) {
-        await doc.exitFullscreen().catch(() => {});
-      } else if (doc.webkitExitFullscreen) {
-        await doc.webkitExitFullscreen().catch(() => {});
-      } else if (doc.mozCancelFullScreen) {
-        await doc.mozCancelFullScreen().catch(() => {});
-      } else if (doc.msExitFullscreen) {
-        await doc.msExitFullscreen().catch(() => {});
-      }
-    } catch {
-      // Ignore
-    } finally {
-      setIsFullscreen(false);
-      if (typeof window !== "undefined") {
-        window.scrollTo({ top: 0, behavior: "instant" });
-      }
-    }
-  }, []);
 
   // 6. Toggle Fullscreen
   const toggleFullscreen = useCallback(async () => {

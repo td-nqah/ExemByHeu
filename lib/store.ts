@@ -12,8 +12,6 @@ import {
 } from "@/types/exam";
 import { supabase, isSupabaseConfigured } from "./supabase/client";
 
-import bcrypt from "bcryptjs";
-
 // Storage keys
 const STORAGE_PREFIX = "exampulse_";
 const KEY_USER = `${STORAGE_PREFIX}current_user`;
@@ -696,11 +694,6 @@ export async function getExams(
   if (examMemoryCache && examMemoryCache.key === cacheKey && examMemoryCache.expiresAt > now) {
     return examMemoryCache.data;
   }
-
-  const localSubmissions = getLocal<Submission[]>(
-    KEY_SUBMISSIONS,
-    SEED_SUBMISSIONS
-  );
 
   let dbExams: Exam[] = [];
   const shuffleConfig = await getShuffleConfig();
@@ -1793,7 +1786,7 @@ export async function getSubmissionById(id: string): Promise<Submission | null> 
       }
 
       if (!error && data) {
-        let sortedQuestions = data.exam?.questions || [];
+        const sortedQuestions = data.exam?.questions || [];
         if (sortedQuestions.length > 0) {
           sortedQuestions.sort((a: Question, b: Question) => a.order_index - b.order_index);
         }

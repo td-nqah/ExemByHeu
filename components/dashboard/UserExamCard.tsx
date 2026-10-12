@@ -58,7 +58,7 @@ export function UserExamCard({ exam }: UserExamCardProps) {
       : "Trắc nghiệm";
 
   return (
-    <div className="group flex flex-col justify-between h-full min-h-[165px] min-w-0 sm:min-w-[270px] rounded-xl bg-[#161b22] border border-[#21262d] p-4 sm:p-4.5 transition-colors hover:border-[#30363d] hover:bg-[#1c2128]">
+    <div className="group flex flex-col justify-between h-full min-h-[165px] min-w-0 sm:min-w-[270px] rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] p-4 sm:p-4.5 transition-all duration-300 hover:border-[#3b82f6] hover:-translate-y-1 hover:shadow-[0_12px_30px_-10px_rgba(59,130,246,0.15)]">
       {/* Top Header & Metadata */}
       <div className="space-y-2.5">
         {/* Top Badges Row */}

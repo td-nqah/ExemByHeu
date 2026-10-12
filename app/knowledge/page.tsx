@@ -142,7 +142,7 @@ export default function KnowledgeHubPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex flex-col justify-between rounded-2xl border border-[#21262d] bg-[#161b22] hover:border-[#5852d6]/50 transition-all p-5 sm:p-6 group hover:shadow-xl hover:shadow-[#5852d6]/5"
+              className="flex flex-col justify-between rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-[#3b82f6] hover:-translate-y-1 transition-all duration-300 p-5 sm:p-6 group hover:shadow-xl hover:shadow-[#5852d6]/10"
             >
               <div className="space-y-3.5">
                 {/* Meta badges */}

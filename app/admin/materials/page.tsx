@@ -466,7 +466,7 @@ export default function AdminMaterialsPage() {
           {filteredMaterials.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col justify-between rounded-2xl border border-[#21262d] bg-[#161b22] hover:border-[#5852d6]/50 transition-all p-5 group shadow-sm hover:shadow-[#5852d6]/5"
+              className="flex flex-col justify-between rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-[#3b82f6] hover:-translate-y-1 transition-all duration-300 p-5 group shadow-sm hover:shadow-[0_12px_30px_-10px_rgba(59,130,246,0.15)]"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
