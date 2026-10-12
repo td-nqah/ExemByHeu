@@ -21,6 +21,9 @@ import {
   User,
   X,
   ChevronDown,
+  Library,
+  Layers,
+  FileText,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -122,6 +125,12 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           !pathname.startsWith("/admin/exams/create")),
     },
     {
+      title: "Quản lý Tài liệu",
+      href: "/admin/materials",
+      icon: Library,
+      active: pathname.startsWith("/admin/materials"),
+    },
+    {
       title: "Quản lý Danh mục",
       href: "/admin/categories",
       icon: FolderTree,
@@ -214,13 +223,35 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           </nav>
         </div>
 
-        {/* 2. HỌC TẬP / LUYỆN THI */}
+        {/* 2. LÝ THUYẾT / BÀI TẬP */}
         <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
           <p className="px-3 text-[10px] font-bold tracking-wider text-slate-200 uppercase">
-            HỌC TẬP / LUYỆN THI
+            LÝ THUYẾT / BÀI TẬP
           </p>
           <div className="space-y-1">
-            {/* Accordion Parent: Danh sách Đề thi */}
+            {/* Mục 1: Tổng hợp kiến thức */}
+            <Link
+              href="/knowledge"
+              onClick={onCloseMobile}
+              className={cn(
+                "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors select-none",
+                pathname.startsWith("/knowledge")
+                  ? "bg-[#1e2538] text-white font-semibold"
+                  : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+              )}
+            >
+              <BookOpen
+                className={cn(
+                  "h-4 w-4 shrink-0",
+                  pathname.startsWith("/knowledge")
+                    ? "text-cyan-400"
+                    : "text-slate-400 group-hover:text-cyan-400"
+                )}
+              />
+              <span className="truncate">Tổng hợp kiến thức</span>
+            </Link>
+
+            {/* Mục 2: Accordion Parent: Danh sách Đề thi */}
             <div
               className={cn(
                 "group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors select-none",
@@ -243,7 +274,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                 }}
                 className="flex flex-1 items-center gap-3 truncate"
               >
-                <BookOpen
+                <Layers
                   className={cn(
                     "h-4 w-4 shrink-0",
                     isParentActive || isExamsRoute

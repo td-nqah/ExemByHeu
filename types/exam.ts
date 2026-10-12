@@ -106,3 +106,19 @@ export interface ParsedQuestionDraft {
   correct_answer: string;
   max_score: number;
 }
+
+export interface StudyMaterial {
+  id: string;
+  title: string;
+  category_id: string;
+  category_slug?: string;
+  category_name?: string;
+  summary: string;
+  content_html: string;
+  reading_time: number; // in minutes
+  original_file_url?: string;
+  original_file_name?: string;
+  author?: string;
+  created_at: string;
+  updated_at?: string;
+}

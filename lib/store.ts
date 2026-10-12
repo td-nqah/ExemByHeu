@@ -8,6 +8,7 @@ import {
   Profile,
   ParsedQuestionDraft,
   Category,
+  StudyMaterial,
 } from "@/types/exam";
 import { supabase, isSupabaseConfigured } from "./supabase/client";
 
@@ -22,6 +23,7 @@ const KEY_SUBMISSIONS = `${STORAGE_PREFIX}submissions`;
 const KEY_SUBMISSION_ANSWERS = `${STORAGE_PREFIX}sub_answers`;
 const KEY_PROFILES = `${STORAGE_PREFIX}profiles`;
 const KEY_CATEGORIES = `${STORAGE_PREFIX}categories`;
+const KEY_STUDY_MATERIALS = `${STORAGE_PREFIX}study_materials`;
 
 export const SEED_CATEGORIES: Category[] = [
   {
@@ -304,6 +306,9 @@ export function initStore(): void {
   }
   if (!localStorage.getItem(KEY_CATEGORIES)) {
     setLocal(KEY_CATEGORIES, SEED_CATEGORIES);
+  }
+  if (!localStorage.getItem(KEY_STUDY_MATERIALS) || getLocal<StudyMaterial[]>(KEY_STUDY_MATERIALS, []).length === 0) {
+    setLocal(KEY_STUDY_MATERIALS, SEED_STUDY_MATERIALS);
   }
 }
 
@@ -1979,6 +1984,444 @@ export async function deleteCategory(id: string): Promise<boolean> {
 
   if (typeof window !== "undefined") window.dispatchEvent(new Event("categories_updated"));
   return true;
+}
+
+// =========================================================================
+// STUDY MATERIALS & MAGAZINE VIEW MODULE
+// =========================================================================
+
+export const SEED_STUDY_MATERIALS: StudyMaterial[] = [
+  {
+    id: "mat_cnxh_1",
+    title: "Chủ nghĩa Xã hội Khoa học: Bản chất, Quy luật và Sứ mệnh Lịch sử của Giai cấp Công nhân",
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    category_name: "Chủ nghĩa xã hội (CNXH)",
+    summary: "Tổng kết toàn diện về điều kiện kinh tế - xã hội dẫn tới sự ra đời của CNXH khoa học, quy luật chuyển biến xã hội và địa vị lịch sử - kinh tế của giai cấp công nhân trong kỷ nguyên hiện đại.",
+    reading_time: 8,
+    author: "Hội đồng Giảng huấn Lý luận Chính trị",
+    created_at: "2026-10-10T08:00:00.000Z",
+    content_html: `
+      <h2>1. Điều kiện Kinh tế - Xã hội và Tiền đề Lý luận</h2>
+      <p class="leading-relaxed">Chủ nghĩa xã hội khoa học (CNXHKH) ra đời vào những năm 40 của thế kỷ XIX, là kết quả tất yếu của sự phát triển phương thức sản xuất tư bản chủ nghĩa và sự trưởng thành của phong trào công nhân quốc tế.</p>
+      
+      <div class="callout-box bg-[#1a1d2e] border-l-4 border-cyan-400 p-4 rounded-r-xl my-4 shadow-sm">
+        <p class="font-bold text-cyan-300 text-sm flex items-center gap-2">💡 Khái niệm Cốt lõi Cần Nắm:</p>
+        <p class="text-xs text-slate-300 mt-1">Sự xuất hiện của giai cấp vô sản công nghiệp trên vũ đài lịch sử với tư cách là một lực lượng chính trị độc lập đã đòi hỏi bức thiết một hệ tư tưởng khoa học dẫn đường. Ba phong trào công nhân tiêu biểu (Dệt Lyon - Pháp, Hiến chương Anh, Dệt Silesia - Đức) chính là tiền đề thực tiễn trực tiếp.</p>
+      </div>
+
+      <h3>1.1. Ba phát kiến vĩ đại của C.Mác và Ph.Ăngghen</h3>
+      <ul class="list-disc pl-5 space-y-1.5 text-slate-300 my-3">
+        <li><strong>Chủ nghĩa duy vật lịch sử:</strong> Làm sáng tỏ quy luật vận động nội tại của các hình thái kinh tế - xã hội và quy luật đấu tranh giai cấp.</li>
+        <li><strong>Học thuyết giá trị thặng dư:</strong> Vạch trần bản chất bóc lột của phương thức sản xuất tư bản chủ nghĩa dưới vỏ bọc tự do trao đổi hàng hóa.</li>
+        <li><strong>Sứ mệnh lịch sử của giai cấp công nhân:</strong> Chỉ ra lực lượng xã hội tiên phong có khả năng lãnh đạo công cuộc giải phóng nhân loại.</li>
+      </ul>
+
+      <h2>2. Sứ mệnh Lịch sử Toàn thế giới của Giai cấp Công nhân</h2>
+      <p class="leading-relaxed">Nội dung cốt lõi trong sứ mệnh lịch sử của giai cấp công nhân là xóa bỏ chế độ áp bức bóc lột tư bản chủ nghĩa, giải phóng giai cấp mình và toàn thể nhân dân lao động, từng bước xây dựng thành công xã hội cộng sản chủ nghĩa văn minh.</p>
+
+      <div class="overflow-x-auto my-5">
+        <table class="w-full border-collapse border border-white/10 text-xs text-left">
+          <thead>
+            <tr class="bg-indigo-950/60 text-indigo-200 border-b border-white/10">
+              <th class="p-3 font-semibold">Lĩnh vực Trọng tâm</th>
+              <th class="p-3 font-semibold">Nhiệm vụ Chiến lược</th>
+              <th class="p-3 font-semibold">Mục tiêu Hướng tới</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5 text-slate-300">
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-cyan-300">Chính trị - Xã hội</td>
+              <td class="p-3">Đập tan ách thống trị của giai cấp bóc lột, thiết lập nhà nước chuyên chính vô sản.</td>
+              <td class="p-3">Xây dựng và hoàn thiện nền dân chủ xã hội chủ nghĩa chân chính.</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-purple-300">Kinh tế</td>
+              <td class="p-3">Xác lập chế độ công hữu về tư liệu sản xuất chủ yếu, giải phóng sức sản xuất.</td>
+              <td class="p-3">Nâng cao đời sống vật chất, phân phối theo lao động và nhu cầu.</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-amber-300">Tư tưởng - Văn hóa</td>
+              <td class="p-3">Xác lập vị trí thống trị của hệ tư tưởng Mác - Lênin, xây dựng nền văn hóa mới.</td>
+              <td class="p-3">Giải phóng con người toàn diện về tư duy, đạo đức và thẩm mỹ.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>3. Đặc điểm của Giai cấp Công nhân Việt Nam</h2>
+      <p class="leading-relaxed">Giai cấp công nhân Việt Nam sinh ra và lớn lên trong một xã hội thuộc địa nửa phong kiến, chịu ách áp bức nặng nề của đế quốc và phong kiến.</p>
+      
+      <div class="callout-box bg-[#1c2235] border-l-4 border-amber-400 p-4 rounded-r-xl my-4 shadow-sm">
+        <p class="font-bold text-amber-300 text-sm">⚠️ Phân tích Đặc thù Việt Nam:</p>
+        <p class="text-xs text-slate-300 mt-1">Giai cấp công nhân Việt Nam ra đời trước giai cấp tư sản dân tộc, sớm tiếp thu ánh sáng chủ nghĩa Mác - Lênin thông qua Nguyễn Ái Quốc, có mối quan hệ tự nhiên gắn bó máu thịt với giai cấp nông dân - lực lượng cách mạng đông đảo nhất.</p>
+      </div>
+
+      <h2>4. Câu hỏi Ôn tập Trọng tâm</h2>
+      <ol class="list-decimal pl-5 space-y-1.5 text-slate-300 my-3 text-xs">
+        <li>Phân tích điều kiện khách quan và nhân tố chủ quan quy định sứ mệnh lịch sử của giai cấp công nhân?</li>
+        <li>Tại sao nói Đảng Cộng sản là nhân tố quyết định nhất để giai cấp công nhân hoàn thành sứ mệnh lịch sử?</li>
+        <li>Những biến đổi của giai cấp công nhân hiện đại trong bối cảnh cuộc Cách mạng Công nghiệp lần thứ tư (4.0)?</li>
+      </ol>
+    `,
+  },
+  {
+    id: "mat_cnxh_2",
+    title: "Thời kỳ Quá độ lên Chủ nghĩa Xã hội & Bản chất Nền Dân chủ Xã hội Chủ nghĩa",
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    category_name: "Chủ nghĩa xã hội (CNXH)",
+    summary: "Hệ thống hóa luận điểm về tính tất yếu lịch sử của thời kỳ quá độ, đặc điểm quá độ gián tiếp bỏ qua chế độ tư bản chủ nghĩa tại Việt Nam và cơ chế thực thi dân chủ XHCN.",
+    reading_time: 6,
+    author: "Viện Nghiên cứu Chủ nghĩa Mác - Lênin",
+    created_at: "2026-10-10T14:30:00.000Z",
+    content_html: `
+      <h2>1. Tính Tất yếu và Đặc điểm của Thời kỳ Quá độ</h2>
+      <p class="leading-relaxed">Thời kỳ quá độ lên chủ nghĩa xã hội là thời kỳ cải biến cách mạng sâu sắc, toàn diện trên tất cả các lĩnh vực đời sống xã hội từ xã hội cũ sang xã hội mới XHCN.</p>
+
+      <div class="callout-box bg-[#1a1d2e] border-l-4 border-indigo-400 p-4 rounded-r-xl my-4 shadow-sm">
+        <p class="font-bold text-indigo-300 text-sm flex items-center gap-2">📌 Hai Hình thức Quá độ Lịch sử:</p>
+        <p class="text-xs text-slate-300 mt-1"><strong>Quá độ trực tiếp:</strong> Từ chủ nghĩa tư bản phát triển lên chủ nghĩa cộng sản.<br/><strong>Quá độ gián tiếp:</strong> Từ xã hội tiền tư bản chủ nghĩa đi lên CNXH bỏ qua chế độ tư bản chủ nghĩa (như Việt Nam, Trung Quốc, Cuba).</p>
+      </div>
+
+      <h2>2. Con đường Quá độ Bỏ qua Chế độ Tư bản Chủ nghĩa ở Việt Nam</h2>
+      <p class="leading-relaxed">Đại hội IX của Đảng Cộng sản Việt Nam đã làm sáng tỏ: "Bỏ qua chế độ tư bản chủ nghĩa là bỏ qua việc xác lập vị trí thống trị của quan hệ sản xuất và kiến trúc thượng tầng tư bản chủ nghĩa, nhưng tiếp thu, kế thừa những thành tựu mà nhân loại đã đạt được dưới chế độ tư bản".</p>
+
+      <h2>3. Bản chất Nền Dân chủ Xã hội Chủ nghĩa</h2>
+      <p class="leading-relaxed">Dân chủ xã hội chủ nghĩa là nền dân chủ cao hơn về chất so với dân chủ tư sản, là nền dân chủ mà ở đó quyền lực thực sự thuộc về nhân dân, do nhân dân làm chủ.</p>
+
+      <div class="overflow-x-auto my-5">
+        <table class="w-full border-collapse border border-white/10 text-xs text-left">
+          <thead>
+            <tr class="bg-indigo-950/60 text-indigo-200 border-b border-white/10">
+              <th class="p-3 font-semibold">Tiêu chí So sánh</th>
+              <th class="p-3 font-semibold">Dân chủ Tư sản</th>
+              <th class="p-3 font-semibold">Dân chủ Xã hội Chủ nghĩa</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5 text-slate-300">
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-slate-200">Bản chất Giai cấp</td>
+              <td class="p-3">Phục vụ lợi ích của thiểu số giai cấp tư sản.</td>
+              <td class="p-3 text-emerald-300 font-medium">Bản chất của giai cấp công nhân, phục vụ đa số nhân dân.</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-slate-200">Cơ sở Kinh tế</td>
+              <td class="p-3">Dựa trên chế độ tư hữu về tư liệu sản xuất.</td>
+              <td class="p-3 text-emerald-300 font-medium">Dựa trên chế độ công hữu về các tư liệu sản xuất chủ yếu.</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-slate-200">Phương thức Thực hiện</td>
+              <td class="p-3">Hình thức pháp lý danh nghĩa, tiền tài chi phối.</td>
+              <td class="p-3 text-emerald-300 font-medium">Dân chủ đại diện kết hợp trực tiếp ("Dân biết, dân bàn, dân làm, dân kiểm tra").</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `,
+  },
+  {
+    id: "mat_ctmt_1",
+    title: "Kiến trúc Máy tính Hiện đại: Mô hình Von Neumann, Pipeline CPU và Phân cấp Bộ nhớ Cache",
+    category_id: "cat_ctmthdh",
+    category_slug: "ctmthdh",
+    category_name: "Cấu trúc máy tính & Hệ điều hành",
+    summary: "Khảo sát chuyên sâu cấu trúc vi xử lý hiện đại: chu trình lệnh Fetch-Decode-Execute, kỹ thuật đường ống lệnh 5 tầng, hiện tượng Pipeline Hazards và ma trận so sánh tốc độ phân cấp bộ nhớ Cache L1/L2/L3.",
+    reading_time: 10,
+    author: "Bộ môn Kỹ thuật Máy tính & Vi xử lý",
+    created_at: "2026-10-11T09:15:00.000Z",
+    content_html: `
+      <h2>1. Mô hình Kiến trúc Von Neumann</h2>
+      <p class="leading-relaxed">Kiến trúc Von Neumann là nền tảng của hầu hết máy tính số hiện đại, được xây dựng dựa trên nguyên lý chương trình lưu trữ (Stored-program concept): cả lệnh và dữ liệu đều được lưu trữ trong cùng một bộ nhớ chính.</p>
+
+      <div class="callout-box bg-[#1a1d2e] border-l-4 border-cyan-400 p-4 rounded-r-xl my-4 shadow-sm">
+        <p class="font-bold text-cyan-300 text-sm">💡 Von Neumann Bottleneck (Nút thắt cổ chai):</p>
+        <p class="text-xs text-slate-300 mt-1">Do lệnh và dữ liệu dùng chung bus truyền dữ liệu, CPU không thể vừa tìm nạp lệnh (Fetch) vừa đọc/ghi dữ liệu (Data Access) đồng thời trên cùng một chu kỳ bus. Kiến trúc Harvard khắc phục điều này bằng cách tách riêng bus lệnh và bus dữ liệu.</p>
+      </div>
+
+      <h2>2. Kỹ thuật Đường ống Lệnh (Instruction Pipelining)</h2>
+      <p class="leading-relaxed">Pipelining là kỹ thuật chia quá trình thực thi một lệnh thành nhiều giai đoạn độc lập (stages), cho phép CPU xử lý đồng thời nhiều lệnh tại các giai đoạn khác nhau trên cùng một chu kỳ xung nhịp (Clock Cycle).</p>
+
+      <h3>2.1. Năm Giai đoạn Kinh điển của MIPS Pipeline (5-Stage)</h3>
+      <ol class="list-decimal pl-5 space-y-1.5 text-slate-300 my-3 text-xs">
+        <li><strong>IF (Instruction Fetch):</strong> Tìm nạp lệnh từ bộ nhớ thông qua con trỏ lệnh PC (Program Counter).</li>
+        <li><strong>ID (Instruction Decode):</strong> Giải mã mã lệnh (Opcode) và đọc dữ liệu từ các thanh ghi (Register File).</li>
+        <li><strong>EX (Execute):</strong> Khối số học logic (ALU) thực hiện tính toán số học hoặc tính toán địa chỉ bộ nhớ.</li>
+        <li><strong>MEM (Memory Access):</strong> Đọc dữ liệu từ RAM hoặc ghi dữ liệu ra RAM (nếu lệnh là Load / Store).</li>
+        <li><strong>WB (Write Back):</strong> Ghi kết quả tính toán ngược trở lại thanh ghi đích.</li>
+      </ol>
+
+      <h3>2.2. Các Xung đột trong Pipeline (Hazards)</h3>
+      <ul class="list-disc pl-5 space-y-1.5 text-slate-300 my-3">
+        <li><strong>Structural Hazard:</strong> Xung đột tài nguyên phần cứng (ví dụ: 2 lệnh cùng truy cập 1 cổng bộ nhớ).</li>
+        <li><strong>Data Hazard (RAW, WAR, WAW):</strong> Lệnh sau cần dữ liệu của lệnh trước khi lệnh trước chưa kịp ghi kết quả (Khắc phục bằng Data Forwarding).</li>
+        <li><strong>Control Hazard:</strong> Xảy ra khi gặp các lệnh rẽ nhánh (Branch / Jump), CPU chưa biết lệnh tiếp theo cần fetch là gì (Khắc phục bằng Branch Prediction).</li>
+      </ul>
+
+      <h2>3. Cấu trúc Phân cấp Bộ nhớ (Memory Hierarchy)</h2>
+      <div class="overflow-x-auto my-5">
+        <table class="w-full border-collapse border border-white/10 text-xs text-left">
+          <thead>
+            <tr class="bg-indigo-950/60 text-indigo-200 border-b border-white/10">
+              <th class="p-3 font-semibold">Tầng Bộ nhớ</th>
+              <th class="p-3 font-semibold">Thời gian Truy cập</th>
+              <th class="p-3 font-semibold">Dung lượng Tiêu biểu</th>
+              <th class="p-3 font-semibold">Công nghệ Chế tạo</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5 text-slate-300">
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-cyan-300">Registers (Thanh ghi)</td>
+              <td class="p-3 font-mono">&lt; 1 ns (1 clock)</td>
+              <td class="p-3 font-mono">1 - 2 KB</td>
+              <td class="p-3">Flip-Flop mạch tích hợp CPU</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-purple-300">L1 Cache</td>
+              <td class="p-3 font-mono">1 - 2 ns (4 clocks)</td>
+              <td class="p-3 font-mono">32 - 128 KB</td>
+              <td class="p-3">SRAM On-die per core</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-indigo-300">L2 / L3 Cache</td>
+              <td class="p-3 font-mono">3 - 15 ns (10-40 clocks)</td>
+              <td class="p-3 font-mono">1 - 32 MB+</td>
+              <td class="p-3">SRAM Shared / Dedicated</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-amber-300">RAM (Bộ nhớ chính)</td>
+              <td class="p-3 font-mono">50 - 100 ns</td>
+              <td class="p-3 font-mono">8 - 64 GB</td>
+              <td class="p-3">DRAM (DDR4 / DDR5)</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-slate-400">SSD NVMe / HDD</td>
+              <td class="p-3 font-mono">10 - 100 µs (SSD)</td>
+              <td class="p-3 font-mono">512 GB - 2 TB+</td>
+              <td class="p-3">NAND Flash Memory</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `,
+  },
+  {
+    id: "mat_ctmt_2",
+    title: "Hệ Điều Hành: Quản lý Tiến trình (Process), Điều phối Luồng (Thread) & Lập lịch CPU",
+    category_id: "cat_ctmthdh",
+    category_slug: "ctmthdh",
+    category_name: "Cấu trúc máy tính & Hệ điều hành",
+    summary: "Mô hình chuyển trạng thái tiến trình (5-State Transition), khối điều khiển PCB, phân biệt sự khác nhau giữa Process vs Thread trong nhân OS, và so sánh chi tiết các thuật toán điều phối CPU (FCFS, SJF, Round Robin).",
+    reading_time: 7,
+    author: "Tổ Hệ điều hành & Hệ thống Nhúng",
+    created_at: "2026-10-11T16:45:00.000Z",
+    content_html: `
+      <h2>1. Khái niệm Tiến trình (Process) và PCB</h2>
+      <p class="leading-relaxed">Tiến trình là một chương trình đang trong quá trình thực thi, bao gồm mã chương trình (Code), con trỏ lệnh (PC), nội dung các thanh ghi CPU và vùng nhớ ngăn xếp (Stack), vùng nhớ heap.</p>
+
+      <div class="callout-box bg-[#1a1d2e] border-l-4 border-emerald-400 p-4 rounded-r-xl my-4 shadow-sm">
+        <p class="font-bold text-emerald-300 text-sm">💡 Cấu trúc Khối Điều khiển Tiến trình (PCB - Process Control Block):</p>
+        <p class="text-xs text-slate-300 mt-1">Hệ điều hành quản lý mỗi tiến trình thông qua PCB, gồm: <code>Process ID (PID)</code>, Trạng thái (Process State), Ngữ cảnh thanh ghi (CPU Registers), Thông tin lập lịch CPU (Độ ưu tiên), Giới hạn bộ nhớ (Memory Limits) và Danh sách tệp đang mở (Open Files).</p>
+      </div>
+
+      <h2>2. Mô hình Chuyển đổi 5 Trạng thái của Tiến trình</h2>
+      <ul class="list-disc pl-5 space-y-1.5 text-slate-300 my-3">
+        <li><strong>New (Mới tạo):</strong> Tiến trình đang được tạo lập trong bộ nhớ.</li>
+        <li><strong>Ready (Sẵn sàng):</strong> Tiến trình đã nạp đủ vào RAM, nằm trong hàng đợi sẵn sàng chờ được cấp phát CPU.</li>
+        <li><strong>Running (Đang chạy):</strong> Tiến trình đang chiếm dụng CPU và thực thi các câu lệnh.</li>
+        <li><strong>Waiting / Blocked (Chờ / Nghẽn):</strong> Tiến trình tạm dừng chờ một sự kiện I/O hoặc tín hiệu đồng bộ.</li>
+        <li><strong>Terminated (Kết thúc):</strong> Tiến trình đã thực thi xong hoặc bị hủy bởi hệ điều hành.</li>
+      </ul>
+
+      <h2>3. So sánh Tiến trình (Process) và Luồng (Thread)</h2>
+      <div class="overflow-x-auto my-5">
+        <table class="w-full border-collapse border border-white/10 text-xs text-left">
+          <thead>
+            <tr class="bg-indigo-950/60 text-indigo-200 border-b border-white/10">
+              <th class="p-3 font-semibold">Đặc tính</th>
+              <th class="p-3 font-semibold">Tiến trình (Process)</th>
+              <th class="p-3 font-semibold">Luồng (Thread)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5 text-slate-300">
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-slate-200">Không gian Địa chỉ</td>
+              <td class="p-3">Cô lập độc lập hoàn toàn, không thể ghi vào RAM của tiến trình khác.</td>
+              <td class="p-3 text-cyan-300">Dùng chung không gian địa chỉ, code và data của tiến trình cha.</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-slate-200">Chi phí Chuyển ngữ cảnh</td>
+              <td class="p-3">Rất cao (Phải lưu trữ TLB, bảng trang nhớ, thanh ghi).</td>
+              <td class="p-3 text-cyan-300">Rất thấp (Chỉ cần lưu trữ PC, con trỏ stack và thanh ghi).</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="p-3 font-mono font-medium text-slate-200">Giao tiếp Dữ liệu</td>
+              <td class="p-3">Phải thông qua IPC (Pipes, Sockets, Shared Memory).</td>
+              <td class="p-3 text-cyan-300">Giao tiếp trực tiếp qua biến toàn cục (Cần khóa đồng bộ Mutex/Semaphore).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>4. Các Thuật toán Lập lịch CPU Kinh điển</h2>
+      <p class="leading-relaxed">Mục tiêu lập lịch: Tối đa hóa hiệu suất CPU Utilization, giảm thiểu Thời gian hoàn thành (Turnaround Time) và Thời gian chờ đợi (Waiting Time).</p>
+      <ul class="list-disc pl-5 space-y-1.5 text-slate-300 my-3 text-xs">
+        <li><strong>FCFS (First-Come, First-Served):</strong> Đến trước phục vụ trước. Đơn giản nhưng dễ gặp hiệu ứng đoàn tàu (Convoy Effect).</li>
+        <li><strong>SJF (Shortest Job First):</strong> Tiến trình có CPU burst ngắn nhất chạy trước. Tối ưu thời gian chờ trung bình, nhưng có thể gây bỏ đói (Starvation) các tiến trình dài.</li>
+        <li><strong>Round Robin (RR):</strong> Phân chia thời gian (Time Quantum q). Mỗi tiến trình được chạy tối đa q thời gian rồi bị hoán đổi (Preemptive). Rất phù hợp cho hệ thống đa nhiệm tương tác.</li>
+      </ul>
+    `,
+  },
+];
+
+export async function getStudyMaterials(
+  categorySlugOrId?: string
+): Promise<StudyMaterial[]> {
+  initStore();
+  let materials: StudyMaterial[] = [];
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("exams")
+        .select("id, description")
+        .eq("title", "__SYSTEM_STUDY_MATERIALS__")
+        .maybeSingle();
+
+      if (!error && data && data.description) {
+        materials = JSON.parse(data.description);
+      }
+    } catch {}
+  }
+
+  if (materials.length === 0) {
+    materials = getLocal<StudyMaterial[]>(
+      KEY_STUDY_MATERIALS,
+      SEED_STUDY_MATERIALS
+    );
+  }
+
+  if (categorySlugOrId && categorySlugOrId !== "all") {
+    const filter = categorySlugOrId.toLowerCase();
+    materials = materials.filter(
+      (m) =>
+        m.category_id.toLowerCase() === filter ||
+        (m.category_slug && m.category_slug.toLowerCase() === filter)
+    );
+  }
+
+  return materials.sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+}
+
+export async function getStudyMaterialById(
+  id: string
+): Promise<StudyMaterial | null> {
+  const all = await getStudyMaterials();
+  return all.find((m) => m.id === id) || null;
+}
+
+export async function saveStudyMaterial(
+  materialData: Partial<StudyMaterial>
+): Promise<StudyMaterial> {
+  initStore();
+  const all = await getStudyMaterials();
+  const existingIdx = all.findIndex((m) => m.id === materialData.id);
+
+  const categories = await getCategories(false);
+  const matchedCat = categories.find(
+    (c) => c.id === materialData.category_id || c.slug === materialData.category_id
+  );
+
+  const textContent = (materialData.content_html || "").replace(/<[^>]+>/g, " ").trim();
+  const words = textContent.split(/\s+/).filter(Boolean).length;
+  const calculatedReadingTime = Math.max(1, Math.round(words / 180));
+
+  let savedItem: StudyMaterial;
+
+  if (existingIdx !== -1) {
+    savedItem = {
+      ...all[existingIdx],
+      ...materialData,
+      category_name: matchedCat ? matchedCat.name : all[existingIdx].category_name,
+      category_slug: matchedCat ? matchedCat.slug : all[existingIdx].category_slug,
+      reading_time: materialData.reading_time || calculatedReadingTime,
+      updated_at: new Date().toISOString(),
+    } as StudyMaterial;
+    all[existingIdx] = savedItem;
+  } else {
+    savedItem = {
+      id: materialData.id || `mat_${crypto.randomUUID()}`,
+      title: materialData.title || "Tài liệu học tập mới",
+      category_id: materialData.category_id || (categories[0]?.id || "cat_cnxh"),
+      category_name: matchedCat ? matchedCat.name : (categories[0]?.name || "Chuyên đề"),
+      category_slug: matchedCat ? matchedCat.slug : (categories[0]?.slug || "cnxh"),
+      summary: materialData.summary || "",
+      content_html: materialData.content_html || "<p>Nội dung đang được cập nhật...</p>",
+      reading_time: materialData.reading_time || calculatedReadingTime,
+      original_file_url: materialData.original_file_url,
+      original_file_name: materialData.original_file_name,
+      author: materialData.author || "Ban Giảng huấn",
+      created_at: new Date().toISOString(),
+    };
+    all.unshift(savedItem);
+  }
+
+  setLocal(KEY_STUDY_MATERIALS, all);
+  await syncStudyMaterialsToSupabase(all);
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("materials_updated"));
+  }
+
+  return savedItem;
+}
+
+export async function deleteStudyMaterial(id: string): Promise<boolean> {
+  initStore();
+  const all = await getStudyMaterials();
+  const filtered = all.filter((m) => m.id !== id);
+  setLocal(KEY_STUDY_MATERIALS, filtered);
+  await syncStudyMaterialsToSupabase(filtered);
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("materials_updated"));
+  }
+
+  return true;
+}
+
+export async function syncStudyMaterialsToSupabase(
+  materials: StudyMaterial[]
+): Promise<void> {
+  if (!isSupabaseConfigured || !supabase) return;
+  try {
+    const { data: existing } = await supabase
+      .from("exams")
+      .select("id")
+      .eq("title", "__SYSTEM_STUDY_MATERIALS__")
+      .maybeSingle();
+
+    const desc = JSON.stringify(materials);
+    if (existing) {
+      await supabase
+        .from("exams")
+        .update({ description: desc })
+        .eq("id", existing.id);
+    } else {
+      await supabase.from("exams").insert({
+        title: "__SYSTEM_STUDY_MATERIALS__",
+        description: desc,
+        duration_minutes: 0,
+        status: "draft",
+        created_by: "00000000-0000-0000-0000-000000000001",
+      });
+    }
+  } catch (err) {
+    console.error("Failed to sync study materials to Supabase:", err);
+  }
 }
 
 
