@@ -610,22 +610,22 @@ export default function AdminSettingsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {/* KHỐI 1: Quản lý Kích hoạt & Thiết bị Đăng nhập */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#121826]/95 via-[#0d121c]/95 to-[#090d16] border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 backdrop-blur-xl flex flex-col justify-between ring-1 ring-white/[0.04]">
+          <div className="relative overflow-hidden rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between">
             {/* Ambient glow accent line at top */}
-            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#5852d6]/60 via-indigo-500/40 to-transparent" />
-            <div className="absolute -top-24 -left-24 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
+            <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#4f46e5]/10 rounded-full blur-3xl pointer-events-none" />
 
             <div>
-              <div className="flex items-center justify-between pb-4 border-b border-white/[0.07]">
+              <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/15 border border-indigo-500/20 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
                     <ShieldCheck className="h-5 w-5" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-white flex items-center gap-2">
                       <span>Kiểm soát Kích hoạt & Thiết bị</span>
                     </h3>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-[#9ca3af]">
                       Tự động tắt Active nếu đăng nhập quá 3 IP hoặc 3 thiết bị
                     </p>
                   </div>
@@ -635,7 +635,7 @@ export default function AdminSettingsPage() {
                   type="button"
                   onClick={fetchAccountsSecurity}
                   disabled={accountsLoading}
-                  className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-white/10 text-slate-300 hover:text-white transition cursor-pointer shadow-sm active:scale-95"
+                  className="p-2 rounded-xl bg-[#0b0f19] hover:bg-[#1f2937] border border-[#1f2937] text-slate-300 hover:text-white transition cursor-pointer shadow-sm active:scale-95"
                   title="Làm mới trạng thái bảo mật"
                 >
                   <RefreshCw className={`h-3.5 w-3.5 ${accountsLoading ? "animate-spin" : ""}`} />
@@ -677,20 +677,20 @@ export default function AdminSettingsPage() {
                   return (
                     <div
                       key={acc.username}
-                      className="rounded-xl bg-[#141b29]/80 hover:bg-[#182133]/90 border border-white/[0.06] hover:border-white/[0.12] p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-150"
+                      className="rounded-xl bg-[#0b0f19] hover:bg-[#1f2937]/50 border border-[#1f2937] hover:border-[#4f46e5]/30 p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-150"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
                           <span className="font-mono font-bold text-xs text-white">
                             {acc.username}
                           </span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/60 font-medium">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#1f2937] text-slate-300 border border-[#1f2937] font-medium">
                             {acc.role === "admin" ? "Admin" : "Thí sinh"}
                           </span>
                           <span
                             className={`text-[10px] px-2 py-0.5 rounded-full font-semibold border ${
                               isActive
-                                ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30 shadow-[0_0_8px_rgba(16,185,129,0.15)]"
+                                ? "bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] shadow-[0_0_8px_rgba(52,211,153,0.15)]"
                                 : "bg-rose-500/15 text-rose-400 border-rose-500/30 shadow-[0_0_8px_rgba(244,63,94,0.15)]"
                             }`}
                           >
@@ -699,14 +699,14 @@ export default function AdminSettingsPage() {
                         </div>
 
                         {/* IP and Device counters */}
-                        <div className="flex items-center gap-3 text-[11px] text-slate-400">
+                        <div className="flex items-center gap-3 text-[11px] text-[#9ca3af]">
                           <span
                             className={`flex items-center gap-1 ${
                               ipCount > 3 ? "text-rose-400 font-bold" : ""
                             }`}
                             title={acc.ips?.join(", ") || "Chưa có IP nào ghi nhận"}
                           >
-                            <Globe className="h-3.5 w-3.5 text-blue-400 shrink-0" />
+                            <Globe className="h-3.5 w-3.5 text-[#38bdf8] shrink-0" />
                             <span>IP: <strong className="font-mono text-white">{ipCount}</strong>/3</span>
                           </span>
 
@@ -716,7 +716,7 @@ export default function AdminSettingsPage() {
                             }`}
                             title={acc.devices?.join(", ") || "Chưa có thiết bị nào ghi nhận"}
                           >
-                            <Monitor className="h-3.5 w-3.5 text-purple-400 shrink-0" />
+                            <Monitor className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
                             <span>Thiết bị: <strong className="font-mono text-white">{devCount}</strong>/3</span>
                           </span>
                         </div>
@@ -744,7 +744,7 @@ export default function AdminSettingsPage() {
                           type="button"
                           onClick={() => handleResetSecurity(acc.username)}
                           disabled={accountsLoading}
-                          className="px-2.5 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 text-xs font-medium transition cursor-pointer flex items-center gap-1 disabled:opacity-50 active:scale-95"
+                          className="px-2.5 py-1.5 rounded-lg bg-[#4f46e5]/15 hover:bg-[#4f46e5]/25 border border-[#4f46e5]/30 text-indigo-300 text-xs font-medium transition cursor-pointer flex items-center gap-1 disabled:opacity-50 active:scale-95"
                           title="Đặt lại bộ đếm thiết bị & IP về 0/3 và mở khóa tài khoản"
                         >
                           <RefreshCw className="h-3 w-3" />
@@ -757,48 +757,48 @@ export default function AdminSettingsPage() {
               </div>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-white/[0.07] flex items-center justify-between text-[11px] text-slate-400">
+            <div className="mt-4 pt-3 border-t border-[#1f2937] flex items-center justify-between text-[11px] text-[#9ca3af]">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
                 <span>Chính sách: Khóa bảo vệ khi vượt ngưỡng 3 IP / 3 máy</span>
               </span>
-              <span className="font-mono text-[10px] text-slate-500">Auto-Enforced</span>
+              <span className="font-mono text-[10px] text-[#6b7280]">Auto-Enforced</span>
             </div>
           </div>
 
           {/* KHỐI 2: THÍCH HỢP CHUNG CẢ TẠO TÀI KHOẢN VÀ ĐẶT LẠI MẬT KHẨU */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#121826]/95 via-[#0d121c]/95 to-[#090d16] border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 backdrop-blur-xl flex flex-col justify-between ring-1 ring-white/[0.04]">
+          <div className="relative overflow-hidden rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between">
             {/* Ambient glow accent line at top */}
-            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500/50 via-purple-500/30 to-transparent" />
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#4f46e5]/10 rounded-full blur-3xl pointer-events-none" />
 
             <div>
-              <div className="flex items-center justify-between pb-4 border-b border-white/[0.07]">
+              <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-indigo-500/20 border border-white/10 text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
                     {activeAccountTab === "reset" ? (
-                      <KeyRound className="h-5 w-5" />
+                      <KeyRound className="h-5 w-5 text-[#6366f1]" />
                     ) : (
-                      <UserPlus className="h-5 w-5 text-indigo-400" />
+                      <UserPlus className="h-5 w-5 text-[#6366f1]" />
                     )}
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-white">
                       Quản lý & Cấp phát Tài khoản
                     </h3>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-[#9ca3af]">
                       Tạo tài khoản mới hoặc đổi mật khẩu cho người dùng
                     </p>
                   </div>
                 </div>
 
-                <span className="hidden sm:inline-flex text-[10px] px-2.5 py-1 rounded-full font-mono bg-white/[0.04] border border-white/10 text-slate-300">
+                <span className="hidden sm:inline-flex text-[10px] px-2.5 py-1 rounded-full font-mono bg-[#0b0f19] border border-[#1f2937] text-[#9ca3af]">
                   {allProfiles.length} tài khoản
                 </span>
               </div>
 
               {/* Segmented Tab Switcher */}
-              <div className="grid grid-cols-2 p-1 mt-4 rounded-xl bg-[#090d16] border border-white/[0.07] shadow-inner">
+              <div className="grid grid-cols-2 p-1 mt-4 rounded-xl bg-[#0b0f19] border border-[#1f2937] shadow-inner">
                 <button
                   type="button"
                   onClick={() => {
@@ -807,8 +807,8 @@ export default function AdminSettingsPage() {
                   }}
                   className={`py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer ${
                     activeAccountTab === "reset"
-                      ? "bg-gradient-to-r from-amber-500/20 to-amber-600/25 text-amber-300 border border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.03] border border-transparent"
+                      ? "bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 shadow-sm"
+                      : "text-[#9ca3af] hover:text-white hover:bg-white/[0.03] border border-transparent"
                   }`}
                 >
                   <KeyRound className="h-3.5 w-3.5" />
@@ -823,8 +823,8 @@ export default function AdminSettingsPage() {
                   }}
                   className={`py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer ${
                     activeAccountTab === "create"
-                      ? "bg-gradient-to-r from-indigo-500/20 to-purple-600/25 text-indigo-300 border border-indigo-500/40 shadow-[0_0_15px_rgba(99,102,241,0.2)]"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.03] border border-transparent"
+                      ? "bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 shadow-sm"
+                      : "text-[#9ca3af] hover:text-white hover:bg-white/[0.03] border border-transparent"
                   }`}
                 >
                   <UserPlus className="h-3.5 w-3.5" />
@@ -858,7 +858,7 @@ export default function AdminSettingsPage() {
                       <label className="text-xs font-medium text-slate-300">
                         Chọn tài khoản cần đổi mật khẩu
                       </label>
-                      <span className="text-[10px] text-slate-500 font-mono">
+                      <span className="text-[10px] text-[#9ca3af] font-mono">
                         ({allProfiles.length} tài khoản)
                       </span>
                     </div>
@@ -871,8 +871,8 @@ export default function AdminSettingsPage() {
                       aria-expanded={isUserDropdownOpen}
                       className={`w-full px-3 py-2.5 rounded-xl border text-xs text-left transition-all duration-200 flex items-center justify-between gap-3 shadow-inner cursor-pointer select-none ${
                         isUserDropdownOpen
-                          ? "bg-[#182133] border-amber-500/80 ring-2 ring-amber-500/20 shadow-[0_0_20px_rgba(245,158,11,0.15)]"
-                          : "bg-[#141b29] hover:bg-[#1a2336] border-white/[0.08] hover:border-amber-500/40 text-white"
+                          ? "bg-[#0b0f19] border-[#4f46e5] ring-2 ring-[#4f46e5]/20 shadow-[0_0_15px_rgba(79,70,229,0.2)] text-white"
+                          : "bg-[#0b0f19] hover:bg-[#1f2937]/50 border-[#1f2937] hover:border-[#4f46e5]/40 text-white"
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
@@ -883,8 +883,8 @@ export default function AdminSettingsPage() {
                             <div
                               className={`h-7 w-7 rounded-lg flex items-center justify-center shrink-0 border ${
                                 isAdmin
-                                  ? "bg-amber-500/15 border-amber-500/30 text-amber-400"
-                                  : "bg-indigo-500/15 border-indigo-500/30 text-indigo-400"
+                                  ? "bg-[#4f46e5]/15 border-[#4f46e5]/30 text-indigo-400"
+                                  : "bg-[#0284c7]/15 border-[#0284c7]/30 text-[#38bdf8]"
                               }`}
                             >
                               {isAdmin ? (
@@ -908,8 +908,8 @@ export default function AdminSettingsPage() {
                                 <span
                                   className={`text-[9px] px-1.5 py-0.5 rounded-md font-semibold border ${
                                     isAdmin
-                                      ? "bg-amber-500/15 text-amber-300 border-amber-500/30"
-                                      : "bg-slate-800 text-slate-300 border-white/10"
+                                      ? "bg-[#4f46e5]/15 text-indigo-300 border-[#4f46e5]/30"
+                                      : "bg-[#1f2937] text-[#9ca3af] border-[#1f2937]"
                                   }`}
                                 >
                                   {isAdmin ? "Quản trị viên" : "Thí sinh"}
@@ -928,13 +928,13 @@ export default function AdminSettingsPage() {
                             <span
                               className={`text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 border ${
                                 isActive
-                                  ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/25"
-                                  : "bg-rose-500/10 text-rose-400 border-rose-500/25"
+                                  ? "bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b]"
+                                  : "bg-rose-500/10 text-rose-400 border border-rose-500/25"
                               }`}
                             >
                               <span
                                 className={`h-1.5 w-1.5 rounded-full ${
-                                  isActive ? "bg-emerald-400 animate-pulse" : "bg-rose-400"
+                                  isActive ? "bg-[#34d399] animate-pulse" : "bg-rose-400"
                                 }`}
                               />
                               <span>{isActive ? "Active" : "Khóa"}</span>
@@ -942,8 +942,8 @@ export default function AdminSettingsPage() {
                           );
                         })()}
                         <ChevronDown
-                          className={`h-4 w-4 text-slate-400 transition-transform duration-200 transform ${
-                            isUserDropdownOpen ? "rotate-180 text-amber-400" : ""
+                          className={`h-4 w-4 text-[#9ca3af] transition-transform duration-200 transform ${
+                            isUserDropdownOpen ? "rotate-180 text-[#6366f1]" : ""
                           }`}
                         />
                       </div>
@@ -958,9 +958,9 @@ export default function AdminSettingsPage() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: -6, scale: 0.98 }}
                           transition={{ duration: 0.15, ease: "easeOut" }}
-                          className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl bg-[#121826]/98 backdrop-blur-2xl border border-white/12 shadow-[0_20px_45px_rgba(0,0,0,0.7)] p-1.5 space-y-1 ring-1 ring-black/50"
+                          className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl bg-[#0b0f19] backdrop-blur-2xl border border-[#1f2937] shadow-[0_20px_45px_rgba(0,0,0,0.7)] p-1.5 space-y-1 ring-1 ring-black/50"
                         >
-                          <div className="px-2.5 py-1.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wider border-b border-white/[0.06] flex items-center justify-between">
+                          <div className="px-2.5 py-1.5 text-[10px] font-semibold text-[#9ca3af] uppercase tracking-wider border-b border-[#1f2937] flex items-center justify-between">
                             <span>Danh sách tài khoản</span>
                             <span className="font-mono text-slate-500 lowercase">
                               {allProfiles.length} tài khoản
@@ -986,16 +986,16 @@ export default function AdminSettingsPage() {
                                   }}
                                   className={`w-full px-2.5 py-2 rounded-lg text-left transition-all duration-150 flex items-center justify-between gap-2.5 group cursor-pointer ${
                                     isSelected
-                                      ? "bg-amber-500/15 border border-amber-500/30 text-amber-200 ring-1 ring-amber-500/20"
-                                      : "hover:bg-white/[0.06] text-slate-300 hover:text-white border border-transparent"
+                                      ? "bg-[#4f46e5]/15 border border-[#4f46e5]/30 text-indigo-200 ring-1 ring-[#4f46e5]/20"
+                                      : "hover:bg-[#1f2937] text-slate-300 hover:text-white border border-transparent"
                                   }`}
                                 >
                                   <div className="flex items-center gap-2.5 min-w-0">
                                     <div
                                       className={`h-7 w-7 rounded-lg flex items-center justify-center shrink-0 border transition-transform duration-150 group-hover:scale-105 ${
                                         isAdmin
-                                          ? "bg-amber-500/15 border-amber-500/30 text-amber-400"
-                                          : "bg-indigo-500/15 border-indigo-500/30 text-indigo-400"
+                                          ? "bg-[#4f46e5]/15 border-[#4f46e5]/30 text-indigo-400"
+                                          : "bg-[#0284c7]/15 border-[#0284c7]/30 text-[#38bdf8]"
                                       }`}
                                     >
                                       {isAdmin ? (
@@ -1009,8 +1009,8 @@ export default function AdminSettingsPage() {
                                         <span
                                           className={`font-mono text-xs font-bold tracking-wide ${
                                             isSelected
-                                              ? "text-amber-300"
-                                              : "text-white group-hover:text-amber-200"
+                                              ? "text-indigo-300"
+                                              : "text-white group-hover:text-indigo-200"
                                           }`}
                                         >
                                           {p.username}
@@ -1018,22 +1018,22 @@ export default function AdminSettingsPage() {
                                         <span
                                           className={`text-[9px] px-1.5 py-0.5 rounded font-semibold border ${
                                             isAdmin
-                                              ? "bg-amber-500/20 text-amber-300 border-amber-500/30"
-                                              : "bg-slate-800 text-slate-400 border-white/5"
+                                              ? "bg-[#4f46e5]/20 text-indigo-300 border-[#4f46e5]/30"
+                                              : "bg-[#1f2937] text-[#9ca3af] border-[#1f2937]"
                                           }`}
                                         >
                                           {isAdmin ? "Quản trị viên" : "Thí sinh"}
                                         </span>
                                       </div>
-                                      <div className="text-[10px] text-slate-400 flex items-center gap-2 mt-0.5">
+                                      <div className="text-[10px] text-[#9ca3af] flex items-center gap-2 mt-0.5">
                                         <span
                                           className={`flex items-center gap-1 ${
-                                            isActive ? "text-emerald-400/90" : "text-rose-400/90"
+                                            isActive ? "text-[#34d399]" : "text-rose-400/90"
                                           }`}
                                         >
                                           <span
                                             className={`h-1 w-1 rounded-full ${
-                                              isActive ? "bg-emerald-400" : "bg-rose-400"
+                                              isActive ? "bg-[#34d399]" : "bg-rose-400"
                                             }`}
                                           />
                                           <span>{isActive ? "Đang hoạt động" : "Đã khóa"}</span>
@@ -1049,7 +1049,7 @@ export default function AdminSettingsPage() {
 
                                   <div className="shrink-0 pl-1">
                                     {isSelected ? (
-                                      <div className="h-5 w-5 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 shadow-sm">
+                                      <div className="h-5 w-5 rounded-full bg-[#4f46e5]/20 border border-[#4f46e5]/40 flex items-center justify-center text-indigo-300 shadow-sm">
                                         <Check className="h-3 w-3" />
                                       </div>
                                     ) : (
@@ -1070,7 +1070,7 @@ export default function AdminSettingsPage() {
                   {/* New Password for Selected User */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-medium text-slate-300">
-                      Mật khẩu mới cho <strong className="text-amber-400 font-mono">[{selectedUser}]</strong>
+                      Mật khẩu mới cho <strong className="text-[#38bdf8] font-mono">[{selectedUser}]</strong>
                     </label>
                     <div className="relative">
                       <input
@@ -1078,12 +1078,12 @@ export default function AdminSettingsPage() {
                         value={emergencyNewPassword}
                         onChange={(e) => setEmergencyNewPassword(e.target.value)}
                         placeholder={`Nhập mật khẩu mới cho ${selectedUser}`}
-                        className="w-full px-3 py-2.5 bg-[#141b29] border border-white/[0.08] hover:border-amber-500/40 focus:border-amber-500 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none transition-colors pr-10 shadow-inner"
+                        className="w-full px-3 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors pr-10 shadow-inner"
                       />
                       <button
                         type="button"
                         onClick={() => setShowEmergencyPass(!showEmergencyPass)}
-                        className="absolute right-3 top-2.5 text-slate-400 hover:text-white transition-colors"
+                        className="absolute right-3 top-2.5 text-[#9ca3af] hover:text-white transition-colors"
                       >
                         {showEmergencyPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
@@ -1094,7 +1094,7 @@ export default function AdminSettingsPage() {
                     <button
                       type="submit"
                       disabled={emergencyLoading}
-                      className="w-full py-2.5 px-4 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-400 text-white font-semibold text-xs rounded-xl shadow-[0_4px_18px_rgba(245,158,11,0.25)] hover:shadow-[0_6px_22px_rgba(245,158,11,0.4)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
+                      className="w-full py-2.5 px-4 bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] text-white font-semibold text-xs rounded-xl shadow-[0_4px_18px_rgba(79,70,229,0.35)] hover:shadow-[0_6px_22px_rgba(99,102,241,0.5)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
                     >
                       {emergencyLoading ? (
                         <>
@@ -1138,12 +1138,12 @@ export default function AdminSettingsPage() {
                       <label className="text-xs font-medium text-slate-300">
                         Tên đăng nhập mới
                       </label>
-                      <span className="text-[10px] text-slate-500 font-mono">
+                      <span className="text-[10px] text-[#9ca3af] font-mono">
                         Viết liền, không dấu
                       </span>
                     </div>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#9ca3af]">
                         <User className="h-3.5 w-3.5" />
                       </div>
                       <input
@@ -1153,7 +1153,7 @@ export default function AdminSettingsPage() {
                           setNewUsername(e.target.value.toLowerCase().replace(/\s+/g, ""))
                         }
                         placeholder="Ví dụ: student4, user5..."
-                        className="w-full pl-9 pr-3 py-2.5 bg-[#141b29] border border-white/[0.08] hover:border-indigo-500/40 focus:border-indigo-500 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none transition-colors shadow-inner"
+                        className="w-full pl-9 pr-3 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner"
                       />
                     </div>
                   </div>
@@ -1164,7 +1164,7 @@ export default function AdminSettingsPage() {
                       Mật khẩu khởi tạo
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#9ca3af]">
                         <Lock className="h-3.5 w-3.5" />
                       </div>
                       <input
@@ -1172,12 +1172,12 @@ export default function AdminSettingsPage() {
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="Nhập mật khẩu cho tài khoản mới"
-                        className="w-full pl-9 pr-10 py-2.5 bg-[#141b29] border border-white/[0.08] hover:border-indigo-500/40 focus:border-indigo-500 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none transition-colors shadow-inner"
+                        className="w-full pl-9 pr-10 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner"
                       />
                       <button
                         type="button"
                         onClick={() => setShowNewPassword(!showNewPassword)}
-                        className="absolute right-3 top-2.5 text-slate-400 hover:text-white transition-colors"
+                        className="absolute right-3 top-2.5 text-[#9ca3af] hover:text-white transition-colors"
                       >
                         {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
@@ -1195,8 +1195,8 @@ export default function AdminSettingsPage() {
                         onClick={() => setNewRole("user")}
                         className={`py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center gap-2 transition cursor-pointer ${
                           newRole === "user"
-                            ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-300 ring-1 ring-indigo-500/30"
-                            : "bg-[#141b29] border-white/[0.06] text-slate-400 hover:text-white"
+                            ? "bg-[#4f46e5]/20 border-[#4f46e5]/40 text-indigo-300 ring-1 ring-[#4f46e5]/30 font-semibold"
+                            : "bg-[#0b0f19] border-[#1f2937] text-[#9ca3af] hover:text-white"
                         }`}
                       >
                         <User className="h-3.5 w-3.5" />
@@ -1207,8 +1207,8 @@ export default function AdminSettingsPage() {
                         onClick={() => setNewRole("admin")}
                         className={`py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center gap-2 transition cursor-pointer ${
                           newRole === "admin"
-                            ? "bg-amber-500/20 border-amber-500/40 text-amber-300 ring-1 ring-amber-500/30"
-                            : "bg-[#141b29] border-white/[0.06] text-slate-400 hover:text-white"
+                            ? "bg-[#4f46e5]/20 border-[#4f46e5]/40 text-indigo-300 ring-1 ring-[#4f46e5]/30 font-semibold"
+                            : "bg-[#0b0f19] border-[#1f2937] text-[#9ca3af] hover:text-white"
                         }`}
                       >
                         <Shield className="h-3.5 w-3.5" />
@@ -1221,7 +1221,7 @@ export default function AdminSettingsPage() {
                     <button
                       type="submit"
                       disabled={createLoading}
-                      className="w-full py-2.5 px-4 bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-xs rounded-xl shadow-[0_4px_18px_rgba(99,102,241,0.25)] hover:shadow-[0_6px_22px_rgba(99,102,241,0.4)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
+                      className="w-full py-2.5 px-4 bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] text-white font-semibold text-xs rounded-xl shadow-[0_4px_18px_rgba(79,70,229,0.35)] hover:shadow-[0_6px_22px_rgba(99,102,241,0.5)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
                     >
                       {createLoading ? (
                         <>
@@ -1240,7 +1240,7 @@ export default function AdminSettingsPage() {
               )}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-white/[0.07] flex items-center justify-between text-[11px] text-slate-400">
+            <div className="mt-4 pt-3 border-t border-[#1f2937] flex items-center justify-between text-[11px] text-[#9ca3af]">
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                 <span>
@@ -1249,7 +1249,7 @@ export default function AdminSettingsPage() {
                     : "Tài khoản mới sẽ tự động đồng bộ bảo mật & quyền truy cập"}
                 </span>
               </span>
-              <span className="font-mono text-[10px] text-slate-500">
+              <span className="font-mono text-[10px] text-[#6b7280]">
                 {activeAccountTab === "reset" ? "Instant Reset" : "Auto Seed"}
               </span>
             </div>
