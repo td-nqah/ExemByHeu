@@ -16,7 +16,6 @@ interface MobileQuestionDrawerProps {
   flaggedQuestions?: Record<string, boolean>;
   activeQuestionId: string | null;
   onSelectQuestion: (questionId: string) => void;
-  isFocusMode?: boolean;
 }
 
 export function MobileQuestionDrawer({
@@ -25,7 +24,6 @@ export function MobileQuestionDrawer({
   flaggedQuestions = {},
   activeQuestionId,
   onSelectQuestion,
-  isFocusMode = false,
 }: MobileQuestionDrawerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,25 +54,15 @@ export function MobileQuestionDrawer({
   return (
     <>
       {/* 1. Floating Menu Button (FAB) - Visible ONLY on Mobile (< 768px) */}
-      <div
-        className={cn(
-          "fixed z-50 md:hidden transition-all duration-300",
-          isFocusMode ? "bottom-4 right-4" : "bottom-5 right-5"
-        )}
-      >
+      <div className="fixed bottom-5 right-5 z-50 md:hidden transition-all duration-300">
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className={cn(
-            "relative flex items-center justify-center rounded-full bg-gradient-to-tr from-indigo-600 to-violet-600 text-white border border-white/20 transition-all duration-200 active:scale-90 hover:scale-105",
-            isFocusMode
-              ? "h-12 w-12 shadow-[0_0_16px_rgba(99,102,241,0.45)]"
-              : "h-14 w-14 shadow-[0_0_25px_rgba(99,102,241,0.55)]"
-          )}
+          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-600 to-violet-600 text-white border border-white/20 shadow-[0_0_25px_rgba(99,102,241,0.55)] transition-all duration-200 active:scale-90 hover:scale-105"
           aria-label="Mở mục lục câu hỏi"
           title="Danh sách câu hỏi"
         >
-          <ListOrdered className={cn("stroke-[2.2]", isFocusMode ? "h-5 w-5" : "h-6 w-6")} />
+          <ListOrdered className="h-6 w-6 stroke-[2.2]" />
 
           {/* Progress Badge */}
           <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-emerald-500 px-1.5 text-[10px] font-extrabold text-slate-950 border-2 border-slate-950 shadow-md">

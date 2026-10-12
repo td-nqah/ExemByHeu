@@ -42,30 +42,34 @@ export const SEED_CATEGORIES: Category[] = [
   },
 ];
 
-// Default Seed Profiles
+// Default Seed Profiles (4 accounts: adm/5555, tth/1, tmh/2, user/3)
 export const SEED_PROFILES: Profile[] = [
   {
     id: "00000000-0000-0000-0000-000000000001",
-    username: "Admin",
+    username: "adm",
     role: "admin",
+    is_active: true,
     created_at: new Date().toISOString(),
   },
   {
     id: "00000000-0000-0000-0000-000000000002",
-    username: "User1",
+    username: "tth",
     role: "user",
+    is_active: true,
     created_at: new Date().toISOString(),
   },
   {
     id: "00000000-0000-0000-0000-000000000003",
-    username: "User2",
+    username: "tmh",
     role: "user",
+    is_active: true,
     created_at: new Date().toISOString(),
   },
   {
     id: "00000000-0000-0000-0000-000000000004",
-    username: "User3",
+    username: "user",
     role: "user",
+    is_active: true,
     created_at: new Date().toISOString(),
   },
 ];
@@ -334,104 +338,75 @@ export function setCurrentUser(user: Profile | null): void {
   }
 }
 
-export async function loginUser(username: string, password: string): Promise<Profile | null> {
-  const inputUsername = username.trim().toLowerCase().replace(/!+$/, "");
+function getOrCreateDeviceId(): string {
+  if (typeof window === "undefined") return "server_device";
+  let deviceId = localStorage.getItem("exampulse_device_id");
+  if (!deviceId) {
+    deviceId = "dev_" + Math.random().toString(36).substring(2, 10);
+    localStorage.setItem("exampulse_device_id", deviceId);
+  }
+  return deviceId;
+}
 
-  // Chỉ cho phép gõ đúng 'admin' hoặc 'user' (nghiêm cấm gõ 'user1', 'user2', 'user3' hay bất kỳ tên nào khác)
-  if (inputUsername !== "admin" && inputUsername !== "user") {
+export async function loginUser(username: string, password: string): Promise<Profile | null> {
+  const cleanUsername = username.trim().toLowerCase().replace(/!+$/, "");
+  const targetAccount = cleanUsername === "admin" ? "adm" : cleanUsername;
+
+  // Chỉ chấp nhận 4 tài khoản hợp lệ: adm, tth, tmh, user
+  if (!["adm", "tth", "tmh", "user"].includes(targetAccount)) {
     return null;
   }
 
-  // Tùy theo mật khẩu 1, 2, 3 mà ánh xạ tài khoản 'user' thành User1, User2, User3
-  let targetAccount = inputUsername;
-  if (inputUsername === "user") {
-    if (password === "1") targetAccount = "user1";
-    else if (password === "2") targetAccount = "user2";
-    else if (password === "3") targetAccount = "user3";
-    else return null;
-  }
+  const deviceId = getOrCreateDeviceId();
 
-  // 1. Try Supabase if configured
-  if (isSupabaseConfigured && supabase) {
-    try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .ilike("username", targetAccount)
-        .single();
+  // 1. Authenticate via Server API (tracks real IP, unique devices, active status & limit 3)
+  try {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: targetAccount,
+        password,
+        deviceId,
+      }),
+    });
 
-      if (!error && data) {
-        let isMatch = false;
+    const data = await res.json();
+    if (res.ok && data.success && data.user) {
+      const profile: Profile = {
+        id: data.user.id,
+        username: data.user.username,
+        role: data.user.role,
+        is_active: data.user.is_active,
+        created_at: data.user.created_at,
+      };
+      setCurrentUser(profile);
+      return profile;
+    }
 
-        // Bcrypt check
-        if (data.password_hash) {
-          try {
-            isMatch = bcrypt.compareSync(password, data.password_hash);
-          } catch {
-            isMatch = false;
-          }
-        }
-
-        // Direct credential check
-        if (!isMatch) {
-          if (targetAccount === "admin" && password === "123") {
-            isMatch = true;
-          } else if (targetAccount === "user1" && password === "1") {
-            isMatch = true;
-          } else if (targetAccount === "user2" && password === "2") {
-            isMatch = true;
-          } else if (targetAccount === "user3" && password === "3") {
-            isMatch = true;
-          } else if (data.password_hash === password) {
-            isMatch = true;
-          }
-        }
-
-        if (isMatch) {
-          let formattedUsername = "User1";
-          if (targetAccount === "admin") formattedUsername = "Admin";
-          else if (targetAccount === "user2") formattedUsername = "User2";
-          else if (targetAccount === "user3") formattedUsername = "User3";
-
-          const profile: Profile = {
-            id: data.id,
-            username: formattedUsername,
-            role: data.role as "admin" | "user",
-            created_at: data.created_at,
-          };
-          setCurrentUser(profile);
-          return profile;
-        }
-      }
-    } catch {
-      // Fallback to local store if network or Supabase not populated yet
+    if (!res.ok && data.error) {
+      throw new Error(data.error);
+    }
+  } catch (err: unknown) {
+    // If it's a specific auth/inactive/limit error thrown by API, rethrow so UI can display it
+    if (err instanceof Error && !err.message.includes("fetch")) {
+      throw err;
     }
   }
 
-  // 2. Local fallback
+  // 2. Offline / Local fallback check
   initStore();
-  const matched = SEED_PROFILES.find((p) => p.username.toLowerCase() === targetAccount);
-  if (matched) {
-    let isMatch = false;
-    if (targetAccount === "admin" && password === "123") {
-      isMatch = true;
-    } else if (targetAccount === "user1" && password === "1") {
-      isMatch = true;
-    } else if (targetAccount === "user2" && password === "2") {
-      isMatch = true;
-    } else if (targetAccount === "user3" && password === "3") {
-      isMatch = true;
-    }
+  let isMatch = false;
+  if (targetAccount === "adm" && password === "5555") isMatch = true;
+  else if (targetAccount === "tth" && password === "1") isMatch = true;
+  else if (targetAccount === "tmh" && password === "2") isMatch = true;
+  else if (targetAccount === "user" && password === "3") isMatch = true;
 
-    if (isMatch) {
-      let formattedUsername = "User1";
-      if (targetAccount === "admin") formattedUsername = "Admin";
-      else if (targetAccount === "user2") formattedUsername = "User2";
-      else if (targetAccount === "user3") formattedUsername = "User3";
-
-      const formattedMatched = { ...matched, username: formattedUsername };
-      setCurrentUser(formattedMatched);
-      return formattedMatched;
+  if (isMatch) {
+    const matched = SEED_PROFILES.find((p) => p.username.toLowerCase() === targetAccount);
+    if (matched) {
+      setCurrentUser(matched);
+      return matched;
     }
   }
 
@@ -554,7 +529,7 @@ export async function getExams(
     try {
       // Lightweight fetch: Select exam columns and lightweight questions(id, type) for counts & type
       let query = supabase.from("exams").select("*, questions(id, type)");
-      query = query.neq("title", "__SYSTEM_CATEGORIES__");
+      query = query.not("title", "like", "__SYSTEM_%");
       if (onlyPublished) {
         query = query.eq("status", "published");
       }
@@ -589,7 +564,7 @@ export async function getExams(
         const json = await res.json();
         if (json.success && json.exams && json.exams.length > 0) {
           dbExams = (json.exams as any[])
-            .filter((e: any) => e.title !== "__SYSTEM_CATEGORIES__" && (!onlyPublished || e.status === "published"))
+            .filter((e: any) => !e.title?.startsWith("__SYSTEM_") && (!onlyPublished || e.status === "published"))
             .map((e: any) => parseExamRecord(e));
         }
       }
@@ -610,7 +585,7 @@ export async function getExams(
 
   const localExams = sortExamsAscending(
     getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS).filter(
-      (e) => e.title !== "__SYSTEM_CATEGORIES__"
+      (e) => !e.title?.startsWith("__SYSTEM_")
     )
   );
   const fallbackResult = onlyPublished ? localExams.filter((e) => e.status === "published") : localExams;
@@ -1580,7 +1555,6 @@ export async function getAllProfiles(): Promise<Profile[]> {
       const { data, error } = await supabase
         .from("profiles")
         .select("id, username, role, created_at")
-        .neq("username", "user")
         .order("created_at", { ascending: true });
       if (!error && data && data.length > 0) {
         return data as Profile[];
@@ -1588,7 +1562,7 @@ export async function getAllProfiles(): Promise<Profile[]> {
     } catch {}
   }
   const profiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
-  return profiles.filter((p) => p.username !== "user");
+  return profiles;
 }
 
 export async function adminResetUserPassword(

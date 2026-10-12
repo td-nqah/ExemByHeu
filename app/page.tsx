@@ -48,8 +48,9 @@ export default function LoginPage() {
       } else {
         setError("Tên đăng nhập hoặc mật khẩu không chính xác.");
       }
-    } catch {
-      setError("Đã xảy ra lỗi trong quá trình xác thực tài khoản.");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Đã xảy ra lỗi trong quá trình xác thực tài khoản.";
+      setError(msg);
     } finally {
       setLoading(false);
     }

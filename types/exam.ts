@@ -5,7 +5,17 @@ export interface Profile {
   username: string;
   password_hash?: string;
   role: Role;
+  is_active?: boolean;
   created_at: string;
+}
+
+export interface AccountSecurity {
+  username: string;
+  role: Role;
+  is_active: boolean;
+  ips: string[];
+  devices: string[];
+  updated_at?: string;
 }
 
 export type ExamStatus = "draft" | "published";

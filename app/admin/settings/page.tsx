@@ -6,11 +6,10 @@ import {
   getCurrentUser,
   getAllProfiles,
   adminResetUserPassword,
-  loginUser,
   getExams,
   getSubmissions,
 } from "@/lib/store";
-import { Profile } from "@/types/exam";
+import { Profile, AccountSecurity } from "@/types/exam";
 import {
   HardDrive,
   Database,
@@ -18,6 +17,7 @@ import {
   Lock,
   Shield,
   ShieldAlert,
+  ShieldCheck,
   AlertTriangle,
   CheckCircle2,
   RefreshCw,
@@ -28,6 +28,9 @@ import {
   Layers,
   Copy,
   Check,
+  Monitor,
+  Globe,
+  Power,
 } from "lucide-react";
 
 export default function AdminSettingsPage() {
@@ -116,23 +119,29 @@ export default function AdminSettingsPage() {
   };
 
   // =========================================================================
-  // SECTION 2: PASSWORD MANAGEMENT
+  // SECTION 2: ACCOUNTS SECURITY & USER PASSWORD MANAGEMENT
   // =========================================================================
-  // 1. Admin Current Password State
-  const [oldAdminPassword, setOldAdminPassword] = useState("");
-  const [newAdminPassword, setNewAdminPassword] = useState("");
-  const [confirmAdminPassword, setConfirmAdminPassword] = useState("");
-  const [showOldPass, setShowOldPass] = useState(false);
-  const [showNewPass, setShowNewPass] = useState(false);
-  const [adminPassLoading, setAdminPassLoading] = useState(false);
-  const [adminPassNotice, setAdminPassNotice] = useState<{
+  // 1. Accounts Security & Device/IP Limiting State
+  const [accountsSecurity, setAccountsSecurity] = useState<AccountSecurity[]>([]);
+  const [accountsLoading, setAccountsLoading] = useState(false);
+  const [accountActionNotice, setAccountActionNotice] = useState<{
     type: "success" | "error";
     message: string;
   } | null>(null);
 
+  const fetchAccountsSecurity = async () => {
+    try {
+      const res = await fetch("/api/admin/accounts");
+      const data = await res.json();
+      if (res.ok && data.success && data.accounts) {
+        setAccountsSecurity(data.accounts);
+      }
+    } catch {}
+  };
+
   // 2. User Password Reset State
   const [allProfiles, setAllProfiles] = useState<Profile[]>([]);
-  const [selectedUser, setSelectedUser] = useState<string>("user1");
+  const [selectedUser, setSelectedUser] = useState<string>("tth");
   const [emergencyNewPassword, setEmergencyNewPassword] = useState("");
   const [showEmergencyPass, setShowEmergencyPass] = useState(false);
   const [emergencyLoading, setEmergencyLoading] = useState(false);
@@ -157,77 +166,81 @@ export default function AdminSettingsPage() {
         setSelectedUser(profiles[0].username);
       }
       handleRecalculateStorage();
+      fetchAccountsSecurity();
     }
     loadInitialData();
   }, [router, selectedUser]);
 
-  // Handle Admin Change Password
-  const handleAdminChangePassword = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setAdminPassNotice(null);
-
-    if (!oldAdminPassword || !newAdminPassword || !confirmAdminPassword) {
-      setAdminPassNotice({
-        type: "error",
-        message: "Vui lòng điền đầy đủ tất cả các trường mật khẩu.",
-      });
-      return;
-    }
-
-    if (newAdminPassword.length < 3) {
-      setAdminPassNotice({
-        type: "error",
-        message: "Mật khẩu mới phải có tối thiểu 3 ký tự.",
-      });
-      return;
-    }
-
-    if (newAdminPassword !== confirmAdminPassword) {
-      setAdminPassNotice({
-        type: "error",
-        message: "Mật khẩu mới và xác nhận mật khẩu không khớp.",
-      });
-      return;
-    }
-
-    setAdminPassLoading(true);
+  // Handle Toggle Active status
+  const handleToggleActive = async (username: string, currentActive: boolean) => {
+    setAccountsLoading(true);
+    setAccountActionNotice(null);
     try {
-      const verify = await loginUser(currentUser?.username || "admin", oldAdminPassword);
-      if (!verify) {
-        setAdminPassNotice({
-          type: "error",
-          message: "Mật khẩu hiện tại không chính xác. Vui lòng kiểm tra lại.",
-        });
-        setAdminPassLoading(false);
-        return;
-      }
-
-      const result = await adminResetUserPassword(
-        currentUser?.username || "admin",
-        newAdminPassword
-      );
-
-      if (result.success) {
-        setAdminPassNotice({
+      const res = await fetch("/api/admin/accounts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "toggle_active",
+          username,
+          is_active: !currentActive,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setAccountActionNotice({
           type: "success",
-          message: "Đổi mật khẩu tài khoản Admin thành công! Mật khẩu mới đã được lưu an toàn.",
+          message: data.message,
         });
-        setOldAdminPassword("");
-        setNewAdminPassword("");
-        setConfirmAdminPassword("");
+        await fetchAccountsSecurity();
       } else {
-        setAdminPassNotice({
+        setAccountActionNotice({
           type: "error",
-          message: result.message || "Không thể cập nhật mật khẩu.",
+          message: data.error || "Không thể cập nhật trạng thái tài khoản.",
         });
       }
     } catch {
-      setAdminPassNotice({
+      setAccountActionNotice({
         type: "error",
-        message: "Đã xảy ra sự cố trong quá trình đổi mật khẩu.",
+        message: "Lỗi kết nối khi cập nhật tài khoản.",
       });
     } finally {
-      setAdminPassLoading(false);
+      setAccountsLoading(false);
+    }
+  };
+
+  // Handle Reset Devices and IPs
+  const handleResetSecurity = async (username: string) => {
+    setAccountsLoading(true);
+    setAccountActionNotice(null);
+    try {
+      const res = await fetch("/api/admin/accounts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "reset_security",
+          username,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setAccountActionNotice({
+          type: "success",
+          message: data.message,
+        });
+        await fetchAccountsSecurity();
+      } else {
+        setAccountActionNotice({
+          type: "error",
+          message: data.error || "Không thể đặt lại thiết bị cho tài khoản.",
+        });
+      }
+    } catch {
+      setAccountActionNotice({
+        type: "error",
+        message: "Lỗi kết nối khi đặt lại thiết bị.",
+      });
+    } finally {
+      setAccountsLoading(false);
     }
   };
 
@@ -475,135 +488,162 @@ export default function AdminSettingsPage() {
       </section>
 
       {/* =========================================================================
-          CHỨC NĂNG 2: QUẢN LÝ & ĐỔI MẬT KHẨU
+          CHỨC NĂNG 2: KIỂM SOÁT HOẠT ĐỘNG TÀI KHOẢN & BẢO MẬT
           ========================================================================= */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <KeyRound className="h-4.5 w-4.5 text-indigo-400" />
-            <span>2. Chức năng Đổi Mật khẩu</span>
+            <ShieldCheck className="h-4.5 w-4.5 text-indigo-400" />
+            <span>2. Quản lý Tài khoản & Kiểm soát Bảo mật (Giới hạn IP / Thiết bị)</span>
           </h2>
-          <span className="text-xs text-slate-400">Mã hóa Bcrypt an toàn</span>
+          <span className="text-xs text-slate-400">Tự động khóa khi &gt;3 IP / Thiết bị</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* KHỐI 1: Đổi mật khẩu tài khoản Admin hiện tại */}
+          {/* KHỐI 1: Quản lý Kích hoạt & Thiết bị Đăng nhập (Thay thế card Đổi mật khẩu Admin) */}
           <div className="rounded-2xl bg-[#151b27] border border-white/[0.06] p-6 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-3 pb-4 border-b border-white/[0.06]">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1e2538] text-indigo-400">
-                  <Shield className="h-5 w-5" />
+              <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1e2538] text-indigo-400">
+                    <ShieldCheck className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-white">Kiểm soát Kích hoạt & Thiết bị</h3>
+                    <p className="text-xs text-slate-400">
+                      Tự động tắt Active nếu đăng nhập quá 3 IP hoặc 3 thiết bị
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-bold text-white">Đổi mật khẩu Admin hiện tại</h3>
-                  <p className="text-xs text-slate-400">
-                    Tài khoản: <strong className="text-[#818cf8] font-mono">{currentUser?.username || "admin"}</strong>
-                  </p>
-                </div>
+
+                <button
+                  type="button"
+                  onClick={fetchAccountsSecurity}
+                  disabled={accountsLoading}
+                  className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white transition cursor-pointer"
+                  title="Làm mới trạng thái"
+                >
+                  <RefreshCw className={`h-3.5 w-3.5 ${accountsLoading ? "animate-spin" : ""}`} />
+                </button>
               </div>
 
-              <form onSubmit={handleAdminChangePassword} className="space-y-3.5 mt-4">
-                {adminPassNotice && (
-                  <div
-                    className={`p-3 rounded-xl text-xs flex items-start gap-2 ${
-                      adminPassNotice.type === "success"
-                        ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-300"
-                        : "bg-rose-500/10 border border-rose-500/20 text-rose-300"
-                    }`}
-                  >
-                    {adminPassNotice.type === "success" ? (
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
-                    ) : (
-                      <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
-                    )}
-                    <span>{adminPassNotice.message}</span>
-                  </div>
-                )}
+              {accountActionNotice && (
+                <div
+                  className={`mt-4 p-3 rounded-xl text-xs flex items-start gap-2 ${
+                    accountActionNotice.type === "success"
+                      ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-300"
+                      : "bg-rose-500/10 border border-rose-500/20 text-rose-300"
+                  }`}
+                >
+                  {accountActionNotice.type === "success" ? (
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
+                  ) : (
+                    <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+                  )}
+                  <span>{accountActionNotice.message}</span>
+                </div>
+              )}
 
-                {/* Old Password */}
-                <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-300">
-                    Mật khẩu hiện tại
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showOldPass ? "text" : "password"}
-                      value={oldAdminPassword}
-                      onChange={(e) => setOldAdminPassword(e.target.value)}
-                      placeholder="Nhập mật khẩu hiện tại"
-                      className="w-full px-3 py-2 bg-[#1b2230] border border-white/[0.08] rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 pr-10"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowOldPass(!showOldPass)}
-                      className="absolute right-3 top-2 text-slate-400 hover:text-white"
+              {/* Accounts list table / rows */}
+              <div className="space-y-3 mt-4">
+                {(accountsSecurity.length > 0
+                  ? accountsSecurity
+                  : [
+                      { username: "adm", role: "admin", is_active: true, ips: [], devices: [] },
+                      { username: "tth", role: "user", is_active: true, ips: [], devices: [] },
+                      { username: "tmh", role: "user", is_active: true, ips: [], devices: [] },
+                      { username: "user", role: "user", is_active: true, ips: [], devices: [] },
+                    ]
+                ).map((acc) => {
+                  const ipCount = acc.ips?.length || 0;
+                  const devCount = acc.devices?.length || 0;
+                  const isActive = acc.is_active !== false;
+
+                  return (
+                    <div
+                      key={acc.username}
+                      className="rounded-xl bg-[#1b2230] border border-white/[0.06] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
-                      {showOldPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </button>
-                  </div>
-                </div>
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono font-bold text-sm text-white">
+                            {acc.username}
+                          </span>
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700/60 font-medium">
+                            {acc.role === "admin" ? "Admin" : "Thí sinh"}
+                          </span>
+                          <span
+                            className={`text-[10px] px-2 py-0.5 rounded-full font-semibold border ${
+                              isActive
+                                ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
+                                : "bg-rose-500/15 text-rose-400 border-rose-500/30"
+                            }`}
+                          >
+                            {isActive ? "Đang hoạt động (Active)" : "Đã khóa (Tắt Active)"}
+                          </span>
+                        </div>
 
-                {/* New Password */}
-                <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-300">
-                    Mật khẩu mới
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showNewPass ? "text" : "password"}
-                      value={newAdminPassword}
-                      onChange={(e) => setNewAdminPassword(e.target.value)}
-                      placeholder="Nhập mật khẩu mới"
-                      className="w-full px-3 py-2 bg-[#1b2230] border border-white/[0.08] rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 pr-10"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowNewPass(!showNewPass)}
-                      className="absolute right-3 top-2 text-slate-400 hover:text-white"
-                    >
-                      {showNewPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </button>
-                  </div>
-                </div>
+                        {/* IP and Device counters */}
+                        <div className="flex items-center gap-4 text-[11px] text-slate-400">
+                          <span
+                            className={`flex items-center gap-1 ${
+                              ipCount > 3 ? "text-rose-400 font-bold" : ""
+                            }`}
+                            title={acc.ips?.join(", ") || "Chưa có IP nào ghi nhận"}
+                          >
+                            <Globe className="h-3.5 w-3.5 text-blue-400 shrink-0" />
+                            <span>IP: <strong className="font-mono text-white">{ipCount}</strong>/3</span>
+                          </span>
 
-                {/* Confirm New Password */}
-                <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-300">
-                    Xác nhận mật khẩu mới
-                  </label>
-                  <input
-                    type="password"
-                    value={confirmAdminPassword}
-                    onChange={(e) => setConfirmAdminPassword(e.target.value)}
-                    placeholder="Nhập lại mật khẩu mới"
-                    className="w-full px-3 py-2 bg-[#1b2230] border border-white/[0.08] rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
-                  />
-                </div>
+                          <span
+                            className={`flex items-center gap-1 ${
+                              devCount > 3 ? "text-rose-400 font-bold" : ""
+                            }`}
+                            title={acc.devices?.join(", ") || "Chưa có thiết bị nào ghi nhận"}
+                          >
+                            <Monitor className="h-3.5 w-3.5 text-purple-400 shrink-0" />
+                            <span>Thiết bị: <strong className="font-mono text-white">{devCount}</strong>/3</span>
+                          </span>
+                        </div>
+                      </div>
 
-                <div className="pt-1">
-                  <button
-                    type="submit"
-                    disabled={adminPassLoading}
-                    className="w-full py-2.5 px-4 bg-[#4f57ea] hover:bg-[#434ac9] active:bg-[#3d43b6] text-white font-medium text-xs rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
-                  >
-                    {adminPassLoading ? (
-                      <>
-                        <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-                        <span>Đang lưu mật khẩu...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Lock className="h-3.5 w-3.5" />
-                        <span>Cập nhật mật khẩu Admin</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
+                      {/* Control buttons */}
+                      <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                        {/* Toggle Active Button */}
+                        <button
+                          type="button"
+                          onClick={() => handleToggleActive(acc.username, isActive)}
+                          disabled={accountsLoading}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 ${
+                            isActive
+                              ? "bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30"
+                              : "bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30"
+                          }`}
+                        >
+                          <Power className="h-3.5 w-3.5" />
+                          <span>{isActive ? "Tắt Active" : "Mở Active"}</span>
+                        </button>
+
+                        {/* Reset IP / Device Counters Button */}
+                        <button
+                          type="button"
+                          onClick={() => handleResetSecurity(acc.username)}
+                          disabled={accountsLoading}
+                          className="px-2.5 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 text-xs font-medium transition cursor-pointer flex items-center gap-1 disabled:opacity-50"
+                          title="Đặt lại bộ đếm thiết bị & IP về 0/3 và mở khóa tài khoản"
+                        >
+                          <RefreshCw className="h-3 w-3" />
+                          <span>Đặt lại (0/3)</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             <p className="mt-4 text-[11px] text-slate-500 border-t border-white/[0.06] pt-2.5">
-              * Mật khẩu mới sẽ áp dụng ngay lập tức cho lần đăng nhập tiếp theo.
+              * Quản trị viên có thể bật/tắt kích hoạt tài khoản thủ công, hoặc ấn &ldquo;Đặt lại (0/3)&rdquo; để gỡ khóa khi thí sinh đổi thiết bị.
             </p>
           </div>
 
