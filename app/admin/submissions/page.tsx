@@ -53,7 +53,7 @@ export default function AdminSubmissionsListPage() {
           Quản lý Bài nộp & Phòng Chấm thi
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-slate-400">
-          Theo dõi danh sách thí sinh đã nộp bài thi thử, kiểm tra điểm trắc nghiệm và chấm điểm tự luận.
+          Theo dõi tối đa 10 bài nộp gần nhất của thí sinh, kiểm tra điểm trắc nghiệm và chấm điểm tự luận (tự động giữ 10 bài mới nhất).
         </p>
       </div>
 
@@ -66,7 +66,7 @@ export default function AdminSubmissionsListPage() {
               Danh sách Bài làm
             </h2>
             <span className="rounded-md bg-[#1f2637] border border-white/[0.05] px-2 py-0.5 text-xs font-semibold text-slate-300">
-              {filteredSubmissions.length}
+              {filteredSubmissions.length} / 10
             </span>
           </div>
 
@@ -130,6 +130,7 @@ export default function AdminSubmissionsListPage() {
             <table className="w-full text-left text-xs">
               <thead className="bg-[#121722] text-slate-400 uppercase tracking-wider text-[11px] border-b border-white/[0.06]">
                 <tr>
+                  <th className="py-3 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3 px-4 font-semibold">Thí sinh</th>
                   <th className="py-3 px-4 font-semibold">Tên đề thi</th>
                   <th className="py-3 px-4 font-semibold">Thời gian nộp</th>
@@ -141,7 +142,7 @@ export default function AdminSubmissionsListPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/[0.04]">
-                {filteredSubmissions.map((sub) => {
+                {filteredSubmissions.map((sub, idx) => {
                   const isGraded = sub.status === "graded";
 
                   return (
@@ -149,6 +150,9 @@ export default function AdminSubmissionsListPage() {
                       key={sub.id}
                       className="hover:bg-[#1a2130] transition-colors"
                     >
+                      <td className="py-3.5 px-3 text-center font-mono font-bold text-indigo-400">
+                        #{idx + 1}
+                      </td>
                       <td className="whitespace-nowrap py-3.5 px-4 font-bold text-white">
                         <span className="flex items-center gap-1.5">
                           <User className="h-3.5 w-3.5 text-indigo-400" />

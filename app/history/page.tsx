@@ -55,7 +55,7 @@ export default function HistoryPage() {
             Lịch sử Làm bài
           </h1>
           <p className="mt-1 text-sm text-slate-400">
-            Lưu trữ tối đa 50 lượt thi gần nhất của bạn (tự động dọn dẹp các lượt cũ hơn), kèm điểm số và nhận xét chi tiết.
+            Lưu trữ tối đa 10 bài nộp gần nhất (tự động đẩy bài mới nhất thành #1 và xóa bài thứ 10 cũ hơn), kèm điểm số và nhận xét chi tiết.
           </p>
         </div>
 
@@ -101,6 +101,7 @@ export default function HistoryPage() {
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-900/90 text-slate-400 uppercase tracking-wider text-xs border-b border-white/10">
                 <tr>
+                  <th className="py-3.5 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
                   <th className="py-3.5 px-4 font-semibold">Thời gian nộp</th>
                   <th className="py-3.5 px-4 font-semibold">Trạng thái</th>
@@ -111,7 +112,7 @@ export default function HistoryPage() {
                 </tr>
               </thead>
               <tbody>
-                {submissions.map((sub) => {
+                {submissions.map((sub, idx) => {
                   const isGraded = sub.status === "graded";
                   const examQuestions = sub.exam?.questions || [];
                   const maxMcq =
@@ -133,6 +134,9 @@ export default function HistoryPage() {
                       key={sub.id}
                       className="group border-b border-white/5 hover:bg-indigo-950/20 transition-colors"
                     >
+                      <td className="py-4 px-3 text-center font-mono font-bold text-indigo-400">
+                        #{idx + 1}
+                      </td>
                       <td className="max-w-xs truncate py-4 px-4 font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">
                         {sub.exam?.title || "Đề thi thử trực tuyến"}
                       </td>

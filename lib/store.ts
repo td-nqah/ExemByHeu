@@ -1263,6 +1263,24 @@ export async function submitExam(
           admin_feedback: a.admin_feedback,
         }));
         await supabase.from("submission_answers").insert(dbAnswers);
+
+        // FIFO Rolling Window: Giữ tối đa 10 bài nộp mới nhất trong hệ thống.
+        // Khi đạt đến 10 bài và nộp bài mới (#1), bài thứ 10 cũ (bài 11) sẽ tự động bị xóa.
+        try {
+          const { data: allDbSubs } = await supabase
+            .from("submissions")
+            .select("id")
+            .order("submitted_at", { ascending: false });
+
+          if (allDbSubs && allDbSubs.length > 10) {
+            const idsToDelete = allDbSubs.slice(10).map((s: any) => s.id);
+            if (idsToDelete.length > 0) {
+              await supabase.from("submissions").delete().in("id", idsToDelete);
+            }
+          }
+        } catch (purgeErr) {
+          console.warn("FIFO rolling purge error in Supabase:", purgeErr);
+        }
       }
     } catch (e) {
       console.warn("Supabase submitExam error:", e);
@@ -1292,19 +1310,18 @@ export async function submitExam(
     answers: submissionAnswers,
   };
 
-  // Sync to local fallback cache as backup
+  // Sync to local fallback cache as backup (Tối đa 10 bài gần nhất)
   const existingSubmissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const existingAnswers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
 
-  const allSubmissions = [newSubmission, ...existingSubmissions.filter((s) => s.id !== finalSubmissionId)];
-  const userSubs = allSubmissions
-    .filter((s) => s.user_id === userId)
+  const allSubmissions = [newSubmission, ...existingSubmissions.filter((s) => s.id !== finalSubmissionId)]
     .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
 
-  const purgedSubIds = new Set(userSubs.slice(50).map((s) => s.id));
-  const retainedSubmissions = allSubmissions.filter((s) => !purgedSubIds.has(s.id));
+  // FIFO Rolling: Giữ đúng 10 bài mới nhất (bài mới = #1, bài thứ 11 tự động xóa)
+  const retainedSubmissions = allSubmissions.slice(0, 10);
+  const retainedIds = new Set(retainedSubmissions.map((s) => s.id));
   const retainedAnswers = [...existingAnswers, ...submissionAnswers].filter(
-    (a) => !purgedSubIds.has(a.submission_id)
+    (a) => retainedIds.has(a.submission_id)
   );
 
   setLocal(KEY_SUBMISSIONS, retainedSubmissions);
@@ -1316,7 +1333,7 @@ export async function submitExam(
 export async function getSubmissions(userId?: string): Promise<Submission[]> {
   initStore();
 
-  // 1. Live Supabase fetch
+  // 1. Live Supabase fetch (Tối đa 10 bài mới nhất)
   if (isSupabaseConfigured && supabase) {
     try {
       let query = supabase
@@ -1324,7 +1341,8 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
         .select(
           "id, exam_id, user_id, status, mcq_score, essay_score, total_score, submitted_at, exam:exams(id, title, duration_minutes, questions(id, max_score, type)), user:profiles(id, username, role)"
         )
-        .order("submitted_at", { ascending: false });
+        .order("submitted_at", { ascending: false })
+        .limit(10);
 
       if (userId) {
         query = query.eq("user_id", userId);
@@ -1344,7 +1362,7 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
           exam: sub.exam,
           user: sub.user,
         }));
-        return mapped.slice(0, 50);
+        return mapped.slice(0, 10);
       }
     } catch (e) {
       console.warn("Supabase getSubmissions failed:", e);
@@ -1371,9 +1389,9 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
     .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
 
   if (userId) {
-    return enriched.filter((s) => s.user_id === userId).slice(0, 50);
+    return enriched.filter((s) => s.user_id === userId).slice(0, 10);
   }
-  return enriched;
+  return enriched.slice(0, 10);
 }
 
 export async function getSubmissionById(id: string): Promise<Submission | null> {
