@@ -1195,7 +1195,6 @@ export async function submitExam(
   initStore();
   const currentUser = getCurrentUser();
   const userId = currentUser?.id || "00000000-0000-0000-0000-000000000002";
-  const submissionId = `sub_${Date.now()}`;
 
   const exam = await getExamById(examId);
   if (!exam || !exam.questions) {
@@ -1205,7 +1204,13 @@ export async function submitExam(
   let mcqScore = 0;
   let hasEssay = false;
 
-  const submissionAnswers: SubmissionAnswer[] = [];
+  const rawAnswersForGrading: {
+    question_id: string;
+    user_answer: string;
+    is_correct: boolean | null;
+    score_awarded: number;
+    admin_feedback: string | null;
+  }[] = [];
 
   for (const question of exam.questions) {
     const rawAnswer = (userAnswers[question.id] || "").trim();
@@ -1227,9 +1232,7 @@ export async function submitExam(
         : 0;
       mcqScore = Math.round((mcqScore + scoreAwarded) * 100) / 100;
 
-      submissionAnswers.push({
-        id: `ans_${Date.now()}_${question.id}`,
-        submission_id: submissionId,
+      rawAnswersForGrading.push({
         question_id: question.id,
         user_answer: rawAnswer,
         is_correct: isCorrect,
@@ -1238,9 +1241,7 @@ export async function submitExam(
       });
     } else {
       hasEssay = true;
-      submissionAnswers.push({
-        id: `ans_${Date.now()}_${question.id}`,
-        submission_id: submissionId,
+      rawAnswersForGrading.push({
         question_id: question.id,
         user_answer: rawAnswer,
         is_correct: null,
@@ -1255,24 +1256,72 @@ export async function submitExam(
   const essayScore = hasEssay ? null : 0;
   const totalScore = Math.round(mcqScore * 100) / 100;
 
+  let finalSubmissionId = `sub_${Date.now()}`;
+  let submittedAt = new Date().toISOString();
+
+  // 1. Live insert into Supabase Database first
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data: insertedSub, error: subError } = await supabase
+        .from("submissions")
+        .insert({
+          exam_id: examId,
+          user_id: userId,
+          status,
+          mcq_score: mcqScore,
+          essay_score: essayScore,
+          total_score: totalScore,
+        })
+        .select()
+        .single();
+
+      if (!subError && insertedSub) {
+        finalSubmissionId = insertedSub.id;
+        submittedAt = insertedSub.submitted_at;
+
+        const dbAnswers = rawAnswersForGrading.map((a) => ({
+          submission_id: finalSubmissionId,
+          question_id: a.question_id,
+          user_answer: a.user_answer,
+          is_correct: a.is_correct,
+          score_awarded: a.score_awarded,
+          admin_feedback: a.admin_feedback,
+        }));
+        await supabase.from("submission_answers").insert(dbAnswers);
+      }
+    } catch (e) {
+      console.warn("Supabase submitExam error:", e);
+    }
+  }
+
+  const submissionAnswers: SubmissionAnswer[] = rawAnswersForGrading.map((a) => ({
+    id: `ans_${Date.now()}_${a.question_id}`,
+    submission_id: finalSubmissionId,
+    question_id: a.question_id,
+    user_answer: a.user_answer,
+    is_correct: a.is_correct,
+    score_awarded: a.score_awarded,
+    admin_feedback: a.admin_feedback,
+  }));
+
   const newSubmission: Submission = {
-    id: submissionId,
+    id: finalSubmissionId,
     exam_id: examId,
     user_id: userId,
     status,
     mcq_score: mcqScore,
     essay_score: essayScore,
     total_score: totalScore,
-    submitted_at: new Date().toISOString(),
+    submitted_at: submittedAt,
     exam,
     answers: submissionAnswers,
   };
 
-  // Save to local store & Enforce 50-submission limit per user (Cascading delete oldest)
+  // Sync to local fallback cache as backup
   const existingSubmissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const existingAnswers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
 
-  const allSubmissions = [newSubmission, ...existingSubmissions];
+  const allSubmissions = [newSubmission, ...existingSubmissions.filter((s) => s.id !== finalSubmissionId)];
   const userSubs = allSubmissions
     .filter((s) => s.user_id === userId)
     .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
@@ -1286,49 +1335,19 @@ export async function submitExam(
   setLocal(KEY_SUBMISSIONS, retainedSubmissions);
   setLocal(KEY_SUBMISSION_ANSWERS, retainedAnswers);
 
-  // Sync to Supabase if available (PostgreSQL trigger trg_enforce_user_submissions_limit handles DB cleanup)
-  if (isSupabaseConfigured && supabase) {
-    try {
-      const { data: insertedSub } = await supabase
-        .from("submissions")
-        .insert({
-          exam_id: examId,
-          user_id: userId,
-          status,
-          mcq_score: mcqScore,
-          essay_score: essayScore,
-          total_score: totalScore,
-        })
-        .select()
-        .single();
-
-      if (insertedSub) {
-        const dbAnswers = submissionAnswers.map((a) => ({
-          submission_id: insertedSub.id,
-          question_id: a.question_id,
-          user_answer: a.user_answer,
-          is_correct: a.is_correct,
-          score_awarded: a.score_awarded,
-          admin_feedback: a.admin_feedback,
-        }));
-        await supabase.from("submission_answers").insert(dbAnswers);
-      }
-    } catch {}
-  }
-
   return newSubmission;
 }
 
 export async function getSubmissions(userId?: string): Promise<Submission[]> {
   initStore();
 
-  // 1. Live Supabase fetch if configured (lightweight: no redundant questions join)
+  // 1. Live Supabase fetch
   if (isSupabaseConfigured && supabase) {
     try {
       let query = supabase
         .from("submissions")
         .select(
-          "id, exam_id, user_id, status, mcq_score, essay_score, total_score, submitted_at, exam:exams(id, title, duration_minutes, question_count, question_type, category_slug), user:profiles(id, username, full_name, avatar_url)"
+          "id, exam_id, user_id, status, mcq_score, essay_score, total_score, submitted_at, exam:exams(id, title, duration_minutes, questions(id, max_score, type)), user:profiles(id, username, role)"
         )
         .order("submitted_at", { ascending: false });
 
@@ -1350,12 +1369,11 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
           exam: sub.exam,
           user: sub.user,
         }));
-        if (!userId) {
-          setLocal(KEY_SUBMISSIONS, mapped);
-        }
         return mapped.slice(0, 50);
       }
-    } catch {}
+    } catch (e) {
+      console.warn("Supabase getSubmissions failed:", e);
+    }
   }
 
   // 2. Local fallback
@@ -1389,11 +1407,19 @@ export async function getSubmissionById(id: string): Promise<Submission | null> 
   // 1. Live Supabase fetch with questions & answers for grading / review
   if (isSupabaseConfigured && supabase) {
     try {
-      const { data, error } = await supabase
-        .from("submissions")
-        .select("*, exam:exams(*, questions(*)), user:profiles(*), answers:submission_answers(*)")
-        .eq("id", id)
-        .single();
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+      let data: any = null;
+      let error: any = null;
+
+      if (isUuid) {
+        const res = await supabase
+          .from("submissions")
+          .select("*, exam:exams(*, questions(*)), user:profiles(*), answers:submission_answers(*)")
+          .eq("id", id)
+          .maybeSingle();
+        data = res.data;
+        error = res.error;
+      }
 
       if (!error && data) {
         let sortedQuestions = data.exam?.questions || [];
@@ -1419,7 +1445,9 @@ export async function getSubmissionById(id: string): Promise<Submission | null> 
           answers: enrichedAnswers,
         };
       }
-    } catch {}
+    } catch (e) {
+      console.warn("Supabase getSubmissionById failed:", e);
+    }
   }
 
   // 2. Local fallback
@@ -1455,6 +1483,54 @@ export async function finalizeGrading(
   essayGrades: { questionId: string; score: number; feedback: string }[]
 ): Promise<Submission | null> {
   initStore();
+
+  let calculatedEssayScore = 0;
+  for (const grade of essayGrades) {
+    calculatedEssayScore += Math.round((Number(grade.score) || 0) * 100) / 100;
+  }
+  calculatedEssayScore = Math.round(calculatedEssayScore * 100) / 100;
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(submissionId);
+      if (isUuid) {
+        const { data: currentSub } = await supabase
+          .from("submissions")
+          .select("mcq_score")
+          .eq("id", submissionId)
+          .maybeSingle();
+
+        const mcqScore = Number(currentSub?.mcq_score) || 0;
+        const finalTotalScore = Math.round((mcqScore + calculatedEssayScore) * 100) / 100;
+
+        await supabase
+          .from("submissions")
+          .update({
+            status: "graded",
+            essay_score: calculatedEssayScore,
+            total_score: finalTotalScore,
+          })
+          .eq("id", submissionId);
+
+        for (const grade of essayGrades) {
+          await supabase
+            .from("submission_answers")
+            .update({
+              score_awarded: Math.round((Number(grade.score) || 0) * 100) / 100,
+              admin_feedback: grade.feedback,
+            })
+            .eq("submission_id", submissionId)
+            .eq("question_id", grade.questionId);
+        }
+
+        return await getSubmissionById(submissionId);
+      }
+    } catch (e) {
+      console.warn("Supabase finalizeGrading error:", e);
+    }
+  }
+
+  // Local fallback
   const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const answers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
 
@@ -1462,16 +1538,12 @@ export async function finalizeGrading(
   if (subIndex === -1) return null;
 
   const sub = submissions[subIndex];
-  let calculatedEssayScore = 0;
 
-  // Update submission answers
   const updatedAnswers = answers.map((ans) => {
     if (ans.submission_id === submissionId) {
       const grade = essayGrades.find((g) => g.questionId === ans.question_id);
       if (grade) {
         const cleanGradeScore = Math.round((Number(grade.score) || 0) * 100) / 100;
-        calculatedEssayScore =
-          Math.round((calculatedEssayScore + cleanGradeScore) * 100) / 100;
         return {
           ...ans,
           score_awarded: cleanGradeScore,
@@ -1493,33 +1565,8 @@ export async function finalizeGrading(
   };
 
   submissions[subIndex] = updatedSubmission;
-
   setLocal(KEY_SUBMISSIONS, submissions);
   setLocal(KEY_SUBMISSION_ANSWERS, updatedAnswers);
-
-  if (isSupabaseConfigured && supabase) {
-    try {
-      await supabase
-        .from("submissions")
-        .update({
-          status: "graded",
-          essay_score: calculatedEssayScore,
-          total_score: finalTotalScore,
-        })
-        .eq("id", submissionId);
-
-      for (const grade of essayGrades) {
-        await supabase
-          .from("submission_answers")
-          .update({
-            score_awarded: Math.round((Number(grade.score) || 0) * 100) / 100,
-            admin_feedback: grade.feedback,
-          })
-          .eq("submission_id", submissionId)
-          .eq("question_id", grade.questionId);
-      }
-    } catch {}
-  }
 
   return updatedSubmission;
 }

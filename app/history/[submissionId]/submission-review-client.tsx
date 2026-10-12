@@ -299,6 +299,19 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                   </div>
                 </div>
               )}
+
+              {/* Lời giải chi tiết / Giải thích đáp án nếu có */}
+              {q.explanation && (
+                <div className="mt-3.5 rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-3.5">
+                  <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-indigo-400">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    <span>Lời giải chi tiết:</span>
+                  </div>
+                  <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-300">
+                    {q.explanation}
+                  </p>
+                </div>
+              )}
             </motion.article>
           );
         })}
