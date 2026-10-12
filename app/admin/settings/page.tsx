@@ -1075,6 +1075,8 @@ export default function AdminSettingsPage() {
                     <div className="relative">
                       <input
                         type={showEmergencyPass ? "text" : "password"}
+                        name="emergency_new_password"
+                        autoComplete="new-password"
                         value={emergencyNewPassword}
                         onChange={(e) => setEmergencyNewPassword(e.target.value)}
                         placeholder={`Nhập mật khẩu mới cho ${selectedUser}`}
@@ -1148,6 +1150,9 @@ export default function AdminSettingsPage() {
                       </div>
                       <input
                         type="text"
+                        name="new_username"
+                        autoComplete="off"
+                        spellCheck={false}
                         value={newUsername}
                         onChange={(e) =>
                           setNewUsername(e.target.value.toLowerCase().replace(/\s+/g, ""))
@@ -1169,6 +1174,8 @@ export default function AdminSettingsPage() {
                       </div>
                       <input
                         type={showNewPassword ? "text" : "password"}
+                        name="new_password"
+                        autoComplete="new-password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="Nhập mật khẩu cho tài khoản mới"
