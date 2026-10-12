@@ -190,21 +190,21 @@ export default function AdminDashboardPage() {
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white flex flex-wrap items-center gap-3">
+            <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white flex flex-wrap items-center gap-3">
               Quản trị Thi thử Trực tuyến
-              <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-full font-normal">
+              <span className="text-[11px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-medium tracking-normal">
                 Admin Panel
               </span>
             </h1>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-xs sm:text-sm text-[#8b949e]">
               Tổng quan hệ thống ExamByHeu, quản lý ngân hàng đề thi và phân loại danh mục.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center gap-2 bg-slate-900/70 backdrop-blur-md border border-white/10 rounded-xl px-4 py-2 text-sm text-slate-300 font-medium shadow-lg select-none cursor-default">
-              <BookOpen className="h-4 w-4 text-indigo-400 shrink-0 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
-              <span>Tổng số đề: <strong className="text-white font-bold">{loading ? "..." : exams.length}</strong></span>
+            <div className="inline-flex items-center gap-2 bg-[#161b22] border border-[#21262d] rounded-xl px-4 py-2 text-xs text-[#8b949e] font-medium select-none cursor-default">
+              <BookOpen className="h-4 w-4 text-[#5852d6] shrink-0" />
+              <span>Tổng số đề: <strong className="text-white font-bold tnum tabular-nums">{loading ? "..." : exams.length}</strong></span>
             </div>
           </div>
         </div>
@@ -215,14 +215,14 @@ export default function AdminDashboardPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-slate-950/60 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
+        className="bg-[#161b22] border border-[#21262d] overflow-hidden rounded-xl"
       >
-        <div className="flex flex-col gap-3 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-[#21262d] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
-            <h2 className="text-base font-bold text-white">
+            <h2 className="text-base sm:text-lg font-semibold tracking-tight text-[#e6edf3]">
               Quản lý Ngân hàng Đề thi ({exams.length})
             </h2>
-            <p className="mt-0.5 text-xs text-slate-400">
+            <p className="mt-0.5 text-xs text-[#8b949e]">
               Xem trước cấu trúc đề, chỉnh sửa câu hỏi, đóng/mở xuất bản hoặc gán chuyên mục.
             </p>
           </div>
@@ -233,15 +233,15 @@ export default function AdminDashboardPage() {
                 setQuickTitle("");
                 setIsQuickExamModalOpen(true);
               }}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 hover:border-indigo-500/40 text-slate-200 hover:text-white font-medium px-3.5 py-2.5 text-xs transition-all cursor-pointer shadow-sm"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0d1117] hover:bg-[#21262d] border border-[#21262d] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
             >
-              <FolderPlus className="h-4 w-4 text-indigo-400 shrink-0" />
+              <FolderPlus className="h-4 w-4 text-[#5852d6] shrink-0" />
               <span>Thêm vào Danh mục</span>
             </button>
 
             <Link
               href="/admin/exams/create"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2.5 text-xs transition-all"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] text-white font-medium px-4 py-2 text-xs transition-colors"
             >
               <FilePlus2 className="h-4 w-4" />
               <span>Tạo đề</span>
@@ -270,15 +270,15 @@ export default function AdminDashboardPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/80 text-slate-400 uppercase tracking-wider text-xs border-b border-slate-800">
+              <thead className="bg-[#161b22] text-[#8b949e] uppercase tracking-wider text-[11px] font-semibold border-b border-[#21262d]">
                 <tr>
-                  <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
-                  <th className="py-3.5 px-4 font-semibold">Danh mục</th>
-                  <th className="py-3.5 px-4 font-semibold">Thời lượng</th>
-                  <th className="py-3.5 px-4 font-semibold">Số câu hỏi</th>
-                  <th className="py-3.5 px-4 font-semibold">Dạng đề</th>
-                  <th className="py-3.5 px-4 font-semibold">Trạng thái</th>
-                  <th className="py-3.5 px-4 text-right font-semibold">Thao tác</th>
+                  <th className="py-3 px-4 font-semibold">TÊN ĐỀ THI</th>
+                  <th className="py-3 px-4 font-semibold">DANH MỤC</th>
+                  <th className="py-3 px-4 font-semibold">THỜI LƯỢNG</th>
+                  <th className="py-3 px-4 font-semibold">SỐ CÂU HỎI</th>
+                  <th className="py-3 px-4 font-semibold">DẠNG ĐỀ</th>
+                  <th className="py-3 px-4 font-semibold">TRẠNG THÁI</th>
+                  <th className="py-3 px-4 text-right font-semibold">THAO TÁC</th>
                 </tr>
               </thead>
               <tbody>
@@ -294,27 +294,27 @@ export default function AdminDashboardPage() {
                   return (
                     <tr
                       key={exam.id}
-                      className="group border-b border-slate-800/50 hover:bg-indigo-950/20 transition-colors"
+                      className="group border-b border-[#21262d] hover:bg-[#1c2128] transition-colors"
                     >
-                      <td className="max-w-xs truncate py-3.5 px-4 font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">
+                      <td className="max-w-xs truncate py-3.5 px-4 font-medium text-white group-hover:text-indigo-300 transition-colors">
                         {exam.title}
                       </td>
 
                       <td className="whitespace-nowrap py-3.5 px-4">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#21262d] text-[#8b949e] border border-[#30363d]">
                           {catName}
                         </span>
                       </td>
 
-                      <td className="whitespace-nowrap py-3.5 px-4 text-slate-300">
+                      <td className="whitespace-nowrap py-3.5 px-4 text-[#8b949e] tnum tabular-nums">
                         {formatDuration(exam.duration_minutes)}
                       </td>
 
-                      <td className="py-3.5 px-4 text-slate-300 font-mono">
+                      <td className="py-3.5 px-4 text-[#8b949e] tnum tabular-nums">
                         {questionCount} câu
                       </td>
 
-                      <td className="py-3.5 px-4 text-slate-400 capitalize">
+                      <td className="py-3.5 px-4 text-[#8b949e] capitalize">
                         {exam.question_type === "essay"
                           ? "Tự luận"
                           : exam.question_type === "mixed"
@@ -352,7 +352,7 @@ export default function AdminDashboardPage() {
                         <div className="inline-flex items-center justify-end gap-2">
                           <Link
                             href={`/admin/exams/preview?id=${exam.id}`}
-                            className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 text-slate-300 px-2.5 py-1.5 text-[11px] font-semibold transition"
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-[#21262d] hover:bg-[#5852d6] hover:text-white border border-[#30363d] text-[#e6edf3] px-2.5 py-1.5 text-[11px] font-medium transition-colors"
                             title="Xem trước toàn bộ câu hỏi và đáp án"
                           >
                             <Eye className="h-3.5 w-3.5" />
@@ -361,7 +361,7 @@ export default function AdminDashboardPage() {
 
                           <Link
                             href={`/admin/exams/${exam.id}/edit`}
-                            className="inline-flex items-center gap-1 rounded-xl bg-slate-800/80 hover:bg-amber-600 hover:text-white border border-slate-700/60 text-slate-300 px-2.5 py-1.5 text-[11px] font-semibold transition"
+                            className="inline-flex items-center gap-1 rounded-xl bg-[#21262d] hover:bg-amber-600 hover:text-white border border-[#30363d] text-[#e6edf3] px-2.5 py-1.5 text-[11px] font-medium transition-colors"
                             title="Chỉnh sửa chi tiết đề thi"
                           >
                             <Pencil className="h-3.5 w-3.5" />
@@ -370,7 +370,7 @@ export default function AdminDashboardPage() {
                           <button
                             type="button"
                             onClick={() => setExamToDelete(exam)}
-                            className="inline-flex items-center gap-1 rounded-xl bg-slate-800/80 hover:bg-rose-600 hover:text-white border border-slate-700/60 text-slate-400 hover:border-rose-500 px-2 py-1.5 text-[11px] transition"
+                            className="inline-flex items-center gap-1 rounded-xl bg-[#21262d] hover:bg-rose-600 hover:text-white border border-[#30363d] text-[#8b949e] hover:border-rose-500 px-2 py-1.5 text-[11px] transition-colors"
                             title="Xóa đề thi"
                           >
                             <Trash2 className="h-3.5 w-3.5" />

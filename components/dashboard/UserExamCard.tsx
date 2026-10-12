@@ -56,25 +56,25 @@ export function UserExamCard({ exam }: UserExamCardProps) {
       : "Trắc nghiệm";
 
   return (
-    <div className="group flex flex-col justify-between h-full min-h-[150px] rounded-2xl bg-[#151b27] border border-white/[0.06] p-4 transition-all duration-200 hover:border-white/10 hover:bg-[#171e2c]">
+    <div className="group flex flex-col justify-between h-full min-h-[150px] rounded-xl bg-[#161b22] border border-[#21262d] p-4 transition-colors hover:border-[#30363d] hover:bg-[#1c2128]">
       {/* Top Header & Metadata */}
       <div className="space-y-2">
         {/* Top Badges Row */}
         <div className="flex items-center justify-between gap-1.5">
           {/* Top-Left: Test badge */}
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#202738] px-2 py-0.5 text-[10px] font-medium text-indigo-300 border border-indigo-500/20">
-            <span className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#21262d] px-2 py-0.5 text-[10px] font-medium text-[#8b949e] border border-[#30363d]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#5852d6]" />
             <span>Test</span>
           </span>
 
           {/* Top-Right: Time + Questions count */}
-          <div className="flex items-center gap-2 text-[11px] text-slate-400">
+          <div className="flex items-center gap-2 text-xs text-[#8b949e] tnum tabular-nums">
             <span className="inline-flex items-center gap-1">
-              <Clock className="h-3 w-3 text-slate-400 shrink-0" />
+              <Clock className="h-3 w-3 text-[#8b949e] shrink-0" />
               <span>{formatDuration(exam.duration_minutes)}</span>
             </span>
             <span className="inline-flex items-center gap-1">
-              <ClipboardList className="h-3 w-3 text-slate-400 shrink-0" />
+              <ClipboardList className="h-3 w-3 text-[#8b949e] shrink-0" />
               <span>{questionCount} câu hỏi</span>
             </span>
           </div>
@@ -82,33 +82,33 @@ export function UserExamCard({ exam }: UserExamCardProps) {
 
         {/* Card Title */}
         <h3
-          className="text-sm font-bold text-white tracking-tight truncate leading-snug"
+          className="text-sm font-semibold text-white tracking-tight truncate leading-snug"
           title={exam.title}
         >
           {renderHighlightedExamTitle(exam.title)}
         </h3>
 
         {/* Directly below the title: Line 1: "40 câu hỏi", Line 2: "Trắc nghiệm" */}
-        <div className="text-[11px] leading-snug select-none space-y-0.5">
-          <p className="text-slate-300 font-medium truncate">
+        <div className="text-xs leading-snug select-none space-y-0.5">
+          <p className="text-[#e6edf3] font-medium truncate tnum tabular-nums">
             {questionCount} câu hỏi
           </p>
-          <p className="text-slate-400 truncate">
+          <p className="text-[#8b949e] font-normal truncate">
             {examTypeLabel}
           </p>
         </div>
       </div>
 
       {/* Uniform Bottom Edge: Calendar Date & Solid Purple CTA Button */}
-      <div className="mt-3 pt-2.5 border-t border-white/[0.06] flex items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1 text-[11px] text-slate-400 truncate">
-          <Calendar className="h-3 w-3 text-slate-500 shrink-0" />
+      <div className="mt-3 pt-2.5 border-t border-[#21262d] flex items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1 text-xs text-[#8b949e] tnum tabular-nums truncate">
+          <Calendar className="h-3 w-3 text-[#8b949e] shrink-0" />
           <span className="truncate">{formatDate(exam.created_at)}</span>
         </span>
 
         <Link
           href={`/exam/${exam.id}`}
-          className="inline-flex items-center gap-1 shrink-0 rounded-lg bg-[#4f57ea] hover:bg-[#434ac9] active:bg-[#3d43b6] px-2.5 py-1 text-xs font-semibold text-white transition-colors shadow-sm"
+          className="inline-flex items-center gap-1 shrink-0 rounded-lg bg-[#5852d6] hover:bg-[#4b45bd] active:bg-[#433ea8] px-3 py-1.5 text-xs font-semibold text-white transition-colors"
         >
           <span>Làm bài</span>
           <ArrowRight className="h-3 w-3" />

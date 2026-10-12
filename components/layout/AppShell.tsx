@@ -23,7 +23,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen w-full relative flex bg-[#0d111a]">
+    <div className="min-h-screen w-full relative flex bg-[#0d1117]">
       {/* Left Sidebar */}
       <Suspense fallback={null}>
         <Sidebar
@@ -35,7 +35,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Main Content Area */}
       <div className="flex-1 md:pl-64 flex flex-col min-h-screen w-full transition-all duration-300">
         {/* Mobile Top Header */}
-        <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-white/[0.06] bg-[#10141e] px-4 md:hidden">
+        <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-[#21262d] bg-[#161b22] px-4 md:hidden">
           <Link
             href="/home"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90"

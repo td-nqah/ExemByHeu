@@ -125,7 +125,7 @@ export default function HomePage() {
         </div>
 
         {/* Prominent Greeting Headline Centered */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
           <span>{greetingInfo.greeting}, </span>
           <span className="text-[#818cf8]">
             {formatDisplayName(currentUser?.username || "User1")}
@@ -133,7 +133,7 @@ export default function HomePage() {
         </h1>
 
         {/* Subtitle Line Centered */}
-        <p className="text-base sm:text-lg text-slate-400 font-normal max-w-xl mx-auto leading-relaxed">
+        <p className="text-sm sm:text-base text-[#8b949e] font-normal max-w-xl mx-auto leading-relaxed">
           Welcome back to ExamByHeu! Ready for today&apos;s test?
         </p>
 
@@ -141,7 +141,7 @@ export default function HomePage() {
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#4f57ea] hover:bg-[#434ac9] active:bg-[#3d43b6] text-white px-6 py-3 text-sm font-semibold shadow-lg shadow-indigo-600/20 transition-all hover:scale-[1.02]"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] active:bg-[#433ea8] text-white px-6 py-3 text-sm font-semibold shadow-sm transition-all hover:scale-[1.01]"
           >
             <Play className="h-4 w-4 fill-current ml-0.5" />
             <span>Vào làm bài thi ngay</span>
@@ -150,17 +150,17 @@ export default function HomePage() {
 
           <Link
             href="/history"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#151b27] hover:bg-[#1c2333] border border-white/[0.08] text-slate-300 hover:text-white px-5 py-3 text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#161b22] hover:bg-[#1c2128] border border-[#21262d] text-[#e6edf3] hover:text-white px-5 py-3 text-sm font-medium transition-colors"
           >
-            <History className="h-4 w-4 text-slate-400" />
+            <History className="h-4 w-4 text-[#8b949e]" />
             <span>Xem lịch sử thi</span>
           </Link>
 
           <Link
             href="/analytics"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#151b27] hover:bg-[#1c2333] border border-white/[0.08] text-slate-300 hover:text-white px-5 py-3 text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#161b22] hover:bg-[#1c2128] border border-[#21262d] text-[#e6edf3] hover:text-white px-5 py-3 text-sm font-medium transition-colors"
           >
-            <TrendingUp className="h-4 w-4 text-slate-400" />
+            <TrendingUp className="h-4 w-4 text-[#8b949e]" />
             <span>Phân tích phong độ</span>
           </Link>
         </div>
@@ -172,20 +172,20 @@ export default function HomePage() {
           {/* Card 1: Exams */}
           <Link
             href="/dashboard"
-            className="group rounded-2xl bg-[#151b27] border border-white/[0.06] hover:border-white/10 hover:bg-[#171e2c] p-4 sm:p-5 transition-all"
+            className="group rounded-xl bg-[#161b22] border border-[#21262d] hover:border-[#30363d] hover:bg-[#1c2128] p-4 sm:p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#202738] text-indigo-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-[#5852d6]">
                 <BookOpen className="h-5 w-5" />
               </div>
-              <span className="text-xl font-bold font-mono text-white">
+              <span className="font-heading text-xl font-bold text-white tnum tabular-nums">
                 {examsCount}
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">
+            <h3 className="mt-3 text-sm font-semibold text-[#e6edf3] group-hover:text-indigo-300 transition-colors">
               Đề thi Khả dụng
             </h3>
-            <p className="mt-0.5 text-xs text-slate-400">
+            <p className="mt-0.5 text-xs text-[#8b949e]">
               Trắc nghiệm & tự luận đa dạng chuyên đề
             </p>
           </Link>
@@ -193,38 +193,38 @@ export default function HomePage() {
           {/* Card 2: Submissions */}
           <Link
             href="/history"
-            className="group rounded-2xl bg-[#151b27] border border-white/[0.06] hover:border-white/10 hover:bg-[#171e2c] p-4 sm:p-5 transition-all"
+            className="group rounded-xl bg-[#161b22] border border-[#21262d] hover:border-[#30363d] hover:bg-[#1c2128] p-4 sm:p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#202738] text-emerald-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-emerald-400">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
-              <span className="text-xl font-bold font-mono text-emerald-400">
+              <span className="font-heading text-xl font-bold text-emerald-400 tnum tabular-nums">
                 {submissionsCount}
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">
+            <h3 className="mt-3 text-sm font-semibold text-[#e6edf3] group-hover:text-emerald-300 transition-colors">
               Đã hoàn thành
             </h3>
-            <p className="mt-0.5 text-xs text-slate-400">
+            <p className="mt-0.5 text-xs text-[#8b949e]">
               Lịch sử làm bài và kết quả chi tiết
             </p>
           </Link>
 
           {/* Card 3: Standard Room */}
-          <div className="rounded-2xl bg-[#151b27] border border-white/[0.06] p-4 sm:p-5">
+          <div className="rounded-xl bg-[#161b22] border border-[#21262d] p-4 sm:p-5">
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#202738] text-amber-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-amber-400">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-medium">
                 Sẵn sàng
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-bold text-white">
+            <h3 className="mt-3 text-sm font-semibold text-[#e6edf3]">
               Phòng thi Chuẩn mực
             </h3>
-            <p className="mt-0.5 text-xs text-slate-400">
+            <p className="mt-0.5 text-xs text-[#8b949e]">
               Đồng hồ tự động & Chống gian lận
             </p>
           </div>

@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Inter, Geist_Mono } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
 import { ObsidianCyberBackground } from "@/components/layout/ObsidianCyberBackground";
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin", "vietnamese"],
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-heading",
   subsets: ["latin", "vietnamese"],
 });
 
@@ -31,9 +36,9 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${inter.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
+      className={`${inter.variable} ${plusJakartaSans.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
     >
-      <body className="min-h-screen bg-[#0d111a] font-sans text-slate-100 antialiased selection:bg-indigo-500 selection:text-white relative overflow-x-hidden custom-scrollbar">
+      <body className="min-h-screen bg-[#0d1117] font-sans text-slate-100 antialiased selection:bg-[#5852d6] selection:text-white relative overflow-x-hidden custom-scrollbar">
         {/* DYNAMIC OBSIDIAN CYBER BACKGROUND */}
         <ObsidianCyberBackground />
 

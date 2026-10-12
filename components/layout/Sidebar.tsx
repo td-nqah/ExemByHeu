@@ -140,7 +140,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1e2538] border border-white/[0.08] text-white shadow-sm">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-white">
+            <span className="font-heading text-xl font-bold tracking-tight text-white">
               ExamByHeu
             </span>
           </Link>
@@ -233,16 +233,16 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       <div className="space-y-2.5 pt-3 border-t border-white/[0.06]">
         {user ? (
           <>
-            <div className="flex items-center justify-between rounded-xl bg-[#151b27] border border-white/[0.06] p-2.5">
+            <div className="flex items-center justify-between rounded-xl bg-[#0d1117] border border-[#21262d] p-2.5">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#202738] font-bold text-white text-xs">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#21262d] font-bold text-white text-xs">
                   {formatDisplayName(user.username).charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0">
                   <p className="truncate text-xs font-semibold text-white">
                     {formatDisplayName(user.username)}
                   </p>
-                  <p className="text-[10px] text-slate-400 truncate">
+                  <p className="text-[10px] text-[#8b949e] truncate">
                     {user.role === "admin" ? "Quản trị viên" : "Người dùng"}
                   </p>
                 </div>
@@ -262,7 +262,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           <Link
             href="/"
             onClick={onCloseMobile}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#4f57ea] hover:bg-[#434ac9] px-3 py-2 text-xs font-semibold text-white transition-colors"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] px-3 py-2 text-xs font-semibold text-white transition-colors"
           >
             <User className="h-3.5 w-3.5" />
             <span>Đăng nhập hệ thống</span>
@@ -275,7 +275,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   return (
     <>
       {/* Desktop Fixed Left Sidebar */}
-      <aside className="hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:w-64 md:flex-col bg-[#10141e] border-r border-white/[0.06]">
+      <aside className="hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:w-64 md:flex-col bg-[#161b22] border-r border-[#21262d]">
         {sidebarContent}
       </aside>
 
@@ -288,7 +288,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             onClick={onCloseMobile}
           />
           {/* Drawer content */}
-          <div className="relative flex w-4/5 max-w-xs flex-1 flex-col bg-[#10141e] border-r border-white/[0.06]">
+          <div className="relative flex w-4/5 max-w-xs flex-1 flex-col bg-[#161b22] border-r border-[#21262d]">
             {sidebarContent}
           </div>
         </div>
