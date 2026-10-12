@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getExams, getSubmissions, getCurrentUser, getCategories } from "@/lib/store";
+import { getExams, getSubmissions, getCurrentUser, getCategories, sortExamsAscending } from "@/lib/store";
 import { Exam, Submission, Category } from "@/types/exam";
 import { UserExamCard } from "@/components/dashboard/UserExamCard";
 import {
@@ -72,9 +72,10 @@ function UserDashboardContent() {
     loadData();
   }, [router]);
 
-  // Filtered exams according to selected category
+  // Filtered exams according to selected category and sorted ascending (Đề 1 -> Đề 5)
   const filteredExams = useMemo(() => {
-    return exams.filter((exam) => matchCategory(exam, activeCategory));
+    const matched = exams.filter((exam) => matchCategory(exam, activeCategory));
+    return sortExamsAscending(matched);
   }, [exams, activeCategory]);
 
   // Dynamic Category Pills for Filter Tags Bar

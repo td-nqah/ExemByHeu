@@ -33,9 +33,20 @@ export async function GET(req: NextRequest) {
       if (categoryId) {
         query = query.eq("category_id", categoryId);
       }
-      const { data, error } = await query.order("created_at", { ascending: false });
+      const { data, error } = await query.order("created_at", { ascending: true });
       if (!error && data) {
-        return NextResponse.json({ success: true, exams: data });
+        const sortedExams = [...data].sort((a: any, b: any) => {
+          const baseA = a.title.includes(":") ? a.title.split(":")[0].trim() : "";
+          const baseB = b.title.includes(":") ? b.title.split(":")[0].trim() : "";
+          if (baseA && baseB && baseA !== baseB) {
+            return a.title.localeCompare(b.title, "vi", { numeric: true });
+          }
+          const numA = parseInt(a.title.match(/Đề\s*(\d+)/i)?.[1] || a.title.match(/\d+/)?.[0] || "0", 10);
+          const numB = parseInt(b.title.match(/Đề\s*(\d+)/i)?.[1] || b.title.match(/\d+/)?.[0] || "0", 10);
+          if (numA !== numB) return numA - numB;
+          return a.title.localeCompare(b.title, "vi", { numeric: true });
+        });
+        return NextResponse.json({ success: true, exams: sortedExams });
       }
     }
 

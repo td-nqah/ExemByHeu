@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
@@ -13,6 +13,7 @@ import {
   getCategories,
   createExam,
   assignExamCategory,
+  sortExamsAscending,
 } from "@/lib/store";
 import { Exam, Submission, Category } from "@/types/exam";
 import { formatDuration, formatDate } from "@/lib/utils";
@@ -54,6 +55,11 @@ export default function AdminDashboardPage() {
   const [quickStatus, setQuickStatus] = useState<"published" | "draft">("published");
   const [isCreatingQuick, setIsCreatingQuick] = useState(false);
   const [showAdvancedQuick, setShowAdvancedQuick] = useState(false);
+
+  // Sorted exams in ascending order (Đề 1 -> Đề 5)
+  const sortedExams = useMemo(() => {
+    return sortExamsAscending(exams);
+  }, [exams]);
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -282,7 +288,7 @@ export default function AdminDashboardPage() {
                 </tr>
               </thead>
               <tbody>
-                {exams.map((exam) => {
+                {sortedExams.map((exam) => {
                   const isPublished = exam.status === "published";
                   const questionCount =
                     exam.question_count || exam.questions?.length || 0;
@@ -430,7 +436,7 @@ export default function AdminDashboardPage() {
                     className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
                   />
                   <datalist id="existing-exams-suggestions">
-                    {exams.map((ex) => (
+                    {sortedExams.map((ex) => (
                       <option key={ex.id} value={ex.title} />
                     ))}
                   </datalist>

@@ -73,8 +73,8 @@ export const SEED_PROFILES: Profile[] = [
 // Default Seed Exams (Synchronized with 11 real published exams)
 export const SEED_EXAMS: Exam[] = [
   {
-    id: "c710433a-4a91-4c2d-aeaf-120dbef8ddb3",
-    title: "Đề cương CTMT: Đề 5",
+    id: "ce2b9f0f-73bf-4813-9d8b-00b09e5062a1",
+    title: "Đề cương CTMT: Đề 1",
     description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
     duration_minutes: 60,
     category_id: "cat_ctmthdh",
@@ -83,33 +83,7 @@ export const SEED_EXAMS: Exam[] = [
     question_type: "multiple_choice",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
-    created_at: "2026-10-11T17:08:14.472Z",
-  },
-  {
-    id: "dd7f262b-e1ab-4bd9-9470-bf9b04d39914",
-    title: "Đề cương CTMT: Đề 4",
-    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
-    duration_minutes: 60,
-    category_id: "cat_ctmthdh",
-    category_slug: "ctmthdh",
-    question_count: 40,
-    question_type: "multiple_choice",
-    created_by: "00000000-0000-0000-0000-000000000001",
-    status: "published",
-    created_at: "2026-10-11T17:07:05.225Z",
-  },
-  {
-    id: "11e943ad-d35e-4655-91df-1b2fded8600a",
-    title: "Đề cương CTMT: Đề 3",
-    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
-    duration_minutes: 60,
-    category_id: "cat_ctmthdh",
-    category_slug: "ctmthdh",
-    question_count: 40,
-    question_type: "multiple_choice",
-    created_by: "00000000-0000-0000-0000-000000000001",
-    status: "published",
-    created_at: "2026-10-11T17:06:06.334Z",
+    created_at: "2026-10-11T13:58:12.166Z",
   },
   {
     id: "99e9f019-b61c-4cdd-b24a-4d38b4d817d0",
@@ -125,8 +99,8 @@ export const SEED_EXAMS: Exam[] = [
     created_at: "2026-10-11T17:02:17.586Z",
   },
   {
-    id: "ce2b9f0f-73bf-4813-9d8b-00b09e5062a1",
-    title: "Đề cương CTMT: Đề 1",
+    id: "11e943ad-d35e-4655-91df-1b2fded8600a",
+    title: "Đề cương CTMT: Đề 3",
     description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
     duration_minutes: 60,
     category_id: "cat_ctmthdh",
@@ -135,7 +109,33 @@ export const SEED_EXAMS: Exam[] = [
     question_type: "multiple_choice",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
-    created_at: "2026-10-11T13:58:12.166Z",
+    created_at: "2026-10-11T17:06:06.334Z",
+  },
+  {
+    id: "dd7f262b-e1ab-4bd9-9470-bf9b04d39914",
+    title: "Đề cương CTMT: Đề 4",
+    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    duration_minutes: 60,
+    category_id: "cat_ctmthdh",
+    category_slug: "ctmthdh",
+    question_count: 40,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-11T17:07:05.225Z",
+  },
+  {
+    id: "c710433a-4a91-4c2d-aeaf-120dbef8ddb3",
+    title: "Đề cương CTMT: Đề 5",
+    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    duration_minutes: 60,
+    category_id: "cat_ctmthdh",
+    category_slug: "ctmthdh",
+    question_count: 40,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-11T17:08:14.472Z",
   },
   {
     id: "02eaf730-8a1c-445a-8b9b-126a435b5343",
@@ -151,8 +151,8 @@ export const SEED_EXAMS: Exam[] = [
     created_at: "2026-10-10T22:42:32.465Z",
   },
   {
-    id: "bd754608-a772-4291-94d9-5072a35cf7be",
-    title: "Đề mở CNXH: Đề 5",
+    id: "1568ed83-9fbd-4ebe-9695-f66218d96e00",
+    title: "Đề mở CNXH: Đề 1",
     description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
     duration_minutes: 60,
     category_id: "cat_cnxh",
@@ -161,33 +161,7 @@ export const SEED_EXAMS: Exam[] = [
     question_type: "multiple_choice",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
-    created_at: "2026-10-10T20:47:08.752Z",
-  },
-  {
-    id: "5cb8cfd2-3aab-4920-ba68-ad09c4454c73",
-    title: "Đề mở CNXH: Đề 4",
-    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
-    duration_minutes: 60,
-    category_id: "cat_cnxh",
-    category_slug: "cnxh",
-    question_count: 21,
-    question_type: "multiple_choice",
-    created_by: "00000000-0000-0000-0000-000000000001",
-    status: "published",
-    created_at: "2026-10-10T20:46:29.933Z",
-  },
-  {
-    id: "4e881658-00db-4991-8d6f-739d20c3ee8e",
-    title: "Đề mở CNXH: Đề 3",
-    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
-    duration_minutes: 60,
-    category_id: "cat_cnxh",
-    category_slug: "cnxh",
-    question_count: 21,
-    question_type: "multiple_choice",
-    created_by: "00000000-0000-0000-0000-000000000001",
-    status: "published",
-    created_at: "2026-10-10T20:44:50.100Z",
+    created_at: "2026-10-10T20:08:34.947Z",
   },
   {
     id: "e9f9cf02-a194-467c-8849-869115f128dc",
@@ -203,8 +177,8 @@ export const SEED_EXAMS: Exam[] = [
     created_at: "2026-10-10T20:42:19.567Z",
   },
   {
-    id: "1568ed83-9fbd-4ebe-9695-f66218d96e00",
-    title: "Đề mở CNXH: Đề 1",
+    id: "4e881658-00db-4991-8d6f-739d20c3ee8e",
+    title: "Đề mở CNXH: Đề 3",
     description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
     duration_minutes: 60,
     category_id: "cat_cnxh",
@@ -213,7 +187,33 @@ export const SEED_EXAMS: Exam[] = [
     question_type: "multiple_choice",
     created_by: "00000000-0000-0000-0000-000000000001",
     status: "published",
-    created_at: "2026-10-10T20:08:34.947Z",
+    created_at: "2026-10-10T20:44:50.100Z",
+  },
+  {
+    id: "5cb8cfd2-3aab-4920-ba68-ad09c4454c73",
+    title: "Đề mở CNXH: Đề 4",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    duration_minutes: 60,
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    question_count: 21,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-10T20:46:29.933Z",
+  },
+  {
+    id: "bd754608-a772-4291-94d9-5072a35cf7be",
+    title: "Đề mở CNXH: Đề 5",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    duration_minutes: 60,
+    category_id: "cat_cnxh",
+    category_slug: "cnxh",
+    question_count: 21,
+    question_type: "multiple_choice",
+    created_by: "00000000-0000-0000-0000-000000000001",
+    status: "published",
+    created_at: "2026-10-10T20:47:08.752Z",
   },
 ];
 
@@ -482,6 +482,29 @@ export function invalidateExamCache() {
 }
 
 // 2. EXAM OPERATIONS
+
+/**
+ * Sorts exams in ascending order by natural exam number or title (e.g. "Đề 1" -> "Đề 2" -> ... -> "Đề 5").
+ */
+export function sortExamsAscending<T extends { title: string }>(exams: T[]): T[] {
+  return [...exams].sort((a, b) => {
+    // If titles have different prefix groups (e.g. "Đề cương CTMT" vs "Đề mở CNXH")
+    const baseA = a.title.includes(":") ? a.title.split(":")[0].trim() : "";
+    const baseB = b.title.includes(":") ? b.title.split(":")[0].trim() : "";
+    if (baseA && baseB && baseA !== baseB) {
+      return a.title.localeCompare(b.title, "vi", { numeric: true });
+    }
+
+    // Extract numbers from titles (e.g., "Đề 1", "Đề 2") and sort ascending
+    const numA = parseInt(a.title.match(/Đề\s*(\d+)/i)?.[1] || a.title.match(/\d+/)?.[0] || "0", 10);
+    const numB = parseInt(b.title.match(/Đề\s*(\d+)/i)?.[1] || b.title.match(/\d+/)?.[0] || "0", 10);
+    if (numA !== numB) {
+      return numA - numB;
+    }
+    return a.title.localeCompare(b.title, "vi", { numeric: true });
+  });
+}
+
 export async function getExams(
   onlyPublished = false,
   userId?: string
@@ -509,7 +532,7 @@ export async function getExams(
       if (onlyPublished) {
         query = query.eq("status", "published");
       }
-      query = query.order("created_at", { ascending: false });
+      query = query.order("created_at", { ascending: true });
 
       const [{ data, error }, subRes] = await Promise.all([
         query,
@@ -548,6 +571,7 @@ export async function getExams(
   }
 
   if (dbExams.length > 0) {
+    dbExams = sortExamsAscending(dbExams);
     setLocal(KEY_EXAMS, dbExams);
     const result = onlyPublished ? dbExams.filter((e) => e.status === "published") : dbExams;
     examMemoryCache = {
@@ -558,8 +582,10 @@ export async function getExams(
     return result;
   }
 
-  const localExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS).filter(
-    (e) => e.title !== "__SYSTEM_CATEGORIES__"
+  const localExams = sortExamsAscending(
+    getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS).filter(
+      (e) => e.title !== "__SYSTEM_CATEGORIES__"
+    )
   );
   const fallbackResult = onlyPublished ? localExams.filter((e) => e.status === "published") : localExams;
   examMemoryCache = {
