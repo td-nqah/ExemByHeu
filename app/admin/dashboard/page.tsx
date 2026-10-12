@@ -26,7 +26,7 @@ import {
   AlertTriangle,
   X,
   Pencil,
-  Plus,
+  FolderPlus,
   CheckCircle2,
   Calendar,
   Layers,
@@ -233,10 +233,10 @@ export default function AdminDashboardPage() {
                 setQuickTitle("");
                 setIsQuickExamModalOpen(true);
               }}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 hover:border-indigo-500/30 text-white font-medium px-3.5 py-2.5 text-xs transition-all"
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 hover:border-indigo-500/40 text-slate-200 hover:text-white font-medium px-3.5 py-2.5 text-xs transition-all cursor-pointer shadow-sm"
             >
-              <Plus className="h-3.5 w-3.5 text-indigo-400" />
-              <span>+ Thêm nhanh vào Danh mục</span>
+              <FolderPlus className="h-4 w-4 text-indigo-400 shrink-0" />
+              <span>Thêm nhanh vào Danh mục</span>
             </button>
 
             <Link
@@ -398,7 +398,7 @@ export default function AdminDashboardPage() {
             >
               <div className="flex items-center justify-between pb-4 border-b border-white/10">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <FilePlus2 className="h-4 w-4 text-indigo-400" />
+                  <FolderPlus className="h-4.5 w-4.5 text-indigo-400 shrink-0" />
                   <span>Thêm bài thi mới vào Chuyên mục</span>
                 </h3>
                 <button
