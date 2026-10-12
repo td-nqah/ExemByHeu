@@ -26,6 +26,8 @@ import {
   EyeOff,
   FolderArchive,
   Layers,
+  Copy,
+  Check,
 } from "lucide-react";
 
 export default function AdminSettingsPage() {
@@ -39,10 +41,15 @@ export default function AdminSettingsPage() {
   const [isScanning, setIsScanning] = useState(false);
 
   // Granular MB measurements
-  const [stats, setStats] = useState({ exams: 11, questions: 440, submissions: 0 });
-  const [dbTablesMB, setDbTablesMB] = useState(118.3);
-  const [filesStorageMB, setFilesStorageMB] = useState(130.8);
-  const [cacheLogsMB, setCacheLogsMB] = useState(30.0);
+  const [stats, setStats] = useState({ exams: 0, questions: 0, submissions: 0 });
+  const [dbTablesMB, setDbTablesMB] = useState(0);
+  const [filesStorageMB, setFilesStorageMB] = useState(0);
+  const [cacheLogsMB, setCacheLogsMB] = useState(0);
+  const [rpcConfigured, setRpcConfigured] = useState<boolean | null>(null);
+  const [rpcSqlScript, setRpcSqlScript] = useState<string>(
+    "CREATE OR REPLACE FUNCTION get_db_size()\nRETURNS bigint AS $$\n SELECT pg_database_size(current_database());\n$$ LANGUAGE sql SECURITY DEFINER;"
+  );
+  const [copiedSql, setCopiedSql] = useState(false);
 
   const usedStorageMB = useMemo(() => {
     return Number((dbTablesMB + filesStorageMB + cacheLogsMB).toFixed(1));
@@ -54,39 +61,57 @@ export default function AdminSettingsPage() {
 
   const isHighStorage = storagePercentage >= 80.0;
 
-  // Real-time Storage calculation based on database records
+  // Measure client browser cache using navigator.storage.estimate()
+  const getClientCacheEstimateMB = async (): Promise<number> => {
+    if (typeof window !== "undefined" && navigator.storage && navigator.storage.estimate) {
+      try {
+        const estimate = await navigator.storage.estimate();
+        const usageBytes = estimate.usage || 0;
+        return Number((usageBytes / (1024 * 1024)).toFixed(2));
+      } catch {
+        // fallback
+      }
+    }
+    if (typeof window !== "undefined" && window.localStorage) {
+      let totalLen = 0;
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key) {
+          totalLen += (localStorage.getItem(key) || "").length * 2;
+        }
+      }
+      return Number(Math.max(0.1, totalLen / (1024 * 1024)).toFixed(2));
+    }
+    return 0.5;
+  };
+
+  // Real-time Storage calculation based on database records, storage buckets and browser cache
   const handleRecalculateStorage = async () => {
     setIsScanning(true);
     try {
-      const [exams, subs] = await Promise.all([
-        getExams(true),
-        getSubmissions(),
+      const [statsRes, clientCacheMB] = await Promise.all([
+        fetch("/api/admin/system-stats").then((r) => r.json()).catch(() => null),
+        getClientCacheEstimateMB(),
       ]);
 
-      // Calculate approximate MB based on real items in system
-      let totalQuestions = 0;
-      exams.forEach((e) => {
-        totalQuestions += e.questions?.length || 0;
-      });
-
-      setStats({
-        exams: exams.length,
-        questions: totalQuestions,
-        submissions: subs.length,
-      });
-
-      // Realistic granular calculation
-      const calculatedDbMB = Number(
-        (60.0 + exams.length * 2.1 + totalQuestions * 0.08 + subs.length * 0.45).toFixed(1)
-      );
-      const calculatedFilesMB = Number((100.0 + exams.length * 2.8).toFixed(1));
-      const calculatedCacheMB = Number((30.0 + subs.length * 0.3).toFixed(1));
-
-      setDbTablesMB(calculatedDbMB);
-      setFilesStorageMB(calculatedFilesMB);
-      setCacheLogsMB(calculatedCacheMB);
+      if (statsRes && statsRes.success) {
+        setDbTablesMB(statsRes.database.mb);
+        setFilesStorageMB(statsRes.storage.mb);
+        setCacheLogsMB(clientCacheMB);
+        setStats({
+          exams: statsRes.stats.exams,
+          questions: statsRes.stats.questions,
+          submissions: statsRes.stats.submissions,
+        });
+        setRpcConfigured(statsRes.rpcConfigured);
+        if (statsRes.rpcSqlScript) {
+          setRpcSqlScript(statsRes.rpcSqlScript);
+        }
+      } else {
+        setCacheLogsMB(clientCacheMB);
+      }
     } finally {
-      setTimeout(() => setIsScanning(false), 350);
+      setTimeout(() => setIsScanning(false), 300);
     }
   };
 
@@ -291,7 +316,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <h4 className="font-semibold text-xs text-white">Dung lượng trong ngưỡng an toàn</h4>
                   <p className="text-[11px] text-slate-400">
-                    Đang sử dụng {usedStorageMB} MB / {maxStorageMB} MB ({storagePercentage}% khả dụng).
+                    Đang sử dụng {isScanning ? "..." : usedStorageMB} MB / {maxStorageMB} MB ({isScanning ? "..." : storagePercentage}% khả dụng).
                   </p>
                 </div>
               </div>
@@ -301,10 +326,10 @@ export default function AdminSettingsPage() {
                 type="button"
                 onClick={handleRecalculateStorage}
                 disabled={isScanning}
-                className="px-3 py-1.5 rounded-lg bg-[#4f57ea] hover:bg-[#434ac9] active:bg-[#3d43b6] text-xs text-white font-medium transition-colors flex items-center gap-1.5 disabled:opacity-50"
+                className="px-3 py-1.5 rounded-lg bg-[#4f57ea] hover:bg-[#434ac9] active:bg-[#3d43b6] text-xs text-white font-medium transition-colors flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${isScanning ? "animate-spin" : ""}`} />
-                <span>Đo lại thực tế</span>
+                <span>{isScanning ? "Đang đo thực tế..." : "Đo lại thực tế"}</span>
               </button>
             </div>
           )}
@@ -317,11 +342,17 @@ export default function AdminSettingsPage() {
                 Tổng dung lượng lưu trữ đã sử dụng:
               </span>
               <span className="font-mono font-bold text-white">
-                <span className={isHighStorage ? "text-rose-400" : "text-[#818cf8]"}>
-                  {usedStorageMB.toFixed(1)} MB
-                </span>{" "}
-                / {maxStorageMB.toFixed(1)} MB{" "}
-                <span className="text-slate-400 font-normal">({storagePercentage}%)</span>
+                {isScanning ? (
+                  <span className="inline-block h-4 w-20 bg-slate-700/60 rounded animate-pulse" />
+                ) : (
+                  <>
+                    <span className={isHighStorage ? "text-rose-400" : "text-[#818cf8]"}>
+                      {usedStorageMB.toFixed(1)} MB
+                    </span>{" "}
+                    / {maxStorageMB.toFixed(1)} MB{" "}
+                    <span className="text-slate-400 font-normal">({storagePercentage}%)</span>
+                  </>
+                )}
               </span>
             </div>
 
@@ -330,7 +361,7 @@ export default function AdminSettingsPage() {
               <div
                 className={`h-full rounded-full transition-all duration-500 ${
                   isHighStorage ? "bg-rose-500" : "bg-[#4f57ea]"
-                }`}
+                } ${isScanning ? "animate-pulse opacity-70" : ""}`}
                 style={{ width: `${Math.min(100, storagePercentage)}%` }}
               />
             </div>
@@ -345,16 +376,22 @@ export default function AdminSettingsPage() {
                   <Database className="h-3.5 w-3.5 text-indigo-400" />
                   Bảng CSDL PostgreSQL
                 </span>
-                <span className="font-mono font-bold text-white">{dbTablesMB.toFixed(1)} MB</span>
+                {isScanning ? (
+                  <span className="inline-block h-3.5 w-14 bg-slate-700/60 rounded animate-pulse" />
+                ) : (
+                  <span className="font-mono font-bold text-white">{dbTablesMB.toFixed(1)} MB</span>
+                )}
               </div>
               <div className="w-full bg-[#111622] h-1.5 rounded-full overflow-hidden">
                 <div
-                  className="bg-indigo-400 h-full rounded-full"
+                  className={`bg-indigo-400 h-full rounded-full transition-all duration-500 ${isScanning ? "animate-pulse opacity-70" : ""}`}
                   style={{ width: `${((dbTablesMB / maxStorageMB) * 100).toFixed(0)}%` }}
                 />
               </div>
               <p className="text-[10.5px] text-slate-400 pt-0.5">
-                Đo đếm theo {stats.exams} đề thi, {stats.questions} câu hỏi & bài nộp
+                {rpcConfigured
+                  ? "Đo trực tiếp qua pg_database_size() RPC"
+                  : `Đo thực tế theo ${stats.exams} đề thi & ${stats.questions} câu hỏi`}
               </p>
             </div>
 
@@ -365,16 +402,20 @@ export default function AdminSettingsPage() {
                   <FolderArchive className="h-3.5 w-3.5 text-purple-400" />
                   Kho Tệp & Đính kèm
                 </span>
-                <span className="font-mono font-bold text-white">{filesStorageMB.toFixed(1)} MB</span>
+                {isScanning ? (
+                  <span className="inline-block h-3.5 w-14 bg-slate-700/60 rounded animate-pulse" />
+                ) : (
+                  <span className="font-mono font-bold text-white">{filesStorageMB.toFixed(1)} MB</span>
+                )}
               </div>
               <div className="w-full bg-[#111622] h-1.5 rounded-full overflow-hidden">
                 <div
-                  className="bg-purple-400 h-full rounded-full"
+                  className={`bg-purple-400 h-full rounded-full transition-all duration-500 ${isScanning ? "animate-pulse opacity-70" : ""}`}
                   style={{ width: `${((filesStorageMB / maxStorageMB) * 100).toFixed(0)}%` }}
                 />
               </div>
               <p className="text-[10.5px] text-slate-400 pt-0.5">
-                Kho lưu trữ tệp đính kèm cho {stats.exams} bộ đề thi
+                Đo thực tế qua Supabase Storage Buckets
               </p>
             </div>
 
@@ -385,19 +426,51 @@ export default function AdminSettingsPage() {
                   <Layers className="h-3.5 w-3.5 text-emerald-400" />
                   Bộ nhớ Đệm & Tạm
                 </span>
-                <span className="font-mono font-bold text-white">{cacheLogsMB.toFixed(1)} MB</span>
+                {isScanning ? (
+                  <span className="inline-block h-3.5 w-14 bg-slate-700/60 rounded animate-pulse" />
+                ) : (
+                  <span className="font-mono font-bold text-white">{cacheLogsMB.toFixed(1)} MB</span>
+                )}
               </div>
               <div className="w-full bg-[#111622] h-1.5 rounded-full overflow-hidden">
                 <div
-                  className="bg-emerald-400 h-full rounded-full"
+                  className={`bg-emerald-400 h-full rounded-full transition-all duration-500 ${isScanning ? "animate-pulse opacity-70" : ""}`}
                   style={{ width: `${((cacheLogsMB / maxStorageMB) * 100).toFixed(0)}%` }}
                 />
               </div>
               <p className="text-[10.5px] text-slate-400 pt-0.5">
-                Phiên làm bài và bộ nhớ cache hệ thống
+                Đo thực tế qua navigator.storage.estimate()
               </p>
             </div>
           </div>
+
+          {/* RPC Setup Banner if RPC not yet created in Supabase */}
+          {rpcConfigured === false && (
+            <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-3.5 text-xs text-amber-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="space-y-0.5">
+                <p className="font-bold flex items-center gap-1.5 text-amber-300">
+                  <AlertTriangle className="h-4 w-4 shrink-0" />
+                  <span>Kích hoạt RPC get_db_size() trên Supabase</span>
+                </p>
+                <p className="text-[11px] text-amber-200/80">
+                  Hệ thống đang đo dung lượng theo số liệu bản ghi thực tế. Để lấy trực tiếp 100% từ PostgreSQL, hãy dán lệnh SQL sau vào Supabase SQL Editor.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(rpcSqlScript);
+                  setCopiedSql(true);
+                  setTimeout(() => setCopiedSql(false), 2000);
+                }}
+                className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/30 text-amber-200 font-medium text-xs flex items-center gap-1.5 shrink-0 transition cursor-pointer active:scale-95"
+              >
+                {copiedSql ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                <span>{copiedSql ? "Đã sao chép" : "Sao chép lệnh SQL"}</span>
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

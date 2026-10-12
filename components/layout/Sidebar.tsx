@@ -157,7 +157,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
         {/* 1. TỔNG QUAN / BÁO CÁO */}
         <div className="space-y-1.5">
-          <p className="px-3 text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
+          <p className="px-3 text-[10px] font-bold tracking-wider text-slate-200 uppercase">
             TỔNG QUAN / BÁO CÁO
           </p>
           <nav className="space-y-1">
@@ -190,7 +190,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
         {/* 2. HỌC TẬP / LUYỆN THI */}
         <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
-          <p className="px-3 text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
+          <p className="px-3 text-[10px] font-bold tracking-wider text-slate-200 uppercase">
             HỌC TẬP / LUYỆN THI
           </p>
           <nav className="space-y-1">
@@ -224,7 +224,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         {/* 3. QUẢN TRỊ & CẤU HÌNH (Only when Admin) */}
         {user?.role === "admin" && (
           <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
-            <p className="px-3 text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
+            <p className="px-3 text-[10px] font-bold tracking-wider text-slate-200 uppercase">
               QUẢN TRỊ & CẤU HÌNH
             </p>
             <nav className="space-y-1">
