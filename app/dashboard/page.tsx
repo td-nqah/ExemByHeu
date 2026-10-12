@@ -95,7 +95,7 @@ function UserDashboardContent() {
     categoryPills.find((c) => c.slug === activeCategory) || categoryPills[0];
 
   return (
-    <div className="mx-auto w-full max-w-[1750px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* =========================================================================
           1. SECTION TITLE ROW & STATS OVERVIEW CARD
           ========================================================================= */}
@@ -142,7 +142,7 @@ function UserDashboardContent() {
       {/* =========================================================================
           2. CATEGORY FILTER TABS / PILLS
           ========================================================================= */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+      <div className="flex items-center gap-2 overflow-x-auto sm:flex-wrap pb-1.5 scrollbar-none">
         {categoryPills.map((cat) => {
           const isActive = activeCategory === cat.slug;
 
@@ -170,7 +170,7 @@ function UserDashboardContent() {
       </div>
 
       {/* =========================================================================
-          3. EXAM CARDS GRID (5 COLUMNS ULTRA-COMPACT UNIFORM TILES)
+          3. EXAM CARDS GRID (RESPONSIVE DYNAMIC GRID: 1 -> 2 -> 3 -> 4 COLS)
           ========================================================================= */}
       {loading ? (
         <div className="bg-[#161b22] border border-[#21262d] flex h-48 items-center justify-center rounded-xl">
@@ -202,7 +202,7 @@ function UserDashboardContent() {
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
           {filteredExams.map((exam, idx) => (
             <UserExamCard key={exam.id} exam={exam} index={idx} />
           ))}
@@ -216,10 +216,9 @@ export default function UserDashboardPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto w-full max-w-[1750px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
           <div className="h-10 rounded-xl bg-[#151b27] animate-pulse" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
-            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
             <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
             <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
             <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
