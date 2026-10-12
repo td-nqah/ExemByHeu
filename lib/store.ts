@@ -474,6 +474,13 @@ function parseExamRecord(
   };
 }
 
+// In-memory short cache to eliminate redundant requests and instant tab navigation
+let examMemoryCache: { key: string; data: Exam[]; expiresAt: number } | null = null;
+
+export function invalidateExamCache() {
+  examMemoryCache = null;
+}
+
 // 2. EXAM OPERATIONS
 export async function getExams(
   onlyPublished = false,
@@ -481,51 +488,23 @@ export async function getExams(
 ): Promise<Exam[]> {
   initStore();
 
+  const cacheKey = `${onlyPublished}_${userId || ""}`;
+  const now = Date.now();
+  if (examMemoryCache && examMemoryCache.key === cacheKey && examMemoryCache.expiresAt > now) {
+    return examMemoryCache.data;
+  }
+
   const localSubmissions = getLocal<Submission[]>(
     KEY_SUBMISSIONS,
     SEED_SUBMISSIONS
   );
 
-  // Helper to attach latest 3 submissions for a given exam & user
-  const getTop3ForExam = (
-    examId: string,
-    dbSubs: Submission[] = []
-  ): Pick<
-    Submission,
-    "id" | "total_score" | "mcq_score" | "status" | "submitted_at"
-  >[] => {
-    if (!userId) return [];
-    const combined = [...dbSubs, ...localSubmissions].filter(
-      (s) => s.exam_id === examId && s.user_id === userId
-    );
-    // Deduplicate by id
-    const uniqueMap = new Map<string, Submission>();
-    for (const s of combined) {
-      if (!uniqueMap.has(s.id)) {
-        uniqueMap.set(s.id, s);
-      }
-    }
-    return Array.from(uniqueMap.values())
-      .sort(
-        (a, b) =>
-          new Date(b.submitted_at).getTime() -
-          new Date(a.submitted_at).getTime()
-      )
-      .slice(0, 3)
-      .map((s) => ({
-        id: s.id,
-        total_score: Number(s.total_score) || 0,
-        mcq_score: Number(s.mcq_score) || 0,
-        status: s.status,
-        submitted_at: s.submitted_at,
-      }));
-  };
-
   let dbExams: Exam[] = [];
 
   if (isSupabaseConfigured && supabase) {
     try {
-      let query = supabase.from("exams").select("*, questions(*)");
+      // Lightweight fetch: Only select exam columns, questions(*) are loaded on-demand
+      let query = supabase.from("exams").select("*");
       query = query.neq("title", "__SYSTEM_CATEGORIES__");
       if (onlyPublished) {
         query = query.eq("status", "published");
@@ -570,13 +549,25 @@ export async function getExams(
 
   if (dbExams.length > 0) {
     setLocal(KEY_EXAMS, dbExams);
-    return onlyPublished ? dbExams.filter((e) => e.status === "published") : dbExams;
+    const result = onlyPublished ? dbExams.filter((e) => e.status === "published") : dbExams;
+    examMemoryCache = {
+      key: cacheKey,
+      data: result,
+      expiresAt: now + 15000,
+    };
+    return result;
   }
 
   const localExams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS).filter(
     (e) => e.title !== "__SYSTEM_CATEGORIES__"
   );
-  return onlyPublished ? localExams.filter((e) => e.status === "published") : localExams;
+  const fallbackResult = onlyPublished ? localExams.filter((e) => e.status === "published") : localExams;
+  examMemoryCache = {
+    key: cacheKey,
+    data: fallbackResult,
+    expiresAt: now + 5000,
+  };
+  return fallbackResult;
 }
 
 export async function getExamById(id: string): Promise<Exam | null> {
@@ -773,6 +764,7 @@ export async function createExam(
 
   setLocal(KEY_EXAMS, [newExam, ...currentExams]);
   setLocal(KEY_QUESTIONS, [...currentQuestions, ...newQuestions]);
+  invalidateExamCache();
 
   return {
     ...newExam,
@@ -815,6 +807,7 @@ export async function assignExamCategory(
 
     exams[examIdx] = updatedExam;
     setLocal(KEY_EXAMS, exams);
+    invalidateExamCache();
 
     if (isSupabaseConfigured && supabase) {
       try {
@@ -873,6 +866,7 @@ export async function assignExamCategory(
           category_slug: categorySlug,
         };
         setLocal(KEY_EXAMS, [newLocal, ...exams]);
+        invalidateExamCache();
         return newLocal;
       }
     } catch (err) {
@@ -907,6 +901,7 @@ export async function updateExam(
       status: examData.status,
     };
     setLocal(KEY_EXAMS, exams);
+    invalidateExamCache();
   }
 
   const existingLocalIds = new Set(
@@ -1068,6 +1063,7 @@ export async function toggleExamStatus(id: string): Promise<Exam | null> {
     updated = { ...current, status: nextStatus };
     exams[examIndex] = updated;
     setLocal(KEY_EXAMS, exams);
+    invalidateExamCache();
   }
 
   if (isSupabaseConfigured && supabase) {
@@ -1091,6 +1087,7 @@ export async function toggleExamStatus(id: string): Promise<Exam | null> {
     } catch {}
   }
 
+  invalidateExamCache();
   return updated;
 }
 
@@ -1126,6 +1123,7 @@ export async function deleteExam(id: string): Promise<boolean> {
       (a) => !removedSubIds.has(a.submission_id) && !removedQuestionIds.has(a.question_id)
     )
   );
+  invalidateExamCache();
 
   if (isSupabaseConfigured && supabase) {
     try {
@@ -1272,12 +1270,14 @@ export async function submitExam(
 export async function getSubmissions(userId?: string): Promise<Submission[]> {
   initStore();
 
-  // 1. Live Supabase fetch if configured
+  // 1. Live Supabase fetch if configured (lightweight: no redundant questions join)
   if (isSupabaseConfigured && supabase) {
     try {
       let query = supabase
         .from("submissions")
-        .select("*, exam:exams(*, questions(*)), user:profiles(*)")
+        .select(
+          "id, exam_id, user_id, status, mcq_score, essay_score, total_score, submitted_at, exam:exams(id, title, duration_minutes, question_count, question_type, category_slug), user:profiles(id, username, full_name, avatar_url)"
+        )
         .order("submitted_at", { ascending: false });
 
       if (userId) {
@@ -1333,6 +1333,44 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
 
 export async function getSubmissionById(id: string): Promise<Submission | null> {
   initStore();
+
+  // 1. Live Supabase fetch with questions & answers for grading / review
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("submissions")
+        .select("*, exam:exams(*, questions(*)), user:profiles(*), answers:submission_answers(*)")
+        .eq("id", id)
+        .single();
+
+      if (!error && data) {
+        let sortedQuestions = data.exam?.questions || [];
+        if (sortedQuestions.length > 0) {
+          sortedQuestions.sort((a: Question, b: Question) => a.order_index - b.order_index);
+        }
+        const enrichedAnswers = (data.answers || []).map((a: any) => ({
+          ...a,
+          question: sortedQuestions.find((q: Question) => q.id === a.question_id),
+        }));
+
+        return {
+          id: data.id,
+          exam_id: data.exam_id,
+          user_id: data.user_id,
+          status: data.status,
+          mcq_score: Number(data.mcq_score) || 0,
+          essay_score: data.essay_score !== null ? Number(data.essay_score) : null,
+          total_score: Number(data.total_score) || 0,
+          submitted_at: data.submitted_at,
+          exam: data.exam ? { ...data.exam, questions: sortedQuestions } : undefined,
+          user: data.user,
+          answers: enrichedAnswers,
+        };
+      }
+    } catch {}
+  }
+
+  // 2. Local fallback
   const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const answers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
