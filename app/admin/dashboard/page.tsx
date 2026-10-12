@@ -36,6 +36,7 @@ import {
   Shuffle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PopoverSelect } from "@/components/ui/PopoverSelect";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -531,17 +532,18 @@ export default function AdminDashboardPage() {
                   <label className="text-xs font-medium text-slate-300">
                     Chọn Danh mục con (Sub-category selection) *
                   </label>
-                  <select
+                  <PopoverSelect
+                    className="w-full"
+                    buttonClassName="w-full"
+                    menuClassName="w-full"
                     value={quickCategorySlug}
-                    onChange={(e) => setQuickCategorySlug(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
-                  >
-                    {categories.map((c) => (
-                      <option key={c.id} value={c.slug} className="bg-[#111827] text-white">
-                        {c.name} ({c.slug})
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setQuickCategorySlug(val)}
+                    options={categories.map((c) => ({
+                      value: c.slug,
+                      label: c.name,
+                      description: `Mã: ${c.slug}`,
+                    }))}
+                  />
                 </div>
 
                 {/* Collapsible Advanced Settings (Optional) */}
@@ -598,19 +600,18 @@ export default function AdminDashboardPage() {
                           <label className="text-xs font-medium text-slate-300">
                             Dạng câu hỏi (Question Type)
                           </label>
-                          <select
+                          <PopoverSelect<"multiple_choice" | "essay" | "mixed">
+                            className="w-full"
+                            buttonClassName="w-full"
+                            menuClassName="w-full"
                             value={quickQuestionType}
-                            onChange={(e) =>
-                              setQuickQuestionType(
-                                e.target.value as "multiple_choice" | "essay" | "mixed"
-                              )
-                            }
-                            className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
-                          >
-                            <option value="multiple_choice">Trắc nghiệm</option>
-                            <option value="essay">Tự luận</option>
-                            <option value="mixed">Kết hợp Trắc nghiệm & Tự luận</option>
-                          </select>
+                            onChange={(val) => setQuickQuestionType(val)}
+                            options={[
+                              { value: "multiple_choice", label: "Trắc nghiệm" },
+                              { value: "essay", label: "Tự luận" },
+                              { value: "mixed", label: "Kết hợp Trắc nghiệm & Tự luận" },
+                            ]}
+                          />
                         </div>
 
                         {/* Expiration / Scheduled Date-Time */}

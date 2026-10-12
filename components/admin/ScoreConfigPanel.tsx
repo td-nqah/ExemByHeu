@@ -9,6 +9,7 @@ import {
   Calculator,
   CheckCircle2,
 } from "lucide-react";
+import { PopoverSelect } from "@/components/ui/PopoverSelect";
 
 interface ScoreConfigPanelProps {
   mcqCount: number;
@@ -279,22 +280,23 @@ export function ScoreConfigPanel({
           </div>
 
           {mcqCount > 0 && essayCount > 0 && (
-            <select
+            <PopoverSelect<"proportional" | "fix_essay_split_mcq">
+              className="w-full"
+              buttonClassName="w-full h-9"
+              menuClassName="w-full"
               value={scaleMode}
-              onChange={(e) =>
-                setScaleMode(
-                  e.target.value as "proportional" | "fix_essay_split_mcq"
-                )
-              }
-              className="glass-input h-9 rounded-xl px-3 text-xs text-slate-200"
-            >
-              <option value="proportional" className="bg-slate-900 text-white">
-                Chia theo tỷ lệ điểm hiện tại
-              </option>
-              <option value="fix_essay_split_mcq" className="bg-slate-900 text-white">
-                Giữ điểm Tự luận, chia đều phần còn lại cho Trắc nghiệm
-              </option>
-            </select>
+              onChange={(val) => setScaleMode(val)}
+              options={[
+                {
+                  value: "proportional",
+                  label: "Chia theo tỷ lệ điểm hiện tại",
+                },
+                {
+                  value: "fix_essay_split_mcq",
+                  label: "Giữ điểm Tự luận, chia đều phần còn lại cho Trắc nghiệm",
+                },
+              ]}
+            />
           )}
         </div>
 

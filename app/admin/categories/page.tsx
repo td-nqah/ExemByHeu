@@ -35,6 +35,7 @@ import {
   Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PopoverSelect } from "@/components/ui/PopoverSelect";
 
 // Icon options for categories
 const AVAILABLE_ICONS = [
@@ -436,17 +437,21 @@ export default function AdminCategoriesPage() {
                   <label className="text-xs font-medium text-slate-300">
                     Biểu tượng đại diện (Icon)
                   </label>
-                  <select
+                  <PopoverSelect
+                    className="w-full"
+                    buttonClassName="w-full"
+                    menuClassName="w-full"
                     value={formIcon}
-                    onChange={(e) => setFormIcon(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
-                  >
-                    {AVAILABLE_ICONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setFormIcon(val)}
+                    options={AVAILABLE_ICONS.map((opt) => {
+                      const Icon = opt.icon;
+                      return {
+                        value: opt.value,
+                        label: opt.label,
+                        icon: <Icon className="h-4 w-4 text-indigo-400" />,
+                      };
+                    })}
+                  />
                 </div>
 
                 {/* Status Selection */}

@@ -36,6 +36,7 @@ import {
 } from "@/lib/store";
 import { extractRawTextFromFile } from "@/lib/parsers";
 import { Category, StudyMaterial } from "@/types/exam";
+import { PopoverSelect } from "@/components/ui/PopoverSelect";
 
 export default function AdminMaterialsPage() {
   const router = useRouter();
@@ -706,17 +707,18 @@ export default function AdminMaterialsPage() {
                   <label className="text-xs font-medium text-slate-300">
                     Chọn Danh mục môn học (*)
                   </label>
-                  <select
+                  <PopoverSelect
+                    className="w-full"
+                    buttonClassName="w-full"
+                    menuClassName="w-full"
                     value={quickCategoryId}
-                    onChange={(e) => setQuickCategoryId(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
-                  >
-                    {categories.map((c) => (
-                      <option key={c.id} value={c.id} className="bg-[#111827] text-white">
-                        {c.name} ({c.slug})
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setQuickCategoryId(val)}
+                    options={categories.map((c) => ({
+                      value: c.id,
+                      label: c.name,
+                      description: `Mã: ${c.slug}`,
+                    }))}
+                  />
                 </div>
 
                 {/* Summary */}
@@ -1069,17 +1071,18 @@ export default function AdminMaterialsPage() {
 
                       <div className="md:col-span-5 space-y-1">
                         <label className="text-[11px] font-bold text-slate-300">Danh mục môn học (*)</label>
-                        <select
+                        <PopoverSelect
+                          className="w-full"
+                          buttonClassName="w-full py-2"
+                          menuClassName="w-full"
                           value={formCategoryId}
-                          onChange={(e) => setFormCategoryId(e.target.value)}
-                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3 py-2 text-xs text-white focus:border-[#4f46e5] focus:outline-none"
-                        >
-                          {categories.map((c) => (
-                            <option key={c.id} value={c.id} className="bg-[#111827] text-white">
-                              {c.name}
-                            </option>
-                          ))}
-                        </select>
+                          onChange={(val) => setFormCategoryId(val)}
+                          options={categories.map((c) => ({
+                            value: c.id,
+                            label: c.name,
+                            description: `Mã: ${c.slug}`,
+                          }))}
+                        />
                       </div>
                     </div>
 

@@ -9,6 +9,7 @@ import { ParsedQuestionDraft, Category } from "@/types/exam";
 import { QuestionEditorCard } from "@/components/admin/QuestionEditorCard";
 import { ScoreConfigPanel } from "@/components/admin/ScoreConfigPanel";
 import { ExamStatusSelector } from "@/components/admin/ExamStatusSelector";
+import { PopoverSelect } from "@/components/ui/PopoverSelect";
 import {
   UploadCloud,
   FileSpreadsheet,
@@ -941,42 +942,54 @@ export default function ExamCreatePage() {
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Danh mục con (Chuyên đề / Môn học) <span className="text-indigo-400">*</span>
             </label>
-            <select
+            <PopoverSelect
+              className="w-full"
+              buttonClassName="w-full h-10"
+              menuClassName="w-full"
               value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
-            >
-              <option value="" className="bg-slate-900 text-white">-- Chưa phân loại --</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id} className="bg-slate-900 text-white">
-                  {c.icon || "📁"} {c.name} ({c.slug})
-                </option>
-              ))}
-            </select>
+              onChange={(val) => setCategoryId(val)}
+              placeholder="-- Chọn chuyên đề / môn học --"
+              options={[
+                { value: "", label: "-- Chưa phân loại --" },
+                ...categories.map((c) => ({
+                  value: c.id,
+                  label: `${c.icon || "📁"} ${c.name}`,
+                  description: `Mã: ${c.slug}`,
+                })),
+              ]}
+            />
           </div>
 
           <div>
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Hình thức câu hỏi
             </label>
-            <select
+            <PopoverSelect<"auto" | "multiple_choice" | "essay" | "mixed">
+              className="w-full"
+              buttonClassName="w-full h-10"
+              menuClassName="w-full"
               value={questionTypeOverride}
-              onChange={(e) => setQuestionTypeOverride(e.target.value as any)}
-              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
-            >
-              <option value="auto" className="bg-slate-900 text-white">
-                Tự động nhận diện theo tệp / câu hỏi ({questions.length} câu)
-              </option>
-              <option value="multiple_choice" className="bg-slate-900 text-white">
-                Trắc nghiệm khách quan
-              </option>
-              <option value="essay" className="bg-slate-900 text-white">
-                Tự luận
-              </option>
-              <option value="mixed" className="bg-slate-900 text-white">
-                Kết hợp Trắc nghiệm & Tự luận
-              </option>
-            </select>
+              onChange={(val) => setQuestionTypeOverride(val)}
+              options={[
+                {
+                  value: "auto",
+                  label: `Tự động nhận diện (${questions.length} câu)`,
+                  description: "Tự động phân loại theo cấu trúc tệp tải lên",
+                },
+                {
+                  value: "multiple_choice",
+                  label: "Trắc nghiệm khách quan",
+                },
+                {
+                  value: "essay",
+                  label: "Tự luận",
+                },
+                {
+                  value: "mixed",
+                  label: "Kết hợp Trắc nghiệm & Tự luận",
+                },
+              ]}
+            />
           </div>
 
           <div>

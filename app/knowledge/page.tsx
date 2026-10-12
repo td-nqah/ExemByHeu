@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { getStudyMaterials, getCategories } from "@/lib/store";
 import { Category, StudyMaterial } from "@/types/exam";
+import { PopoverSelect } from "@/components/ui/PopoverSelect";
 
 export default function KnowledgeHubPage() {
   const [materials, setMaterials] = useState<StudyMaterial[]>([]);
@@ -256,15 +257,22 @@ export default function KnowledgeHubPage() {
 
           {/* Sort Selector */}
           <div className="md:col-span-3 flex items-center justify-end gap-2 text-xs">
-            <span className="text-[#9ca3af] text-xs">Sắp xếp:</span>
-            <select
+            <span className="text-[#9ca3af] text-xs shrink-0">Sắp xếp:</span>
+            <PopoverSelect<"newest" | "title">
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="rounded-xl border border-[#1f2937] bg-[#111827] px-3 py-2 text-xs text-[#e5e7eb] focus:outline-none focus:border-[#4f46e5] cursor-pointer"
-            >
-              <option value="newest" className="bg-[#111827] text-white">Mới cập nhật nhất</option>
-              <option value="title" className="bg-[#111827] text-white">Tiêu đề (A - Z)</option>
-            </select>
+              onChange={(val) => setSortBy(val)}
+              align="right"
+              options={[
+                {
+                  value: "newest",
+                  label: "Mới cập nhật nhất",
+                },
+                {
+                  value: "title",
+                  label: "Tiêu đề (A - Z)",
+                },
+              ]}
+            />
           </div>
         </div>
 
