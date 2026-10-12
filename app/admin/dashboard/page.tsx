@@ -236,7 +236,7 @@ export default function AdminDashboardPage() {
               className="inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 hover:border-indigo-500/40 text-slate-200 hover:text-white font-medium px-3.5 py-2.5 text-xs transition-all cursor-pointer shadow-sm"
             >
               <FolderPlus className="h-4 w-4 text-indigo-400 shrink-0" />
-              <span>Thêm nhanh vào Danh mục</span>
+              <span>Thêm vào Danh mục</span>
             </button>
 
             <Link
@@ -244,7 +244,7 @@ export default function AdminDashboardPage() {
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2.5 text-xs transition-all"
             >
               <FilePlus2 className="h-4 w-4" />
-              <span>Tạo đề AI / Tệp</span>
+              <span>Tạo đề</span>
             </Link>
           </div>
         </div>
