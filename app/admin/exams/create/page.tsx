@@ -8,6 +8,7 @@ import { createExam, getCategories } from "@/lib/store";
 import { ParsedQuestionDraft, Category } from "@/types/exam";
 import { QuestionEditorCard } from "@/components/admin/QuestionEditorCard";
 import { ScoreConfigPanel } from "@/components/admin/ScoreConfigPanel";
+import { ExamStatusSelector } from "@/components/admin/ExamStatusSelector";
 import {
   UploadCloud,
   FileSpreadsheet,
@@ -1005,21 +1006,11 @@ export default function ExamCreatePage() {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-slate-300">
-              Trạng thái đề thi
-            </label>
-            <select
+            <ExamStatusSelector
               value={status}
-              onChange={(e) => setStatus(e.target.value as "published" | "draft")}
-              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
-            >
-              <option value="published" className="bg-slate-900 text-white">
-                Xuất bản ngay (Thí sinh có thể thấy và thi)
-              </option>
-              <option value="draft" className="bg-slate-900 text-white">
-                Lưu nháp (Chỉ quản trị viên thấy)
-              </option>
-            </select>
+              onChange={setStatus}
+              defaultViewMode="cards"
+            />
           </div>
 
           {/* Toggle Switch: Shuffle Exam */}

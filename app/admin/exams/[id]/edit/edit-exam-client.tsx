@@ -7,6 +7,7 @@ import { getExamById, updateExam, getCurrentUser } from "@/lib/store";
 import { ParsedQuestionDraft } from "@/types/exam";
 import { QuestionEditorCard } from "@/components/admin/QuestionEditorCard";
 import { ScoreConfigPanel } from "@/components/admin/ScoreConfigPanel";
+import { ExamStatusSelector } from "@/components/admin/ExamStatusSelector";
 import {
   ArrowLeft,
   Save,
@@ -431,23 +432,11 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-slate-300">
-              Trạng thái đề thi
-            </label>
-            <select
+            <ExamStatusSelector
               value={status}
-              onChange={(e) =>
-                setStatus(e.target.value as "published" | "draft")
-              }
-              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
-            >
-              <option value="published" className="bg-slate-900 text-white">
-                Đang mở thi (Đã xuất bản)
-              </option>
-              <option value="draft" className="bg-slate-900 text-white">
-                Đóng thi (Bản nháp)
-              </option>
-            </select>
+              onChange={setStatus}
+              defaultViewMode="dropdown"
+            />
           </div>
 
           {/* Toggle Switch: Shuffle Exam */}
