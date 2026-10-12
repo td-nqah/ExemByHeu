@@ -51,8 +51,8 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     router.push("/");
   };
 
-  // Exactly 4 streamlined menu items: 'Trang chủ', 'Đề thi', 'Lịch sử', 'Phân tích'
-  const userNavLinks = [
+  // Group 1: TỔNG QUAN / BÁO CÁO
+  const overviewNavLinks = [
     {
       title: "Trang chủ",
       href: "/home",
@@ -60,31 +60,35 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       active: pathname === "/home",
     },
     {
-      title: "Đề thi",
-      href: "/dashboard",
-      icon: BookOpen,
-      active: pathname === "/dashboard" || pathname.startsWith("/exam"),
-    },
-    {
-      title: "Lịch sử",
+      title: "Lịch sử làm bài",
       href: "/history",
       icon: History,
       active: pathname.startsWith("/history"),
     },
     {
-      title: "Phân tích",
+      title: "Phân tích & Thống kê",
       href: "/analytics",
       icon: BarChart2,
       active: pathname.startsWith("/analytics"),
     },
   ];
 
+  // Group 2: HỌC TẬP / LUYỆN THI
+  const studyNavLinks = [
+    {
+      title: "Danh sách Đề thi",
+      href: "/dashboard",
+      icon: BookOpen,
+      active: pathname === "/dashboard" || pathname.startsWith("/exam"),
+    },
+  ];
+
+  // Group 3: QUẢN TRỊ & CẤU HÌNH
   const adminNavLinks = [
     {
       title: "Quản lý Đề thi",
       href: "/admin/dashboard",
       icon: ShieldCheck,
-      badge: "ADMIN",
       active:
         pathname === "/admin" ||
         pathname === "/admin/dashboard" ||
@@ -95,14 +99,12 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       title: "Quản lý Danh mục",
       href: "/admin/categories",
       icon: FolderTree,
-      badge: "MỚI",
       active: pathname.startsWith("/admin/categories"),
     },
     {
       title: "Tạo Đề thi mới",
       href: "/admin/exams/create",
       icon: Wand2,
-      badge: "AI",
       active:
         pathname === "/admin/create" ||
         pathname.startsWith("/admin/create") ||
@@ -112,7 +114,6 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       title: "Phòng Chấm bài",
       href: "/admin/submissions",
       icon: Target,
-      badge: "DUYỆT",
       active:
         pathname.startsWith("/admin/grading") ||
         pathname.startsWith("/admin/submissions"),
@@ -121,15 +122,14 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       title: "Cài đặt Hệ thống",
       href: "/admin/settings",
       icon: Settings,
-      badge: "HỆ THỐNG",
       active: pathname.startsWith("/admin/settings"),
     },
   ];
 
   const sidebarContent = (
-    <div className="flex h-full flex-col justify-between p-4 sm:p-5 select-none">
+    <div className="flex h-full flex-col justify-between p-4 sm:p-5 select-none overflow-y-auto custom-scrollbar">
       {/* Top Section */}
-      <div className="space-y-6">
+      <div className="space-y-5">
         {/* Brand Header */}
         <div className="relative flex items-center justify-center pb-2 pt-1">
           <Link
@@ -155,39 +155,77 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           </button>
         </div>
 
-        {/* User Navigation Items (Only 4 items) */}
-        <nav className="space-y-1">
-          {userNavLinks.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.title}
-                href={item.href}
-                onClick={onCloseMobile}
-                className={cn(
-                  "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
-                  item.active
-                    ? "bg-[#1e2538] text-white font-semibold"
-                    : "text-slate-400 hover:text-white hover:bg-[#151b27]"
-                )}
-              >
-                <Icon
+        {/* 1. TỔNG QUAN / BÁO CÁO */}
+        <div className="space-y-1.5">
+          <p className="px-3 text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
+            TỔNG QUAN / BÁO CÁO
+          </p>
+          <nav className="space-y-1">
+            {overviewNavLinks.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  onClick={onCloseMobile}
                   className={cn(
-                    "h-4 w-4 shrink-0",
-                    item.active ? "text-white" : "text-slate-400 group-hover:text-white"
+                    "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
+                    item.active
+                      ? "bg-[#1e2538] text-white font-semibold"
+                      : "text-slate-400 hover:text-white hover:bg-[#151b27]"
                   )}
-                />
-                <span className="truncate">{item.title}</span>
-              </Link>
-            );
-          })}
-        </nav>
+                >
+                  <Icon
+                    className={cn(
+                      "h-4 w-4 shrink-0",
+                      item.active ? "text-white" : "text-slate-400 group-hover:text-white"
+                    )}
+                  />
+                  <span className="truncate">{item.title}</span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
-        {/* Admin Section (Only when Admin) */}
+        {/* 2. HỌC TẬP / LUYỆN THI */}
+        <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
+          <p className="px-3 text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
+            HỌC TẬP / LUYỆN THI
+          </p>
+          <nav className="space-y-1">
+            {studyNavLinks.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  onClick={onCloseMobile}
+                  className={cn(
+                    "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
+                    item.active
+                      ? "bg-[#1e2538] text-white font-semibold"
+                      : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+                  )}
+                >
+                  <Icon
+                    className={cn(
+                      "h-4 w-4 shrink-0",
+                      item.active ? "text-white" : "text-slate-400 group-hover:text-white"
+                    )}
+                  />
+                  <span className="truncate">{item.title}</span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* 3. QUẢN TRỊ & CẤU HÌNH (Only when Admin) */}
         {user?.role === "admin" && (
-          <div className="space-y-1.5 pt-3 border-t border-white/[0.06]">
+          <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
             <p className="px-3 text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
-              QUẢN TRỊ & CHẤM THI
+              QUẢN TRỊ & CẤU HÌNH
             </p>
             <nav className="space-y-1">
               {adminNavLinks.map((item) => {
@@ -198,29 +236,19 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     href={item.href}
                     onClick={onCloseMobile}
                     className={cn(
-                      "group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors",
+                      "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
                       item.active
                         ? "bg-[#1e2538] text-white font-semibold"
                         : "text-slate-400 hover:text-white hover:bg-[#151b27]"
                     )}
                   >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <Icon className="h-4 w-4 shrink-0 text-slate-400 group-hover:text-white" />
-                      <span className="truncate">{item.title}</span>
-                    </div>
-
-                    {item.badge && (
-                      <span
-                        className={cn(
-                          "rounded-md px-1.5 py-0.5 text-[9px] font-bold shrink-0",
-                          item.active
-                            ? "bg-white/20 text-white"
-                            : "bg-[#1f2637] text-slate-400 border border-white/[0.05]"
-                        )}
-                      >
-                        {item.badge}
-                      </span>
-                    )}
+                    <Icon
+                      className={cn(
+                        "h-4 w-4 shrink-0",
+                        item.active ? "text-white" : "text-slate-400 group-hover:text-white"
+                      )}
+                    />
+                    <span className="truncate">{item.title}</span>
                   </Link>
                 );
               })}
