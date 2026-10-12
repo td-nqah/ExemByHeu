@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   getCurrentUser,
@@ -31,7 +31,10 @@ import {
   Monitor,
   Globe,
   Power,
+  User,
+  ChevronDown,
 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function AdminSettingsPage() {
   const router = useRouter();
@@ -142,6 +145,8 @@ export default function AdminSettingsPage() {
   // 2. User Password Reset State
   const [allProfiles, setAllProfiles] = useState<Profile[]>([]);
   const [selectedUser, setSelectedUser] = useState<string>("tth");
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const userDropdownRef = useRef<HTMLDivElement>(null);
   const [emergencyNewPassword, setEmergencyNewPassword] = useState("");
   const [showEmergencyPass, setShowEmergencyPass] = useState(false);
   const [emergencyLoading, setEmergencyLoading] = useState(false);
@@ -149,6 +154,31 @@ export default function AdminSettingsPage() {
     type: "success" | "error";
     message: string;
   } | null>(null);
+
+  // Close custom user dropdown on outside click or Escape key
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        userDropdownRef.current &&
+        !userDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsUserDropdownOpen(false);
+      }
+    }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsUserDropdownOpen(false);
+      }
+    }
+    if (isUserDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isUserDropdownOpen]);
 
   // Security Check: Only admin allowed
   useEffect(() => {
@@ -659,7 +689,7 @@ export default function AdminSettingsPage() {
                     Đặt lại Mật khẩu cho Người dùng
                   </h3>
                   <p className="text-xs text-slate-400">
-                    Toàn quyền cập nhật mật khẩu cho <code className="text-amber-400">user1, user2...</code>
+                    Toàn quyền cập nhật mật khẩu cho <code className="text-amber-400">adm, tth, tmh, user</code>
                   </p>
                 </div>
               </div>
@@ -682,28 +712,220 @@ export default function AdminSettingsPage() {
                   </div>
                 )}
 
-                {/* Select User */}
-                <div className="space-y-1">
+                {/* Custom User Dropdown Selector */}
+                <div className="space-y-1.5 relative" ref={userDropdownRef}>
                   <div className="flex items-center justify-between">
                     <label className="text-xs font-medium text-slate-300">
                       Chọn tài khoản cần đổi mật khẩu
                     </label>
-                    <span className="text-[10px] text-slate-500">
+                    <span className="text-[10px] text-slate-500 font-mono">
                       ({allProfiles.length} tài khoản)
                     </span>
                   </div>
 
-                  <select
-                    value={selectedUser}
-                    onChange={(e) => setSelectedUser(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#1b2230] border border-white/[0.08] rounded-xl text-xs text-white focus:outline-none focus:border-amber-500"
+                  {/* Trigger Button */}
+                  <button
+                    type="button"
+                    onClick={() => setIsUserDropdownOpen((prev) => !prev)}
+                    aria-haspopup="listbox"
+                    aria-expanded={isUserDropdownOpen}
+                    className={`w-full px-3 py-2.5 rounded-xl border text-xs text-left transition-all duration-200 flex items-center justify-between gap-3 shadow-inner cursor-pointer select-none ${
+                      isUserDropdownOpen
+                        ? "bg-[#1d2536] border-amber-500/80 ring-2 ring-amber-500/20 shadow-[0_0_20px_rgba(245,158,11,0.15)]"
+                        : "bg-[#1b2230] hover:bg-[#202738] border-white/[0.08] hover:border-amber-500/40 text-white"
+                    }`}
                   >
-                    {allProfiles.map((p) => (
-                      <option key={p.username} value={p.username} className="bg-[#151b27] text-white">
-                        {p.username} ({p.role === "admin" ? "Quản trị viên" : "Người dùng"})
-                      </option>
-                    ))}
-                  </select>
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      {/* Avatar Icon */}
+                      {(() => {
+                        const prof = allProfiles.find((p) => p.username === selectedUser);
+                        const isAdmin = prof?.role === "admin";
+                        return (
+                          <div
+                            className={`h-7 w-7 rounded-lg flex items-center justify-center shrink-0 border ${
+                              isAdmin
+                                ? "bg-amber-500/15 border-amber-500/30 text-amber-400"
+                                : "bg-indigo-500/15 border-indigo-500/30 text-indigo-400"
+                            }`}
+                          >
+                            {isAdmin ? (
+                              <Shield className="h-3.5 w-3.5" />
+                            ) : (
+                              <User className="h-3.5 w-3.5" />
+                            )}
+                          </div>
+                        );
+                      })()}
+
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono font-bold text-white text-xs tracking-wide">
+                            {selectedUser}
+                          </span>
+                          {(() => {
+                            const prof = allProfiles.find((p) => p.username === selectedUser);
+                            const isAdmin = prof?.role === "admin";
+                            return (
+                              <span
+                                className={`text-[9px] px-1.5 py-0.5 rounded-md font-semibold border ${
+                                  isAdmin
+                                    ? "bg-amber-500/15 text-amber-300 border-amber-500/30"
+                                    : "bg-slate-800 text-slate-300 border-white/10"
+                                }`}
+                              >
+                                {isAdmin ? "Quản trị viên" : "Thí sinh"}
+                              </span>
+                            );
+                          })()}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      {(() => {
+                        const sec = accountsSecurity.find((a) => a.username === selectedUser);
+                        const isActive = sec ? sec.is_active !== false : true;
+                        return (
+                          <span
+                            className={`text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 border ${
+                              isActive
+                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/25"
+                                : "bg-rose-500/10 text-rose-400 border-rose-500/25"
+                            }`}
+                          >
+                            <span
+                              className={`h-1.5 w-1.5 rounded-full ${
+                                isActive ? "bg-emerald-400 animate-pulse" : "bg-rose-400"
+                              }`}
+                            />
+                            <span>{isActive ? "Active" : "Khóa"}</span>
+                          </span>
+                        );
+                      })()}
+                      <ChevronDown
+                        className={`h-4 w-4 text-slate-400 transition-transform duration-200 transform ${
+                          isUserDropdownOpen ? "rotate-180 text-amber-400" : ""
+                        }`}
+                      />
+                    </div>
+                  </button>
+
+                  {/* Dropdown Floating Popover */}
+                  <AnimatePresence>
+                    {isUserDropdownOpen && (
+                      <motion.div
+                        role="listbox"
+                        initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                        transition={{ duration: 0.15, ease: "easeOut" }}
+                        className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl bg-[#141a26]/98 backdrop-blur-2xl border border-white/12 shadow-[0_20px_45px_rgba(0,0,0,0.7)] p-1.5 space-y-1 ring-1 ring-black/50"
+                      >
+                        <div className="px-2.5 py-1.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wider border-b border-white/[0.06] flex items-center justify-between">
+                          <span>Danh sách tài khoản</span>
+                          <span className="font-mono text-slate-500 lowercase">
+                            {allProfiles.length} tài khoản
+                          </span>
+                        </div>
+
+                        <div className="max-h-56 overflow-y-auto space-y-1 py-0.5 custom-scrollbar">
+                          {allProfiles.map((p) => {
+                            const isSelected = p.username === selectedUser;
+                            const sec = accountsSecurity.find((a) => a.username === p.username);
+                            const isActive = sec ? sec.is_active !== false : true;
+                            const isAdmin = p.role === "admin";
+
+                            return (
+                              <button
+                                key={p.username}
+                                type="button"
+                                role="option"
+                                aria-selected={isSelected}
+                                onClick={() => {
+                                  setSelectedUser(p.username);
+                                  setIsUserDropdownOpen(false);
+                                }}
+                                className={`w-full px-2.5 py-2 rounded-lg text-left transition-all duration-150 flex items-center justify-between gap-2.5 group cursor-pointer ${
+                                  isSelected
+                                    ? "bg-amber-500/15 border border-amber-500/30 text-amber-200 ring-1 ring-amber-500/20"
+                                    : "hover:bg-white/[0.06] text-slate-300 hover:text-white border border-transparent"
+                                }`}
+                              >
+                                <div className="flex items-center gap-2.5 min-w-0">
+                                  <div
+                                    className={`h-7 w-7 rounded-lg flex items-center justify-center shrink-0 border transition-transform duration-150 group-hover:scale-105 ${
+                                      isAdmin
+                                        ? "bg-amber-500/15 border-amber-500/30 text-amber-400"
+                                        : "bg-indigo-500/15 border-indigo-500/30 text-indigo-400"
+                                    }`}
+                                  >
+                                    {isAdmin ? (
+                                      <Shield className="h-3.5 w-3.5" />
+                                    ) : (
+                                      <User className="h-3.5 w-3.5" />
+                                    )}
+                                  </div>
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-2">
+                                      <span
+                                        className={`font-mono text-xs font-bold tracking-wide ${
+                                          isSelected
+                                            ? "text-amber-300"
+                                            : "text-white group-hover:text-amber-200"
+                                        }`}
+                                      >
+                                        {p.username}
+                                      </span>
+                                      <span
+                                        className={`text-[9px] px-1.5 py-0.5 rounded font-semibold border ${
+                                          isAdmin
+                                            ? "bg-amber-500/20 text-amber-300 border-amber-500/30"
+                                            : "bg-slate-800 text-slate-400 border-white/5"
+                                        }`}
+                                      >
+                                        {isAdmin ? "Quản trị viên" : "Thí sinh"}
+                                      </span>
+                                    </div>
+                                    <div className="text-[10px] text-slate-400 flex items-center gap-2 mt-0.5">
+                                      <span
+                                        className={`flex items-center gap-1 ${
+                                          isActive ? "text-emerald-400/90" : "text-rose-400/90"
+                                        }`}
+                                      >
+                                        <span
+                                          className={`h-1 w-1 rounded-full ${
+                                            isActive ? "bg-emerald-400" : "bg-rose-400"
+                                          }`}
+                                        />
+                                        <span>{isActive ? "Đang hoạt động" : "Đã khóa"}</span>
+                                      </span>
+                                      {sec && (
+                                        <span className="text-slate-500 font-mono text-[9px]">
+                                          • {sec.devices?.length || 0}/3 máy • {sec.ips?.length || 0}/3 IP
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="shrink-0 pl-1">
+                                  {isSelected ? (
+                                    <div className="h-5 w-5 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 shadow-sm">
+                                      <Check className="h-3 w-3" />
+                                    </div>
+                                  ) : (
+                                    <div className="h-5 w-5 rounded-full border border-white/10 opacity-0 group-hover:opacity-60 transition-opacity flex items-center justify-center">
+                                      <div className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                                    </div>
+                                  )}
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* New Password for Selected User */}
