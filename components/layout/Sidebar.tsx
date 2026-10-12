@@ -172,7 +172,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             onClick={onCloseMobile}
             className="flex items-center justify-center gap-3 transition-opacity hover:opacity-90"
           >
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1e2538] border border-white/[0.08] text-white shadow-sm">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1f2937] border border-[#1f2937] text-white shadow-sm">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
             <span className="font-heading text-xl font-bold tracking-tight text-white">
@@ -184,7 +184,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           <button
             type="button"
             onClick={onCloseMobile}
-            className="md:hidden absolute right-0 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-400 hover:bg-[#161c28] hover:text-white transition"
+            className="md:hidden absolute right-0 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-400 hover:bg-[#1f2937] hover:text-white transition"
           >
             <X className="h-5 w-5" />
           </button>
@@ -192,7 +192,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
         {/* 1. TỔNG QUAN / BÁO CÁO */}
         <div className="space-y-1.5">
-          <p className="px-3 text-[10px] font-bold tracking-wider text-slate-200 uppercase">
+          <p className="px-3 text-[10px] font-bold tracking-wider text-[#6b7280] uppercase">
             TỔNG QUAN / BÁO CÁO
           </p>
           <nav className="space-y-1">
@@ -206,14 +206,14 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                   className={cn(
                     "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
                     item.active
-                      ? "bg-[#1e2538] text-white font-semibold"
-                      : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+                      ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
+                      : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
                   )}
                 >
                   <Icon
                     className={cn(
                       "h-4 w-4 shrink-0",
-                      item.active ? "text-white" : "text-slate-400 group-hover:text-white"
+                      item.active ? "text-[#6366f1]" : "text-[#9ca3af] group-hover:text-white"
                     )}
                   />
                   <span className="truncate">{item.title}</span>
@@ -224,8 +224,8 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         </div>
 
         {/* 2. LÝ THUYẾT / BÀI TẬP */}
-        <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
-          <p className="px-3 text-[10px] font-bold tracking-wider text-slate-200 uppercase">
+        <div className="space-y-1.5 pt-2 border-t border-[#1f2937]">
+          <p className="px-3 text-[10px] font-bold tracking-wider text-[#6b7280] uppercase">
             LÝ THUYẾT / BÀI TẬP
           </p>
           <div className="space-y-1">
@@ -236,16 +236,16 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               className={cn(
                 "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors select-none",
                 pathname.startsWith("/knowledge")
-                  ? "bg-[#1e2538] text-white font-semibold"
-                  : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+                  ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
+                  : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
               )}
             >
               <BookOpen
                 className={cn(
                   "h-4 w-4 shrink-0",
                   pathname.startsWith("/knowledge")
-                    ? "text-cyan-400"
-                    : "text-slate-400 group-hover:text-cyan-400"
+                    ? "text-[#6366f1]"
+                    : "text-[#9ca3af] group-hover:text-[#6366f1]"
                 )}
               />
               <span className="truncate">Tổng hợp kiến thức</span>
@@ -256,10 +256,10 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               className={cn(
                 "group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors select-none",
                 isParentActive
-                  ? "bg-[#1e2538] text-white font-semibold"
+                  ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
                   : isExamsRoute
-                  ? "text-slate-200 hover:bg-[#151b27]"
-                  : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+                  ? "text-slate-200 hover:bg-[#111827]"
+                  : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
               )}
             >
               <Link
@@ -278,8 +278,8 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                   className={cn(
                     "h-4 w-4 shrink-0",
                     isParentActive || isExamsRoute
-                      ? "text-white"
-                      : "text-slate-400 group-hover:text-white"
+                      ? "text-[#6366f1]"
+                      : "text-[#9ca3af] group-hover:text-white"
                   )}
                 />
                 <span className="truncate">Danh sách Đề thi</span>
@@ -307,7 +307,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
             {/* Sub-menu: Dynamic Categories (Tree View) */}
             {examsExpanded && categories.length > 0 && (
-              <div className="relative mt-1 ml-5 pl-2.5 space-y-1 border-l border-[#2A2F45]">
+              <div className="relative mt-1 ml-5 pl-2.5 space-y-1 border-l border-[#1f2937]">
                 {categories.map((cat) => {
                   const isSubActive =
                     pathname === "/dashboard" &&
@@ -320,13 +320,13 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                       className={cn(
                         "group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-medium transition-all duration-150",
                         isSubActive
-                          ? "bg-[#1e2538] text-white font-semibold border border-cyan-500/20 text-cyan-200"
-                          : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+                          ? "bg-[#4f46e5]/15 text-white font-semibold border border-[#4f46e5]/30"
+                          : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
                       )}
                     >
                       <span className="truncate">{cat.name}</span>
                       {isSubActive && (
-                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.9)]" />
+                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#6366f1] shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
                       )}
                     </Link>
                   );
@@ -338,8 +338,8 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
         {/* 3. QUẢN TRỊ & CẤU HÌNH (Only when Admin) */}
         {user?.role === "admin" && (
-          <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
-            <p className="px-3 text-[10px] font-bold tracking-wider text-slate-200 uppercase">
+          <div className="space-y-1.5 pt-2 border-t border-[#1f2937]">
+            <p className="px-3 text-[10px] font-bold tracking-wider text-[#6b7280] uppercase">
               QUẢN TRỊ & CẤU HÌNH
             </p>
             <nav className="space-y-1">
@@ -353,14 +353,14 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     className={cn(
                       "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
                       item.active
-                        ? "bg-[#1e2538] text-white font-semibold"
-                        : "text-slate-400 hover:text-white hover:bg-[#151b27]"
+                        ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
+                        : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
                     )}
                   >
                     <Icon
                       className={cn(
                         "h-4 w-4 shrink-0",
-                        item.active ? "text-white" : "text-slate-400 group-hover:text-white"
+                        item.active ? "text-[#6366f1]" : "text-[#9ca3af] group-hover:text-white"
                       )}
                     />
                     <span className="truncate">{item.title}</span>
@@ -373,19 +373,19 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       </div>
 
       {/* Bottom Section: Minimal Profile & Logout */}
-      <div className="space-y-2.5 pt-3 border-t border-white/[0.06]">
+      <div className="space-y-2.5 pt-3 border-t border-[#1f2937]">
         {user ? (
           <>
-            <div className="flex items-center justify-between rounded-xl bg-[#0d1117] border border-[#21262d] p-2.5">
+            <div className="flex items-center justify-between rounded-xl bg-[#0b0f19] border border-[#1f2937] p-2.5">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#21262d] font-bold text-white text-xs">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#1f2937] border border-[#1f2937] font-bold text-white text-xs">
                   {formatDisplayName(user.username).charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0">
                   <p className="truncate text-xs font-semibold text-white">
                     {formatDisplayName(user.username)}
                   </p>
-                  <p className="text-[10px] text-[#8b949e] truncate">
+                  <p className="text-[10px] text-[#9ca3af] truncate">
                     {user.role === "admin" ? "Quản trị viên" : "Người dùng"}
                   </p>
                 </div>
@@ -395,7 +395,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             <button
               type="button"
               onClick={handleLogout}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-950/20 hover:bg-rose-900/40 text-rose-300 border border-rose-900/30 px-3 py-2 text-xs font-semibold transition-colors"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-950/20 hover:bg-rose-900/40 text-rose-300 border border-rose-900/30 px-3 py-2 text-xs font-semibold transition-colors cursor-pointer"
             >
               <LogOut className="h-3.5 w-3.5" />
               <span>Đăng xuất</span>
@@ -405,7 +405,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           <Link
             href="/"
             onClick={onCloseMobile}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] px-3 py-2 text-xs font-semibold text-white transition-colors"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-3 py-2 text-xs font-semibold text-white transition-colors"
           >
             <User className="h-3.5 w-3.5" />
             <span>Đăng nhập hệ thống</span>
@@ -418,7 +418,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   return (
     <>
       {/* Desktop Fixed Left Sidebar */}
-      <aside className="hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:w-64 md:flex-col bg-[#141829]/95 backdrop-blur-xl border-r border-white/[0.08]">
+      <aside className="hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:w-64 md:flex-col bg-[#111827]/95 backdrop-blur-xl border-r border-[#1f2937]">
         {sidebarContent}
       </aside>
 
@@ -431,7 +431,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             onClick={onCloseMobile}
           />
           {/* Drawer content */}
-          <div className="relative flex w-4/5 max-w-xs flex-1 flex-col bg-[#141829]/98 backdrop-blur-2xl border-r border-white/[0.08]">
+          <div className="relative flex w-4/5 max-w-xs flex-1 flex-col bg-[#111827]/98 backdrop-blur-2xl border-r border-[#1f2937]">
             {sidebarContent}
           </div>
         </div>

@@ -23,7 +23,7 @@ function renderHighlightedExamTitle(title: string) {
     return (
       <>
         <span>{prefix}</span>{" "}
-        <span className="text-[#818cf8] font-bold">{suffix.trim()}</span>
+        <span className="text-[#38bdf8] font-bold">{suffix.trim()}</span>
       </>
     );
   }
@@ -33,7 +33,7 @@ function renderHighlightedExamTitle(title: string) {
     return (
       <>
         <span>{parenMatch[1]}</span>{" "}
-        <span className="text-[#818cf8] font-bold">{parenMatch[2]}</span>
+        <span className="text-[#38bdf8] font-bold">{parenMatch[2]}</span>
       </>
     );
   }
@@ -64,19 +64,19 @@ export function UserExamCard({ exam }: UserExamCardProps) {
         {/* Top Badges Row */}
         <div className="flex items-center justify-between gap-1.5">
           {/* Top-Left: Test badge */}
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#21262d] px-2 py-0.5 text-[10px] font-medium text-[#8b949e] border border-[#30363d] shrink-0">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#5852d6]" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#4f46e5]/15 px-2.5 py-0.5 text-[10px] font-semibold text-indigo-300 border border-[#4f46e5]/30 shrink-0">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#6366f1] animate-pulse" />
             <span>Test</span>
           </span>
 
           {/* Top-Right: Time + Questions count */}
-          <div className="flex items-center gap-2 text-xs text-[#8b949e] tnum tabular-nums shrink-0">
+          <div className="flex items-center gap-2 text-xs text-[#9ca3af] font-mono tabular-nums shrink-0">
             <span className="inline-flex items-center gap-1 shrink-0">
-              <Clock className="h-3 w-3 text-[#8b949e] shrink-0" />
+              <Clock className="h-3 w-3 text-[#9ca3af] shrink-0" />
               <span>{formatDuration(exam.duration_minutes)}</span>
             </span>
             <span className="inline-flex items-center gap-1 shrink-0">
-              <ClipboardList className="h-3 w-3 text-[#8b949e] shrink-0" />
+              <ClipboardList className="h-3 w-3 text-[#9ca3af] shrink-0" />
               <span>{questionCount} câu</span>
             </span>
           </div>
@@ -92,25 +92,25 @@ export function UserExamCard({ exam }: UserExamCardProps) {
 
         {/* Directly below the title: Line 1: Question count, Line 2: Question Type */}
         <div className="text-xs leading-snug select-none space-y-0.5">
-          <p className="text-[#e6edf3] font-medium truncate tnum tabular-nums">
+          <p className="text-[#e5e7eb] font-medium truncate tabular-nums">
             {questionCount} câu hỏi
           </p>
-          <p className="text-[#8b949e] font-normal truncate">
+          <p className="text-[#9ca3af] font-normal truncate">
             {examTypeLabel}
           </p>
         </div>
       </div>
 
-      {/* Pinned Bottom Edge: Calendar Date & Solid Purple CTA Button */}
-      <div className="mt-auto pt-3 border-t border-[#21262d] flex items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1 text-xs text-[#8b949e] tnum tabular-nums truncate">
-          <Calendar className="h-3 w-3 text-[#8b949e] shrink-0" />
+      {/* Pinned Bottom Edge: Calendar Date & Solid Indigo CTA Button */}
+      <div className="mt-auto pt-3 border-t border-[#1f2937] flex items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1 text-xs text-[#9ca3af] font-mono tabular-nums truncate">
+          <Calendar className="h-3 w-3 text-[#9ca3af] shrink-0" />
           <span className="truncate">{formatDate(exam.created_at)}</span>
         </span>
 
         <Link
           href={`/exam/${exam.id}`}
-          className="inline-flex items-center gap-1.5 shrink-0 rounded-lg bg-[#5852d6] hover:bg-[#4b45bd] active:bg-[#433ea8] px-3.5 py-1.5 text-xs font-semibold text-white transition-colors shadow-sm"
+          className="inline-flex items-center gap-1.5 shrink-0 rounded-[8px] bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] px-3.5 py-1.5 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-all duration-200 hover:shadow-indigo-500/50 hover:translate-x-0.5 cursor-pointer"
         >
           <span>Làm bài</span>
           <ArrowRight className="h-3.5 w-3.5" />

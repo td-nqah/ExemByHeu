@@ -187,17 +187,17 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
       {/* Top Fixed Reading Progress Bar (Obsidian Purple) */}
       <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-white/[0.08] pointer-events-none">
         <div
-          className="h-full bg-gradient-to-r from-[#5852d6] via-indigo-500 to-purple-400 shadow-[0_0_10px_rgba(88,82,214,0.6)] transition-all duration-150"
+          className="h-full bg-gradient-to-r from-[#4f46e5] via-[#6366f1] to-purple-400 shadow-[0_0_10px_rgba(79,70,229,0.6)] transition-all duration-150"
           style={{ width: `${readingProgress}%` }}
         />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         {/* Navigation Top Bar */}
-        <div className="flex items-center justify-between gap-4 pb-6 border-b border-[#21262d]">
+        <div className="flex items-center justify-between gap-4 pb-6 border-b border-[#1f2937]">
           <Link
             href="/knowledge"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-indigo-300 transition group"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-[#9ca3af] hover:text-indigo-300 transition group"
           >
             <ArrowLeft className="h-4 w-4 transition group-hover:-translate-x-1" />
             Tất cả tài liệu ôn tập
@@ -206,7 +206,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopyShare}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#21262d] bg-[#161c28] text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#1e2538] transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#1f2937] bg-[#111827] text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#1f2937] transition cursor-pointer"
             >
               {copied ? (
                 <>
@@ -215,7 +215,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                 </>
               ) : (
                 <>
-                  <Share2 className="h-3.5 w-3.5 text-slate-400" />
+                  <Share2 className="h-3.5 w-3.5 text-[#9ca3af]" />
                   <span>Chia sẻ</span>
                 </>
               )}
@@ -223,10 +223,10 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
             <button
               onClick={handlePrint}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#21262d] bg-[#161c28] text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#1e2538] transition cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#1f2937] bg-[#111827] text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#1f2937] transition cursor-pointer"
               title="In hoặc Lưu PDF"
             >
-              <Printer className="h-3.5 w-3.5 text-slate-400" />
+              <Printer className="h-3.5 w-3.5 text-[#9ca3af]" />
               <span>In bài</span>
             </button>
           </div>
@@ -235,17 +235,17 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
         {/* Article Title Header */}
         <div className="py-8 sm:py-12 max-w-4xl space-y-4">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#5852d6]/15 text-indigo-300 border border-[#5852d6]/25 flex items-center gap-1.5">
-              <Tag className="h-3 w-3 text-indigo-400" />
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">
+              <Tag className="h-3 w-3 text-[#34d399]" />
               {material.category_name || "Chuyên đề"}
             </span>
 
-            <span className="text-xs text-slate-400 flex items-center gap-1 font-mono">
-              <Clock className="h-3.5 w-3.5 text-indigo-400" />
+            <span className="text-xs text-[#9ca3af] flex items-center gap-1 font-mono">
+              <Clock className="h-3.5 w-3.5 text-[#9ca3af]" />
               {material.reading_time || 5} phút đọc
             </span>
 
-            <span className="text-xs text-slate-500 flex items-center gap-1">
+            <span className="text-xs text-[#9ca3af] flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5" />
               {formattedDate}
             </span>
@@ -256,18 +256,18 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           </h1>
 
           {material.summary && (
-            <p className="text-sm sm:text-base text-slate-300 italic border-l-4 border-[#5852d6] pl-4 py-1.5 leading-relaxed bg-[#5852d6]/10 rounded-r-xl">
+            <p className="text-sm sm:text-base text-slate-300 italic border-l-4 border-[#4f46e5] pl-4 py-1.5 leading-relaxed bg-[#4f46e5]/10 rounded-r-xl">
               {material.summary}
             </p>
           )}
 
-          <div className="flex items-center gap-3 pt-2 text-xs text-slate-400">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#5852d6] to-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-md">
+          <div className="flex items-center gap-3 pt-2 text-xs text-[#9ca3af]">
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#4f46e5] to-[#6366f1] text-white flex items-center justify-center font-bold text-xs shadow-md">
               {(material.author || "B")[0]}
             </div>
             <div>
               <p className="font-semibold text-white">{material.author || "Ban Giảng huấn"}</p>
-              <p className="text-[11px] text-slate-500">Giảng viên / Chuyên viên biên soạn</p>
+              <p className="text-[11px] text-[#9ca3af]">Giảng viên / Chuyên viên biên soạn</p>
             </div>
           </div>
         </div>
@@ -283,19 +283,19 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
             />
 
             {/* End of article notice */}
-            <div className="mt-12 p-6 rounded-2xl border border-[#21262d] bg-[#161c28] flex items-center justify-between gap-4">
+            <div className="mt-12 p-6 rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] flex items-center justify-between gap-4">
               <div className="space-y-1">
                 <h4 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                  <Sparkles className="h-4 w-4 text-indigo-400" />
+                  <Sparkles className="h-4 w-4 text-[#6366f1]" />
                   Bạn đã đọc hết bài viết này!
                 </h4>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-[#9ca3af]">
                   Hãy luyện tập các đề thi tương ứng trong mục "Danh sách Đề thi" để kiểm tra độ hiểu bài.
                 </p>
               </div>
               <Link
                 href="/dashboard"
-                className="shrink-0 px-4 py-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] text-white font-bold text-xs transition shadow-lg shadow-[#5852d6]/20"
+                className="shrink-0 px-4 py-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-bold text-xs transition shadow-lg shadow-[#4f46e5]/20 cursor-pointer"
               >
                 Làm đề thi ngay
               </Link>
@@ -305,7 +305,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
             {relatedMaterials.length > 0 && (
               <div className="mt-12 space-y-4">
                 <h3 className="font-heading text-base font-bold text-white flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-indigo-400" />
+                  <BookOpen className="h-4 w-4 text-[#6366f1]" />
                   Bài viết liên quan cùng chuyên đề
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -313,15 +313,15 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                     <Link
                       key={rel.id}
                       href={`/knowledge/${rel.id}`}
-                      className="p-4 rounded-xl border border-[#21262d] bg-[#161c28] hover:border-[#5852d6]/50 hover:bg-[#1e2538] transition block group"
+                      className="p-4 rounded-xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-[#3b82f6] hover:bg-[#1f2937] transition block group hover:-translate-y-0.5"
                     >
-                      <span className="text-[10px] font-semibold text-indigo-400 font-mono">
+                      <span className="text-[10px] font-semibold text-[#34d399] font-mono">
                         {rel.category_name || "Chuyên đề"} • {rel.reading_time || 5} phút đọc
                       </span>
                       <h4 className="font-heading text-xs sm:text-sm font-bold text-white group-hover:text-indigo-300 transition mt-1 line-clamp-2">
                         {rel.title}
                       </h4>
-                      <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">
+                      <p className="text-[11px] text-[#9ca3af] mt-1 line-clamp-2">
                         {rel.summary}
                       </p>
                     </Link>
@@ -333,19 +333,19 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
           {/* Sticky Table of Contents Sidebar */}
           <aside className="lg:col-span-4 hidden lg:block sticky top-20 space-y-6">
-            <div className="rounded-2xl border border-[#21262d] bg-[#161c28] p-5 shadow-xl">
-              <div className="flex items-center justify-between pb-3 border-b border-[#21262d]">
+            <div className="rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] p-5 shadow-xl">
+              <div className="flex items-center justify-between pb-3 border-b border-[#1f2937]">
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                  <List className="h-4 w-4 text-indigo-400" />
+                  <List className="h-4 w-4 text-[#6366f1]" />
                   Mục lục bài viết (TOC)
                 </h3>
-                <span className="text-[11px] text-indigo-400 font-mono font-bold">
+                <span className="text-[11px] text-[#6366f1] font-mono font-bold">
                   {Math.round(readingProgress)}%
                 </span>
               </div>
 
               {toc.length === 0 ? (
-                <p className="text-xs text-slate-500 italic py-4">
+                <p className="text-xs text-[#6b7280] italic py-4">
                   Đang đồng bộ mục lục...
                 </p>
               ) : (
@@ -360,8 +360,8 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                           "w-full text-left rounded-lg py-1.5 transition-all text-xs block cursor-pointer",
                           item.level === 3 ? "pl-5 text-[11px]" : "pl-2.5 font-medium",
                           isActive
-                            ? "bg-[#5852d6]/20 text-indigo-300 font-bold border-l-2 border-[#5852d6]"
-                            : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]"
+                            ? "bg-[#4f46e5]/15 text-indigo-300 font-bold border-l-2 border-[#6366f1]"
+                            : "text-[#9ca3af] hover:text-white hover:bg-white/[0.03]"
                         )}
                       >
                         <span className="line-clamp-2">{item.text}</span>
@@ -371,9 +371,9 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                 </nav>
               )}
 
-              <div className="mt-4 pt-3 border-t border-[#21262d] text-[11px] text-slate-500 flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-[#1f2937] text-[11px] text-[#9ca3af] flex items-center justify-between">
                 <span>Cuộn để theo dõi tiến độ</span>
-                <span className="text-indigo-400 font-semibold">{material.reading_time || 5} phút đọc</span>
+                <span className="text-[#6366f1] font-semibold">{material.reading_time || 5} phút đọc</span>
               </div>
             </div>
           </aside>
