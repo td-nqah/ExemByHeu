@@ -277,8 +277,8 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           {/* Right Side: Questions badge + User + Submit CTA */}
           <div className="flex items-center gap-1.5 sm:gap-2.5">
             {exam.is_shuffled && (
-              <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-cyan-500/15 border border-cyan-500/35 px-2.5 py-1.5 text-xs font-semibold text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.2)]">
-                <Shuffle className="h-3.5 w-3.5 text-cyan-400" />
+              <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-[#5852d6]/15 border border-[#5852d6]/35 px-2.5 py-1.5 text-xs font-semibold text-indigo-300 shadow-[0_0_12px_rgba(88,82,214,0.2)]">
+                <Shuffle className="h-3.5 w-3.5 text-indigo-400" />
                 <span>Đề thi đảo câu & đáp án</span>
               </div>
             )}

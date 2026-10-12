@@ -273,7 +273,7 @@ export default function AdminDashboardPage() {
               className={cn(
                 "inline-flex items-center gap-2.5 rounded-xl border px-3 py-1.5 transition-all duration-200 select-none",
                 shuffledCount > 0
-                  ? "bg-cyan-950/40 border-cyan-500/50 shadow-[0_0_12px_rgba(6,182,212,0.15)] text-white"
+                  ? "bg-[#5852d6]/10 border-[#5852d6]/50 shadow-[0_0_12px_rgba(88,82,214,0.15)] text-white"
                   : "bg-[#0d1117] border-[#21262d] text-slate-400 hover:border-slate-700"
               )}
             >
@@ -281,7 +281,7 @@ export default function AdminDashboardPage() {
                 className={cn(
                   "flex h-7 w-7 items-center justify-center rounded-lg border transition-all",
                   shuffledCount > 0
-                    ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.3)]"
+                    ? "bg-[#5852d6]/20 border-[#5852d6]/50 text-indigo-400 shadow-[0_0_8px_rgba(88,82,214,0.3)]"
                     : "bg-white/5 border-white/10 text-slate-400"
                 )}
               >
@@ -295,7 +295,7 @@ export default function AdminDashboardPage() {
                     className={cn(
                       "text-[9px] px-1.5 py-0.5 rounded-full font-mono font-bold uppercase",
                       shuffledCount === exams.length && exams.length > 0
-                        ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                        ? "bg-[#5852d6]/25 text-indigo-300 border border-[#5852d6]/40"
                         : shuffledCount > 0
                         ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
                         : "bg-white/10 text-slate-400"
@@ -323,7 +323,7 @@ export default function AdminDashboardPage() {
                 className={cn(
                   "relative ml-1 inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50",
                   shuffledCount > 0
-                    ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.4)]"
+                    ? "bg-[#5852d6] shadow-[0_0_10px_rgba(88,82,214,0.5)]"
                     : "bg-slate-700"
                 )}
                 title="Bật/Tắt chế độ trộn đề cho toàn bộ đề thi (Đề nào không muốn tráo có thể vào trong đề đấy chọn tắt đi)"
@@ -438,7 +438,7 @@ export default function AdminDashboardPage() {
                             className={cn(
                               "inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-md border font-mono transition cursor-pointer select-none",
                               exam.is_shuffled
-                                ? "bg-cyan-950/60 text-cyan-400 border-cyan-500/40 hover:bg-cyan-900/60 shadow-[0_0_8px_rgba(6,182,212,0.15)]"
+                                ? "bg-[#5852d6]/20 text-indigo-300 border-[#5852d6]/40 hover:bg-[#5852d6]/30 shadow-[0_0_8px_rgba(88,82,214,0.2)]"
                                 : "bg-slate-900/50 text-slate-500 border-white/5 hover:text-slate-300 hover:border-white/10"
                             )}
                             title={exam.is_shuffled ? "Đề này đang bật trộn (bấm để tắt nhanh)" : "Đề này đang tắt trộn (bấm để bật nhanh)"}

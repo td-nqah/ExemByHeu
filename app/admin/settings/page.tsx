@@ -612,7 +612,7 @@ export default function AdminSettingsPage() {
           {/* KHỐI 1: Quản lý Kích hoạt & Thiết bị Đăng nhập */}
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#121826]/95 via-[#0d121c]/95 to-[#090d16] border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 backdrop-blur-xl flex flex-col justify-between ring-1 ring-white/[0.04]">
             {/* Ambient glow accent line at top */}
-            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/50 via-cyan-500/30 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#5852d6]/60 via-indigo-500/40 to-transparent" />
             <div className="absolute -top-24 -left-24 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div>

@@ -23,8 +23,7 @@ import {
   FolderTree,
   Tag,
   Table as TableIcon,
-  HelpCircle,
-  ExternalLink,
+  FolderPlus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -48,7 +47,7 @@ export default function AdminMaterialsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  // Modal / Form state
+  // Modal / Form state (Full Editor / AI)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingMaterial, setEditingMaterial] = useState<StudyMaterial | null>(null);
   const [modalTab, setModalTab] = useState<"import" | "editor" | "preview">("import");
@@ -60,6 +59,15 @@ export default function AdminMaterialsPage() {
   const [formContentHtml, setFormContentHtml] = useState("");
   const [formReadingTime, setFormReadingTime] = useState(5);
   const [formAuthor, setFormAuthor] = useState("Ban Giảng huấn");
+
+  // Quick Assign to Category Modal state
+  const [isQuickAssignModalOpen, setIsQuickAssignModalOpen] = useState(false);
+  const [quickTitle, setQuickTitle] = useState("");
+  const [quickCategoryId, setQuickCategoryId] = useState("");
+  const [quickSummary, setQuickSummary] = useState("");
+  const [quickReadingTime, setQuickReadingTime] = useState(5);
+  const [quickAuthor, setQuickAuthor] = useState("Ban Giảng huấn");
+  const [isQuickSaving, setIsQuickSaving] = useState(false);
 
   // Import / AI states
   const [rawText, setRawText] = useState("");
@@ -93,8 +101,9 @@ export default function AdminMaterialsPage() {
       ]);
       setCategories(cats);
       setMaterials(mats);
-      if (cats.length > 0 && !formCategoryId) {
-        setFormCategoryId(cats[0].id);
+      if (cats.length > 0) {
+        if (!formCategoryId) setFormCategoryId(cats[0].id);
+        if (!quickCategoryId) setQuickCategoryId(cats[0].id);
       }
     } finally {
       setLoading(false);
@@ -129,6 +138,47 @@ export default function AdminMaterialsPage() {
     setAiMessage(null);
     setModalTab("editor");
     setIsModalOpen(true);
+  };
+
+  // Quick Assign to Category Handler
+  const handleQuickAssignSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!quickTitle.trim()) return;
+
+    setIsQuickSaving(true);
+    try {
+      const selectedCat = categories.find((c) => c.id === quickCategoryId) || categories[0];
+      const existing = materials.find(
+        (m) => m.title.trim().toLowerCase() === quickTitle.trim().toLowerCase()
+      );
+
+      await saveStudyMaterial({
+        id: existing?.id,
+        title: quickTitle.trim(),
+        category_id: selectedCat?.id || "cat_cnxh",
+        category_slug: selectedCat?.slug || "cnxh",
+        category_name: selectedCat?.name || "Chuyên đề",
+        summary:
+          quickSummary.trim() ||
+          existing?.summary ||
+          "Tổng hợp kiến thức trọng tâm và tóm tắt lý thuyết theo đề cương môn học.",
+        content_html:
+          existing?.content_html ||
+          `<h2>1. Tổng quan kiến thức: ${quickTitle.trim()}</h2>\n<p>Tài liệu đang được cập nhật chi tiết nội dung...</p>\n<div class="callout-box border-l-4 border-[#5852d6] bg-indigo-950/30 p-4 rounded-r-xl my-4 text-indigo-100 text-sm">\n  <p class="font-bold uppercase tracking-wider text-xs mb-1">Ghi chú cốt lõi</p>\n  <p class="leading-relaxed">Xem kỹ các định nghĩa trọng tâm và bài tập ôn thi kèm theo.</p>\n</div>`,
+        reading_time: Number(quickReadingTime) || 5,
+        author: quickAuthor.trim() || "Ban Giảng huấn",
+        original_file_name: existing?.original_file_name,
+      });
+
+      setIsQuickAssignModalOpen(false);
+      setQuickTitle("");
+      setQuickSummary("");
+      await loadData();
+    } catch (err: any) {
+      alert(err?.message || "Lỗi khi lưu tài liệu");
+    } finally {
+      setIsQuickSaving(false);
+    }
   };
 
   // Handle File Upload & Text extraction
@@ -236,10 +286,13 @@ export default function AdminMaterialsPage() {
 
     setIsSaving(true);
     try {
+      const cat = categories.find((c) => c.id === formCategoryId);
       await saveStudyMaterial({
         id: editingMaterial?.id,
         title: formTitle.trim(),
         category_id: formCategoryId,
+        category_slug: cat?.slug,
+        category_name: cat?.name,
         summary: formSummary.trim(),
         content_html: formContentHtml.trim(),
         reading_time: Number(formReadingTime) || 5,
@@ -278,17 +331,17 @@ export default function AdminMaterialsPage() {
   return (
     <div className="min-fluid-h p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#21262d]">
         <div>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#5852d6]/10 border border-[#5852d6]/30 text-indigo-400 shadow-[0_0_12px_rgba(88,82,214,0.15)]">
               <Library className="h-6 w-6" />
             </div>
             <div>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
                 Quản lý Tài liệu Ôn tập
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-medium">
-                  Magazine View
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#5852d6]/15 text-indigo-300 border border-[#5852d6]/30 font-medium">
+                  Tổng hợp kiến thức
                 </span>
               </h1>
               <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
@@ -299,21 +352,28 @@ export default function AdminMaterialsPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/knowledge"
-            target="_blank"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-[#1e2538] px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-[#252e45] hover:text-white transition"
+          {/* Nút Thêm vào Danh mục giống bên Quản lý Đề thi */}
+          <button
+            onClick={() => {
+              setQuickTitle("");
+              setQuickSummary("");
+              if (categories.length > 0 && !quickCategoryId) {
+                setQuickCategoryId(categories[0].id);
+              }
+              setIsQuickAssignModalOpen(true);
+            }}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#0d1117] hover:bg-[#21262d] border border-[#21262d] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
           >
-            <BookOpen className="h-4 w-4 text-cyan-400" />
-            Xem Tạp chí Người dùng
-            <ExternalLink className="h-3 w-3 text-slate-400" />
-          </Link>
+            <FolderPlus className="h-4 w-4 text-[#5852d6] shrink-0" />
+            <span>Thêm vào Danh mục</span>
+          </button>
+
           <button
             onClick={handleOpenCreate}
-            className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 px-4 py-2 text-xs font-bold text-slate-950 transition shadow-lg shadow-cyan-500/20 cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] px-4 py-2 text-xs font-bold text-white transition shadow-lg shadow-[#5852d6]/20 cursor-pointer"
           >
             <Plus className="h-4 w-4" />
-            Thêm Tài liệu mới
+            <span>Thêm Tài liệu mới</span>
           </button>
         </div>
       </div>
@@ -326,7 +386,7 @@ export default function AdminMaterialsPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Tìm kiếm theo tiêu đề hoặc nội dung tóm tắt..."
-            className="w-full rounded-xl border border-white/10 bg-[#161c28] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-cyan-500/50 focus:outline-none"
+            className="w-full rounded-xl border border-[#21262d] bg-[#161b22] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-[#5852d6] focus:outline-none transition-colors"
           />
         </div>
 
@@ -336,8 +396,8 @@ export default function AdminMaterialsPage() {
             className={cn(
               "px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition cursor-pointer",
               selectedCategory === "all"
-                ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
-                : "bg-[#161c28] text-slate-400 border border-white/5 hover:text-white"
+                ? "bg-[#5852d6]/20 text-indigo-300 border border-[#5852d6]/40"
+                : "bg-[#161b22] text-slate-400 border border-[#21262d] hover:text-white hover:bg-[#21262d]"
             )}
           >
             Tất cả ({materials.length})
@@ -353,8 +413,8 @@ export default function AdminMaterialsPage() {
                 className={cn(
                   "px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition cursor-pointer",
                   selectedCategory === c.id
-                    ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
-                    : "bg-[#161c28] text-slate-400 border border-white/5 hover:text-white"
+                    ? "bg-[#5852d6]/20 text-indigo-300 border border-[#5852d6]/40"
+                    : "bg-[#161b22] text-slate-400 border border-[#21262d] hover:text-white hover:bg-[#21262d]"
                 )}
               >
                 {c.name} ({count})
@@ -371,45 +431,57 @@ export default function AdminMaterialsPage() {
       {/* Materials List */}
       {loading ? (
         <div className="flex items-center justify-center py-20 text-slate-400 text-xs">
-          <RefreshCw className="h-5 w-5 animate-spin mr-2 text-cyan-400" />
+          <RefreshCw className="h-5 w-5 animate-spin mr-2 text-indigo-400" />
           Đang tải danh sách tài liệu...
         </div>
       ) : filteredMaterials.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-white/10 bg-[#141829]/60 p-12 text-center">
+        <div className="rounded-2xl border border-dashed border-[#21262d] bg-[#161b22]/50 p-12 text-center">
           <FileText className="mx-auto h-12 w-12 text-slate-500 mb-3" />
           <h3 className="text-sm font-semibold text-white">Chưa có tài liệu ôn tập nào</h3>
           <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
-            Nhấn "Thêm Tài liệu mới" để tải lên file giáo trình Word, PDF hoặc dán nội dung để AI tự động chuyển hóa thành Tạp chí.
+            Nhấn "Thêm vào Danh mục" để gán nhanh bài học, hoặc "Thêm Tài liệu mới" để tải lên file Word, PDF biên tập bằng AI.
           </p>
-          <button
-            onClick={handleOpenCreate}
-            className="mt-4 inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-cyan-400 transition cursor-pointer"
-          >
-            <Plus className="h-4 w-4" />
-            Tạo bài viết đầu tiên
-          </button>
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <button
+              onClick={() => {
+                setQuickTitle("");
+                setIsQuickAssignModalOpen(true);
+              }}
+              className="inline-flex items-center gap-2 rounded-xl bg-[#21262d] hover:bg-[#30363d] px-4 py-2 text-xs font-semibold text-slate-200 transition cursor-pointer"
+            >
+              <FolderPlus className="h-4 w-4 text-indigo-400" />
+              Thêm vào Danh mục
+            </button>
+            <button
+              onClick={handleOpenCreate}
+              className="inline-flex items-center gap-2 rounded-xl bg-[#5852d6] px-4 py-2 text-xs font-bold text-white hover:bg-[#4b45bd] transition cursor-pointer"
+            >
+              <Plus className="h-4 w-4" />
+              Biên tập bài viết mới
+            </button>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredMaterials.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#161c28]/90 hover:border-cyan-500/30 transition-all p-5 group shadow-sm hover:shadow-cyan-500/5 backdrop-blur-sm"
+              className="flex flex-col justify-between rounded-2xl border border-[#21262d] bg-[#161b22] hover:border-[#5852d6]/50 transition-all p-5 group shadow-sm hover:shadow-[#5852d6]/5"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                    <Tag className="h-3 w-3" />
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#5852d6]/15 text-indigo-300 border border-[#5852d6]/25">
+                    <Tag className="h-3 w-3 text-indigo-400" />
                     {item.category_name || "Chuyên đề"}
                   </span>
-                  <span className="text-[11px] text-slate-400 flex items-center gap-1">
-                    <Clock className="h-3 w-3 text-slate-500" />
+                  <span className="text-[11px] text-slate-400 flex items-center gap-1 font-mono">
+                    <Clock className="h-3 w-3 text-indigo-400" />
                     {item.reading_time || 5} phút đọc
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="font-heading text-sm font-bold text-white group-hover:text-cyan-300 transition line-clamp-2">
+                  <h3 className="font-heading text-sm font-bold text-white group-hover:text-indigo-300 transition line-clamp-2">
                     {item.title}
                   </h3>
                   <p className="text-xs text-slate-400 mt-1.5 line-clamp-3 leading-relaxed">
@@ -418,7 +490,7 @@ export default function AdminMaterialsPage() {
                 </div>
               </div>
 
-              <div className="mt-5 pt-3.5 border-t border-white/[0.06] flex items-center justify-between">
+              <div className="mt-5 pt-3.5 border-t border-[#21262d] flex items-center justify-between">
                 <div className="text-[11px] text-slate-500">
                   Tác giả: <span className="text-slate-300">{item.author || "Ban Giảng huấn"}</span>
                 </div>
@@ -427,22 +499,22 @@ export default function AdminMaterialsPage() {
                   <Link
                     href={`/knowledge/${item.id}`}
                     target="_blank"
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-white/5 transition"
-                    title="Xem thử giao diện Tạp chí"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-300 hover:bg-white/5 transition"
+                    title="Xem thử giao diện Người đọc"
                   >
                     <Eye className="h-4 w-4" />
                   </Link>
                   <button
                     onClick={() => handleOpenEdit(item)}
                     className="p-1.5 rounded-lg text-slate-400 hover:text-amber-300 hover:bg-white/5 transition cursor-pointer"
-                    title="Chỉnh sửa nội dung"
+                    title="Chỉnh sửa chi tiết nội dung"
                   >
                     <Pencil className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => setDeleteConfirmId(item.id)}
                     className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-white/5 transition cursor-pointer"
-                    title="Xóa bài viết"
+                    title="Xóa tài liệu"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -453,10 +525,155 @@ export default function AdminMaterialsPage() {
         </div>
       )}
 
+      {/* Modal 1: Quick Assign to Category (Tương tự bên Ngân hàng Đề thi) */}
+      <AnimatePresence>
+        {isQuickAssignModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-full max-w-lg rounded-2xl bg-[#0b0e17] border border-[#21262d] p-6 shadow-2xl relative"
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-[#21262d]">
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <FolderPlus className="h-5 w-5 text-[#5852d6] shrink-0" />
+                  <span>Thêm Tài liệu vào Chuyên mục</span>
+                </h3>
+                <button
+                  onClick={() => setIsQuickAssignModalOpen(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition cursor-pointer"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <form onSubmit={handleQuickAssignSubmit} className="space-y-4 mt-5">
+                {/* Title */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-medium text-slate-300">
+                      Tiêu đề tài liệu / Chuyên đề (*)
+                    </label>
+                    <span className="text-[11px] text-slate-400">
+                      Gõ tên mới hoặc chọn tài liệu có sẵn
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    required
+                    list="existing-materials-suggestions"
+                    value={quickTitle}
+                    onChange={(e) => setQuickTitle(e.target.value)}
+                    placeholder="VD: Tổng hợp kiến thức: Chương 2 Hệ quản trị CSDL"
+                    className="w-full px-3.5 py-2.5 bg-[#161b22] border border-[#21262d] rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#5852d6]"
+                  />
+                  <datalist id="existing-materials-suggestions">
+                    {materials.map((m) => (
+                      <option key={m.id} value={m.title} />
+                    ))}
+                  </datalist>
+                </div>
+
+                {/* Category Dropdown */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-slate-300">
+                    Chọn Danh mục môn học (*)
+                  </label>
+                  <select
+                    value={quickCategoryId}
+                    onChange={(e) => setQuickCategoryId(e.target.value)}
+                    className="w-full px-3.5 py-2.5 bg-[#161b22] border border-[#21262d] rounded-xl text-xs text-white focus:outline-none focus:border-[#5852d6]"
+                  >
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id} className="bg-[#161b22] text-white">
+                        {c.name} ({c.slug})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Summary */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-slate-300">
+                    Tóm tắt cốt lõi (Summary)
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={quickSummary}
+                    onChange={(e) => setQuickSummary(e.target.value)}
+                    placeholder="Mô tả ngắn gọn nội dung kiến thức của tài liệu này..."
+                    className="w-full px-3.5 py-2.5 bg-[#161b22] border border-[#21262d] rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#5852d6]"
+                  />
+                </div>
+
+                {/* Reading Time & Author */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-slate-300">
+                      Thời gian đọc (phút)
+                    </label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={120}
+                      value={quickReadingTime}
+                      onChange={(e) => setQuickReadingTime(Number(e.target.value))}
+                      className="w-full px-3.5 py-2 bg-[#161b22] border border-[#21262d] rounded-xl text-xs text-white focus:outline-none focus:border-[#5852d6]"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-slate-300">
+                      Tác giả / Nguồn
+                    </label>
+                    <input
+                      type="text"
+                      value={quickAuthor}
+                      onChange={(e) => setQuickAuthor(e.target.value)}
+                      placeholder="VD: Ban Giảng huấn"
+                      className="w-full px-3.5 py-2 bg-[#161b22] border border-[#21262d] rounded-xl text-xs text-white focus:outline-none focus:border-[#5852d6]"
+                    />
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#21262d]">
+                  <button
+                    type="button"
+                    onClick={() => setIsQuickAssignModalOpen(false)}
+                    className="px-4 py-2 rounded-xl border border-[#21262d] text-xs font-semibold text-slate-300 hover:bg-white/5 cursor-pointer"
+                  >
+                    Hủy bỏ
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isQuickSaving}
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] text-white text-xs font-bold transition shadow-lg shadow-[#5852d6]/20 cursor-pointer disabled:opacity-50"
+                  >
+                    {isQuickSaving ? (
+                      <>
+                        <RefreshCw className="h-4 w-4 animate-spin" />
+                        Đang lưu...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 className="h-4 w-4" />
+                        Lưu vào Danh mục
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {deleteConfirmId && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -473,7 +690,7 @@ export default function AdminMaterialsPage() {
                 </div>
               </div>
               <p className="text-xs text-slate-300">
-                Bạn có chắc chắn muốn xóa bài viết này khỏi hệ thống tạp chí học tập?
+                Bạn có chắc chắn muốn xóa bài viết này khỏi hệ thống tổng hợp kiến thức?
               </p>
               <div className="flex items-center justify-end gap-2 pt-2">
                 <button
@@ -496,7 +713,7 @@ export default function AdminMaterialsPage() {
         )}
       </AnimatePresence>
 
-      {/* Create / Edit Modal */}
+      {/* Modal 2: Full Editor & AI Parser Modal */}
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-md overflow-y-auto">
@@ -504,34 +721,34 @@ export default function AdminMaterialsPage() {
               initial={{ scale: 0.97, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.97, opacity: 0 }}
-              className="w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl border border-white/10 bg-[#141829] shadow-2xl overflow-hidden my-auto"
+              className="w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl border border-[#21262d] bg-[#0b0e17] shadow-2xl overflow-hidden my-auto"
             >
               {/* Modal Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#161c28]">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[#21262d] bg-[#161b22]">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                  <div className="p-2 rounded-xl bg-[#5852d6]/10 text-indigo-400 border border-[#5852d6]/20">
                     <BookOpen className="h-5 w-5" />
                   </div>
                   <div>
                     <h3 className="font-heading text-base font-bold text-white">
-                      {editingMaterial ? "Chỉnh sửa Tài liệu Ôn tập" : "Thêm mới & Xuất bản Tạp chí"}
+                      {editingMaterial ? "Chỉnh sửa Tài liệu Ôn tập" : "Thêm mới & Xuất bản Bài viết"}
                     </h3>
                     <p className="text-[11px] text-slate-400">
-                      Tự động trích xuất nội dung văn bản thành định dạng Magazine công nghệ cao
+                      Tự động trích xuất nội dung văn bản thành định dạng tổng hợp kiến thức trực quan
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
                   {/* Tabs */}
-                  <div className="flex items-center gap-1 bg-[#101420] p-1 rounded-xl border border-white/5 mr-3">
+                  <div className="flex items-center gap-1 bg-[#0d1117] p-1 rounded-xl border border-[#21262d] mr-3">
                     <button
                       type="button"
                       onClick={() => setModalTab("import")}
                       className={cn(
                         "px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5",
                         modalTab === "import"
-                          ? "bg-cyan-500/20 text-cyan-300 font-bold"
+                          ? "bg-[#5852d6]/20 text-indigo-300 font-bold border border-[#5852d6]/40"
                           : "text-slate-400 hover:text-white"
                       )}
                     >
@@ -544,7 +761,7 @@ export default function AdminMaterialsPage() {
                       className={cn(
                         "px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5",
                         modalTab === "editor"
-                          ? "bg-cyan-500/20 text-cyan-300 font-bold"
+                          ? "bg-[#5852d6]/20 text-indigo-300 font-bold border border-[#5852d6]/40"
                           : "text-slate-400 hover:text-white"
                       )}
                     >
@@ -557,12 +774,12 @@ export default function AdminMaterialsPage() {
                       className={cn(
                         "px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5",
                         modalTab === "preview"
-                          ? "bg-cyan-500/20 text-cyan-300 font-bold"
+                          ? "bg-[#5852d6]/20 text-indigo-300 font-bold border border-[#5852d6]/40"
                           : "text-slate-400 hover:text-white"
                       )}
                     >
                       <Eye className="h-3.5 w-3.5" />
-                      Xem trước Tạp chí
+                      Xem trước
                     </button>
                   </div>
 
@@ -609,8 +826,8 @@ export default function AdminMaterialsPage() {
                   <div className="space-y-6">
                     {/* Upload File Zone */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="rounded-2xl border border-dashed border-white/15 bg-[#161c28]/60 p-6 flex flex-col items-center justify-center text-center hover:border-cyan-500/40 transition">
-                        <UploadCloud className="h-10 w-10 text-cyan-400 mb-2" />
+                      <div className="rounded-2xl border border-dashed border-[#21262d] bg-[#161c28]/60 p-6 flex flex-col items-center justify-center text-center hover:border-[#5852d6]/50 transition">
+                        <UploadCloud className="h-10 w-10 text-indigo-400 mb-2" />
                         <h4 className="text-xs sm:text-sm font-bold text-white">Tải lên tệp tài liệu</h4>
                         <p className="text-[11px] text-slate-400 mt-1 max-w-xs">
                           Hỗ trợ tệp Word (<code>.docx</code>), Excel (<code>.xlsx</code>), PDF (<code>.pdf</code>) hoặc Text (<code>.txt</code>, <code>.md</code>)
@@ -629,7 +846,7 @@ export default function AdminMaterialsPage() {
                             "mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer",
                             isExtractingFile
                               ? "bg-slate-700 text-slate-400 pointer-events-none"
-                              : "bg-cyan-500 hover:bg-cyan-400 text-slate-950"
+                              : "bg-[#5852d6] hover:bg-[#4b45bd] text-white"
                           )}
                         >
                           {isExtractingFile ? (
@@ -645,19 +862,19 @@ export default function AdminMaterialsPage() {
                           )}
                         </label>
                         {uploadedFileName && (
-                          <span className="text-[11px] text-cyan-300 mt-2 font-mono">
+                          <span className="text-[11px] text-indigo-300 mt-2 font-mono">
                             Đã chọn: {uploadedFileName}
                           </span>
                         )}
                       </div>
 
                       {/* AI Parser Trigger */}
-                      <div className="rounded-2xl border border-cyan-500/20 bg-gradient-to-br from-cyan-950/20 to-indigo-950/20 p-6 flex flex-col justify-between">
+                      <div className="rounded-2xl border border-[#5852d6]/30 bg-gradient-to-br from-[#5852d6]/10 to-indigo-950/30 p-6 flex flex-col justify-between">
                         <div>
-                          <div className="flex items-center gap-2 text-cyan-400 mb-1.5">
+                          <div className="flex items-center gap-2 text-indigo-400 mb-1.5">
                             <Sparkles className="h-5 w-5" />
                             <h4 className="text-xs sm:text-sm font-bold text-white">
-                              Trợ lý AI Biên tập Tạp chí
+                              Trợ lý AI Biên tập Bài viết
                             </h4>
                           </div>
                           <p className="text-xs text-slate-300 leading-relaxed">
@@ -665,7 +882,7 @@ export default function AdminMaterialsPage() {
                           </p>
                         </div>
 
-                        <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                        <div className="mt-4 pt-3 border-t border-[#21262d] flex items-center justify-between">
                           <span className="text-[11px] text-slate-400">
                             {rawText ? `Đã nạp ${rawText.length} ký tự` : "Chưa có nội dung"}
                           </span>
@@ -677,7 +894,7 @@ export default function AdminMaterialsPage() {
                               "inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shadow-lg",
                               isAiProcessing || (!rawText.trim() && !formContentHtml.trim())
                                 ? "bg-slate-800 text-slate-500 cursor-not-allowed"
-                                : "bg-gradient-to-r from-cyan-500 to-indigo-500 text-slate-950 hover:brightness-110"
+                                : "bg-gradient-to-r from-[#5852d6] to-indigo-600 text-white hover:brightness-110"
                             )}
                           >
                             {isAiProcessing ? (
@@ -700,14 +917,14 @@ export default function AdminMaterialsPage() {
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
                         <label className="text-xs font-bold text-slate-300 flex items-center gap-2">
-                          <Clipboard className="h-3.5 w-3.5 text-cyan-400" />
+                          <Clipboard className="h-3.5 w-3.5 text-indigo-400" />
                           Hoặc dán văn bản trực tiếp từ Clipboard / Giáo trình:
                         </label>
                         {rawText && (
                           <button
                             type="button"
                             onClick={() => setRawText("")}
-                            className="text-[11px] text-slate-400 hover:text-rose-400"
+                            className="text-[11px] text-slate-400 hover:text-rose-400 cursor-pointer"
                           >
                             Xóa trắng
                           </button>
@@ -718,7 +935,7 @@ export default function AdminMaterialsPage() {
                         value={rawText}
                         onChange={(e) => setRawText(e.target.value)}
                         placeholder="Dán nội dung bài học, đề cương, câu hỏi ôn tập hoặc tóm tắt kiến thức vào đây..."
-                        className="w-full rounded-xl border border-white/10 bg-[#161c28] p-3.5 text-xs text-white placeholder-slate-500 focus:border-cyan-500/50 focus:outline-none font-mono custom-scrollbar leading-relaxed"
+                        className="w-full rounded-xl border border-[#21262d] bg-[#161c28] p-3.5 text-xs text-white placeholder-slate-500 focus:border-[#5852d6] focus:outline-none font-mono custom-scrollbar leading-relaxed"
                       />
                     </div>
                   </div>
@@ -736,7 +953,7 @@ export default function AdminMaterialsPage() {
                           value={formTitle}
                           onChange={(e) => setFormTitle(e.target.value)}
                           placeholder="VD: Tổng quan Hệ điều hành & Quản lý Tiến trình"
-                          className="w-full rounded-xl border border-white/10 bg-[#161c28] px-3.5 py-2 text-xs text-white focus:border-cyan-500/50 focus:outline-none"
+                          className="w-full rounded-xl border border-[#21262d] bg-[#161c28] px-3.5 py-2 text-xs text-white focus:border-[#5852d6] focus:outline-none"
                         />
                       </div>
 
@@ -745,10 +962,10 @@ export default function AdminMaterialsPage() {
                         <select
                           value={formCategoryId}
                           onChange={(e) => setFormCategoryId(e.target.value)}
-                          className="w-full rounded-xl border border-white/10 bg-[#161c28] px-3 py-2 text-xs text-white focus:border-cyan-500/50 focus:outline-none"
+                          className="w-full rounded-xl border border-[#21262d] bg-[#161c28] px-3 py-2 text-xs text-white focus:border-[#5852d6] focus:outline-none"
                         >
                           {categories.map((c) => (
-                            <option key={c.id} value={c.id}>
+                            <option key={c.id} value={c.id} className="bg-[#161c28] text-white">
                               {c.name}
                             </option>
                           ))}
@@ -763,7 +980,7 @@ export default function AdminMaterialsPage() {
                           max={120}
                           value={formReadingTime}
                           onChange={(e) => setFormReadingTime(Number(e.target.value))}
-                          className="w-full rounded-xl border border-white/10 bg-[#161c28] px-3.5 py-2 text-xs text-white focus:border-cyan-500/50 focus:outline-none"
+                          className="w-full rounded-xl border border-[#21262d] bg-[#161c28] px-3.5 py-2 text-xs text-white focus:border-[#5852d6] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -776,7 +993,7 @@ export default function AdminMaterialsPage() {
                           value={formSummary}
                           onChange={(e) => setFormSummary(e.target.value)}
                           placeholder="1-2 câu cô đọng giá trị cốt lõi của bài đọc..."
-                          className="w-full rounded-xl border border-white/10 bg-[#161c28] px-3.5 py-2 text-xs text-white focus:border-cyan-500/50 focus:outline-none"
+                          className="w-full rounded-xl border border-[#21262d] bg-[#161c28] px-3.5 py-2 text-xs text-white focus:border-[#5852d6] focus:outline-none"
                         />
                       </div>
                       <div className="md:col-span-4 space-y-1">
@@ -786,18 +1003,18 @@ export default function AdminMaterialsPage() {
                           value={formAuthor}
                           onChange={(e) => setFormAuthor(e.target.value)}
                           placeholder="VD: Ban Giảng huấn, ThS. Nguyễn Văn A"
-                          className="w-full rounded-xl border border-white/10 bg-[#161c28] px-3.5 py-2 text-xs text-white focus:border-cyan-500/50 focus:outline-none"
+                          className="w-full rounded-xl border border-[#21262d] bg-[#161c28] px-3.5 py-2 text-xs text-white focus:border-[#5852d6] focus:outline-none"
                         />
                       </div>
                     </div>
 
                     {/* Quick Format Toolbar */}
-                    <div className="p-2.5 rounded-xl border border-white/10 bg-[#161c28] flex flex-wrap items-center gap-2">
+                    <div className="p-2.5 rounded-xl border border-[#21262d] bg-[#161c28] flex flex-wrap items-center gap-2">
                       <span className="text-[11px] font-bold text-slate-400 mr-1">Chèn nhanh:</span>
                       <button
                         type="button"
                         onClick={() => insertSnippet(`<h2>Tiêu đề Mục lớn Mới</h2>\n<p class="leading-relaxed text-slate-300 mb-4">Nội dung chi tiết...</p>`)}
-                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#1e2538] hover:bg-[#28324a] text-cyan-300 transition cursor-pointer"
+                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#1e2538] hover:bg-[#28324a] text-indigo-300 transition cursor-pointer"
                       >
                         + Mục lớn (H2)
                       </button>
@@ -811,11 +1028,11 @@ export default function AdminMaterialsPage() {
                       <button
                         type="button"
                         onClick={() =>
-                          insertSnippet(`<div class="callout-box border-l-4 border-cyan-500 bg-cyan-950/30 p-4 rounded-r-xl my-4 text-cyan-100 text-sm">\n  <p class="font-bold uppercase tracking-wider text-xs mb-1">Cốt Lõi Cần Nhớ</p>\n  <p class="leading-relaxed">Nội dung ghi chú cốt lõi...</p>\n</div>`)
+                          insertSnippet(`<div class="callout-box border-l-4 border-[#5852d6] bg-indigo-950/30 p-4 rounded-r-xl my-4 text-indigo-100 text-sm">\n  <p class="font-bold uppercase tracking-wider text-xs mb-1">Cốt Lõi Cần Nhớ</p>\n  <p class="leading-relaxed">Nội dung ghi chú cốt lõi...</p>\n</div>`)
                         }
-                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-500/30 transition cursor-pointer"
+                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#5852d6]/20 hover:bg-[#5852d6]/30 text-indigo-300 border border-[#5852d6]/30 transition cursor-pointer"
                       >
-                        + Callout Cốt Lõi (Cyan)
+                        + Callout Cốt Lõi (Tím)
                       </button>
                       <button
                         type="button"
@@ -838,7 +1055,7 @@ export default function AdminMaterialsPage() {
                       <button
                         type="button"
                         onClick={() =>
-                          insertSnippet(`<div class="overflow-x-auto my-6 rounded-xl border border-white/10 bg-[#141829]/50">\n  <table class="w-full text-left text-xs sm:text-sm">\n    <thead>\n      <tr class="bg-indigo-950/60 text-indigo-200 border-b border-white/10">\n        <th class="p-3">Tiêu chí</th>\n        <th class="p-3">Đối tượng A</th>\n        <th class="p-3">Đối tượng B</th>\n      </tr>\n    </thead>\n    <tbody class="divide-y divide-white/5 text-slate-300">\n      <tr class="hover:bg-white/[0.02]">\n        <td class="p-3 font-mono font-medium text-slate-200">Đặc tính 1</td>\n        <td class="p-3">Giá trị A</td>\n        <td class="p-3 text-cyan-300">Giá trị B</td>\n      </tr>\n    </tbody>\n  </table>\n</div>`)
+                          insertSnippet(`<div class="overflow-x-auto my-6 rounded-xl border border-[#21262d] bg-[#141829]/50">\n  <table class="w-full text-left text-xs sm:text-sm">\n    <thead>\n      <tr class="bg-indigo-950/60 text-indigo-200 border-b border-[#21262d]">\n        <th class="p-3">Tiêu chí</th>\n        <th class="p-3">Đối tượng A</th>\n        <th class="p-3">Đối tượng B</th>\n      </tr>\n    </thead>\n    <tbody class="divide-y divide-white/5 text-slate-300">\n      <tr class="hover:bg-white/[0.02]">\n        <td class="p-3 font-mono font-medium text-slate-200">Đặc tính 1</td>\n        <td class="p-3">Giá trị A</td>\n        <td class="p-3 text-indigo-300">Giá trị B</td>\n      </tr>\n    </tbody>\n  </table>\n</div>`)
                         }
                         className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#1e2538] hover:bg-[#28324a] text-indigo-300 transition cursor-pointer flex items-center gap-1"
                       >
@@ -851,7 +1068,7 @@ export default function AdminMaterialsPage() {
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
                         <label className="text-[11px] font-bold text-slate-300">
-                          Nội dung HTML Tạp chí (*):
+                          Nội dung HTML Bài viết (*):
                         </label>
                         <span className="text-[11px] text-slate-500">
                           Dùng thẻ &lt;h2&gt; để tự động tạo Mục lục (TOC)
@@ -862,7 +1079,7 @@ export default function AdminMaterialsPage() {
                         value={formContentHtml}
                         onChange={(e) => setFormContentHtml(e.target.value)}
                         placeholder="Nội dung mã HTML của bài viết..."
-                        className="w-full rounded-xl border border-white/10 bg-[#161c28] p-3.5 text-xs text-white placeholder-slate-500 focus:border-cyan-500/50 focus:outline-none font-mono custom-scrollbar leading-relaxed"
+                        className="w-full rounded-xl border border-[#21262d] bg-[#161c28] p-3.5 text-xs text-white placeholder-slate-500 focus:border-[#5852d6] focus:outline-none font-mono custom-scrollbar leading-relaxed"
                       />
                     </div>
                   </div>
@@ -871,22 +1088,22 @@ export default function AdminMaterialsPage() {
                 {/* TAB 3: LIVE MAGAZINE PREVIEW */}
                 {modalTab === "preview" && (
                   <div className="space-y-6">
-                    <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-[#161c28] max-w-4xl mx-auto shadow-xl">
-                      {/* Magazine Header Preview */}
-                      <div className="space-y-3 pb-6 border-b border-white/10">
+                    <div className="p-6 sm:p-8 rounded-2xl border border-[#21262d] bg-[#161c28] max-w-4xl mx-auto shadow-xl">
+                      {/* Header Preview */}
+                      <div className="space-y-3 pb-6 border-b border-[#21262d]">
                         <div className="flex items-center gap-2">
-                          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#5852d6]/15 text-indigo-300 border border-[#5852d6]/25">
                             {categories.find((c) => c.id === formCategoryId)?.name || "Chuyên đề"}
                           </span>
                           <span className="text-xs text-slate-400 flex items-center gap-1">
-                            <Clock className="h-3 w-3 text-cyan-400" />
+                            <Clock className="h-3 w-3 text-indigo-400" />
                             {formReadingTime || 5} phút đọc
                           </span>
                         </div>
                         <h1 className="text-xl sm:text-3xl font-heading font-extrabold text-white leading-tight">
-                          {formTitle || "Tiêu đề bài viết Tạp chí"}
+                          {formTitle || "Tiêu đề bài viết"}
                         </h1>
-                        <p className="text-xs sm:text-sm text-slate-300 italic border-l-2 border-cyan-500 pl-3">
+                        <p className="text-xs sm:text-sm text-slate-300 italic border-l-2 border-[#5852d6] pl-3">
                           {formSummary || "Tóm tắt bài viết..."}
                         </p>
                         <div className="text-xs text-slate-400 pt-2">
@@ -896,7 +1113,7 @@ export default function AdminMaterialsPage() {
 
                       {/* Content Preview */}
                       <div
-                        className="prose prose-invert max-w-none pt-6 text-slate-300 text-xs sm:text-sm leading-relaxed"
+                        className="prose prose-invert max-w-none pt-6 text-slate-300 text-xs sm:text-sm leading-relaxed magazine-article-content"
                         dangerouslySetInnerHTML={{
                           __html: formContentHtml || "<p class='text-slate-500 italic'>Chưa có nội dung. Chuyển sang tab Biên tập hoặc Nhập liệu để thêm nội dung.</p>",
                         }}
@@ -907,10 +1124,10 @@ export default function AdminMaterialsPage() {
               </div>
 
               {/* Modal Footer */}
-              <div className="px-6 py-4 border-t border-white/[0.08] bg-[#161c28] flex items-center justify-between">
+              <div className="px-6 py-4 border-t border-[#21262d] bg-[#161c28] flex items-center justify-between">
                 <div className="text-xs text-slate-400">
                   {modalTab === "import" && "Mẹo: Bạn có thể nhấn 'Chuyển thành Tạp chí bằng AI' để tự động định dạng."}
-                  {modalTab === "editor" && "Chuyển sang tab 'Xem trước Tạp chí' để kiểm tra giao diện trước khi lưu."}
+                  {modalTab === "editor" && "Chuyển sang tab 'Xem trước' để kiểm tra giao diện trước khi lưu."}
                   {modalTab === "preview" && "Giao diện bài đọc sẽ hiển thị y hệt với người dùng khi xuất bản."}
                 </div>
 
@@ -918,7 +1135,7 @@ export default function AdminMaterialsPage() {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 rounded-xl border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/5 cursor-pointer"
+                    className="px-4 py-2 rounded-xl border border-[#21262d] text-xs font-semibold text-slate-300 hover:bg-white/5 cursor-pointer"
                   >
                     Hủy bỏ
                   </button>
@@ -926,7 +1143,7 @@ export default function AdminMaterialsPage() {
                     type="button"
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-xs font-bold text-slate-950 transition shadow-lg shadow-cyan-500/20 cursor-pointer disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] text-xs font-bold text-white transition shadow-lg shadow-[#5852d6]/20 cursor-pointer disabled:opacity-50"
                   >
                     {isSaving ? (
                       <>
@@ -936,7 +1153,7 @@ export default function AdminMaterialsPage() {
                     ) : (
                       <>
                         <CheckCircle2 className="h-4 w-4" />
-                        Lưu & Xuất Bản Tạp Chí
+                        Lưu & Xuất Bản
                       </>
                     )}
                   </button>

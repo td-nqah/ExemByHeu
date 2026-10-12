@@ -179,7 +179,7 @@ function fallbackParseMaterial(
         ? "border-amber-500 bg-amber-950/30 text-amber-100"
         : isTip
         ? "border-emerald-500 bg-emerald-950/30 text-emerald-100"
-        : "border-cyan-500 bg-cyan-950/30 text-cyan-100";
+        : "border-[#5852d6] bg-indigo-950/30 text-indigo-100";
 
       const titleLabel = isWarning
         ? "CẢNH BÁO QUAN TRỌNG"
@@ -214,7 +214,7 @@ function fallbackParseMaterial(
 
     const formattedPara = line
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/`([^`]+)`/g, '<code class="bg-[#1e2538] text-cyan-300 px-1 py-0.5 rounded text-xs font-mono">$1</code>');
+      .replace(/`([^`]+)`/g, '<code class="bg-[#1e2538] text-indigo-300 px-1 py-0.5 rounded text-xs font-mono">$1</code>');
 
     html += `<p class="leading-relaxed text-slate-300 mb-4 text-xs sm:text-sm">${formattedPara}</p>\n`;
   }
@@ -275,7 +275,7 @@ Quy tắc biên tập "content_html":
 2. Các tiểu mục dùng thẻ <h3>.
 3. Các đoạn văn dùng thẻ <p class="leading-relaxed text-slate-300 mb-4 text-sm sm:text-base">.
 4. Lồng ghép các khung điểm nhấn Callout Box phong cách Cyber:
-   - Điểm cốt lõi: <div class="callout-box border-l-4 border-cyan-500 bg-cyan-950/30 p-4 rounded-r-xl my-4 text-cyan-100 text-sm"><p class="font-bold uppercase tracking-wider text-xs mb-1">Cốt lõi</p><p>...</p></div>
+   - Điểm cốt lõi: <div class="callout-box border-l-4 border-[#5852d6] bg-indigo-950/30 p-4 rounded-r-xl my-4 text-indigo-100 text-sm"><p class="font-bold uppercase tracking-wider text-xs mb-1">Cốt lõi</p><p>...</p></div>
    - Mẹo thi/Ghi nhớ: <div class="callout-box border-l-4 border-emerald-500 bg-emerald-950/30 p-4 rounded-r-xl my-4 text-emerald-100 text-sm"><p class="font-bold uppercase tracking-wider text-xs mb-1">Mẹo Ôn Thi</p><p>...</p></div>
    - Cảnh báo/Bẫy đề thi: <div class="callout-box border-l-4 border-amber-500 bg-amber-950/30 p-4 rounded-r-xl my-4 text-amber-100 text-sm"><p class="font-bold uppercase tracking-wider text-xs mb-1">Cảnh Báo Hay Nhầm Lẫn</p><p>...</p></div>
 5. Nếu có so sánh, phân loại hoặc dữ liệu, BẮT BUỘC trình bày dạng bảng HTML:
