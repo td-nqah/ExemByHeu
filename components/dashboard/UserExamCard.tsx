@@ -61,10 +61,10 @@ export function UserExamCard({ exam }: UserExamCardProps) {
       <div className="space-y-2">
         {/* Top Badges Row */}
         <div className="flex items-center justify-between gap-1.5">
-          {/* Top-Left: Skill badge */}
+          {/* Top-Left: Test badge */}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#202738] px-2 py-0.5 text-[10px] font-medium text-indigo-300 border border-indigo-500/20">
             <span className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
-            <span>Skill</span>
+            <span>Test</span>
           </span>
 
           {/* Top-Right: Time + Questions count */}
