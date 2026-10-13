@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
-export function ExamResultClient({ examId }: { examId: string }) {
+export function ExamResultClient({ examId: _examId }: { examId: string }) {
   const searchParams = useSearchParams();
   const submissionId = searchParams.get("submissionId");
   const shouldReduceMotion = useReducedMotion();

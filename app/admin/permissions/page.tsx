@@ -9,7 +9,6 @@ import { Profile, AccountSecurity } from "@/types/exam";
 import {
   HardDrive,
   Database,
-  ShieldAlert,
   ShieldCheck,
   AlertTriangle,
   CheckCircle2,
@@ -25,7 +24,6 @@ import {
   Sliders,
   Radio,
   Activity,
-  Clock,
 } from "lucide-react";
 
 export default function AdminPermissionsPage() {

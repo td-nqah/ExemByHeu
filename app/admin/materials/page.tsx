@@ -14,7 +14,6 @@ import {
   UploadCloud,
   Sparkles,
   Clipboard,
-  Clock,
   BookOpen,
   X,
   CheckCircle2,
@@ -68,7 +67,7 @@ export default function AdminMaterialsPage() {
   const [quickTitle, setQuickTitle] = useState("");
   const [quickCategoryId, setQuickCategoryId] = useState("");
   const [quickSummary, setQuickSummary] = useState("");
-  const [quickReadingTime, setQuickReadingTime] = useState(5);
+  const quickReadingTime = 5;
   const [quickAuthor, setQuickAuthor] = useState("Ban Giảng huấn");
   const [isQuickSaving, setIsQuickSaving] = useState(false);
 

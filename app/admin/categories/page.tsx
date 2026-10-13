@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   getCurrentUser,
@@ -29,10 +28,6 @@ import {
   BookOpen,
   GraduationCap,
   X,
-  FilePlus2,
-  ShieldCheck,
-  Target,
-  Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";

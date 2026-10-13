@@ -22,11 +22,6 @@ import {
   Trash2,
   CheckCircle2,
   Cpu,
-  ShieldCheck,
-  FolderTree,
-  FilePlus2,
-  Target,
-  Settings,
   Shuffle,
 } from "lucide-react";
 

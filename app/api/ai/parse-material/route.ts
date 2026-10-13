@@ -70,7 +70,6 @@ function fallbackParseMaterial(
   let html = "";
   let inList = false;
   let inTable = false;
-  let tableHeaderDone = false;
 
   for (let i = 0; i < bodyLines.length; i++) {
     const line = bodyLines[i].trim();
@@ -83,7 +82,6 @@ function fallbackParseMaterial(
       if (inTable) {
         html += "</tbody></table></div>\n";
         inTable = false;
-        tableHeaderDone = false;
       }
       continue;
     }
@@ -97,13 +95,11 @@ function fallbackParseMaterial(
 
       // Check if separator line
       if (cells.every((c) => /^:?-+:?$/.test(c))) {
-        tableHeaderDone = true;
         continue;
       }
 
       if (!inTable) {
         inTable = true;
-        tableHeaderDone = false;
         html += `<div class="overflow-x-auto my-6 rounded-xl border border-white/10 bg-[#141829]/50 shadow-sm"><table class="w-full text-left text-xs sm:text-sm"><thead><tr class="bg-indigo-950/60 text-indigo-200 border-b border-white/10">`;
         cells.forEach((c) => {
           html += `<th class="p-3 font-semibold">${c}</th>`;
@@ -124,7 +120,6 @@ function fallbackParseMaterial(
     if (inTable) {
       html += "</tbody></table></div>\n";
       inTable = false;
-      tableHeaderDone = false;
     }
 
     // Headings
@@ -315,7 +310,7 @@ ${rawText.slice(0, 32000)}`;
           cachedWorkingModel = modelName;
           break;
         }
-      } catch (err) {
+      } catch {
         continue;
       }
     }

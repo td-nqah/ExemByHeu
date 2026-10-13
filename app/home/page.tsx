@@ -13,8 +13,6 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
-  Clock,
-  Sparkles,
 } from "lucide-react";
 
 function formatDisplayName(name?: string): string {

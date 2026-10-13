@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   getExams,
-  getSubmissions,
   toggleExamStatus,
   toggleAllExamsShuffle,
   toggleSingleExamShuffle,
@@ -17,8 +16,8 @@ import {
   assignExamCategory,
   sortExamsAscending,
 } from "@/lib/store";
-import { Exam, Submission, Category } from "@/types/exam";
-import { formatDuration, formatDate } from "@/lib/utils";
+import { Exam, Category } from "@/types/exam";
+import { formatDuration } from "@/lib/utils";
 import {
   BookOpen,
   FilePlus2,
@@ -31,10 +30,7 @@ import {
   Pencil,
   FolderPlus,
   CheckCircle2,
-  Calendar,
-  Layers,
   Shuffle,
-  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
@@ -43,7 +39,6 @@ export default function AdminDashboardPage() {
   const router = useRouter();
   const reduceMotion = useReducedMotion();
   const [exams, setExams] = useState<Exam[]>([]);
-  const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [examToDelete, setExamToDelete] = useState<Exam | null>(null);
@@ -106,13 +101,11 @@ export default function AdminDashboardPage() {
 
     async function loadData() {
       try {
-        const [allExams, allSubs, allCats] = await Promise.all([
+        const [allExams, allCats] = await Promise.all([
           getExams(false),
-          getSubmissions(),
           getCategories(false),
         ]);
         setExams(allExams);
-        setSubmissions(allSubs);
         setCategories(allCats);
         if (allCats.length > 0 && !allCats.some((c) => c.slug === quickCategorySlug)) {
           setQuickCategorySlug(allCats[0].slug);
@@ -138,7 +131,6 @@ export default function AdminDashboardPage() {
     try {
       await deleteExam(examToDelete.id);
       setExams((prev) => prev.filter((e) => e.id !== examToDelete.id));
-      setSubmissions((prev) => prev.filter((s) => s.exam_id !== examToDelete.id));
       setExamToDelete(null);
     } finally {
       setIsDeleting(false);

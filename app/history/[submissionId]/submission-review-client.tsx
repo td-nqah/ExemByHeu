@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSubmissionById, getCurrentUser } from "@/lib/store";
 import { Submission } from "@/types/exam";
-import { formatDate, cn } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import {
   ArrowLeft,
   CheckCircle2,

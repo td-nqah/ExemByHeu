@@ -27,7 +27,6 @@ import { motion, AnimatePresence } from "motion/react";
 
 export default function AdminSettingsPage() {
   const router = useRouter();
-  const [currentUser, setCurrentUser] = useState<Profile | null>(null);
 
   // Profiles and accounts state
   const [allProfiles, setAllProfiles] = useState<Profile[]>([]);
@@ -82,7 +81,6 @@ export default function AdminSettingsPage() {
       router.push("/");
       return;
     }
-    setCurrentUser(user);
 
     async function loadInitialData() {
       const profiles = await getAllProfiles();

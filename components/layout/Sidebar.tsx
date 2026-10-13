@@ -15,8 +15,6 @@ import {
   BarChart2,
   ShieldCheck,
   FolderTree,
-  Wand2,
-  Target,
   Settings,
   LogOut,
   User,
@@ -24,7 +22,6 @@ import {
   ChevronDown,
   Library,
   Layers,
-  FileText,
   Sliders,
 } from "lucide-react";
 

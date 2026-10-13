@@ -1,29 +1,11 @@
-import { Suspense } from "react";
-import { SubmissionReviewClient } from "@/app/history/[submissionId]/submission-review-client";
+import { redirect } from "next/navigation";
 
-export default function ExamResultPage({
-  params,
-}: {
-  params: Promise<{ result_id: string }>;
-}) {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
-        </div>
-      }
-    >
-      <ExamResultLoader params={params} />
-    </Suspense>
-  );
-}
-
-async function ExamResultLoader({
+export default async function ExamResultPage({
   params,
 }: {
   params: Promise<{ result_id: string }>;
 }) {
   const { result_id } = await params;
-  return <SubmissionReviewClient submissionId={result_id} />;
+  redirect(`/history/${result_id}`);
 }
+

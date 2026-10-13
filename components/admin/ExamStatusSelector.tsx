@@ -8,7 +8,6 @@ import {
   ChevronDown,
   Check,
   CheckCircle2,
-  Sparkles,
   LayoutGrid,
   Menu,
 } from "lucide-react";

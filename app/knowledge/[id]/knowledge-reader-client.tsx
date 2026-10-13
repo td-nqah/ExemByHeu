@@ -2,21 +2,15 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowLeft,
-  Clock,
   BookOpen,
   Share2,
-  Bookmark,
   Check,
-  ChevronRight,
   List,
   Sparkles,
   Calendar,
   Tag,
-  ArrowRight,
   Printer,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -30,7 +24,6 @@ interface TocItem {
 }
 
 export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
-  const router = useRouter();
 
   const [material, setMaterial] = useState<StudyMaterial | null>(null);
   const [allMaterials, setAllMaterials] = useState<StudyMaterial[]>([]);
