@@ -231,7 +231,7 @@ export async function POST(req: NextRequest) {
       const lockMsg =
         Array.isArray(sec.devices) && sec.devices.length > 3
           ? "Tài khoản bị khóa do vượt quá số lượng 3 thiết bị cho phép. Vui lòng liên hệ Admin để giải quyết."
-          : "Tài khoản đang bị tạm khóa (Tắt Active). Vui lòng liên hệ Quản trị viên để được mở lại.";
+          : "Tài khoản đang bị tạm khóa (Off). Vui lòng liên hệ Quản trị viên để được mở lại.";
       return NextResponse.json(
         {
           error: lockMsg,

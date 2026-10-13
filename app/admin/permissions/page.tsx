@@ -569,7 +569,7 @@ export default function AdminPermissionsPage() {
                     <span>Kiểm soát Kích hoạt &amp; Thiết bị Đăng nhập</span>
                   </h3>
                   <p className="text-xs text-[#9ca3af]">
-                    Tự động tắt Active nếu user đăng nhập quá 3 thiết bị (không giới hạn IP)
+                    Tự động chuyển sang Off nếu user đăng nhập quá 3 thiết bị (không giới hạn IP)
                   </p>
                 </div>
               </div>
@@ -648,7 +648,7 @@ export default function AdminPermissionsPage() {
                                 : "bg-rose-500/15 text-rose-400 border-rose-500/30 shadow-[0_0_8px_rgba(244,63,94,0.15)]"
                             }`}
                           >
-                            {isActive ? "Active" : "Đã khóa (Tắt Active)"}
+                            {isActive ? "Active" : "Đã khóa (Off)"}
                           </span>
                         </div>
 
@@ -684,9 +684,10 @@ export default function AdminPermissionsPage() {
                               ? "bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30"
                               : "bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30"
                           }`}
+                          title={isActive ? "Chuyển trạng thái sang Off" : "Chuyển trạng thái sang On"}
                         >
                           <Power className="h-3.5 w-3.5" />
-                          <span>{isActive ? "Tắt Active" : "Mở Active"}</span>
+                          <span>{isActive ? "Off" : "On"}</span>
                         </button>
 
                         {/* Reset Device Counter Button */}

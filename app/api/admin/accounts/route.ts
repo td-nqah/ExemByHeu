@@ -236,7 +236,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: `Đã ${secMap[cleanUser].is_active ? "mở kích hoạt (Active)" : "tắt kích hoạt (Khóa)"} cho tài khoản '${cleanUser}' thành công.`,
+        message: `Đã chuyển trạng thái tài khoản '${cleanUser}' sang ${secMap[cleanUser].is_active ? "On" : "Off"} thành công.`,
         security: secMap[cleanUser],
       });
     }
