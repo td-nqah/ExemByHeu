@@ -107,8 +107,8 @@ export default function LoginPage() {
 
             {/* Centered Icon & Header Title "Login EBH" */}
             <div className="mb-6 sm:mb-7 flex flex-col items-center text-center">
-              <div className="mb-3.5 sm:mb-4 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/25 text-[#818cf8] shadow-[0_0_20px_rgba(99,102,241,0.25)]">
-                <GraduationCap className="h-7 w-7 sm:h-8 sm:w-8 text-[#818cf8] drop-shadow-[0_0_8px_rgba(129,140,248,0.5)]" strokeWidth={2} />
+              <div className="mb-3.5 sm:mb-4 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-[#818cf8] shadow-[0_0_20px_rgba(99,102,241,0.25)]">
+                <GraduationCap className="h-7 w-7 sm:h-8 sm:w-8 text-[#818cf8]" strokeWidth={2.2} />
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                 Login EBH
@@ -135,9 +135,6 @@ export default function LoginPage() {
                   Tên đăng nhập
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                    <User className="h-5 w-5 text-[#818cf8]" strokeWidth={2} />
-                  </div>
                   <input
                     id="login-username"
                     type="text"
@@ -149,6 +146,9 @@ export default function LoginPage() {
                     autoCorrect="off"
                     className="glass-input h-[50px] sm:h-[52px] w-full rounded-xl pl-11 pr-4 text-base text-white placeholder-slate-500 focus:outline-none transition-all font-medium"
                   />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-4 text-[#818cf8]">
+                    <User className="h-5 w-5 text-[#818cf8]" strokeWidth={2.2} />
+                  </div>
                 </div>
               </div>
 
@@ -178,9 +178,6 @@ export default function LoginPage() {
                 )}
 
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                    <Lock className="h-5 w-5 text-[#818cf8]" strokeWidth={2} />
-                  </div>
                   <input
                     id="login-password"
                     type={showPassword ? "text" : "password"}
@@ -190,16 +187,19 @@ export default function LoginPage() {
                     placeholder="Password"
                     className="glass-input h-[50px] sm:h-[52px] w-full rounded-xl pl-11 pr-11 text-base text-white placeholder-slate-500 focus:outline-none transition-all font-medium"
                   />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-4 text-[#818cf8]">
+                    <Lock className="h-5 w-5 text-[#818cf8]" strokeWidth={2.2} />
+                  </div>
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-[#818cf8] hover:text-indigo-300 transition-colors cursor-pointer"
+                    className="absolute inset-y-0 right-0 z-10 flex items-center pr-3.5 text-[#818cf8] hover:text-indigo-300 transition-colors cursor-pointer"
                     aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-[#818cf8]" strokeWidth={2} />
+                      <EyeOff className="h-5 w-5 text-[#818cf8]" strokeWidth={2.2} />
                     ) : (
-                      <Eye className="h-5 w-5 text-[#818cf8]" strokeWidth={2} />
+                      <Eye className="h-5 w-5 text-[#818cf8]" strokeWidth={2.2} />
                     )}
                   </button>
                 </div>

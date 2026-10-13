@@ -698,7 +698,6 @@ export default function AdminSettingsPage() {
                   <span className="text-[10px] text-slate-400">Có thể đổi mới hoặc giữ nguyên</span>
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-2.5 h-4 w-4 text-[#818cf8]" />
                   <input
                     type="text"
                     value={editNewUsername}
@@ -706,6 +705,7 @@ export default function AdminSettingsPage() {
                     placeholder="Nhập tên đăng nhập mới"
                     className="w-full pl-9 pr-3.5 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
                   />
+                  <User className="pointer-events-none absolute left-3 top-2.5 z-10 h-4 w-4 text-[#818cf8]" strokeWidth={2.2} />
                 </div>
               </div>
 
@@ -716,7 +716,6 @@ export default function AdminSettingsPage() {
                   <span className="text-[10px] text-slate-400">Để trống nếu không đổi mật khẩu</span>
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-[#818cf8]" />
                   <input
                     type={showEmergencyPass ? "text" : "password"}
                     name="emergency_new_password"
@@ -726,12 +725,13 @@ export default function AdminSettingsPage() {
                     placeholder="Để trống nếu không đổi mật khẩu"
                     className="w-full pl-9 pr-10 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner"
                   />
+                  <Lock className="pointer-events-none absolute left-3 top-2.5 z-10 h-4 w-4 text-[#818cf8]" strokeWidth={2.2} />
                   <button
                     type="button"
                     onClick={() => setShowEmergencyPass(!showEmergencyPass)}
-                    className="absolute right-3 top-2.5 text-[#9ca3af] hover:text-white transition-colors"
+                    className="absolute right-3 top-2.5 z-10 text-[#9ca3af] hover:text-white transition-colors"
                   >
-                    {showEmergencyPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showEmergencyPass ? <EyeOff className="h-4 w-4" strokeWidth={2.2} /> : <Eye className="h-4 w-4" strokeWidth={2.2} />}
                   </button>
                 </div>
               </div>
