@@ -648,7 +648,7 @@ export default function AdminPermissionsPage() {
                                 : "bg-rose-500/15 text-rose-400 border-rose-500/30 shadow-[0_0_8px_rgba(244,63,94,0.15)]"
                             }`}
                           >
-                            {isActive ? "Đang hoạt động" : "Đã khóa (Tắt Active)"}
+                            {isActive ? "Active" : "Đã khóa (Tắt Active)"}
                           </span>
                         </div>
 

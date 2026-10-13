@@ -604,7 +604,7 @@ export default function AdminSettingsPage() {
                                           isActive ? "bg-[#34d399]" : "bg-rose-400"
                                         }`}
                                       />
-                                      <span>{isActive ? "Đang hoạt động" : "Đã khóa"}</span>
+                                      <span>{isActive ? "Active" : "Đã khóa"}</span>
                                     </span>
                                     {sec && (
                                       <span className="text-slate-500 font-mono text-[9px]">
@@ -659,7 +659,7 @@ export default function AdminSettingsPage() {
                   <div className="flex items-center gap-2 text-[11px] text-[#9ca3af]">
                     <span className="inline-flex items-center gap-1 text-[#34d399] font-medium">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-                      <span>{selectedSecurity?.is_active !== false ? "Đang hoạt động" : "Đã khóa"}</span>
+                      <span>{selectedSecurity?.is_active !== false ? "Active" : "Đã khóa"}</span>
                     </span>
                     {selectedSecurity && (
                       <span className="text-slate-500 font-mono text-[10px]">
