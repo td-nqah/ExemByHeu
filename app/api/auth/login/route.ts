@@ -228,46 +228,49 @@ export async function POST(req: NextRequest) {
 
     // 1. Check if account is active (exempt admin)
     if (sec.is_active === false && profile.role !== "admin" && targetAccount !== "adm") {
+      const lockMsg =
+        Array.isArray(sec.devices) && sec.devices.length > 3
+          ? "Tài khoản bị khóa do vượt quá số lượng 3 thiết bị cho phép. Vui lòng liên hệ Admin để giải quyết."
+          : "Tài khoản đang bị tạm khóa (Tắt Active). Vui lòng liên hệ Quản trị viên để được mở lại.";
       return NextResponse.json(
         {
-          error:
-            "Tài khoản đang bị tạm khóa (Tắt Active). Vui lòng liên hệ Quản trị viên để được mở lại.",
+          error: lockMsg,
         },
         { status: 403 }
       );
     }
 
-    // 2. Track new IP if not yet registered
-    if (!sec.ips.includes(clientIp)) {
+    // 2. IP Handling: Record for audit/reference only, NEVER trigger lockout
+    if (Array.isArray(sec.ips) && !sec.ips.includes(clientIp)) {
       sec.ips.push(clientIp);
     }
 
-    // 3. Track new Device if not yet registered
+    // 3. Track new Device ID if not yet registered
+    if (!Array.isArray(sec.devices)) {
+      sec.devices = [];
+    }
     if (!sec.devices.includes(currentDevice)) {
       sec.devices.push(currentDevice);
     }
 
     sec.last_login_at = new Date().toISOString();
     sec.last_active_at = new Date().toISOString();
-    sec.last_ip = clientIp;
+    sec.last_ip = clientIp; // Recorded for log/audit only
     sec.last_device = currentDevice;
     sec.current_activity = profile.role === "admin" ? "Bảng điều khiển Quản trị" : "Đang học / Làm bài";
     sec.updated_at = new Date().toISOString();
 
-    // 4. RULE: If > 3 IPs OR > 3 Devices -> AUTO DISABLE ACTIVE (Only for non-admin accounts)
-    if (profile.role !== "admin" && targetAccount !== "adm" && (sec.ips.length > 3 || sec.devices.length > 3)) {
+    // 4. DEVICE LIMIT CHECK: If devices > 3 -> AUTO DISABLE ACTIVE (Only for non-admin accounts)
+    // IP is completely excluded from lockout logic.
+    if (profile.role !== "admin" && targetAccount !== "adm" && sec.devices.length > 3) {
       sec.is_active = false;
       secMap[targetAccount] = sec;
       await saveSecurityMap(sb, secMap);
 
-      const reason =
-        sec.ips.length > 3
-          ? `vượt quá 3 địa chỉ IP (${sec.ips.length}/3 IP: ${sec.ips.slice(0, 3).join(", ")}...)`
-          : `vượt quá 3 thiết bị đăng nhập (${sec.devices.length}/3 thiết bị)`;
-
       return NextResponse.json(
         {
-          error: `Tài khoản đã bị tự động vô hiệu hóa (Tắt Active) do ${reason}. Vui lòng liên hệ Admin tại Cài đặt Hệ thống để kích hoạt lại.`,
+          error:
+            "Tài khoản bị khóa do vượt quá số lượng 3 thiết bị cho phép. Vui lòng liên hệ Admin để giải quyết.",
         },
         { status: 403 }
       );

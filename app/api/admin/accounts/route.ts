@@ -250,7 +250,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: `Đã đặt lại bộ đếm IP & Thiết bị (0/3) và mở khóa cho tài khoản '${cleanUser}'.`,
+        message: `Đã đặt lại bộ đếm Thiết bị (0/3) và mở khóa cho tài khoản '${cleanUser}'.`,
         security: secMap[cleanUser],
       });
     }

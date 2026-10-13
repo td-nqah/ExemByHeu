@@ -608,7 +608,7 @@ export default function AdminSettingsPage() {
                                     </span>
                                     {sec && (
                                       <span className="text-slate-500 font-mono text-[9px]">
-                                        • {sec.devices?.length || 0}/3 máy • {sec.ips?.length || 0}/3 IP
+                                        • {sec.devices?.length || 0}/3 thiết bị
                                       </span>
                                     )}
                                   </div>
@@ -663,7 +663,7 @@ export default function AdminSettingsPage() {
                     </span>
                     {selectedSecurity && (
                       <span className="text-slate-500 font-mono text-[10px]">
-                        • {selectedSecurity.devices?.length || 0}/3 máy • {selectedSecurity.ips?.length || 0}/3 IP
+                        • {selectedSecurity.devices?.length || 0}/3 thiết bị
                       </span>
                     )}
                   </div>

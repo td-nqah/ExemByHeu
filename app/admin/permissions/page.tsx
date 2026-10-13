@@ -569,7 +569,7 @@ export default function AdminPermissionsPage() {
                     <span>Kiểm soát Kích hoạt &amp; Thiết bị Đăng nhập</span>
                   </h3>
                   <p className="text-xs text-[#9ca3af]">
-                    Tự động tắt Active nếu thí sinh đăng nhập quá 3 IP hoặc 3 thiết bị
+                    Tự động tắt Active nếu thí sinh đăng nhập quá 3 thiết bị (không giới hạn IP)
                   </p>
                 </div>
               </div>
@@ -652,23 +652,19 @@ export default function AdminPermissionsPage() {
                           </span>
                         </div>
 
-                        {/* IP and Device counters */}
-                        <div className="flex items-center gap-3 text-[11px] text-[#9ca3af]">
+                        {/* Device counter */}
+                        <div className="flex items-center gap-2 text-[11px] text-[#9ca3af]">
                           <span
-                            className={`flex items-center gap-1 ${
-                              ipCount > 3 ? "text-rose-400 font-bold" : ""
+                            className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border ${
+                              devCount > 3
+                                ? "bg-rose-500/10 border-rose-500/25 text-rose-300 font-semibold"
+                                : "bg-[#0b0f19] border-[#1f2937] text-slate-300"
                             }`}
-                            title={acc.ips?.join(", ") || "Chưa có IP nào ghi nhận"}
-                          >
-                            <Globe className="h-3.5 w-3.5 text-[#38bdf8] shrink-0" />
-                            <span>IP: <strong className="font-mono text-white">{ipCount}</strong>/3</span>
-                          </span>
-
-                          <span
-                            className={`flex items-center gap-1 ${
-                              devCount > 3 ? "text-rose-400 font-bold" : ""
-                            }`}
-                            title={acc.devices?.join(", ") || "Chưa có thiết bị nào ghi nhận"}
+                            title={
+                              acc.devices && acc.devices.length > 0
+                                ? `Danh sách thiết bị: ${acc.devices.join(", ")}`
+                                : "Chưa có thiết bị nào ghi nhận"
+                            }
                           >
                             <Monitor className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
                             <span>Thiết bị: <strong className="font-mono text-white">{devCount}</strong>/3</span>
@@ -693,13 +689,13 @@ export default function AdminPermissionsPage() {
                           <span>{isActive ? "Tắt Active" : "Mở Active"}</span>
                         </button>
 
-                        {/* Reset IP / Device Counters Button */}
+                        {/* Reset Device Counter Button */}
                         <button
                           type="button"
                           onClick={() => handleResetSecurity(acc.username)}
                           disabled={accountsLoading}
                           className="px-2.5 py-1.5 rounded-lg bg-[#4f46e5]/15 hover:bg-[#4f46e5]/25 border border-[#4f46e5]/30 text-indigo-300 text-xs font-semibold transition cursor-pointer flex items-center gap-1 disabled:opacity-50 active:scale-95"
-                          title="Đặt lại bộ đếm thiết bị & IP về 0/3 và mở khóa tài khoản"
+                          title="Đặt lại danh sách thiết bị về 0/3 và mở khóa tài khoản"
                         >
                           <RefreshCw className="h-3 w-3" />
                           <span>Đặt lại (0/3)</span>
@@ -714,7 +710,7 @@ export default function AdminPermissionsPage() {
             <div className="mt-4 pt-3 border-t border-[#1f2937] flex items-center justify-between text-[11px] text-[#9ca3af]">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
-                <span>Chính sách: Khóa bảo vệ khi vượt ngưỡng 3 IP / 3 máy (áp dụng cho thí sinh)</span>
+                <span>Chính sách: Khóa bảo vệ khi vượt ngưỡng 3 thiết bị đăng nhập (áp dụng cho thí sinh, không giới hạn IP)</span>
               </span>
               <span className="font-mono text-[10px] text-[#6b7280]">Auto-Enforced</span>
             </div>
