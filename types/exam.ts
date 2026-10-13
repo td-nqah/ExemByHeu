@@ -17,6 +17,11 @@ export interface AccountSecurity {
   devices: string[];
   password_hash?: string;
   updated_at?: string;
+  last_active_at?: string;
+  last_login_at?: string;
+  last_ip?: string;
+  last_device?: string;
+  current_activity?: string;
 }
 
 export type ExamStatus = "draft" | "published";

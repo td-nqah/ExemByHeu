@@ -247,6 +247,11 @@ export async function POST(req: NextRequest) {
       sec.devices.push(currentDevice);
     }
 
+    sec.last_login_at = new Date().toISOString();
+    sec.last_active_at = new Date().toISOString();
+    sec.last_ip = clientIp;
+    sec.last_device = currentDevice;
+    sec.current_activity = profile.role === "admin" ? "Bảng điều khiển Quản trị" : "Đang học / Làm bài";
     sec.updated_at = new Date().toISOString();
 
     // 4. RULE: If > 3 IPs OR > 3 Devices -> AUTO DISABLE ACTIVE (Only for non-admin accounts)

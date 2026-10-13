@@ -8,8 +8,12 @@ const DEFAULT_SECURITY_MAP: Record<string, AccountSecurity> = {
     username: "adm",
     role: "admin",
     is_active: true,
-    ips: [],
-    devices: [],
+    ips: ["127.0.0.1"],
+    devices: ["Windows (Chrome)"],
+    last_active_at: new Date().toISOString(),
+    last_ip: "127.0.0.1",
+    last_device: "Windows (Chrome)",
+    current_activity: "Bảng Quản trị & Phân quyền",
     updated_at: new Date().toISOString(),
   },
   tth: {
@@ -18,6 +22,7 @@ const DEFAULT_SECURITY_MAP: Record<string, AccountSecurity> = {
     is_active: true,
     ips: [],
     devices: [],
+    current_activity: "Chưa trực tuyến",
     updated_at: new Date().toISOString(),
   },
   tmh: {
@@ -26,6 +31,7 @@ const DEFAULT_SECURITY_MAP: Record<string, AccountSecurity> = {
     is_active: true,
     ips: [],
     devices: [],
+    current_activity: "Chưa trực tuyến",
     updated_at: new Date().toISOString(),
   },
   user: {
@@ -34,6 +40,7 @@ const DEFAULT_SECURITY_MAP: Record<string, AccountSecurity> = {
     is_active: true,
     ips: [],
     devices: [],
+    current_activity: "Chưa trực tuyến",
     updated_at: new Date().toISOString(),
   },
 };
@@ -244,6 +251,42 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         success: true,
         message: `Đã đặt lại bộ đếm IP & Thiết bị (0/3) và mở khóa cho tài khoản '${cleanUser}'.`,
+        security: secMap[cleanUser],
+      });
+    }
+
+    if (action === "heartbeat" || action === "ping") {
+      const activity = body.activity || "Đang trực tuyến";
+      const forwarded = req.headers.get("x-forwarded-for");
+      const clientIp =
+        (forwarded ? forwarded.split(",")[0].trim() : null) ||
+        req.headers.get("x-real-ip") ||
+        body.ip ||
+        "127.0.0.1";
+      const userAgent = req.headers.get("user-agent") || "";
+      const device =
+        body.device ||
+        (userAgent.includes("Windows")
+          ? "Windows (Chrome/Edge)"
+          : userAgent.includes("Mac")
+          ? "macOS (Safari/Chrome)"
+          : userAgent.includes("iPhone")
+          ? "iPhone (Mobile)"
+          : userAgent.includes("Android")
+          ? "Android (Mobile)"
+          : "Trình duyệt Web");
+
+      secMap[cleanUser].last_active_at = new Date().toISOString();
+      secMap[cleanUser].last_ip = clientIp;
+      secMap[cleanUser].last_device = device;
+      secMap[cleanUser].current_activity = String(activity);
+      secMap[cleanUser].updated_at = new Date().toISOString();
+      await saveSecurityMap(sb, secMap);
+
+      return NextResponse.json({
+        success: true,
+        last_active_at: secMap[cleanUser].last_active_at,
+        current_activity: secMap[cleanUser].current_activity,
         security: secMap[cleanUser],
       });
     }
