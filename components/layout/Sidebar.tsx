@@ -8,7 +8,6 @@ import { getCurrentUser, setCurrentUser, getCategories } from "@/lib/store";
 import { Profile, Category } from "@/types/exam";
 import { cn } from "@/lib/utils";
 import {
-  GraduationCap,
   Home,
   BookOpen,
   History,
@@ -151,16 +150,13 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       {/* Top Section */}
       <div className="space-y-5">
         {/* Brand Header */}
-        <div className="relative flex items-center justify-center pb-2 pt-1">
+        <div className="relative flex items-center justify-center pb-2 pt-1 w-full">
           <Link
-            href={user?.role === "admin" ? "/admin/dashboard" : "/home"}
+            href="/home"
             onClick={onCloseMobile}
-            className="flex items-center justify-center gap-3 transition-opacity hover:opacity-90"
+            className="w-full flex items-center justify-center transition-all duration-200 hover:opacity-90 active:scale-98 py-1 text-center"
           >
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1f2937] border border-[#1f2937] text-white shadow-sm">
-              <GraduationCap className="h-6 w-6 text-white" />
-            </div>
-            <span className="font-heading text-xl font-bold tracking-tight">
+            <span className="font-heading text-2xl sm:text-[27px] font-black tracking-tight select-none">
               <span className="text-[#818cf8]">Exam</span>
               <span className="text-white">By</span>
               <span className="text-[#818cf8]">Heu</span>
