@@ -1956,30 +1956,35 @@ export async function getAllProfiles(): Promise<Profile[]> {
 
 export async function adminResetUserPassword(
   targetUsername: string,
-  newPassword: string
-): Promise<{ success: boolean; message: string }> {
+  newPassword?: string,
+  newUsername?: string
+): Promise<{ success: boolean; message: string; newUsername?: string }> {
   try {
     const res = await fetch("/api/admin/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ targetUsername, newPassword }),
+      body: JSON.stringify({ targetUsername, newPassword, newUsername }),
     });
     const data = await res.json();
     if (!res.ok) {
       return {
         success: false,
-        message: data.error || "Không thể đặt lại mật khẩu",
+        message: data.error || "Không thể cập nhật thông tin tài khoản",
       };
     }
+
+    const cleanTarget = targetUsername.toLowerCase().trim();
+    const cleanNew = newUsername ? newUsername.toLowerCase().trim() : cleanTarget;
 
     // Also update local profiles if present
     initStore();
     const localProfiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
     const updated = localProfiles.map((p) => {
-      if (p.username.toLowerCase() === targetUsername.toLowerCase().trim()) {
+      if (p.username.toLowerCase() === cleanTarget) {
         return {
           ...p,
-          password_hash: newPassword,
+          username: cleanNew,
+          ...(newPassword ? { password_hash: newPassword } : {}),
         };
       }
       return p;
@@ -1988,7 +1993,8 @@ export async function adminResetUserPassword(
 
     return {
       success: true,
-      message: data.message || `Đã đổi mật khẩu cho ${targetUsername} thành công`,
+      message: data.message || `Đã cập nhật thông tin cho tài khoản thành công`,
+      newUsername: cleanNew,
     };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Lỗi kết nối máy chủ";

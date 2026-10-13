@@ -22,6 +22,7 @@ import {
   Check,
   RefreshCw,
   Settings,
+  Lock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -43,8 +44,9 @@ export default function AdminSettingsPage() {
     message: string;
   } | null>(null);
 
-  // Card 2: Reset Password State
+  // Card 2: Edit Account (Username & Password) State
   const [selectedUser, setSelectedUser] = useState<string>("");
+  const [editNewUsername, setEditNewUsername] = useState("");
   const [emergencyNewPassword, setEmergencyNewPassword] = useState("");
   const [showEmergencyPass, setShowEmergencyPass] = useState(false);
   const [emergencyLoading, setEmergencyLoading] = useState(false);
@@ -53,6 +55,12 @@ export default function AdminSettingsPage() {
     type: "success" | "error";
     message: string;
   } | null>(null);
+
+  useEffect(() => {
+    if (selectedUser) {
+      setEditNewUsername(selectedUser);
+    }
+  }, [selectedUser]);
 
   const selectedProfile = useMemo(
     () => allProfiles.find((p) => p.username === selectedUser),
@@ -162,7 +170,7 @@ export default function AdminSettingsPage() {
     }
   };
 
-  // Handle Reset Password
+  // Handle Reset Password & Username
   const handleUserPasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setEmergencyNotice(null);
@@ -170,15 +178,21 @@ export default function AdminSettingsPage() {
     if (!selectedUser) {
       setEmergencyNotice({
         type: "error",
-        message: "Vui lòng chọn tài khoản cần đặt lại mật khẩu.",
+        message: "Vui lòng chọn tài khoản cần thay đổi.",
       });
       return;
     }
 
-    if (!emergencyNewPassword || emergencyNewPassword.trim().length === 0) {
+    const trimmedUser = editNewUsername.trim();
+    const trimmedPass = emergencyNewPassword.trim();
+
+    const usernameChanged = trimmedUser.length > 0 && trimmedUser !== selectedUser;
+    const passwordChanged = trimmedPass.length > 0;
+
+    if (!usernameChanged && !passwordChanged) {
       setEmergencyNotice({
         type: "error",
-        message: "Vui lòng nhập mật khẩu mới cho tài khoản được chọn.",
+        message: "Vui lòng nhập Username mới hoặc Mật khẩu mới để cập nhật.",
       });
       return;
     }
@@ -187,25 +201,32 @@ export default function AdminSettingsPage() {
     try {
       const result = await adminResetUserPassword(
         selectedUser,
-        emergencyNewPassword.trim()
+        passwordChanged ? trimmedPass : undefined,
+        usernameChanged ? trimmedUser : undefined
       );
 
       if (result.success) {
         setEmergencyNotice({
           type: "success",
-          message: `Đã cập nhật mật khẩu cho tài khoản '${selectedUser}' thành công!`,
+          message: `Đã cập nhật thông tin tài khoản '${selectedUser}'${usernameChanged ? ` -> '${trimmedUser}'` : ""} thành công!`,
         });
         setEmergencyNewPassword("");
+        if (usernameChanged) {
+          setSelectedUser(trimmedUser);
+        }
+        const profiles = await getAllProfiles();
+        setAllProfiles(profiles);
+        await fetchAccountsSecurity();
       } else {
         setEmergencyNotice({
           type: "error",
-          message: result.message || "Không thể cập nhật mật khẩu.",
+          message: result.message || "Không thể cập nhật thông tin tài khoản.",
         });
       }
     } catch {
       setEmergencyNotice({
         type: "error",
-        message: "Lỗi kết nối khi cập nhật mật khẩu.",
+        message: "Lỗi kết nối khi cập nhật thông tin tài khoản.",
       });
     } finally {
       setEmergencyLoading(false);
@@ -398,10 +419,10 @@ export default function AdminSettingsPage() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white">
-                    Đổi mật khẩu tài khoản
+                    Đổi Username &amp; Mật khẩu
                   </h3>
                   <p className="text-xs text-[#9ca3af]">
-                    Đặt lại mật khẩu cho bất kỳ tài khoản nào trong hệ thống
+                    Đổi tên đăng nhập hoặc đặt lại mật khẩu cho bất kỳ tài khoản nào trong hệ thống
                   </p>
                 </div>
               </div>
@@ -670,20 +691,40 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
 
-              {/* Mật khẩu mới cho tài khoản */}
+              {/* Tên đăng nhập mới */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">
-                  Mật khẩu mới cho <strong className="text-[#38bdf8] font-mono">[{selectedUser}]</strong>
+                <label className="text-xs font-semibold text-slate-300 flex items-center justify-between">
+                  <span>Tên đăng nhập (Username)</span>
+                  <span className="text-[10px] text-slate-400">Có thể đổi mới hoặc giữ nguyên</span>
                 </label>
                 <div className="relative">
+                  <User className="absolute left-3 top-2.5 h-4 w-4 text-[#818cf8]" />
+                  <input
+                    type="text"
+                    value={editNewUsername}
+                    onChange={(e) => setEditNewUsername(e.target.value)}
+                    placeholder="Nhập tên đăng nhập mới"
+                    className="w-full pl-9 pr-3.5 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
+                  />
+                </div>
+              </div>
+
+              {/* Mật khẩu mới cho tài khoản */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-300 flex items-center justify-between">
+                  <span>Mật khẩu mới</span>
+                  <span className="text-[10px] text-slate-400">Để trống nếu không đổi mật khẩu</span>
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-[#818cf8]" />
                   <input
                     type={showEmergencyPass ? "text" : "password"}
                     name="emergency_new_password"
                     autoComplete="new-password"
                     value={emergencyNewPassword}
                     onChange={(e) => setEmergencyNewPassword(e.target.value)}
-                    placeholder={`Nhập mật khẩu mới cho ${selectedUser}`}
-                    className="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors pr-10 shadow-inner"
+                    placeholder="Để trống nếu không đổi mật khẩu"
+                    className="w-full pl-9 pr-10 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner"
                   />
                   <button
                     type="button"
@@ -704,12 +745,12 @@ export default function AdminSettingsPage() {
                   {emergencyLoading ? (
                     <>
                       <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-                      <span>Đang cập nhật...</span>
+                      <span>Đang lưu thay đổi...</span>
                     </>
                   ) : (
                     <>
                       <KeyRound className="h-3.5 w-3.5" />
-                      <span>Cập nhật mật khẩu ngay</span>
+                      <span>Lưu thay đổi (Username &amp; Mật khẩu)</span>
                     </>
                   )}
                 </button>
@@ -718,7 +759,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div className="mt-5 pt-3 border-t border-[#1f2937] text-[11px] text-[#9ca3af] flex items-center justify-between">
-            <span>Hiệu lực: Mật khẩu mới cập nhật ngay tức thì</span>
+            <span>Hiệu lực: Cập nhật thông tin tài khoản ngay tức thì</span>
             <span className="font-mono text-[10px] text-slate-500">Instant-Sync</span>
           </div>
         </div>

@@ -105,16 +105,16 @@ export default function LoginPage() {
             {/* Ambient Top Glow Line */}
             <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/60 to-transparent rounded-t-3xl" />
 
-            {/* Centered Icon & Header Title "Đăng nhập hệ thống" */}
+            {/* Centered Icon & Header Title "Login EBH" */}
             <div className="mb-6 sm:mb-7 flex flex-col items-center text-center">
-              <div className="mb-3.5 sm:mb-4 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.25)]">
-                <GraduationCap className="h-7 w-7 sm:h-8 sm:w-8 text-indigo-300" />
+              <div className="mb-3.5 sm:mb-4 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/25 text-[#818cf8] shadow-[0_0_20px_rgba(99,102,241,0.25)]">
+                <GraduationCap className="h-7 w-7 sm:h-8 sm:w-8 text-[#818cf8]" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                Đăng nhập hệ thống
+                Login EBH
               </h2>
               <p className="mt-2 text-sm sm:text-[15px] text-slate-300/80 max-w-sm mx-auto leading-relaxed">
-                Nhập thông tin tài khoản để truy cập phòng thi thử hoặc trang quản trị.
+                Please provide your account credentials to gain authorised access to this examination environment or administrative interface.
               </p>
             </div>
 
@@ -136,7 +136,7 @@ export default function LoginPage() {
                 </label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-                    <User className="h-5 w-5 text-indigo-400/80" />
+                    <User className="h-5 w-5 text-[#818cf8]" />
                   </div>
                   <input
                     id="login-username"
@@ -144,7 +144,7 @@ export default function LoginPage() {
                     required
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Nhập tên đăng nhập"
+                    placeholder="Email/Username"
                     autoCapitalize="none"
                     autoCorrect="off"
                     className="glass-input h-[50px] sm:h-[52px] w-full rounded-xl pl-11 pr-4 text-base text-white placeholder-slate-500 focus:outline-none transition-all font-medium"
@@ -179,7 +179,7 @@ export default function LoginPage() {
 
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-                    <Lock className="h-5 w-5 text-indigo-400/80" />
+                    <Lock className="h-5 w-5 text-[#818cf8]" />
                   </div>
                   <input
                     id="login-password"
@@ -187,7 +187,7 @@ export default function LoginPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Nhập mật khẩu"
+                    placeholder="Password"
                     className="glass-input h-[50px] sm:h-[52px] w-full rounded-xl pl-11 pr-11 text-base text-white placeholder-slate-500 focus:outline-none transition-all font-medium"
                   />
                   <button
