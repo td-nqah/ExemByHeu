@@ -194,7 +194,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                   href={item.href}
                   onClick={onCloseMobile}
                   className={cn(
-                    "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
+                    "group flex h-9 items-center gap-3 rounded-xl px-3 text-xs font-medium transition-colors",
                     item.active
                       ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
                       : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
@@ -224,7 +224,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               href="/knowledge"
               onClick={onCloseMobile}
               className={cn(
-                "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors select-none",
+                "group flex h-9 items-center gap-3 rounded-xl px-3 text-xs font-medium transition-colors select-none",
                 pathname.startsWith("/knowledge")
                   ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
                   : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
@@ -244,7 +244,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             {/* Mục 2: Accordion Parent: Danh sách Đề thi */}
             <div
               className={cn(
-                "group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors select-none",
+                "group flex h-9 items-center justify-between rounded-xl px-3 text-xs font-medium transition-colors select-none",
                 isParentActive
                   ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
                   : isExamsRoute
@@ -257,7 +257,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                 onClick={() => {
                   onCloseMobile();
                 }}
-                className="flex flex-1 items-center gap-3 truncate"
+                className="flex h-full flex-1 items-center gap-3 truncate"
               >
                 <Layers
                   className={cn(
@@ -279,11 +279,11 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                   setExamsExpanded((prev) => !prev);
                 }}
                 aria-label="Mở hoặc đóng danh mục đề thi"
-                className="p-1 -mr-1 rounded-md text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors"
+                className="flex h-5 w-5 shrink-0 items-center justify-center -mr-1 rounded-md text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors"
               >
                 <ChevronDown
                   className={cn(
-                    "h-4 w-4 shrink-0 transition-transform duration-200",
+                    "h-3.5 w-3.5 shrink-0 transition-transform duration-200",
                     examsExpanded && "rotate-180 text-white"
                   )}
                 />
@@ -344,7 +344,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     href={item.href}
                     onClick={onCloseMobile}
                     className={cn(
-                      "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
+                      "group flex h-9 items-center gap-3 rounded-xl px-3 text-xs font-medium transition-colors",
                       item.active
                         ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
                         : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
@@ -379,7 +379,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     href={item.href}
                     onClick={onCloseMobile}
                     className={cn(
-                      "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
+                      "group flex h-9 items-center gap-3 rounded-xl px-3 text-xs font-medium transition-colors",
                       item.active
                         ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
                         : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
