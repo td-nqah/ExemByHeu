@@ -114,7 +114,7 @@ export default function LoginPage() {
                 Login EBH
               </h2>
               <p className="mt-2 text-sm sm:text-[15px] text-slate-300/80 max-w-sm mx-auto leading-relaxed">
-                Please provide your account credentials to gain authorised access to this examination environment or administrative interface.
+                Please provide your account credentials to gain authorised access to this examination environment
               </p>
             </div>
 
