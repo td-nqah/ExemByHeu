@@ -7,7 +7,11 @@ let cachedGeminiApiKey: string | null = null;
 let cachedConfiguredModel: string | null = null;
 
 export async function getServerGeminiApiKey(): Promise<string> {
-  const envKey = (process.env.GEMINI_API_KEY || "").trim();
+  const envKey = (
+    process.env.GEMINI_API_KEY ||
+    process.env.GENINI_API_KEY ||
+    ""
+  ).trim();
   if (envKey) return envKey;
 
   if (cachedGeminiApiKey) return cachedGeminiApiKey;
