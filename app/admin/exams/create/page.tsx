@@ -46,7 +46,7 @@ A. 401 Unauthorized   B. 403 Forbidden   C. 429 Too Many Requests   D. 502 Bad G
 
 PHẦN II: CÂU HỎI TỰ LUẬN
 
-Câu 4 (5.0 điểm): Hãy phân tích cơ chế hoạt động của tính năng Row Level Security (RLS) trong PostgreSQL / Supabase và viết ví dụ chính sách bảo mật để đảm bảo mỗi thí sinh chỉ có thể xem lịch sử bài thi của chính mình.`;
+Câu 4 (5.0 điểm): Hãy phân tích cơ chế hoạt động của tính năng Row Level Security (RLS) trong PostgreSQL / Supabase và viết ví dụ chính sách bảo mật để đảm bảo mỗi user chỉ có thể xem lịch sử bài thi của chính mình.`;
 
 export default function ExamCreatePage() {
   const router = useRouter();

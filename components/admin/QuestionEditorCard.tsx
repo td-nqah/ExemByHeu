@@ -226,7 +226,7 @@ export function QuestionEditorCard({
         </div>
       ) : (
         <div className="rounded-xl border border-dashed border-slate-800 bg-slate-900/50 p-3 text-xs text-slate-400">
-          Câu hỏi tự luận: Thí sinh nhập câu trả lời dạng văn bản trong phòng thi. Hệ thống sẽ chấm điểm tự luận trên thang điểm chuẩn.
+          Câu hỏi tự luận: User nhập câu trả lời dạng văn bản trong phòng thi. Hệ thống sẽ chấm điểm tự luận trên thang điểm chuẩn.
         </div>
       )}
     </div>

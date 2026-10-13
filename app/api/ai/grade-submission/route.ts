@@ -44,7 +44,7 @@ export async function POST(request: Request) {
         resultsMap.set(item.questionId, {
           questionId: item.questionId,
           score: 0,
-          feedback: `Thí sinh bỏ trống câu trả lời này. Điểm: 0 / ${maxScore}.`,
+          feedback: `User bỏ trống câu trả lời này. Điểm: 0 / ${maxScore}.`,
         });
       } else if (!apiKey) {
         const wordCount = studentAnswer.split(/\s+/).length;

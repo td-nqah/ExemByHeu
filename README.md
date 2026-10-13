@@ -24,7 +24,7 @@ Thông tin tài khoản để đăng nhập vào hệ thống:
 | Vai trò | Tên đăng nhập | Mật khẩu | Trang chuyển hướng |
 |---|---|---|---|
 | Quản trị viên (Admin) | `admin` | `1` | `/admin/dashboard` |
-| Thí sinh (User) | `user` | `1` | `/dashboard` |
+| User | `user` | `1` | `/dashboard` |
 
 ---
 
@@ -44,10 +44,10 @@ Thông tin tài khoản để đăng nhập vào hệ thống:
    - Lọc bài thi theo trạng thái: Tất cả / Chờ chấm / Đã hoàn thành.
 4. **Phòng Chấm thi Chi tiết (`/admin/submissions/[id]`)**:
    - Điểm trắc nghiệm được khóa và hiển thị tự động.
-   - Các câu tự luận hiển thị câu trả lời của thí sinh cùng ô nhập Điểm (ràng buộc không vượt quá điểm tối đa) và ô Nhận xét của giảng viên.
+   - Các câu tự luận hiển thị câu trả lời của user cùng ô nhập Điểm (ràng buộc không vượt quá điểm tối đa) và ô Nhận xét của giảng viên.
    - Nhấn "Hoàn tất Chấm thi & Cập nhật điểm": Tự động tính toán lại `total_score = mcq_score + essay_score`, cập nhật trạng thái `graded`.
 
-### B. Thí sinh (User)
+### B. User
 1. **Danh sách Đề thi (`/dashboard`)**:
    - Xem các đề thi đang mở, thời lượng, số lượng câu hỏi và tỷ lệ câu trắc nghiệm / tự luận.
    - Nhấn "Vào làm bài" để vào phòng thi.

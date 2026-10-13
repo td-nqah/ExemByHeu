@@ -207,7 +207,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: `Đã tạo thành công tài khoản '${cleanUser}' (${assignedRole === "admin" ? "Quản trị viên" : "Thí sinh"}).`,
+        message: `Đã tạo thành công tài khoản '${cleanUser}' (${assignedRole === "admin" ? "Quản trị viên" : "User"}).`,
         account: secMap[cleanUser],
       });
     }

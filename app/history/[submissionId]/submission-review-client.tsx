@@ -111,7 +111,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               {submission.exam?.title || "Bài kiểm tra"}
             </h1>
             <p className="mt-1 text-xs text-slate-400">
-              Thí sinh: <strong className="text-white">{submission.user?.username || "Thí sinh"}</strong>
+              User: <strong className="text-white">{submission.user?.username || "User"}</strong>
             </p>
           </div>
 
@@ -281,10 +281,10 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                 <div className="space-y-4">
                   <div>
                     <label className="mb-1.5 block text-[11px] font-semibold text-slate-400">
-                      Bài làm của thí sinh
+                      Bài làm của user
                     </label>
                     <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
-                      {answer.user_answer || "(Thí sinh bỏ trống câu này)"}
+                      {answer.user_answer || "(User bỏ trống câu này)"}
                     </div>
                   </div>
 

@@ -290,7 +290,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
             <div className="hidden lg:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300">
               <User className="h-3.5 w-3.5 text-indigo-400" />
-              <span>{getCurrentUser()?.username || "Thí sinh"}</span>
+              <span>{getCurrentUser()?.username || "User"}</span>
             </div>
 
             {/* Submit Button */}

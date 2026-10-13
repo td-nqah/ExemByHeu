@@ -209,7 +209,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-200">
                 <User className="h-3 w-3 text-indigo-400" />
-                Thí sinh: <strong>{submission.user?.username || "Thí sinh"}</strong>
+                User: <strong>{submission.user?.username || "User"}</strong>
               </span>
               <span className="inline-flex items-center gap-1 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-300">
                 <Calendar className="h-3 w-3 text-indigo-400" />
@@ -384,14 +384,14 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                           {isCandidateChoice && isCorrectAnswer && (
                             <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
                               <Check className="h-3 w-3 text-emerald-400" />
-                              <span>Thí sinh chọn (Đáp án đúng)</span>
+                              <span>User chọn (Đáp án đúng)</span>
                             </span>
                           )}
 
                           {isCandidateChoice && !isCorrectAnswer && (
                             <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/40 bg-rose-950/80 px-2.5 py-0.5 text-[10px] font-bold text-rose-400">
                               <AlertCircle className="h-3 w-3 text-rose-400" />
-                              <span>Lựa chọn của bạn / Thí sinh</span>
+                              <span>Lựa chọn của bạn / User</span>
                             </span>
                           )}
 
@@ -410,10 +410,10 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                 <div className="space-y-4">
                   <div>
                     <label className="mb-1.5 block text-[11px] font-semibold text-slate-400">
-                      Bài làm của thí sinh
+                      Bài làm của user
                     </label>
                     <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
-                      {ans.user_answer ? ans.user_answer : "(Thí sinh bỏ trống câu này)"}
+                      {ans.user_answer ? ans.user_answer : "(User bỏ trống câu này)"}
                     </div>
                   </div>
 
@@ -459,7 +459,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                         rows={3}
                         value={essayGrades[q.id]?.feedback ?? ""}
                         onChange={(e) => handleFeedbackChange(q.id, e.target.value)}
-                        placeholder="Nhập nhận xét chi tiết, chỉ ra lỗi sai hoặc khen ngợi thí sinh..."
+                        placeholder="Nhập nhận xét chi tiết, chỉ ra lỗi sai hoặc nhận xét bài làm..."
                         className="glass-input w-full rounded-xl p-3 text-xs leading-relaxed"
                       />
                     </div>

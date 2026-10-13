@@ -199,7 +199,7 @@ export function ExamStatusSelector({
                         )}
                       </div>
                       <p className="text-[11px] text-slate-400 truncate mt-0.5">
-                        Thí sinh nhìn thấy đề thi và có thể vào làm bài ngay
+                        User nhìn thấy đề thi và có thể vào làm bài ngay
                       </p>
                     </div>
                   </div>
@@ -246,7 +246,7 @@ export function ExamStatusSelector({
                         )}
                       </div>
                       <p className="text-[11px] text-slate-400 truncate mt-0.5">
-                        Tạm ẩn với thí sinh, chỉ Quản trị viên mới thấy
+                        Tạm ẩn với user, chỉ Quản trị viên mới thấy
                       </p>
                     </div>
                   </div>

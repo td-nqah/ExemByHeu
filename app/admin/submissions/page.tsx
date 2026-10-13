@@ -53,7 +53,7 @@ export default function AdminSubmissionsListPage() {
           Quản lý Bài nộp & Phòng Chấm thi
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-slate-400">
-          Theo dõi tối đa 10 bài nộp gần nhất của thí sinh, kiểm tra điểm trắc nghiệm và chấm điểm tự luận (tự động giữ 10 bài mới nhất).
+          Theo dõi tối đa 10 bài nộp gần nhất của user, kiểm tra điểm trắc nghiệm và chấm điểm tự luận (tự động giữ 10 bài mới nhất).
         </p>
       </div>
 
@@ -122,7 +122,7 @@ export default function AdminSubmissionsListPage() {
               Chưa có bài nộp nào
             </p>
             <p className="text-xs text-slate-400 max-w-sm mx-auto">
-              Khi thí sinh hoàn thành và nộp bài thi, bài thi sẽ tự động xuất hiện tại đây để giám khảo chấm điểm.
+              Khi user hoàn thành và nộp bài thi, bài thi sẽ tự động xuất hiện tại đây để giám khảo chấm điểm.
             </p>
           </div>
         ) : (
@@ -131,7 +131,7 @@ export default function AdminSubmissionsListPage() {
               <thead className="bg-[#121722] text-slate-400 uppercase tracking-wider text-[11px] border-b border-white/[0.06]">
                 <tr>
                   <th className="py-3 px-3 font-semibold w-12 text-center">#</th>
-                  <th className="py-3 px-4 font-semibold">Thí sinh</th>
+                  <th className="py-3 px-4 font-semibold">User</th>
                   <th className="py-3 px-4 font-semibold">Tên đề thi</th>
                   <th className="py-3 px-4 font-semibold">Thời gian nộp</th>
                   <th className="py-3 px-4 font-semibold">Trạng thái</th>
@@ -156,7 +156,7 @@ export default function AdminSubmissionsListPage() {
                       <td className="whitespace-nowrap py-3.5 px-4 font-bold text-white">
                         <span className="flex items-center gap-1.5">
                           <User className="h-3.5 w-3.5 text-indigo-400" />
-                          {sub.user?.username || "Thí sinh"}
+                          {sub.user?.username || "User"}
                         </span>
                       </td>
                       <td className="max-w-xs truncate py-3.5 px-4 font-medium text-slate-200">

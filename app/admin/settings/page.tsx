@@ -135,7 +135,7 @@ export default function AdminSettingsPage() {
         setCreateNotice({
           type: "success",
           message: `Đã tạo thành công tài khoản '${cleanUser}' với vai trò ${
-            newRole === "admin" ? "Quản trị viên" : "Thí sinh"
+            newRole === "admin" ? "Quản trị viên" : "User"
           }!`,
         });
         setNewUsername("");
@@ -250,7 +250,7 @@ export default function AdminSettingsPage() {
                     Tạo tài khoản mới
                   </h3>
                   <p className="text-xs text-[#9ca3af]">
-                    Cấp phát tài khoản đăng nhập cho Quản trị viên hoặc Thí sinh
+                    Cấp phát tài khoản đăng nhập cho Quản trị viên hoặc User
                   </p>
                 </div>
               </div>
@@ -334,7 +334,7 @@ export default function AdminSettingsPage() {
                     }`}
                   >
                     <User className="h-3.5 w-3.5 text-[#38bdf8]" />
-                    <span>Thí sinh (User)</span>
+                    <span>User</span>
                   </button>
 
                   <button
@@ -480,7 +480,7 @@ export default function AdminSettingsPage() {
                                 : "bg-[#1f2937] text-[#9ca3af] border-[#1f2937]"
                             }`}
                           >
-                            {isAdmin ? "Quản trị viên" : "Thí sinh"}
+                            {isAdmin ? "Quản trị viên" : "User"}
                           </span>
                         );
                       })()}
@@ -590,7 +590,7 @@ export default function AdminSettingsPage() {
                                           : "bg-[#1f2937] text-[#9ca3af] border-[#1f2937]"
                                       }`}
                                     >
-                                      {isAdmin ? "Quản trị viên" : "Thí sinh"}
+                                      {isAdmin ? "Quản trị viên" : "User"}
                                     </span>
                                   </div>
                                   <div className="text-[10px] text-[#9ca3af] flex items-center gap-2 mt-0.5">
@@ -653,7 +653,7 @@ export default function AdminSettingsPage() {
                           : "bg-slate-800 border-slate-700 text-slate-300"
                       }`}
                     >
-                      {selectedProfile?.role === "admin" ? "Quản trị viên (Admin)" : "Thí sinh (User)"}
+                      {selectedProfile?.role === "admin" ? "Quản trị viên (Admin)" : "User"}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-[11px] text-[#9ca3af]">

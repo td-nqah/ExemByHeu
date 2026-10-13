@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     if (!studentAnswer || !studentAnswer.trim()) {
       return NextResponse.json({
         score: 0,
-        feedback: "Thí sinh không làm bài hoặc bỏ trống câu trả lời này. Điểm số: 0 / " + maxScore + ".",
+        feedback: "User không làm bài hoặc bỏ trống câu trả lời này. Điểm số: 0 / " + maxScore + ".",
         breakdown: {
           accuracy: 0,
           depth: 0,

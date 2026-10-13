@@ -194,7 +194,7 @@ export default function AdminCategoriesPage() {
               </span>
             </h1>
             <p className="mt-1 text-sm text-slate-400">
-              Tạo mới, chỉnh sửa hoặc ẩn/hiện các danh mục môn học (CNXH, OOP, v.v.) hiển thị trên Sidebar và Dashboard thí sinh.
+              Tạo mới, chỉnh sửa hoặc ẩn/hiện các danh mục môn học (CNXH, OOP, v.v.) hiển thị trên Sidebar và Dashboard user.
             </p>
           </div>
 
@@ -240,7 +240,7 @@ export default function AdminCategoriesPage() {
             <FolderTree className="h-4 w-4 text-indigo-400" />
             <span>Danh sách Chuyên mục ({categories.length})</span>
           </h2>
-          <span className="text-xs text-slate-400">Đồng bộ tự động đến Sidebar thí sinh</span>
+          <span className="text-xs text-slate-400">Đồng bộ tự động đến Sidebar user</span>
         </div>
 
         {loading ? (

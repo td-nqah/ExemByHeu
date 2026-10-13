@@ -239,7 +239,7 @@ VALUES
   '22222222-2222-2222-2222-222222220004',
   '11111111-1111-1111-1111-111111111111',
   'essay',
-  'Hãy trình bày chiến lược chống rò rỉ dữ liệu (Data Isolation) và kiểm soát quyền truy cập cấp hàng (Row Level Security - RLS) trên Supabase khi triển khai cho hệ thống thi thử trực tuyến nhiều thí sinh.',
+  'Hãy trình bày chiến lược chống rò rỉ dữ liệu (Data Isolation) và kiểm soát quyền truy cập cấp hàng (Row Level Security - RLS) trên Supabase khi triển khai cho hệ thống thi thử trực tuyến nhiều user.',
   '[]'::jsonb,
   '',
   5.0,

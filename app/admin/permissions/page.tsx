@@ -107,7 +107,7 @@ export default function AdminPermissionsPage() {
   };
 
   // =========================================================================
-  // PHẦN 2: QUẢN LÝ KÍCH HOẠT & THIẾT BỊ THÍ SINH
+  // PHẦN 2: QUẢN LÝ KÍCH HOẠT & THIẾT BỊ USER
   // =========================================================================
   const [accountsSecurity, setAccountsSecurity] = useState<AccountSecurity[]>([]);
   const [accountsLoading, setAccountsLoading] = useState(false);
@@ -353,7 +353,7 @@ export default function AdminPermissionsPage() {
             <span>Phân quyền & Kiểm soát Hệ thống</span>
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-[#9ca3af]">
-            Theo dõi lưu lượng bộ nhớ máy chủ và kiểm soát trạng thái kích hoạt, giới hạn IP/thiết bị của thí sinh.
+            Theo dõi lưu lượng bộ nhớ máy chủ và kiểm soát trạng thái kích hoạt, giới hạn IP/thiết bị của user.
           </p>
         </div>
       </div>
@@ -553,7 +553,7 @@ export default function AdminPermissionsPage() {
             <ShieldCheck className="h-4.5 w-4.5 text-indigo-400" />
             <span>2. Quản lý Tài khoản, Thiết bị &amp; Giám sát Trực tuyến</span>
           </h2>
-          <span className="text-xs text-[#9ca3af]">Kiểm soát bảo mật thí sinh &amp; theo dõi người dùng đang online thời gian thực</span>
+          <span className="text-xs text-[#9ca3af]">Kiểm soát bảo mật user &amp; theo dõi người dùng đang online thời gian thực</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
@@ -569,7 +569,7 @@ export default function AdminPermissionsPage() {
                     <span>Kiểm soát Kích hoạt &amp; Thiết bị Đăng nhập</span>
                   </h3>
                   <p className="text-xs text-[#9ca3af]">
-                    Tự động tắt Active nếu thí sinh đăng nhập quá 3 thiết bị (không giới hạn IP)
+                    Tự động tắt Active nếu user đăng nhập quá 3 thiết bị (không giới hạn IP)
                   </p>
                 </div>
               </div>
@@ -618,7 +618,7 @@ export default function AdminPermissionsPage() {
                 if (filtered.length === 0) {
                   return (
                     <div className="p-4 rounded-xl border border-dashed border-[#1f2937] text-center text-xs text-[#9ca3af]">
-                      Chưa có tài khoản thí sinh nào trong hệ thống.
+                      Chưa có tài khoản user nào trong hệ thống.
                     </div>
                   );
                 }
@@ -639,7 +639,7 @@ export default function AdminPermissionsPage() {
                             {acc.username}
                           </span>
                           <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#1f2937] text-slate-300 border border-[#1f2937] font-medium">
-                            {acc.role === "admin" ? "Admin" : "Thí sinh"}
+                            {acc.role === "admin" ? "Admin" : "User"}
                           </span>
                           <span
                             className={`text-[10px] px-2 py-0.5 rounded-full font-semibold border ${
@@ -710,7 +710,7 @@ export default function AdminPermissionsPage() {
             <div className="mt-4 pt-3 border-t border-[#1f2937] flex items-center justify-between text-[11px] text-[#9ca3af]">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
-                <span>Chính sách: Khóa bảo vệ khi vượt ngưỡng 3 thiết bị đăng nhập (áp dụng cho thí sinh, không giới hạn IP)</span>
+                <span>Chính sách: Khóa bảo vệ khi vượt ngưỡng 3 thiết bị đăng nhập (áp dụng cho user, không giới hạn IP)</span>
               </span>
               <span className="font-mono text-[10px] text-[#6b7280]">Auto-Enforced</span>
             </div>
@@ -821,7 +821,7 @@ export default function AdminPermissionsPage() {
                                   : "bg-slate-800 border-slate-700 text-slate-300"
                               }`}
                             >
-                              {acc.role === "admin" ? "Admin" : "Thí sinh"}
+                              {acc.role === "admin" ? "Admin" : "User"}
                             </span>
                             {isCurrent && (
                               <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-indigo-500/20 border border-indigo-500/35 text-indigo-300 font-semibold">
