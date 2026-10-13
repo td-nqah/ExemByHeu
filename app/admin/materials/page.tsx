@@ -36,6 +36,7 @@ import {
 import { extractRawTextFromFile } from "@/lib/parsers";
 import { Category, StudyMaterial } from "@/types/exam";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
+import { ComboboxInput } from "@/components/ui/ComboboxInput";
 
 export default function AdminMaterialsPage() {
   const router = useRouter();
@@ -685,20 +686,17 @@ export default function AdminMaterialsPage() {
                       Gõ tên mới hoặc chọn tài liệu có sẵn
                     </span>
                   </div>
-                  <input
-                    type="text"
+                  <ComboboxInput
                     required
-                    list="existing-materials-suggestions"
                     value={quickTitle}
-                    onChange={(e) => setQuickTitle(e.target.value)}
+                    onChange={setQuickTitle}
                     placeholder="VD: Tổng hợp kiến thức: Chương 2 Hệ quản trị CSDL"
-                    className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none focus:border-[#4f46e5]"
+                    suggestions={materials.map((m) => ({
+                      id: m.id,
+                      title: m.title,
+                      subtitle: m.category_name || "Tài liệu",
+                    }))}
                   />
-                  <datalist id="existing-materials-suggestions">
-                    {materials.map((m) => (
-                      <option key={m.id} value={m.title} />
-                    ))}
-                  </datalist>
                 </div>
 
                 {/* Category Dropdown */}

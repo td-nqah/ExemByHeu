@@ -37,6 +37,7 @@ import {
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
 import { NumberStepper } from "@/components/ui/NumberStepper";
+import { ComboboxInput } from "@/components/ui/ComboboxInput";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -507,20 +508,17 @@ export default function AdminDashboardPage() {
                       Gõ tên mới hoặc chọn đề có sẵn
                     </span>
                   </div>
-                  <input
-                    type="text"
+                  <ComboboxInput
                     required
-                    list="existing-exams-suggestions"
                     value={quickTitle}
-                    onChange={(e) => setQuickTitle(e.target.value)}
+                    onChange={setQuickTitle}
                     placeholder="Nhập tên đề (Ví dụ: Đề cương CTMT: Đề 1)"
-                    className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none focus:border-[#4f46e5]"
+                    suggestions={sortedExams.map((ex) => ({
+                      id: ex.id,
+                      title: ex.title,
+                      subtitle: `${ex.duration_minutes || 45} phút • ${ex.questions?.length || 40} câu`,
+                    }))}
                   />
-                  <datalist id="existing-exams-suggestions">
-                    {sortedExams.map((ex) => (
-                      <option key={ex.id} value={ex.title} />
-                    ))}
-                  </datalist>
                 </div>
 
                 {/* Sub-category Dropdown */}

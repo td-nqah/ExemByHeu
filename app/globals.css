@@ -202,6 +202,11 @@ h6 {
   box-shadow: 0 0 25px rgba(99, 102, 241, 0.12);
 }
 
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #1E293B #0B0F17;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;
