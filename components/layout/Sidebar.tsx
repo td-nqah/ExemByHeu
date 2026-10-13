@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { motion, AnimatePresence } from "motion/react";
 import { getCurrentUser, setCurrentUser, getCategories } from "@/lib/store";
 import { Profile, Category } from "@/types/exam";
 import { cn } from "@/lib/utils";
@@ -50,7 +51,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
   const [user, setUser] = useState<Profile | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [examsExpanded, setExamsExpanded] = useState<boolean>(true);
+  const [examsExpanded, setExamsExpanded] = useState<boolean>(false);
 
   useEffect(() => {
     setUser(getCurrentUser());
@@ -72,13 +73,6 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     window.addEventListener("categories_updated", handleUpdate);
     return () => window.removeEventListener("categories_updated", handleUpdate);
   }, []);
-
-  // Auto-expand accordion when viewing exams
-  useEffect(() => {
-    if (pathname === "/dashboard" || pathname.startsWith("/exam")) {
-      setExamsExpanded(true);
-    }
-  }, [pathname]);
 
   const handleLogout = () => {
     setCurrentUser(null);
@@ -267,11 +261,6 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               <Link
                 href="/dashboard"
                 onClick={() => {
-                  if (pathname === "/dashboard" && !activeCategory) {
-                    setExamsExpanded((prev) => !prev);
-                  } else {
-                    setExamsExpanded(true);
-                  }
                   onCloseMobile();
                 }}
                 className="flex flex-1 items-center gap-3 truncate"
@@ -307,34 +296,42 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               </button>
             </div>
 
-            {/* Sub-menu: Dynamic Categories (Tree View) */}
-            {examsExpanded && categories.length > 0 && (
-              <div className="relative mt-1 ml-5 pl-2.5 space-y-1 border-l border-[#1f2937]">
-                {categories.map((cat) => {
-                  const isSubActive =
-                    pathname === "/dashboard" &&
-                    (activeCategory === cat.slug || activeCategory === cat.id);
-                  return (
-                    <Link
-                      key={cat.id}
-                      href={`/dashboard?category=${encodeURIComponent(cat.slug || cat.id)}`}
-                      onClick={onCloseMobile}
-                      className={cn(
-                        "group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-medium transition-all duration-150",
-                        isSubActive
-                          ? "bg-[#4f46e5]/15 text-white font-semibold border border-[#4f46e5]/30"
-                          : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
-                      )}
-                    >
-                      <span className="truncate">{cat.name}</span>
-                      {isSubActive && (
-                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#6366f1] shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
-                      )}
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
+            {/* Sub-menu: Dynamic Categories (Tree View with Scroll Down Animation) */}
+            <AnimatePresence>
+              {examsExpanded && categories.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="relative mt-1 ml-5 pl-2.5 space-y-1 border-l border-[#1f2937] overflow-hidden"
+                >
+                  {categories.map((cat) => {
+                    const isSubActive =
+                      pathname === "/dashboard" &&
+                      (activeCategory === cat.slug || activeCategory === cat.id);
+                    return (
+                      <Link
+                        key={cat.id}
+                        href={`/dashboard?category=${encodeURIComponent(cat.slug || cat.id)}`}
+                        onClick={onCloseMobile}
+                        className={cn(
+                          "group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-medium transition-all duration-150",
+                          isSubActive
+                            ? "bg-[#4f46e5]/15 text-white font-semibold border border-[#4f46e5]/30"
+                            : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
+                        )}
+                      >
+                        <span className="truncate">{cat.name}</span>
+                        {isSubActive && (
+                          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#6366f1] shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                        )}
+                      </Link>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
