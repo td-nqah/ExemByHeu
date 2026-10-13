@@ -150,27 +150,34 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       {/* Top Section */}
       <div className="space-y-5">
         {/* Brand Header */}
-        <div className="relative flex items-center justify-center pb-2 pt-1 w-full">
-          <Link
-            href="/home"
-            onClick={onCloseMobile}
-            className="w-full flex items-center justify-center transition-all duration-200 hover:opacity-90 active:scale-98 py-1 text-center"
-          >
-            <span className="font-heading text-2xl sm:text-[27px] font-black tracking-tight select-none">
-              <span className="text-[#818cf8]">Exam</span>
-              <span className="text-white">By</span>
-              <span className="text-[#818cf8]">Heu</span>
-            </span>
-          </Link>
+        <div className="space-y-3.5">
+          <div className="relative flex items-center justify-center pt-1 w-full">
+            <Link
+              href="/home"
+              onClick={onCloseMobile}
+              className="w-full flex items-center justify-center transition-all duration-200 hover:opacity-90 active:scale-98 py-1 text-center"
+            >
+              <span className="font-heading text-2xl sm:text-[27px] font-black tracking-tight select-none">
+                <span className="text-[#818cf8]">Exam</span>
+                <span className="text-white">By</span>
+                <span className="text-[#818cf8]">Heu</span>
+              </span>
+            </Link>
 
-          {/* Close button on Mobile */}
-          <button
-            type="button"
-            onClick={onCloseMobile}
-            className="md:hidden absolute right-0 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-400 hover:bg-[#1f2937] hover:text-white transition"
-          >
-            <X className="h-5 w-5" />
-          </button>
+            {/* Close button on Mobile */}
+            <button
+              type="button"
+              onClick={onCloseMobile}
+              className="md:hidden absolute right-0 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-400 hover:bg-[#1f2937] hover:text-white transition"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Dấu gạch ngang xám nhạt bo tròn ngăn cách */}
+          <div className="w-full px-1 flex items-center justify-center">
+            <div className="h-[1.5px] w-full bg-[#374151]/70 rounded-full" />
+          </div>
         </div>
 
         {/* 1. TỔNG QUAN / BÁO CÁO */}
