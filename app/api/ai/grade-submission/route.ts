@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const apiKey = getServerGeminiApiKey();
+    const apiKey = await getServerGeminiApiKey();
     const candidateModels = getCandidateGeminiModels(cachedGradingModel);
 
     // Separate empty answers immediately (0 tokens used for blank answers!)

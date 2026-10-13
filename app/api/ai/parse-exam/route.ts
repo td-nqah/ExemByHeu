@@ -122,7 +122,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = getServerGeminiApiKey();
+    const apiKey = await getServerGeminiApiKey();
 
     // 1. If GEMINI_API_KEY is not configured, immediately use the traditional Regex fallback parser
     if (!apiKey) {
@@ -231,7 +231,7 @@ ${rawText.slice(0, 35000)}`;
 }
 
 export async function GET() {
-  const apiKey = getServerGeminiApiKey();
+  const apiKey = await getServerGeminiApiKey();
   if (!apiKey) {
     return NextResponse.json({
       connected: false,

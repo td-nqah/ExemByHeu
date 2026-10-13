@@ -238,7 +238,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = getServerGeminiApiKey();
+    const apiKey = await getServerGeminiApiKey();
 
     // 1. If GEMINI_API_KEY is not configured, immediately use traditional fallback parser
     if (!apiKey) {
