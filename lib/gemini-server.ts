@@ -1,19 +1,8 @@
 // Server-only helper for Gemini API Key & Model resolution.
 // Never imported in client components.
 
-const FALLBACK_ENCODED_KEY =
-  "QVEuQWI4Uk42SU1LTVJ6QlVTcXRPZzJCMmpMaWFvLWpXZ0c3a1FMbGxXcmJOQy05R3NxWUE=";
-
 export function getServerGeminiApiKey(): string {
-  const envKey = (process.env.GEMINI_API_KEY || "").trim();
-  if (envKey) {
-    return envKey;
-  }
-  try {
-    return Buffer.from(FALLBACK_ENCODED_KEY, "base64").toString("utf-8").trim();
-  } catch {
-    return "";
-  }
+  return (process.env.GEMINI_API_KEY || "").trim();
 }
 
 export function getCandidateGeminiModels(cachedModel?: string | null): string[] {
