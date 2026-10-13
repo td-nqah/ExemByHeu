@@ -25,6 +25,7 @@ import {
   Library,
   Layers,
   FileText,
+  Sliders,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -106,10 +107,16 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const isParentActive =
     (pathname === "/dashboard" && !activeCategory) || pathname.startsWith("/exam");
 
-  // Group 3: QUẢN TRỊ & CẤU HÌNH
-  const adminNavLinks = [
+  // Group 3: QUẢN LÝ HỆ THỐNG
+  const systemManagementNavLinks = [
     {
-      title: "Quản lý Đề thi",
+      title: "Danh mục",
+      href: "/admin/categories",
+      icon: FolderTree,
+      active: pathname.startsWith("/admin/categories"),
+    },
+    {
+      title: "Đề thi",
       href: "/admin/dashboard",
       icon: ShieldCheck,
       active:
@@ -119,36 +126,23 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           !pathname.startsWith("/admin/exams/create")),
     },
     {
-      title: "Quản lý Tài liệu",
+      title: "Tài liệu",
       href: "/admin/materials",
       icon: Library,
       active: pathname.startsWith("/admin/materials"),
     },
+  ];
+
+  // Group 4: CẤU HÌNH HỆ THỐNG
+  const systemConfigNavLinks = [
     {
-      title: "Quản lý Danh mục",
-      href: "/admin/categories",
-      icon: FolderTree,
-      active: pathname.startsWith("/admin/categories"),
+      title: "Phân quyền",
+      href: "/admin/permissions",
+      icon: Sliders,
+      active: pathname.startsWith("/admin/permissions"),
     },
     {
-      title: "Tạo Đề thi mới",
-      href: "/admin/exams/create",
-      icon: Wand2,
-      active:
-        pathname === "/admin/create" ||
-        pathname.startsWith("/admin/create") ||
-        pathname.startsWith("/admin/exams/create"),
-    },
-    {
-      title: "Phòng Chấm bài",
-      href: "/admin/submissions",
-      icon: Target,
-      active:
-        pathname.startsWith("/admin/grading") ||
-        pathname.startsWith("/admin/submissions"),
-    },
-    {
-      title: "Cài đặt Hệ thống",
+      title: "Cài đặt",
       href: "/admin/settings",
       icon: Settings,
       active: pathname.startsWith("/admin/settings"),
@@ -335,14 +329,49 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           </div>
         </div>
 
-        {/* 3. QUẢN TRỊ & CẤU HÌNH (Only when Admin) */}
+        {/* 3. QUẢN LÝ HỆ THỐNG (Only when Admin) */}
         {user?.role === "admin" && (
           <div className="space-y-1.5 pt-2 border-t border-[#1f2937]">
             <p className="px-3 text-[11px] font-extrabold tracking-wider text-slate-300 uppercase">
-              QUẢN TRỊ & CẤU HÌNH
+              QUẢN LÝ HỆ THỐNG
             </p>
             <nav className="space-y-1">
-              {adminNavLinks.map((item) => {
+              {systemManagementNavLinks.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onCloseMobile}
+                    className={cn(
+                      "group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-colors",
+                      item.active
+                        ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
+                        : "text-[#9ca3af] hover:text-white hover:bg-[#111827]"
+                    )}
+                  >
+                    <Icon
+                      className={cn(
+                        "h-4 w-4 shrink-0",
+                        item.active ? "text-[#6366f1]" : "text-[#9ca3af] group-hover:text-white"
+                      )}
+                    />
+                    <span className="truncate">{item.title}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        )}
+
+        {/* 4. CẤU HÌNH HỆ THỐNG (Only when Admin) */}
+        {user?.role === "admin" && (
+          <div className="space-y-1.5 pt-2 border-t border-[#1f2937]">
+            <p className="px-3 text-[11px] font-extrabold tracking-wider text-slate-300 uppercase">
+              CẤU HÌNH HỆ THỐNG
+            </p>
+            <nav className="space-y-1">
+              {systemConfigNavLinks.map((item) => {
                 const Icon = item.icon;
                 return (
                   <Link

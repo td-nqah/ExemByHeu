@@ -315,6 +315,15 @@ export default function AdminDashboardPage() {
             </button>
 
             <Link
+              href="/admin/submissions"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0b0f19] hover:bg-[#111827] border border-[#1f2937] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
+              title="Đi đến phòng chấm bài thi"
+            >
+              <CheckCircle2 className="h-4 w-4 text-[#34d399] shrink-0" />
+              <span>Chấm bài</span>
+            </Link>
+
+            <Link
               href="/admin/exams/create"
               className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-medium px-4 py-2 text-xs transition-colors shadow-md shadow-indigo-600/30"
             >
