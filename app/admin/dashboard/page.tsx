@@ -31,6 +31,8 @@ import {
   FolderPlus,
   CheckCircle2,
   Shuffle,
+  LockOpen,
+  Lock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
@@ -420,13 +422,13 @@ export default function AdminDashboardPage() {
                         >
                           {isPublished ? (
                             <>
-                              <Check className="h-3 w-3" />
-                              Đang mở thi
+                              <LockOpen className="h-3 w-3" />
+                              Đã xuất bản
                             </>
                           ) : (
                             <>
-                              <Clock className="h-3 w-3" />
-                              Bản nháp (Đóng)
+                              <Lock className="h-3 w-3" />
+                              Bản nháp
                             </>
                           )}
                         </button>

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
-  Globe,
+  LockOpen,
   Lock,
   ChevronDown,
   Check,
@@ -114,9 +114,9 @@ export function ExamStatusSelector({
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
                   </span>
-                  <Globe className="h-4 w-4 shrink-0 text-emerald-400" />
+                  <LockOpen className="h-4 w-4 shrink-0 text-emerald-400" />
                   <span className="truncate text-white font-semibold">
-                    Đang mở thi (Đã xuất bản)
+                    Đã xuất bản
                   </span>
                 </>
               ) : (
@@ -126,7 +126,7 @@ export function ExamStatusSelector({
                   </span>
                   <Lock className="h-4 w-4 shrink-0 text-amber-400" />
                   <span className="truncate text-white font-semibold">
-                    Đóng thi (Bản nháp)
+                    Bản nháp
                   </span>
                 </>
               )}
@@ -142,7 +142,7 @@ export function ExamStatusSelector({
                     : "bg-amber-500/15 text-amber-300 border-amber-500/30 shadow-[0_0_8px_rgba(245,158,11,0.15)]"
                 )}
               >
-                {isPublished ? "Công khai" : "Bản nháp"}
+                {isPublished ? "Đã xuất bản" : "Bản nháp"}
               </span>
 
               <ChevronDown
@@ -187,12 +187,12 @@ export function ExamStatusSelector({
                           : "bg-white/5 border-white/10 text-slate-400 group-hover:text-emerald-400 group-hover:border-emerald-500/30"
                       )}
                     >
-                      <Globe className="h-4 w-4" />
+                      <LockOpen className="h-4 w-4" />
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-xs sm:text-sm font-bold truncate">
-                          Đang mở thi (Đã xuất bản)
+                          Đã xuất bản
                         </span>
                         {isPublished && (
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -239,7 +239,7 @@ export function ExamStatusSelector({
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-xs sm:text-sm font-bold truncate">
-                          Đóng thi (Bản nháp)
+                          Bản nháp
                         </span>
                         {!isPublished && (
                           <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
@@ -284,11 +284,11 @@ export function ExamStatusSelector({
                     : "bg-white/5 border-white/10 text-slate-400 group-hover:text-emerald-400 group-hover:border-emerald-500/30"
                 )}
               >
-                <Globe className="h-4 w-4" />
+                <LockOpen className="h-4 w-4" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold truncate">Đang mở thi</span>
+                  <span className="text-xs font-bold truncate">Đã xuất bản</span>
                   {isPublished && (
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   )}
@@ -328,7 +328,7 @@ export function ExamStatusSelector({
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold truncate">Đóng thi (Bản nháp)</span>
+                  <span className="text-xs font-bold truncate">Bản nháp</span>
                   {!isPublished && (
                     <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                   )}
