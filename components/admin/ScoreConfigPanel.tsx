@@ -10,6 +10,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
+import { NumberStepper } from "@/components/ui/NumberStepper";
 
 interface ScoreConfigPanelProps {
   mcqCount: number;
@@ -131,15 +132,14 @@ export function ScoreConfigPanel({
           </div>
 
           <div className="flex items-center gap-2">
-            <input
-              type="number"
-              min="0"
-              step="0.05"
+            <NumberStepper
+              value={parseFloat(mcqInput) || 0}
+              onChange={(val) => handleMcqChange(String(val))}
+              min={0}
+              max={100}
+              step={0.05}
               disabled={mcqCount === 0}
-              value={mcqInput}
-              onChange={(e) => handleMcqChange(e.target.value)}
-              placeholder="VD: 0.5"
-              className="glass-input h-10 w-full rounded-xl px-3 text-sm font-bold text-white disabled:opacity-40"
+              className="w-full justify-between"
             />
             <span className="shrink-0 text-xs font-medium text-slate-400">điểm/câu</span>
           </div>
@@ -178,15 +178,14 @@ export function ScoreConfigPanel({
           </div>
 
           <div className="flex items-center gap-2">
-            <input
-              type="number"
-              min="0"
-              step="0.25"
+            <NumberStepper
+              value={parseFloat(essayInput) || 0}
+              onChange={(val) => handleEssayChange(String(val))}
+              min={0}
+              max={100}
+              step={0.25}
               disabled={essayCount === 0}
-              value={essayInput}
-              onChange={(e) => handleEssayChange(e.target.value)}
-              placeholder="VD: 2.0"
-              className="glass-input h-10 w-full rounded-xl px-3 text-sm font-bold text-white disabled:opacity-40"
+              className="w-full justify-between"
             />
             <span className="shrink-0 text-xs font-medium text-slate-400">điểm/câu</span>
           </div>
@@ -253,13 +252,12 @@ export function ScoreConfigPanel({
 
           <div className="flex items-center gap-2">
             <label className="text-xs text-slate-300">Tổng điểm mong muốn:</label>
-            <input
-              type="number"
-              min="1"
-              step="1"
-              value={desiredTotalInput}
-              onChange={(e) => setDesiredTotalInput(e.target.value)}
-              className="glass-input h-9 w-20 rounded-xl px-2.5 text-center text-xs font-bold text-white"
+            <NumberStepper
+              value={parseInt(desiredTotalInput) || 10}
+              onChange={(val) => setDesiredTotalInput(String(val))}
+              min={1}
+              max={1000}
+              step={1}
             />
             <div className="flex items-center gap-1">
               {[10, 20, 100].map((preset) => (

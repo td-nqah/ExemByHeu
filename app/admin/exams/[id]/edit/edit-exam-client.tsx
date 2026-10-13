@@ -8,6 +8,7 @@ import { ParsedQuestionDraft } from "@/types/exam";
 import { QuestionEditorCard } from "@/components/admin/QuestionEditorCard";
 import { ScoreConfigPanel } from "@/components/admin/ScoreConfigPanel";
 import { ExamStatusSelector } from "@/components/admin/ExamStatusSelector";
+import { NumberStepper } from "@/components/ui/NumberStepper";
 import {
   ArrowLeft,
   Save,
@@ -419,15 +420,12 @@ export function EditExamClient({ examId }: { examId: string }) {
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Thời lượng làm bài (Phút)
             </label>
-            <input
-              type="number"
-              min="5"
-              max="300"
+            <NumberStepper
               value={durationMinutes}
-              onChange={(e) =>
-                setDurationMinutes(parseInt(e.target.value) || 45)
-              }
-              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
+              onChange={setDurationMinutes}
+              min={5}
+              max={300}
+              step={5}
             />
           </div>
 

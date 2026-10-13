@@ -36,6 +36,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
+import { NumberStepper } from "@/components/ui/NumberStepper";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -560,31 +561,31 @@ export default function AdminDashboardPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Duration */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-medium text-slate-300">
+                          <label className="text-xs font-medium text-slate-300 block">
                             Thời lượng làm bài (phút)
                           </label>
-                          <input
-                            type="number"
+                          <NumberStepper
+                            value={quickDuration}
+                            onChange={setQuickDuration}
                             min={1}
                             max={300}
-                            value={quickDuration}
-                            onChange={(e) => setQuickDuration(Number(e.target.value))}
-                            className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
+                            step={5}
+                            className="w-full justify-between"
                           />
                         </div>
 
                         {/* Question Count */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-medium text-slate-300">
+                          <label className="text-xs font-medium text-slate-300 block">
                             Số lượng câu hỏi (Question Count)
                           </label>
-                          <input
-                            type="number"
+                          <NumberStepper
+                            value={quickQuestionCount}
+                            onChange={setQuickQuestionCount}
                             min={1}
                             max={500}
-                            value={quickQuestionCount}
-                            onChange={(e) => setQuickQuestionCount(Number(e.target.value))}
-                            className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
+                            step={1}
+                            className="w-full justify-between"
                           />
                         </div>
                       </div>

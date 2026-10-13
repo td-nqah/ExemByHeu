@@ -19,6 +19,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import { NumberStepper } from "@/components/ui/NumberStepper";
 
 interface EssayGradeState {
   questionId: string;
@@ -437,14 +438,12 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                       </div>
 
                       <div className="flex items-center gap-1.5">
-                        <input
-                          type="number"
-                          min="0"
-                          max={q.max_score}
-                          step="0.25"
+                        <NumberStepper
                           value={essayGrades[q.id]?.score ?? 0}
-                          onChange={(e) => handleScoreChange(q.id, q.max_score, e.target.value)}
-                          className="glass-input h-8 w-20 rounded-lg px-2 text-center text-xs font-bold"
+                          onChange={(val) => handleScoreChange(q.id, q.max_score, String(val))}
+                          min={0}
+                          max={q.max_score}
+                          step={0.25}
                         />
                         <span className="text-xs text-slate-400">/ {q.max_score}</span>
                       </div>

@@ -2,6 +2,7 @@
 
 import { ParsedQuestionDraft, QuestionType } from "@/types/exam";
 import { Trash2, Plus, Check, HelpCircle, FileText } from "lucide-react";
+import { NumberStepper } from "@/components/ui/NumberStepper";
 
 interface QuestionEditorCardProps {
   question: ParsedQuestionDraft;
@@ -113,18 +114,17 @@ export function QuestionEditorCard({
           {/* Max Score Input */}
           <div className="flex items-center gap-1.5">
             <label className="text-xs text-slate-400">Điểm:</label>
-            <input
-              type="number"
-              min="0.25"
-              step="0.25"
+            <NumberStepper
               value={question.max_score}
-              onChange={(e) =>
+              onChange={(val) =>
                 onChange({
                   ...question,
-                  max_score: parseFloat(e.target.value) || 1,
+                  max_score: val,
                 })
               }
-              className="glass-input h-8 w-16 rounded-lg px-2 text-center text-xs font-bold"
+              min={0.25}
+              max={100}
+              step={0.25}
             />
           </div>
 

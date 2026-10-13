@@ -12,6 +12,7 @@ import {
 import { Exam, Question } from "@/types/exam";
 import { formatDuration } from "@/lib/utils";
 import { ScoreConfigPanel } from "@/components/admin/ScoreConfigPanel";
+import { NumberStepper } from "@/components/ui/NumberStepper";
 import {
   ArrowLeft,
   Clock,
@@ -357,14 +358,12 @@ function AdminExamPreviewContent() {
                     <span className="text-[11px] font-medium text-slate-400">
                       Điểm câu này:
                     </span>
-                    <input
-                      type="number"
-                      min="0.05"
-                      step="0.25"
+                    <NumberStepper
                       value={q.max_score}
-                      onChange={(e) => handleManualScoreOverride(index, e.target.value)}
-                      className="h-6 w-16 rounded-md border border-slate-700 bg-slate-950 px-1.5 text-center text-xs font-bold text-white focus:border-indigo-500 focus:outline-none"
-                      title="Ghi đè điểm thủ công cho riêng câu hỏi này"
+                      onChange={(val) => handleManualScoreOverride(index, String(val))}
+                      min={0.05}
+                      max={100}
+                      step={0.25}
                     />
                     <span className="text-[11px] font-semibold text-slate-300">đ</span>
                   </div>
