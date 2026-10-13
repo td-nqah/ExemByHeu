@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Question } from "@/types/exam";
 import {
-  ListOrdered,
+  Menu,
   X,
   Flag,
   Check,
@@ -54,15 +54,15 @@ export function MobileQuestionDrawer({
   return (
     <>
       {/* 1. Floating Menu Button (FAB) - Visible ONLY on Mobile (< 768px) */}
-      <div className="fixed bottom-5 right-5 z-50 md:hidden transition-all duration-300">
+      <div className="fixed bottom-6 right-6 z-50 md:hidden transition-all duration-300">
         <button
           type="button"
           onClick={() => setIsOpen(true)}
           className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-600 to-violet-600 text-white border border-white/20 shadow-[0_0_25px_rgba(99,102,241,0.55)] transition-all duration-200 active:scale-90 hover:scale-105"
-          aria-label="Mở mục lục câu hỏi"
+          aria-label="Mở danh sách câu hỏi"
           title="Danh sách câu hỏi"
         >
-          <ListOrdered className="h-6 w-6 stroke-[2.2]" />
+          <Menu className="h-6 w-6 stroke-[2.5]" strokeLinecap="round" />
 
           {/* Progress Badge */}
           <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-emerald-500 px-1.5 text-[10px] font-extrabold text-slate-950 border-2 border-slate-950 shadow-md">
