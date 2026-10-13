@@ -182,7 +182,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
         {/* 1. TỔNG QUAN / BÁO CÁO */}
         <div className="space-y-1.5">
-          <p className="px-3 text-[11px] font-extrabold tracking-wider text-slate-300 uppercase">
+          <p className="px-3 text-[11px] font-extrabold tracking-wider text-[#818cf8] uppercase">
             TỔNG QUAN / BÁO CÁO
           </p>
           <nav className="space-y-1">
@@ -215,7 +215,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
         {/* 2. LÝ THUYẾT / BÀI TẬP */}
         <div className="space-y-1.5 pt-2 border-t border-[#1f2937]">
-          <p className="px-3 text-[11px] font-extrabold tracking-wider text-slate-300 uppercase">
+          <p className="px-3 text-[11px] font-extrabold tracking-wider text-[#818cf8] uppercase">
             LÝ THUYẾT / BÀI TẬP
           </p>
           <div className="space-y-1">
@@ -332,7 +332,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         {/* 3. QUẢN LÝ HỆ THỐNG (Only when Admin) */}
         {user?.role === "admin" && (
           <div className="space-y-1.5 pt-2 border-t border-[#1f2937]">
-            <p className="px-3 text-[11px] font-extrabold tracking-wider text-slate-300 uppercase">
+            <p className="px-3 text-[11px] font-extrabold tracking-wider text-[#818cf8] uppercase">
               QUẢN LÝ HỆ THỐNG
             </p>
             <nav className="space-y-1">
@@ -367,7 +367,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         {/* 4. CẤU HÌNH HỆ THỐNG (Only when Admin) */}
         {user?.role === "admin" && (
           <div className="space-y-1.5 pt-2 border-t border-[#1f2937]">
-            <p className="px-3 text-[11px] font-extrabold tracking-wider text-slate-300 uppercase">
+            <p className="px-3 text-[11px] font-extrabold tracking-wider text-[#818cf8] uppercase">
               CẤU HÌNH HỆ THỐNG
             </p>
             <nav className="space-y-1">
