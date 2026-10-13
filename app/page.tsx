@@ -82,11 +82,10 @@ export default function LoginPage() {
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-[2.15rem] xl:text-[2.5rem] font-extrabold tracking-tight text-white leading-tight sm:leading-[1.18]">
+          <h1 className="text-2xl sm:text-3xl lg:text-[2.35rem] xl:text-[2.65rem] font-extrabold tracking-tight text-white leading-tight sm:leading-[1.16]">
             <span className="text-[#818cf8]">Hệ thống</span> Thi thử
             <span className="block mt-1 sm:mt-1.5 lg:mt-2">
-              <span className="text-white/80 font-normal mr-1.5 sm:mr-2">&amp;</span>
-              <span className="text-[#818cf8]">Chấm thi</span> Trực tuyến Chuẩn Mực
+              <span className="text-[#818cf8]">Chấm thi</span> Trực tuyến
             </span>
           </h1>
 
