@@ -11,6 +11,11 @@ import {
   FileText,
   Clock,
   Sparkles,
+  User,
+  Lock,
+  Eye,
+  EyeOff,
+  AlertCircle,
 } from "lucide-react";
 
 export default function LoginPage() {
@@ -18,6 +23,8 @@ export default function LoginPage() {
   const reduceMotion = useReducedMotion();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [forgotNotice, setForgotNotice] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -91,79 +98,121 @@ export default function LoginPage() {
           transition={{ duration: 0.5, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
           className="order-2 lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2 flex justify-center w-full lg:h-full"
         >
-          <div className="relative bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 flex w-full max-w-md lg:max-w-[440px] mx-auto flex-col justify-center rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl lg:h-full">
+          <div className="relative bg-slate-900/75 backdrop-blur-xl border border-slate-800/90 hover:border-indigo-500/40 hover:bg-slate-900/90 transition-all duration-300 flex w-full max-w-md lg:max-w-[460px] mx-auto flex-col justify-center rounded-3xl p-7 sm:p-9 lg:p-10 shadow-[0_25px_60px_rgba(0,0,0,0.6)] lg:h-full">
+            {/* Ambient Top Glow Line */}
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/60 to-transparent rounded-t-3xl" />
+
             {/* Centered Icon & Header Title "Đăng nhập hệ thống" */}
-            <div className="mb-4 sm:mb-6 flex flex-col items-center text-center">
-              <div className="mb-3 sm:mb-4 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
-                <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6" />
+            <div className="mb-6 sm:mb-7 flex flex-col items-center text-center">
+              <div className="mb-3.5 sm:mb-4 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.25)]">
+                <GraduationCap className="h-7 w-7 sm:h-8 sm:w-8 text-indigo-300" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                 Đăng nhập hệ thống
               </h2>
-              <p className="mt-1 sm:mt-1.5 max-w-xs text-xs text-slate-400">
+              <p className="mt-2 text-sm sm:text-[15px] text-slate-300/80 max-w-sm mx-auto leading-relaxed">
                 Nhập thông tin tài khoản để truy cập phòng thi thử hoặc trang quản trị.
               </p>
             </div>
 
             {error && (
-              <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-center text-xs text-rose-300">
-                {error}
+              <div className="mb-5 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-center text-sm font-medium text-rose-300 flex items-center justify-center gap-2">
+                <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
+                <span>{error}</span>
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
-              <div className="space-y-1.5">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+              {/* Tên đăng nhập */}
+              <div className="space-y-2">
                 <label
                   htmlFor="login-username"
-                  className="block text-xs font-medium text-slate-300"
+                  className="block text-sm sm:text-[15px] font-semibold text-slate-200"
                 >
                   Tên đăng nhập
                 </label>
-                <input
-                  id="login-username"
-                  type="text"
-                  required
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Nhập tên đăng nhập"
-                  autoCapitalize="none"
-                  autoCorrect="off"
-                  className="glass-input h-12 sm:h-11 w-full rounded-xl px-4 py-3 sm:py-2.5 text-base sm:text-sm text-white placeholder-slate-500 focus:outline-none transition-all"
-                />
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                    <User className="h-5 w-5 text-indigo-400/80" />
+                  </div>
+                  <input
+                    id="login-username"
+                    type="text"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Nhập tên đăng nhập"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    className="glass-input h-[50px] sm:h-[52px] w-full rounded-xl pl-11 pr-4 text-base text-white placeholder-slate-500 focus:outline-none transition-all font-medium"
+                  />
+                </div>
               </div>
 
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="login-password"
-                  className="block text-xs font-medium text-slate-300"
-                >
-                  Mật khẩu
-                </label>
-                <input
-                  id="login-password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Nhập mật khẩu"
-                  className="glass-input h-12 sm:h-11 w-full rounded-xl px-4 py-3 sm:py-2.5 text-base sm:text-sm text-white placeholder-slate-500 focus:outline-none transition-all"
-                />
+              {/* Mật khẩu */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="login-password"
+                    className="block text-sm sm:text-[15px] font-semibold text-slate-200"
+                  >
+                    Mật khẩu
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setForgotNotice(!forgotNotice)}
+                    className="text-xs sm:text-sm text-indigo-400 hover:text-indigo-300 font-medium transition cursor-pointer"
+                  >
+                    Quên mật khẩu?
+                  </button>
+                </div>
+
+                {forgotNotice && (
+                  <div className="rounded-xl bg-indigo-500/10 border border-indigo-500/25 p-3 text-xs sm:text-sm text-indigo-300 flex items-start gap-2">
+                    <span className="shrink-0">💡</span>
+                    <span>Vui lòng liên hệ Quản trị viên (Admin) để được cấp lại hoặc đặt lại mật khẩu mới.</span>
+                  </div>
+                )}
+
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                    <Lock className="h-5 w-5 text-indigo-400/80" />
+                  </div>
+                  <input
+                    id="login-password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Nhập mật khẩu"
+                    className="glass-input h-[50px] sm:h-[52px] w-full rounded-xl pl-11 pr-11 text-base text-white placeholder-slate-500 focus:outline-none transition-all font-medium"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                    aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-4 sm:mt-3 flex h-12 sm:h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-5 text-base sm:text-sm font-semibold sm:font-medium text-white shadow-[0_0_20px_rgba(99,102,241,0.35)] transition-all active:scale-[0.98] disabled:opacity-50 select-none"
+                className="mt-6 flex h-[50px] sm:h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 active:from-indigo-700 active:to-violet-700 px-6 text-base sm:text-lg font-bold text-white shadow-[0_0_25px_rgba(99,102,241,0.4)] hover:shadow-[0_0_32px_rgba(99,102,241,0.6)] transition-all active:scale-[0.98] disabled:opacity-50 select-none cursor-pointer"
               >
                 <span>{loading ? "Đang xác thực..." : "Đăng nhập ngay"}</span>
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-5 w-5" />
               </button>
             </form>
 
             {/* Subdued Glassmorphism Watermark */}
-            <div className="absolute bottom-3 right-4 sm:bottom-4 sm:right-5 select-none pointer-events-auto">
-              <span className="font-mono text-[10px] tracking-widest uppercase text-slate-500/30 hover:text-indigo-400/60 transition-colors duration-300 cursor-default">
-                MadeByHeu
+            <div className="pt-6 sm:pt-8 text-center select-none">
+              <span className="font-mono text-xs sm:text-[11px] tracking-[0.25em] uppercase text-slate-500/60 hover:text-indigo-400/80 transition-colors duration-300 cursor-default">
+                MADE BY HEU
               </span>
             </div>
           </div>
