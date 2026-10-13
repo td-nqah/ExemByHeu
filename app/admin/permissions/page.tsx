@@ -367,7 +367,9 @@ export default function AdminPermissionsPage() {
             <HardDrive className="h-4.5 w-4.5 text-indigo-400" />
             <span>1. Theo dõi Lưu lượng Bộ nhớ Hệ thống (Đo lường từng MB)</span>
           </h2>
-          <span className="text-xs text-[#9ca3af] font-mono">Giới hạn: {maxStorageMB} MB</span>
+          <span className="text-xs text-[#9ca3af] font-sans tracking-normal">
+            Giới hạn: <strong className="font-mono text-slate-300">{maxStorageMB} MB</strong>
+          </span>
         </div>
 
         <div className="rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-5">
@@ -519,7 +521,7 @@ export default function AdminPermissionsPage() {
                   <AlertCircle className="h-4 w-4 text-amber-400" />
                   Kích hoạt đo lường dung lượng PostgreSQL thực tế:
                 </span>
-                <span className="text-[10px] font-mono text-slate-400">Tùy chọn nâng cao</span>
+                <span className="text-xs font-sans text-slate-400 tracking-normal">Tùy chọn nâng cao</span>
               </div>
               <p className="text-[#9ca3af] text-[11px]">
                 Để đọc chính xác kích thước cơ sở dữ liệu Supabase, bạn có thể dán đoạn mã sau vào SQL Editor trong bảng điều khiển Supabase:
@@ -638,11 +640,11 @@ export default function AdminPermissionsPage() {
                           <span className="font-mono font-bold text-xs text-white">
                             {acc.username}
                           </span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#1f2937] text-slate-300 border border-[#1f2937] font-medium">
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f2937] text-slate-300 border border-[#1f2937] font-medium tracking-normal">
                             {acc.role === "admin" ? "Admin" : "User"}
                           </span>
                           <span
-                            className={`text-[10px] px-2 py-0.5 rounded-full font-semibold border ${
+                            className={`text-xs px-2.5 py-0.5 rounded-full font-semibold border tracking-normal ${
                               isActive
                                 ? "bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] shadow-[0_0_8px_rgba(52,211,153,0.15)]"
                                 : "bg-rose-500/15 text-rose-400 border-rose-500/30 shadow-[0_0_8px_rgba(244,63,94,0.15)]"
@@ -653,9 +655,9 @@ export default function AdminPermissionsPage() {
                         </div>
 
                         {/* Device counter */}
-                        <div className="flex items-center gap-2 text-[11px] text-[#9ca3af]">
+                        <div className="flex items-center gap-2 text-xs text-[#9ca3af] font-sans tracking-normal">
                           <span
-                            className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border ${
+                            className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border tracking-normal ${
                               devCount > 3
                                 ? "bg-rose-500/10 border-rose-500/25 text-rose-300 font-semibold"
                                 : "bg-[#0b0f19] border-[#1f2937] text-slate-300"
@@ -667,7 +669,7 @@ export default function AdminPermissionsPage() {
                             }
                           >
                             <Monitor className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
-                            <span>Thiết bị: <strong className="font-mono text-white">{devCount}</strong>/3</span>
+                            <span>Thiết bị: <strong className="font-mono text-white tabular-nums">{devCount}</strong>/3</span>
                           </span>
                         </div>
                       </div>
@@ -679,7 +681,7 @@ export default function AdminPermissionsPage() {
                           type="button"
                           onClick={() => handleToggleActive(acc.username, isActive)}
                           disabled={accountsLoading}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 ${
+                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal ${
                             isActive
                               ? "bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30"
                               : "bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30"
@@ -695,11 +697,11 @@ export default function AdminPermissionsPage() {
                           type="button"
                           onClick={() => handleResetSecurity(acc.username)}
                           disabled={accountsLoading}
-                          className="px-2.5 py-1.5 rounded-lg bg-[#4f46e5]/15 hover:bg-[#4f46e5]/25 border border-[#4f46e5]/30 text-indigo-300 text-xs font-semibold transition cursor-pointer flex items-center gap-1 disabled:opacity-50 active:scale-95"
-                          title="Đặt lại danh sách thiết bị về 0/3 và mở khóa tài khoản"
+                          className="px-2.5 py-1.5 rounded-lg bg-[#4f46e5]/15 hover:bg-[#4f46e5]/25 border border-[#4f46e5]/30 text-indigo-300 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal"
+                          title="Reset danh sách thiết bị về 0/3 và mở khóa tài khoản"
                         >
                           <RefreshCw className="h-3 w-3" />
-                          <span>Đặt lại (0/3)</span>
+                          <span>Reset (0/3)</span>
                         </button>
                       </div>
                     </div>
@@ -731,8 +733,8 @@ export default function AdminPermissionsPage() {
                 <div>
                   <h3 className="text-sm font-bold text-white flex items-center gap-2">
                     <span>Người dùng đang Online</span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b]">
-                      {onlineCount}/{allPresenceAccounts.length} Đang hoạt động
+                    <span className="text-xs font-sans px-2.5 py-0.5 rounded-full bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] font-medium tracking-normal">
+                      <strong className="font-mono tabular-nums">{onlineCount}/{allPresenceAccounts.length}</strong> Đang hoạt động
                     </span>
                   </h3>
                   <p className="text-xs text-[#9ca3af]">
@@ -755,22 +757,24 @@ export default function AdminPermissionsPage() {
             {/* Quick Metrics Bar */}
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2.5 rounded-xl bg-[#0b0f19] border border-[#1f2937] flex items-center justify-between">
-                <span className="text-[#9ca3af] flex items-center gap-1.5 text-[11px]">
+                <span className="text-[#9ca3af] flex items-center gap-1.5 text-xs font-sans tracking-normal">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                   </span>
                   <span>Đang trực tuyến</span>
                 </span>
-                <span className="font-mono font-bold text-emerald-400 text-xs">{onlineCount} người</span>
+                <span className="font-sans font-medium text-emerald-400 text-xs tracking-normal">
+                  <strong className="font-mono font-bold tabular-nums">{onlineCount}</strong> người
+                </span>
               </div>
               <div className="p-2.5 rounded-xl bg-[#0b0f19] border border-[#1f2937] flex items-center justify-between">
-                <span className="text-[#9ca3af] flex items-center gap-1.5 text-[11px]">
+                <span className="text-[#9ca3af] flex items-center gap-1.5 text-xs font-sans tracking-normal">
                   <span className="h-2 w-2 rounded-full bg-slate-500" />
                   <span>Ngoại tuyến (Offline)</span>
                 </span>
-                <span className="font-mono font-bold text-slate-400 text-xs">
-                  {allPresenceAccounts.length - onlineCount} người
+                <span className="font-sans font-medium text-slate-400 text-xs tracking-normal">
+                  <strong className="font-mono font-bold tabular-nums">{allPresenceAccounts.length - onlineCount}</strong> người
                 </span>
               </div>
             </div>
@@ -816,7 +820,7 @@ export default function AdminPermissionsPage() {
                               {acc.username}
                             </span>
                             <span
-                              className={`text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${
+                              className={`text-xs px-2 py-0.5 rounded-full border font-medium font-sans tracking-normal ${
                                 acc.role === "admin"
                                   ? "bg-indigo-500/15 border-indigo-500/30 text-indigo-300"
                                   : "bg-slate-800 border-slate-700 text-slate-300"
@@ -825,21 +829,21 @@ export default function AdminPermissionsPage() {
                               {acc.role === "admin" ? "Admin" : "User"}
                             </span>
                             {isCurrent && (
-                              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-indigo-500/20 border border-indigo-500/35 text-indigo-300 font-semibold">
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 border border-indigo-500/35 text-indigo-300 font-semibold font-sans tracking-normal">
                                 (Bạn)
                               </span>
                             )}
                             {acc.is_active === false && (
-                              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-rose-500/15 text-rose-400 border border-rose-500/30 font-medium">
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-400 border border-rose-500/30 font-medium font-sans tracking-normal">
                                 Đã khóa
                               </span>
                             )}
                           </div>
 
                           {/* Activity Description */}
-                          <div className="flex items-center gap-1.5 text-[11px] text-[#9ca3af] mt-0.5">
+                          <div className="flex items-center gap-1.5 text-[13px] text-[#9ca3af] mt-0.5 font-sans tracking-normal font-normal">
                             <Activity
-                              className={`h-3 w-3 shrink-0 ${
+                              className={`h-3.5 w-3.5 shrink-0 ${
                                 isOnline ? "text-emerald-400 animate-pulse" : "text-slate-500"
                               }`}
                             />
@@ -855,7 +859,7 @@ export default function AdminPermissionsPage() {
                       {/* Online Status Badge & Time */}
                       <div className="text-right shrink-0">
                         {isOnline ? (
-                          <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold shadow-[0_0_8px_rgba(52,211,153,0.15)]">
+                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold tracking-normal shadow-[0_0_8px_rgba(52,211,153,0.15)] select-none">
                             <span className="relative flex h-2 w-2">
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -863,12 +867,12 @@ export default function AdminPermissionsPage() {
                             <span>Online</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-0.5 rounded-full bg-[#111827] text-slate-400 border border-[#1f2937] font-medium">
+                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-[#111827] text-slate-400 border border-[#1f2937] font-medium tracking-normal select-none">
                             <span className="h-1.5 w-1.5 rounded-full bg-slate-500"></span>
                             <span>Offline</span>
                           </span>
                         )}
-                        <div className="text-[10px] text-[#9ca3af] mt-1 font-mono">
+                        <div className="text-[13px] text-[#9ca3af] mt-1 font-sans tracking-normal font-normal">
                           {formatTimeAgo(acc.last_active_at, isOnline)}
                         </div>
                       </div>
@@ -898,7 +902,7 @@ export default function AdminPermissionsPage() {
                         </span>
                       </div>
 
-                      <span className="font-mono text-[10px] text-[#6b7280]">
+                      <span className="text-[13px] text-[#6b7280] font-sans tracking-normal font-normal">
                         {isOnline ? "● Đang kết nối" : "● Ngắt kết nối"}
                       </span>
                     </div>
