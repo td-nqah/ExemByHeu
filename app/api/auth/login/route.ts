@@ -226,8 +226,8 @@ export async function POST(req: NextRequest) {
       updated_at: new Date().toISOString(),
     };
 
-    // 1. Check if account is active
-    if (sec.is_active === false) {
+    // 1. Check if account is active (exempt admin)
+    if (sec.is_active === false && profile.role !== "admin" && targetAccount !== "adm") {
       return NextResponse.json(
         {
           error:
@@ -249,8 +249,8 @@ export async function POST(req: NextRequest) {
 
     sec.updated_at = new Date().toISOString();
 
-    // 4. RULE: If > 3 IPs OR > 3 Devices -> AUTO DISABLE ACTIVE
-    if (sec.ips.length > 3 || sec.devices.length > 3) {
+    // 4. RULE: If > 3 IPs OR > 3 Devices -> AUTO DISABLE ACTIVE (Only for non-admin accounts)
+    if (profile.role !== "admin" && targetAccount !== "adm" && (sec.ips.length > 3 || sec.devices.length > 3)) {
       sec.is_active = false;
       secMap[targetAccount] = sec;
       await saveSecurityMap(sb, secMap);

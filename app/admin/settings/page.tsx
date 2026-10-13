@@ -623,10 +623,10 @@ export default function AdminSettingsPage() {
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                      <span>Kiểm soát Kích hoạt & Thiết bị</span>
+                      <span>Kiểm soát Kích hoạt & Thiết bị Thí sinh</span>
                     </h3>
                     <p className="text-xs text-[#9ca3af]">
-                      Tự động tắt Active nếu đăng nhập quá 3 IP hoặc 3 thiết bị
+                      Tự động tắt Active nếu thí sinh đăng nhập quá 3 IP hoặc 3 thiết bị
                     </p>
                   </div>
                 </div>
@@ -659,17 +659,28 @@ export default function AdminSettingsPage() {
                 </div>
               )}
 
-              {/* Accounts list table / rows */}
+              {/* Accounts list table / rows (Excludes Admin) */}
               <div className="space-y-2.5 mt-4">
-                {(accountsSecurity.length > 0
-                  ? accountsSecurity
-                  : [
-                      { username: "adm", role: "admin", is_active: true, ips: [], devices: [] },
-                      { username: "tth", role: "user", is_active: true, ips: [], devices: [] },
-                      { username: "tmh", role: "user", is_active: true, ips: [], devices: [] },
-                      { username: "user", role: "user", is_active: true, ips: [], devices: [] },
-                    ]
-                ).map((acc) => {
+                {(() => {
+                  const filtered = (
+                    accountsSecurity.length > 0
+                      ? accountsSecurity
+                      : [
+                          { username: "tth", role: "user", is_active: true, ips: [], devices: [] },
+                          { username: "tmh", role: "user", is_active: true, ips: [], devices: [] },
+                          { username: "user", role: "user", is_active: true, ips: [], devices: [] },
+                        ]
+                  ).filter((acc) => acc.role !== "admin" && acc.username !== "adm");
+
+                  if (filtered.length === 0) {
+                    return (
+                      <div className="p-4 rounded-xl border border-dashed border-[#1f2937] text-center text-xs text-[#9ca3af]">
+                        Chưa có tài khoản thí sinh nào trong hệ thống.
+                      </div>
+                    );
+                  }
+
+                  return filtered.map((acc) => {
                   const ipCount = acc.ips?.length || 0;
                   const devCount = acc.devices?.length || 0;
                   const isActive = acc.is_active !== false;
@@ -753,8 +764,9 @@ export default function AdminSettingsPage() {
                       </div>
                     </div>
                   );
-                })}
-              </div>
+                });
+              })()}
+            </div>
             </div>
 
             <div className="mt-4 pt-3 border-t border-[#1f2937] flex items-center justify-between text-[11px] text-[#9ca3af]">

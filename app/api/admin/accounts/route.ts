@@ -100,6 +100,12 @@ export async function GET() {
     const sb = getSupabaseAdmin();
     const secMap = await getSecurityMap(sb);
 
+    // Ensure super admin account is always active
+    if (secMap.adm && secMap.adm.is_active === false) {
+      secMap.adm.is_active = true;
+      await saveSecurityMap(sb, secMap);
+    }
+
     const accounts = Object.values(secMap);
     return NextResponse.json({
       success: true,
@@ -211,6 +217,12 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "toggle_active") {
+      if ((cleanUser === "adm" || secMap[cleanUser]?.role === "admin") && !is_active) {
+        return NextResponse.json(
+          { error: "Không thể tắt kích hoạt tài khoản Quản trị viên (Admin) để tránh tự khóa hệ thống." },
+          { status: 400 }
+        );
+      }
       secMap[cleanUser].is_active = Boolean(is_active);
       secMap[cleanUser].updated_at = new Date().toISOString();
       await saveSecurityMap(sb, secMap);
