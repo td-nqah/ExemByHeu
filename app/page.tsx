@@ -76,8 +76,7 @@ export default function LoginPage() {
           </div>
 
           <h1 className="text-xl sm:text-3xl lg:text-[2.65rem] font-bold tracking-tight text-white leading-snug sm:leading-[1.14]">
-            Hệ thống Thi thử & Chấm thi Trực tuyến
-            <span className="hidden sm:inline"> Chuẩn Mực</span>
+            Hệ thống Thi thử
           </h1>
 
           <p className="hidden sm:block max-w-[58ch] text-xs sm:text-sm lg:text-base text-slate-400 leading-relaxed">
