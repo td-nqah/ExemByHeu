@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import {
   getCurrentUser,
@@ -54,6 +54,15 @@ export default function AdminSettingsPage() {
     type: "success" | "error";
     message: string;
   } | null>(null);
+
+  const selectedProfile = useMemo(
+    () => allProfiles.find((p) => p.username === selectedUser),
+    [allProfiles, selectedUser]
+  );
+  const selectedSecurity = useMemo(
+    () => accountsSecurity.find((s) => s.username === selectedUser),
+    [accountsSecurity, selectedUser]
+  );
 
   const fetchAccountsSecurity = async () => {
     try {
@@ -220,12 +229,12 @@ export default function AdminSettingsPage() {
         </div>
       </div>
 
-      {/* 2 CARDS SEPARATE LAYOUT */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+      {/* 2 CARDS SEPARATE LAYOUT (EQUAL HEIGHT) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
         {/* =========================================================================
             CARD 1: TẠO TÀI KHOẢN MỚI
             ========================================================================= */}
-        <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between">
+        <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
             <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
@@ -376,7 +385,7 @@ export default function AdminSettingsPage() {
         {/* =========================================================================
             CARD 2: ĐỔI MẬT KHẨU CÁC TÀI KHOẢN
             ========================================================================= */}
-        <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between">
+        <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
             <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
@@ -626,6 +635,41 @@ export default function AdminSettingsPage() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+              </div>
+
+              {/* Thông tin & Phân quyền hiện tại của tài khoản được chọn */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                  <Shield className="h-3.5 w-3.5 text-[#6366f1]" />
+                  <span>Vai trò &amp; Trạng thái tài khoản</span>
+                </label>
+                <div className="px-3.5 py-2.5 rounded-xl bg-[#0b0f19] border border-[#1f2937] flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-white text-xs">
+                      {selectedUser || "..."}
+                    </span>
+                    <span
+                      className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
+                        selectedProfile?.role === "admin"
+                          ? "bg-[#4f46e5]/15 border-[#4f46e5]/30 text-indigo-300"
+                          : "bg-slate-800 border-slate-700 text-slate-300"
+                      }`}
+                    >
+                      {selectedProfile?.role === "admin" ? "Quản trị viên (Admin)" : "Thí sinh (User)"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[11px] text-[#9ca3af]">
+                    <span className="inline-flex items-center gap-1 text-[#34d399] font-medium">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                      <span>{selectedSecurity?.is_active !== false ? "Đang hoạt động" : "Đã khóa"}</span>
+                    </span>
+                    {selectedSecurity && (
+                      <span className="text-slate-500 font-mono text-[10px]">
+                        • {selectedSecurity.devices?.length || 0}/3 máy • {selectedSecurity.ips?.length || 0}/3 IP
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
 
               {/* Mật khẩu mới cho tài khoản */}

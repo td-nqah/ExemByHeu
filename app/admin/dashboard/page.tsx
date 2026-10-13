@@ -48,7 +48,6 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [examToDelete, setExamToDelete] = useState<Exam | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isExamsTableExpanded, setIsExamsTableExpanded] = useState(false);
 
   // Quick Exam Creation Modal State
   const [isQuickExamModalOpen, setIsQuickExamModalOpen] = useState(false);
@@ -315,42 +314,12 @@ export default function AdminDashboardPage() {
             </button>
 
             <Link
-              href="/admin/submissions"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0b0f19] hover:bg-[#111827] border border-[#1f2937] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
-              title="Đi đến phòng chấm bài thi"
-            >
-              <CheckCircle2 className="h-4 w-4 text-[#34d399] shrink-0" />
-              <span>Chấm bài</span>
-            </Link>
-
-            <Link
               href="/admin/exams/create"
               className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-medium px-4 py-2 text-xs transition-colors shadow-md shadow-indigo-600/30"
             >
               <FilePlus2 className="h-4 w-4" />
               <span>Tạo đề</span>
             </Link>
-
-            {/* Nút Thu gọn / Mở rộng bảng danh sách */}
-            <button
-              type="button"
-              onClick={() => setIsExamsTableExpanded((prev) => !prev)}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold transition-all cursor-pointer select-none active:scale-95",
-                isExamsTableExpanded
-                  ? "bg-[#1f2937] text-white border-[#374151]"
-                  : "bg-[#4f46e5]/15 text-indigo-300 border-[#4f46e5]/40 hover:bg-[#4f46e5]/25 shadow-sm"
-              )}
-              title={isExamsTableExpanded ? "Thu gọn danh sách đề thi" : "Mở rộng danh sách đề thi"}
-            >
-              <ChevronDown
-                className={cn(
-                  "h-4 w-4 transition-transform duration-200",
-                  isExamsTableExpanded ? "rotate-180 text-white" : "text-indigo-400"
-                )}
-              />
-              <span>{isExamsTableExpanded ? "Thu gọn bảng" : "Mở rộng bảng"}</span>
-            </button>
           </div>
         </div>
 
@@ -373,37 +342,8 @@ export default function AdminDashboardPage() {
             </button>
           </div>
         ) : (
-          <>
-            {/* Thanh Preview khi đang thu gọn */}
-            {!isExamsTableExpanded && (
-              <div
-                onClick={() => setIsExamsTableExpanded(true)}
-                className="p-4 sm:p-5 flex items-center justify-between text-xs text-[#9ca3af] hover:text-white bg-[#0b0f19]/40 hover:bg-[#0b0f19]/70 cursor-pointer transition-colors group select-none"
-              >
-                <div className="flex items-center gap-2.5">
-                  <Layers className="h-4 w-4 text-[#6366f1] shrink-0" />
-                  <span>
-                    Danh sách gồm <strong className="text-white font-mono">{exams.length}</strong> đề thi đang ở trạng thái thu gọn. Bấm để mở rộng bảng và cuộn xem chi tiết từng đề.
-                  </span>
-                </div>
-                <span className="text-[#6366f1] group-hover:translate-y-0.5 transition-transform flex items-center gap-1 font-semibold text-xs shrink-0">
-                  <span>Mở rộng bảng</span>
-                  <ChevronDown className="h-3.5 w-3.5" />
-                </span>
-              </div>
-            )}
-
-            {/* Bảng danh sách đề thi mở rộng có thanh cuộn (Scroll down) */}
-            <AnimatePresence>
-              {isExamsTableExpanded && (
-                <motion.div
-                  initial={reduceMotion ? false : { opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.25, ease: "easeInOut" }}
-                  className="max-h-[520px] overflow-y-auto overflow-x-auto custom-scrollbar"
-                >
-                  <table className="w-full text-left text-xs">
+          <div className="max-h-[560px] overflow-y-auto overflow-x-auto custom-scrollbar">
+            <table className="w-full text-left text-xs">
                     <thead className="bg-[#0b0f19] text-[#9ca3af] uppercase tracking-wider text-[11px] font-semibold border-b border-[#1f2937] sticky top-0 z-10 backdrop-blur-md">
                 <tr>
                   <th className="py-3 px-4 font-semibold">TÊN ĐỀ THI</th>
@@ -534,12 +474,9 @@ export default function AdminDashboardPage() {
                 })}
               </tbody>
               </table>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
-      </>
-    )}
-  </motion.div>
+        </motion.div>
 
       {/* 3. Modal: Quick Exam Creation assigned to Category */}
       <AnimatePresence>
