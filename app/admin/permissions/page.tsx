@@ -558,9 +558,9 @@ export default function AdminPermissionsPage() {
           <span className="text-xs text-[#9ca3af]">Kiểm soát bảo mật thí sinh &amp; theo dõi người dùng đang online thời gian thực</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {/* CARD 1 (BÊN TRÁI): Kiểm soát Kích hoạt & Thiết bị Đăng nhập */}
-          <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4">
+          <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
@@ -605,7 +605,7 @@ export default function AdminPermissionsPage() {
             )}
 
             {/* Accounts list table / rows (Excludes Admin) */}
-            <div className="space-y-2.5">
+            <div className="space-y-2.5 flex-1 min-h-0">
               {(() => {
                 const filtered = (
                   accountsSecurity.length > 0
@@ -723,7 +723,7 @@ export default function AdminPermissionsPage() {
           </div>
 
           {/* CARD 2 (BÊN PHẢI): Người dùng đang Online / Đang hoạt động thời gian thực */}
-          <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4">
+          <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
               <div className="flex items-center gap-3">
                 <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
@@ -780,8 +780,8 @@ export default function AdminPermissionsPage() {
               </div>
             </div>
 
-            {/* List of Accounts with Live Online / Recent Session Status */}
-            <div className="space-y-2.5">
+            {/* List of Accounts with Live Online / Recent Session Status (Scrollable) */}
+            <div className="space-y-2.5 flex-1 min-h-0 overflow-y-auto max-h-[225px] sm:max-h-[235px] pr-1.5 custom-scrollbar">
               {allPresenceAccounts.map((acc) => {
                 const isOnline = isAccountOnline(acc);
                 const isCurrent = currentUser?.username?.toLowerCase() === acc.username.toLowerCase();
