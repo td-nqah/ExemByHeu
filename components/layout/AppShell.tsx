@@ -77,7 +77,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1f2937] border border-[#1f2937] text-white">
               <GraduationCap className="h-4.5 w-4.5 text-slate-200" />
             </div>
-            <span className="text-base font-bold tracking-tight">
+            <span className="font-heading text-base font-bold tracking-tight">
               <span className="text-[#818cf8]">Exam</span>
               <span className="text-white">By</span>
               <span className="text-[#818cf8]">Heu</span>
