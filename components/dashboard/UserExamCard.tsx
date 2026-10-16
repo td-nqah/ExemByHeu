@@ -57,6 +57,10 @@ export function UserExamCard({ exam }: UserExamCardProps) {
       ? "Trắc nghiệm & Tự luận"
       : "Trắc nghiệm";
 
+  const cleanDescription = (exam.description || "")
+    .replace(/^[\s\r\n]*<!--meta:[\s\S]*?-->\n?/, "")
+    .trim();
+
   return (
     <div className="group flex flex-col justify-between h-full min-h-[165px] min-w-0 sm:min-w-[270px] rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] p-4 sm:p-4.5 transition-all duration-300 hover:border-[#3b82f6] hover:-translate-y-1 hover:shadow-[0_12px_30px_-10px_rgba(59,130,246,0.15)]">
       {/* Top Header & Metadata */}
@@ -82,15 +86,25 @@ export function UserExamCard({ exam }: UserExamCardProps) {
           </div>
         </div>
 
-        {/* Card Title with line-clamp-2 and consistent height */}
+        {/* Card Title with line-clamp-2 */}
         <h3
-          className="text-sm font-bold text-white tracking-tight line-clamp-2 leading-snug min-h-[2.5rem]"
+          className="text-sm font-bold text-white tracking-tight line-clamp-2 leading-snug"
           title={exam.title}
         >
           {renderHighlightedExamTitle(exam.title)}
         </h3>
 
-        {/* Directly below the title: Line 1: Question count, Line 2: Question Type */}
+        {/* Exam Description between Title and Question Count */}
+        {cleanDescription && (
+          <p
+            className="text-xs text-[#9ca3af] line-clamp-2 leading-relaxed"
+            title={cleanDescription}
+          >
+            {cleanDescription}
+          </p>
+        )}
+
+        {/* Directly below: Line 1: Question count, Line 2: Question Type */}
         <div className="text-xs leading-snug select-none space-y-0.5">
           <p className="text-[#e5e7eb] font-medium truncate tabular-nums">
             {questionCount} câu hỏi
