@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils";
 import {
   getCurrentUser,
   getCategories,
+  createCategory,
   getStudyMaterials,
   saveStudyMaterial,
   deleteStudyMaterial,
@@ -62,6 +63,11 @@ export default function AdminMaterialsPage() {
   const [formContentHtml, setFormContentHtml] = useState("");
   const [formReadingTime, setFormReadingTime] = useState(5);
   const [formAuthor, setFormAuthor] = useState("Ban Giảng huấn");
+
+  // Quick Add Category in Modal state
+  const [showQuickAddCat, setShowQuickAddCat] = useState(false);
+  const [newCatName, setNewCatName] = useState("");
+  const [isCreatingCat, setIsCreatingCat] = useState(false);
 
   // Quick Assign to Category Modal state
   const [isQuickAssignModalOpen, setIsQuickAssignModalOpen] = useState(false);
@@ -141,6 +147,38 @@ export default function AdminMaterialsPage() {
     setAiMessage(null);
     setModalTab("editor");
     setIsModalOpen(true);
+  };
+
+  // Quick Add Category directly from Editor
+  const handleQuickAddCategory = async () => {
+    if (!newCatName.trim()) return;
+    setIsCreatingCat(true);
+    try {
+      const cleanSlug = newCatName
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+
+      const created = await createCategory({
+        name: newCatName.trim(),
+        slug: cleanSlug || `cat-${Date.now()}`,
+        icon: "BookOpen",
+        status: "active",
+      });
+      const updatedCats = await getCategories(false);
+      setCategories(updatedCats);
+      setFormCategoryId(created.id);
+      setNewCatName("");
+      setShowQuickAddCat(false);
+    } catch (err: any) {
+      alert(err?.message || "Không thể tạo danh mục.");
+    } finally {
+      setIsCreatingCat(false);
+    }
   };
 
   // Quick Assign to Category Handler
@@ -713,7 +751,10 @@ export default function AdminMaterialsPage() {
                     options={categories.map((c) => ({
                       value: c.id,
                       label: c.name,
-                      description: `Mã: ${c.slug}`,
+                      description:
+                        c.slug === "general"
+                          ? "Mã: general • Ghi chú / Cẩm nang chung (Không thuộc môn nào)"
+                          : `Mã: ${c.slug}`,
                     }))}
                   />
                 </div>
@@ -1067,7 +1108,51 @@ export default function AdminMaterialsPage() {
                       </div>
 
                       <div className="md:col-span-5 space-y-1">
-                        <label className="text-[11px] font-bold text-slate-300">Danh mục môn học (*)</label>
+                        <div className="flex items-center justify-between">
+                          <label className="text-[11px] font-bold text-slate-300">
+                            Danh mục môn học (*)
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => setShowQuickAddCat(!showQuickAddCat)}
+                            className="text-[10px] text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold cursor-pointer transition-colors"
+                          >
+                            <Plus className="h-3 w-3" />
+                            <span>{showQuickAddCat ? "Đóng" : "Tạo danh mục mới"}</span>
+                          </button>
+                        </div>
+
+                        {showQuickAddCat && (
+                          <div className="p-2.5 rounded-xl border border-indigo-500/30 bg-indigo-950/30 space-y-2 mb-2 animate-in fade-in duration-150">
+                            <p className="text-[10px] text-indigo-300 font-medium">
+                              Thêm danh mục / phân loại mới:
+                            </p>
+                            <div className="flex items-center gap-2">
+                              <input
+                                type="text"
+                                value={newCatName}
+                                onChange={(e) => setNewCatName(e.target.value)}
+                                placeholder="VD: Ghi chú ôn thi, Kỹ năng mềm..."
+                                className="flex-1 rounded-lg border border-[#1f2937] bg-[#111827] px-2.5 py-1 text-xs text-white focus:border-[#4f46e5] focus:outline-none"
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    handleQuickAddCategory();
+                                  }
+                                }}
+                              />
+                              <button
+                                type="button"
+                                onClick={handleQuickAddCategory}
+                                disabled={isCreatingCat || !newCatName.trim()}
+                                className="px-2.5 py-1 rounded-lg bg-[#4f46e5] hover:bg-[#6366f1] text-xs font-semibold text-white transition disabled:opacity-50 cursor-pointer"
+                              >
+                                {isCreatingCat ? "..." : "Thêm"}
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
                         <PopoverSelect
                           className="w-full"
                           buttonClassName="w-full py-2"
@@ -1077,7 +1162,10 @@ export default function AdminMaterialsPage() {
                           options={categories.map((c) => ({
                             value: c.id,
                             label: c.name,
-                            description: `Mã: ${c.slug}`,
+                            description:
+                              c.slug === "general"
+                                ? "Mã: general • Ghi chú / Cẩm nang chung (Không thuộc môn nào)"
+                                : `Mã: ${c.slug}`,
                           }))}
                         />
                       </div>

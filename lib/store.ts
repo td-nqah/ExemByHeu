@@ -47,6 +47,14 @@ export const SEED_CATEGORIES: Category[] = [
     status: "active",
     created_at: new Date().toISOString(),
   },
+  {
+    id: "cat_general",
+    name: "Ghi chú & Cẩm nang chung",
+    slug: "general",
+    icon: "BookOpen",
+    status: "active",
+    created_at: new Date().toISOString(),
+  },
 ];
 
 // Default Seed Profiles (4 accounts: adm/5555, tth/1, tmh/2, user/3)
@@ -2129,8 +2137,12 @@ export async function getCategories(activeOnly = false): Promise<Category[]> {
     }
   }
 
-  if (!seenSlugs.has("cnxh")) {
-    uniqueCats.unshift(SEED_CATEGORIES[0]);
+  // Ensure default seed categories (CNXH, CTMTHDH, General) are always present
+  for (const seed of SEED_CATEGORIES) {
+    if (!seenSlugs.has(seed.slug)) {
+      uniqueCats.push(seed);
+      seenSlugs.add(seed.slug);
+    }
   }
 
   setLocal(KEY_CATEGORIES, uniqueCats);

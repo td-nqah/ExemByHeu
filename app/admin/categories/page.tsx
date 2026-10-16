@@ -23,10 +23,13 @@ import {
   BookText,
   Boxes,
   Code2,
+  Cpu,
   Sparkles,
   Languages,
   BookOpen,
   GraduationCap,
+  FileText,
+  StickyNote,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -37,6 +40,9 @@ const AVAILABLE_ICONS = [
   { label: "Sách giáo trình (BookText)", value: "BookText", icon: BookText },
   { label: "Hộp đối tượng (Boxes)", value: "Boxes", icon: Boxes },
   { label: "Mã nguồn Web (Code2)", value: "Code2", icon: Code2 },
+  { label: "Lập trình & Phần cứng (Cpu)", value: "Cpu", icon: Cpu },
+  { label: "Ghi chú & Cẩm nang (StickyNote)", value: "StickyNote", icon: StickyNote },
+  { label: "Văn bản & Tài liệu (FileText)", value: "FileText", icon: FileText },
   { label: "Lấp lánh / Triết học (Sparkles)", value: "Sparkles", icon: Sparkles },
   { label: "Ngoại ngữ (Languages)", value: "Languages", icon: Languages },
   { label: "Mở sách (BookOpen)", value: "BookOpen", icon: BookOpen },
