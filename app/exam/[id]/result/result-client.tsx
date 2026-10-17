@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { getSubmissionById } from "@/lib/store";
+import { getSubmissionById, getCurrentUser } from "@/lib/store";
 import { Submission } from "@/types/exam";
 import {
   CheckCircle2,
@@ -30,6 +30,12 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
       }
       try {
         const data = await getSubmissionById(submissionId);
+        const user = getCurrentUser();
+        // Bảo vệ quyền riêng tư: Nếu không phải admin và bài nộp không phải của user thì không hiển thị
+        if (data && user && user.role !== "admin" && data.user_id && data.user_id !== user.id) {
+          setSubmission(null);
+          return;
+        }
         setSubmission(data);
       } finally {
         setLoading(false);

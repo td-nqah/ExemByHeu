@@ -1628,16 +1628,17 @@ export async function submitExam(
         }));
         await supabase.from("submission_answers").insert(dbAnswers);
 
-        // FIFO Rolling Window: Giữ tối đa 20 bài nộp mới nhất trong hệ thống.
-        // Khi đạt đến 20 bài và nộp bài mới (#1), bài thứ 20 cũ (bài 21) sẽ tự động bị xóa.
+        // FIFO Rolling Window: Giữ tối đa 20 bài nộp mới nhất cho từng tài khoản (userId).
+        // Khi một tài khoản đạt 20 bài và nộp bài mới (#1), bài thứ 21 cũ của tài khoản đó sẽ tự động bị xóa.
         try {
-          const { data: allDbSubs } = await supabase
+          const { data: userDbSubs } = await supabase
             .from("submissions")
             .select("id")
+            .eq("user_id", userId)
             .order("submitted_at", { ascending: false });
 
-          if (allDbSubs && allDbSubs.length > 20) {
-            const idsToDelete = allDbSubs.slice(20).map((s: any) => s.id);
+          if (userDbSubs && userDbSubs.length > 20) {
+            const idsToDelete = userDbSubs.slice(20).map((s: any) => s.id);
             if (idsToDelete.length > 0) {
               await supabase.from("submissions").delete().in("id", idsToDelete);
             }
@@ -1674,15 +1675,18 @@ export async function submitExam(
     answers: submissionAnswers,
   };
 
-  // Sync to local fallback cache as backup (Tối đa 20 bài gần nhất)
+  // Sync to local fallback cache as backup (Tối đa 20 bài gần nhất cho từng tài khoản)
   const existingSubmissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const existingAnswers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
 
-  const allSubmissions = [newSubmission, ...existingSubmissions.filter((s) => s.id !== finalSubmissionId)]
-    .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
+  // FIFO Rolling: Giữ đúng 20 bài mới nhất cho tài khoản hiện tại (userId), và giữ nguyên bài của các tài khoản khác
+  const otherUsersSubmissions = existingSubmissions.filter((s) => s.id !== finalSubmissionId && s.user_id !== userId);
+  const thisUserSubmissions = [newSubmission, ...existingSubmissions.filter((s) => s.id !== finalSubmissionId && s.user_id === userId)]
+    .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime())
+    .slice(0, 20);
 
-  // FIFO Rolling: Giữ đúng 20 bài mới nhất (bài mới = #1, các bài thứ 21 trở đi tự động xóa)
-  const retainedSubmissions = allSubmissions.slice(0, 20);
+  const retainedSubmissions = [...thisUserSubmissions, ...otherUsersSubmissions]
+    .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
   const retainedIds = new Set(retainedSubmissions.map((s) => s.id));
   const retainedAnswers = [...existingAnswers, ...submissionAnswers].filter(
     (a) => retainedIds.has(a.submission_id)

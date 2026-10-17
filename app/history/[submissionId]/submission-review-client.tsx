@@ -34,6 +34,11 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
     async function loadData() {
       try {
         const data = await getSubmissionById(submissionId);
+        // Bảo vệ quyền riêng tư: Học viên chỉ được xem bài làm của chính mình
+        if (data && user && user.role !== "admin" && data.user_id && data.user_id !== user.id) {
+          router.push("/history");
+          return;
+        }
         setSubmission(data);
       } finally {
         setLoading(false);
