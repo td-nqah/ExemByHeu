@@ -42,6 +42,7 @@ import {
   Layers,
   Sliders,
   GraduationCap,
+  Menu,
 } from "lucide-react";
 
 export interface SidebarProps {
@@ -70,7 +71,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
 
   const [user, setUser] = useState<Profile | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [examsExpanded, setExamsExpanded] = useState<boolean>(true);
+  const [examsExpanded, setExamsExpanded] = useState<boolean>(false);
 
   const closeSidebarOnNavigate = () => {
     if (isMobile) {
@@ -99,13 +100,6 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
     window.addEventListener("categories_updated", handleUpdate);
     return () => window.removeEventListener("categories_updated", handleUpdate);
   }, []);
-
-  // Auto-expand categories submenu when navigating to a specific category
-  useEffect(() => {
-    if (activeCategory || pathname.startsWith("/exam")) {
-      setExamsExpanded(true);
-    }
-  }, [activeCategory, pathname]);
 
   const handleLogout = () => {
     setCurrentUser(null);
@@ -210,7 +204,9 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           <SidebarTrigger
             title="Thu nhỏ / Mở rộng sidebar (Ctrl+B)"
             className="hidden md:flex shrink-0 group-data-[collapsible=icon]:hidden"
-          />
+          >
+            <Menu className="h-4 w-4" />
+          </SidebarTrigger>
 
           {/* Mobile Close Button */}
           <button
@@ -228,7 +224,9 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           <SidebarTrigger
             title="Mở rộng sidebar (Ctrl+B)"
             className="h-8 w-8"
-          />
+          >
+            <Menu className="h-4 w-4" />
+          </SidebarTrigger>
         </div>
       </SidebarHeader>
 
@@ -310,7 +308,13 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                     tooltip="Danh sách Đề thi"
                     className="flex-1"
                   >
-                    <Link href="/dashboard" onClick={closeSidebarOnNavigate}>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => {
+                        setExamsExpanded((prev) => !prev);
+                        closeSidebarOnNavigate();
+                      }}
+                    >
                       <Layers
                         className={cn(
                           "h-4 w-4 shrink-0 transition-colors",

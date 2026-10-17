@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { PanelLeft, X } from "lucide-react";
+import { Menu, PanelLeft, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
@@ -269,7 +269,7 @@ export const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      {children || <PanelLeft className="h-4 w-4" />}
+      {children || <Menu className="h-4 w-4" />}
       <span className="sr-only">Toggle Sidebar</span>
     </button>
   );
