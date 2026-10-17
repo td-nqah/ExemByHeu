@@ -3,8 +3,8 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getSubmissions, getCurrentUser } from "@/lib/store";
-import { Submission } from "@/types/exam";
+import { getSubmissions, getCurrentUser, getExams } from "@/lib/store";
+import { Submission, Exam } from "@/types/exam";
 import { formatDate } from "@/lib/utils";
 import {
   TrendingUp,
@@ -16,11 +16,13 @@ import {
   ArrowRight,
   ChevronRight,
   BookOpen,
+  Layers,
 } from "lucide-react";
 
 export default function AnalyticsPage() {
   const router = useRouter();
   const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [exams, setExams] = useState<Exam[]>([]);
   const [loading, setLoading] = useState(true);
   const [hoveredPointIndex, setHoveredPointIndex] = useState<number | null>(null);
 
@@ -33,8 +35,12 @@ export default function AnalyticsPage() {
 
     async function loadData() {
       try {
-        const data = await getSubmissions(user?.id);
-        setSubmissions(data);
+        const [subData, examData] = await Promise.all([
+          getSubmissions(user?.id),
+          getExams(true),
+        ]);
+        setSubmissions(subData);
+        setExams(examData);
       } finally {
         setLoading(false);
       }
@@ -78,6 +84,22 @@ export default function AnalyticsPage() {
     const rate = max > 0 ? Math.round((earned / max) * 100) : 0;
     return { earned, max, rate };
   }, [submissions, totalSubmissions]);
+
+  // Exam Bank Completion Metrics
+  const examCompletionMetrics = useMemo(() => {
+    const totalBankExams = exams.length;
+    // Set of distinct exam IDs completed by user
+    const completedExamIds = new Set(
+      submissions.map((s) => s.exam_id || s.exam?.id).filter(Boolean)
+    );
+    const completedCount = completedExamIds.size;
+    const rate = totalBankExams > 0 ? Math.round((completedCount / totalBankExams) * 100) : 0;
+    return {
+      completedCount,
+      totalBankExams,
+      rate,
+    };
+  }, [exams, submissions]);
 
   const scoreDelta = useMemo(() => {
     if (chronological.length < 2) return 0;
@@ -158,19 +180,57 @@ export default function AnalyticsPage() {
         </Link>
       </div>
 
-      {/* 4 Flat Stats Cards (NO hover blur or sibling shrink) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Điểm Trung Bình */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex items-center justify-between hover:border-white/10 transition-colors">
-          <div>
+      {/* 5 Flat Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        {/* Card 1: Tiến Độ Hoàn Thành Đề */}
+        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+              Tiến Độ Hoàn Thành Đề
+            </p>
+            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-cyan-400 shrink-0">
+              <Layers className="h-4.5 w-4.5" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <p className="text-3xl font-extrabold text-white tracking-tight">
+              {examCompletionMetrics.completedCount}{" "}
+              <span className="text-sm font-normal text-slate-400">
+                / {examCompletionMetrics.totalBankExams} đề
+              </span>
+            </p>
+            {/* Visual Progress Bar */}
+            <div className="w-full h-1.5 bg-[#202738] rounded-full overflow-hidden mt-2.5">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 transition-all duration-500"
+                style={{ width: `${Math.min(100, Math.max(0, examCompletionMetrics.rate))}%` }}
+              />
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1.5 flex items-center justify-between">
+              <span>Độ phủ ngân hàng đề</span>
+              <span className="font-semibold text-cyan-300">
+                {examCompletionMetrics.rate}%
+              </span>
+            </p>
+          </div>
+        </div>
+
+        {/* Card 2: Điểm Trung Bình */}
+        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+          <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Điểm Trung Bình
             </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
+            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-indigo-400 shrink-0">
+              <TrendingUp className="h-4.5 w-4.5" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <p className="text-3xl font-extrabold text-white tracking-tight">
               {averageScore}{" "}
-              <span className="text-xs font-normal text-slate-400">/ 10</span>
+              <span className="text-sm font-normal text-slate-400">/ 10</span>
             </p>
-            <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+            <p className="text-[11px] text-slate-400 mt-2 flex items-center gap-1">
               {scoreDelta >= 0 ? (
                 <span className="text-emerald-400 font-semibold">
                   +{scoreDelta} đ
@@ -183,63 +243,66 @@ export default function AnalyticsPage() {
               <span>so với lượt đầu</span>
             </p>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-[#202738] flex items-center justify-center text-indigo-400">
-            <TrendingUp className="h-5 w-5" />
-          </div>
         </div>
 
-        {/* Card 2: Tỉ Lệ Đúng Trắc Nghiệm */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex items-center justify-between hover:border-white/10 transition-colors">
-          <div>
+        {/* Card 3: Tỉ Lệ Đúng Trắc Nghiệm */}
+        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+          <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Độ Chính Xác Trắc Nghiệm
             </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
+            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-emerald-400 shrink-0">
+              <CheckCircle2 className="h-4.5 w-4.5" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <p className="text-3xl font-extrabold text-white tracking-tight">
               {mcqMetrics.rate}%
             </p>
-            <p className="text-[11px] text-slate-400 mt-1">
+            <p className="text-[11px] text-slate-400 mt-2 truncate">
               {mcqMetrics.earned} điểm trắc nghiệm đã ghi
             </p>
-          </div>
-          <div className="h-10 w-10 rounded-xl bg-[#202738] flex items-center justify-center text-emerald-400">
-            <CheckCircle2 className="h-5 w-5" />
-          </div>
-        </div>
-
-        {/* Card 3: Số Lượt Bài Thi Đã Nộp */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex items-center justify-between hover:border-white/10 transition-colors">
-          <div>
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Số Bài Đã Nộp
-            </p>
-            <p className="text-3xl font-extrabold text-white mt-1 tracking-tight">
-              {totalSubmissions}
-            </p>
-            <p className="text-[11px] text-slate-400 mt-1">
-              Được lưu trữ chi tiết lịch sử
-            </p>
-          </div>
-          <div className="h-10 w-10 rounded-xl bg-[#202738] flex items-center justify-center text-indigo-400">
-            <Award className="h-5 w-5" />
           </div>
         </div>
 
         {/* Card 4: Điểm Cao Nhất */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex items-center justify-between hover:border-white/10 transition-colors">
-          <div>
+        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+          <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Điểm Kỷ Lục Đạt Được
             </p>
-            <p className="text-3xl font-extrabold text-amber-300 mt-1 tracking-tight">
+            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-amber-400 shrink-0">
+              <Zap className="h-4.5 w-4.5" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <p className="text-3xl font-extrabold text-amber-300 tracking-tight">
               {peakScore}{" "}
-              <span className="text-xs font-normal text-slate-400">/ 10</span>
+              <span className="text-sm font-normal text-slate-400">/ 10</span>
             </p>
-            <p className="text-[11px] text-slate-400 mt-1">
+            <p className="text-[11px] text-slate-400 mt-2 truncate">
               Phong độ cao nhất từng đạt
             </p>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-[#202738] flex items-center justify-center text-amber-400">
-            <Zap className="h-5 w-5" />
+        </div>
+
+        {/* Card 5: Số Lượt Bài Thi Đã Nộp */}
+        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+              Lượt Thi Đã Nộp
+            </p>
+            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-indigo-400 shrink-0">
+              <Award className="h-4.5 w-4.5" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <p className="text-3xl font-extrabold text-white tracking-tight">
+              {totalSubmissions}
+            </p>
+            <p className="text-[11px] text-slate-400 mt-2 truncate">
+              Lưu trữ tối đa 20 bài gần nhất
+            </p>
           </div>
         </div>
       </div>

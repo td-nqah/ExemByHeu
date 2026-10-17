@@ -55,7 +55,7 @@ export default function HistoryPage() {
             Lịch sử Làm bài
           </h1>
           <p className="mt-1 text-sm text-slate-400">
-            Lưu trữ tối đa 10 bài nộp gần nhất (tự động đẩy bài mới nhất thành #1 và xóa bài thứ 10 cũ hơn), kèm điểm số và nhận xét chi tiết.
+            Lưu trữ tối đa 20 bài nộp gần nhất (tự động đẩy bài mới nhất thành #1 và xoay vòng xóa bài cũ khi vượt quá 20 bài), kèm điểm số và nhận xét chi tiết.
           </p>
         </div>
 

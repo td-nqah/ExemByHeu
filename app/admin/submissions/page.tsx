@@ -53,7 +53,7 @@ export default function AdminSubmissionsListPage() {
           Quản lý Bài nộp & Phòng Chấm thi
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-slate-400">
-          Theo dõi tối đa 10 bài nộp gần nhất của user, kiểm tra điểm trắc nghiệm và chấm điểm tự luận (tự động giữ 10 bài mới nhất).
+          Theo dõi tối đa 20 bài nộp gần nhất của user, kiểm tra điểm trắc nghiệm và chấm điểm tự luận (tự động giữ 20 bài mới nhất).
         </p>
       </div>
 
@@ -66,7 +66,7 @@ export default function AdminSubmissionsListPage() {
               Danh sách Bài làm
             </h2>
             <span className="rounded-md bg-[#1f2637] border border-white/[0.05] px-2 py-0.5 text-xs font-semibold text-slate-300">
-              {filteredSubmissions.length} / 10
+              {filteredSubmissions.length} / 20
             </span>
           </div>
 
