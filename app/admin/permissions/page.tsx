@@ -24,6 +24,7 @@ import {
   Sliders,
   Radio,
   Activity,
+  Trash2,
 } from "lucide-react";
 
 export default function AdminPermissionsPage() {
@@ -115,6 +116,8 @@ export default function AdminPermissionsPage() {
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const [deleteTargetUser, setDeleteTargetUser] = useState<string | null>(null);
+  const [isDeletingUser, setIsDeletingUser] = useState(false);
 
   const fetchAccountsSecurity = async (silent = false) => {
     if (!silent) setAccountsLoading(true);
@@ -193,7 +196,7 @@ export default function AdminPermissionsPage() {
   };
 
   const allPresenceAccounts = useMemo(() => {
-    const list =
+    const list = (
       accountsSecurity.length > 0
         ? [...accountsSecurity]
         : [
@@ -222,15 +225,8 @@ export default function AdminPermissionsPage() {
               devices: [],
               current_activity: "Chưa trực tuyến",
             },
-            {
-              username: "user",
-              role: "user" as const,
-              is_active: true,
-              ips: [],
-              devices: [],
-              current_activity: "Chưa trực tuyến",
-            },
-          ];
+          ]
+    ).filter((a) => !["user", "user1"].includes(a.username.toLowerCase()));
 
     // Ensure current user is in the list
     if (
@@ -340,6 +336,42 @@ export default function AdminPermissionsPage() {
       });
     } finally {
       setAccountsLoading(false);
+    }
+  };
+
+  const handleDeleteAccount = async (username: string) => {
+    setIsDeletingUser(true);
+    setAccountActionNotice(null);
+    try {
+      const res = await fetch("/api/admin/accounts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "delete_account",
+          username,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setAccountActionNotice({
+          type: "success",
+          message: data.message || `Đã xóa tài khoản '${username}' thành công.`,
+        });
+        setDeleteTargetUser(null);
+        await fetchAccountsSecurity();
+      } else {
+        setAccountActionNotice({
+          type: "error",
+          message: data.error || "Không thể xóa tài khoản này.",
+        });
+      }
+    } catch {
+      setAccountActionNotice({
+        type: "error",
+        message: "Lỗi kết nối khi xóa tài khoản.",
+      });
+    } finally {
+      setIsDeletingUser(false);
     }
   };
 
@@ -613,9 +645,13 @@ export default function AdminPermissionsPage() {
                     : [
                         { username: "tth", role: "user", is_active: true, ips: [], devices: [] },
                         { username: "tmh", role: "user", is_active: true, ips: [], devices: [] },
-                        { username: "user", role: "user", is_active: true, ips: [], devices: [] },
                       ]
-                ).filter((acc) => acc.role !== "admin" && acc.username !== "adm");
+                ).filter(
+                  (acc) =>
+                    acc.role !== "admin" &&
+                    acc.username !== "adm" &&
+                    !["user", "user1"].includes(acc.username.toLowerCase())
+                );
 
                 if (filtered.length === 0) {
                   return (
@@ -680,7 +716,7 @@ export default function AdminPermissionsPage() {
                         <button
                           type="button"
                           onClick={() => handleToggleActive(acc.username, isActive)}
-                          disabled={accountsLoading}
+                          disabled={accountsLoading || isDeletingUser}
                           className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal ${
                             isActive
                               ? "bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30"
@@ -696,12 +732,23 @@ export default function AdminPermissionsPage() {
                         <button
                           type="button"
                           onClick={() => handleResetSecurity(acc.username)}
-                          disabled={accountsLoading}
+                          disabled={accountsLoading || isDeletingUser}
                           className="px-2.5 py-1.5 rounded-lg bg-[#4f46e5]/15 hover:bg-[#4f46e5]/25 border border-[#4f46e5]/30 text-indigo-300 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal"
                           title="Reset danh sách thiết bị về 0/3 và mở khóa tài khoản"
                         >
                           <RefreshCw className="h-3 w-3" />
                           <span>Reset (0/3)</span>
+                        </button>
+
+                        {/* Delete Account Button */}
+                        <button
+                          type="button"
+                          onClick={() => setDeleteTargetUser(acc.username)}
+                          disabled={accountsLoading || isDeletingUser}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/15 border border-[#1f2937] hover:border-rose-500/30 transition cursor-pointer disabled:opacity-50 active:scale-95"
+                          title={`Xóa vĩnh viễn tài khoản ${acc.username}`}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     </div>
@@ -924,6 +971,51 @@ export default function AdminPermissionsPage() {
           </div>
         </div>
       </section>
+
+      {/* Modal xác nhận xóa vĩnh viễn tài khoản */}
+      {deleteTargetUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="w-full max-w-md rounded-2xl bg-[#0b0f19] border border-[#1f2937] p-6 shadow-2xl space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 shrink-0">
+                <Trash2 className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-white">Xác nhận xóa tài khoản</h3>
+                <p className="text-xs text-[#9ca3af]">Hành động này không thể hoàn tác</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản{" "}
+              <strong className="font-mono text-rose-400 bg-rose-950/40 px-2 py-0.5 rounded border border-rose-500/30">
+                {deleteTargetUser}
+              </strong>{" "}
+              khỏi hệ thống? Quyền truy cập, thiết bị đăng nhập và dữ liệu phiên của người dùng này sẽ bị hủy bỏ hoàn toàn.
+            </p>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setDeleteTargetUser(null)}
+                disabled={isDeletingUser}
+                className="px-4 py-2 rounded-xl border border-[#1f2937] bg-[#111827] text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#1f2937] transition cursor-pointer disabled:opacity-50"
+              >
+                Hủy bỏ
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDeleteAccount(deleteTargetUser)}
+                disabled={isDeletingUser}
+                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-bold text-white shadow-lg shadow-rose-600/30 transition cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+              >
+                {isDeletingUser && <RefreshCw className="h-3.5 w-3.5 animate-spin" />}
+                <span>{isDeletingUser ? "Đang xóa..." : "Xác nhận xóa"}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

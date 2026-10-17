@@ -34,15 +34,6 @@ const DEFAULT_SECURITY_MAP: Record<string, AccountSecurity> = {
     current_activity: "Chưa trực tuyến",
     updated_at: new Date().toISOString(),
   },
-  user: {
-    username: "user",
-    role: "user",
-    is_active: true,
-    ips: [],
-    devices: [],
-    current_activity: "Chưa trực tuyến",
-    updated_at: new Date().toISOString(),
-  },
 };
 
 function getSupabaseAdmin() {
@@ -156,7 +147,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Check if user already exists
-      if (secMap[cleanUser] && (["adm", "tth", "tmh", "user"].includes(cleanUser) || secMap[cleanUser].password_hash)) {
+      if (secMap[cleanUser] && (["adm", "tth", "tmh"].includes(cleanUser) || secMap[cleanUser].password_hash)) {
         return NextResponse.json(
           { error: `Tài khoản '${cleanUser}' đã tồn tại trong hệ thống.` },
           { status: 400 }
@@ -209,6 +200,38 @@ export async function POST(req: NextRequest) {
         success: true,
         message: `Đã tạo thành công tài khoản '${cleanUser}' (${assignedRole === "admin" ? "Quản trị viên" : "User"}).`,
         account: secMap[cleanUser],
+      });
+    }
+
+    if (action === "delete_account") {
+      if (cleanUser === "adm" || secMap[cleanUser]?.role === "admin") {
+        return NextResponse.json(
+          { error: "Không thể xóa tài khoản Quản trị viên (Admin) của hệ thống." },
+          { status: 400 }
+        );
+      }
+
+      // 1. Delete from Supabase profiles table
+      if (sb) {
+        try {
+          await sb
+            .from("profiles")
+            .delete()
+            .ilike("username", cleanUser);
+        } catch (dbErr) {
+          console.error("Error deleting profile in Supabase:", dbErr);
+        }
+      }
+
+      // 2. Remove from security map
+      if (secMap[cleanUser]) {
+        delete secMap[cleanUser];
+        await saveSecurityMap(sb, secMap);
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: `Đã xóa vĩnh viễn tài khoản '${cleanUser}' khỏi hệ thống.`,
       });
     }
 

@@ -49,7 +49,7 @@ export const SEED_CATEGORIES: Category[] = [
   },
 ];
 
-// Default Seed Profiles (4 accounts: adm/5555, tth/1, tmh/2, user/3)
+// Default Seed Profiles (3 accounts: adm/5555, tth/1, tmh/2)
 export const SEED_PROFILES: Profile[] = [
   {
     id: "00000000-0000-0000-0000-000000000001",
@@ -68,13 +68,6 @@ export const SEED_PROFILES: Profile[] = [
   {
     id: "00000000-0000-0000-0000-000000000003",
     username: "tmh",
-    role: "user",
-    is_active: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000004",
-    username: "user",
     role: "user",
     is_active: true,
     created_at: new Date().toISOString(),
@@ -1946,12 +1939,18 @@ export async function getAllProfiles(): Promise<Profile[]> {
         .select("id, username, role, created_at")
         .order("created_at", { ascending: true });
       if (!error && data && data.length > 0) {
-        return data as Profile[];
+        return (data as Profile[]).filter(
+          (p) => !["user", "user1"].includes(p.username.toLowerCase())
+        );
       }
     } catch {}
   }
   const profiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
-  return profiles;
+  const cleaned = profiles.filter((p) => !["user", "user1"].includes(p.username.toLowerCase()));
+  if (cleaned.length !== profiles.length) {
+    setLocal(KEY_PROFILES, cleaned);
+  }
+  return cleaned;
 }
 
 export async function adminResetUserPassword(
@@ -2045,6 +2044,43 @@ export async function adminCreateAccount(
     return {
       success: true,
       message: data.message || `Đã tạo tài khoản '${cleanUser}' thành công.`,
+    };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Lỗi kết nối máy chủ";
+    return { success: false, message: msg };
+  }
+}
+
+export async function adminDeleteAccount(
+  username: string
+): Promise<{ success: boolean; message: string }> {
+  try {
+    const res = await fetch("/api/admin/accounts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "delete_account",
+        username,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      return {
+        success: false,
+        message: data.error || "Không thể xóa tài khoản.",
+      };
+    }
+
+    // Also update local profiles so UI updates immediately
+    initStore();
+    const cleanUser = username.trim().toLowerCase();
+    const localProfiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
+    const updated = localProfiles.filter((p) => p.username.toLowerCase() !== cleanUser);
+    setLocal(KEY_PROFILES, updated);
+
+    return {
+      success: true,
+      message: data.message || `Đã xóa tài khoản '${cleanUser}' thành công.`,
     };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Lỗi kết nối máy chủ";
