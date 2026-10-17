@@ -188,7 +188,8 @@ export default function AdminMaterialsPage() {
 
     setIsQuickSaving(true);
     try {
-      const selectedCat = categories.find((c) => c.id === quickCategoryId) || categories[0];
+      const isNone = quickCategoryId === "none";
+      const selectedCat = !isNone ? (categories.find((c) => c.id === quickCategoryId) || categories[0]) : null;
       const existing = materials.find(
         (m) => m.title.trim().toLowerCase() === quickTitle.trim().toLowerCase()
       );
@@ -196,9 +197,9 @@ export default function AdminMaterialsPage() {
       await saveStudyMaterial({
         id: existing?.id,
         title: quickTitle.trim(),
-        category_id: selectedCat?.id || "cat_cnxh",
-        category_slug: selectedCat?.slug || "cnxh",
-        category_name: selectedCat?.name || "Chuyên đề",
+        category_id: isNone ? "none" : (selectedCat?.id || "cat_cnxh"),
+        category_slug: isNone ? "none" : (selectedCat?.slug || "cnxh"),
+        category_name: isNone ? "Không thuộc môn nào" : (selectedCat?.name || "Chuyên đề"),
         summary:
           quickSummary.trim() ||
           existing?.summary ||
@@ -327,13 +328,14 @@ export default function AdminMaterialsPage() {
 
     setIsSaving(true);
     try {
-      const cat = categories.find((c) => c.id === formCategoryId);
+      const isNone = formCategoryId === "none";
+      const cat = !isNone ? categories.find((c) => c.id === formCategoryId) : null;
       await saveStudyMaterial({
         id: editingMaterial?.id,
         title: formTitle.trim(),
-        category_id: formCategoryId,
-        category_slug: cat?.slug,
-        category_name: cat?.name,
+        category_id: isNone ? "none" : formCategoryId,
+        category_slug: isNone ? "none" : cat?.slug,
+        category_name: isNone ? "Không thuộc môn nào" : (cat?.name || "Chuyên đề"),
         summary: formSummary.trim(),
         content_html: formContentHtml.trim(),
         reading_time: Number(formReadingTime) || 5,
@@ -358,10 +360,12 @@ export default function AdminMaterialsPage() {
 
   // Filtered materials
   const filteredMaterials = materials.filter((m) => {
-    const matchCat =
-      selectedCategory === "all" ||
-      m.category_id === selectedCategory ||
-      m.category_slug === selectedCategory;
+    let matchCat = true;
+    if (selectedCategory === "none") {
+      matchCat = m.category_id === "none" || m.category_slug === "none" || !m.category_id;
+    } else if (selectedCategory !== "all") {
+      matchCat = m.category_id === selectedCategory || m.category_slug === selectedCategory;
+    }
     const matchSearch =
       !searchQuery.trim() ||
       m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -450,6 +454,8 @@ export default function AdminMaterialsPage() {
                 <span className="font-bold text-white truncate">
                   {selectedCategory === "all"
                     ? "Tất cả môn học"
+                    : selectedCategory === "none"
+                    ? "Không thuộc môn nào"
                     : categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
                 </span>
               </div>
@@ -457,6 +463,8 @@ export default function AdminMaterialsPage() {
                 <span className="px-1.5 py-0.5 rounded-md bg-white/10 text-[10px] font-mono text-slate-300">
                   {selectedCategory === "all"
                     ? materials.length
+                    : selectedCategory === "none"
+                    ? materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length
                     : materials.filter((m) => m.category_id === selectedCategory || m.category_slug === selectedCategory).length}
                 </span>
                 <ChevronDown className={cn("h-4 w-4 text-[#9ca3af] transition-transform duration-200", isCategoryMenuOpen && "rotate-180")} />
@@ -480,7 +488,7 @@ export default function AdminMaterialsPage() {
                   >
                     <div className="px-2.5 py-1.5 text-[11px] font-bold text-[#9ca3af] uppercase tracking-wider flex items-center justify-between border-b border-[#1f2937]/80 pb-2">
                       <span>Chọn danh mục môn học</span>
-                      <span>{categories.length + 1} chuyên mục</span>
+                      <span>{categories.length + 2} phân loại</span>
                     </div>
 
                     {/* Thanh nội dung phụ: Tất cả môn học */}
@@ -513,6 +521,41 @@ export default function AdminMaterialsPage() {
                           {materials.length} bài
                         </span>
                         {selectedCategory === "all" && (
+                          <CheckCircle2 className="h-4 w-4 text-[#6366f1]" />
+                        )}
+                      </div>
+                    </button>
+
+                    {/* Thanh nội dung phụ: Không thuộc môn nào */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedCategory("none");
+                        setIsCategoryMenuOpen(false);
+                      }}
+                      className={cn(
+                        "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
+                        selectedCategory === "none"
+                          ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
+                          : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
+                      )}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="h-8 w-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 shrink-0">
+                          <FileText className="h-4 w-4" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-white group-hover:text-slate-200 transition truncate">
+                            Không thuộc môn nào
+                          </p>
+                          <p className="text-[10px] text-[#9ca3af] truncate">Ghi chú & cẩm nang chung</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0 ml-2">
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-slate-800 border border-slate-700 text-slate-300 font-bold">
+                          {materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length} bài
+                        </span>
+                        {selectedCategory === "none" && (
                           <CheckCircle2 className="h-4 w-4 text-[#6366f1]" />
                         )}
                       </div>
@@ -583,7 +626,9 @@ export default function AdminMaterialsPage() {
             <span>Đang lọc theo:</span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 text-xs font-bold">
               <Tag className="h-3 w-3" />
-              {categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
+              {selectedCategory === "none"
+                ? "Không thuộc môn nào"
+                : categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
               <button
                 type="button"
                 onClick={() => setSelectedCategory("all")}
@@ -639,10 +684,17 @@ export default function AdminMaterialsPage() {
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b]">
-                    <Tag className="h-3 w-3 text-[#34d399]" />
-                    {item.category_name || "Chuyên đề"}
-                  </span>
+                  {item.category_id === "none" || item.category_slug === "none" ? (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
+                      <FileText className="h-3 w-3 text-slate-400" />
+                      {item.category_name || "Không thuộc môn nào"}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b]">
+                      <Tag className="h-3 w-3 text-[#34d399]" />
+                      {item.category_name || "Chuyên đề"}
+                    </span>
+                  )}
                 </div>
 
                 <div>
@@ -748,14 +800,18 @@ export default function AdminMaterialsPage() {
                     menuClassName="w-full"
                     value={quickCategoryId}
                     onChange={(val) => setQuickCategoryId(val)}
-                    options={categories.map((c) => ({
-                      value: c.id,
-                      label: c.name,
-                      description:
-                        c.slug === "general"
-                          ? "Mã: general • Ghi chú / Cẩm nang chung (Không thuộc môn nào)"
-                          : `Mã: ${c.slug}`,
-                    }))}
+                    options={[
+                      {
+                        value: "none",
+                        label: "Không thuộc môn nào (Tự do / Ghi chú chung)",
+                        description: "Tài liệu hoặc cẩm nang không gắn với môn cụ thể",
+                      },
+                      ...categories.map((c) => ({
+                        value: c.id,
+                        label: c.name,
+                        description: `Mã: ${c.slug}`,
+                      })),
+                    ]}
                   />
                 </div>
 
@@ -1159,14 +1215,18 @@ export default function AdminMaterialsPage() {
                           menuClassName="w-full"
                           value={formCategoryId}
                           onChange={(val) => setFormCategoryId(val)}
-                          options={categories.map((c) => ({
-                            value: c.id,
-                            label: c.name,
-                            description:
-                              c.slug === "general"
-                                ? "Mã: general • Ghi chú / Cẩm nang chung (Không thuộc môn nào)"
-                                : `Mã: ${c.slug}`,
-                          }))}
+                          options={[
+                            {
+                              value: "none",
+                              label: "Không thuộc môn nào (Tự do / Ghi chú chung)",
+                              description: "Tài liệu hoặc cẩm nang không gắn với môn cụ thể",
+                            },
+                            ...categories.map((c) => ({
+                              value: c.id,
+                              label: c.name,
+                              description: `Mã: ${c.slug}`,
+                            })),
+                          ]}
                         />
                       </div>
                     </div>

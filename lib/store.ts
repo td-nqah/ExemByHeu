@@ -47,14 +47,6 @@ export const SEED_CATEGORIES: Category[] = [
     status: "active",
     created_at: new Date().toISOString(),
   },
-  {
-    id: "cat_general",
-    name: "Ghi chú & Cẩm nang chung",
-    slug: "general",
-    icon: "BookOpen",
-    status: "active",
-    created_at: new Date().toISOString(),
-  },
 ];
 
 // Default Seed Profiles (4 accounts: adm/5555, tth/1, tmh/2, user/3)
@@ -2131,13 +2123,15 @@ export async function getCategories(activeOnly = false): Promise<Category[]> {
 
   for (const c of combined) {
     const slug = (c.slug || "").trim().toLowerCase();
+    // Exclude general / cat_general from exam categories
+    if (c.id === "cat_general" || slug === "general") continue;
     if (slug && !seenSlugs.has(slug)) {
       seenSlugs.add(slug);
       uniqueCats.push(c);
     }
   }
 
-  // Ensure default seed categories (CNXH, CTMTHDH, General) are always present
+  // Ensure default seed categories (CNXH, CTMTHDH) are always present
   for (const seed of SEED_CATEGORIES) {
     if (!seenSlugs.has(seed.slug)) {
       uniqueCats.push(seed);
@@ -2284,22 +2278,49 @@ export async function getStudyMaterials(
   }
 
   // Purge any mock/sample seed items (mat_cnxh_*, mat_ctmt_*) so only user-created materials remain
-  const cleaned = materials.filter(
+  let modifiedMaterials = false;
+  let cleaned = materials.filter(
     (m) => !m.id.startsWith("mat_cnxh_") && !m.id.startsWith("mat_ctmt_")
   );
   if (cleaned.length !== materials.length) {
+    modifiedMaterials = true;
+  }
+
+  // Normalize any materials previously saved under cat_general to "none" (uncategorized)
+  cleaned = cleaned.map((m) => {
+    if (m.category_id === "cat_general" || m.category_slug === "general") {
+      modifiedMaterials = true;
+      return {
+        ...m,
+        category_id: "none",
+        category_slug: "none",
+        category_name: "Không thuộc môn nào",
+      };
+    }
+    return m;
+  });
+
+  if (modifiedMaterials) {
     materials = cleaned;
     setLocal(KEY_STUDY_MATERIALS, materials);
     await syncStudyMaterialsToSupabase(materials);
+  } else {
+    materials = cleaned;
   }
 
   if (categorySlugOrId && categorySlugOrId !== "all") {
     const filter = categorySlugOrId.toLowerCase();
-    materials = materials.filter(
-      (m) =>
-        m.category_id.toLowerCase() === filter ||
-        (m.category_slug && m.category_slug.toLowerCase() === filter)
-    );
+    if (filter === "none") {
+      materials = materials.filter(
+        (m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id
+      );
+    } else {
+      materials = materials.filter(
+        (m) =>
+          m.category_id.toLowerCase() === filter ||
+          (m.category_slug && m.category_slug.toLowerCase() === filter)
+      );
+    }
   }
 
   return materials.sort(
@@ -2323,9 +2344,16 @@ export async function saveStudyMaterial(
   const existingIdx = all.findIndex((m) => m.id === materialData.id);
 
   const categories = await getCategories(false);
-  const matchedCat = categories.find(
-    (c) => c.id === materialData.category_id || c.slug === materialData.category_id
-  );
+  const isNoneCategory =
+    !materialData.category_id ||
+    materialData.category_id === "none" ||
+    materialData.category_id === "cat_general";
+
+  const matchedCat = !isNoneCategory
+    ? categories.find(
+        (c) => c.id === materialData.category_id || c.slug === materialData.category_id
+      )
+    : null;
 
   const textContent = (materialData.content_html || "").replace(/<[^>]+>/g, " ").trim();
   const words = textContent.split(/\s+/).filter(Boolean).length;
@@ -2337,8 +2365,17 @@ export async function saveStudyMaterial(
     savedItem = {
       ...all[existingIdx],
       ...materialData,
-      category_name: matchedCat ? matchedCat.name : all[existingIdx].category_name,
-      category_slug: matchedCat ? matchedCat.slug : all[existingIdx].category_slug,
+      category_id: isNoneCategory ? "none" : (materialData.category_id || all[existingIdx].category_id),
+      category_name: isNoneCategory
+        ? "Không thuộc môn nào"
+        : matchedCat
+        ? matchedCat.name
+        : all[existingIdx].category_name,
+      category_slug: isNoneCategory
+        ? "none"
+        : matchedCat
+        ? matchedCat.slug
+        : all[existingIdx].category_slug,
       reading_time: materialData.reading_time || calculatedReadingTime,
       updated_at: new Date().toISOString(),
     } as StudyMaterial;
@@ -2347,9 +2384,17 @@ export async function saveStudyMaterial(
     savedItem = {
       id: materialData.id || `mat_${crypto.randomUUID()}`,
       title: materialData.title || "Tài liệu học tập mới",
-      category_id: materialData.category_id || (categories[0]?.id || "cat_cnxh"),
-      category_name: matchedCat ? matchedCat.name : (categories[0]?.name || "Chuyên đề"),
-      category_slug: matchedCat ? matchedCat.slug : (categories[0]?.slug || "cnxh"),
+      category_id: isNoneCategory ? "none" : (materialData.category_id || categories[0]?.id || "cat_cnxh"),
+      category_name: isNoneCategory
+        ? "Không thuộc môn nào"
+        : matchedCat
+        ? matchedCat.name
+        : (categories[0]?.name || "Chuyên đề"),
+      category_slug: isNoneCategory
+        ? "none"
+        : matchedCat
+        ? matchedCat.slug
+        : (categories[0]?.slug || "cnxh"),
       summary: materialData.summary || "",
       content_html: materialData.content_html || "<p>Nội dung đang được cập nhật...</p>",
       reading_time: materialData.reading_time || calculatedReadingTime,

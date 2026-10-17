@@ -13,6 +13,7 @@ import {
   CheckCircle2,
   Library,
   X,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getStudyMaterials, getCategories } from "@/lib/store";
@@ -53,10 +54,12 @@ export default function KnowledgeHubPage() {
   // Filter & Sort
   const filteredMaterials = materials
     .filter((item) => {
-      const matchCat =
-        selectedCategory === "all" ||
-        item.category_id === selectedCategory ||
-        item.category_slug === selectedCategory;
+      let matchCat = true;
+      if (selectedCategory === "none") {
+        matchCat = item.category_id === "none" || item.category_slug === "none" || !item.category_id;
+      } else if (selectedCategory !== "all") {
+        matchCat = item.category_id === selectedCategory || item.category_slug === selectedCategory;
+      }
 
       if (!matchCat) return false;
 
@@ -133,6 +136,8 @@ export default function KnowledgeHubPage() {
                 <span className="font-bold text-white truncate">
                   {selectedCategory === "all"
                     ? "Tất cả môn học"
+                    : selectedCategory === "none"
+                    ? "Không thuộc môn nào"
                     : categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
                 </span>
               </div>
@@ -140,6 +145,8 @@ export default function KnowledgeHubPage() {
                 <span className="px-1.5 py-0.5 rounded-md bg-white/10 text-[10px] font-mono text-slate-300">
                   {selectedCategory === "all"
                     ? materials.length
+                    : selectedCategory === "none"
+                    ? materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length
                     : materials.filter((m) => m.category_id === selectedCategory || m.category_slug === selectedCategory).length}
                 </span>
                 <ChevronDown className={cn("h-4 w-4 text-[#9ca3af] transition-transform duration-200", isCategoryMenuOpen && "rotate-180")} />
@@ -163,7 +170,7 @@ export default function KnowledgeHubPage() {
                   >
                     <div className="px-2.5 py-1.5 text-[11px] font-bold text-[#9ca3af] uppercase tracking-wider flex items-center justify-between border-b border-[#1f2937]/80 pb-2">
                       <span>Chọn danh mục môn học</span>
-                      <span>{categories.length + 1} chuyên mục</span>
+                      <span>{categories.length + 2} phân loại</span>
                     </div>
 
                     {/* Thanh nội dung phụ: Tất cả môn học */}
@@ -196,6 +203,41 @@ export default function KnowledgeHubPage() {
                           {materials.length} bài
                         </span>
                         {selectedCategory === "all" && (
+                          <CheckCircle2 className="h-4 w-4 text-[#6366f1]" />
+                        )}
+                      </div>
+                    </button>
+
+                    {/* Thanh nội dung phụ: Không thuộc môn nào */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedCategory("none");
+                        setIsCategoryMenuOpen(false);
+                      }}
+                      className={cn(
+                        "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
+                        selectedCategory === "none"
+                          ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
+                          : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
+                      )}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="h-8 w-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 shrink-0">
+                          <FileText className="h-4 w-4" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-white group-hover:text-slate-200 transition truncate">
+                            Không thuộc môn nào
+                          </p>
+                          <p className="text-[10px] text-[#9ca3af] truncate">Ghi chú & cẩm nang chung</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0 ml-2">
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-slate-800 border border-slate-700 text-slate-300 font-bold">
+                          {materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length} bài
+                        </span>
+                        {selectedCategory === "none" && (
                           <CheckCircle2 className="h-4 w-4 text-[#6366f1]" />
                         )}
                       </div>
@@ -282,7 +324,9 @@ export default function KnowledgeHubPage() {
             <span>Đang lọc theo:</span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 text-xs font-bold">
               <Tag className="h-3 w-3" />
-              {categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
+              {selectedCategory === "none"
+                ? "Không thuộc môn nào"
+                : categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
               <button
                 type="button"
                 onClick={() => setSelectedCategory("all")}
@@ -338,10 +382,17 @@ export default function KnowledgeHubPage() {
               <div className="space-y-3">
                 {/* Meta badges: Emerald Teal tag for subject category without reading time */}
                 <div className="flex items-center justify-between gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">
-                    <Tag className="h-3 w-3 text-[#34d399]" />
-                    {item.category_name || "Chuyên đề"}
-                  </span>
+                  {item.category_id === "none" || item.category_slug === "none" ? (
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5">
+                      <FileText className="h-3 w-3 text-slate-400" />
+                      {item.category_name || "Không thuộc môn nào"}
+                    </span>
+                  ) : (
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">
+                      <Tag className="h-3 w-3 text-[#34d399]" />
+                      {item.category_name || "Chuyên đề"}
+                    </span>
+                  )}
                 </div>
 
                 {/* Article Title: Bold & High contrast */}

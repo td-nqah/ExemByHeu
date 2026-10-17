@@ -12,6 +12,7 @@ import {
   Calendar,
   Tag,
   Printer,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getStudyMaterialById, getStudyMaterials } from "@/lib/store";
@@ -228,10 +229,17 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
         {/* Article Title Header */}
         <div className="py-8 sm:py-12 max-w-4xl space-y-4">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">
-              <Tag className="h-3 w-3 text-[#34d399]" />
-              {material.category_name || "Chuyên đề"}
-            </span>
+            {material.category_id === "none" || material.category_slug === "none" ? (
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5">
+                <FileText className="h-3 w-3 text-slate-400" />
+                {material.category_name || "Không thuộc môn nào"}
+              </span>
+            ) : (
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">
+                <Tag className="h-3 w-3 text-[#34d399]" />
+                {material.category_name || "Chuyên đề"}
+              </span>
+            )}
 
             <span className="text-xs text-[#9ca3af] flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5" />
