@@ -194,13 +194,13 @@ export default function AdminCategoriesPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-white flex flex-wrap items-center gap-3">
-              Quản lý Danh mục Chuyên đề
+              Quản lý Danh mục Học phần
               <span className="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2.5 py-1 rounded-full font-normal">
-                Category Management
+                Course Management
               </span>
             </h1>
             <p className="mt-1 text-sm text-slate-400">
-              Tạo mới, chỉnh sửa hoặc ẩn/hiện các danh mục môn học (CNXH, OOP, v.v.) hiển thị trên Sidebar và Dashboard user.
+              Tạo mới, cập nhật hoặc điều chỉnh trạng thái hiển thị các danh mục học phần trong chương trình đào tạo.
             </p>
           </div>
 
@@ -209,7 +209,7 @@ export default function AdminCategoriesPage() {
             className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2.5 text-xs transition-all self-start md:self-auto"
           >
             <Plus className="h-4 w-4" />
-            <span>Thêm Danh mục mới</span>
+            <span>Thêm Học phần mới</span>
           </button>
         </div>
       </motion.div>
@@ -217,7 +217,7 @@ export default function AdminCategoriesPage() {
       {/* 2. Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 px-5 shadow-xl">
-          <span className="text-xs text-slate-400 uppercase tracking-wider font-medium">Tổng số danh mục</span>
+          <span className="text-xs text-slate-400 uppercase tracking-wider font-medium">Tổng số học phần</span>
           <div className="mt-2 text-2xl font-bold text-white">{categories.length}</div>
         </div>
         <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 px-5 shadow-xl">
@@ -244,21 +244,21 @@ export default function AdminCategoriesPage() {
         <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
             <FolderTree className="h-4 w-4 text-indigo-400" />
-            <span>Danh sách Chuyên mục ({categories.length})</span>
+            <span>Danh sách Học phần ({categories.length})</span>
           </h2>
-          <span className="text-xs text-slate-400">Đồng bộ tự động đến Sidebar user</span>
+          <span className="text-xs text-slate-400">Đồng bộ với phân hệ khảo thí và điều hướng</span>
         </div>
 
         {loading ? (
-          <div className="p-12 text-center text-xs text-slate-400">Đang tải danh mục...</div>
+          <div className="p-12 text-center text-xs text-slate-400">Đang tải danh mục học phần...</div>
         ) : categories.length === 0 ? (
           <div className="p-12 text-center space-y-3">
-            <p className="text-sm text-slate-400">Chưa có danh mục nào.</p>
+            <p className="text-sm text-slate-400">Chưa có học phần nào trong danh mục.</p>
             <button
               onClick={openCreateModal}
               className="px-4 py-2 bg-indigo-600 rounded-xl text-xs text-white"
             >
-              Thêm danh mục đầu tiên
+              Thêm học phần đầu tiên
             </button>
           </div>
         ) : (
@@ -266,10 +266,10 @@ export default function AdminCategoriesPage() {
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="border-b border-white/5 bg-slate-900/50 text-slate-400 uppercase font-semibold">
-                  <th className="py-3 px-4">Tên Danh mục</th>
-                  <th className="py-3 px-4">Mã / Slug</th>
-                  <th className="py-3 px-4">Icon đại diện</th>
-                  <th className="py-3 px-4 text-center">Số bài thi</th>
+                  <th className="py-3 px-4">Tên Học phần</th>
+                  <th className="py-3 px-4">Mã Học phần (Slug)</th>
+                  <th className="py-3 px-4">Biểu tượng đại diện</th>
+                  <th className="py-3 px-4 text-center">Số đề đánh giá</th>
                   <th className="py-3 px-4 text-center">Trạng thái</th>
                   <th className="py-3 px-4 text-right">Thao tác</th>
                 </tr>
@@ -334,7 +334,7 @@ export default function AdminCategoriesPage() {
                           <button
                             onClick={() => openEditModal(cat)}
                             className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition"
-                            title="Chỉnh sửa danh mục"
+                            title="Chỉnh sửa học phần"
                           >
                             <Pencil className="h-3.5 w-3.5" />
                           </button>
@@ -358,7 +358,7 @@ export default function AdminCategoriesPage() {
                             <button
                               onClick={() => setDeleteConfirmId(cat.id)}
                               className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition"
-                              title="Xóa danh mục"
+                              title="Xóa học phần"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
                             </button>
@@ -388,7 +388,7 @@ export default function AdminCategoriesPage() {
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <FolderTree className="h-4 w-4 text-indigo-400" />
                   <span>
-                    {editingCategory ? "Chỉnh sửa Danh mục" : "Tạo Danh mục mới"}
+                    {editingCategory ? "Cập nhật Học phần" : "Thêm Học phần mới"}
                   </span>
                 </h3>
                 <button
@@ -403,14 +403,14 @@ export default function AdminCategoriesPage() {
                 {/* Category Name */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-medium text-slate-300">
-                    Tên Danh mục (Category Name) *
+                    Tên Học phần *
                   </label>
                   <input
                     type="text"
                     required
                     value={formName}
                     onChange={(e) => handleNameChange(e.target.value)}
-                    placeholder="Ví dụ: Chủ nghĩa xã hội (CNXH)"
+                    placeholder="Ví dụ: Chủ nghĩa xã hội khoa học"
                     className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
@@ -418,7 +418,7 @@ export default function AdminCategoriesPage() {
                 {/* Slug / Code */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-medium text-slate-300">
-                    Mã / Đường dẫn (Slug / Code) *
+                    Mã Học phần (Slug / Code) *
                   </label>
                   <input
                     type="text"
@@ -429,7 +429,7 @@ export default function AdminCategoriesPage() {
                     className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-indigo-500"
                   />
                   <p className="text-[10px] text-slate-500">
-                    Dùng trong URL lọc đề: <code>/dashboard?category={formSlug || "slug"}</code>
+                    Dùng trong định danh và lọc đề: <code>/dashboard?category={formSlug || "slug"}</code>
                   </p>
                 </div>
 
@@ -503,7 +503,7 @@ export default function AdminCategoriesPage() {
                     className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium text-xs rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-1.5 disabled:opacity-50"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5" />
-                    <span>{editingCategory ? "Lưu thay đổi" : "Tạo Danh mục"}</span>
+                    <span>{editingCategory ? "Lưu thay đổi" : "Tạo học phần"}</span>
                   </button>
                 </div>
               </form>

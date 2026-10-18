@@ -117,13 +117,13 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
       active: pathname === "/home",
     },
     {
-      title: "Lịch sử làm bài",
+      title: "Lịch sử đánh giá",
       href: "/history",
       icon: History,
       active: pathname.startsWith("/history"),
     },
     {
-      title: "Phân tích & Thống kê",
+      title: "Kết quả học tập",
       href: "/analytics",
       icon: BarChart2,
       active: pathname.startsWith("/analytics"),
@@ -269,19 +269,19 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
 
         <SidebarSeparator className="my-2" />
 
-        {/* Nhóm 2: LÝ THUYẾT / BÀI TẬP */}
+        {/* Nhóm 2: HỌC LIỆU / ĐÁNH GIÁ */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-[#818cf8]">
-            LÝ THUYẾT / BÀI TẬP
+            HỌC LIỆU / ĐÁNH GIÁ
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* Mục 1: Tổng hợp kiến thức */}
+              {/* Mục 1: Học liệu & Đề cương */}
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
                   isActive={pathname.startsWith("/knowledge")}
-                  tooltip="Tổng hợp kiến thức"
+                  tooltip="Học liệu & Đề cương"
                 >
                   <Link href="/knowledge" onClick={closeSidebarOnNavigate}>
                     <BookOpen
@@ -293,19 +293,19 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                       )}
                     />
                     <span className="truncate group-data-[collapsible=icon]:hidden">
-                      Tổng hợp kiến thức
+                      Học liệu & Đề cương
                     </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
-              {/* Mục 2: Danh sách Đề thi (Accordion Collapsible với các môn học) */}
+              {/* Mục 2: Ngân hàng Đề đánh giá */}
               <SidebarMenuItem>
                 <div className="flex w-full items-center">
                   <SidebarMenuButton
                     asChild
                     isActive={isParentActive}
-                    tooltip="Danh sách Đề thi"
+                    tooltip="Ngân hàng Đề đánh giá"
                     className="flex-1"
                   >
                     <Link
@@ -324,7 +324,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                         )}
                       />
                       <span className="truncate group-data-[collapsible=icon]:hidden">
-                        Danh sách Đề thi
+                        Ngân hàng Đề đánh giá
                       </span>
                     </Link>
                   </SidebarMenuButton>

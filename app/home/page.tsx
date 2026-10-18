@@ -39,21 +39,21 @@ const getVNTime = () => {
 function getGreetingData(hour: number) {
   if (hour >= 5 && hour < 12) {
     return {
-      greeting: "Good Morning",
+      greeting: "Chào buổi sáng",
       emoji: "☀️",
-      label: "Buổi sáng năng lượng",
+      label: "Phiên học tập buổi sáng",
     };
   } else if (hour >= 12 && hour < 18) {
     return {
-      greeting: "Good Afternoon",
+      greeting: "Chào buổi chiều",
       emoji: "🌤️",
-      label: "Buổi chiều bứt phá",
+      label: "Phiên học tập buổi chiều",
     };
   } else {
     return {
-      greeting: "Good Night",
+      greeting: "Chào buổi tối",
       emoji: "🌙",
-      label: "Chế độ đêm tập trung",
+      label: "Phiên tự học buổi tối",
     };
   }
 }
@@ -134,13 +134,7 @@ export default function HomePage() {
 
         {/* Subtitle Line Centered */}
         <p className="text-sm sm:text-base text-[#8b949e] font-normal max-w-xl mx-auto leading-relaxed">
-          Welcome back to{" "}
-          <span className="font-semibold">
-            <span className="text-[#818cf8]">Exam</span>
-            <span className="text-white">By</span>
-            <span className="text-[#818cf8]">Heu</span>
-          </span>
-          ! Ready for today&apos;s test?
+          Chào mừng quay trở lại hệ thống khảo thí và đánh giá học phần.
         </p>
 
         {/* Centered Primary Actions */}
@@ -150,7 +144,7 @@ export default function HomePage() {
             className="inline-flex items-center gap-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] active:bg-[#433ea8] text-white px-6 py-3 text-sm font-semibold shadow-sm transition-all hover:scale-[1.01]"
           >
             <Play className="h-4 w-4 fill-current ml-0.5" />
-            <span>Vào làm bài thi ngay</span>
+            <span>Bắt đầu bài đánh giá</span>
             <ArrowRight className="h-4 w-4 ml-0.5" />
           </Link>
 
@@ -159,7 +153,7 @@ export default function HomePage() {
             className="inline-flex items-center gap-2 rounded-xl bg-[#161b22] hover:bg-[#1c2128] border border-[#21262d] text-[#e6edf3] hover:text-white px-5 py-3 text-sm font-medium transition-colors"
           >
             <History className="h-4 w-4 text-[#8b949e]" />
-            <span>Xem lịch sử thi</span>
+            <span>Xem lịch sử đánh giá</span>
           </Link>
 
           <Link
@@ -167,7 +161,7 @@ export default function HomePage() {
             className="inline-flex items-center gap-2 rounded-xl bg-[#161b22] hover:bg-[#1c2128] border border-[#21262d] text-[#e6edf3] hover:text-white px-5 py-3 text-sm font-medium transition-colors"
           >
             <TrendingUp className="h-4 w-4 text-[#8b949e]" />
-            <span>Phân tích phong độ</span>
+            <span>Tiến độ học tập</span>
           </Link>
         </div>
 
@@ -189,10 +183,10 @@ export default function HomePage() {
               </span>
             </div>
             <h3 className="mt-3 text-sm font-semibold text-[#e6edf3] group-hover:text-indigo-300 transition-colors">
-              Đề thi Khả dụng
+              Đề đánh giá Khả dụng
             </h3>
             <p className="mt-0.5 text-xs text-[#8b949e]">
-              Trắc nghiệm & tự luận đa dạng chuyên đề
+              Trắc nghiệm & tự luận theo học phần
             </p>
           </Link>
 
@@ -213,7 +207,7 @@ export default function HomePage() {
               Đã hoàn thành
             </h3>
             <p className="mt-0.5 text-xs text-[#8b949e]">
-              Lịch sử làm bài và kết quả chi tiết
+              Lịch sử đánh giá và kết quả chi tiết
             </p>
           </Link>
 
@@ -228,10 +222,10 @@ export default function HomePage() {
               </span>
             </div>
             <h3 className="mt-3 text-sm font-semibold text-[#e6edf3]">
-              Phòng thi Chuẩn mực
+              Môi trường Khảo thí
             </h3>
             <p className="mt-0.5 text-xs text-[#8b949e]">
-              Đồng hồ tự động & Chống gian lận
+              Tính giờ tự động & Kiểm soát phiên thi
             </p>
           </div>
         </div>

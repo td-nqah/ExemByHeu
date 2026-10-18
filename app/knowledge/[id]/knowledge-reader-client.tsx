@@ -156,7 +156,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] text-white font-bold text-xs shadow-lg shadow-[#5852d6]/20 transition"
         >
           <ArrowLeft className="h-4 w-4" />
-          Quay lại Tổng hợp kiến thức
+          Quay lại Học liệu & Đề cương
         </Link>
       </div>
     );
@@ -194,7 +194,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
             className="inline-flex items-center gap-2 text-xs font-semibold text-[#9ca3af] hover:text-indigo-300 transition group"
           >
             <ArrowLeft className="h-4 w-4 transition group-hover:-translate-x-1" />
-            Tất cả tài liệu ôn tập
+            Tất cả học liệu & đề cương
           </Link>
 
           <div className="flex items-center gap-2">
@@ -232,7 +232,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
             {material.category_id === "none" || material.category_slug === "none" ? (
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5">
                 <FileText className="h-3 w-3 text-slate-400" />
-                {material.category_name || "Không thuộc môn nào"}
+                {material.category_name || "Tài liệu chung (Không gắn học phần)"}
               </span>
             ) : (
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">
@@ -286,14 +286,14 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                   Bạn đã đọc hết bài viết này!
                 </h4>
                 <p className="text-xs text-[#9ca3af]">
-                  Hãy luyện tập các đề thi tương ứng trong mục "Danh sách Đề thi" để kiểm tra độ hiểu bài.
+                  Hãy thực hiện các bài đánh giá tương ứng trong mục "Ngân hàng Đề đánh giá" để kiểm tra mức độ nắm vững chuẩn đầu ra.
                 </p>
               </div>
               <Link
                 href="/dashboard"
                 className="shrink-0 px-4 py-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-bold text-xs transition shadow-lg shadow-[#4f46e5]/20 cursor-pointer"
               >
-                Làm đề thi ngay
+                Làm bài đánh giá ngay
               </Link>
             </div>
 

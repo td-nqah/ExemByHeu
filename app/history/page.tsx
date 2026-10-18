@@ -52,10 +52,10 @@ export default function HistoryPage() {
       >
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">
-            Lịch sử Làm bài
+            Lịch sử Đánh giá Học phần
           </h1>
           <p className="mt-1 text-sm text-slate-400">
-            Lưu trữ tối đa 20 bài nộp gần nhất (tự động đẩy bài mới nhất thành #1 và xoay vòng xóa bài cũ khi vượt quá 20 bài), kèm điểm số và nhận xét chi tiết.
+            Lưu trữ 20 bài đánh giá gần nhất theo cơ chế xoay vòng dữ liệu, kèm điểm số và nhận xét học vụ chi tiết.
           </p>
         </div>
 
@@ -64,29 +64,29 @@ export default function HistoryPage() {
           className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-2.5 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all sm:self-auto"
         >
           <BookOpen className="h-4 w-4" />
-          <span>Làm bài thi mới</span>
+          <span>Thực hiện bài đánh giá mới</span>
         </Link>
       </motion.div>
 
       {/* History Table / Card List */}
       {loading ? (
         <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 flex h-48 items-center justify-center rounded-2xl">
-          <p className="text-sm text-slate-400">Đang tải lịch sử bài thi...</p>
+          <p className="text-sm text-slate-400">Đang tải lịch sử đánh giá...</p>
         </div>
       ) : submissions.length === 0 ? (
         <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center shadow-xl">
           <History className="mb-3 h-10 w-10 text-indigo-400" />
           <h3 className="text-base font-bold text-white">
-            Bạn chưa thực hiện bài thi thử nào
+            Chưa có dữ liệu bài đánh giá
           </h3>
           <p className="mt-1 mb-4 max-w-sm text-xs text-slate-400">
-            Hãy bắt đầu bằng cách chọn một trong các đề thi thử khả dụng tại Bảng điều khiển.
+            Vui lòng chọn bài đánh giá học phần tại danh mục để bắt đầu.
           </p>
           <Link
             href="/dashboard"
             className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all"
           >
-            <span>Đến danh sách đề thi</span>
+            <span>Đến ngân hàng đề đánh giá</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>

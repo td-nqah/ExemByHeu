@@ -78,19 +78,19 @@ export default function LoginPage() {
             <span>
               <span className="text-[#818cf8] font-bold">Exam</span>
               <span className="text-white font-bold">By</span>
-              <span className="text-[#818cf8] font-bold">Heu</span> v2.0 Cyber • Thi thử Trực tuyến
+              <span className="text-[#818cf8] font-bold">Heu</span> v2.0 • Khảo thí & Đánh giá Học phần
             </span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl lg:text-[2.35rem] xl:text-[2.65rem] font-extrabold tracking-tight text-white leading-tight sm:leading-[1.16]">
-            <span className="text-[#818cf8]">Hệ thống</span> Thi thử
+            <span className="text-[#818cf8]">Hệ thống</span> Khảo thí
             <span className="block mt-1 sm:mt-1.5 lg:mt-2">
-              <span className="text-[#818cf8]">Chấm thi</span> Trực tuyến
+              <span className="text-[#818cf8]">Đánh giá</span> Học thuật
             </span>
           </h1>
 
           <p className="hidden sm:block max-w-[58ch] text-xs sm:text-sm lg:text-base text-slate-400 leading-relaxed">
-            Bóc tách đề thi tự động từ Word, Excel, PDF. Chấm điểm trắc nghiệm và tự luận bằng AI trong phòng thi bảo mật.
+            Bóc tách đề thi tự động từ học liệu số. Chấm điểm trắc nghiệm và hỗ trợ đánh giá tự luận trong môi trường bảo mật.
           </p>
         </motion.div>
 
@@ -105,16 +105,16 @@ export default function LoginPage() {
             {/* Ambient Top Glow Line */}
             <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/60 to-transparent rounded-t-3xl" />
 
-            {/* Centered Icon & Header Title "Login EBH" */}
+            {/* Centered Icon & Header Title */}
             <div className="mb-6 sm:mb-7 flex flex-col items-center text-center">
               <div className="mb-3.5 sm:mb-4 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-[#818cf8] shadow-[0_0_20px_rgba(99,102,241,0.25)]">
                 <GraduationCap className="h-7 w-7 sm:h-8 sm:w-8 text-[#818cf8]" strokeWidth={2.2} />
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                Login EBH
+                Đăng nhập Cổng Khảo thí
               </h2>
               <p className="mt-2 text-sm sm:text-[15px] text-slate-300/80 max-w-sm mx-auto leading-relaxed">
-                Please provide your account credentials to gain authorised access to this examination environment
+                Vui lòng nhập thông tin xác thực để truy cập môi trường khảo thí và học vụ
               </p>
             </div>
 

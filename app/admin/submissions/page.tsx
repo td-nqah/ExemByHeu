@@ -50,10 +50,10 @@ export default function AdminSubmissionsListPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-          Quản lý Bài nộp & Phòng Chấm thi
+          Quản lý Bài nộp & Đánh giá Học phần
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-slate-400">
-          Theo dõi tối đa 20 bài nộp gần nhất của user, kiểm tra điểm trắc nghiệm và chấm điểm tự luận (tự động giữ 20 bài mới nhất).
+          Theo dõi bài nộp của sinh viên, xác nhận điểm trắc nghiệm và đánh giá tự luận (hệ thống lưu trữ 20 bài nộp gần nhất).
         </p>
       </div>
 
@@ -63,7 +63,7 @@ export default function AdminSubmissionsListPage() {
         <div className="flex flex-col gap-3 border-b border-white/[0.06] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-center gap-2.5">
             <h2 className="text-sm font-bold text-white">
-              Danh sách Bài làm
+              Danh sách Bài nộp Đánh giá
             </h2>
             <span className="rounded-md bg-[#1f2637] border border-white/[0.05] px-2 py-0.5 text-xs font-semibold text-slate-300">
               {filteredSubmissions.length} / 20
@@ -92,7 +92,7 @@ export default function AdminSubmissionsListPage() {
                   : "text-slate-400 hover:text-white"
               }`}
             >
-              Chờ chấm ({submissions.filter((s) => s.status === "pending_grading").length})
+              Chờ đánh giá ({submissions.filter((s) => s.status === "pending_grading").length})
             </button>
             <button
               type="button"
@@ -103,7 +103,7 @@ export default function AdminSubmissionsListPage() {
                   : "text-slate-400 hover:text-white"
               }`}
             >
-              Đã hoàn thành ({submissions.filter((s) => s.status === "graded").length})
+              Đã hoàn tất đánh giá ({submissions.filter((s) => s.status === "graded").length})
             </button>
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function AdminSubmissionsListPage() {
         {/* Table Body */}
         {loading ? (
           <div className="flex h-40 items-center justify-center">
-            <p className="text-xs text-slate-400">Đang tải dữ liệu bài làm...</p>
+            <p className="text-xs text-slate-400">Đang tải dữ liệu bài nộp...</p>
           </div>
         ) : filteredSubmissions.length === 0 ? (
           <div className="py-14 text-center space-y-2">
@@ -122,7 +122,7 @@ export default function AdminSubmissionsListPage() {
               Chưa có bài nộp nào
             </p>
             <p className="text-xs text-slate-400 max-w-sm mx-auto">
-              Khi user hoàn thành và nộp bài thi, bài thi sẽ tự động xuất hiện tại đây để giám khảo chấm điểm.
+              Khi sinh viên hoàn thành bài đánh giá, dữ liệu sẽ tự động hiển thị tại đây để Giảng viên đánh giá và ghi nhận điểm.
             </p>
           </div>
         ) : (
@@ -131,8 +131,8 @@ export default function AdminSubmissionsListPage() {
               <thead className="bg-[#121722] text-slate-400 uppercase tracking-wider text-[11px] border-b border-white/[0.06]">
                 <tr>
                   <th className="py-3 px-3 font-semibold w-12 text-center">#</th>
-                  <th className="py-3 px-4 font-semibold">User</th>
-                  <th className="py-3 px-4 font-semibold">Tên đề thi</th>
+                  <th className="py-3 px-4 font-semibold">Sinh viên</th>
+                  <th className="py-3 px-4 font-semibold">Đề đánh giá</th>
                   <th className="py-3 px-4 font-semibold">Thời gian nộp</th>
                   <th className="py-3 px-4 font-semibold">Trạng thái</th>
                   <th className="py-3 px-4 font-semibold">Điểm trắc nghiệm</th>
@@ -156,11 +156,11 @@ export default function AdminSubmissionsListPage() {
                       <td className="whitespace-nowrap py-3.5 px-4 font-bold text-white">
                         <span className="flex items-center gap-1.5">
                           <User className="h-3.5 w-3.5 text-indigo-400" />
-                          {sub.user?.username || "User"}
+                          {sub.user?.username || "Sinh viên"}
                         </span>
                       </td>
                       <td className="max-w-xs truncate py-3.5 px-4 font-medium text-slate-200">
-                        {sub.exam?.title || "Đề thi"}
+                        {sub.exam?.title || "Đề đánh giá"}
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 text-slate-400">
                         <span className="flex items-center gap-1">
@@ -172,12 +172,12 @@ export default function AdminSubmissionsListPage() {
                         {isGraded ? (
                           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 text-[11px] font-semibold">
                             <CheckCircle2 className="h-3 w-3" />
-                            Đã chấm xong
+                            Đã hoàn tất đánh giá
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 text-[11px] font-semibold">
                             <Clock className="h-3 w-3" />
-                            Chờ chấm tự luận
+                            Chờ đánh giá tự luận
                           </span>
                         )}
                       </td>
@@ -185,7 +185,7 @@ export default function AdminSubmissionsListPage() {
                         {sub.mcq_score} điểm
                       </td>
                       <td className="py-3.5 px-4 text-slate-300">
-                        {sub.essay_score !== null ? `${sub.essay_score} điểm` : "Chưa chấm"}
+                        {sub.essay_score !== null ? `${sub.essay_score} điểm` : "Chờ đánh giá"}
                       </td>
                       <td className="py-3.5 px-4 text-sm font-bold text-[#818cf8]">
                         {sub.total_score} điểm
@@ -199,7 +199,7 @@ export default function AdminSubmissionsListPage() {
                               : "bg-[#4f57ea] hover:bg-[#434ac9] text-white shadow-sm"
                           }`}
                         >
-                          <span>{isGraded ? "Xem & Sửa điểm" : "Chấm bài ngay"}</span>
+                          <span>{isGraded ? "Xem lại & Cập nhật điểm" : "Đánh giá bài làm"}</span>
                           <ArrowRight className="h-3 w-3" />
                         </Link>
                       </td>

@@ -82,7 +82,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
         >
           <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
-          <span>Quay lại danh sách bài làm</span>
+          <span>Quay lại lịch sử đánh giá</span>
         </Link>
       </div>
 
@@ -102,12 +102,12 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               {isGraded ? (
                 <span className="inline-flex items-center gap-1 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
                   <CheckCircle2 className="h-3 w-3" />
-                  Đã hoàn thành chấm điểm
+                  Đã hoàn tất đánh giá
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1 rounded-lg border border-amber-500/20 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-amber-400">
                   <Clock className="h-3 w-3" />
-                  Đang chờ chấm tự luận
+                  Đang chờ chấm điểm tự luận
                 </span>
               )}
             </div>
@@ -286,10 +286,10 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                 <div className="space-y-4">
                   <div>
                     <label className="mb-1.5 block text-[11px] font-semibold text-slate-400">
-                      Bài làm của user
+                      Bài làm của sinh viên
                     </label>
                     <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
-                      {answer.user_answer || "(User bỏ trống câu này)"}
+                      {answer.user_answer || "(Sinh viên không điền câu trả lời)"}
                     </div>
                   </div>
 
@@ -297,7 +297,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                     <div className="mb-1.5 flex items-center gap-2 text-indigo-400">
                       <Sparkles className="h-4 w-4" />
                       <span className="text-xs font-bold text-white">
-                        Đánh giá & Nhận xét chi tiết (AI & Giảng viên)
+                        Đánh giá & Nhận xét học vụ (Trợ lý học thuật AI & Giảng viên phụ trách)
                       </span>
                     </div>
                     <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-200">

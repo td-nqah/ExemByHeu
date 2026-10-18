@@ -65,10 +65,10 @@ export function SubmitConfirmModal({
               </div>
               <div>
                 <h3 className="text-base font-bold text-white">
-                  Xác nhận nộp bài thi
+                  Xác nhận nộp bài đánh giá
                 </h3>
                 <p className="text-xs text-slate-400">
-                  Hệ thống sẽ lưu trữ bài làm và chấm điểm ngay lập tức.
+                  Hệ thống sẽ ghi nhận bài làm và tính điểm đánh giá học phần.
                 </p>
               </div>
             </div>
@@ -93,7 +93,7 @@ export function SubmitConfirmModal({
 
             {hasUnanswered && (
               <p className="mb-5 rounded-xl border border-amber-500/20 bg-amber-500/10 p-3 text-xs leading-relaxed text-amber-300">
-                Lưu ý: Bạn vẫn còn {unansweredCount} câu chưa điền câu trả lời. Bạn có chắc chắn muốn nộp bài ngay lúc này?
+                Cảnh báo học vụ: Còn {unansweredCount} câu hỏi chưa trả lời. Bạn có chắc chắn muốn nộp bài?
               </p>
             )}
 

@@ -79,7 +79,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "ce2b9f0f-73bf-4813-9d8b-00b09e5062a1",
     title: "Đề cương CTMT: Đề 1",
-    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    description: "Đề cương ôn tập học phần Cấu trúc máy tính & Hệ điều hành.",
     duration_minutes: 60,
     category_id: "cat_ctmthdh",
     category_slug: "ctmthdh",
@@ -92,7 +92,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "99e9f019-b61c-4cdd-b24a-4d38b4d817d0",
     title: "Đề cương CTMT: Đề 2",
-    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    description: "Đề cương ôn tập học phần Cấu trúc máy tính & Hệ điều hành.",
     duration_minutes: 60,
     category_id: "cat_ctmthdh",
     category_slug: "ctmthdh",
@@ -105,7 +105,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "11e943ad-d35e-4655-91df-1b2fded8600a",
     title: "Đề cương CTMT: Đề 3",
-    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    description: "Đề cương ôn tập học phần Cấu trúc máy tính & Hệ điều hành.",
     duration_minutes: 60,
     category_id: "cat_ctmthdh",
     category_slug: "ctmthdh",
@@ -118,7 +118,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "dd7f262b-e1ab-4bd9-9470-bf9b04d39914",
     title: "Đề cương CTMT: Đề 4",
-    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    description: "Đề cương ôn tập học phần Cấu trúc máy tính & Hệ điều hành.",
     duration_minutes: 60,
     category_id: "cat_ctmthdh",
     category_slug: "ctmthdh",
@@ -131,7 +131,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "c710433a-4a91-4c2d-aeaf-120dbef8ddb3",
     title: "Đề cương CTMT: Đề 5",
-    description: "Đề cương ôn tập môn Cấu trúc máy tính & Hệ điều hành.",
+    description: "Đề cương ôn tập học phần Cấu trúc máy tính & Hệ điều hành.",
     duration_minutes: 60,
     category_id: "cat_ctmthdh",
     category_slug: "ctmthdh",
@@ -144,7 +144,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "02eaf730-8a1c-445a-8b9b-126a435b5343",
     title: "Đề cương CNXH: Đề 1(K24)",
-    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu học phần Chủ nghĩa Xã hội Khoa học.",
     duration_minutes: 60,
     category_id: "cat_cnxh",
     category_slug: "cnxh",
@@ -157,7 +157,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "1568ed83-9fbd-4ebe-9695-f66218d96e00",
     title: "Đề mở CNXH: Đề 1",
-    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu học phần Chủ nghĩa Xã hội Khoa học.",
     duration_minutes: 60,
     category_id: "cat_cnxh",
     category_slug: "cnxh",
@@ -170,7 +170,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "e9f9cf02-a194-467c-8849-869115f128dc",
     title: "Đề mở CNXH: Đề 2",
-    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu học phần Chủ nghĩa Xã hội Khoa học.",
     duration_minutes: 60,
     category_id: "cat_cnxh",
     category_slug: "cnxh",
@@ -183,7 +183,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "4e881658-00db-4991-8d6f-739d20c3ee8e",
     title: "Đề mở CNXH: Đề 3",
-    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu học phần Chủ nghĩa Xã hội Khoa học.",
     duration_minutes: 60,
     category_id: "cat_cnxh",
     category_slug: "cnxh",
@@ -196,7 +196,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "5cb8cfd2-3aab-4920-ba68-ad09c4454c73",
     title: "Đề mở CNXH: Đề 4",
-    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu học phần Chủ nghĩa Xã hội Khoa học.",
     duration_minutes: 60,
     category_id: "cat_cnxh",
     category_slug: "cnxh",
@@ -209,7 +209,7 @@ export const SEED_EXAMS: Exam[] = [
   {
     id: "bd754608-a772-4291-94d9-5072a35cf7be",
     title: "Đề mở CNXH: Đề 5",
-    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu môn Chủ nghĩa Xã hội Khoa học.",
+    description: "Bộ đề trắc nghiệm và câu hỏi ôn tập chuyên sâu học phần Chủ nghĩa Xã hội Khoa học.",
     duration_minutes: 60,
     category_id: "cat_cnxh",
     category_slug: "cnxh",
@@ -2407,7 +2407,7 @@ export async function saveStudyMaterial(
       ...materialData,
       category_id: isNoneCategory ? "none" : (materialData.category_id || all[existingIdx].category_id),
       category_name: isNoneCategory
-        ? "Không thuộc môn nào"
+        ? "Tài liệu chung (Không gắn học phần)"
         : matchedCat
         ? matchedCat.name
         : all[existingIdx].category_name,
@@ -2426,7 +2426,7 @@ export async function saveStudyMaterial(
       title: materialData.title || "Tài liệu học tập mới",
       category_id: isNoneCategory ? "none" : (materialData.category_id || categories[0]?.id || "cat_cnxh"),
       category_name: isNoneCategory
-        ? "Không thuộc môn nào"
+        ? "Tài liệu chung (Không gắn học phần)"
         : matchedCat
         ? matchedCat.name
         : (categories[0]?.name || "Chuyên đề"),

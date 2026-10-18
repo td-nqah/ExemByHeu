@@ -82,7 +82,7 @@ export default function KnowledgeHubPage() {
 
   return (
     <div className="min-fluid-h p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
-      {/* Header Section: Tiêu đề chính chỉ để dòng chữ Tổng hợp kiến thức */}
+      {/* Header Section: Tiêu đề chính chỉ để dòng chữ Học liệu & Đề cương */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1f2937]">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
@@ -90,10 +90,10 @@ export default function KnowledgeHubPage() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
-              Tổng hợp kiến thức
+              Học liệu & Đề cương
             </h1>
             <p className="text-xs text-[#9ca3af] mt-0.5">
-              Hệ thống tài liệu ôn tập, tóm tắt lý thuyết trọng tâm và đề cương các chuyên đề
+              Hệ thống học liệu, đề cương chi tiết và tài liệu tham khảo theo học phần
             </p>
           </div>
         </div>
@@ -135,9 +135,9 @@ export default function KnowledgeHubPage() {
                 <span className="text-[#9ca3af] font-normal">Danh mục:</span>
                 <span className="font-bold text-white truncate">
                   {selectedCategory === "all"
-                    ? "Tất cả môn học"
+                    ? "Tất cả học phần"
                     : selectedCategory === "none"
-                    ? "Không thuộc môn nào"
+                    ? "Tài liệu chung (Không gắn học phần)"
                     : categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
                 </span>
               </div>
@@ -169,11 +169,11 @@ export default function KnowledgeHubPage() {
                     className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-[#1f2937] bg-[#0b0f19]/95 backdrop-blur-xl p-2 shadow-2xl space-y-1.5 min-w-[280px]"
                   >
                     <div className="px-2.5 py-1.5 text-[11px] font-bold text-[#9ca3af] uppercase tracking-wider flex items-center justify-between border-b border-[#1f2937]/80 pb-2">
-                      <span>Chọn danh mục môn học</span>
+                      <span>Chọn học phần đào tạo</span>
                       <span>{categories.length + 2} phân loại</span>
                     </div>
 
-                    {/* Thanh nội dung phụ: Tất cả môn học */}
+                    {/* Thanh nội dung phụ: Tất cả học phần */}
                     <button
                       type="button"
                       onClick={() => {
@@ -193,7 +193,7 @@ export default function KnowledgeHubPage() {
                         </div>
                         <div>
                           <p className="text-xs font-bold text-white group-hover:text-indigo-300 transition">
-                            Tất cả môn học
+                            Tất cả học phần
                           </p>
                           <p className="text-[10px] text-[#9ca3af]">Toàn bộ tài liệu trong hệ thống</p>
                         </div>
@@ -208,7 +208,7 @@ export default function KnowledgeHubPage() {
                       </div>
                     </button>
 
-                    {/* Thanh nội dung phụ: Không thuộc môn nào */}
+                    {/* Thanh nội dung phụ: Tài liệu chung (Không gắn học phần) */}
                     <button
                       type="button"
                       onClick={() => {
@@ -228,7 +228,7 @@ export default function KnowledgeHubPage() {
                         </div>
                         <div className="min-w-0">
                           <p className="text-xs font-bold text-white group-hover:text-slate-200 transition truncate">
-                            Không thuộc môn nào
+                            Tài liệu chung (Không gắn học phần)
                           </p>
                           <p className="text-[10px] text-[#9ca3af] truncate">Ghi chú & cẩm nang chung</p>
                         </div>
@@ -325,7 +325,7 @@ export default function KnowledgeHubPage() {
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 text-xs font-bold">
               <Tag className="h-3 w-3" />
               {selectedCategory === "none"
-                ? "Không thuộc môn nào"
+                ? "Tài liệu chung (Không gắn học phần)"
                 : categories.find((c) => c.id === selectedCategory || c.slug === selectedCategory)?.name || "Chuyên đề"}
               <button
                 type="button"
@@ -385,7 +385,7 @@ export default function KnowledgeHubPage() {
                   {item.category_id === "none" || item.category_slug === "none" ? (
                     <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5">
                       <FileText className="h-3 w-3 text-slate-400" />
-                      {item.category_name || "Không thuộc môn nào"}
+                      {item.category_name || "Tài liệu chung (Không gắn học phần)"}
                     </span>
                   ) : (
                     <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">

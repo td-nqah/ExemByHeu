@@ -262,11 +262,11 @@ export function EditExamClient({ examId }: { examId: string }) {
 
   const handleSaveChanges = async () => {
     if (!title.trim()) {
-      alert("Vui lòng nhập tên đề thi.");
+      alert("Vui lòng nhập tên đề đánh giá.");
       return;
     }
     if (questions.length === 0) {
-      alert("Đề thi cần có ít nhất 1 câu hỏi.");
+      alert("Đề đánh giá cần có ít nhất 1 câu hỏi.");
       return;
     }
 
@@ -310,13 +310,13 @@ export function EditExamClient({ examId }: { examId: string }) {
         <div className="glass-card rounded-2xl p-8 text-center">
           <AlertCircle className="mx-auto mb-2 h-10 w-10 text-rose-400" />
           <h2 className="text-base font-bold text-white">
-            Không tìm thấy đề thi cần chỉnh sửa
+            Không tìm thấy đề đánh giá cần chỉnh sửa
           </h2>
           <Link
             href="/admin/dashboard"
             className="mt-4 inline-block text-xs font-semibold text-indigo-400 underline"
           >
-            Quay lại Ngân hàng Đề thi
+            Quay lại Ngân hàng Đề đánh giá
           </Link>
         </div>
       </div>
@@ -347,7 +347,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
         >
           <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
-          <span>Quay lại Ngân hàng Đề thi</span>
+          <span>Quay lại Ngân hàng Đề đánh giá</span>
         </Link>
       </div>
 
@@ -355,10 +355,10 @@ export function EditExamClient({ examId }: { examId: string }) {
       <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            Chỉnh sửa Đề thi
+            Chỉnh sửa Đề đánh giá
           </h1>
           <p className="mt-1 text-sm text-slate-400">
-            Cập nhật thông tin chung, nội dung câu hỏi, đáp án đúng và cấu hình phân bổ điểm số.
+            Cập nhật thông tin học phần, nội dung câu hỏi, đáp án chuẩn và barem điểm.
           </p>
         </div>
 
@@ -385,33 +385,33 @@ export function EditExamClient({ examId }: { examId: string }) {
       {/* 1. General Exam Metadata Form */}
       <div className="glass-card mb-8 rounded-2xl p-6">
         <h2 className="mb-4 text-base font-bold text-white">
-          Thông tin chung của Đề thi
+          Thông tin cơ bản của Đề đánh giá
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
-              Tên đề thi <span className="text-rose-400">*</span>
+              Tên đề đánh giá <span className="text-rose-400">*</span>
             </label>
             <input
               type="text"
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Nhập tên đề thi..."
+              placeholder="Nhập tên đề đánh giá..."
               className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
             />
           </div>
 
           <div className="sm:col-span-2">
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
-              Mô tả đề thi
+              Mô tả / Hướng dẫn làm bài
             </label>
             <textarea
               rows={2}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Mô tả nội dung hoặc hướng dẫn làm bài..."
+              placeholder="Ghi chú về quy chế phòng thi, thời gian làm bài hoặc tài liệu được phép sử dụng..."
               className="glass-input w-full rounded-xl p-3 text-xs"
             />
           </div>
@@ -463,7 +463,7 @@ export function EditExamClient({ examId }: { examId: string }) {
                     )}
                   </label>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Tự động xáo trộn vị trí câu hỏi và các lựa chọn A, B, C, D cho từng lượt thi.
+                    Tự động xáo trộn vị trí câu hỏi và các phương án A, B, C, D cho từng lượt đánh giá.
                   </p>
                 </div>
               </div>
@@ -572,7 +572,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           <div className="glass-card rounded-2xl py-12 text-center">
             <Layers className="mx-auto mb-2 h-8 w-8 text-indigo-400" />
             <p className="text-xs font-semibold text-slate-200">
-              Đề thi hiện chưa có câu hỏi nào
+              Đề đánh giá hiện chưa có câu hỏi nào
             </p>
             <button
               type="button"

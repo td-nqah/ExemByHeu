@@ -58,7 +58,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
 
       const data = await res.json();
       if (!res.ok) {
-        alert("Lỗi AI chấm thi: " + (data.error || "Không thể xử lý"));
+        alert("Lỗi Trợ lý AI đánh giá: " + (data.error || "Không thể xử lý"));
         return;
       }
 
@@ -71,7 +71,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
         },
       }));
     } catch (err: any) {
-      alert("Lỗi kết nối tới dịch vụ AI: " + (err?.message || "Vui lòng thử lại"));
+      alert("Lỗi kết nối tới Trợ lý học thuật AI: " + (err?.message || "Vui lòng thử lại"));
     } finally {
       setAiLoadingId(null);
     }
@@ -152,7 +152,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
         }, 1200);
       }
     } catch (err: any) {
-      alert("Lỗi khi lưu kết quả chấm thi: " + (err?.message || "Vui lòng thử lại"));
+      alert("Lỗi khi lưu kết quả đánh giá: " + (err?.message || "Vui lòng thử lại"));
     } finally {
       setIsSubmitting(false);
     }
@@ -175,7 +175,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             Không tìm thấy bài nộp
           </h2>
           <Link href="/admin/submissions" className="mt-3 inline-block text-xs font-semibold text-indigo-400 underline">
-            Quay lại danh sách bài làm
+            Quay lại danh sách bài nộp
           </Link>
         </div>
       </div>
@@ -195,7 +195,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
         >
           <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
-          <span>Quay lại Quản lý Bài nộp</span>
+          <span>Quay lại Quản lý Bài nộp & Đánh giá</span>
         </Link>
       </div>
 
@@ -210,7 +210,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-200">
                 <User className="h-3 w-3 text-indigo-400" />
-                User: <strong>{submission.user?.username || "User"}</strong>
+                Sinh viên: <strong>{submission.user?.username || "Sinh viên"}</strong>
               </span>
               <span className="inline-flex items-center gap-1 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-300">
                 <Calendar className="h-3 w-3 text-indigo-400" />
@@ -219,16 +219,16 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             </div>
 
             <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
-              Phòng Chấm thi: {submission.exam?.title}
+              Đánh giá Học phần: {submission.exam?.title}
             </h1>
             <p className="mt-1 text-xs text-slate-400">
-              Kiểm tra điểm trắc nghiệm (đã khóa tự động) và chấm các câu hỏi tự luận bên dưới.
+              Kiểm tra kết quả trắc nghiệm và tiến hành đánh giá chi tiết các câu hỏi tự luận.
             </p>
           </div>
 
           <div className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900/80 p-4">
             <div className="text-right">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tổng điểm tính lại</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tổng điểm đánh giá</p>
               <p className="text-2xl font-black text-indigo-400">
                 {liveTotalScore}
               </p>
@@ -236,10 +236,10 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             <div className="h-8 w-px bg-slate-800" />
             <div className="space-y-0.5 text-xs text-slate-400">
               <p>
-                Trắc nghiệm (Khóa): <strong className="text-white">{mcqScore}</strong>
+                Điểm trắc nghiệm (Đã khóa): <strong className="text-white">{mcqScore}</strong>
               </p>
               <p>
-                Tự luận đang chấm: <strong className="text-white">{currentEssayTotal}</strong>
+                Điểm tự luận: <strong className="text-white">{currentEssayTotal}</strong>
               </p>
             </div>
           </div>
@@ -250,7 +250,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             {savedSuccess ? (
               <span className="flex items-center gap-1.5 font-bold text-emerald-400">
                 <Check className="h-4 w-4 stroke-[3]" />
-                Đã hoàn tất chấm điểm và đồng bộ vào hệ thống!
+                Đã ghi nhận kết quả đánh giá và cập nhật điểm học phần!
               </span>
             ) : (
               <span>Thay đổi điểm số tự luận sẽ được tính toán trực tiếp vào tổng điểm.</span>
@@ -264,7 +264,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
-            <span>{isSubmitting ? "Đang lưu..." : "Hoàn tất Chấm thi & Cập nhật điểm"}</span>
+            <span>{isSubmitting ? "Đang lưu..." : "Lưu kết quả đánh giá & Cập nhật điểm"}</span>
           </button>
         </div>
       </motion.div>
@@ -291,7 +291,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">
-                    {isMCQ ? "Trắc nghiệm" : "Tự luận (Cần chấm)"}
+                    {isMCQ ? "Trắc nghiệm khách quan" : "Tự luận (Cần đánh giá)"}
                   </span>
                 </div>
 
@@ -300,7 +300,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                     <div className="flex items-center gap-2">
                       <span className="inline-flex items-center gap-1 rounded-md bg-slate-800/90 border border-slate-700/50 px-2 py-0.5 text-xs font-medium text-slate-300">
                         <Lock className="h-3 w-3 text-indigo-400" />
-                        Tự động chấm
+                        Tự động ghi nhận
                       </span>
                       <span
                         className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-bold ${
@@ -385,21 +385,21 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                           {isCandidateChoice && isCorrectAnswer && (
                             <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
                               <Check className="h-3 w-3 text-emerald-400" />
-                              <span>User chọn (Đáp án đúng)</span>
+                              <span>Sinh viên chọn (Chính xác)</span>
                             </span>
                           )}
 
                           {isCandidateChoice && !isCorrectAnswer && (
                             <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/40 bg-rose-950/80 px-2.5 py-0.5 text-[10px] font-bold text-rose-400">
                               <AlertCircle className="h-3 w-3 text-rose-400" />
-                              <span>Lựa chọn của bạn / User</span>
+                              <span>Phương án sinh viên chọn</span>
                             </span>
                           )}
 
                           {!isCandidateChoice && isCorrectAnswer && (
                             <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
                               <Check className="h-3 w-3 text-emerald-400" />
-                              <span>Đáp án đúng</span>
+                              <span>Đáp án chuẩn</span>
                             </span>
                           )}
                         </div>
@@ -411,10 +411,10 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                 <div className="space-y-4">
                   <div>
                     <label className="mb-1.5 block text-[11px] font-semibold text-slate-400">
-                      Bài làm của user
+                      Bài làm của sinh viên
                     </label>
                     <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
-                      {ans.user_answer ? ans.user_answer : "(User bỏ trống câu này)"}
+                      {ans.user_answer ? ans.user_answer : "(Sinh viên không điền nội dung trả lời)"}
                     </div>
                   </div>
 
@@ -430,10 +430,10 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                           disabled={aiLoadingId === q.id}
                           onClick={() => handleGradeWithAI(q.id, q.content, ans.user_answer, q.max_score)}
                           className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600/20 border border-indigo-500/30 px-2.5 py-1 text-[11px] font-semibold text-indigo-300 transition hover:bg-indigo-600/30 hover:text-white active:scale-[0.98] disabled:opacity-50"
-                          title="Sử dụng Gemini Pro để phân tích câu trả lời và chấm gợi ý"
+                          title="Sử dụng Trợ lý học thuật AI để phân tích câu trả lời và đề xuất điểm theo barem"
                         >
                           <Sparkles className="h-3 w-3 text-indigo-400" />
-                          <span>{aiLoadingId === q.id ? "Gemini Pro đang chấm..." : "Chấm gợi ý với Gemini Pro"}</span>
+                          <span>{aiLoadingId === q.id ? "Trợ lý AI đang phân tích barem..." : "Đề xuất điểm với Trợ lý AI"}</span>
                         </button>
                       </div>
 
@@ -452,13 +452,13 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                     <div>
                       <label className="mb-1.5 flex items-center gap-1 text-xs font-medium text-slate-300">
                         <MessageSquare className="h-3.5 w-3.5 text-indigo-400" />
-                        Nhận xét và phản hồi của Giảng viên
+                        Nhận xét học vụ của Giảng viên phụ trách
                       </label>
                       <textarea
                         rows={3}
                         value={essayGrades[q.id]?.feedback ?? ""}
                         onChange={(e) => handleFeedbackChange(q.id, e.target.value)}
-                        placeholder="Nhập nhận xét chi tiết, chỉ ra lỗi sai hoặc nhận xét bài làm..."
+                        placeholder="Nhập nhận xét học vụ chi tiết, đối sánh barem điểm và hướng dẫn cải thiện..."
                         className="glass-input w-full rounded-xl p-3 text-xs leading-relaxed"
                       />
                     </div>
@@ -473,10 +473,10 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
       <div className="glass-panel mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl p-6 sm:flex-row">
         <div>
           <h4 className="text-sm font-bold text-white">
-            Xác nhận hoàn tất phiên chấm thi?
+            Xác nhận lưu kết quả đánh giá học phần?
           </h4>
           <p className="text-xs text-slate-400">
-            Điểm tự luận ({currentEssayTotal} đ) sẽ cộng cùng điểm trắc nghiệm ({mcqScore} đ) thành {liveTotalScore} điểm.
+            Điểm tự luận ({currentEssayTotal} đ) kết hợp cùng điểm trắc nghiệm ({mcqScore} đ) thành tổng điểm {liveTotalScore} (Thang điểm 10).
           </p>
         </div>
 
@@ -487,7 +487,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-3 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
         >
           <Save className="h-4 w-4" />
-          <span>{isSubmitting ? "Đang lưu..." : "Hoàn tất Chấm thi & Cập nhật điểm"}</span>
+          <span>{isSubmitting ? "Đang lưu..." : "Lưu kết quả đánh giá & Cập nhật điểm"}</span>
         </button>
       </div>
     </div>

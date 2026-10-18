@@ -382,10 +382,10 @@ export default function AdminPermissionsPage() {
         <div>
           <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-3">
             <Sliders className="h-7 w-7 text-[#6366f1]" />
-            <span>Phân quyền & Kiểm soát Hệ thống</span>
+            <span>Quản trị Tài khoản & Phân quyền Học vụ</span>
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-[#9ca3af]">
-            Theo dõi lưu lượng bộ nhớ máy chủ và kiểm soát trạng thái kích hoạt, giới hạn IP/thiết bị của user.
+            Giám sát tài nguyên lưu trữ học vụ, quản trị quyền truy cập và bảo mật thiết bị sinh viên.
           </p>
         </div>
       </div>
@@ -397,7 +397,7 @@ export default function AdminPermissionsPage() {
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
             <HardDrive className="h-4.5 w-4.5 text-indigo-400" />
-            <span>1. Theo dõi Lưu lượng Bộ nhớ Hệ thống (Đo lường từng MB)</span>
+            <span>1. Giám sát Dung lượng Lưu trữ Học vụ (Đo lường từng MB)</span>
           </h2>
           <span className="text-xs text-[#9ca3af] font-sans tracking-normal">
             Giới hạn: <strong className="font-mono text-slate-300">{maxStorageMB} MB</strong>
@@ -585,9 +585,9 @@ export default function AdminPermissionsPage() {
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
             <ShieldCheck className="h-4.5 w-4.5 text-indigo-400" />
-            <span>2. Quản lý Tài khoản, Thiết bị &amp; Giám sát Trực tuyến</span>
+            <span>2. Quản trị Tài khoản &amp; Giám sát Truy cập Trực tuyến</span>
           </h2>
-          <span className="text-xs text-[#9ca3af]">Kiểm soát bảo mật user &amp; theo dõi người dùng đang online thời gian thực</span>
+          <span className="text-xs text-[#9ca3af]">Kiểm soát bảo mật tài khoản học vụ và theo dõi sinh viên trực tuyến thời gian thực</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
@@ -600,10 +600,10 @@ export default function AdminPermissionsPage() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                    <span>Kiểm soát Kích hoạt &amp; Thiết bị Đăng nhập</span>
+                    <span>Kiểm soát Kích hoạt &amp; Thiết bị Truy cập</span>
                   </h3>
                   <p className="text-xs text-[#9ca3af]">
-                    Tự động chuyển sang Off nếu user đăng nhập quá 3 thiết bị (không giới hạn IP)
+                    Tự động chuyển trạng thái Tạm khóa nếu tài khoản đăng nhập quá 3 thiết bị
                   </p>
                 </div>
               </div>
@@ -656,7 +656,7 @@ export default function AdminPermissionsPage() {
                 if (filtered.length === 0) {
                   return (
                     <div className="p-4 rounded-xl border border-dashed border-[#1f2937] text-center text-xs text-[#9ca3af]">
-                      Chưa có tài khoản user nào trong hệ thống.
+                      Chưa có tài khoản sinh viên nào trong hệ thống.
                     </div>
                   );
                 }
@@ -677,7 +677,7 @@ export default function AdminPermissionsPage() {
                             {acc.username}
                           </span>
                           <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f2937] text-slate-300 border border-[#1f2937] font-medium tracking-normal">
-                            {acc.role === "admin" ? "Admin" : "User"}
+                            {acc.role === "admin" ? "Admin" : "Sinh viên"}
                           </span>
                           <span
                             className={`text-xs px-2.5 py-0.5 rounded-full font-semibold border tracking-normal ${
@@ -686,7 +686,7 @@ export default function AdminPermissionsPage() {
                                 : "bg-rose-500/15 text-rose-400 border-rose-500/30 shadow-[0_0_8px_rgba(244,63,94,0.15)]"
                             }`}
                           >
-                            {isActive ? "Active" : "Đã khóa (Off)"}
+                            {isActive ? "Đang kích hoạt" : "Tạm khóa (Off)"}
                           </span>
                         </div>
 

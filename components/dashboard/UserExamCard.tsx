@@ -126,7 +126,7 @@ export function UserExamCard({ exam }: UserExamCardProps) {
           href={`/exam/${exam.id}`}
           className="inline-flex items-center gap-1.5 shrink-0 rounded-[8px] bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] px-3.5 py-1.5 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-all duration-200 hover:shadow-indigo-500/50 hover:translate-x-0.5 cursor-pointer"
         >
-          <span>Làm bài</span>
+          <span>Bắt đầu làm bài</span>
           <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>

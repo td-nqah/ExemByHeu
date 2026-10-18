@@ -401,11 +401,11 @@ export default function ExamCreatePage() {
 
   const handleConfirmAndPublish = async () => {
     if (!title.trim()) {
-      alert("Vui lòng nhập tiêu đề cho đề thi.");
+      alert("Vui lòng nhập tiêu đề cho đề đánh giá.");
       return;
     }
     if (questions.length === 0) {
-      alert("Đề thi cần có ít nhất 1 câu hỏi.");
+      alert("Đề đánh giá cần có ít nhất 1 câu hỏi.");
       return;
     }
 
@@ -445,7 +445,7 @@ export default function ExamCreatePage() {
       router.push("/admin/dashboard");
       router.refresh();
     } catch (err: any) {
-      alert("Lỗi khi lưu đề thi: " + (err?.message || "Vui lòng thử lại"));
+      alert("Lỗi khi lưu đề đánh giá: " + (err?.message || "Vui lòng thử lại"));
     } finally {
       setIsSaving(false);
     }
@@ -480,13 +480,13 @@ export default function ExamCreatePage() {
         <div>
           <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 text-[11px] font-medium text-indigo-400">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Smart Exam Importer Engine • Gemini AI & Clipboard</span>
+            <span>Trợ lý học thuật AI • Trích xuất Đề đánh giá</span>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            Tạo Đề thi thử & Bóc tách Thông minh
+            Tạo Đề đánh giá Học phần & Trích xuất Dữ liệu
           </h1>
           <p className="mt-1 text-sm text-slate-400">
-            Tải lên tệp Word (.docx), Excel (.xlsx), PDF hoặc dán trực tiếp văn bản từ Clipboard để Gemini AI tự động nhận diện câu hỏi, đáp án và điểm số.
+            Tải lên tệp Word (.docx), Excel (.xlsx), PDF hoặc dán trực tiếp văn bản từ bộ nhớ tạm để Trợ lý học thuật AI tự động nhận diện câu hỏi, phương án và barem điểm.
           </p>
         </div>
 
@@ -498,7 +498,7 @@ export default function ExamCreatePage() {
             className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-5 py-2.5 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
-            <span>{isSaving ? "Đang lưu..." : "Xác nhận & Lưu đề"}</span>
+            <span>{isSaving ? "Đang lưu..." : "Lưu & Ban hành đề đánh giá"}</span>
           </button>
         )}
       </div>
@@ -547,10 +547,10 @@ export default function ExamCreatePage() {
               onClick={handleTestAiConnection}
               disabled={isTestingAi}
               className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#4f46e5] hover:text-white border border-[#1f2937] px-3 py-1.5 text-[11px] font-semibold text-slate-300 transition disabled:opacity-50 cursor-pointer"
-              title="Kiểm tra xem Server có gọi được model Gemini AI thành công hay không"
+              title="Kiểm tra trạng thái kết nối mô hình Trợ lý AI"
             >
               <Cpu className="h-3.5 w-3.5 text-indigo-400" />
-              <span>{isTestingAi ? "Đang ping AI..." : "Kiểm tra kết nối AI"}</span>
+              <span>{isTestingAi ? "Đang kiểm tra AI..." : "Kiểm tra kết nối Trợ lý AI"}</span>
             </button>
           </div>
         </div>
@@ -568,7 +568,7 @@ export default function ExamCreatePage() {
               <span>{aiStatusMessage}</span>
             </div>
             <span className="font-semibold">
-              {aiConnected ? "ONLINE" : "FALLBACK MODE"}
+              {aiConnected ? "SẴN SÀNG" : "CHẾ ĐỘ DỰ PHÒNG"}
             </span>
           </div>
         )}
@@ -596,10 +596,10 @@ export default function ExamCreatePage() {
             </div>
 
             <h3 className="text-base font-bold text-white">
-              Kéo thả tệp đề thi hoặc nhấn để chọn tệp
+              Kéo thả tệp đề đánh giá hoặc nhấn để chọn tệp
             </h3>
             <p className="mx-auto mt-1 max-w-lg text-xs text-slate-400">
-              Hỗ trợ định dạng Microsoft Word (.docx), Microsoft Excel (.xlsx), PDF và TXT. Hệ thống sẽ trích xuất văn bản và dùng Gemini AI để phân tích cấu trúc câu hỏi.
+              Hỗ trợ định dạng Microsoft Word (.docx), Microsoft Excel (.xlsx), PDF và TXT. Hệ thống sẽ trích xuất văn bản và sử dụng Trợ lý học thuật AI để phân tích cấu trúc câu hỏi.
             </p>
 
             <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
@@ -612,7 +612,7 @@ export default function ExamCreatePage() {
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>
                   {isParsing
-                    ? "Gemini AI đang bóc tách dữ liệu..."
+                    ? "Trợ lý AI đang trích xuất dữ liệu..."
                     : "Chọn tệp từ máy tính"}
                 </span>
               </button>
@@ -623,7 +623,7 @@ export default function ExamCreatePage() {
                 className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#1f2937] hover:text-white border border-[#1f2937] px-4 py-2.5 text-xs font-medium text-slate-300 transition cursor-pointer"
               >
                 <ClipboardPaste className="h-3.5 w-3.5" />
-                <span>Chuyển sang Dán từ Clipboard</span>
+                <span>Chuyển sang Dán từ bộ nhớ tạm</span>
               </button>
             </div>
           </div>
@@ -633,10 +633,10 @@ export default function ExamCreatePage() {
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <ClipboardPaste className="h-4 w-4 text-indigo-400" />
-                  <span>Dán nội dung đề thi từ Clipboard / Văn bản</span>
+                  <span>Dán nội dung đề đánh giá từ bộ nhớ tạm</span>
                 </h3>
                 <p className="mt-0.5 text-xs text-slate-400">
-                  Sao chép toàn bộ nội dung đề thi từ Word, Notepad, Website, PDF hoặc Messenger rồi bấm <strong className="text-slate-200">Ctrl + V</strong> vào ô bên dưới.
+                  Sao chép toàn bộ nội dung đề đánh giá từ Word, Notepad, Website hoặc PDF rồi bấm <strong className="text-slate-200">Ctrl + V</strong> vào ô bên dưới.
                 </p>
               </div>
 
@@ -660,7 +660,7 @@ export default function ExamCreatePage() {
                   className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-slate-300 transition"
                 >
                   <Wand2 className="h-3.5 w-3.5" />
-                  <span>Chèn đề mẫu thử nghiệm</span>
+                  <span>Chèn cấu trúc đề mẫu</span>
                 </button>
 
                 {clipboardText && (
@@ -686,7 +686,7 @@ export default function ExamCreatePage() {
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-1">
               <p className="text-[11px] text-slate-400">
-                Mẹo: Không cần trình bày đúng chuẩn A. B. C. D. — Gemini AI có thể tự động bóc tách cả câu hỏi trắc nghiệm lẫn tự luận trình bày tự do.
+                Lưu ý nghiệp vụ: Trợ lý học thuật AI tự động phân tích và trích xuất cả câu hỏi trắc nghiệm lẫn tự luận định dạng tự do.
               </p>
 
               <button
@@ -698,8 +698,8 @@ export default function ExamCreatePage() {
                 <Sparkles className="h-4 w-4" />
                 <span>
                   {isParsing
-                    ? "Đang phân tích & bóc tách bằng AI..."
-                    : "Bóc tách câu hỏi"}
+                    ? "Đang trích xuất câu hỏi bằng Trợ lý AI..."
+                    : "Trích xuất câu hỏi"}
                 </span>
               </button>
             </div>
@@ -720,7 +720,7 @@ export default function ExamCreatePage() {
               <span>{parseNotice}</span>
             </div>
             <span className="rounded-full bg-emerald-950/80 border border-emerald-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
-              {parseMode === "ai" ? "Gemini AI Smart Parser" : "Fallback Regex Parser"}
+              {parseMode === "ai" ? "Trợ lý học thuật AI" : "Bộ phân tích dự phòng"}
             </span>
           </div>
         )}
@@ -729,20 +729,20 @@ export default function ExamCreatePage() {
       {/* 2. Exam Metadata Form */}
       <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 mb-8 rounded-2xl p-6">
         <h2 className="mb-4 text-base font-bold text-white">
-          Thông tin cơ bản của Đề thi thử
+          Thông tin cơ bản của Đề đánh giá
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
-              Tiêu đề đề thi <span className="text-rose-400">*</span>
+              Tiêu đề đề đánh giá <span className="text-rose-400">*</span>
             </label>
             <input
               type="text"
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="VD: Đề thi thử Giữa kỳ: Kiến trúc Hệ thống Phân tán"
+              placeholder="VD: Đề đánh giá Học phần Giữa kỳ: Kiến trúc Hệ thống Phân tán"
               className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
             />
           </div>
@@ -755,14 +755,14 @@ export default function ExamCreatePage() {
               rows={2}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Ghi chú thêm về quy chế phòng thi, thời gian hoặc tài liệu cho phép..."
+              placeholder="Ghi chú về quy chế phòng thi, thời gian làm bài hoặc tài liệu được phép sử dụng..."
               className="glass-input w-full rounded-xl p-3 text-xs"
             />
           </div>
 
           <div>
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
-              Danh mục con (Chuyên đề / Môn học) <span className="text-indigo-400">*</span>
+              Học phần đào tạo <span className="text-indigo-400">*</span>
             </label>
             <PopoverSelect
               className="w-full"
@@ -770,7 +770,7 @@ export default function ExamCreatePage() {
               menuClassName="w-full"
               value={categoryId}
               onChange={(val) => setCategoryId(val)}
-              placeholder="-- Chọn chuyên đề / môn học --"
+              placeholder="-- Chọn học phần đào tạo --"
               options={[
                 { value: "", label: "-- Chưa phân loại --" },
                 ...categories.map((c) => ({
@@ -829,7 +829,7 @@ export default function ExamCreatePage() {
 
           <div>
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
-              Thời hạn / Hạn chót nộp bài (Tùy chọn)
+              Thời hạn đóng ca thi (Tùy chọn)
             </label>
             <input
               type="datetime-local"
@@ -873,7 +873,7 @@ export default function ExamCreatePage() {
                     )}
                   </label>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Tự động xáo trộn vị trí câu hỏi và các lựa chọn A, B, C, D cho từng lượt thi.
+                    Tự động xáo trộn vị trí câu hỏi và các phương án A, B, C, D cho từng lượt đánh giá.
                   </p>
                 </div>
               </div>
@@ -994,7 +994,7 @@ export default function ExamCreatePage() {
                 <span>
                   {isSaving
                     ? "Đang xử lý..."
-                    : `Xác nhận & Lưu đề (Tổng ${totalScore}đ)`}
+                    : `Lưu & Ban hành đề đánh giá (${totalScore}đ)`}
                 </span>
               </button>
             </div>

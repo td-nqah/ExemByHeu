@@ -81,7 +81,7 @@ function UserDashboardContent() {
   // Dynamic Category Pills for Filter Tags Bar
   const categoryPills = useMemo(() => {
     return [
-      { id: "all", slug: "", label: "Tất cả đề thi" },
+      { id: "all", slug: "", label: "Tất cả đề đánh giá" },
       ...categories.map((c) => ({
         id: c.id,
         slug: c.slug,
@@ -103,13 +103,13 @@ function UserDashboardContent() {
         <div>
           <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2.5">
             {activeCategory
-              ? `Chuyên mục: ${currentCategoryObj.label}`
-              : "Đề thi thử Khả dụng"}
+              ? `Học phần: ${currentCategoryObj.label}`
+              : "Bài đánh giá học phần khả dụng"}
           </h2>
           <p className="mt-1 text-xs text-[#9ca3af]">
             {activeCategory
-              ? `Đang lọc các đề thi thuộc chủ đề "${currentCategoryObj.label}". Chọn đề bên dưới để bắt đầu làm bài.`
-              : "Chọn đề thi bên dưới để bắt đầu làm bài. Hệ thống sẽ tự động kích hoạt đồng hồ đếm ngược."}
+              ? `Đang lọc các bài đánh giá thuộc học phần "${currentCategoryObj.label}". Chọn đề bên dưới để bắt đầu làm bài.`
+              : "Chọn bài đánh giá bên dưới để bắt đầu làm bài. Thời gian làm bài sẽ được tính tự động."}
           </p>
         </div>
 
@@ -118,7 +118,7 @@ function UserDashboardContent() {
           <div className="flex items-center gap-2">
             <ClipboardList className="h-4 w-4 text-[#6366f1] shrink-0" />
             <span className="text-[#9ca3af]">
-              Đề hiện có:{" "}
+              Số bài đánh giá:{" "}
               <strong className="font-bold text-white text-sm tnum tabular-nums">
                 {loading ? "..." : exams.length}
               </strong>
@@ -130,7 +130,7 @@ function UserDashboardContent() {
           <div className="flex items-center gap-2">
             <CheckSquare className="h-4 w-4 text-[#34d399] shrink-0" />
             <span className="text-[#9ca3af]">
-              Hoàn thành:{" "}
+              Đã hoàn thành:{" "}
               <strong className="font-bold text-[#34d399] text-sm tnum tabular-nums">
                 {loading ? "..." : submissions.length}
               </strong>
@@ -174,7 +174,7 @@ function UserDashboardContent() {
           ========================================================================= */}
       {loading ? (
         <div className="bg-[#111827]/85 border border-[#1f2937] flex h-48 items-center justify-center rounded-2xl">
-          <p className="text-xs text-[#9ca3af]">Đang tải danh sách đề thi thử...</p>
+          <p className="text-xs text-[#9ca3af]">Đang tải danh sách bài đánh giá...</p>
         </div>
       ) : filteredExams.length === 0 ? (
         <div className="bg-[#111827]/85 border border-[#1f2937] flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
@@ -183,13 +183,13 @@ function UserDashboardContent() {
           </div>
           <h3 className="text-base font-bold text-white">
             {activeCategory
-              ? `Chưa có đề thi nào trong danh mục "${currentCategoryObj.label}"`
-              : "Chưa có đề thi thử nào được xuất bản"}
+              ? `Chưa có bài đánh giá nào trong học phần "${currentCategoryObj.label}"`
+              : "Chưa có bài đánh giá nào được ban hành"}
           </h3>
           <p className="max-w-md text-xs text-[#9ca3af]">
             {activeCategory
-              ? "Hiện tại chuyên đề này chưa có bài thi nào được xuất bản. Bạn có thể quay lại xem tất cả các đề thi hiện có."
-              : "Vui lòng đăng nhập với quyền Quản trị viên để tải lên hoặc tạo đề thi mới."}
+              ? "Hiện tại học phần này chưa có bài đánh giá nào được ban hành. Bạn có thể quay lại xem tất cả bài đánh giá hiện có."
+              : "Vui lòng đăng nhập với quyền Quản trị viên để ban hành bài đánh giá mới."}
           </p>
           {activeCategory && (
             <button
@@ -197,7 +197,7 @@ function UserDashboardContent() {
               className="mt-2 inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-4 py-2 text-xs font-semibold text-white transition-colors cursor-pointer shadow-md shadow-[#4f46e5]/20"
             >
               <RotateCcw className="h-3.5 w-3.5" />
-              <span>Hiển thị tất cả đề thi</span>
+              <span>Hiển thị tất cả đề đánh giá</span>
             </button>
           )}
         </div>

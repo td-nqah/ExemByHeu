@@ -155,7 +155,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
       if (essayQuestions.length > 0) {
         setAiGradingState({
           isGrading: true,
-          statusText: "Đang chờ chấm tự luận (Gemini AI đang phân tích câu trả lời)...",
+          statusText: "Đang xử lý đánh giá tự luận (Trợ lý học thuật AI đang đối sánh barem)...",
         });
 
         try {
@@ -188,7 +188,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
         } finally {
           setAiGradingState({
             isGrading: false,
-            statusText: "Đã hoàn tất chấm điểm!",
+            statusText: "Đã ghi nhận kết quả đánh giá sơ bộ!",
           });
         }
       }
@@ -214,7 +214,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
         <div className="glass-card rounded-2xl px-8 py-6 text-center">
           <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
           <p className="mt-3 text-xs font-semibold text-slate-300">
-            Đang tải phòng thi thử trực tuyến...
+            Đang kết nối phòng thi trực tuyến...
           </p>
         </div>
       </div>
@@ -226,7 +226,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
       <div className="flex min-h-[100dvh] flex-col items-center justify-center p-4">
         <div className="glass-card rounded-2xl p-8 text-center">
           <AlertCircle className="mx-auto mb-3 h-10 w-10 text-rose-400" />
-          <h2 className="text-base font-bold text-white">Không tìm thấy bài thi</h2>
+          <h2 className="text-base font-bold text-white">Không tìm thấy bài đánh giá</h2>
           <Link
             href="/dashboard"
             className="mt-4 inline-block text-xs font-semibold text-indigo-400 underline"
@@ -279,7 +279,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             {exam.is_shuffled && (
               <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-[#5852d6]/15 border border-[#5852d6]/35 px-2.5 py-1.5 text-xs font-semibold text-indigo-300 shadow-[0_0_12px_rgba(88,82,214,0.2)]">
                 <Shuffle className="h-3.5 w-3.5 text-indigo-400" />
-                <span>Đề thi đảo câu & đáp án</span>
+                <span>Đề xáo trộn câu hỏi và phương án</span>
               </div>
             )}
 
@@ -302,7 +302,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-3 sm:px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/25 transition active:scale-[0.98] disabled:opacity-50 shrink-0"
               >
                 <Send className="h-3.5 w-3.5" />
-                <span>Nộp bài</span>
+                <span>Nộp bài thi</span>
                 <span className="hidden sm:inline">({answeredCount}/{questions.length})</span>
               </button>
             )}
@@ -324,10 +324,10 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 />
 
                 <div className="bg-[#0C1017] border border-slate-800/90 rounded-2xl p-4 text-xs text-slate-300">
-                  <p className="mb-1.5 font-bold text-white">Quy định phòng thi thử:</p>
+                  <p className="mb-1.5 font-bold text-white">Quy chế phòng thi:</p>
                   <ul className="list-disc space-y-1 pl-4 text-[11px] text-slate-400">
-                    <li>Điểm trắc nghiệm được chấm tự động ngay khi nộp bài.</li>
-                    <li>Câu hỏi tự luận được lưu trữ và chấm điểm trên thang điểm chuẩn.</li>
+                    <li>Điểm trắc nghiệm được hệ thống tự động ghi nhận khi nộp bài.</li>
+                    <li>Bài làm tự luận được lưu trữ và chấm điểm theo barem đánh giá học phần.</li>
                     <li>Khi hết thời gian, hệ thống tự động khóa và gửi bài làm.</li>
                   </ul>
                 </div>
