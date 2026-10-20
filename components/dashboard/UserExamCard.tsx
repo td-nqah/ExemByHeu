@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { Exam } from "@/types/exam";
 import { formatDuration, formatDate } from "@/lib/utils";
@@ -9,9 +8,6 @@ import {
   ClipboardList,
   Calendar,
   ArrowRight,
-  FileText,
-  Share2,
-  CheckCircle2,
 } from "lucide-react";
 
 interface UserExamCardProps {
@@ -45,9 +41,7 @@ function renderHighlightedExamTitle(title: string) {
   return <span>{title}</span>;
 }
 
-export function UserExamCard({ exam, index = 0 }: UserExamCardProps) {
-  const [copied, setCopied] = useState(false);
-
+export function UserExamCard({ exam }: UserExamCardProps) {
   const questionCount = exam.question_count || exam.questions?.length || 0;
   const mcqCount =
     exam.questions?.filter((q) => q.type === "multiple_choice").length || 0;
@@ -67,121 +61,72 @@ export function UserExamCard({ exam, index = 0 }: UserExamCardProps) {
     .replace(/^[\s\r\n]*<!--meta:[\s\S]*?-->\n?/, "")
     .trim();
 
-  // Pseudo-random yet deterministic participant indicator for Lunor avatar stack
-  const participantCount = 180 + ((index * 37) % 150);
-
-  const handleShare = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    try {
-      const url = `${window.location.origin}/exam/${exam.id}`;
-      if (navigator.clipboard) {
-        await navigator.clipboard.writeText(url);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }
-    } catch {}
-  };
-
   return (
-    <div className="group flex flex-col justify-between h-full rounded-2xl bg-[#18191E] border border-white/[0.06] hover:border-zinc-700 p-4 transition-all duration-200 hover:-translate-y-0.5">
-      {/* 1. Stylized Dark Folder/Document Preview Header (Lunor Recessed Well) */}
-      <div>
-        <div className="bg-[#111215] border border-white/[0.06] rounded-xl p-3 mb-3.5 relative overflow-hidden transition-colors group-hover:border-zinc-800">
-          <div className="flex items-center justify-between gap-2">
-            {/* Top-Left: Document icon + Tag badge */}
-            <div className="flex items-center gap-2 min-w-0">
-              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#18191E] border border-white/[0.08] text-zinc-300">
-                <FileText className="h-3.5 w-3.5" strokeWidth={1.5} />
-              </div>
-              <div className="flex items-center gap-1.5 truncate">
-                <span className="h-1.5 w-1.5 rounded-full bg-white shrink-0" />
-                <span className="text-[11px] font-medium text-zinc-400 truncate">
-                  {examTypeLabel}
-                </span>
-              </div>
-            </div>
+    <div className="group flex flex-col justify-between h-full min-h-[165px] min-w-0 sm:min-w-[270px] rounded-2xl bg-[#18191E] border border-white/[0.06] p-4 sm:p-4.5 transition-all duration-200 hover:border-zinc-700 hover:-translate-y-0.5">
+      {/* Top Header & Metadata */}
+      <div className="space-y-2.5">
+        {/* Top Badges Row */}
+        <div className="flex items-center justify-between gap-1.5">
+          {/* Top-Left: Test badge */}
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-0.5 text-[10px] font-semibold text-zinc-300 border border-white/[0.08] shrink-0">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Test</span>
+          </span>
 
-            {/* Top-Right: Lunor Avatar Stack & Test Takers */}
-            <div className="flex items-center gap-1.5 shrink-0">
-              <div className="flex -space-x-1.5 overflow-hidden">
-                <div className="inline-flex h-4 w-4 rounded-full bg-zinc-700 border border-[#111215] items-center justify-center text-[7px] font-bold text-zinc-200">
-                  A
-                </div>
-                <div className="inline-flex h-4 w-4 rounded-full bg-zinc-600 border border-[#111215] items-center justify-center text-[7px] font-bold text-zinc-200">
-                  H
-                </div>
-                <div className="inline-flex h-4 w-4 rounded-full bg-zinc-800 border border-[#111215] items-center justify-center text-[7px] font-bold text-zinc-200">
-                  T
-                </div>
-              </div>
-              <span className="text-[10px] font-mono text-zinc-400 font-medium">
-                {participantCount}+
-              </span>
-            </div>
-          </div>
-
-          {/* Recessed well metadata row */}
-          <div className="mt-2.5 pt-2 border-t border-white/[0.04] flex items-center justify-between text-[10px] font-mono text-zinc-500">
-            <span className="inline-flex items-center gap-1">
-              <Clock className="h-3 w-3 text-zinc-500" strokeWidth={1.5} />
+          {/* Top-Right: Time + Questions count */}
+          <div className="flex items-center gap-2 text-xs text-zinc-400 font-mono tabular-nums shrink-0">
+            <span className="inline-flex items-center gap-1 shrink-0">
+              <Clock className="h-3 w-3 text-zinc-500 shrink-0" strokeWidth={1.5} />
               <span>{formatDuration(exam.duration_minutes)}</span>
             </span>
-            <span className="inline-flex items-center gap-1">
-              <ClipboardList className="h-3 w-3 text-zinc-500" strokeWidth={1.5} />
-              <span>{questionCount} câu hỏi</span>
+            <span className="inline-flex items-center gap-1 shrink-0">
+              <ClipboardList className="h-3 w-3 text-zinc-500 shrink-0" strokeWidth={1.5} />
+              <span>{questionCount} câu</span>
             </span>
           </div>
         </div>
 
-        {/* 2. Title & Description */}
+        {/* Card Title with line-clamp-2 */}
         <h3
-          className="text-sm font-semibold text-white tracking-tight line-clamp-2 leading-snug group-hover:text-zinc-100 transition-colors"
+          className="text-sm font-bold text-white tracking-tight line-clamp-2 leading-snug group-hover:text-zinc-100 transition-colors"
           title={exam.title}
         >
           {renderHighlightedExamTitle(exam.title)}
         </h3>
 
-        <p
-          className="mt-1.5 text-xs text-zinc-400 line-clamp-2 leading-relaxed"
-          title={cleanDescription || "Đề thi chuẩn hóa có chấm điểm tự động và tính giờ làm bài."}
-        >
-          {cleanDescription || "Đề thi chuẩn hóa có chấm điểm tự động và tính giờ làm bài."}
-        </p>
+        {/* Exam Description between Title and Question Count */}
+        {cleanDescription && (
+          <p
+            className="text-xs text-zinc-400 line-clamp-2 leading-relaxed"
+            title={cleanDescription}
+          >
+            {cleanDescription}
+          </p>
+        )}
 
-        {/* Date Row */}
-        <div className="mt-3 flex items-center gap-1.5 text-[11px] font-mono text-zinc-500">
-          <Calendar className="h-3 w-3 text-zinc-500" strokeWidth={1.5} />
-          <span>{formatDate(exam.created_at)}</span>
+        {/* Directly below: Line 1: Question count, Line 2: Question Type */}
+        <div className="text-xs leading-snug select-none space-y-0.5">
+          <p className="text-zinc-200 font-medium truncate tabular-nums">
+            {questionCount} câu hỏi
+          </p>
+          <p className="text-zinc-400 font-normal truncate">
+            {examTypeLabel}
+          </p>
         </div>
       </div>
 
-      {/* 3. Bottom Utility Action Bar: Minimalist Pill Buttons */}
-      <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between gap-2">
-        <button
-          type="button"
-          onClick={handleShare}
-          title="Sao chép liên kết đề thi"
-          className="inline-flex items-center gap-1.5 rounded-full bg-[#111215] hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/[0.06] px-2.5 py-1.5 text-xs font-medium transition-colors cursor-pointer"
-        >
-          {copied ? (
-            <>
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" strokeWidth={1.5} />
-              <span className="text-emerald-400">Đã chép</span>
-            </>
-          ) : (
-            <>
-              <Share2 className="h-3.5 w-3.5" strokeWidth={1.5} />
-              <span>Chia sẻ</span>
-            </>
-          )}
-        </button>
+      {/* Pinned Bottom Edge: Calendar Date & Solid Black/White CTA Button */}
+      <div className="mt-auto pt-3 border-t border-white/[0.06] flex items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1 text-xs text-zinc-500 font-mono tabular-nums truncate">
+          <Calendar className="h-3 w-3 text-zinc-500 shrink-0" strokeWidth={1.5} />
+          <span className="truncate">{formatDate(exam.created_at)}</span>
+        </span>
 
         <Link
           href={`/exam/${exam.id}`}
-          className="inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-zinc-200 text-zinc-950 font-semibold px-4 py-1.5 text-xs transition-colors shadow-sm cursor-pointer"
+          className="inline-flex items-center gap-1.5 shrink-0 rounded-full bg-white hover:bg-zinc-200 active:bg-zinc-300 px-3.5 py-1.5 text-xs font-semibold text-zinc-950 shadow-sm transition-all duration-200 hover:translate-x-0.5 cursor-pointer"
         >
-          <span>Làm bài</span>
+          <span>Bắt đầu làm bài</span>
           <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
         </Link>
       </div>
