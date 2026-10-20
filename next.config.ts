@@ -26,6 +26,16 @@ const nextConfig: NextConfig = {
         destination: "/admin/submissions",
         permanent: true,
       },
+      {
+        source: "/exam-result/:result_id",
+        destination: "/history/:result_id",
+        permanent: true,
+      },
+      {
+        source: "/review/:result_id",
+        destination: "/history/:result_id",
+        permanent: true,
+      },
     ];
   },
   turbopack: {
