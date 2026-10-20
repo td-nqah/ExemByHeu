@@ -192,14 +192,14 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
     <ShadcnSidebar collapsible="icon" className="border-r border-white/[0.06] bg-[#121316]">
       {/* 1. Header: Chữ ExamByHeu ở giữa sidebar + nút trigger thu nhỏ */}
       <SidebarHeader className="border-b border-white/[0.06] p-3 space-y-2.5">
-        <div className="flex items-center justify-between relative min-h-[34px]">
+        <div className="flex items-center justify-between relative min-h-[40px]">
           {/* Centered ExamByHeu Title */}
           <div className="flex-1 text-center">
             <Link
               href="/home"
               onClick={closeSidebarOnNavigate}
               title="ExamByHeu"
-              className="font-heading text-lg font-bold tracking-tight text-white hover:text-zinc-200 transition-colors select-none inline-block group-data-[collapsible=icon]:hidden"
+              className="font-heading text-2xl font-black tracking-tight text-white hover:text-zinc-200 transition-colors select-none inline-block group-data-[collapsible=icon]:hidden"
             >
               ExamByHeu
             </Link>
@@ -207,7 +207,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
               href="/home"
               onClick={closeSidebarOnNavigate}
               title="ExamByHeu"
-              className="hidden group-data-[collapsible=icon]:inline-block font-heading text-base font-bold text-white text-center"
+              className="hidden group-data-[collapsible=icon]:inline-block font-heading text-lg font-black text-white text-center"
             >
               E
             </Link>
