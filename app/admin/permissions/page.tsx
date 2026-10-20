@@ -381,7 +381,7 @@ export default function AdminPermissionsPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[#1f2937]">
         <div>
           <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-3">
-            <Sliders className="h-7 w-7 text-[#6366f1]" />
+            <Sliders className="h-7 w-7 text-white" />
             <span>Quản trị Tài khoản & Phân quyền Học vụ</span>
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-[#9ca3af]">
@@ -396,7 +396,7 @@ export default function AdminPermissionsPage() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <HardDrive className="h-4.5 w-4.5 text-indigo-400" />
+            <HardDrive className="h-4.5 w-4.5 text-white" />
             <span>1. Giám sát Dung lượng Lưu trữ Học vụ (Đo lường từng MB)</span>
           </h2>
           <span className="text-xs text-[#9ca3af] font-sans tracking-normal">
@@ -435,7 +435,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={handleRecalculateStorage}
                 disabled={isScanning}
-                className="px-3 py-1.5 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] text-xs text-white font-semibold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-md shadow-indigo-600/30"
+                className="px-3 py-1.5 rounded-xl bg-white hover:bg-zinc-200 active:bg-zinc-300 text-xs text-zinc-950 font-bold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-sm"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${isScanning ? "animate-spin" : ""}`} />
                 <span>{isScanning ? "Đang quét..." : "Quét lại bộ nhớ"}</span>
@@ -460,7 +460,7 @@ export default function AdminPermissionsPage() {
                 className={`h-full rounded-full transition-all duration-700 ease-out ${
                   isHighStorage
                     ? "bg-gradient-to-r from-amber-500 to-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.6)]"
-                    : "bg-gradient-to-r from-[#4f46e5] via-[#6366f1] to-[#38bdf8] shadow-[0_0_12px_rgba(99,102,241,0.5)]"
+                    : "bg-white shadow-sm"
                 }`}
                 style={{ width: `${Math.min(100, Math.max(2, storagePercentage))}%` }}
               />
@@ -473,7 +473,7 @@ export default function AdminPermissionsPage() {
             <div className="p-4 rounded-xl bg-[#0b0f19] border border-[#1f2937] flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-200">
-                  <Database className="h-4 w-4 text-[#6366f1]" />
+                  <Database className="h-4 w-4 text-white" />
                   <span>Dữ liệu Bảng (DB)</span>
                 </div>
                 <span className="font-mono text-sm font-bold text-white">
@@ -483,7 +483,7 @@ export default function AdminPermissionsPage() {
               <div className="mt-3">
                 <div className="w-full bg-[#111827] h-1.5 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#6366f1] rounded-full"
+                    className="h-full bg-white rounded-full"
                     style={{ width: `${Math.min(100, (dbTablesMB / maxStorageMB) * 100 * 2)}%` }}
                   />
                 </div>
@@ -584,7 +584,7 @@ export default function AdminPermissionsPage() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <ShieldCheck className="h-4.5 w-4.5 text-indigo-400" />
+            <ShieldCheck className="h-4.5 w-4.5 text-white" />
             <span>2. Quản trị Tài khoản &amp; Giám sát Truy cập Trực tuyến</span>
           </h2>
           <span className="text-xs text-[#9ca3af]">Kiểm soát bảo mật tài khoản học vụ và theo dõi sinh viên trực tuyến thời gian thực</span>
@@ -595,7 +595,7 @@ export default function AdminPermissionsPage() {
           <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 border border-white/20 text-white shadow-sm">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
@@ -669,7 +669,7 @@ export default function AdminPermissionsPage() {
                   return (
                     <div
                       key={acc.username}
-                      className="rounded-xl bg-[#0b0f19] hover:bg-[#1f2937]/50 border border-[#1f2937] hover:border-[#4f46e5]/30 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-150"
+                      className="rounded-xl bg-[#0b0f19] hover:bg-[#1f2937]/50 border border-[#1f2937] hover:border-white/30 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-150"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
@@ -704,7 +704,7 @@ export default function AdminPermissionsPage() {
                                 : "Chưa có thiết bị nào ghi nhận"
                             }
                           >
-                            <Monitor className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
+                            <Monitor className="h-3.5 w-3.5 text-white shrink-0" />
                             <span>Thiết bị: <strong className="font-mono text-white tabular-nums">{devCount}</strong>/3</span>
                           </span>
                         </div>
@@ -733,7 +733,7 @@ export default function AdminPermissionsPage() {
                           type="button"
                           onClick={() => handleResetSecurity(acc.username)}
                           disabled={accountsLoading || isDeletingUser}
-                          className="px-2.5 py-1.5 rounded-lg bg-[#4f46e5]/15 hover:bg-[#4f46e5]/25 border border-[#4f46e5]/30 text-indigo-300 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal"
+                          className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal"
                           title="Reset danh sách thiết bị về 0/3 và mở khóa tài khoản"
                         >
                           <RefreshCw className="h-3 w-3" />
@@ -759,7 +759,7 @@ export default function AdminPermissionsPage() {
 
             <div className="mt-4 pt-3 border-t border-[#1f2937] flex items-center justify-between text-[11px] text-[#9ca3af]">
               <span className="flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
+                <ShieldCheck className="h-3.5 w-3.5 text-white shrink-0" />
                 <span>Chính sách: Khóa bảo vệ khi vượt ngưỡng 3 thiết bị đăng nhập (áp dụng cho user, không giới hạn IP)</span>
               </span>
               <span className="font-mono text-[10px] text-[#6b7280]">Auto-Enforced</span>
@@ -847,7 +847,7 @@ export default function AdminPermissionsPage() {
                         <div
                           className={`relative flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-bold font-mono ${
                             acc.role === "admin"
-                              ? "bg-[#4f46e5]/15 border-[#4f46e5]/30 text-indigo-300"
+                              ? "bg-white/10 border-white/20 text-white"
                               : "bg-cyan-500/10 border-cyan-500/25 text-cyan-300"
                           }`}
                         >
@@ -869,14 +869,14 @@ export default function AdminPermissionsPage() {
                             <span
                               className={`text-xs px-2 py-0.5 rounded-full border font-medium font-sans tracking-normal ${
                                 acc.role === "admin"
-                                  ? "bg-indigo-500/15 border-indigo-500/30 text-indigo-300"
+                                  ? "bg-white/10 border-white/20 text-white"
                                   : "bg-slate-800 border-slate-700 text-slate-300"
                               }`}
                             >
                               {acc.role === "admin" ? "Admin" : "User"}
                             </span>
                             {isCurrent && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 border border-indigo-500/35 text-indigo-300 font-semibold font-sans tracking-normal">
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-white/10 border border-white/20 text-white font-semibold font-sans tracking-normal">
                                 (Bạn)
                               </span>
                             )}
@@ -932,7 +932,7 @@ export default function AdminPermissionsPage() {
                           className="flex items-center gap-1 text-slate-300"
                           title={acc.last_device || (acc.devices && acc.devices[0]) || "Web Client"}
                         >
-                          <Monitor className="h-3 w-3 text-indigo-400 shrink-0" />
+                          <Monitor className="h-3 w-3 text-white shrink-0" />
                           <span className="truncate max-w-[120px] sm:max-w-[150px]">
                             {acc.last_device || (acc.devices && acc.devices[0]) || "Trình duyệt"}
                           </span>

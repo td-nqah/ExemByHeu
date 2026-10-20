@@ -54,7 +54,7 @@ export function SubmitConfirmModal({
                 className={`flex h-11 w-11 items-center justify-center rounded-xl border ${
                   hasUnanswered
                     ? "border-amber-500/30 bg-amber-500/10 text-amber-400"
-                    : "border-indigo-500/30 bg-indigo-500/10 text-indigo-400"
+                    : "border-white/20 bg-white/10 text-white"
                 }`}
               >
                 {hasUnanswered ? (

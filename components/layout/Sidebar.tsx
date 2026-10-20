@@ -68,7 +68,7 @@ const CATEGORY_COLORS = [
   "#64748B", // Slate
   "#D97706", // Warm Amber
   "#10B981", // Emerald
-  "#8B5CF6", // Violet
+  "#71717A", // Slate
   "#F43F5E", // Rose
   "#06B6D4", // Cyan
 ];

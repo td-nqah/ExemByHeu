@@ -188,7 +188,7 @@ export default function KnowledgeHubPage() {
                       )}
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="h-8 w-8 rounded-lg bg-[#4f46e5]/15 border border-[#4f46e5]/30 flex items-center justify-center text-zinc-300 shrink-0">
+                        <div className="h-8 w-8 rounded-lg bg-white/[0.08] border border-white/[0.12] flex items-center justify-center text-zinc-300 shrink-0">
                           <Library className="h-4 w-4" />
                         </div>
                         <div>
@@ -322,7 +322,7 @@ export default function KnowledgeHubPage() {
         {selectedCategory !== "all" && (
           <div className="flex items-center gap-2 text-xs text-[#9ca3af]">
             <span>Đang lọc theo:</span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 text-xs font-bold">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.08] text-white border border-white/[0.15] text-xs font-bold">
               <Tag className="h-3 w-3" />
               {selectedCategory === "none"
                 ? "Tài liệu chung (Không gắn học phần)"

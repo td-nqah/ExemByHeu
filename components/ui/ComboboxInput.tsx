@@ -115,9 +115,9 @@ export function ComboboxInput({
           }}
           placeholder={placeholder}
           className={cn(
-            "w-full px-3.5 py-2.5 pr-9 bg-[#111827] border border-[#1f2937] hover:border-[#374151] focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner",
+            "w-full px-3.5 py-2.5 pr-9 bg-[#111827] border border-[#1f2937] hover:border-[#374151] focus:border-white/60 rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner",
             disabled && "opacity-50 cursor-not-allowed pointer-events-none",
-            isOpen && "border-[#4f46e5]/70 ring-1 ring-[#4f46e5]/30",
+            isOpen && "border-white/40 ring-1 ring-white/20",
             inputClassName
           )}
         />
@@ -139,7 +139,7 @@ export function ComboboxInput({
           <ChevronDown
             className={cn(
               "h-4 w-4 transition-transform duration-200",
-              isOpen && "rotate-180 text-indigo-400"
+              isOpen && "rotate-180 text-white"
             )}
           />
         </button>
@@ -188,7 +188,7 @@ export function ComboboxInput({
                       className={cn(
                         "w-full px-2.5 py-2 rounded-lg text-left transition-all duration-150 flex items-center justify-between gap-2 group cursor-pointer border",
                         isSelected
-                          ? "bg-[#4f46e5]/20 border-[#4f46e5]/40 text-white font-semibold shadow-sm"
+                          ? "bg-white/[0.08] border-white/[0.2] text-white font-semibold shadow-sm"
                           : "border-transparent hover:bg-[#1f2937] text-slate-300 hover:text-white"
                       )}
                     >
@@ -197,8 +197,8 @@ export function ComboboxInput({
                           className={cn(
                             "h-3.5 w-3.5 shrink-0 transition-colors",
                             isSelected
-                              ? "text-indigo-400"
-                              : "text-slate-500 group-hover:text-indigo-300"
+                              ? "text-white"
+                              : "text-slate-500 group-hover:text-white"
                           )}
                         />
                         <div className="min-w-0">
@@ -214,7 +214,7 @@ export function ComboboxInput({
                       </div>
 
                       {isSelected && (
-                        <div className="shrink-0 h-4 w-4 rounded-full bg-[#4f46e5]/20 border border-[#4f46e5]/40 flex items-center justify-center text-indigo-300 ml-2">
+                        <div className="shrink-0 h-4 w-4 rounded-full bg-white/20 border border-white/40 flex items-center justify-center text-white ml-2">
                           <Check className="h-2.5 w-2.5" />
                         </div>
                       )}

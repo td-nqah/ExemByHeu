@@ -30,7 +30,7 @@ const CATEGORY_COLORS = [
   "#64748B", // Slate
   "#D97706", // Warm Amber
   "#10B981", // Emerald
-  "#8B5CF6", // Violet
+  "#71717A", // Slate
   "#F43F5E", // Rose
 ];
 
@@ -264,7 +264,7 @@ function UserDashboardContent() {
             </p>
           </div>
           <div className="h-11 w-11 rounded-xl bg-[#111215] border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] flex items-center justify-center text-zinc-300 shrink-0">
-            <Zap className="h-5 w-5 text-[#8B5CF6]" strokeWidth={1.5} />
+            <Zap className="h-5 w-5 text-white" strokeWidth={1.5} />
           </div>
         </div>
       </div>

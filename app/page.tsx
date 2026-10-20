@@ -164,7 +164,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setForgotNotice(!forgotNotice)}
-                    className="text-xs sm:text-sm text-indigo-400 hover:text-indigo-300 font-medium transition cursor-pointer"
+                    className="text-xs sm:text-sm text-zinc-400 hover:text-white font-medium transition cursor-pointer"
                   >
                     Quên mật khẩu?
                   </button>
@@ -193,7 +193,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 z-10 flex items-center pr-3.5 text-white hover:text-indigo-300 transition-colors cursor-pointer"
+                    className="absolute inset-y-0 right-0 z-10 flex items-center pr-3.5 text-white hover:text-zinc-200 transition-colors cursor-pointer"
                     aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                   >
                     {showPassword ? (
@@ -218,7 +218,7 @@ export default function LoginPage() {
 
             {/* Subdued Glassmorphism Watermark */}
             <div className="pt-6 sm:pt-8 text-center select-none">
-              <span className="font-mono text-xs sm:text-[11px] tracking-[0.25em] uppercase text-slate-500/60 hover:text-indigo-400/80 transition-colors duration-300 cursor-default">
+              <span className="font-mono text-xs sm:text-[11px] tracking-[0.25em] uppercase text-slate-500/60 hover:text-zinc-300 transition-colors duration-300 cursor-default">
                 MADE BY HEU
               </span>
             </div>
@@ -232,7 +232,7 @@ export default function LoginPage() {
           transition={{ duration: 0.5, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
           className="order-3 lg:col-span-6 lg:row-start-2 grid grid-cols-1 gap-3.5 sm:grid-cols-12 self-end"
         >
-          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 sm:col-span-7 rounded-2xl p-4 sm:p-5">
+          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-white/20 hover:bg-slate-900/90 hover:shadow-lg transition-all duration-300 sm:col-span-7 rounded-2xl p-4 sm:p-5">
             <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl bg-[#111215] border border-white/[0.08] text-white">
               <FileSpreadsheet className="h-4 w-4" />
             </div>
@@ -244,7 +244,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 sm:col-span-5 rounded-2xl p-4 sm:p-5">
+          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-white/20 hover:bg-slate-900/90 hover:shadow-lg transition-all duration-300 sm:col-span-5 rounded-2xl p-4 sm:p-5">
             <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl bg-[#111215] border border-white/[0.08] text-white">
               <Clock className="h-4 w-4" />
             </div>
@@ -256,7 +256,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-indigo-500/40 hover:bg-slate-900/90 hover:shadow-[0_0_25px_rgba(99,102,241,0.12)] transition-all duration-300 sm:col-span-12 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3.5">
+          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 hover:border-white/20 hover:bg-slate-900/90 hover:shadow-lg transition-all duration-300 sm:col-span-12 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3.5">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#111215] border border-white/[0.08] text-white">
               <FileText className="h-5 w-5" />
             </div>

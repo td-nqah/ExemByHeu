@@ -221,7 +221,7 @@ export default function AnalyticsPage() {
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Điểm Trung bình Đánh giá
             </p>
-            <div className="h-9 w-9 rounded-xl bg-[#111215] flex items-center justify-center text-indigo-400 shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#111215] flex items-center justify-center text-white shrink-0">
               <TrendingUp className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -292,7 +292,7 @@ export default function AnalyticsPage() {
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Lượt Đánh giá Đã hoàn thành
             </p>
-            <div className="h-9 w-9 rounded-xl bg-[#111215] flex items-center justify-center text-indigo-400 shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#111215] flex items-center justify-center text-white shrink-0">
               <Award className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -334,7 +334,7 @@ export default function AnalyticsPage() {
 
         {loading ? (
           <div className="h-60 flex items-center justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
           </div>
         ) : chronological.length === 0 ? (
           <div className="py-16 text-center space-y-3">
@@ -459,7 +459,7 @@ export default function AnalyticsPage() {
             {hoveredPointIndex !== null && chartPoints[hoveredPointIndex] && (
               <div className="mt-3 rounded-xl bg-[#1b2230] border border-white/[0.08] p-3.5 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-indigo-400 font-semibold">
+                  <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">
                     Chi tiết lượt thi #{hoveredPointIndex + 1}
                   </span>
                   <p className="font-bold text-white text-sm">
@@ -491,7 +491,7 @@ export default function AnalyticsPage() {
                   </div>
 
                   <div className="rounded-xl bg-[#111215] border border-white/[0.06] px-3 py-1.5 text-center">
-                    <span className="text-[10px] text-indigo-300 block">
+                    <span className="text-[10px] text-zinc-400 block">
                       TỔNG ĐIỂM
                     </span>
                     <span className="text-base font-extrabold text-white">

@@ -206,7 +206,7 @@ export default function AdminMaterialsPage() {
           "Tổng hợp kiến thức trọng tâm và tóm tắt lý thuyết theo đề cương môn học.",
         content_html:
           existing?.content_html ||
-          `<h2>1. Tổng quan kiến thức: ${quickTitle.trim()}</h2>\n<p>Tài liệu đang được cập nhật chi tiết nội dung...</p>\n<div class="callout-box border-l-4 border-[#5852d6] bg-indigo-950/30 p-4 rounded-r-xl my-4 text-indigo-100 text-sm">\n  <p class="font-bold uppercase tracking-wider text-xs mb-1">Ghi chú cốt lõi</p>\n  <p class="leading-relaxed">Xem kỹ các định nghĩa trọng tâm và bài tập ôn thi kèm theo.</p>\n</div>`,
+          `<h2>1. Tổng quan kiến thức: ${quickTitle.trim()}</h2>\n<p>Tài liệu đang được cập nhật chi tiết nội dung...</p>\n<div class="callout-box border-l-4 border-white bg-white/5 p-4 rounded-r-xl my-4 text-zinc-200 text-sm">\n  <p class="font-bold uppercase tracking-wider text-xs mb-1">Ghi chú cốt lõi</p>\n  <p class="leading-relaxed">Xem kỹ các định nghĩa trọng tâm và bài tập ôn thi kèm theo.</p>\n</div>`,
         reading_time: Number(quickReadingTime) || 5,
         author: quickAuthor.trim() || "Ban Giảng huấn",
         original_file_name: existing?.original_file_name,
@@ -379,13 +379,13 @@ export default function AdminMaterialsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1f2937]">
         <div>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 border border-white/20 text-white shadow-sm">
               <Library className="h-6 w-6" />
             </div>
             <div>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
                 Quản lý Học liệu & Đề cương
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#4f46e5]/15 text-indigo-300 border border-[#4f46e5]/30 font-medium">
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-white/10 text-white border border-white/20 font-medium">
                   Học liệu học thuật
                 </span>
               </h1>
@@ -408,13 +408,13 @@ export default function AdminMaterialsPage() {
             }}
             className="inline-flex items-center gap-2 rounded-xl bg-[#0b0f19] hover:bg-[#111827] border border-[#1f2937] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
           >
-            <FolderPlus className="h-4 w-4 text-[#6366f1] shrink-0" />
+            <FolderPlus className="h-4 w-4 text-white shrink-0" />
             <span>Phân loại học phần</span>
           </button>
 
           <button
             onClick={handleOpenCreate}
-            className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-4 py-2 text-xs font-bold text-white transition shadow-lg shadow-[#4f46e5]/20 cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-zinc-200 px-4 py-2 text-xs font-bold text-zinc-950 transition shadow-sm cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             <span>Thêm học liệu mới</span>
@@ -431,7 +431,7 @@ export default function AdminMaterialsPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm kiếm theo tiêu đề hoặc nội dung tóm tắt..."
-              className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-4 py-2.5 text-xs text-white placeholder-[#9ca3af] focus:border-[#4f46e5] focus:outline-none transition-colors"
+              className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-4 py-2.5 text-xs text-white placeholder-[#9ca3af] focus:border-white/60 focus:outline-none transition-colors"
             />
           </div>
 
@@ -443,12 +443,12 @@ export default function AdminMaterialsPage() {
               className={cn(
                 "w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer",
                 selectedCategory !== "all"
-                  ? "bg-[#4f46e5]/15 border-[#4f46e5]/50 text-indigo-200 shadow-sm"
+                  ? "bg-white/10 border-white/30 text-white shadow-sm"
                   : "bg-[#111827] border-[#1f2937] text-slate-200 hover:border-[#374151] hover:text-white"
               )}
             >
               <div className="flex items-center gap-2 truncate">
-                <FolderTree className="h-4 w-4 text-[#6366f1] shrink-0" />
+                <FolderTree className="h-4 w-4 text-zinc-400 shrink-0" />
                 <span className="text-[#9ca3af] font-normal">Học phần:</span>
                 <span className="font-bold text-white truncate">
                   {selectedCategory === "all"
@@ -500,16 +500,16 @@ export default function AdminMaterialsPage() {
                       className={cn(
                         "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                         selectedCategory === "all"
-                          ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
+                          ? "bg-white/10 border-white/30 text-white shadow-sm"
                           : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
                       )}
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="h-8 w-8 rounded-lg bg-[#4f46e5]/15 border border-[#4f46e5]/30 flex items-center justify-center text-[#6366f1] shrink-0">
+                        <div className="h-8 w-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0">
                           <Library className="h-4 w-4" />
                         </div>
                         <div>
-                          <p className="text-xs font-bold text-white group-hover:text-indigo-300 transition">
+                          <p className="text-xs font-bold text-white group-hover:text-white transition">
                             Tất cả học phần
                           </p>
                           <p className="text-[10px] text-[#9ca3af]">Toàn bộ học liệu trong chương trình đào tạo</p>
@@ -520,7 +520,7 @@ export default function AdminMaterialsPage() {
                           {materials.length} bài
                         </span>
                         {selectedCategory === "all" && (
-                          <CheckCircle2 className="h-4 w-4 text-[#6366f1]" />
+                          <CheckCircle2 className="h-4 w-4 text-white" />
                         )}
                       </div>
                     </button>
@@ -535,7 +535,7 @@ export default function AdminMaterialsPage() {
                       className={cn(
                         "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                         selectedCategory === "none"
-                          ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
+                          ? "bg-white/10 border-white/30 text-white shadow-sm"
                           : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
                       )}
                     >
@@ -555,7 +555,7 @@ export default function AdminMaterialsPage() {
                           {materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length} bài
                         </span>
                         {selectedCategory === "none" && (
-                          <CheckCircle2 className="h-4 w-4 text-[#6366f1]" />
+                          <CheckCircle2 className="h-4 w-4 text-white" />
                         )}
                       </div>
                     </button>
@@ -579,7 +579,7 @@ export default function AdminMaterialsPage() {
                             className={cn(
                               "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                               isSelected
-                                ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
+                                ? "bg-white/10 border-white/30 text-white shadow-sm"
                                 : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
                             )}
                           >
@@ -623,7 +623,7 @@ export default function AdminMaterialsPage() {
         {selectedCategory !== "all" && (
           <div className="flex items-center gap-2 text-xs text-[#9ca3af]">
             <span>Đang lọc theo:</span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 text-xs font-bold">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/10 text-white border border-white/20 text-xs font-bold">
               <Tag className="h-3 w-3" />
               {selectedCategory === "none"
                 ? "Tài liệu chung (Không gắn học phần)"
@@ -644,7 +644,7 @@ export default function AdminMaterialsPage() {
       {/* Materials List */}
       {loading ? (
         <div className="flex items-center justify-center py-20 text-[#9ca3af] text-xs">
-          <RefreshCw className="h-5 w-5 animate-spin mr-2 text-indigo-400" />
+          <RefreshCw className="h-5 w-5 animate-spin mr-2 text-white" />
           Đang tải danh sách tài liệu...
         </div>
       ) : filteredMaterials.length === 0 ? (
@@ -662,12 +662,12 @@ export default function AdminMaterialsPage() {
               }}
               className="inline-flex items-center gap-2 rounded-xl bg-[#0b0f19] hover:bg-[#111827] border border-[#1f2937] px-4 py-2 text-xs font-semibold text-slate-200 transition cursor-pointer"
             >
-              <FolderPlus className="h-4 w-4 text-[#6366f1]" />
+              <FolderPlus className="h-4 w-4 text-zinc-300" />
               Phân loại học phần
             </button>
             <button
               onClick={handleOpenCreate}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-zinc-950 hover:bg-zinc-200 transition shadow-sm cursor-pointer shadow-md shadow-indigo-600/30"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-zinc-950 hover:bg-zinc-200 transition shadow-sm cursor-pointer"
             >
               <Plus className="h-4 w-4" />
               Biên tập học liệu mới
@@ -679,7 +679,7 @@ export default function AdminMaterialsPage() {
           {filteredMaterials.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col justify-between rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-[#3b82f6] hover:-translate-y-1 transition-all duration-300 p-5 group shadow-sm hover:shadow-[0_12px_30px_-10px_rgba(59,130,246,0.15)]"
+              className="flex flex-col justify-between rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-white/40 hover:-translate-y-1 transition-all duration-300 p-5 group shadow-sm"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
@@ -697,7 +697,7 @@ export default function AdminMaterialsPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-heading text-base font-bold text-white group-hover:text-indigo-300 transition line-clamp-2 leading-snug">
+                  <h3 className="font-heading text-base font-bold text-white group-hover:text-white transition line-clamp-2 leading-snug">
                     {item.title}
                   </h3>
                   <p className="text-xs text-[#9ca3af] mt-1.5 line-clamp-3 leading-relaxed">
@@ -715,7 +715,7 @@ export default function AdminMaterialsPage() {
                   <Link
                     href={`/knowledge/${item.id}`}
                     target="_blank"
-                    className="p-1.5 rounded-lg text-[#9ca3af] hover:text-[#6366f1] hover:bg-white/5 transition"
+                    className="p-1.5 rounded-lg text-[#9ca3af] hover:text-white hover:bg-white/5 transition"
                     title="Xem thử giao diện Người đọc"
                   >
                     <Eye className="h-4 w-4" />
@@ -753,7 +753,7 @@ export default function AdminMaterialsPage() {
             >
               <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <FolderPlus className="h-5 w-5 text-[#6366f1] shrink-0" />
+                  <FolderPlus className="h-5 w-5 text-white shrink-0" />
                   <span>Phân loại Học liệu theo Học phần</span>
                 </h3>
                 <button
@@ -824,7 +824,7 @@ export default function AdminMaterialsPage() {
                     value={quickSummary}
                     onChange={(e) => setQuickSummary(e.target.value)}
                     placeholder="Mô tả ngắn gọn nội dung kiến thức của tài liệu này..."
-                    className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none focus:border-[#4f46e5]"
+                    className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none focus:border-white/60"
                   />
                 </div>
 
@@ -838,7 +838,7 @@ export default function AdminMaterialsPage() {
                     value={quickAuthor}
                     onChange={(e) => setQuickAuthor(e.target.value)}
                     placeholder="VD: Ban Giảng huấn, ThS. Nguyễn Văn A"
-                    className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
+                    className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-white/60"
                   />
                 </div>
 
@@ -854,7 +854,7 @@ export default function AdminMaterialsPage() {
                   <button
                     type="submit"
                     disabled={isQuickSaving}
-                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white text-xs font-bold transition shadow-lg shadow-[#4f46e5]/20 cursor-pointer disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 text-xs font-bold transition shadow-sm cursor-pointer disabled:opacity-50"
                   >
                     {isQuickSaving ? (
                       <>
@@ -931,7 +931,7 @@ export default function AdminMaterialsPage() {
               {/* Modal Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-[#1f2937] bg-[#111827]">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-[#4f46e5]/10 text-indigo-400 border border-[#4f46e5]/20">
+                  <div className="p-2 rounded-xl bg-white/10 text-white border border-white/20">
                     <BookOpen className="h-5 w-5" />
                   </div>
                   <div>
@@ -953,7 +953,7 @@ export default function AdminMaterialsPage() {
                       className={cn(
                         "px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5",
                         modalTab === "import"
-                          ? "bg-[#4f46e5]/20 text-indigo-300 font-bold border border-[#4f46e5]/40"
+                          ? "bg-white text-zinc-950 font-bold border border-white shadow-sm"
                           : "text-[#9ca3af] hover:text-white"
                       )}
                     >
@@ -966,7 +966,7 @@ export default function AdminMaterialsPage() {
                       className={cn(
                         "px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5",
                         modalTab === "editor"
-                          ? "bg-[#4f46e5]/20 text-indigo-300 font-bold border border-[#4f46e5]/40"
+                          ? "bg-white text-zinc-950 font-bold border border-white shadow-sm"
                           : "text-[#9ca3af] hover:text-white"
                       )}
                     >
@@ -979,7 +979,7 @@ export default function AdminMaterialsPage() {
                       className={cn(
                         "px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5",
                         modalTab === "preview"
-                          ? "bg-[#4f46e5]/20 text-indigo-300 font-bold border border-[#4f46e5]/40"
+                          ? "bg-white text-zinc-950 font-bold border border-white shadow-sm"
                           : "text-[#9ca3af] hover:text-white"
                       )}
                     >
@@ -1031,8 +1031,8 @@ export default function AdminMaterialsPage() {
                   <div className="space-y-6">
                     {/* Upload File Zone */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="rounded-2xl border border-dashed border-[#1f2937] bg-[#111827]/60 p-6 flex flex-col items-center justify-center text-center hover:border-[#4f46e5]/50 transition">
-                        <UploadCloud className="h-10 w-10 text-indigo-400 mb-2" />
+                      <div className="rounded-2xl border border-dashed border-[#1f2937] bg-[#111827]/60 p-6 flex flex-col items-center justify-center text-center hover:border-white/40 transition">
+                        <UploadCloud className="h-10 w-10 text-zinc-400 mb-2" />
                         <h4 className="text-xs sm:text-sm font-bold text-white">Tải lên tệp tài liệu</h4>
                         <p className="text-[11px] text-[#9ca3af] mt-1 max-w-xs">
                           Hỗ trợ tệp Word (<code>.docx</code>), Excel (<code>.xlsx</code>), PDF (<code>.pdf</code>) hoặc Text (<code>.txt</code>, <code>.md</code>)
@@ -1051,7 +1051,7 @@ export default function AdminMaterialsPage() {
                             "mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer",
                             isExtractingFile
                               ? "bg-slate-700 text-slate-400 pointer-events-none"
-                              : "bg-[#4f46e5] hover:bg-[#6366f1] text-white"
+                              : "bg-white hover:bg-zinc-200 text-zinc-950 font-semibold shadow-sm"
                           )}
                         >
                           {isExtractingFile ? (
@@ -1067,16 +1067,16 @@ export default function AdminMaterialsPage() {
                           )}
                         </label>
                         {uploadedFileName && (
-                          <span className="text-[11px] text-indigo-300 mt-2 font-mono">
+                          <span className="text-[11px] text-white mt-2 font-mono">
                             Đã chọn: {uploadedFileName}
                           </span>
                         )}
                       </div>
 
                       {/* AI Parser Trigger */}
-                      <div className="rounded-2xl border border-[#4f46e5]/30 bg-gradient-to-br from-[#4f46e5]/10 to-indigo-950/30 p-6 flex flex-col justify-between">
+                      <div className="rounded-2xl border border-white/10 bg-[#16181f] p-6 flex flex-col justify-between">
                         <div>
-                          <div className="flex items-center gap-2 text-indigo-400 mb-1.5">
+                          <div className="flex items-center gap-2 text-white mb-1.5">
                             <Sparkles className="h-5 w-5" />
                             <h4 className="text-xs sm:text-sm font-bold text-white">
                               Trợ lý AI Biên tập Học liệu
@@ -1096,10 +1096,10 @@ export default function AdminMaterialsPage() {
                             onClick={handleParseWithAi}
                             disabled={isAiProcessing || (!rawText.trim() && !formContentHtml.trim())}
                             className={cn(
-                              "inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shadow-lg",
+                              "inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shadow-sm",
                               isAiProcessing || (!rawText.trim() && !formContentHtml.trim())
                                 ? "bg-slate-800 text-slate-500 cursor-not-allowed"
-                                : "bg-gradient-to-r from-[#4f46e5] to-indigo-600 text-white hover:brightness-110"
+                                : "bg-white text-zinc-950 font-bold hover:bg-zinc-200 shadow-sm"
                             )}
                           >
                             {isAiProcessing ? (
@@ -1122,7 +1122,7 @@ export default function AdminMaterialsPage() {
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
                         <label className="text-xs font-bold text-slate-300 flex items-center gap-2">
-                          <Clipboard className="h-3.5 w-3.5 text-indigo-400" />
+                          <Clipboard className="h-3.5 w-3.5 text-zinc-400" />
                           Hoặc dán văn bản trực tiếp từ Clipboard / Giáo trình:
                         </label>
                         {rawText && (
@@ -1140,7 +1140,7 @@ export default function AdminMaterialsPage() {
                         value={rawText}
                         onChange={(e) => setRawText(e.target.value)}
                         placeholder="Dán nội dung bài học, đề cương, câu hỏi ôn tập hoặc tóm tắt kiến thức vào đây..."
-                        className="w-full rounded-xl border border-[#1f2937] bg-[#111827] p-3.5 text-xs text-white placeholder-[#9ca3af] focus:border-[#4f46e5] focus:outline-none font-mono custom-scrollbar leading-relaxed"
+                        className="w-full rounded-xl border border-[#1f2937] bg-[#111827] p-3.5 text-xs text-white placeholder-[#9ca3af] focus:border-white/60 focus:outline-none font-mono custom-scrollbar leading-relaxed"
                       />
                     </div>
                   </div>
@@ -1158,7 +1158,7 @@ export default function AdminMaterialsPage() {
                           value={formTitle}
                           onChange={(e) => setFormTitle(e.target.value)}
                           placeholder="VD: Tổng quan Hệ điều hành & Quản lý Tiến trình"
-                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3.5 py-2 text-xs text-white focus:border-[#4f46e5] focus:outline-none font-bold"
+                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3.5 py-2 text-xs text-white focus:border-white/60 focus:outline-none font-bold"
                         />
                       </div>
 
@@ -1170,7 +1170,7 @@ export default function AdminMaterialsPage() {
                           <button
                             type="button"
                             onClick={() => setShowQuickAddCat(!showQuickAddCat)}
-                            className="text-[10px] text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-semibold cursor-pointer transition-colors"
+                            className="text-[10px] text-zinc-300 hover:text-white flex items-center gap-1 font-semibold cursor-pointer transition-colors"
                           >
                             <Plus className="h-3 w-3" />
                             <span>{showQuickAddCat ? "Đóng" : "Tạo học phần mới"}</span>
@@ -1178,8 +1178,8 @@ export default function AdminMaterialsPage() {
                         </div>
 
                         {showQuickAddCat && (
-                          <div className="p-2.5 rounded-xl border border-indigo-500/30 bg-indigo-950/30 space-y-2 mb-2 animate-in fade-in duration-150">
-                            <p className="text-[10px] text-indigo-300 font-medium">
+                          <div className="p-2.5 rounded-xl border border-white/20 bg-white/[0.04] space-y-2 mb-2 animate-in fade-in duration-150">
+                            <p className="text-[10px] text-zinc-300 font-medium">
                               Thêm học phần đào tạo mới:
                             </p>
                             <div className="flex items-center gap-2">
@@ -1188,7 +1188,7 @@ export default function AdminMaterialsPage() {
                                 value={newCatName}
                                 onChange={(e) => setNewCatName(e.target.value)}
                                 placeholder="VD: Ghi chú ôn thi, Kỹ năng mềm..."
-                                className="flex-1 rounded-lg border border-[#1f2937] bg-[#111827] px-2.5 py-1 text-xs text-white focus:border-[#4f46e5] focus:outline-none"
+                                className="flex-1 rounded-lg border border-[#1f2937] bg-[#111827] px-2.5 py-1 text-xs text-white focus:border-white/60 focus:outline-none"
                                 onKeyDown={(e) => {
                                   if (e.key === "Enter") {
                                     e.preventDefault();
@@ -1200,7 +1200,7 @@ export default function AdminMaterialsPage() {
                                 type="button"
                                 onClick={handleQuickAddCategory}
                                 disabled={isCreatingCat || !newCatName.trim()}
-                                className="px-2.5 py-1 rounded-lg bg-[#4f46e5] hover:bg-[#6366f1] text-xs font-semibold text-white transition disabled:opacity-50 cursor-pointer"
+                                className="px-2.5 py-1 rounded-lg bg-white hover:bg-zinc-200 text-xs font-bold text-zinc-950 transition disabled:opacity-50 cursor-pointer"
                               >
                                 {isCreatingCat ? "..." : "Thêm"}
                               </button>
@@ -1238,7 +1238,7 @@ export default function AdminMaterialsPage() {
                           value={formSummary}
                           onChange={(e) => setFormSummary(e.target.value)}
                           placeholder="1-2 câu cô đọng giá trị cốt lõi của bài đọc..."
-                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3.5 py-2 text-xs text-white focus:border-[#4f46e5] focus:outline-none"
+                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3.5 py-2 text-xs text-white focus:border-white/60 focus:outline-none"
                         />
                       </div>
                       <div className="md:col-span-4 space-y-1">
@@ -1248,7 +1248,7 @@ export default function AdminMaterialsPage() {
                           value={formAuthor}
                           onChange={(e) => setFormAuthor(e.target.value)}
                           placeholder="VD: Ban Giảng huấn, ThS. Nguyễn Văn A"
-                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3.5 py-2 text-xs text-white focus:border-[#4f46e5] focus:outline-none"
+                          className="w-full rounded-xl border border-[#1f2937] bg-[#111827] px-3.5 py-2 text-xs text-white focus:border-white/60 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -1259,7 +1259,7 @@ export default function AdminMaterialsPage() {
                       <button
                         type="button"
                         onClick={() => insertSnippet(`<h2>Tiêu đề Mục lớn Mới</h2>\n<p class="leading-relaxed text-slate-300 mb-4">Nội dung chi tiết...</p>`)}
-                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#1f2937] hover:bg-[#374151] text-indigo-300 transition cursor-pointer"
+                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#1f2937] hover:bg-[#374151] text-zinc-200 transition cursor-pointer"
                       >
                         + Mục lớn (H2)
                       </button>
@@ -1273,11 +1273,11 @@ export default function AdminMaterialsPage() {
                       <button
                         type="button"
                         onClick={() =>
-                          insertSnippet(`<div class="callout-box border-l-4 border-[#4f46e5] bg-indigo-950/30 p-4 rounded-r-xl my-4 text-indigo-100 text-sm">\n  <p class="font-bold uppercase tracking-wider text-xs mb-1">Cốt Lõi Cần Nhớ</p>\n  <p class="leading-relaxed">Nội dung ghi chú cốt lõi...</p>\n</div>`)
+                          insertSnippet(`<div class="callout-box border-l-4 border-white bg-white/5 p-4 rounded-r-xl my-4 text-zinc-200 text-sm">\n  <p class="font-bold uppercase tracking-wider text-xs mb-1">Cốt Lõi Cần Nhớ</p>\n  <p class="leading-relaxed">Nội dung ghi chú cốt lõi...</p>\n</div>`)
                         }
-                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#4f46e5]/20 hover:bg-[#4f46e5]/30 text-indigo-300 border border-[#4f46e5]/30 transition cursor-pointer"
+                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/10 hover:bg-white/20 text-white border border-white/20 transition cursor-pointer"
                       >
-                        + Callout Cốt Lõi (Tím)
+                        + Callout Cốt Lõi (Đen Trắng)
                       </button>
                       <button
                         type="button"
@@ -1300,9 +1300,9 @@ export default function AdminMaterialsPage() {
                       <button
                         type="button"
                         onClick={() =>
-                          insertSnippet(`<div class="overflow-x-auto my-6 rounded-xl border border-[#1f2937] bg-[#0b0f19]/70">\n  <table class="w-full text-left text-xs sm:text-sm">\n    <thead>\n      <tr class="bg-indigo-950/60 text-indigo-200 border-b border-[#1f2937]">\n        <th class="p-3">Tiêu chí</th>\n        <th class="p-3">Đối tượng A</th>\n        <th class="p-3">Đối tượng B</th>\n      </tr>\n    </thead>\n    <tbody class="divide-y divide-white/5 text-slate-300">\n      <tr class="hover:bg-white/[0.02]">\n        <td class="p-3 font-mono font-medium text-slate-200">Đặc tính 1</td>\n        <td class="p-3">Giá trị A</td>\n        <td class="p-3 text-indigo-300">Giá trị B</td>\n      </tr>\n    </tbody>\n  </table>\n</div>`)
+                          insertSnippet(`<div class="overflow-x-auto my-6 rounded-xl border border-[#1f2937] bg-[#0b0f19]/70">\n  <table class="w-full text-left text-xs sm:text-sm">\n    <thead>\n      <tr class="bg-white/10 text-white border-b border-[#1f2937]">\n        <th class="p-3">Tiêu chí</th>\n        <th class="p-3">Đối tượng A</th>\n        <th class="p-3">Đối tượng B</th>\n      </tr>\n    </thead>\n    <tbody class="divide-y divide-white/5 text-slate-300">\n      <tr class="hover:bg-white/[0.02]">\n        <td class="p-3 font-mono font-medium text-slate-200">Đặc tính 1</td>\n        <td class="p-3">Giá trị A</td>\n        <td class="p-3 text-white font-semibold">Giá trị B</td>\n      </tr>\n    </tbody>\n  </table>\n</div>`)
                         }
-                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#1f2937] hover:bg-[#374151] text-indigo-300 transition cursor-pointer flex items-center gap-1"
+                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#1f2937] hover:bg-[#374151] text-zinc-200 transition cursor-pointer flex items-center gap-1"
                       >
                         <TableIcon className="h-3 w-3" />
                         + Bảng So Sánh
@@ -1324,7 +1324,7 @@ export default function AdminMaterialsPage() {
                         value={formContentHtml}
                         onChange={(e) => setFormContentHtml(e.target.value)}
                         placeholder="Nội dung mã HTML của bài viết..."
-                        className="w-full rounded-xl border border-[#1f2937] bg-[#111827] p-3.5 text-xs text-white placeholder-[#9ca3af] focus:border-[#4f46e5] focus:outline-none font-mono custom-scrollbar leading-relaxed"
+                        className="w-full rounded-xl border border-[#1f2937] bg-[#111827] p-3.5 text-xs text-white placeholder-[#9ca3af] focus:border-white/60 focus:outline-none font-mono custom-scrollbar leading-relaxed"
                       />
                     </div>
                   </div>
@@ -1337,14 +1337,14 @@ export default function AdminMaterialsPage() {
                       {/* Header Preview */}
                       <div className="space-y-3 pb-6 border-b border-[#1f2937]">
                         <div className="flex items-center gap-2">
-                          <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#4f46e5]/15 text-indigo-300 border border-[#4f46e5]/25">
+                          <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-white border border-white/20">
                             {categories.find((c) => c.id === formCategoryId)?.name || "Chuyên đề"}
                           </span>
                         </div>
                         <h1 className="text-xl sm:text-3xl font-heading font-extrabold text-white leading-tight">
                           {formTitle || "Tiêu đề bài viết"}
                         </h1>
-                        <p className="text-xs sm:text-sm text-slate-300 italic border-l-2 border-[#4f46e5] pl-3">
+                        <p className="text-xs sm:text-sm text-slate-300 italic border-l-2 border-white pl-3">
                           {formSummary || "Tóm tắt bài viết..."}
                         </p>
                         <div className="text-xs text-[#9ca3af] pt-2">
@@ -1384,7 +1384,7 @@ export default function AdminMaterialsPage() {
                     type="button"
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-xs font-bold text-white transition shadow-lg shadow-[#4f46e5]/20 cursor-pointer disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-white hover:bg-zinc-200 text-xs font-bold text-zinc-950 transition shadow-sm cursor-pointer disabled:opacity-50"
                   >
                     {isSaving ? (
                       <>

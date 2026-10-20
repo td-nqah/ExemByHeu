@@ -38,7 +38,7 @@ export function QuestionNav({
               {flaggedCount} cờ
             </span>
           )}
-          <span className="text-xs font-semibold text-indigo-400">
+          <span className="text-xs font-semibold text-white">
             {answeredCount}/{total} ({progressPercent}%)
           </span>
         </div>
@@ -47,7 +47,7 @@ export function QuestionNav({
       {/* Progress Track */}
       <div className="mb-4 h-1.5 w-full overflow-hidden rounded-full bg-slate-900 border border-white/5">
         <div
-          className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-300"
+          className="h-full bg-white transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
@@ -67,7 +67,7 @@ export function QuestionNav({
               "border-amber-400 bg-amber-500/20 text-amber-300 ring-1 ring-amber-400/50 shadow-[0_0_12px_rgba(251,191,36,0.3)] hover:bg-amber-500/30";
           } else if (isAnswered) {
             btnColor =
-              "border-indigo-500/40 bg-indigo-600 text-white hover:bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.25)]";
+              "border-white bg-white text-zinc-950 font-bold hover:bg-zinc-200 shadow-sm";
           }
 
           return (
@@ -76,7 +76,7 @@ export function QuestionNav({
               onClick={() => onSelectQuestion(question.id)}
               className={`relative flex h-9 w-full items-center justify-center rounded-xl text-xs font-semibold transition ${
                 isActive
-                  ? "ring-2 ring-indigo-400 ring-offset-2 ring-offset-slate-950 scale-105 z-10"
+                  ? "ring-2 ring-white ring-offset-2 ring-offset-slate-950 scale-105 z-10"
                   : ""
               } border ${btnColor}`}
               title={`Câu ${index + 1}: ${
@@ -110,7 +110,7 @@ export function QuestionNav({
       {/* Legend */}
       <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 text-[11px] text-slate-400">
         <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-indigo-600 shadow-[0_0_6px_rgba(99,102,241,0.4)]" />
+          <span className="h-2.5 w-2.5 rounded-sm bg-white shadow-sm" />
           <span>Đã làm</span>
         </div>
         <div className="flex items-center gap-1.5">
