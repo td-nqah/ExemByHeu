@@ -108,22 +108,22 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
     router.push("/");
   };
 
-  // Group 1: TỔNG QUAN / BÁO CÁO
+  // Group 1: OVERVIEW / REPORTS
   const overviewNavLinks = [
     {
-      title: "Trang chủ",
+      title: "Home",
       href: "/home",
       icon: Home,
       active: pathname === "/home",
     },
     {
-      title: "Lịch sử đánh giá",
+      title: "Assessment History",
       href: "/history",
       icon: History,
       active: pathname.startsWith("/history"),
     },
     {
-      title: "Kết quả học tập",
+      title: "Learning Analytics",
       href: "/analytics",
       icon: BarChart2,
       active: pathname.startsWith("/analytics"),
@@ -134,16 +134,16 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
   const isParentActive =
     (pathname === "/dashboard" && !activeCategory) || pathname.startsWith("/exam");
 
-  // Group 3: QUẢN LÝ HỆ THỐNG
+  // Group 3: SYSTEM MANAGEMENT
   const systemManagementNavLinks = [
     {
-      title: "Danh mục",
+      title: "Categories",
       href: "/admin/categories",
       icon: FolderTree,
       active: pathname.startsWith("/admin/categories"),
     },
     {
-      title: "Đề thi",
+      title: "Exams",
       href: "/admin/dashboard",
       icon: ShieldCheck,
       active:
@@ -153,23 +153,23 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           !pathname.startsWith("/admin/exams/create")),
     },
     {
-      title: "Tài liệu",
+      title: "Materials",
       href: "/admin/materials",
       icon: Library,
       active: pathname.startsWith("/admin/materials"),
     },
   ];
 
-  // Group 4: CẤU HÌNH HỆ THỐNG
+  // Group 4: SYSTEM CONFIGURATION
   const systemConfigNavLinks = [
     {
-      title: "Phân quyền",
+      title: "Permissions",
       href: "/admin/permissions",
       icon: Sliders,
       active: pathname.startsWith("/admin/permissions"),
     },
     {
-      title: "Cài đặt",
+      title: "Settings",
       href: "/admin/settings",
       icon: Settings,
       active: pathname.startsWith("/admin/settings"),
@@ -185,7 +185,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           <Link
             href="/home"
             onClick={closeSidebarOnNavigate}
-            title="ExamByHeu - Nền tảng Ôn luyện"
+            title="ExamByHeu - Assessment Platform"
             className="flex items-center gap-2.5 min-w-0 transition-opacity hover:opacity-90 select-none"
           >
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/20">
@@ -202,7 +202,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
 
           {/* Desktop Sidebar Collapse Trigger */}
           <SidebarTrigger
-            title="Thu nhỏ / Mở rộng sidebar (Ctrl+B)"
+            title="Collapse / Expand sidebar (Ctrl+B)"
             className="hidden md:flex shrink-0 group-data-[collapsible=icon]:hidden"
           >
             <Menu className="h-4 w-4" />
@@ -212,7 +212,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           <button
             type="button"
             onClick={closeSidebarOnNavigate}
-            aria-label="Đóng menu"
+            aria-label="Close menu"
             className="md:hidden flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-[#1f2937] hover:text-white transition cursor-pointer"
           >
             <X className="h-5 w-5" />
@@ -222,7 +222,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         {/* In Collapsed Icon Mode: Centered Trigger Button */}
         <div className="hidden group-data-[collapsible=icon]:flex items-center justify-center pt-0.5">
           <SidebarTrigger
-            title="Mở rộng sidebar (Ctrl+B)"
+            title="Expand sidebar (Ctrl+B)"
             className="h-8 w-8"
           >
             <Menu className="h-4 w-4" />
@@ -232,10 +232,10 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
 
       {/* 2. Content: Groups & Navigation Menu */}
       <SidebarContent className="px-2 py-3 custom-scrollbar">
-        {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
+        {/* Nhóm 1: OVERVIEW / REPORTS */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-[#818cf8]">
-            TỔNG QUAN / BÁO CÁO
+            OVERVIEW / REPORTS
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -269,19 +269,19 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
 
         <SidebarSeparator className="my-2" />
 
-        {/* Nhóm 2: HỌC LIỆU / ĐÁNH GIÁ */}
+        {/* Nhóm 2: MATERIALS / ASSESSMENTS */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-[#818cf8]">
-            HỌC LIỆU / ĐÁNH GIÁ
+            MATERIALS / ASSESSMENTS
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* Mục 1: Học liệu & Đề cương */}
+              {/* Mục 1: Materials & Syllabi */}
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
                   isActive={pathname.startsWith("/knowledge")}
-                  tooltip="Học liệu & Đề cương"
+                  tooltip="Materials & Syllabi"
                 >
                   <Link href="/knowledge" onClick={closeSidebarOnNavigate}>
                     <BookOpen
@@ -293,19 +293,19 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                       )}
                     />
                     <span className="truncate group-data-[collapsible=icon]:hidden">
-                      Học liệu & Đề cương
+                      Materials & Syllabi
                     </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
-              {/* Mục 2: Ngân hàng Đề đánh giá */}
+              {/* Mục 2: Assessment Bank */}
               <SidebarMenuItem>
                 <div className="flex w-full items-center">
                   <SidebarMenuButton
                     asChild
                     isActive={isParentActive}
-                    tooltip="Ngân hàng Đề đánh giá"
+                    tooltip="Assessment Bank"
                     className="flex-1"
                   >
                     <Link
@@ -324,7 +324,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                         )}
                       />
                       <span className="truncate group-data-[collapsible=icon]:hidden">
-                        Ngân hàng Đề đánh giá
+                        Assessment Bank
                       </span>
                     </Link>
                   </SidebarMenuButton>
@@ -337,8 +337,8 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                       e.stopPropagation();
                       setExamsExpanded((prev) => !prev);
                     }}
-                    aria-label="Mở hoặc đóng danh mục đề thi"
-                    title={examsExpanded ? "Thu gọn danh mục" : "Mở rộng danh mục"}
+                    aria-label="Toggle exam categories"
+                    title={examsExpanded ? "Collapse categories" : "Expand categories"}
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer group-data-[collapsible=icon]:hidden mr-1"
                   >
                     <ChevronDown
@@ -396,13 +396,13 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Nhóm 3: QUẢN LÝ HỆ THỐNG (Chỉ dành cho Quản trị viên) */}
+        {/* Nhóm 3: SYSTEM MANAGEMENT (Admin only) */}
         {user?.role === "admin" && (
           <>
             <SidebarSeparator className="my-2" />
             <SidebarGroup>
               <SidebarGroupLabel className="text-[#818cf8]">
-                QUẢN LÝ HỆ THỐNG
+                SYSTEM MANAGEMENT
               </SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
@@ -436,13 +436,13 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           </>
         )}
 
-        {/* Nhóm 4: CẤU HÌNH HỆ THỐNG (Chỉ dành cho Quản trị viên) */}
+        {/* Nhóm 4: SYSTEM CONFIGURATION (Admin only) */}
         {user?.role === "admin" && (
           <>
             <SidebarSeparator className="my-2" />
             <SidebarGroup>
               <SidebarGroupLabel className="text-[#818cf8]">
-                CẤU HÌNH HỆ THỐNG
+                SYSTEM CONFIGURATION
               </SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
@@ -477,7 +477,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         )}
       </SidebarContent>
 
-      {/* 3. Footer: User Profile & Đăng xuất */}
+      {/* 3. Footer: User Profile & Sign Out */}
       <SidebarFooter className="border-t border-[#1f2937] p-3">
         {user ? (
           <div className="flex flex-col gap-2">
@@ -485,7 +485,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             <div className="flex items-center justify-between rounded-xl bg-[#0b0f19] border border-[#1f2937] p-2.5 group-data-[collapsible=icon]:p-1.5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent">
               <div className="flex items-center gap-2.5 min-w-0">
                 <div
-                  title={`${formatDisplayName(user.username)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}
+                  title={`${formatDisplayName(user.username)} (${user.role === "admin" ? "Administrator" : "Student"})`}
                   className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#1f2937] border border-[#1f2937] font-bold text-white text-xs select-none shadow-sm cursor-default"
                 >
                   {formatDisplayName(user.username).charAt(0).toUpperCase()}
@@ -495,7 +495,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                     {formatDisplayName(user.username)}
                   </p>
                   <p className="text-[10px] text-[#9ca3af] truncate">
-                    {user.role === "admin" ? "Quản trị viên" : "Người dùng"}
+                    {user.role === "admin" ? "Administrator" : "Student"}
                   </p>
                 </div>
               </div>
@@ -505,22 +505,22 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             <button
               type="button"
               onClick={handleLogout}
-              title="Đăng xuất khỏi hệ thống"
+              title="Sign out"
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-950/20 hover:bg-rose-900/40 text-rose-300 border border-rose-900/30 px-3 py-2 text-xs font-semibold transition-colors cursor-pointer group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:mx-auto"
             >
               <LogOut className="h-3.5 w-3.5 shrink-0" />
-              <span className="truncate group-data-[collapsible=icon]:hidden">Đăng xuất</span>
+              <span className="truncate group-data-[collapsible=icon]:hidden">Sign out</span>
             </button>
           </div>
         ) : (
           <Link
             href="/"
-            title="Đăng nhập hệ thống"
+            title="Sign in"
             onClick={closeSidebarOnNavigate}
             className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-3 py-2 text-xs font-semibold text-white transition-colors group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:mx-auto"
           >
             <User className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate group-data-[collapsible=icon]:hidden">Đăng nhập</span>
+            <span className="truncate group-data-[collapsible=icon]:hidden">Sign in</span>
           </Link>
         )}
       </SidebarFooter>
