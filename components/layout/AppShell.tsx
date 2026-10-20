@@ -53,7 +53,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const isLoginPage = pathname === "/" || pathname === "/login";
 
   if (isLiveExam || isLoginPage) {
-    return <main className="flex-1 w-full min-h-screen">{children}</main>;
+    return <main className="flex-1 w-full min-h-screen bg-transparent">{children}</main>;
   }
 
   return (
@@ -64,9 +64,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </Suspense>
 
       {/* Main Content Area */}
-      <SidebarInset className="flex-1 flex flex-col min-h-screen w-full min-w-0 transition-all duration-300">
+      <SidebarInset className="flex-1 flex flex-col min-h-screen w-full min-w-0 transition-all duration-300 bg-transparent">
         {/* Mobile Top Header */}
-        <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-white/[0.06] bg-[#0E0F12] px-4 md:hidden">
+        <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-white/[0.06] bg-[#121212]/90 backdrop-blur-md px-4 md:hidden">
           <Link
             href="/home"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none"

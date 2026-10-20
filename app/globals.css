@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0E0F12;
+  --background: #121212;
   --foreground: #f4f4f5;
   --surface: #18191E;
   --surface-secondary: #111215;
@@ -53,7 +53,7 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #0E0F12;
+  background-color: #121212;
   color-scheme: dark;
 }
 
@@ -72,8 +72,8 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus,
 select:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #0E0F12 inset !important;
-  box-shadow: 0 0 0 1000px #0E0F12 inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #121212 inset !important;
+  box-shadow: 0 0 0 1000px #121212 inset !important;
   -webkit-text-fill-color: #ffffff !important;
   color: #ffffff !important;
   caret-color: #ffffff !important;
@@ -81,7 +81,7 @@ select:-webkit-autofill:active {
 }
 
 body {
-  background-color: #0E0F12;
+  background-color: transparent;
   color: #f4f4f5;
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
@@ -118,17 +118,40 @@ h6 {
 }
 
 /*
- * Lunor Matte Minimalist Charcoal Background - Zero Noise
+ * Keyframe Animation for Diagonal Stripes Movement
  */
-.cyber-grid-bg {
-  width: 100%;
-  height: 100%;
-  background: #0E0F12;
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+/*
+ * Dedicated Utility Class: Animated Diagonal Stripes Background
+ */
+.bg-animated-stripes {
+  background-color: #121212;
+  background-image: linear-gradient(
+    135deg,
+    #121212 25%,
+    #1a1a1a 25%,
+    #1a1a1a 50%,
+    #121212 50%,
+    #121212 75%,
+    #1a1a1a 75%,
+    #1a1a1a
+  );
+  background-size: 40px 40px;
+  animation: move 4s linear infinite;
+  will-change: background-position;
 }
 
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #27272a #0E0F12;
+  scrollbar-color: #27272a #121212;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -137,7 +160,7 @@ h6 {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #0E0F12;
+  background: #121212;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
