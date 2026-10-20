@@ -557,31 +557,8 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         )}
       </SidebarContent>
 
-      {/* 3. Footer: Thẻ trạng thái + Thông tin tài khoản & Đăng xuất */}
-      <SidebarFooter className="border-t border-white/[0.06] p-3 space-y-2.5">
-        {/* Bottom CTA Card: Minimalist B&W SaaS Widget */}
-        <div className="group-data-[collapsible=icon]:hidden rounded-xl bg-[#18191E] border border-white/[0.06] p-3 space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-white">
-              <Sparkles className="h-3.5 w-3.5 text-white" strokeWidth={1.5} />
-              <span>Chế độ Khảo thí</span>
-            </div>
-            <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
-              Đang hoạt động
-            </span>
-          </div>
-          <p className="text-[11px] text-zinc-400 leading-snug">
-            Đã mở khóa toàn bộ đề thi & phân tích AI.
-          </p>
-          <Link
-            href="/analytics"
-            onClick={closeSidebarOnNavigate}
-            className="inline-flex w-full items-center justify-center rounded-full bg-white text-zinc-950 font-semibold text-xs py-1.5 px-3 hover:bg-zinc-200 transition-colors shadow-sm cursor-pointer"
-          >
-            Xem phân tích
-          </Link>
-        </div>
-
+      {/* 3. Footer: Thông tin tài khoản & Đăng xuất */}
+      <SidebarFooter className="border-t border-white/[0.06] p-3">
         {/* User Profile & Sign Out */}
         {user ? (
           <div className="flex flex-col gap-2">
