@@ -13,6 +13,7 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
+  Sparkles,
 } from "lucide-react";
 
 function formatDisplayName(name?: string): string {
@@ -108,17 +109,17 @@ export default function HomePage() {
   return (
     <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-80px)] flex flex-col justify-center items-center py-12">
       {/* =========================================================================
-          HERO SECTION CENTERED IN THE MIDDLE OF THE PAGE
+          HERO SECTION (LUNOR MATTE CHARCOAL AESTHETIC)
           ========================================================================= */}
       <div className="w-full text-center space-y-6">
         {/* Top Badges */}
         <div className="flex flex-wrap items-center justify-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#24221b] border border-amber-500/20 text-amber-300">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#18191E] border border-amber-500/20 text-amber-300">
             <span>{greetingInfo.emoji}</span>
             <span>{greetingInfo.greeting} • {greetingInfo.label}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 bg-[#162723] border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
+          <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 bg-[#18191E] border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span>Asia/Ho_Chi_Minh (GMT+7)</span>
           </span>
@@ -127,65 +128,65 @@ export default function HomePage() {
         {/* Prominent Greeting Headline Centered */}
         <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
           <span>{greetingInfo.greeting}, </span>
-          <span className="text-[#818cf8]">
+          <span className="text-white">
             {formatDisplayName(currentUser?.username || "User1")}
           </span>
         </h1>
 
         {/* Subtitle Line Centered */}
-        <p className="text-sm sm:text-base text-[#8b949e] font-normal max-w-xl mx-auto leading-relaxed">
-          Chào mừng quay trở lại hệ thống khảo thí và đánh giá học phần.
+        <p className="text-sm sm:text-base text-zinc-400 font-normal max-w-xl mx-auto leading-relaxed">
+          Chào mừng quay trở lại hệ thống khảo thí và đánh giá học phần. Nền tảng học thuật tối giản, bảo mật và hỗ trợ phân tích AI.
         </p>
 
-        {/* Centered Primary Actions */}
+        {/* Centered Primary Actions (Lunor High-Contrast Pill Buttons) */}
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] active:bg-[#433ea8] text-white px-6 py-3 text-sm font-semibold shadow-sm transition-all hover:scale-[1.01]"
+            className="inline-flex items-center gap-2 rounded-full bg-white hover:bg-zinc-200 active:bg-zinc-300 text-zinc-950 px-6 py-2.5 text-xs font-semibold shadow-sm transition-all"
           >
-            <Play className="h-4 w-4 fill-current ml-0.5" />
+            <Play className="h-3.5 w-3.5 fill-current ml-0.5" />
             <span>Bắt đầu bài đánh giá</span>
-            <ArrowRight className="h-4 w-4 ml-0.5" />
+            <ArrowRight className="h-3.5 w-3.5 ml-0.5" />
           </Link>
 
           <Link
             href="/history"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#161b22] hover:bg-[#1c2128] border border-[#21262d] text-[#e6edf3] hover:text-white px-5 py-3 text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 rounded-full bg-[#18191E] hover:bg-zinc-800 border border-white/[0.06] text-zinc-300 hover:text-white px-5 py-2.5 text-xs font-medium transition-colors"
           >
-            <History className="h-4 w-4 text-[#8b949e]" />
+            <History className="h-3.5 w-3.5 text-zinc-400" strokeWidth={1.5} />
             <span>Xem lịch sử đánh giá</span>
           </Link>
 
           <Link
             href="/analytics"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#161b22] hover:bg-[#1c2128] border border-[#21262d] text-[#e6edf3] hover:text-white px-5 py-3 text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 rounded-full bg-[#18191E] hover:bg-zinc-800 border border-white/[0.06] text-zinc-300 hover:text-white px-5 py-2.5 text-xs font-medium transition-colors"
           >
-            <TrendingUp className="h-4 w-4 text-[#8b949e]" />
+            <TrendingUp className="h-3.5 w-3.5 text-zinc-400" strokeWidth={1.5} />
             <span>Tiến độ học tập</span>
           </Link>
         </div>
 
         {/* =========================================================================
-            QUICK STATS SUMMARY TILES (FLAT MINIMALIST)
+            QUICK STATS SUMMARY TILES (LUNOR SOLID MATTE SLATE WITH STRUCTURED WELLS)
             ========================================================================= */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 max-w-3xl mx-auto text-left">
           {/* Card 1: Exams */}
           <Link
             href="/dashboard"
-            className="group rounded-xl bg-[#161b22] border border-[#21262d] hover:border-[#30363d] hover:bg-[#1c2128] p-4 sm:p-5 transition-all"
+            className="group rounded-2xl bg-[#18191E] border border-white/[0.06] hover:border-zinc-700 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-[#5852d6]">
-                <BookOpen className="h-5 w-5" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111215] border border-white/[0.08] text-[#3B82F6]">
+                <BookOpen className="h-5 w-5" strokeWidth={1.5} />
               </div>
-              <span className="font-heading text-xl font-bold text-white tnum tabular-nums">
+              <span className="font-heading text-2xl font-bold text-white tabular-nums">
                 {examsCount}
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#e6edf3] group-hover:text-indigo-300 transition-colors">
+            <h3 className="mt-3.5 text-sm font-semibold text-white group-hover:text-zinc-200 transition-colors">
               Đề đánh giá Khả dụng
             </h3>
-            <p className="mt-0.5 text-xs text-[#8b949e]">
+            <p className="mt-1 text-xs text-zinc-400">
               Trắc nghiệm & tự luận theo học phần
             </p>
           </Link>
@@ -193,38 +194,38 @@ export default function HomePage() {
           {/* Card 2: Submissions */}
           <Link
             href="/history"
-            className="group rounded-xl bg-[#161b22] border border-[#21262d] hover:border-[#30363d] hover:bg-[#1c2128] p-4 sm:p-5 transition-all"
+            className="group rounded-2xl bg-[#18191E] border border-white/[0.06] hover:border-zinc-700 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-emerald-400">
-                <CheckCircle2 className="h-5 w-5" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111215] border border-white/[0.08] text-[#10B981]">
+                <CheckCircle2 className="h-5 w-5" strokeWidth={1.5} />
               </div>
-              <span className="font-heading text-xl font-bold text-emerald-400 tnum tabular-nums">
+              <span className="font-heading text-2xl font-bold text-white tabular-nums">
                 {submissionsCount}
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#e6edf3] group-hover:text-emerald-300 transition-colors">
+            <h3 className="mt-3.5 text-sm font-semibold text-white group-hover:text-zinc-200 transition-colors">
               Đã hoàn thành
             </h3>
-            <p className="mt-0.5 text-xs text-[#8b949e]">
+            <p className="mt-1 text-xs text-zinc-400">
               Lịch sử đánh giá và kết quả chi tiết
             </p>
           </Link>
 
           {/* Card 3: Standard Room */}
-          <div className="rounded-xl bg-[#161b22] border border-[#21262d] p-4 sm:p-5">
+          <div className="rounded-2xl bg-[#18191E] border border-white/[0.06] p-5">
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-amber-400">
-                <ShieldCheck className="h-5 w-5" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111215] border border-white/[0.08] text-[#D97706]">
+                <ShieldCheck className="h-5 w-5" strokeWidth={1.5} />
               </div>
-              <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-medium">
+              <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-mono font-medium">
                 Sẵn sàng
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#e6edf3]">
+            <h3 className="mt-3.5 text-sm font-semibold text-white">
               Môi trường Khảo thí
             </h3>
-            <p className="mt-0.5 text-xs text-[#8b949e]">
+            <p className="mt-1 text-xs text-zinc-400">
               Tính giờ tự động & Kiểm soát phiên thi
             </p>
           </div>

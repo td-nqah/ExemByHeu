@@ -41,8 +41,8 @@ export default function RootLayout({
       lang="vi"
       className={`${inter.variable} ${plusJakartaSans.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
     >
-      <body className="min-h-screen bg-[#0b0f19] font-sans text-[#e5e7eb] antialiased selection:bg-[#4f46e5] selection:text-white relative overflow-x-hidden custom-scrollbar">
-        {/* DYNAMIC OBSIDIAN CYBER BACKGROUND */}
+      <body className="min-h-screen bg-[#0E0F12] font-sans text-zinc-200 antialiased selection:bg-zinc-700 selection:text-white relative overflow-x-hidden custom-scrollbar">
+        {/* LUNOR MATTE CHARCOAL MINIMALIST BACKGROUND */}
         <ObsidianCyberBackground />
 
         <div className="relative z-10 flex min-h-screen flex-col">

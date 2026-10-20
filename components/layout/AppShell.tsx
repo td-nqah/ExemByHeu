@@ -66,23 +66,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Main Content Area */}
       <SidebarInset className="flex-1 flex flex-col min-h-screen w-full min-w-0 transition-all duration-300">
         {/* Mobile Top Header */}
-        <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-[#1f2937] bg-[#111827]/90 backdrop-blur-md px-4 md:hidden">
+        <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-white/[0.06] bg-[#0E0F12] px-4 md:hidden">
           <Link
             href="/home"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1f2937] border border-[#1f2937] text-white">
-              <GraduationCap className="h-4.5 w-4.5 text-slate-200" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#18191E] border border-white/[0.08] text-white">
+              <GraduationCap className="h-4 w-4 text-zinc-300" />
             </div>
-            <span className="font-heading text-base font-bold tracking-tight">
-              <span className="text-[#818cf8]">Exam</span>
-              <span className="text-white">By</span>
-              <span className="text-[#818cf8]">Heu</span>
+            <span className="font-heading text-base font-bold tracking-tight text-white">
+              ExamByHeu
             </span>
           </Link>
 
-          <SidebarTrigger className="flex h-9 w-9 md:hidden">
-            <Menu className="h-5 w-5" />
+          <SidebarTrigger className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#18191E] border border-white/[0.06] text-zinc-300 hover:text-white md:hidden">
+            <Menu className="h-4 w-4" />
           </SidebarTrigger>
         </header>
 

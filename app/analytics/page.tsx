@@ -183,12 +183,12 @@ export default function AnalyticsPage() {
       {/* 5 Flat Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {/* Card 1: Tiến Độ Hoàn Thành Đề */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+        <div className="bg-[#18191E] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Tiến độ Hoàn thành Bài đánh giá
             </p>
-            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-cyan-400 shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#111215] flex items-center justify-center text-cyan-400 shrink-0">
               <Layers className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -200,7 +200,7 @@ export default function AnalyticsPage() {
               </span>
             </p>
             {/* Visual Progress Bar */}
-            <div className="w-full h-1.5 bg-[#202738] rounded-full overflow-hidden mt-2.5">
+            <div className="w-full h-1.5 bg-[#111215] rounded-full overflow-hidden mt-2.5">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.max(0, examCompletionMetrics.rate))}%` }}
@@ -216,12 +216,12 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 2: Điểm Trung Bình */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+        <div className="bg-[#18191E] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Điểm Trung bình Đánh giá
             </p>
-            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-indigo-400 shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#111215] flex items-center justify-center text-indigo-400 shrink-0">
               <TrendingUp className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -246,12 +246,12 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 3: Tỉ Lệ Đúng Trắc Nghiệm */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+        <div className="bg-[#18191E] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Độ Chính Xác Trắc Nghiệm
             </p>
-            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-emerald-400 shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#111215] flex items-center justify-center text-emerald-400 shrink-0">
               <CheckCircle2 className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -266,12 +266,12 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 4: Điểm Cao Nhất */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+        <div className="bg-[#18191E] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Điểm Đánh giá Cao nhất
             </p>
-            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-amber-400 shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#111215] flex items-center justify-center text-amber-400 shrink-0">
               <Zap className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -287,12 +287,12 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 5: Số Lượt Bài Thi Đã Nộp */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
+        <div className="bg-[#18191E] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
               Lượt Đánh giá Đã hoàn thành
             </p>
-            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-indigo-400 shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#111215] flex items-center justify-center text-indigo-400 shrink-0">
               <Award className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -308,7 +308,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Main Section: Flat Interactive Score Trend Line Chart */}
-      <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-6 sm:p-8 space-y-6">
+      <div className="bg-[#18191E] border border-white/[0.06] rounded-2xl p-6 sm:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.06] pb-4">
           <div>
             <h2 className="text-base font-bold text-white flex items-center gap-2">
@@ -492,7 +492,7 @@ export default function AnalyticsPage() {
                     </span>
                   </div>
 
-                  <div className="rounded-xl bg-[#202738] border border-white/[0.06] px-3 py-1.5 text-center">
+                  <div className="rounded-xl bg-[#111215] border border-white/[0.06] px-3 py-1.5 text-center">
                     <span className="text-[10px] text-indigo-300 block">
                       TỔNG ĐIỂM
                     </span>

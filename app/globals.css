@@ -1,33 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0f19;
-  --foreground: #f3f4f6;
-  --surface: #111827;
-  --surface-glass: rgba(17, 24, 39, 0.85);
-  --border: #1f2937;
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --primary: #4f46e5;
-  --primary-hover: #6366f1;
-  --accent-emerald: #059669;
+  --background: #0E0F12;
+  --foreground: #f4f4f5;
+  --surface: #18191E;
+  --surface-secondary: #111215;
+  --surface-glass: rgba(24, 25, 30, 0.95);
+  --border: rgba(255, 255, 255, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.06);
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --accent-emerald: #10b981;
   --accent-emerald-light: #34d399;
-  --accent-cyan: #0284c7;
-  --accent-cyan-light: #38bdf8;
+  --accent-cyan: #38bdf8;
+  --accent-cyan-light: #7dd3fc;
   --text-heading: #ffffff;
-  --text-body: #e5e7eb;
-  --text-muted: #9ca3af;
-  --text-subtle: #6b7280;
+  --text-body: #d4d4d8;
+  --text-muted: #a1a1aa;
+  --text-subtle: #71717a;
 
-  /* Shadcn UI Sidebar variables */
-  --sidebar-background: #111827;
-  --sidebar-foreground: #f3f4f6;
-  --sidebar-primary: #4f46e5;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1f2937;
+  /* Shadcn UI Sidebar variables - Lunor Matte Aesthetic */
+  --sidebar-background: #121316;
+  --sidebar-foreground: #f4f4f5;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #09090b;
+  --sidebar-accent: #1a1b21;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #1f2937;
-  --sidebar-ring: #6366f1;
-  --sidebar-width: 18rem;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: rgba(255, 255, 255, 0.2);
+  --sidebar-width: 17.5rem;
   --sidebar-width-icon: 3.5rem;
 }
 
@@ -52,7 +53,7 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #0b0f19;
+  background-color: #0E0F12;
   color-scheme: dark;
 }
 
@@ -71,8 +72,8 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus,
 select:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #0b0f19 inset !important;
-  box-shadow: 0 0 0 1000px #0b0f19 inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #0E0F12 inset !important;
+  box-shadow: 0 0 0 1000px #0E0F12 inset !important;
   -webkit-text-fill-color: #ffffff !important;
   color: #ffffff !important;
   caret-color: #ffffff !important;
@@ -80,17 +81,10 @@ select:-webkit-autofill:active {
 }
 
 body {
-  background-color: #0b0f19;
-  --s: 180px;
-  --c1: #0f172a;
-  --c2: #1e293b;
-  --c3: #111827;
-  background: repeating-conic-gradient(from 30deg, #0000 0 120deg, var(--c3) 0 180deg) calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
-              repeating-conic-gradient(from 30deg, var(--c1) 0 60deg, var(--c2) 0 120deg, var(--c3) 0 180deg);
-  background-size: var(--s) calc(var(--s) * 0.577);
-  background-attachment: fixed;
-  color: #f3f4f6;
+  background-color: #0E0F12;
+  color: #f4f4f5;
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
 }
 
 /*
@@ -124,120 +118,30 @@ h6 {
 }
 
 /*
- * Cyber Grid Background (System 3D Repeating Conic Gradient)
+ * Lunor Matte Minimalist Charcoal Background - Zero Noise
  */
 .cyber-grid-bg {
   width: 100%;
   height: 100%;
-  --s: 180px;
-  --c1: #0f172a;
-  --c2: #1e293b;
-  --c3: #111827;
-
-  background: repeating-conic-gradient(
-        from 30deg,
-        #0000 0 120deg,
-        var(--c3) 0 180deg
-      )
-      calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
-    repeating-conic-gradient(
-      from 30deg,
-      var(--c1) 0 60deg,
-      var(--c2) 0 120deg,
-      var(--c3) 0 180deg
-    );
-  background-size: var(--s) calc(var(--s) * 0.577);
-  background-attachment: fixed;
-}
-
-/*
- * Obsidian Cyber Background (Global Layout)
- */
-.obsidian-bg-container {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-  background: #090D16;
-}
-
-.pattern-bg {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: repeating-linear-gradient(
-    135deg,
-    #0b0f17 0px,
-    #0b0f17 60px,
-    rgba(30, 27, 75, 0.25) 70px,
-    #0f172a 130px
-  );
-}
-
-.cube-svg {
-  position: absolute;
-  width: 180%;
-  height: 180%;
-  left: -20%;
-  top: -15%;
-  background: transparent;
-  opacity: 0.35;
-  z-index: 1;
-  animation: cubeMove 22s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-@keyframes cubeMove {
-  from {
-    transform: translateY(0) scale(1) rotate(0deg);
-  }
-  to {
-    transform: translateY(-12%) scale(1.03) rotate(1.5deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cube-svg {
-    animation: none !important;
-  }
-}
-
-/*
- * ExamByHeu v2.0 Linear Cyber Obsidian (SaaS Premium Dark)
- */
-.glow-card {
-  background-color: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(30, 41, 59, 0.8);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glow-card:hover {
-  background-color: rgba(15, 23, 42, 0.9);
-  border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: 0 0 25px rgba(99, 102, 241, 0.12);
+  background: #0E0F12;
 }
 
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #1E293B #0B0F17;
+  scrollbar-color: #27272a #0E0F12;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #0B0F17;
+  background: #0E0F12;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #27272a;
   border-radius: 9999px;
 }
 
