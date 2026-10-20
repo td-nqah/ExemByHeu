@@ -77,7 +77,7 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("all")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "all"
-                  ? "bg-[#4f57ea] text-white shadow-sm"
+                  ? "bg-white text-zinc-950 font-semibold shadow-sm"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -88,7 +88,7 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("pending_grading")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "pending_grading"
-                  ? "bg-[#4f57ea] text-white shadow-sm"
+                  ? "bg-white text-zinc-950 font-semibold shadow-sm"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -99,7 +99,7 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("graded")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "graded"
-                  ? "bg-[#4f57ea] text-white shadow-sm"
+                  ? "bg-white text-zinc-950 font-semibold shadow-sm"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -196,7 +196,7 @@ export default function AdminSubmissionsListPage() {
                           className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
                             isGraded
                               ? "bg-[#1f2637] hover:bg-[#283248] text-slate-300 border border-white/[0.06]"
-                              : "bg-[#4f57ea] hover:bg-[#434ac9] text-white shadow-sm"
+                              : "bg-white hover:bg-zinc-200 text-zinc-950 shadow-sm"
                           }`}
                         >
                           <span>{isGraded ? "Xem lại & Cập nhật điểm" : "Đánh giá bài làm"}</span>

@@ -195,7 +195,7 @@ export default function AdminCategoriesPage() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-white flex flex-wrap items-center gap-3">
               Quản lý Danh mục Học phần
-              <span className="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2.5 py-1 rounded-full font-normal">
+              <span className="text-xs bg-[#18191E] text-zinc-300 border border-white/[0.08] px-2.5 py-1 rounded-full font-normal">
                 Course Management
               </span>
             </h1>
@@ -206,7 +206,7 @@ export default function AdminCategoriesPage() {
 
           <button
             onClick={openCreateModal}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2.5 text-xs transition-all self-start md:self-auto"
+            className="inline-flex items-center gap-2 rounded-xl rounded-full bg-white hover:bg-zinc-200 text-zinc-950 font-semibold px-4 py-2.5 text-xs transition-colors shadow-sm self-start md:self-auto"
           >
             <Plus className="h-4 w-4" />
             <span>Thêm Học phần mới</span>
@@ -256,7 +256,7 @@ export default function AdminCategoriesPage() {
             <p className="text-sm text-slate-400">Chưa có học phần nào trong danh mục.</p>
             <button
               onClick={openCreateModal}
-              className="px-4 py-2 bg-indigo-600 rounded-xl text-xs text-white"
+              className="px-4 py-2 rounded-full bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs shadow-sm"
             >
               Thêm học phần đầu tiên
             </button>
@@ -281,7 +281,7 @@ export default function AdminCategoriesPage() {
                     <tr key={cat.id} className="hover:bg-white/[0.02] transition-colors">
                       <td className="py-3.5 px-4 font-semibold text-white">
                         <div className="flex items-center gap-2.5">
-                          <span className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                          <span className="p-1.5 rounded-lg bg-[#18191E] text-zinc-300 border border-white/[0.08]">
                             <BookText className="h-4 w-4" />
                           </span>
                           <span className="text-sm font-bold text-white">{cat.name}</span>

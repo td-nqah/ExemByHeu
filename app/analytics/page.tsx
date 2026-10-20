@@ -159,7 +159,7 @@ export default function AnalyticsPage() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-[#1e2538] border border-white/[0.08] px-3 py-1 text-[11px] font-medium text-indigo-400">
+          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-[#111215] border border-white/[0.08] px-3 py-1 text-[11px] font-medium text-zinc-300">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Trợ lý học thuật AI - Phân tích kết quả học tập</span>
           </div>
@@ -173,7 +173,7 @@ export default function AnalyticsPage() {
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 rounded-xl bg-[#4f57ea] hover:bg-[#434ac9] active:bg-[#3d43b6] px-4 py-2.5 text-xs font-semibold text-white transition-colors self-start md:self-auto shadow-sm"
+          className="inline-flex items-center gap-2 rounded-full bg-white hover:bg-zinc-200 active:bg-zinc-300 px-4 py-2.5 text-xs font-semibold text-zinc-950 transition-colors self-start md:self-auto shadow-sm"
         >
           <BookOpen className="h-4 w-4" />
           <span>Làm bài đánh giá mới</span>
@@ -202,7 +202,7 @@ export default function AnalyticsPage() {
             {/* Visual Progress Bar */}
             <div className="w-full h-1.5 bg-[#111215] rounded-full overflow-hidden mt-2.5">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 transition-all duration-500"
+                className="h-full rounded-full bg-white transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.max(0, examCompletionMetrics.rate))}%` }}
               />
             </div>
@@ -312,7 +312,7 @@ export default function AnalyticsPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.06] pb-4">
           <div>
             <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <TrendingUp className="h-4.5 w-4.5 text-indigo-400" />
+              <TrendingUp className="h-4.5 w-4.5 text-white" />
               <span>Biểu đồ Diễn biến Điểm đánh giá (Thang điểm 10)</span>
             </h2>
             <p className="text-xs text-slate-400 mt-0.5">
@@ -322,7 +322,7 @@ export default function AnalyticsPage() {
 
           <div className="flex items-center gap-2 text-xs">
             <span className="flex items-center gap-1.5 text-slate-400">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#4f57ea]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-white" />
               Tổng điểm
             </span>
             <span className="text-slate-600">•</span>
@@ -345,7 +345,7 @@ export default function AnalyticsPage() {
             </p>
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#4f57ea] hover:bg-[#434ac9] px-4 py-2 text-xs font-semibold text-white transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-zinc-200 px-4 py-2 text-xs font-semibold text-zinc-950 transition-colors shadow-sm"
             >
               <span>Bắt đầu làm bài</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -364,13 +364,13 @@ export default function AnalyticsPage() {
                 >
                   <defs>
                     <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#6366F1" />
-                      <stop offset="50%" stopColor="#8B5CF6" />
-                      <stop offset="100%" stopColor="#10B981" />
+                      <stop offset="0%" stopColor="#FFFFFF" />
+                      <stop offset="50%" stopColor="#FFFFFF" />
+                      <stop offset="100%" stopColor="#FFFFFF" />
                     </linearGradient>
                     <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#6366F1" stopOpacity="0.25" />
-                      <stop offset="100%" stopColor="#6366F1" stopOpacity="0" />
+                      <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.12" />
+                      <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
                     </linearGradient>
                   </defs>
 
@@ -411,7 +411,7 @@ export default function AnalyticsPage() {
                   {pathD && (
                     <path
                       d={pathD}
-                      stroke="url(#lineGrad)"
+                      stroke="#FFFFFF"
                       strokeWidth="3.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -433,9 +433,7 @@ export default function AnalyticsPage() {
                           cx={pt.x}
                           cy={pt.y}
                           r={isHovered ? "6" : "4.5"}
-                          fill="#4F46E5"
-                          stroke="#FFFFFF"
-                          strokeWidth="2"
+                          fill="#18191E" stroke="#FFFFFF" strokeWidth="2.5"
                           className="transition-all duration-150"
                         />
 
@@ -503,7 +501,7 @@ export default function AnalyticsPage() {
 
                   <Link
                     href={`/history/${chartPoints[hoveredPointIndex].sub.id}`}
-                    className="inline-flex items-center gap-1 rounded-lg bg-[#4f57ea] hover:bg-[#434ac9] text-white px-3 py-1.5 text-xs font-semibold transition-colors"
+                    className="inline-flex items-center gap-1 rounded-full bg-white hover:bg-zinc-200 text-zinc-950 px-3 py-1.5 text-xs font-semibold transition-colors shadow-sm"
                   >
                     <span>Xem bài</span>
                     <ChevronRight className="h-3 w-3" />

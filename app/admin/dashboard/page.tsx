@@ -399,7 +399,7 @@ export default function AdminDashboardPage() {
                             className={cn(
                               "inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-md border font-mono transition cursor-pointer select-none",
                               exam.is_shuffled
-                                ? "bg-[#4f46e5]/20 text-indigo-300 border-[#4f46e5]/40 hover:bg-[#4f46e5]/30 shadow-[0_0_8px_rgba(79,70,229,0.2)]"
+                                ? "bg-white text-zinc-950 font-semibold shadow-xs shadow-[0_0_8px_rgba(79,70,229,0.2)]"
                                 : "bg-slate-900/50 text-slate-500 border-white/5 hover:text-slate-300 hover:border-white/10"
                             )}
                             title={exam.is_shuffled ? "Đề này đang bật trộn (bấm để tắt nhanh)" : "Đề này đang tắt trộn (bấm để bật nhanh)"}

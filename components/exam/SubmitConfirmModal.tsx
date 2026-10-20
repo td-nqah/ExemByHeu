@@ -103,7 +103,7 @@ export function SubmitConfirmModal({
                 type="button"
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                className="rounded-full bg-[#18191E] border border-white/[0.08] px-4 py-2 text-xs font-semibold text-zinc-300 transition hover:bg-zinc-800 hover:text-white"
               >
                 Quay lại làm tiếp
               </button>
@@ -111,7 +111,7 @@ export function SubmitConfirmModal({
                 type="button"
                 onClick={onConfirm}
                 disabled={isSubmitting}
-                className="rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
+                className="rounded-full bg-white hover:bg-zinc-200 px-5 py-2 text-xs font-semibold text-zinc-950 shadow-md transition active:scale-[0.98] disabled:opacity-50"
               >
                 {isSubmitting ? "Đang xử lý..." : "Nộp bài ngay"}
               </button>

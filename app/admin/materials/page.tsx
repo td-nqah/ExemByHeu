@@ -667,7 +667,7 @@ export default function AdminMaterialsPage() {
             </button>
             <button
               onClick={handleOpenCreate}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] px-4 py-2 text-xs font-bold text-white hover:bg-[#6366f1] transition cursor-pointer shadow-md shadow-indigo-600/30"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-zinc-950 hover:bg-zinc-200 transition shadow-sm cursor-pointer shadow-md shadow-indigo-600/30"
             >
               <Plus className="h-4 w-4" />
               Biên tập học liệu mới

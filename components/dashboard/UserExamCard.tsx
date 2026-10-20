@@ -95,7 +95,7 @@ export function UserExamCard({ exam, index = 0 }: UserExamCardProps) {
                 <FileText className="h-3.5 w-3.5" strokeWidth={1.5} />
               </div>
               <div className="flex items-center gap-1.5 truncate">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#3B82F6] shrink-0" />
+                <span className="h-1.5 w-1.5 rounded-full bg-white shrink-0" />
                 <span className="text-[11px] font-medium text-zinc-400 truncate">
                   {examTypeLabel}
                 </span>

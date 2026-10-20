@@ -282,7 +282,7 @@ function UserDashboardContent() {
           </div>
           {/* Miniature dark structured icon box */}
           <div className="h-11 w-11 rounded-xl bg-[#111215] border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] flex items-center justify-center text-zinc-300 shrink-0">
-            <BookOpen className="h-5 w-5 text-[#3B82F6]" strokeWidth={1.5} />
+            <BookOpen className="h-5 w-5 text-white" strokeWidth={1.5} />
           </div>
         </div>
 
@@ -430,8 +430,8 @@ function UserDashboardContent() {
 
               {/* Area subtle gradient */}
               <linearGradient id="lunor-spline-grad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.0" />
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.12" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
               </linearGradient>
             </defs>
 
