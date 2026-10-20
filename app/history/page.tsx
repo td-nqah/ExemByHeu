@@ -88,7 +88,7 @@ export default function HistoryPage() {
             href="/dashboard"
             className="inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-zinc-200 px-4 py-2 text-xs font-semibold text-zinc-950 transition-colors shadow-sm"
           >
-            <span>Đến ngân hàng đề đánh giá</span>
+            <span>Đến ngân hàng đề thi</span>
             <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
           </Link>
         </div>

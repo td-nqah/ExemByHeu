@@ -343,13 +343,13 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
-              {/* Mục 2: Ngân hàng Đề đánh giá */}
+              {/* Mục 2: Ngân hàng đề thi */}
               <SidebarMenuItem>
                 <div className="flex w-full items-center">
                   <SidebarMenuButton
                     asChild
                     isActive={isParentActive}
-                    tooltip="Ngân hàng Đề đánh giá"
+                    tooltip="Ngân hàng đề thi"
                     className={cn(
                       "flex-1 h-8.5 rounded-lg text-xs font-medium transition-colors",
                       isParentActive
@@ -374,7 +374,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                         )}
                       />
                       <span className="truncate group-data-[collapsible=icon]:hidden">
-                        Ngân hàng Đề đánh giá
+                        Ngân hàng đề thi
                       </span>
                     </Link>
                   </SidebarMenuButton>
