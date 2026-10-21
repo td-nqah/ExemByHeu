@@ -156,7 +156,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] text-white font-bold text-xs shadow-lg shadow-[#5852d6]/20 transition"
         >
           <ArrowLeft className="h-4 w-4" />
-          Quay lại Học liệu & Đề cương
+          Quay lại Tài liệu ôn tập
         </Link>
       </div>
     );
@@ -194,7 +194,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
             className="inline-flex items-center gap-2 text-xs font-semibold text-[#9ca3af] hover:text-indigo-300 transition group"
           >
             <ArrowLeft className="h-4 w-4 transition group-hover:-translate-x-1" />
-            Tất cả học liệu & đề cương
+            Tất cả tài liệu ôn tập
           </Link>
 
           <div className="flex items-center gap-2">

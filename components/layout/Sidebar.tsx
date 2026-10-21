@@ -286,12 +286,12 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* Mục 1: Học liệu & Đề cương */}
+              {/* Mục 1: Tài liệu ôn tập */}
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
                   isActive={pathname.startsWith("/knowledge")}
-                  tooltip="Học liệu & Đề cương"
+                  tooltip="Tài liệu ôn tập"
                 >
                   <Link href="/knowledge" onClick={closeSidebarOnNavigate}>
                     <BookOpen
@@ -303,7 +303,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                       )}
                     />
                     <span className="truncate group-data-[collapsible=icon]:hidden">
-                      Học liệu & Đề cương
+                      Tài liệu ôn tập
                     </span>
                   </Link>
                 </SidebarMenuButton>

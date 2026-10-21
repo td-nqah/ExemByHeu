@@ -90,7 +90,7 @@ export default function KnowledgeHubPage() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
-              Học liệu & Đề cương
+              Tài liệu ôn tập
             </h1>
             <p className="text-xs text-[#9ca3af] mt-0.5">
               Hệ thống học liệu, đề cương chi tiết và tài liệu tham khảo theo học phần
