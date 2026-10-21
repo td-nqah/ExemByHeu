@@ -9,7 +9,6 @@ import { formatDate } from "@/lib/utils";
 import {
   TrendingUp,
   CheckCircle2,
-  Award,
   Zap,
   Target,
   Sparkles,
