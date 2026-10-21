@@ -180,8 +180,8 @@ export default function AnalyticsPage() {
         </Link>
       </div>
 
-      {/* 5 Flat Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      {/* 4 Flat Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Tiến Độ Hoàn Thành Đề */}
         <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between">
@@ -286,25 +286,7 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Card 5: Số Lượt Bài Thi Đã Nộp */}
-        <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between hover:border-white/10 transition-colors">
-          <div className="flex items-center justify-between">
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Lượt Đánh giá Đã hoàn thành
-            </p>
-            <div className="h-9 w-9 rounded-xl bg-[#202738] flex items-center justify-center text-indigo-400 shrink-0">
-              <Award className="h-4.5 w-4.5" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <p className="text-3xl font-extrabold text-white tracking-tight">
-              {totalSubmissions}
-            </p>
-            <p className="text-[11px] text-slate-400 mt-2 truncate">
-              Lưu trữ 20 bài đánh giá gần nhất
-            </p>
-          </div>
-        </div>
+
       </div>
 
       {/* Main Section: Flat Interactive Score Trend Line Chart */}

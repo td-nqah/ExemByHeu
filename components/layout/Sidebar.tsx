@@ -179,8 +179,8 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
   return (
     <ShadcnSidebar collapsible="icon" className="border-r border-[#1f2937] bg-[#111827]">
       {/* 1. Header: Logo / Brand & Toggle Trigger */}
-      <SidebarHeader className="border-b border-[#1f2937]/70 p-3.5">
-        <div className="relative flex items-center justify-center w-full min-h-[36px] group-data-[collapsible=icon]:justify-center">
+      <SidebarHeader className="border-b border-[#1f2937]/70 px-3.5 py-3">
+        <div className="relative flex items-center justify-center w-full min-h-[40px] group-data-[collapsible=icon]:justify-center">
           {/* Brand Logo & Name: Căn giữa sidebar trên cả mobile và máy tính */}
           <Link
             href="/home"
@@ -188,8 +188,8 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             title="ExamByHeu - Nền tảng Ôn luyện"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none group-data-[collapsible=icon]:hidden"
           >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/20">
-              <GraduationCap className="h-4.5 w-4.5" />
+            <div className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/20">
+              <GraduationCap className="h-5 w-5" />
             </div>
             <div className="flex flex-col min-w-0">
               <span className="font-heading text-xl font-black tracking-tight leading-tight select-none">
@@ -200,12 +200,12 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             </div>
           </Link>
 
-          {/* Nút Hamburger bên phải: Bỏ dấu X, dùng nút Hamburger đóng/thu nhỏ cho cả điện thoại và máy tính */}
+          {/* Nút Hamburger bên phải: Bỏ dấu X, to hơn một tí và autofit với sidebar */}
           <SidebarTrigger
             title="Thu nhỏ / Đóng sidebar (Ctrl+B)"
-            className="absolute right-0 flex h-8 w-8 items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-slate-400 hover:text-white hover:bg-[#1f2937] active:scale-95 transition cursor-pointer select-none group-data-[collapsible=icon]:hidden"
+            className="absolute right-0 flex h-9.5 w-9.5 items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition cursor-pointer select-none shadow-sm group-data-[collapsible=icon]:hidden"
           >
-            <Menu className="h-4 w-4" />
+            <Menu className="h-5 w-5" strokeWidth={2.25} />
           </SidebarTrigger>
         </div>
 
@@ -213,9 +213,9 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         <div className="hidden group-data-[collapsible=icon]:flex items-center justify-center pt-0.5">
           <SidebarTrigger
             title="Mở rộng sidebar (Ctrl+B)"
-            className="h-8 w-8"
+            className="h-9.5 w-9.5 rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition shadow-sm"
           >
-            <Menu className="h-4 w-4" />
+            <Menu className="h-5 w-5" strokeWidth={2.25} />
           </SidebarTrigger>
         </div>
       </SidebarHeader>
