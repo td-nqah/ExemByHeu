@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { Inter, Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
-import { ObsidianCyberBackground } from "@/components/layout/ObsidianCyberBackground";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -41,9 +40,14 @@ export default function RootLayout({
       lang="vi"
       className={`${inter.variable} ${plusJakartaSans.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
     >
-      <body className="min-h-screen bg-[#0b0f19] font-sans text-[#e5e7eb] antialiased selection:bg-[#4f46e5] selection:text-white relative overflow-x-hidden custom-scrollbar">
-        {/* DYNAMIC OBSIDIAN CYBER BACKGROUND */}
-        <ObsidianCyberBackground />
+      <body className="min-h-screen bg-transparent font-sans text-[#e5e7eb] antialiased selection:bg-[#4f46e5] selection:text-white relative overflow-x-hidden custom-scrollbar">
+        {/* Fixed Background Scaffold */}
+        <div className="fixed inset-0 -z-50 pointer-events-none overflow-hidden">
+          {/* Layer 1: Animated Obsidian Indigo Stripes */}
+          <div className="absolute inset-0 bg-obsidian-stripes" />
+          {/* Layer 2: Ambient Indigo Radial Glow & Edge Vignette */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.12)_0%,transparent_60%),radial-gradient(ellipse_at_center,transparent_0%,rgba(4,6,10,0.6)_100%)]" />
+        </div>
 
         <div className="relative z-10 flex min-h-screen flex-col">
           <Suspense
