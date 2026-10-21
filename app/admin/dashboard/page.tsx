@@ -21,7 +21,9 @@ import { formatDuration } from "@/lib/utils";
 import {
   BookOpen,
   FilePlus2,
+  Clock,
   Eye,
+  Check,
   Trash2,
   AlertTriangle,
   X,
@@ -239,7 +241,7 @@ export default function AdminDashboardPage() {
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="inline-flex items-center gap-2 bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] rounded-xl px-4 py-2 text-xs text-[#9ca3af] font-medium select-none cursor-default">
-              <BookOpen className="h-4 w-4 text-white shrink-0" />
+              <BookOpen className="h-4 w-4 text-[#6366f1] shrink-0" />
               <span>Tổng số đề: <strong className="text-white font-bold tnum tabular-nums">{loading ? "..." : exams.length}</strong></span>
             </div>
           </div>
@@ -255,7 +257,7 @@ export default function AdminDashboardPage() {
       >
         <div className="flex flex-col gap-3 border-b border-[#1f2937] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
-            <h2 className="text-base sm:lg font-bold tracking-tight text-white">
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-white">
               Ngân hàng Đề thi ({exams.length})
             </h2>
             <p className="mt-0.5 text-xs text-[#9ca3af]">
@@ -264,14 +266,14 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            {/* Nút Bật/Tắt Trộn Đề */}
+            {/* Nút Bật/Tắt Trộn Đề (đồng bộ UX kích thước với 2 card bên cạnh) */}
             <div
               className={cn(
                 "inline-flex items-center gap-2 rounded-xl border border-[#1f2937] bg-[#0b0f19] px-3.5 py-2 text-xs select-none transition-colors",
-                shuffledCount > 0 && "border-white/50"
+                shuffledCount > 0 && "border-[#4f46e5]/50"
               )}
             >
-              <Shuffle className="h-4 w-4 text-white shrink-0" />
+              <Shuffle className="h-4 w-4 text-[#6366f1] shrink-0" />
               <span className="font-medium text-slate-200">Trộn đề thi</span>
 
               {/* Toggle Switch */}
@@ -283,13 +285,13 @@ export default function AdminDashboardPage() {
                 disabled={isTogglingGlobalShuffle}
                 className={cn(
                   "relative ml-0.5 inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50",
-                  shuffledCount > 0 ? "bg-white" : "bg-slate-700"
+                  shuffledCount > 0 ? "bg-[#4f46e5]" : "bg-slate-700"
                 )}
                 title="Bật/Tắt chế độ trộn đề cho toàn bộ đề thi"
               >
                 <span
                   className={cn(
-                    "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-zinc-950 shadow ring-0 transition duration-200 ease-in-out",
+                    "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
                     shuffledCount > 0 ? "translate-x-4" : "translate-x-0"
                   )}
                 />
@@ -303,13 +305,13 @@ export default function AdminDashboardPage() {
               }}
               className="inline-flex items-center gap-2 rounded-xl bg-[#0b0f19] hover:bg-[#111827] border border-[#1f2937] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
             >
-              <FolderPlus className="h-4 w-4 text-white shrink-0" />
+              <FolderPlus className="h-4 w-4 text-[#6366f1] shrink-0" />
               <span>Thêm vào Danh mục</span>
             </button>
 
             <Link
               href="/admin/exams/create"
-              className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-bold px-4 py-2 text-xs transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-medium px-4 py-2 text-xs transition-colors shadow-md shadow-indigo-600/30"
             >
               <FilePlus2 className="h-4 w-4" />
               <span>Tạo đề</span>
@@ -323,13 +325,13 @@ export default function AdminDashboardPage() {
           </div>
         ) : exams.length === 0 ? (
           <div className="py-12 text-center">
-            <BookOpen className="mx-auto mb-2 h-8 w-8 text-zinc-400" />
+            <BookOpen className="mx-auto mb-2 h-8 w-8 text-indigo-400" />
             <p className="text-xs font-semibold text-slate-300">
               Chưa có đề thi nào
             </p>
             <button
               onClick={() => setIsQuickExamModalOpen(true)}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-bold shadow-sm px-4 py-2 text-xs transition-all"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-medium shadow-[0_0_15px_rgba(79,70,229,0.3)] px-4 py-2 text-xs transition-all"
             >
               <FilePlus2 className="h-3.5 w-3.5" />
               Tạo đề thi đầu tiên
@@ -364,7 +366,7 @@ export default function AdminDashboardPage() {
                       key={exam.id}
                       className="group border-b border-[#1f2937] hover:bg-[#1f2937]/40 transition-colors"
                     >
-                      <td className="max-w-xs truncate py-3.5 px-4 font-bold text-white group-hover:text-zinc-300 transition-colors">
+                      <td className="max-w-xs truncate py-3.5 px-4 font-bold text-white group-hover:text-indigo-300 transition-colors">
                         {exam.title}
                       </td>
 
@@ -397,7 +399,7 @@ export default function AdminDashboardPage() {
                             className={cn(
                               "inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-md border font-mono transition cursor-pointer select-none",
                               exam.is_shuffled
-                                ? "bg-white text-zinc-950 font-semibold shadow-xs shadow-[0_0_8px_rgba(79,70,229,0.2)]"
+                                ? "bg-[#4f46e5]/20 text-indigo-300 border-[#4f46e5]/40 hover:bg-[#4f46e5]/30 shadow-[0_0_8px_rgba(79,70,229,0.2)]"
                                 : "bg-slate-900/50 text-slate-500 border-white/5 hover:text-slate-300 hover:border-white/10"
                             )}
                             title={exam.is_shuffled ? "Đề này đang bật trộn (bấm để tắt nhanh)" : "Đề này đang tắt trộn (bấm để bật nhanh)"}
@@ -438,7 +440,7 @@ export default function AdminDashboardPage() {
                         <div className="inline-flex items-center justify-end gap-2">
                           <Link
                             href={`/admin/exams/preview?id=${exam.id}`}
-                            className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-white hover:text-zinc-950 border border-[#1f2937] text-[#e5e7eb] px-2.5 py-1.5 text-[11px] font-medium transition-colors"
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#4f46e5] hover:text-white border border-[#1f2937] text-[#e5e7eb] px-2.5 py-1.5 text-[11px] font-medium transition-colors"
                             title="Xem trước toàn bộ câu hỏi và đáp án"
                           >
                             <Eye className="h-3.5 w-3.5" />
@@ -484,7 +486,7 @@ export default function AdminDashboardPage() {
             >
               <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <FolderPlus className="h-4.5 w-4.5 text-white shrink-0" />
+                  <FolderPlus className="h-4.5 w-4.5 text-[#6366f1] shrink-0" />
                   <span>Thêm bài thi mới vào Chuyên mục</span>
                 </h3>
                 <button
@@ -543,7 +545,7 @@ export default function AdminDashboardPage() {
                   <button
                     type="button"
                     onClick={() => setShowAdvancedQuick(!showAdvancedQuick)}
-                    className="text-xs text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+                    className="text-xs text-[#6366f1] hover:text-indigo-300 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
                   >
                     <span>
                       {showAdvancedQuick
@@ -615,7 +617,7 @@ export default function AdminDashboardPage() {
                             type="datetime-local"
                             value={quickExpiresAt}
                             onChange={(e) => setQuickExpiresAt(e.target.value)}
-                            className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-white/60"
+                            className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
                           />
                         </div>
                       </div>
@@ -668,7 +670,7 @@ export default function AdminDashboardPage() {
                   <button
                     type="submit"
                     disabled={isCreatingQuick}
-                    className="px-5 py-2 bg-white hover:bg-zinc-200 text-zinc-950 font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                    className="px-5 py-2 bg-[#4f46e5] hover:bg-[#6366f1] text-white font-medium text-xs rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     <span>{isCreatingQuick ? "Đang lưu..." : "✓ Xác nhận & Thêm vào Danh mục"}</span>

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { Menu } from "lucide-react";
+import { Menu, PanelLeft, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
@@ -291,7 +291,7 @@ export const SidebarRail = React.forwardRef<
       onClick={toggleSidebar}
       title="Toggle Sidebar"
       className={cn(
-        "absolute inset-y-0 -right-2 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-white group-data-[side=left]:-right-2 group-data-[side=right]:left-0 sm:flex cursor-col-resize",
+        "absolute inset-y-0 -right-2 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-[#4f46e5] group-data-[side=left]:-right-2 group-data-[side=right]:left-0 sm:flex cursor-col-resize",
         className
       )}
       {...props}
@@ -406,7 +406,7 @@ export const SidebarGroupLabel = React.forwardRef<
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "flex h-7 shrink-0 items-center px-2 text-[10px] font-extrabold uppercase tracking-wider text-zinc-400 outline-none transition-opacity duration-200 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:h-0 group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden",
+        "flex h-7 shrink-0 items-center px-2 text-[10px] font-extrabold uppercase tracking-wider text-[#818cf8] outline-none transition-opacity duration-200 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:h-0 group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden",
         className
       )}
       {...props}
@@ -494,7 +494,7 @@ export const SidebarMenuButton = React.forwardRef<
         className={cn(
           "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-xl p-2 text-left text-xs font-medium outline-none transition-all duration-150 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-2 select-none",
           isActive
-            ? "bg-white/[0.08] text-white font-semibold border border-white/[0.12] shadow-sm"
+            ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
             : "text-[#9ca3af] hover:text-white hover:bg-[#1f2937]/80 border border-transparent",
           size === "sm" && "h-8 text-xs",
           size === "default" && "h-9",
@@ -560,7 +560,7 @@ export const SidebarMenuSubButton = React.forwardRef<
       className={cn(
         "flex h-7 min-w-0 items-center gap-2 overflow-hidden rounded-lg px-2 text-xs transition-colors",
         isActive
-          ? "bg-white/[0.08] text-white font-semibold border border-white/[0.12]"
+          ? "bg-[#4f46e5]/15 text-white font-semibold border border-[#4f46e5]/30"
           : "text-[#9ca3af] hover:text-white hover:bg-[#1f2937]",
         className
       )}

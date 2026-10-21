@@ -10,7 +10,7 @@ export default function KnowledgeDetailPage({
     <Suspense
       fallback={
         <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#5852d6] border-t-transparent" />
         </div>
       }
     >

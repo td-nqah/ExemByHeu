@@ -138,7 +138,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
   if (loading) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#5852d6] border-t-transparent" />
       </div>
     );
   }
@@ -153,7 +153,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
         </p>
         <Link
           href="/knowledge"
-          className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-bold text-xs shadow-sm transition"
+          className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] text-white font-bold text-xs shadow-lg shadow-[#5852d6]/20 transition"
         >
           <ArrowLeft className="h-4 w-4" />
           Quay lại Học liệu & Đề cương
@@ -178,10 +178,10 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
   return (
     <div className="min-h-screen pb-20 relative">
-      {/* Top Fixed Reading Progress Bar */}
+      {/* Top Fixed Reading Progress Bar (Obsidian Purple) */}
       <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-white/[0.08] pointer-events-none">
         <div
-          className="h-full bg-white shadow-sm transition-all duration-150"
+          className="h-full bg-gradient-to-r from-[#4f46e5] via-[#6366f1] to-purple-400 shadow-[0_0_10px_rgba(79,70,229,0.6)] transition-all duration-150"
           style={{ width: `${readingProgress}%` }}
         />
       </div>
@@ -191,7 +191,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
         <div className="flex items-center justify-between gap-4 pb-6 border-b border-[#1f2937]">
           <Link
             href="/knowledge"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-[#9ca3af] hover:text-white transition group"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-[#9ca3af] hover:text-indigo-300 transition group"
           >
             <ArrowLeft className="h-4 w-4 transition group-hover:-translate-x-1" />
             Tất cả học liệu & đề cương
@@ -252,13 +252,13 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           </h1>
 
           {material.summary && (
-            <p className="text-sm sm:text-base text-slate-300 italic border-l-4 border-white/30 pl-4 py-1.5 leading-relaxed bg-white/[0.04] rounded-r-xl">
+            <p className="text-sm sm:text-base text-slate-300 italic border-l-4 border-[#4f46e5] pl-4 py-1.5 leading-relaxed bg-[#4f46e5]/10 rounded-r-xl">
               {material.summary}
             </p>
           )}
 
           <div className="flex items-center gap-3 pt-2 text-xs text-[#9ca3af]">
-            <div className="h-8 w-8 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center font-bold text-xs shadow-md">
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#4f46e5] to-[#6366f1] text-white flex items-center justify-center font-bold text-xs shadow-md">
               {(material.author || "B")[0]}
             </div>
             <div>
@@ -282,7 +282,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
             <div className="mt-12 p-6 rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] flex items-center justify-between gap-4">
               <div className="space-y-1">
                 <h4 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                  <Sparkles className="h-4 w-4 text-white" />
+                  <Sparkles className="h-4 w-4 text-[#6366f1]" />
                   Bạn đã đọc hết bài viết này!
                 </h4>
                 <p className="text-xs text-[#9ca3af]">
@@ -291,7 +291,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
               </div>
               <Link
                 href="/dashboard"
-                className="shrink-0 px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-bold text-xs transition shadow-sm cursor-pointer"
+                className="shrink-0 px-4 py-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-bold text-xs transition shadow-lg shadow-[#4f46e5]/20 cursor-pointer"
               >
                 Làm bài đánh giá ngay
               </Link>
@@ -301,7 +301,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
             {relatedMaterials.length > 0 && (
               <div className="mt-12 space-y-4">
                 <h3 className="font-heading text-base font-bold text-white flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-white" />
+                  <BookOpen className="h-4 w-4 text-[#6366f1]" />
                   Bài viết liên quan cùng chuyên đề
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -309,12 +309,12 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                     <Link
                       key={rel.id}
                       href={`/knowledge/${rel.id}`}
-                      className="p-4 rounded-xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-white/30 hover:bg-[#1f2937] transition block group hover:-translate-y-0.5"
+                      className="p-4 rounded-xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-[#3b82f6] hover:bg-[#1f2937] transition block group hover:-translate-y-0.5"
                     >
-                      <span className="text-[10px] font-bold text-zinc-400 font-mono">
+                      <span className="text-[10px] font-bold text-[#34d399] font-mono">
                         {rel.category_name || "Chuyên đề"}
                       </span>
-                      <h4 className="font-heading text-xs sm:text-sm font-bold text-white group-hover:text-zinc-200 transition mt-1 line-clamp-2">
+                      <h4 className="font-heading text-xs sm:text-sm font-bold text-white group-hover:text-indigo-300 transition mt-1 line-clamp-2">
                         {rel.title}
                       </h4>
                       <p className="text-[11px] text-[#9ca3af] mt-1 line-clamp-2">
@@ -332,10 +332,10 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
             <div className="rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] p-5 shadow-xl">
               <div className="flex items-center justify-between pb-3 border-b border-[#1f2937]">
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                  <List className="h-4 w-4 text-white" />
+                  <List className="h-4 w-4 text-[#6366f1]" />
                   Mục lục bài viết (TOC)
                 </h3>
-                <span className="text-[11px] text-white font-mono font-bold">
+                <span className="text-[11px] text-[#6366f1] font-mono font-bold">
                   {Math.round(readingProgress)}%
                 </span>
               </div>
@@ -356,7 +356,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                           "w-full text-left rounded-lg py-1.5 transition-all text-xs block cursor-pointer",
                           item.level === 3 ? "pl-5 text-[11px]" : "pl-2.5 font-medium",
                           isActive
-                            ? "bg-white/[0.08] text-white font-bold border-l-2 border-white"
+                            ? "bg-[#4f46e5]/15 text-indigo-300 font-bold border-l-2 border-[#6366f1]"
                             : "text-[#9ca3af] hover:text-white hover:bg-white/[0.03]"
                         )}
                       >

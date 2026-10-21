@@ -299,7 +299,7 @@ export function EditExamClient({ examId }: { examId: string }) {
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
       </div>
     );
   }
@@ -314,7 +314,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           </h2>
           <Link
             href="/admin/dashboard"
-            className="mt-4 inline-block text-xs font-semibold text-white underline"
+            className="mt-4 inline-block text-xs font-semibold text-indigo-400 underline"
           >
             Quay lại Ngân hàng Đề đánh giá
           </Link>
@@ -346,7 +346,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           href="/admin/dashboard"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-white" />
+          <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
           <span>Quay lại Ngân hàng Đề đánh giá</span>
         </Link>
       </div>
@@ -374,7 +374,7 @@ export function EditExamClient({ examId }: { examId: string }) {
             type="button"
             onClick={handleSaveChanges}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-zinc-200 px-5 py-2.5 text-xs font-bold text-zinc-950 shadow-sm transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             <span>{isSaving ? "Đang lưu..." : "Lưu thay đổi"}</span>
@@ -438,13 +438,13 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           {/* Toggle Switch: Shuffle Exam */}
-          <div className="sm:col-span-2 rounded-xl bg-slate-900/60 border border-white/10 p-4 transition-all duration-200 hover:border-white/30">
+          <div className="sm:col-span-2 rounded-xl bg-slate-900/60 border border-white/10 p-4 transition-all duration-200 hover:border-[#5852d6]/50">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <div
                   className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
                     isShuffled
-                      ? "border-white/30 bg-white/10 text-white shadow-sm"
+                      ? "border-[#5852d6]/50 bg-[#5852d6]/20 text-indigo-400 shadow-[0_0_12px_rgba(88,82,214,0.3)]"
                       : "border-slate-800 bg-slate-800/60 text-slate-400"
                   }`}
                 >
@@ -457,7 +457,7 @@ export function EditExamClient({ examId }: { examId: string }) {
                   >
                     <span>Trộn ngẫu nhiên câu hỏi & đáp án</span>
                     {isShuffled && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-white border border-white/20 font-mono">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5852d6]/25 text-indigo-300 border border-[#5852d6]/40 font-mono">
                         BẬT (ACTIVE)
                       </span>
                     )}
@@ -475,15 +475,15 @@ export function EditExamClient({ examId }: { examId: string }) {
                 role="switch"
                 aria-checked={isShuffled}
                 onClick={() => setIsShuffled(!isShuffled)}
-                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-white/30 ${
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#5852d6]/50 ${
                   isShuffled
-                    ? "border-white bg-white shadow-sm"
+                    ? "border-indigo-400 bg-[#5852d6] shadow-[0_0_14px_rgba(88,82,214,0.5)]"
                     : "border-slate-700 bg-slate-800"
                 }`}
               >
                 <span
                   aria-hidden="true"
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-zinc-950 shadow-lg ring-0 transition duration-200 ease-in-out ${
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
                     isShuffled ? "translate-x-5" : "translate-x-0"
                   }`}
                 />
@@ -502,7 +502,7 @@ export function EditExamClient({ examId }: { examId: string }) {
               onClick={() => setShowQuickScoreConfig((prev) => !prev)}
               className="inline-flex items-center gap-2 rounded-xl bg-slate-900 border border-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
             >
-              <Sliders className="h-3.5 w-3.5 text-white" />
+              <Sliders className="h-3.5 w-3.5 text-indigo-400" />
               <span>
                 {showQuickScoreConfig
                   ? "Ẩn bảng Cấu hình điểm nhanh"
@@ -512,7 +512,7 @@ export function EditExamClient({ examId }: { examId: string }) {
 
             <span className="text-xs font-semibold text-slate-300">
               Tổng điểm hiện tại:{" "}
-              <strong className="text-white">{totalScore} điểm</strong>
+              <strong className="text-indigo-400">{totalScore} điểm</strong>
             </span>
           </div>
 
@@ -562,7 +562,7 @@ export function EditExamClient({ examId }: { examId: string }) {
               onClick={handleAddQuestion}
               className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
             >
-              <Plus className="h-3.5 w-3.5 text-white" />
+              <Plus className="h-3.5 w-3.5 text-indigo-400" />
               <span>Thêm câu hỏi mới</span>
             </button>
           </div>
@@ -570,14 +570,14 @@ export function EditExamClient({ examId }: { examId: string }) {
 
         {questions.length === 0 ? (
           <div className="glass-card rounded-2xl py-12 text-center">
-            <Layers className="mx-auto mb-2 h-8 w-8 text-zinc-400" />
+            <Layers className="mx-auto mb-2 h-8 w-8 text-indigo-400" />
             <p className="text-xs font-semibold text-slate-200">
               Đề đánh giá hiện chưa có câu hỏi nào
             </p>
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-white hover:bg-zinc-200 px-4 py-2 text-xs font-bold text-zinc-950 shadow-sm"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Thêm câu hỏi đầu tiên</span>
@@ -607,7 +607,7 @@ export function EditExamClient({ examId }: { examId: string }) {
                 onClick={handleAddQuestion}
                 className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
               >
-                <Plus className="h-4 w-4 text-white" />
+                <Plus className="h-4 w-4 text-indigo-400" />
                 <span>Thêm câu hỏi mới</span>
               </button>
 
@@ -623,7 +623,7 @@ export function EditExamClient({ examId }: { examId: string }) {
               type="button"
               onClick={handleSaveChanges}
               disabled={isSaving}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white hover:bg-zinc-200 px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-sm transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
             >
               <Save className="h-4 w-4" />
               <span>

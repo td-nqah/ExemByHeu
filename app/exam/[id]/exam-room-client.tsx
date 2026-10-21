@@ -212,7 +212,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     return (
       <div className="flex min-h-[100dvh] items-center justify-center">
         <div className="glass-card rounded-2xl px-8 py-6 text-center">
-          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
           <p className="mt-3 text-xs font-semibold text-slate-300">
             Đang kết nối phòng thi trực tuyến...
           </p>
@@ -229,7 +229,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           <h2 className="text-base font-bold text-white">Không tìm thấy bài đánh giá</h2>
           <Link
             href="/dashboard"
-            className="mt-4 inline-block text-xs font-semibold text-white underline"
+            className="mt-4 inline-block text-xs font-semibold text-indigo-400 underline"
           >
             Quay lại Bảng điều khiển
           </Link>
@@ -257,7 +257,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               className="rounded-xl bg-slate-900/90 border border-slate-800 p-2 text-slate-300 transition hover:bg-slate-800 hover:text-white"
               title="Quay lại danh sách"
             >
-              <ArrowLeft className="h-4 w-4 text-white" />
+              <ArrowLeft className="h-4 w-4 text-indigo-400" />
             </Link>
 
             {!completedSubmission && (
@@ -277,19 +277,19 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           {/* Right Side: Questions badge + User + Submit CTA */}
           <div className="flex items-center gap-1.5 sm:gap-2.5">
             {exam.is_shuffled && (
-              <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-white/[0.08] border border-white/[0.15] px-2.5 py-1.5 text-xs font-semibold text-zinc-300">
-                <Shuffle className="h-3.5 w-3.5 text-zinc-300" />
+              <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-[#5852d6]/15 border border-[#5852d6]/35 px-2.5 py-1.5 text-xs font-semibold text-indigo-300 shadow-[0_0_12px_rgba(88,82,214,0.2)]">
+                <Shuffle className="h-3.5 w-3.5 text-indigo-400" />
                 <span>Đề xáo trộn câu hỏi và phương án</span>
               </div>
             )}
 
             <div className="hidden md:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200">
-              <ListChecks className="h-3.5 w-3.5 text-white" />
+              <ListChecks className="h-3.5 w-3.5 text-indigo-400" />
               <span>Tổng {questions.length} câu</span>
             </div>
 
             <div className="hidden lg:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300">
-              <User className="h-3.5 w-3.5 text-white" />
+              <User className="h-3.5 w-3.5 text-indigo-400" />
               <span>{getCurrentUser()?.username || "User"}</span>
             </div>
 
@@ -299,7 +299,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 type="button"
                 onClick={() => setShowConfirmModal(true)}
                 disabled={isSubmitting}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-white hover:bg-zinc-200 px-3 sm:px-4 py-2 text-xs font-bold text-zinc-950 shadow-sm transition active:scale-[0.98] disabled:opacity-50 shrink-0"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-3 sm:px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/25 transition active:scale-[0.98] disabled:opacity-50 shrink-0"
               >
                 <Send className="h-3.5 w-3.5" />
                 <span>Nộp bài thi</span>
@@ -351,7 +351,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   className={cn(
                     "glow-card scroll-mt-24 rounded-2xl transition p-6",
                     activeQuestionId === question.id
-                      ? "border-white/40 ring-1 ring-white/20"
+                      ? "border-indigo-500/60 ring-1 ring-indigo-500/30"
                       : isFlagged
                       ? "border-amber-400/60 ring-1 ring-amber-400/20"
                       : ""
@@ -359,7 +359,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 >
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-xs font-bold text-white">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
                         {index + 1}
                       </span>
                       <span className="text-xs font-bold text-white">
@@ -441,7 +441,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                             className={cn(
                               "flex w-full cursor-pointer items-start gap-3.5 rounded-xl border text-left transition select-none p-3.5 text-xs sm:text-sm",
                               isSelected
-                                ? "border-white/40 bg-white/10 text-white ring-1 ring-white/20 shadow-sm"
+                                ? "border-indigo-500 bg-indigo-500/10 text-white ring-1 ring-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.2)]"
                                 : "border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-700 hover:bg-slate-900"
                             )}
                           >
@@ -457,7 +457,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                               className={cn(
                                 "flex shrink-0 items-center justify-center rounded-full font-bold transition h-6 w-6 text-xs",
                                 isSelected
-                                  ? "bg-white text-zinc-950 font-bold shadow-sm"
+                                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
                                   : "border border-slate-700 bg-slate-800 text-slate-300"
                               )}
                             >
@@ -515,7 +515,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                           e.stopPropagation();
                           scrollToQuestion(questions[index + 1].id);
                         }}
-                        className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-zinc-300 hover:text-white hover:bg-white/10 border border-white/20 transition active:scale-95 font-medium"
+                        className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 border border-indigo-500/20 transition active:scale-95 font-medium"
                       >
                         <span>Câu tiếp theo</span>
                         <ChevronRight className="h-4 w-4" />
@@ -527,7 +527,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                           e.stopPropagation();
                           setShowConfirmModal(true);
                         }}
-                        className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 bg-white hover:bg-zinc-200 text-zinc-950 transition active:scale-95 font-bold shadow-sm"
+                        className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white transition active:scale-95 font-medium shadow-md shadow-indigo-600/30"
                       >
                         <span>Hoàn thành & Nộp</span>
                         <Send className="h-3 w-3" />
@@ -552,7 +552,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 type="button"
                 onClick={() => setShowConfirmModal(true)}
                 disabled={isSubmitting}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white hover:bg-zinc-200 px-6 py-3 text-xs font-bold text-zinc-950 shadow-sm transition active:scale-[0.98] sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-3 text-xs font-semibold text-white shadow-lg shadow-indigo-600/25 transition active:scale-[0.98] sm:w-auto"
               >
                 <Send className="h-4 w-4" />
                 <span>Nộp bài ngay</span>
@@ -587,7 +587,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               transition={{ duration: 0.22 }}
               className="glass-panel w-full max-w-md rounded-2xl p-6 sm:p-7 text-center"
             >
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-white">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-400">
                 {aiGradingState.isGrading ? (
                   <Sparkles className="h-7 w-7 animate-spin" />
                 ) : (
@@ -613,7 +613,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
                 <div className="flex items-center justify-between border-t border-slate-800 pt-2.5 text-xs">
                   <span className="text-slate-300 font-medium">Tự luận:</span>
-                  <span className="font-bold text-white">
+                  <span className="font-bold text-indigo-400">
                     {!hasEssay
                       ? "Không có câu tự luận"
                       : completedSubmission.status === "graded" && completedSubmission.essay_score !== null
@@ -622,7 +622,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   </span>
                 </div>
 
-                <div className="mt-2 rounded-lg border border-white/20 bg-white/[0.06] px-3 py-2 text-center text-[11px] font-semibold text-zinc-300">
+                <div className="mt-2 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-3 py-2 text-center text-[11px] font-semibold text-indigo-300">
                   Trắc nghiệm: {completedSubmission.mcq_score} điểm - Tự luận:{" "}
                   {!hasEssay
                     ? "0 điểm"
@@ -642,7 +642,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 <button
                   type="button"
                   onClick={() => router.push("/history")}
-                  className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-white hover:bg-zinc-200 px-4 py-2.5 text-xs font-bold text-zinc-950 shadow-sm transition"
+                  className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition"
                 >
                   <History className="h-3.5 w-3.5" />
                   <span>Đến Lịch sử làm bài</span>
@@ -656,7 +656,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
                 >
                   <span>Xem chi tiết</span>
-                  <ArrowRight className="h-3.5 w-3.5 text-white" />
+                  <ArrowRight className="h-3.5 w-3.5 text-indigo-400" />
                 </button>
               </div>
             </motion.div>

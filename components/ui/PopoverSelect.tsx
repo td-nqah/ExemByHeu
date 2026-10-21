@@ -80,7 +80,7 @@ export function PopoverSelect<T extends string = string>({
         className={cn(
           "flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition-all duration-200 cursor-pointer select-none",
           isOpen
-            ? "bg-[#111827] border-white/40 text-white shadow-[0_0_15px_rgba(255,255,255,0.08)] ring-1 ring-white/20"
+            ? "bg-[#111827] border-[#4f46e5]/60 text-white shadow-[0_0_15px_rgba(79,70,229,0.15)] ring-1 ring-[#4f46e5]/30"
             : "bg-[#111827] border-[#1f2937] text-slate-200 hover:border-[#374151] hover:text-white",
           disabled && "opacity-50 cursor-not-allowed pointer-events-none",
           buttonClassName
@@ -102,7 +102,7 @@ export function PopoverSelect<T extends string = string>({
           <ChevronDown
             className={cn(
               "h-3.5 w-3.5 text-[#9ca3af] transition-transform duration-200 shrink-0",
-              isOpen && "rotate-180 text-white"
+              isOpen && "rotate-180 text-indigo-400"
             )}
           />
         </div>
@@ -135,13 +135,13 @@ export function PopoverSelect<T extends string = string>({
                   className={cn(
                     "w-full flex items-center justify-between p-2.5 rounded-xl border text-xs text-left transition-all duration-150 cursor-pointer group",
                     isSelected
-                      ? "bg-white/[0.08] border-white/[0.2] text-white font-bold shadow-sm"
+                      ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white font-bold shadow-sm"
                       : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300 hover:text-white"
                   )}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     {opt.icon && (
-                      <div className="shrink-0 text-slate-400 group-hover:text-white">
+                      <div className="shrink-0 text-slate-400 group-hover:text-indigo-300">
                         {opt.icon}
                       </div>
                     )}
@@ -164,7 +164,7 @@ export function PopoverSelect<T extends string = string>({
                       </span>
                     )}
                     {isSelected && (
-                      <CheckCircle2 className="h-4 w-4 text-white shrink-0" />
+                      <CheckCircle2 className="h-4 w-4 text-[#6366f1] shrink-0" />
                     )}
                   </div>
                 </button>

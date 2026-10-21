@@ -39,7 +39,7 @@ export default function NumberStepper({
         disabled={disabled || value <= min}
         aria-label="Giảm"
         className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition
-                   hover:bg-white/10 hover:text-white active:scale-90
+                   hover:bg-indigo-500/20 hover:text-indigo-300 active:scale-90
                    disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer"
       >
         <Minus size={16} />
@@ -72,7 +72,7 @@ export default function NumberStepper({
         disabled={disabled || value >= max}
         aria-label="Tăng"
         className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition
-                   hover:bg-white/10 hover:text-white active:scale-90
+                   hover:bg-indigo-500/20 hover:text-indigo-300 active:scale-90
                    disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer"
       >
         <Plus size={16} />

@@ -58,7 +58,7 @@ export function MobileQuestionDrawer({
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-white text-zinc-950 border border-white/20 shadow-xl transition-all duration-200 active:scale-90 hover:scale-105"
+          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-600 to-violet-600 text-white border border-white/20 shadow-[0_0_25px_rgba(99,102,241,0.55)] transition-all duration-200 active:scale-90 hover:scale-105"
           aria-label="Mở danh sách câu hỏi"
           title="Danh sách câu hỏi"
         >
@@ -115,7 +115,7 @@ export function MobileQuestionDrawer({
               )}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">
-              Đã làm <span className="font-semibold text-white">{answeredCount}/{total} câu</span> ({progressPercent}%)
+              Đã làm <span className="font-semibold text-indigo-400">{answeredCount}/{total} câu</span> ({progressPercent}%)
             </p>
           </div>
 
@@ -132,7 +132,7 @@ export function MobileQuestionDrawer({
         {/* Progress Bar Line */}
         <div className="h-1 w-full bg-slate-900">
           <div
-            className="h-full bg-white transition-all duration-300"
+            className="h-full bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-400 transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -152,8 +152,8 @@ export function MobileQuestionDrawer({
                 // Câu ĐÃ ĐÁNH DẤU: Vàng neon kèm cờ
                 btnStyle = "border-amber-400 bg-amber-500/20 text-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.3)] font-bold";
               } else if (isAnswered) {
-                // Câu ĐÃ LÀM: Trắng đen
-                btnStyle = "border-white bg-white text-zinc-950 shadow-sm font-bold";
+                // Câu ĐÃ LÀM: Tím sáng rực rỡ / Xanh lục bảo
+                btnStyle = "border-indigo-500/50 bg-indigo-600 text-white shadow-[0_0_12px_rgba(99,102,241,0.35)] font-bold";
               }
 
               return (
@@ -192,7 +192,7 @@ export function MobileQuestionDrawer({
         <div className="border-t border-white/10 bg-slate-950/80 px-5 pt-3 pb-6 text-[11px] text-slate-400">
           <div className="flex items-center justify-around gap-2">
             <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-sm bg-white shadow-sm" />
+              <span className="h-2.5 w-2.5 rounded-sm bg-indigo-600 shadow-[0_0_6px_rgba(99,102,241,0.5)]" />
               <span className="text-slate-300">Đã làm</span>
             </div>
             <div className="flex items-center gap-1.5">

@@ -47,7 +47,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
       </div>
     );
   }
@@ -79,7 +79,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
         </p>
 
         {/* Summary Status Banner */}
-        <div className="mt-4 rounded-xl border border-white/20 bg-white/[0.06] px-4 py-2.5 text-xs font-semibold text-zinc-300">
+        <div className="mt-4 rounded-xl border border-indigo-500/20 bg-indigo-500/10 px-4 py-2.5 text-xs font-semibold text-indigo-300">
           Trắc nghiệm: {submission?.mcq_score ?? 0} điểm - Tự luận:{" "}
           {essayQuestions.length === 0
             ? "0 điểm"
@@ -111,7 +111,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
           {essayQuestions.length > 0 && (
             <div className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 p-4">
               <div className="flex items-center gap-3">
-                <Sparkles className="h-5 w-5 text-white" />
+                <Sparkles className="h-5 w-5 text-indigo-400" />
                 <div>
                   <p className="text-xs font-bold text-white">Điểm tự luận</p>
                   <p className="text-[11px] text-slate-400">
@@ -120,7 +120,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-lg font-extrabold text-white">
+                <span className="text-lg font-extrabold text-indigo-400">
                   {submission?.essay_score !== null ? submission?.essay_score : "Chờ chấm"}
                 </span>
                 {submission?.essay_score !== null && (
@@ -131,13 +131,13 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
           )}
 
           {/* Total Score Highlight */}
-          <div className="flex items-center justify-between rounded-xl border border-white/20 bg-white/[0.06] p-4 text-white">
+          <div className="flex items-center justify-between rounded-xl border border-indigo-500/30 bg-indigo-500/10 p-4 text-white">
             <div>
               <p className="text-xs font-bold text-white">Tổng điểm kết quả</p>
-              <p className="text-[11px] text-zinc-400">Trắc nghiệm + Tự luận</p>
+              <p className="text-[11px] text-indigo-300">Trắc nghiệm + Tự luận</p>
             </div>
             <div className="text-right">
-              <span className="text-2xl font-black text-white">
+              <span className="text-2xl font-black text-indigo-400">
                 {submission?.total_score ?? 0}
               </span>
               <span className="text-xs text-slate-300"> / {maxTotalScore} điểm</span>
@@ -151,14 +151,14 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
             href="/history"
             className="flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-slate-900 border border-slate-800 px-5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
           >
-            <History className="h-4 w-4 text-white" />
+            <History className="h-4 w-4 text-indigo-400" />
             <span>Danh sách bài đã làm</span>
           </Link>
 
           {submissionId && (
             <Link
               href={`/history/${submissionId}`}
-              className="flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-white hover:bg-zinc-200 px-6 text-xs font-bold text-zinc-950 shadow-sm transition active:scale-[0.98]"
+              className="flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98]"
             >
               <span>Xem chi tiết & Nhận xét</span>
               <ArrowRight className="h-3.5 w-3.5" />

@@ -74,7 +74,7 @@ export function QuestionEditorCard({
       {/* Header Bar */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-xs font-bold text-white">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
             {index + 1}
           </span>
           <span className="text-xs font-medium text-slate-400">
@@ -90,7 +90,7 @@ export function QuestionEditorCard({
               onClick={() => handleTypeChange("multiple_choice")}
               className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 question.type === "multiple_choice"
-                  ? "bg-white text-zinc-950 font-bold shadow-sm"
+                  ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/20"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -102,7 +102,7 @@ export function QuestionEditorCard({
               onClick={() => handleTypeChange("essay")}
               className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 question.type === "essay"
-                  ? "bg-white text-zinc-950 font-bold shadow-sm"
+                  ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/20"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -164,7 +164,7 @@ export function QuestionEditorCard({
             <button
               type="button"
               onClick={handleAddOption}
-              className="inline-flex items-center gap-1 text-xs font-medium text-zinc-300 hover:text-white"
+              className="inline-flex items-center gap-1 text-xs font-medium text-indigo-400 hover:text-indigo-300"
             >
               <Plus className="h-3 w-3" />
               Thêm lựa chọn

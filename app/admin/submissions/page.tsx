@@ -77,7 +77,7 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("all")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "all"
-                  ? "bg-white text-zinc-950 font-semibold shadow-sm"
+                  ? "bg-[#4f57ea] text-white shadow-sm"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -88,7 +88,7 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("pending_grading")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "pending_grading"
-                  ? "bg-white text-zinc-950 font-semibold shadow-sm"
+                  ? "bg-[#4f57ea] text-white shadow-sm"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -99,7 +99,7 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("graded")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "graded"
-                  ? "bg-white text-zinc-950 font-semibold shadow-sm"
+                  ? "bg-[#4f57ea] text-white shadow-sm"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -115,7 +115,7 @@ export default function AdminSubmissionsListPage() {
           </div>
         ) : filteredSubmissions.length === 0 ? (
           <div className="py-14 text-center space-y-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1e2538] text-white mx-auto">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1e2538] text-indigo-400 mx-auto">
               <Inbox className="h-6 w-6" />
             </div>
             <p className="text-sm font-semibold text-white">
@@ -150,12 +150,12 @@ export default function AdminSubmissionsListPage() {
                       key={sub.id}
                       className="hover:bg-[#1a2130] transition-colors"
                     >
-                      <td className="py-3.5 px-3 text-center font-mono font-bold text-white">
+                      <td className="py-3.5 px-3 text-center font-mono font-bold text-indigo-400">
                         #{idx + 1}
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 font-bold text-white">
                         <span className="flex items-center gap-1.5">
-                          <User className="h-3.5 w-3.5 text-white" />
+                          <User className="h-3.5 w-3.5 text-indigo-400" />
                           {sub.user?.username || "Sinh viên"}
                         </span>
                       </td>
@@ -187,7 +187,7 @@ export default function AdminSubmissionsListPage() {
                       <td className="py-3.5 px-4 text-slate-300">
                         {sub.essay_score !== null ? `${sub.essay_score} điểm` : "Chờ đánh giá"}
                       </td>
-                      <td className="py-3.5 px-4 text-sm font-bold text-white">
+                      <td className="py-3.5 px-4 text-sm font-bold text-[#818cf8]">
                         {sub.total_score} điểm
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 text-right">
@@ -196,7 +196,7 @@ export default function AdminSubmissionsListPage() {
                           className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
                             isGraded
                               ? "bg-[#1f2637] hover:bg-[#283248] text-slate-300 border border-white/[0.06]"
-                              : "bg-white hover:bg-zinc-200 text-zinc-950 shadow-sm"
+                              : "bg-[#4f57ea] hover:bg-[#434ac9] text-white shadow-sm"
                           }`}
                         >
                           <span>{isGraded ? "Xem lại & Cập nhật điểm" : "Đánh giá bài làm"}</span>

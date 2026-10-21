@@ -218,7 +218,7 @@ function AdminExamPreviewContent() {
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
       </div>
     );
   }
@@ -230,7 +230,7 @@ function AdminExamPreviewContent() {
           <h2 className="text-base font-bold text-white">Không tìm thấy đề thi</h2>
           <Link
             href="/admin/dashboard"
-            className="mt-4 inline-block text-xs font-semibold text-white underline"
+            className="mt-4 inline-block text-xs font-semibold text-indigo-400 underline"
           >
             Quay lại Bảng điều khiển Quản trị
           </Link>
@@ -257,7 +257,7 @@ function AdminExamPreviewContent() {
           href="/admin/dashboard"
           className="inline-flex items-center gap-2 rounded-xl bg-slate-900/90 border border-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-white" />
+          <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
           <span>Quay lại Quản trị</span>
         </Link>
 
@@ -266,7 +266,7 @@ function AdminExamPreviewContent() {
             href={`/admin/exams/${exam.id}/edit`}
             className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900/90 border border-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
           >
-            <Pencil className="h-3.5 w-3.5 text-white" />
+            <Pencil className="h-3.5 w-3.5 text-indigo-400" />
             <span>Chỉnh sửa câu hỏi</span>
           </Link>
 
@@ -274,7 +274,7 @@ function AdminExamPreviewContent() {
             type="button"
             onClick={handleConfirmPublish}
             disabled={publishing}
-            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-zinc-200 px-4 py-2 text-xs font-bold text-zinc-950 shadow-sm transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
           >
             <Send className="h-3.5 w-3.5" />
             <span>
@@ -295,11 +295,11 @@ function AdminExamPreviewContent() {
       >
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-1 text-xs font-medium text-slate-300">
-            <Clock className="h-3.5 w-3.5 text-white" />
+            <Clock className="h-3.5 w-3.5 text-indigo-400" />
             Thời lượng quy định: {formatDuration(exam.duration_minutes)}
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-1 text-xs font-medium text-slate-300">
-            <HelpCircle className="h-3.5 w-3.5 text-white" />
+            <HelpCircle className="h-3.5 w-3.5 text-indigo-400" />
             Tổng {questions.length} câu hỏi ({totalScore} điểm)
           </span>
         </div>
@@ -345,7 +345,7 @@ function AdminExamPreviewContent() {
             >
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-xs font-bold text-white">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">
@@ -426,7 +426,7 @@ function AdminExamPreviewContent() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/50 p-3.5 text-xs text-slate-300">
-                  <FileText className="h-4 w-4 shrink-0 text-white" />
+                  <FileText className="h-4 w-4 shrink-0 text-indigo-400" />
                   <span>
                     Câu hỏi tự luận (Điểm tối đa: {q.max_score} điểm • Chấm tự động bằng Gemini AI hoặc Giảng viên duyệt).
                   </span>
@@ -459,7 +459,7 @@ function AdminExamPreviewContent() {
             type="button"
             onClick={handleConfirmPublish}
             disabled={publishing}
-            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-zinc-200 px-6 py-2.5 text-xs font-bold text-zinc-950 shadow-sm transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
             <span>
@@ -479,7 +479,7 @@ export default function AdminExamPreviewPage() {
     <Suspense
       fallback={
         <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
         </div>
       }
     >
