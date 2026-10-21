@@ -188,7 +188,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             title="ExamByHeu - Nền tảng Ôn luyện"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none group-data-[collapsible=icon]:hidden"
           >
-            <div className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/20">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/20">
               <GraduationCap className="h-5 w-5" />
             </div>
             <div className="flex flex-col min-w-0">
@@ -203,7 +203,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           {/* Nút Hamburger bên phải: Bỏ dấu X, to hơn một tí và autofit với sidebar */}
           <SidebarTrigger
             title="Thu nhỏ / Đóng sidebar (Ctrl+B)"
-            className="absolute right-0 flex h-9.5 w-9.5 items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition cursor-pointer select-none shadow-sm group-data-[collapsible=icon]:hidden"
+            className="absolute right-0 flex h-10 w-10 items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition cursor-pointer select-none shadow-sm group-data-[collapsible=icon]:hidden"
           >
             <Menu className="h-5 w-5" strokeWidth={2.25} />
           </SidebarTrigger>
@@ -213,7 +213,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         <div className="hidden group-data-[collapsible=icon]:flex items-center justify-center pt-0.5">
           <SidebarTrigger
             title="Mở rộng sidebar (Ctrl+B)"
-            className="h-9.5 w-9.5 rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition shadow-sm"
+            className="h-10 w-10 rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition shadow-sm"
           >
             <Menu className="h-5 w-5" strokeWidth={2.25} />
           </SidebarTrigger>
