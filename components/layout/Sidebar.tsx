@@ -181,12 +181,22 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
       {/* 1. Header: Logo / Brand & Toggle Trigger */}
       <SidebarHeader className="border-b border-[#1f2937]/70 p-3.5">
         <div className="flex items-center justify-between group-data-[collapsible=icon]:justify-center gap-2">
+          {/* Mobile Left Toggle Button */}
+          <button
+            type="button"
+            onClick={closeSidebarOnNavigate}
+            aria-label="Đóng menu"
+            className="md:hidden flex h-8 w-8 items-center justify-center rounded-lg text-slate-300 hover:bg-[#1f2937] hover:text-white transition cursor-pointer shrink-0"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+
           {/* Brand Logo & Name */}
           <Link
             href="/home"
             onClick={closeSidebarOnNavigate}
             title="ExamByHeu - Nền tảng Ôn luyện"
-            className="flex items-center gap-2.5 min-w-0 transition-opacity hover:opacity-90 select-none"
+            className="flex items-center gap-2.5 min-w-0 transition-opacity hover:opacity-90 select-none flex-1 md:flex-initial"
           >
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/20">
               <GraduationCap className="h-4.5 w-4.5" />

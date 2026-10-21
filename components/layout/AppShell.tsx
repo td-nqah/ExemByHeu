@@ -67,23 +67,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <SidebarInset className="flex-1 flex flex-col min-h-screen w-full min-w-0 transition-all duration-300">
         {/* Mobile Top Header */}
         <header className="sticky top-0 z-30 flex h-[calc(4rem+env(safe-area-inset-top,0px))] w-full items-center justify-between border-b border-[#1f2937] bg-[#111827]/90 backdrop-blur-md px-4 pt-[env(safe-area-inset-top,0px)] md:hidden">
-          <Link
-            href="/home"
-            className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none"
-          >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1f2937] border border-[#1f2937] text-white">
-              <GraduationCap className="h-5 w-5 text-[#818cf8]" />
-            </div>
-            <span className="font-heading text-lg font-semibold tracking-tight">
-              <span className="text-[#818cf8]">Exam</span>
-              <span className="text-white">By</span>
-              <span className="text-[#818cf8]">Heu</span>
-            </span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <SidebarTrigger className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition-transform shadow-sm md:hidden">
+              <Menu className="h-6 w-6" strokeWidth={2.25} />
+            </SidebarTrigger>
 
-          <SidebarTrigger className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition-transform shadow-sm md:hidden">
-            <Menu className="h-6 w-6" strokeWidth={2.25} />
-          </SidebarTrigger>
+            <Link
+              href="/home"
+              className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none"
+            >
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1f2937] border border-[#1f2937] text-white">
+                <GraduationCap className="h-5 w-5 text-[#818cf8]" />
+              </div>
+              <span className="font-heading text-lg font-semibold tracking-tight">
+                <span className="text-[#818cf8]">Exam</span>
+                <span className="text-white">By</span>
+                <span className="text-[#818cf8]">Heu</span>
+              </span>
+            </Link>
+          </div>
         </header>
 
         {/* Page Content */}
