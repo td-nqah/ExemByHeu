@@ -121,7 +121,7 @@ export default function HomePage() {
 
           <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 bg-[#18191E] border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Asia/Ho_Chi_Minh (GMT+7)</span>
+            <span>Hà Nội (GMT+7)</span>
           </span>
         </div>
 
