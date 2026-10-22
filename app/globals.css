@@ -115,25 +115,24 @@ h6 {
   font-variant-numeric: tabular-nums;
 }
 
+/* From Uiverse.io by marsella_3472 */ 
 /*
- * Meteor Shower Animated Background (From Uiverse.io by marsella_3472)
- * Shenanigans collection by Shoghi Simon: shenanigans.shoghisimon.ca/collection/css
+More comprehensive version at shenanigans.shoghisimon.ca/collection/css
  */
-.meteor-shower-container {
+
+.uiverse-meteor-container {
   position: absolute;
   inset: 0;
-  overflow: hidden;
   pointer-events: none;
 }
 
-.meteor-shower-container::before {
+.uiverse-meteor-container::before {
   content: "";
   position: absolute;
   inset: -145%;
   rotate: -45deg;
   background: #000000;
-  background-image:
-    radial-gradient(
+  background-image: radial-gradient(
       4px 100px at 0px 235px,
       rgb(255, 140, 17),
       #0000
@@ -259,11 +258,10 @@ h6 {
     300px 210px,
     300px 210px;
   animation: hi 150s linear infinite;
-  will-change: background-position;
 }
 
 @supports not (rotate: -45deg) {
-  .meteor-shower-container::before {
+  .uiverse-meteor-container::before {
     transform: rotate(-45deg);
   }
 }
@@ -350,7 +348,7 @@ h6 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .meteor-shower-container::before {
+  .uiverse-meteor-container::before {
     animation: none !important;
   }
 }
