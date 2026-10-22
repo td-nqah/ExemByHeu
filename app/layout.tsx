@@ -42,7 +42,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-transparent font-sans text-[#e5e7eb] antialiased selection:bg-[#4f46e5] selection:text-white relative overflow-x-hidden custom-scrollbar">
         {/* From Uiverse.io by marsella_3472 */}
-        <div className="uiverse-meteor-container fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black select-none" />
+        <div className="container" />
 
         <div className="relative z-10 flex min-h-screen flex-col">
           <Suspense

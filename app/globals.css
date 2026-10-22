@@ -120,13 +120,15 @@ h6 {
 More comprehensive version at shenanigans.shoghisimon.ca/collection/css
  */
 
-.uiverse-meteor-container {
-  position: absolute;
+.container {
+  position: fixed;
   inset: 0;
   pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
 }
 
-.uiverse-meteor-container::before {
+.container::before {
   content: "";
   position: absolute;
   inset: -145%;
@@ -261,7 +263,7 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css
 }
 
 @supports not (rotate: -45deg) {
-  .uiverse-meteor-container::before {
+  .container::before {
     transform: rotate(-45deg);
   }
 }
@@ -348,7 +350,7 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .uiverse-meteor-container::before {
+  .container::before {
     animation: none !important;
   }
 }
