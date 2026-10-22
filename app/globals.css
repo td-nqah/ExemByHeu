@@ -115,7 +115,7 @@ h6 {
   font-variant-numeric: tabular-nums;
 }
 
-/* From Uiverse.io by marsella_3472 */ 
+/* From Uiverse.io by marsella_3472, tuned to ExamByHeu Electric Indigo & Cyber Cyan palette */ 
 /*
 More comprehensive version at shenanigans.shoghisimon.ca/collection/css
  */
@@ -139,90 +139,90 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css
   background: #000000;
   background-image: radial-gradient(
       4px 100px at 0px 235px,
-      rgb(255, 140, 17),
+      rgb(129, 140, 248),
       #0000
     ),
-    radial-gradient(4px 100px at 300px 235px, rgb(255, 119, 0), #884e2800),
+    radial-gradient(4px 100px at 300px 235px, rgb(99, 102, 241), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 117.5px,
-      rgb(255, 144, 9) 100%,
+      rgb(224, 231, 255) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 252px, rgb(156, 14, 137), #0000),
-    radial-gradient(4px 100px at 300px 252px, rgb(23, 41, 206), #0000),
+    radial-gradient(4px 100px at 0px 252px, rgb(168, 85, 247), #0000),
+    radial-gradient(4px 100px at 300px 252px, rgb(59, 130, 246), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 126px,
-      rgb(247, 102, 18) 100%,
+      rgb(192, 132, 252) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 150px, rgb(249, 121, 16), #0000),
-    radial-gradient(4px 100px at 300px 150px, rgb(255, 128, 18), #0000),
+    radial-gradient(4px 100px at 0px 150px, rgb(56, 189, 248), #0000),
+    radial-gradient(4px 100px at 300px 150px, rgb(34, 211, 238), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 75px,
-      rgb(255, 116, 10) 100%,
+      rgb(186, 230, 253) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 253px, rgb(249, 137, 17), #0000),
-    radial-gradient(4px 100px at 300px 253px, rgb(248, 107, 14), #0000),
+    radial-gradient(4px 100px at 0px 253px, rgb(129, 140, 248), #0000),
+    radial-gradient(4px 100px at 300px 253px, rgb(165, 180, 252), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 126.5px,
-      rgb(252, 129, 14) 100%,
+      rgb(241, 245, 249) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 204px, rgb(234, 115, 18), #0000),
-    radial-gradient(4px 100px at 300px 204px, rgb(255, 139, 6), #0000),
+    radial-gradient(4px 100px at 0px 204px, rgb(34, 211, 238), #0000),
+    radial-gradient(4px 100px at 300px 204px, rgb(56, 189, 248), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 102px,
-      rgb(255, 128, 9) 100%,
+      rgb(207, 250, 254) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 134px, rgb(249, 133, 9), #0000),
-    radial-gradient(4px 100px at 300px 134px, rgb(251, 125, 15), #0000),
+    radial-gradient(4px 100px at 0px 134px, rgb(139, 92, 246), #0000),
+    radial-gradient(4px 100px at 300px 134px, rgb(167, 139, 250), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 67px,
-      rgb(255, 146, 13) 100%,
+      rgb(237, 233, 254) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 179px, rgb(249, 137, 17), #0000),
-    radial-gradient(4px 100px at 300px 179px, rgb(253, 122, 6), #0000),
+    radial-gradient(4px 100px at 0px 179px, rgb(99, 102, 241), #0000),
+    radial-gradient(4px 100px at 300px 179px, rgb(129, 140, 248), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 89.5px,
-      rgb(234, 132, 7) 100%,
+      rgb(224, 231, 255) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 299px, rgb(255, 115, 0), #0000),
-    radial-gradient(4px 100px at 300px 299px, rgb(255, 136, 0), #0000),
+    radial-gradient(4px 100px at 0px 299px, rgb(56, 189, 248), #0000),
+    radial-gradient(4px 100px at 300px 299px, rgb(59, 130, 246), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 149.5px,
-      rgb(255, 123, 0) 100%,
+      rgb(191, 219, 254) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 215px, rgb(255, 145, 0), #0000),
-    radial-gradient(4px 100px at 300px 215px, rgb(255, 132, 0), #0000),
+    radial-gradient(4px 100px at 0px 215px, rgb(129, 140, 248), #0000),
+    radial-gradient(4px 100px at 300px 215px, rgb(99, 102, 241), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 107.5px,
-      rgb(255, 136, 0) 100%,
+      rgb(224, 242, 254) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 281px, rgb(255, 170, 0), #0000),
-    radial-gradient(4px 100px at 300px 281px, rgb(255, 115, 0), #0000),
+    radial-gradient(4px 100px at 0px 281px, rgb(168, 85, 247), #0000),
+    radial-gradient(4px 100px at 300px 281px, rgb(129, 140, 248), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 140.5px,
-      rgb(255, 119, 0) 100%,
+      rgb(243, 232, 255) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 158px, rgb(255, 123, 0), #0000),
-    radial-gradient(4px 100px at 300px 158px, rgb(255, 132, 0), #0000),
+    radial-gradient(4px 100px at 0px 158px, rgb(34, 211, 238), #0000),
+    radial-gradient(4px 100px at 300px 158px, rgb(129, 140, 248), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 79px,
-      rgb(255, 149, 0) 100%,
+      rgb(207, 250, 254) 100%,
       #0000 150%
     ),
-    radial-gradient(4px 100px at 0px 210px, rgb(255, 123, 0), #0000),
-    radial-gradient(4px 100px at 300px 210px, rgb(255, 162, 0), #0000),
+    radial-gradient(4px 100px at 0px 210px, rgb(99, 102, 241), #0000),
+    radial-gradient(4px 100px at 300px 210px, rgb(56, 189, 248), #0000),
     radial-gradient(
       1.5px 1.5px at 150px 105px,
-      rgb(255, 136, 0) 100%,
+      rgb(224, 231, 255) 100%,
       #0000 150%
     );
   background-size:
