@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Inter, Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
+import { SystemBackground } from "@/components/layout/SystemBackground";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -41,8 +42,8 @@ export default function RootLayout({
       className={`${inter.variable} ${plusJakartaSans.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
     >
       <body className="min-h-screen bg-transparent font-sans text-[#e5e7eb] antialiased selection:bg-[#4f46e5] selection:text-white relative overflow-x-hidden custom-scrollbar">
-        {/* From Uiverse.io by marsella_3472 */}
-        <div className="container" />
+        {/* Dynamic System Background: Mưa sao băng on login, Midnight Sky when logged in */}
+        <SystemBackground />
 
         <div className="relative z-10 flex min-h-screen flex-col">
           <Suspense
