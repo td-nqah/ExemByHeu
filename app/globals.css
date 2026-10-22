@@ -116,37 +116,37 @@ h6 {
 }
 
 /*
- * Obsidian Indigo Grid Blueprint Background (From Uiverse.io by adamgiebl)
+ * Obsidian Isometric Cube Background (From Uiverse.io by chase2k25, tuned for ExamByHeu)
  */
-.bg-obsidian-grid {
-  --color: rgba(99, 102, 241, 0.15);
+.bg-obsidian-pattern {
   background-color: #080B11;
-  background-image:
-    linear-gradient(
-      0deg,
-      transparent 24%,
-      var(--color) 25%,
-      var(--color) 26%,
-      transparent 27%,
-      transparent 74%,
-      var(--color) 75%,
-      var(--color) 76%,
-      transparent 77%,
-      transparent
-    ),
-    linear-gradient(
-      90deg,
-      transparent 24%,
-      var(--color) 25%,
-      var(--color) 26%,
-      transparent 27%,
-      transparent 74%,
-      var(--color) 75%,
-      var(--color) 76%,
-      transparent 77%,
-      transparent
-    );
-  background-size: 55px 55px;
+  background-image: repeating-linear-gradient(
+    135deg,
+    #080B11 0px,
+    #080B11 60px,
+    #0C101D 70px,
+    #121828 130px
+  );
+}
+
+@keyframes cubeFloat {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-8%) scale(1.02) rotate(0.5deg);
+  }
+}
+
+.animate-cube-float {
+  animation: cubeFloat 24s linear infinite alternate;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cube-float {
+    animation: none !important;
+  }
 }
 
 /*
