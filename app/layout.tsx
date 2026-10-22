@@ -41,13 +41,9 @@ export default function RootLayout({
       className={`${inter.variable} ${plusJakartaSans.variable} ${geistMono.variable} dark scroll-smooth h-full antialiased`}
     >
       <body className="min-h-screen bg-transparent font-sans text-[#e5e7eb] antialiased selection:bg-[#4f46e5] selection:text-white relative overflow-x-hidden custom-scrollbar">
-                {/* Fixed Background Scaffold (Obsidian Warp Starfield) */}
-        <div className="fixed inset-0 -z-50 pointer-events-none overflow-hidden select-none bg-[#080B11]">
-          {/* Layer 1: Warp Starfield Streaks & Ambient Hyperdrive */}
-          <div className="warp-stars-container" />
-
-          {/* Layer 2: Ambient Vignette & Center Reading Focus Glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.12)_0%,transparent_60%),radial-gradient(ellipse_at_center,transparent_20%,rgba(4,6,10,0.78)_100%)] pointer-events-none" />
+        {/* Fixed Background Scaffold (Meteor Shower Background from Uiverse.io) */}
+        <div className="fixed inset-0 -z-50 pointer-events-none overflow-hidden select-none bg-black">
+          <div className="meteor-shower-container" />
         </div>
 
         <div className="relative z-10 flex min-h-screen flex-col">
