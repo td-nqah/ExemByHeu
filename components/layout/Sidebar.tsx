@@ -203,7 +203,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           {/* Nút Hamburger bên phải: Bỏ dấu X, to hơn một tí và autofit với sidebar */}
           <SidebarTrigger
             title="Thu nhỏ / Đóng sidebar (Ctrl+B)"
-            className="absolute right-0 flex h-10 w-10 items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition cursor-pointer select-none shadow-sm group-data-[collapsible=icon]:hidden"
+            className="absolute right-0 flex h-10 w-10 items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-white hover:bg-[#1f2937] active:scale-95 transition cursor-pointer select-none shadow-sm group-data-[collapsible=icon]:hidden"
           >
             <Menu className="h-5 w-5" strokeWidth={2.25} />
           </SidebarTrigger>
@@ -213,7 +213,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         <div className="hidden group-data-[collapsible=icon]:flex items-center justify-center pt-0.5">
           <SidebarTrigger
             title="Mở rộng sidebar (Ctrl+B)"
-            className="h-10 w-10 rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition shadow-sm"
+            className="h-10 w-10 rounded-xl border border-[#1f2937] bg-[#111827] text-white hover:bg-[#1f2937] active:scale-95 transition shadow-sm"
           >
             <Menu className="h-5 w-5" strokeWidth={2.25} />
           </SidebarTrigger>
@@ -242,7 +242,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                         <Icon
                           className={cn(
                             "h-4 w-4 shrink-0 transition-colors",
-                            item.active ? "text-[#6366f1]" : "text-[#9ca3af]"
+                            item.active ? "text-[#6366f1]" : "text-white"
                           )}
                         />
                         <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -279,7 +279,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                         "h-4 w-4 shrink-0 transition-colors",
                         pathname.startsWith("/knowledge")
                           ? "text-[#6366f1]"
-                          : "text-[#9ca3af]"
+                          : "text-white"
                       )}
                     />
                     <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -310,7 +310,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                           "h-4 w-4 shrink-0 transition-colors",
                           isParentActive || isExamsRoute
                             ? "text-[#6366f1]"
-                            : "text-[#9ca3af]"
+                            : "text-white"
                         )}
                       />
                       <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -329,7 +329,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                     }}
                     aria-label="Mở hoặc đóng danh mục đề thi"
                     title={examsExpanded ? "Thu gọn danh mục" : "Mở rộng danh mục"}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer group-data-[collapsible=icon]:hidden mr-1"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white hover:bg-white/[0.06] transition-colors cursor-pointer group-data-[collapsible=icon]:hidden mr-1"
                   >
                     <ChevronDown
                       className={cn(
@@ -409,7 +409,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                             <Icon
                               className={cn(
                                 "h-4 w-4 shrink-0 transition-colors",
-                                item.active ? "text-[#6366f1]" : "text-[#9ca3af]"
+                                item.active ? "text-[#6366f1]" : "text-white"
                               )}
                             />
                             <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -449,7 +449,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                             <Icon
                               className={cn(
                                 "h-4 w-4 shrink-0 transition-colors",
-                                item.active ? "text-[#6366f1]" : "text-[#9ca3af]"
+                                item.active ? "text-[#6366f1]" : "text-white"
                               )}
                             />
                             <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -484,7 +484,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                   <p className="truncate text-xs font-semibold text-white">
                     {formatDisplayName(user.username)}
                   </p>
-                  <p className="text-[10px] text-[#9ca3af] truncate">
+                  <p className="text-[10px] text-white/90 truncate">
                     {user.role === "admin" ? "Quản trị viên" : "Người dùng"}
                   </p>
                 </div>

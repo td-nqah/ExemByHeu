@@ -494,8 +494,8 @@ export const SidebarMenuButton = React.forwardRef<
         className={cn(
           "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-xl p-2 text-left text-xs font-medium outline-none transition-all duration-150 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-2 select-none",
           isActive
-            ? "bg-[#4f46e5]/15 text-indigo-300 font-semibold border border-[#4f46e5]/30 shadow-sm"
-            : "text-[#9ca3af] hover:text-white hover:bg-[#1f2937]/80 border border-transparent",
+            ? "bg-[#4f46e5]/15 text-white font-semibold border border-[#4f46e5]/30 shadow-sm"
+            : "text-white hover:bg-[#1f2937]/80 border border-transparent",
           size === "sm" && "h-8 text-xs",
           size === "default" && "h-9",
           size === "lg" && "h-11",
@@ -561,7 +561,7 @@ export const SidebarMenuSubButton = React.forwardRef<
         "flex h-7.5 w-full min-w-0 items-center justify-between gap-2 overflow-hidden rounded-lg px-2.5 text-xs transition-all duration-150 select-none",
         isActive
           ? "bg-[#4f46e5]/15 text-white font-semibold border border-[#4f46e5]/30 shadow-sm shadow-indigo-500/10"
-          : "text-[#9ca3af] hover:text-white hover:bg-white/[0.05] border border-transparent",
+          : "text-white hover:bg-white/[0.05] border border-transparent",
         className
       )}
       {...props}
