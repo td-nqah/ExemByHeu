@@ -114,6 +114,13 @@ body {
   line-height: 1.5;
 }
 
+/* Brand Logo: ExamByHeu - Cỡ chữ 17px */
+.brand-logo,
+.brand-logo span {
+  font-size: 17px !important;
+  line-height: 1.25 !important;
+}
+
 /* Headings và Tiêu đề: Cỡ chữ 15px */
 h1,
 h2,

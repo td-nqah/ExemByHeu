@@ -192,7 +192,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
               <GraduationCap className="h-5 w-5" />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="font-heading text-xl font-black tracking-tight leading-tight select-none">
+              <span className="brand-logo font-heading text-[17px] font-black tracking-tight leading-tight select-none">
                 <span className="text-[#818cf8]">Exam</span>
                 <span className="text-white">By</span>
                 <span className="text-[#818cf8]">Heu</span>
