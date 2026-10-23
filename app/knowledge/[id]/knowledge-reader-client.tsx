@@ -274,7 +274,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           <article className="lg:col-span-8 min-w-0">
             <div
               ref={articleContentRef}
-              className="magazine-article-content prose prose-invert max-w-none text-slate-200 text-sm sm:text-base leading-relaxed space-y-6"
+              className="magazine-article-content prose prose-invert max-w-none font-body text-slate-200 text-sm sm:text-base leading-relaxed space-y-6"
               dangerouslySetInnerHTML={{ __html: material.content_html }}
             />
 

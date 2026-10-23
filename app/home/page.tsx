@@ -178,7 +178,7 @@ export default function HomePage() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-[#5852d6]">
                 <BookOpen className="h-5 w-5" />
               </div>
-              <span className="font-heading text-xl font-bold text-white tnum tabular-nums">
+              <span className="font-mono text-xl font-bold text-white tabular-nums">
                 {examsCount}
               </span>
             </div>
@@ -199,7 +199,7 @@ export default function HomePage() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-emerald-400">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
-              <span className="font-heading text-xl font-bold text-emerald-400 tnum tabular-nums">
+              <span className="font-mono text-xl font-bold text-emerald-400 tabular-nums">
                 {submissionsCount}
               </span>
             </div>

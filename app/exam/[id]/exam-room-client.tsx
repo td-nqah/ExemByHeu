@@ -268,7 +268,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             )}
 
             <div className="hidden md:block pl-1">
-              <h1 className="line-clamp-1 max-w-xs text-sm font-bold text-white lg:max-w-md">
+              <h1 className="line-clamp-1 max-w-xs text-sm font-bold text-white lg:max-w-md font-heading tracking-tight">
                 {exam.title}
               </h1>
             </div>
@@ -303,7 +303,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               >
                 <Send className="h-3.5 w-3.5" />
                 <span>Nộp bài thi</span>
-                <span className="hidden sm:inline">({answeredCount}/{questions.length})</span>
+                <span className="hidden sm:inline font-mono tabular-nums">({answeredCount}/{questions.length})</span>
               </button>
             )}
           </div>
@@ -359,7 +359,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 >
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400 font-mono tabular-nums">
                         {index + 1}
                       </span>
                       <span className="text-xs font-bold text-white">
@@ -395,7 +395,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                       </button>
 
                       <span className="rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-1 text-[11px] font-medium text-slate-300">
-                        Điểm: {question.max_score}
+                        Điểm: <span className="font-mono tabular-nums">{question.max_score}</span>
                       </span>
 
                       {isAnswered ? (
@@ -410,7 +410,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                     </div>
                   </div>
 
-                  <p className="mb-5 whitespace-pre-wrap font-medium text-slate-100 text-sm sm:text-base leading-relaxed">
+                  <p className="mb-5 whitespace-pre-wrap font-body font-medium text-slate-100 text-sm sm:text-base leading-relaxed">
                     {question.content}
                   </p>
 
@@ -463,7 +463,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                             >
                               {optItem.display_letter}
                             </span>
-                            <span className="pt-0.5 leading-relaxed">{optItem.text}</span>
+                            <span className="pt-0.5 font-body leading-relaxed">{optItem.text}</span>
                           </label>
                         );
                       })}
@@ -475,13 +475,13 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         value={currentVal}
                         onChange={(e) => handleEssayChange(question.id, e.target.value)}
                         placeholder="Nhập phần trả lời tự luận của bạn vào đây..."
-                        className="glass-input w-full rounded-xl p-4 leading-relaxed text-xs"
+                        className="glass-input w-full rounded-xl p-4 font-body leading-relaxed text-xs sm:text-sm"
                       />
                       <div className="flex items-center justify-between text-[11px] text-slate-400">
                         <span>
-                          Số từ: {currentVal.trim() ? currentVal.trim().split(/\s+/).length : 0} từ
+                          Số từ: <span className="font-mono tabular-nums">{currentVal.trim() ? currentVal.trim().split(/\s+/).length : 0}</span> từ
                         </span>
-                        <span>{currentVal.length} ký tự</span>
+                        <span><span className="font-mono tabular-nums">{currentVal.length}</span> ký tự</span>
                       </div>
                     </div>
                   )}

@@ -1,10 +1,6 @@
 @import "tailwindcss";
 
 :root {
-  --font-times: "Times New Roman", Times, "Liberation Serif", serif;
-  --font-inter: "Times New Roman", Times, "Liberation Serif", serif;
-  --font-heading: "Times New Roman", Times, "Liberation Serif", serif;
-  --font-geist-mono: "Times New Roman", Times, "Liberation Serif", serif;
   --background: #0b0f19;
   --foreground: #f3f4f6;
   --surface: #111827;
@@ -35,15 +31,17 @@
   --sidebar-width-icon: 3.5rem;
 }
 
-@theme inline {
+@theme {
+  --font-heading: var(--font-heading), sans-serif;
+  --font-body: var(--font-body), sans-serif;
+  --font-mono: var(--font-mono), monospace;
+  --font-sans: var(--font-body), sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
   --color-border-subtle: var(--border);
   --color-primary: var(--primary);
-  --font-sans: "Times New Roman", Times, "Liberation Serif", serif;
-  --font-heading: "Times New Roman", Times, "Liberation Serif", serif;
-  --font-mono: "Times New Roman", Times, "Liberation Serif", serif;
   --color-sidebar: var(--sidebar-background);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -52,6 +50,38 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+}
+
+.font-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tnum,
+.tabular-nums {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }
 
 html {
@@ -86,105 +116,17 @@ select:-webkit-autofill:active {
 body {
   background-color: transparent;
   color: #f3f4f6;
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
-/*
- * Unified Typography Standards:
- * Toàn bộ hệ thống: Times New Roman
- * Cỡ chữ chuẩn: 14px
- * Headings và Tiêu đề: 15px
- */
-*,
-*::before,
-*::after {
-  font-family: "Times New Roman", Times, "Liberation Serif", serif !important;
+/* Brand Logo: ExamByHeu */
+.brand-logo {
+  font-family: var(--font-heading);
 }
 
-html {
-  font-family: "Times New Roman", Times, "Liberation Serif", serif !important;
-  font-size: 14px;
-}
-
-body {
-  background-color: transparent;
-  color: #f3f4f6;
-  font-family: "Times New Roman", Times, "Liberation Serif", serif !important;
-  font-size: 14px !important;
-  line-height: 1.5;
-}
-
-/* Brand Logo: ExamByHeu - Cỡ chữ 17px */
-.brand-logo,
-.brand-logo span {
-  font-size: 17px !important;
-  line-height: 1.25 !important;
-}
-
-/* Heading màu tím ở sidebar -> Cỡ chữ 14px */
-[data-sidebar="group-label"],
-[data-sidebar="group-label"] * {
-  font-size: 14px !important;
-  line-height: 1.4 !important;
-}
-
-/* Headings và Tiêu đề: Cỡ chữ 15px */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.font-heading,
-[class*="font-heading"],
-.title,
-[class*="title"] {
-  font-family: "Times New Roman", Times, "Liberation Serif", serif !important;
-  font-size: 15px !important;
-  line-height: 1.4 !important;
-  letter-spacing: 0 !important;
-}
-
-/* Heading utilities -> Cỡ chữ 15px */
-.text-lg,
-.text-xl,
-.text-2xl,
-.text-3xl,
-.text-4xl,
-.text-5xl,
-.text-6xl {
-  font-size: 15px !important;
-  line-height: 1.4 !important;
-}
-
-/* Body / content utilities -> Cỡ chữ 14px */
-.text-xs,
-.text-sm,
-.text-base {
-  font-size: 14px !important;
-  line-height: 1.5 !important;
-}
-
-/* Form inputs, buttons, tables, paragraphs -> Cỡ chữ 14px */
-input,
-textarea,
-select,
-button,
-label,
-table,
-td,
-th,
-p,
-span,
-li,
-a {
-  font-family: "Times New Roman", Times, "Liberation Serif", serif !important;
-}
-
-.tnum,
-.tabular-nums {
-  font-feature-settings: "tnum";
-  font-variant-numeric: tabular-nums;
+/* Heading màu tím ở sidebar */
+[data-sidebar="group-label"] {
+  font-family: var(--font-heading);
+  letter-spacing: 0.05em;
 }
 
 /* From Uiverse.io by marsella_3472, tuned to ExamByHeu Electric Indigo & Cyber Cyan palette */ 
