@@ -366,7 +366,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                                     cat.slug || cat.id
                                   )}`}
                                   onClick={closeSidebarOnNavigate}
-                                  className="flex items-center justify-between"
+                                  className="flex items-center justify-between w-full"
                                 >
                                   <span className="truncate">{cat.name}</span>
                                   {isSubActive && (

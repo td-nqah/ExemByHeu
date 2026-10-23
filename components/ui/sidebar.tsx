@@ -517,7 +517,7 @@ export const SidebarMenuSub = React.forwardRef<
       ref={ref}
       data-sidebar="menu-sub"
       className={cn(
-        "mx-3.5 flex min-w-0 flex-col gap-1 border-l border-[#1f2937] px-2.5 py-0.5 list-none group-data-[collapsible=icon]:hidden",
+        "sidebar-tree-sub group-data-[collapsible=icon]:hidden",
         className
       )}
       {...props}
@@ -534,7 +534,7 @@ export const SidebarMenuSubItem = React.forwardRef<
     <li
       ref={ref}
       data-sidebar="menu-sub-item"
-      className={cn("list-none", className)}
+      className={cn("sidebar-tree-item", className)}
       {...props}
     />
   );
@@ -558,10 +558,10 @@ export const SidebarMenuSubButton = React.forwardRef<
       data-size={size}
       data-active={isActive}
       className={cn(
-        "flex h-7 min-w-0 items-center gap-2 overflow-hidden rounded-lg px-2 text-xs transition-colors",
+        "flex h-7.5 w-full min-w-0 items-center justify-between gap-2 overflow-hidden rounded-lg px-2.5 text-xs transition-all duration-150 select-none",
         isActive
-          ? "bg-[#4f46e5]/15 text-white font-semibold border border-[#4f46e5]/30"
-          : "text-[#9ca3af] hover:text-white hover:bg-[#1f2937]",
+          ? "bg-[#4f46e5]/15 text-white font-semibold border border-[#4f46e5]/30 shadow-sm shadow-indigo-500/10"
+          : "text-[#9ca3af] hover:text-white hover:bg-white/[0.05] border border-transparent",
         className
       )}
       {...props}
