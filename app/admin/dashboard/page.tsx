@@ -303,7 +303,7 @@ export default function AdminDashboardPage() {
                 setQuickTitle("");
                 setIsQuickExamModalOpen(true);
               }}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0b0f19] hover:bg-[#111827] border border-[#1f2937] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0b0f19] hover:bg-[#111827] border border-[#4f46e5]/50 hover:border-[#6366f1] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
             >
               <FolderPlus className="h-4 w-4 text-[#6366f1] shrink-0" />
               <span>Thêm vào Danh mục</span>
