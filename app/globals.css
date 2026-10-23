@@ -121,6 +121,13 @@ body {
   line-height: 1.25 !important;
 }
 
+/* Heading màu tím ở sidebar -> Cỡ chữ 14px */
+[data-sidebar="group-label"],
+[data-sidebar="group-label"] * {
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
 /* Headings và Tiêu đề: Cỡ chữ 15px */
 h1,
 h2,
@@ -131,8 +138,7 @@ h6,
 .font-heading,
 [class*="font-heading"],
 .title,
-[class*="title"],
-[data-sidebar="group-label"] {
+[class*="title"] {
   font-family: "Times New Roman", Times, "Liberation Serif", serif !important;
   font-size: 15px !important;
   line-height: 1.4 !important;
