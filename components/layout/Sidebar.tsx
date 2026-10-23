@@ -21,7 +21,6 @@ import {
   SidebarMenuSubItem,
   SidebarMenuSubButton,
   SidebarFooter,
-  SidebarRail,
   SidebarTrigger,
   SidebarSeparator,
   useSidebar,
@@ -515,8 +514,6 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         )}
       </SidebarFooter>
 
-      {/* 4. Rail: Expand/Collapse hover drag bar */}
-      <SidebarRail />
     </ShadcnSidebar>
   );
 }

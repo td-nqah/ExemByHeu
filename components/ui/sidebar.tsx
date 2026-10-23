@@ -279,24 +279,8 @@ SidebarTrigger.displayName = "SidebarTrigger";
 export const SidebarRail = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<"button">
->(({ className, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar();
-
-  return (
-    <button
-      ref={ref}
-      data-sidebar="rail"
-      aria-label="Toggle Sidebar"
-      tabIndex={-1}
-      onClick={toggleSidebar}
-      title="Toggle Sidebar"
-      className={cn(
-        "absolute inset-y-0 -right-2 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-[#4f46e5] group-data-[side=left]:-right-2 group-data-[side=right]:left-0 sm:flex cursor-col-resize",
-        className
-      )}
-      {...props}
-    />
-  );
+>(() => {
+  return null;
 });
 SidebarRail.displayName = "SidebarRail";
 
