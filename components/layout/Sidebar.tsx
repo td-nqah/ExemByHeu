@@ -178,16 +178,17 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
   return (
     <ShadcnSidebar collapsible="icon" className="border-r border-[#1f2937] bg-[#111827]">
       {/* 1. Header: Logo / Brand & Toggle Trigger */}
-      <SidebarHeader className="border-b border-[#1f2937]/70 px-3.5 py-3">
-        <div className="relative flex items-center justify-center w-full min-h-[40px] group-data-[collapsible=icon]:justify-center">
+      <SidebarHeader className="border-b border-[#1f2937]/70 px-3.5 py-3 group-data-[collapsible=icon]:px-1 group-data-[collapsible=icon]:py-2.5">
+        {/* In Expanded Mode */}
+        <div className="relative flex items-center justify-between w-full min-h-[40px] group-data-[collapsible=icon]:hidden">
           {/* Brand Logo & Name: Căn giữa sidebar trên cả mobile và máy tính */}
           <Link
             href="/home"
             onClick={closeSidebarOnNavigate}
             title="ExamByHeu - Nền tảng Ôn luyện"
-            className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none group-data-[collapsible=icon]:hidden"
+            className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none"
           >
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/20">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/20">
               <GraduationCap className="h-5 w-5" />
             </div>
             <div className="flex flex-col min-w-0">
@@ -199,22 +200,33 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             </div>
           </Link>
 
-          {/* Nút Hamburger bên phải: Bỏ dấu X, to hơn một tí và autofit với sidebar */}
+          {/* Nút Hamburger bên phải: Bỏ dấu X, tròn và autofit với sidebar */}
           <SidebarTrigger
-            title="Thu nhỏ / Đóng sidebar (Ctrl+B)"
-            className="absolute right-0 flex h-10 w-10 items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-white hover:bg-[#1f2937] active:scale-95 transition cursor-pointer select-none shadow-sm group-data-[collapsible=icon]:hidden"
+            title="Thu nhỏ sidebar (Ctrl+B)"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#1f2937] bg-[#111827] text-white hover:bg-[#1f2937] active:scale-95 transition cursor-pointer select-none shadow-sm"
           >
-            <Menu className="h-5 w-5" strokeWidth={2.25} />
+            <Menu className="h-4.5 w-4.5" strokeWidth={2.25} />
           </SidebarTrigger>
         </div>
 
-        {/* In Collapsed Icon Mode: Centered Trigger Button */}
-        <div className="hidden group-data-[collapsible=icon]:flex items-center justify-center pt-0.5">
+        {/* In Collapsed Icon Mode: Hiện logo cái mũ cử nhân + nút 3 gạch bo tròn */}
+        <div className="hidden group-data-[collapsible=icon]:flex flex-col items-center justify-center gap-2.5 py-1 w-full">
+          {/* Logo cái mũ cử nhân */}
+          <Link
+            href="/home"
+            onClick={closeSidebarOnNavigate}
+            title="ExamByHeu - Trang chủ"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/25 hover:scale-105 active:scale-95 transition-all select-none"
+          >
+            <GraduationCap className="h-5 w-5" />
+          </Link>
+
+          {/* Nút 3 gạch mở rộng */}
           <SidebarTrigger
             title="Mở rộng sidebar (Ctrl+B)"
-            className="h-10 w-10 rounded-xl border border-[#1f2937] bg-[#111827] text-white hover:bg-[#1f2937] active:scale-95 transition shadow-sm"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#1f2937] bg-[#111827] text-white hover:bg-[#1f2937] active:scale-95 transition shadow-sm cursor-pointer select-none"
           >
-            <Menu className="h-5 w-5" strokeWidth={2.25} />
+            <Menu className="h-4.5 w-4.5" strokeWidth={2.25} />
           </SidebarTrigger>
         </div>
       </SidebarHeader>
@@ -467,15 +479,15 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
       </SidebarContent>
 
       {/* 3. Footer: User Profile & Đăng xuất */}
-      <SidebarFooter className="border-t border-[#1f2937] p-3">
+      <SidebarFooter className="border-t border-[#1f2937] p-3 group-data-[collapsible=icon]:px-1 group-data-[collapsible=icon]:py-2.5 group-data-[collapsible=icon]:items-center">
         {user ? (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 w-full group-data-[collapsible=icon]:items-center">
             {/* User Profile Card */}
-            <div className="flex items-center justify-between rounded-xl bg-[#0b0f19] border border-[#1f2937] p-2.5 group-data-[collapsible=icon]:p-1.5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent">
-              <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex items-center justify-between rounded-xl bg-[#0b0f19] border border-[#1f2937] p-2.5 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
+              <div className="flex items-center gap-2.5 min-w-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full">
                 <div
                   title={`${formatDisplayName(user.username)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#1f2937] border border-[#1f2937] font-bold text-white text-xs select-none shadow-sm cursor-default"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1f2937] border border-[#1f2937] font-bold text-white text-xs select-none shadow-sm cursor-default group-data-[collapsible=icon]:mx-auto"
                 >
                   {formatDisplayName(user.username).charAt(0).toUpperCase()}
                 </div>
@@ -495,9 +507,9 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
               type="button"
               onClick={handleLogout}
               title="Đăng xuất khỏi hệ thống"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-950/20 hover:bg-rose-900/40 text-rose-300 border border-rose-900/30 px-3 py-2 text-xs font-semibold transition-colors cursor-pointer group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:mx-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-950/20 hover:bg-rose-900/40 text-rose-300 border border-rose-900/30 px-3 py-2 text-xs font-semibold transition-colors cursor-pointer group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
             >
-              <LogOut className="h-3.5 w-3.5 shrink-0" />
+              <LogOut className="h-4 w-4 shrink-0" />
               <span className="truncate group-data-[collapsible=icon]:hidden">Đăng xuất</span>
             </button>
           </div>
@@ -506,9 +518,9 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             href="/"
             title="Đăng nhập hệ thống"
             onClick={closeSidebarOnNavigate}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-3 py-2 text-xs font-semibold text-white transition-colors group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:mx-auto"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-3 py-2 text-xs font-semibold text-white transition-colors group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
           >
-            <User className="h-3.5 w-3.5 shrink-0" />
+            <User className="h-4 w-4 shrink-0" />
             <span className="truncate group-data-[collapsible=icon]:hidden">Đăng nhập</span>
           </Link>
         )}

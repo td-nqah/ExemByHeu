@@ -437,7 +437,7 @@ export const SidebarMenuItem = React.forwardRef<
     <li
       ref={ref}
       data-sidebar="menu-item"
-      className={cn("group/menu-item relative list-none", className)}
+      className={cn("group/menu-item relative list-none group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center", className)}
       {...props}
     />
   );
@@ -476,7 +476,7 @@ export const SidebarMenuButton = React.forwardRef<
         data-active={isActive}
         title={tooltip}
         className={cn(
-          "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-xl p-2 text-left text-xs font-medium outline-none transition-all duration-150 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-2 select-none",
+          "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-xl p-2 text-left text-xs font-medium outline-none transition-all duration-150 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center",
           isActive
             ? "bg-[#4f46e5]/15 text-white font-semibold border border-[#4f46e5]/30 shadow-sm"
             : "text-white hover:bg-[#1f2937]/80 border border-transparent",
