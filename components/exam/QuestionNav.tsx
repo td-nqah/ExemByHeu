@@ -45,9 +45,9 @@ export function QuestionNav({
       </div>
 
       {/* Progress Track */}
-      <div className="mb-4 h-1.5 w-full overflow-hidden rounded-full bg-black/[0.05] border border-black/[0.04]">
+      <div className="mb-4 h-1.5 w-full overflow-hidden rounded-full bg-black/[0.05] dark:bg-white/[0.08] border border-black/[0.04] dark:border-white/[0.06]">
         <div
-          className="h-full bg-[#111827] transition-all duration-300"
+          className="h-full bg-[#111827] dark:bg-white transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
         />
       </div>

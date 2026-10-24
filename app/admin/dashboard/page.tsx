@@ -340,7 +340,7 @@ export default function AdminDashboardPage() {
         ) : (
           <div className="max-h-[560px] overflow-y-auto overflow-x-auto custom-scrollbar">
             <table className="w-full text-left text-xs">
-                    <thead className="bg-[#F6F6F8] dark:bg-[#0E0F14] text-slate-700 dark:text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-tight text-[11px] font-heading font-bold border-b border-black/[0.06] dark:border-white/[0.08] sticky top-0 z-10 backdrop-blur-md">
+                    <thead className="bg-[#F6F6F8] dark:bg-[#0E0F14] text-[#4B5563] dark:text-[#9CA3AF] uppercase tracking-tight text-[11px] font-heading font-bold border-b border-black/[0.06] dark:border-white/[0.08] sticky top-0 z-10 backdrop-blur-md">
                 <tr>
                   <th className="py-3 px-4 font-semibold">TÊN ĐỀ THI</th>
                   <th className="py-3 px-4 font-semibold">DANH MỤC</th>
@@ -399,8 +399,8 @@ export default function AdminDashboardPage() {
                             className={cn(
                               "inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-md border font-mono transition cursor-pointer select-none",
                               exam.is_shuffled
-                                ? "glass-badge text-[#111827] dark:text-white border-[#4f46e5]/40 hover:bg-[#4f46e5]/30 shadow-[0_0_8px_rgba(79,70,229,0.2)]"
-                                : "bg-[#F6F6F8] text-[#6B7280] dark:text-[#9CA3AF] border-white/[0.08] hover:text-[#111827] dark:text-white hover:bg-black/[0.04]"
+                                ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border-black/80 dark:border-white shadow-xs"
+                                : "bg-[#F6F6F8] dark:bg-[#1A1C24] text-[#6B7280] dark:text-[#9CA3AF] border-black/[0.08] dark:border-white/[0.08] hover:text-[#111827] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
                             )}
                             title={exam.is_shuffled ? "Đề này đang bật trộn (bấm để tắt nhanh)" : "Đề này đang tắt trộn (bấm để bật nhanh)"}
                           >
@@ -617,7 +617,7 @@ export default function AdminDashboardPage() {
                             type="datetime-local"
                             value={quickExpiresAt}
                             onChange={(e) => setQuickExpiresAt(e.target.value)}
-                            className="w-full px-3.5 py-2.5 bg-white dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.1] shadow-xs rounded-xl text-xs text-[#111827] dark:text-[#111827] dark:text-white focus:outline-none focus:border-[#4f46e5]"
+                            className="w-full px-3.5 py-2.5 bg-white dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.1] shadow-xs rounded-xl text-xs text-[#111827] dark:text-white focus:outline-none focus:border-black dark:focus:border-white"
                           />
                         </div>
                       </div>

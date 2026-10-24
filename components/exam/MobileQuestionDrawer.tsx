@@ -58,20 +58,20 @@ export function MobileQuestionDrawer({
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#111827] text-white border border-black/[0.08] shadow-[0_4px_20px_rgba(217,72,43,0.4)] transition-all duration-200 active:scale-90 hover:scale-105"
+          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border border-black/80 dark:border-white shadow-lg transition-all duration-200 active:scale-90 hover:scale-105"
           aria-label="Mở danh sách câu hỏi"
           title="Danh sách câu hỏi"
         >
           <Menu className="h-6 w-6 stroke-[2.5]" strokeLinecap="round" />
 
           {/* Progress Badge */}
-          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-white px-1.5 text-[10px] font-extrabold font-mono tabular-nums text-[#0A0B0E] border border-white shadow-xs">
+          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-white dark:bg-[#121318] px-1.5 text-[10px] font-extrabold font-mono tabular-nums text-[#0A0B0E] dark:text-white border border-black/10 dark:border-white/20 shadow-xs">
             {answeredCount}/{total}
           </span>
 
           {/* Small Flag indicator if any flagged */}
           {flaggedCount > 0 && (
-            <span className="absolute -bottom-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#B8962E] text-white border border-white shadow-xs">
+            <span className="absolute -bottom-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#B8962E] text-white border border-white dark:border-[#121318] shadow-xs">
               <Flag className="h-2.5 w-2.5 fill-current" />
             </span>
           )}
@@ -108,14 +108,14 @@ export function MobileQuestionDrawer({
                 Danh sách câu hỏi
               </h2>
               {flaggedCount > 0 && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 text-[10px] font-semibold">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#F6EBC8] text-[#B8962E] border border-[#B8962E]/30 px-2 py-0.5 text-[10px] font-semibold">
                   <Flag className="h-2.5 w-2.5 fill-current" />
                   <span>{flaggedCount} cờ</span>
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-[#9CA3AF] mt-0.5">
-              Đã làm <span className="font-semibold font-mono tabular-nums text-white">{answeredCount}/{total} câu</span> ({progressPercent}%)
+            <p className="text-[11px] text-[#6B7280] dark:text-[#9CA3AF] mt-0.5">
+              Đã làm <span className="font-semibold font-mono tabular-nums text-[#111827] dark:text-white">{answeredCount}/{total} câu</span> ({progressPercent}%)
             </p>
           </div>
 
@@ -130,9 +130,9 @@ export function MobileQuestionDrawer({
         </div>
 
         {/* Progress Bar Line */}
-        <div className="h-1 w-full bg-black/[0.05]">
+        <div className="h-1 w-full bg-black/[0.05] dark:bg-white/[0.08]">
           <div
-            className="h-full bg-[#111827] transition-all duration-300"
+            className="h-full bg-[#111827] dark:bg-white transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -192,16 +192,16 @@ export function MobileQuestionDrawer({
         <div className="border-t border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#121318] px-5 pt-3 pb-6 text-[11px] text-[#6B7280] dark:text-slate-400">
           <div className="flex items-center justify-around gap-2">
             <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-sm bg-indigo-600 shadow-[0_0_6px_rgba(99,102,241,0.5)]" />
-              <span className="text-[#111827] dark:text-slate-300">Đã làm</span>
+              <span className="h-2.5 w-2.5 rounded-sm border border-[#2E9E5B]/40 bg-[#DDF2E5]" />
+              <span className="text-[#2E9E5B] font-medium">Đã làm</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-sm border border-amber-400 bg-amber-500/30 shadow-[0_0_6px_rgba(251,191,36,0.5)]" />
-              <span className="text-amber-300 font-medium">Xem lại</span>
+              <span className="h-2.5 w-2.5 rounded-sm border border-[#B8962E]/40 bg-[#F6EBC8]" />
+              <span className="text-[#B8962E] font-medium">Xem lại</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-sm border border-black/[0.1] dark:border-slate-800 bg-[#F6F6F8] dark:bg-[#14161D]" />
-              <span>Chưa làm</span>
+              <span className="h-2.5 w-2.5 rounded-sm border border-black/[0.1] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#14161D]" />
+              <span className="text-[#6B7280] dark:text-[#9CA3AF]">Chưa làm</span>
             </div>
           </div>
         </div>

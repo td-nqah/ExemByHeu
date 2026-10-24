@@ -495,7 +495,7 @@ export default function ExamCreatePage() {
             type="button"
             onClick={handleConfirmAndPublish}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 self-start rounded-xl bg-[#111827] hover:bg-black px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 self-start rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-5 py-2.5 text-xs font-semibold shadow-xs transition active:scale-[0.98] disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
             <span>{isSaving ? "Đang lưu..." : "Lưu & Ban hành đề đánh giá"}</span>
@@ -644,7 +644,7 @@ export default function ExamCreatePage() {
                 <button
                   type="button"
                   onClick={handleQuickPasteFromNavigator}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-white transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-white dark:bg-[#14161D] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] px-3 py-1.5 text-xs font-semibold text-[#111827] dark:text-white transition shadow-xs"
                   title="Đọc và dán trực tiếp từ bộ nhớ tạm (Clipboard)"
                 >
                   <ClipboardPaste className="h-3.5 w-3.5" />
@@ -657,7 +657,7 @@ export default function ExamCreatePage() {
                     setClipboardText(SAMPLE_CLIPBOARD_EXAM);
                     setParseError("");
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-white transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-white dark:bg-[#14161D] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] px-3 py-1.5 text-xs font-semibold text-[#111827] dark:text-white transition shadow-xs"
                 >
                   <Wand2 className="h-3.5 w-3.5" />
                   <span>Chèn cấu trúc đề mẫu</span>
@@ -667,7 +667,7 @@ export default function ExamCreatePage() {
                   <button
                     type="button"
                     onClick={() => setClipboardText("")}
-                    className="inline-flex items-center gap-1 rounded-xl bg-rose-950/30 text-white hover:bg-rose-600 hover:text-white border border-rose-900/40 px-3 py-1.5 text-xs font-semibold transition"
+                    className="inline-flex items-center gap-1 rounded-xl bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 border border-rose-200 dark:border-rose-900/40 px-3 py-1.5 text-xs font-semibold transition"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
                     <span>Xóa trắng</span>
@@ -693,7 +693,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={handleParseClipboard}
                 disabled={isParsing || !clipboardText.trim()}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#111827] hover:bg-black px-6 py-2.5 text-xs font-semibold text-white shadow-xs transition active:scale-[0.98] disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-6 py-2.5 text-xs font-semibold shadow-xs transition active:scale-[0.98] disabled:opacity-50"
               >
                 <Sparkles className="h-4 w-4" />
                 <span>
@@ -988,7 +988,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={handleConfirmAndPublish}
                 disabled={isSaving}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#111827] hover:bg-black px-6 py-2.5 text-xs font-semibold text-white shadow-xs transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-6 py-2.5 text-xs font-semibold shadow-xs transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
               >
                 <Send className="h-4 w-4" />
                 <span>

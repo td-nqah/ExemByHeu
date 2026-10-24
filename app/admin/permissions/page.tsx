@@ -435,7 +435,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={handleRecalculateStorage}
                 disabled={isScanning}
-                className="px-3 py-1.5 rounded-xl glass-btn text-xs text-white font-semibold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-xs hover:-translate-y-0.5"
+                className="px-3 py-1.5 rounded-xl glass-btn text-xs text-[#111827] dark:text-white font-semibold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-xs hover:-translate-y-0.5"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${isScanning ? "animate-spin" : ""}`} />
                 <span>{isScanning ? "Đang quét..." : "Quét lại bộ nhớ"}</span>
@@ -446,18 +446,18 @@ export default function AdminPermissionsPage() {
           {/* Progress Bar Container */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-white flex items-center gap-2">
+              <span className="font-medium text-[#111827] dark:text-white flex items-center gap-2">
                 <span>Tổng dung lượng tài nguyên đã dùng:</span>
-                <strong className="text-white font-mono text-sm">{usedStorageMB} MB</strong>
+                <strong className="text-[#111827] dark:text-white font-mono text-sm">{usedStorageMB} MB</strong>
               </span>
-              <span className="font-mono text-[#9CA3AF] font-bold">
+              <span className="font-mono text-[#6B7280] dark:text-[#9CA3AF] font-bold">
                 {storagePercentage}% / 100%
               </span>
             </div>
 
-            <div className="w-full h-3 bg-[#F6F6F8] dark:bg-[#14161D] rounded-full overflow-hidden p-0.5 border border-black/[0.06]">
+            <div className="w-full h-3 bg-[#F6F6F8] dark:bg-[#14161D] rounded-full overflow-hidden p-0.5 border border-black/[0.06] dark:border-white/[0.08]">
               <div
-                className="h-full rounded-full transition-all duration-700 ease-out bg-[#111827]"
+                className="h-full rounded-full transition-all duration-700 ease-out bg-[#111827] dark:bg-white"
                 style={{ width: `${Math.min(100, Math.max(2, storagePercentage))}%` }}
               />
             </div>
@@ -466,24 +466,24 @@ export default function AdminPermissionsPage() {
           {/* Granular Breakdown (3 Categories) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
             {/* 1. Database Tables */}
-            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex flex-col justify-between">
+            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.08] flex flex-col justify-between">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                  <Database className="h-4 w-4 text-white" />
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#111827] dark:text-white">
+                  <Database className="h-4 w-4 text-[#111827] dark:text-white" />
                   <span>Dữ liệu Bảng (DB)</span>
                 </div>
-                <span className="font-mono text-sm font-bold text-white">
+                <span className="font-mono text-sm font-bold text-[#111827] dark:text-white">
                   {dbTablesMB} MB
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-[#F6F6F8] dark:bg-[#14161D] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
+                <div className="w-full bg-black/[0.05] dark:bg-white/[0.08] h-1.5 rounded-full overflow-hidden border border-black/[0.04] dark:border-white/[0.06]">
                   <div
-                    className="h-full bg-[#111827] rounded-full"
+                    className="h-full bg-[#111827] dark:bg-white rounded-full"
                     style={{ width: `${Math.min(100, (dbTablesMB / maxStorageMB) * 100 * 2)}%` }}
                   />
                 </div>
-                <div className="flex justify-between items-center text-[10px] text-[#9CA3AF] mt-1.5">
+                <div className="flex justify-between items-center text-[10px] text-[#6B7280] dark:text-[#9CA3AF] mt-1.5">
                   <span>Supabase PostgreSQL</span>
                   <span>{stats.exams} đề • {stats.questions} câu • {stats.submissions} bài</span>
                 </div>
@@ -491,24 +491,24 @@ export default function AdminPermissionsPage() {
             </div>
 
             {/* 2. File Storage Buckets */}
-            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex flex-col justify-between">
+            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.08] flex flex-col justify-between">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                  <FolderArchive className="h-4 w-4 text-[#38bdf8]" />
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#111827] dark:text-white">
+                  <FolderArchive className="h-4 w-4 text-[#111827] dark:text-white" />
                   <span>Tệp lưu trữ (Storage)</span>
                 </div>
-                <span className="font-mono text-sm font-bold text-white">
+                <span className="font-mono text-sm font-bold text-[#111827] dark:text-white">
                   {filesStorageMB} MB
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-[#F6F6F8] dark:bg-[#14161D] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
+                <div className="w-full bg-black/[0.05] dark:bg-white/[0.08] h-1.5 rounded-full overflow-hidden border border-black/[0.04] dark:border-white/[0.06]">
                   <div
-                    className="h-full bg-[#38bdf8] rounded-full"
+                    className="h-full bg-[#111827] dark:bg-white rounded-full"
                     style={{ width: `${Math.min(100, (filesStorageMB / maxStorageMB) * 100 * 2)}%` }}
                   />
                 </div>
-                <div className="flex justify-between items-center text-[10px] text-[#9CA3AF] mt-1.5">
+                <div className="flex justify-between items-center text-[10px] text-[#6B7280] dark:text-[#9CA3AF] mt-1.5">
                   <span>Tệp Word / PDF / Ảnh</span>
                   <span>Buckets &amp; Uploads</span>
                 </div>
@@ -516,24 +516,24 @@ export default function AdminPermissionsPage() {
             </div>
 
             {/* 3. Browser Cache & Logs */}
-            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex flex-col justify-between">
+            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.08] flex flex-col justify-between">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                  <Layers className="h-4 w-4 text-[#2E9E5B]" />
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#111827] dark:text-white">
+                  <Layers className="h-4 w-4 text-[#111827] dark:text-white" />
                   <span>Bộ nhớ đệm (Cache)</span>
                 </div>
-                <span className="font-mono text-sm font-bold text-white">
+                <span className="font-mono text-sm font-bold text-[#111827] dark:text-white">
                   {cacheLogsMB} MB
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-[#F6F6F8] dark:bg-[#14161D] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
+                <div className="w-full bg-black/[0.05] dark:bg-white/[0.08] h-1.5 rounded-full overflow-hidden border border-black/[0.04] dark:border-white/[0.06]">
                   <div
-                    className="h-full bg-[#34d399] rounded-full"
+                    className="h-full bg-[#111827] dark:bg-white rounded-full"
                     style={{ width: `${Math.min(100, (cacheLogsMB / maxStorageMB) * 100 * 2)}%` }}
                   />
                 </div>
-                <div className="flex justify-between items-center text-[10px] text-[#9CA3AF] mt-1.5">
+                <div className="flex justify-between items-center text-[10px] text-[#6B7280] dark:text-[#9CA3AF] mt-1.5">
                   <span>Local Storage &amp; IndexedDB</span>
                   <span>Thiết bị hiện tại</span>
                 </div>

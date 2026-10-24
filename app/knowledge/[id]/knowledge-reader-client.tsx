@@ -200,7 +200,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopyShare}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#14161D] text-xs font-semibold text-[#111827] dark:text-[#111827] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.08] shadow-xs transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#14161D] text-xs font-semibold text-[#111827] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.08] shadow-xs transition cursor-pointer"
             >
               {copied ? (
                 <>
@@ -229,11 +229,11 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
         {/* Article Title Header */}
         <div className="py-8 sm:py-12 max-w-4xl space-y-4">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#111827] text-[#111827] dark:text-white border border-[#111827] flex items-center gap-1.5 shadow-xs">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border border-black/80 dark:border-white flex items-center gap-1.5 shadow-xs">
               {material.category_id === "none" || material.category_slug === "none" ? (
-                <FileText className="h-3 w-3 text-[#111827] dark:text-white" />
+                <FileText className="h-3 w-3 text-white dark:text-[#0A0B0E]" />
               ) : (
-                <Tag className="h-3 w-3 text-[#111827] dark:text-white" />
+                <Tag className="h-3 w-3 text-white dark:text-[#0A0B0E]" />
               )}
               <span>{material.category_name || "Tài liệu chung"}</span>
             </span>
@@ -255,7 +255,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           )}
 
           <div className="flex items-center gap-3 pt-2 text-xs text-[#6B7280] dark:text-[#9CA3AF]">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#4f46e5] to-[#6366f1] text-[#111827] dark:text-white flex items-center justify-center font-bold text-xs shadow-md">
+            <div className="h-8 w-8 rounded-full bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border border-black/10 dark:border-white/20 flex items-center justify-center font-bold text-xs shadow-xs">
               {(material.author || "B")[0]}
             </div>
             <div>

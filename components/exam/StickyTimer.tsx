@@ -48,25 +48,25 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
       }`}
     >
       {isCritical ? (
-        <AlertTriangle className="h-4 w-4 text-rose-400" />
+        <AlertTriangle className="h-4 w-4 text-rose-500" />
       ) : (
-        <Clock className="h-4 w-4 text-white" />
+        <Clock className="h-4 w-4 text-[#111827] dark:text-white" />
       )}
 
       <div className="flex flex-col">
-        <span className="text-[10px] font-semibold text-[#6B7280]">
+        <span className="text-[10px] font-semibold text-[#6B7280] dark:text-[#9CA3AF]">
           Thời gian còn lại
         </span>
-        <span className="font-mono text-sm font-bold tracking-tight tabular-nums text-white">
+        <span className="font-mono text-sm font-bold tracking-tight tabular-nums text-[#111827] dark:text-white">
           {formatTimeLeft(secondsLeft)}
         </span>
       </div>
 
       {/* Mini Progress Bar */}
-      <div className="hidden sm:block h-2 w-16 overflow-hidden rounded-full bg-black/[0.06] border border-black/[0.04]">
+      <div className="hidden sm:block h-2 w-16 overflow-hidden rounded-full bg-black/[0.06] dark:bg-white/[0.08] border border-black/[0.04] dark:border-white/[0.06]">
         <div
           className={`h-full transition-all duration-1000 ${
-            isCritical ? "bg-rose-500" : isWarning ? "bg-amber-400" : "bg-[#111827]"
+            isCritical ? "bg-rose-500" : isWarning ? "bg-amber-400" : "bg-[#111827] dark:bg-white"
           }`}
           style={{ width: `${percentage}%` }}
         />

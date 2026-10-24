@@ -21,8 +21,8 @@ function renderHighlightedExamTitle(title: string) {
     const suffix = title.substring(colonIdx + 1);
     return (
       <>
-        <span>{prefix}</span>{" "}
-        <span className="text-[#111827] dark:text-white font-bold">{suffix.trim()}</span>
+        <span className="text-[#6B7280] dark:text-[#9CA3AF] font-medium">{prefix}</span>{" "}
+        <span className="text-[#111827] dark:text-white font-extrabold">{suffix.trim()}</span>
       </>
     );
   }
@@ -31,13 +31,13 @@ function renderHighlightedExamTitle(title: string) {
   if (parenMatch) {
     return (
       <>
-        <span>{parenMatch[1]}</span>{" "}
-        <span className="text-[#111827] dark:text-white font-bold">{parenMatch[2]}</span>
+        <span className="text-[#6B7280] dark:text-[#9CA3AF] font-medium">{parenMatch[1]}</span>{" "}
+        <span className="text-[#111827] dark:text-white font-extrabold">{parenMatch[2]}</span>
       </>
     );
   }
 
-  return <span>{title}</span>;
+  return <span className="text-[#111827] dark:text-white font-bold">{title}</span>;
 }
 
 export function UserExamCard({ exam }: UserExamCardProps) {

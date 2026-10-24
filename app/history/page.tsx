@@ -175,7 +175,7 @@ export default function HistoryPage() {
                       <td className="whitespace-nowrap py-4 px-4 text-right">
                         <Link
                           href={`/history/${sub.id}`}
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-[#161820] hover:bg-white/[0.08] text-[#111827] dark:text-white border border-white/[0.1] px-3.5 py-1.5 text-xs font-semibold hover:-translate-y-0.5 transition-all"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-3.5 py-1.5 text-xs font-bold shadow-xs hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer"
                         >
                           <span>Xem chi tiết</span>
                           <ArrowRight className="h-3 w-3" />

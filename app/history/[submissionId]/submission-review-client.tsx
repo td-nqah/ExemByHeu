@@ -95,17 +95,17 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="mb-2 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1 rounded-lg bg-black/[0.06]/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-[#111827] dark:text-white">
-                <Calendar className="h-3 w-3 text-indigo-400" />
+              <span className="inline-flex items-center gap-1 rounded-lg bg-[#F6F6F8] dark:bg-[#1A1C24] border border-black/[0.08] dark:border-white/[0.1] px-2.5 py-0.5 text-[11px] font-semibold text-[#111827] dark:text-white">
+                <Calendar className="h-3 w-3 text-[#111827] dark:text-white" />
                 {formatDate(submission.submitted_at)}
               </span>
               {isGraded ? (
-                <span className="inline-flex items-center gap-1 rounded-lg border border-[#2E9E5B]/20 bg-[#DDF2E5] px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold text-[#2E9E5B]">
+                <span className="inline-flex items-center gap-1 border border-[#2E9E5B]/20 bg-[#DDF2E5] px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold text-[#2E9E5B]">
                   <CheckCircle2 className="h-3 w-3" />
                   Đã hoàn tất đánh giá
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-lg border border-[#B8962E]/30 bg-[#F6EBC8] px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold text-[#B8962E]">
+                <span className="inline-flex items-center gap-1 border border-[#B8962E]/30 bg-[#F6EBC8] px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold text-[#B8962E]">
                   <Clock className="h-3 w-3" />
                   Đang chờ chấm điểm tự luận
                 </span>
@@ -120,14 +120,14 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
             </p>
           </div>
 
-          <div className="flex items-center gap-4 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] rounded-xl p-4">
+          <div className="flex items-center gap-4 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] p-4">
             <div className="text-right">
               <p className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] dark:text-[#9CA3AF]">Tổng điểm</p>
               <p className="text-2xl font-black text-[#111827] dark:text-white">
                 {submission.total_score}
               </p>
             </div>
-            <div className="h-8 w-px bg-slate-800" />
+            <div className="h-8 w-px bg-black/[0.1] dark:bg-white/[0.1]" />
             <div className="space-y-0.5 text-xs text-[#6B7280] dark:text-[#9CA3AF]">
               <p>
                 Trắc nghiệm: <span className="font-bold text-[#111827] dark:text-white">{submission.mcq_score}</span>
@@ -163,7 +163,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.25) }}
               className="card-soft rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] p-6"
             >
-              <div className="mb-4 flex items-center justify-between border-b border-black/[0.06] pb-3">
+              <div className="mb-4 flex items-center justify-between border-b border-black/[0.06] dark:border-white/[0.08] pb-3">
                 <div className="flex items-center gap-2.5">
                   <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-xs font-bold text-[#111827] dark:text-white">
                     {index + 1}
@@ -176,18 +176,18 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                 <div className="flex flex-wrap items-center gap-2">
                   {isMCQ ? (
                     isCorrect ? (
-                      <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/50 px-2.5 py-0.5 text-xs font-bold text-emerald-400">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                      <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/30 dark:border-emerald-500/40 bg-emerald-100 dark:bg-emerald-950/50 px-2.5 py-0.5 text-xs font-bold text-emerald-800 dark:text-emerald-400">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                         Đúng (+{answer.score_awarded} / {q.max_score} điểm)
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/40 bg-rose-950/50 px-2.5 py-0.5 text-xs font-bold text-rose-400">
-                        <XCircle className="h-3.5 w-3.5 text-rose-400" />
+                      <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/30 dark:border-rose-500/40 bg-rose-100 dark:bg-rose-950/50 px-2.5 py-0.5 text-xs font-bold text-rose-800 dark:text-rose-400">
+                        <XCircle className="h-3.5 w-3.5 text-rose-600 dark:text-rose-400" />
                         Sai (0 / {q.max_score} điểm)
                       </span>
                     )
                   ) : (
-                    <span className="inline-flex items-center gap-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-400">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-[#F6F6F8] dark:bg-[#1A1C24] border border-black/[0.08] dark:border-white/[0.1] px-2.5 py-0.5 text-xs font-bold text-[#111827] dark:text-white">
                       <Award className="h-3.5 w-3.5" />
                       Điểm đạt: {answer.score_awarded} / {q.max_score} điểm
                     </span>
@@ -224,20 +224,20 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                       correctKeyLetter.length > 0 && correctKeyLetter === letter;
 
                     let rowStyle =
-                      "border-black/[0.06] bg-[#F6F6F8] text-[#6B7280] dark:text-[#9CA3AF] opacity-75";
+                      "border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-[#6B7280] dark:text-[#9CA3AF] opacity-80";
                     let letterBadgeStyle =
-                      "border border-slate-700 bg-slate-800 text-[#6B7280] dark:text-[#9CA3AF]";
+                      "border border-black/[0.1] dark:border-white/[0.1] bg-white dark:bg-[#1A1C24] text-[#6B7280] dark:text-[#9CA3AF]";
 
                     if (isCorrectAnswer) {
                       rowStyle =
-                        "border-[#2E9E5B] bg-[#DDF2E5] text-[#2E9E5B] font-semibold shadow-xs";
+                        "border-[#2E9E5B] dark:border-emerald-500/50 bg-[#DDF2E5] dark:bg-emerald-950/30 text-[#2E9E5B] dark:text-emerald-400 font-semibold shadow-xs";
                       letterBadgeStyle =
-                        "border border-[#2E9E5B]/40 bg-[#2E9E5B] text-[#111827] dark:text-white";
+                        "border border-[#2E9E5B] bg-[#2E9E5B] text-white";
                     } else if (isCandidateChoice && !isCorrectAnswer) {
                       rowStyle =
-                        "border-rose-200 bg-rose-50 text-rose-700 font-semibold shadow-xs";
+                        "border-rose-300 dark:border-rose-500/50 bg-rose-50 dark:bg-rose-950/30 text-rose-800 dark:text-rose-400 font-semibold shadow-xs";
                       letterBadgeStyle =
-                        "border border-black/[0.08] bg-[#111827] text-[#111827] dark:text-white";
+                        "border border-rose-500 bg-rose-600 text-white";
                     }
 
                     return (
@@ -258,22 +258,22 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
 
                         <div className="flex shrink-0 flex-wrap items-center gap-1.5 text-[11px] font-semibold">
                           {isCandidateChoice && isCorrectAnswer && (
-                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
-                              <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/30 dark:border-emerald-500/40 bg-emerald-100 dark:bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 dark:text-emerald-400">
+                              <CheckCircle2 className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
                               <span>Lựa chọn của bạn (Đáp án đúng)</span>
                             </span>
                           )}
 
                           {isCandidateChoice && !isCorrectAnswer && (
-                            <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/40 bg-rose-950/80 px-2.5 py-0.5 text-[10px] font-bold text-rose-400">
-                              <XCircle className="h-3 w-3 text-rose-400" />
+                            <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/30 dark:border-rose-500/40 bg-rose-100 dark:bg-rose-950/80 px-2.5 py-0.5 text-[10px] font-bold text-rose-800 dark:text-rose-400">
+                              <XCircle className="h-3 w-3 text-rose-600 dark:text-rose-400" />
                               <span>Lựa chọn của bạn</span>
                             </span>
                           )}
 
                           {!isCandidateChoice && isCorrectAnswer && (
-                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
-                              <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/30 dark:border-emerald-500/40 bg-emerald-100 dark:bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 dark:text-emerald-400">
+                              <CheckCircle2 className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
                               <span>Đáp án đúng</span>
                             </span>
                           )}
@@ -293,14 +293,14 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                     </div>
                   </div>
 
-                  <div className="rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D]/30 p-4">
-                    <div className="mb-1.5 flex items-center gap-2 text-indigo-400">
+                  <div className="rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] p-4">
+                    <div className="mb-1.5 flex items-center gap-2 text-[#111827] dark:text-white">
                       <Sparkles className="h-4 w-4" />
                       <span className="text-xs font-bold text-[#111827] dark:text-white">
                         Đánh giá & Nhận xét học vụ (Trợ lý học thuật AI & Giảng viên phụ trách)
                       </span>
                     </div>
-                    <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-200">
+                    <p className="whitespace-pre-wrap text-xs leading-relaxed text-[#4B5563] dark:text-slate-300">
                       {answer.admin_feedback ||
                         "Chưa có nhận xét chi tiết hoặc bài thi đang trong quá trình chấm."}
                     </p>
@@ -310,8 +310,8 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
 
               {/* Lời giải chi tiết / Giải thích đáp án nếu có */}
               {q.explanation && (
-                <div className="mt-3.5 rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-3.5">
-                  <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-indigo-400">
+                <div className="mt-3.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#14161D] p-3.5">
+                  <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-[#111827] dark:text-white">
                     <Sparkles className="h-3.5 w-3.5" />
                     <span>Lời giải chi tiết:</span>
                   </div>
