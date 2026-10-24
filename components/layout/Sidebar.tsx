@@ -234,15 +234,15 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         </div>
       </SidebarHeader>
 
-      {/* 2. Content: Groups & Navigation Menu (Bố cục gần nhau, không khoảng cách thừa) */}
-      <SidebarContent className="px-2 py-2 custom-scrollbar space-y-1.5">
+      {/* 2. Content: Groups & Navigation Menu (Dàn trải khoảng cách giữa các heading vừa phải, thanh thoát) */}
+      <SidebarContent className="px-2.5 py-3 custom-scrollbar space-y-4">
         {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
         <SidebarGroup className="p-0">
-          <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-3 py-1">
+          <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
             TỔNG QUAN / BÁO CÁO
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="gap-0.5">
+            <SidebarMenu className="gap-1">
               {overviewNavLinks.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -267,12 +267,12 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         </SidebarGroup>
 
         {/* Nhóm 2: HỌC LIỆU / ĐÁNH GIÁ */}
-        <SidebarGroup className="p-0 pt-1">
-          <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-3 py-1">
+        <SidebarGroup className="p-0 pt-2">
+          <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
             HỌC LIỆU / ĐÁNH GIÁ
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="gap-0.5">
+            <SidebarMenu className="gap-1">
               {/* Mục 1: Tài liệu ôn tập */}
               <SidebarMenuItem>
                 <SidebarMenuButton
@@ -381,12 +381,12 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
 
         {/* Nhóm 3: QUẢN LÝ HỆ THỐNG */}
         {user?.role === "admin" && (
-          <SidebarGroup className="p-0 pt-1">
-            <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-3 py-1">
+          <SidebarGroup className="p-0 pt-2">
+            <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
               QUẢN LÝ HỆ THỐNG
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="gap-0.5">
+              <SidebarMenu className="gap-1">
                 {systemManagementNavLinks.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -419,12 +419,12 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
 
         {/* Nhóm 4: CẤU HÌNH HỆ THỐNG */}
         {user?.role === "admin" && (
-          <SidebarGroup className="p-0 pt-1">
-            <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-3 py-1">
+          <SidebarGroup className="p-0 pt-2">
+            <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
               CẤU HÌNH HỆ THỐNG
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="gap-0.5">
+              <SidebarMenu className="gap-1">
                 {systemConfigNavLinks.map((item) => {
                   const Icon = item.icon;
                   return (
