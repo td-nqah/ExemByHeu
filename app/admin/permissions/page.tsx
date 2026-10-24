@@ -568,7 +568,7 @@ export default function AdminPermissionsPage() {
                   setCopiedSql(true);
                   setTimeout(() => setCopiedSql(false), 2000);
                 }}
-                className="px-3 py-1.5 rounded-lg bg-[#1f2937] hover:bg-[#374151] text-[#111827] text-xs font-medium transition cursor-pointer flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded-lg glass-btn text-[#111827] text-xs font-medium transition-all cursor-pointer flex items-center gap-1.5 hover:-translate-y-0.5"
               >
                 {copiedSql ? <Check className="h-3.5 w-3.5 text-[#2E9E5B]" /> : <Copy className="h-3.5 w-3.5" />}
                 <span>{copiedSql ? "Đã sao chép" : "Sao chép lệnh SQL"}</span>
@@ -676,7 +676,7 @@ export default function AdminPermissionsPage() {
                           <span className="font-mono font-bold text-xs text-[#111827]">
                             {acc.username}
                           </span>
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f2937] text-[#111827] border border-black/[0.06] font-medium tracking-normal">
+                          <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#F6F6F8] text-[#111827] border border-black/[0.08] font-medium tracking-normal shadow-xs">
                             {acc.role === "admin" ? "Admin" : "Sinh viên"}
                           </span>
                           <span
@@ -971,7 +971,7 @@ export default function AdminPermissionsPage() {
       {/* Modal xác nhận xóa vĩnh viễn tài khoản */}
       {deleteTargetUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-2xl bg-[#F6F6F8] border border-black/[0.06] p-6 shadow-2xl space-y-4">
+          <div className="w-full max-w-md rounded-2xl bg-white border border-black/[0.08] p-6 shadow-2xl space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600 border border-black/[0.08] text-[#111827] shrink-0">
                 <Trash2 className="h-5 w-5" />
@@ -995,7 +995,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={() => setDeleteTargetUser(null)}
                 disabled={isDeletingUser}
-                className="px-4 py-2 rounded-xl border border-black/[0.06] bg-[#111827] text-xs font-semibold text-[#111827] hover:text-[#111827] hover:bg-[#1f2937] transition cursor-pointer disabled:opacity-50"
+                className="px-4 py-2 rounded-xl border border-black/[0.08] bg-[#F6F6F8] text-xs font-semibold text-[#111827] hover:bg-black/[0.04] transition cursor-pointer disabled:opacity-50"
               >
                 Hủy bỏ
               </button>
