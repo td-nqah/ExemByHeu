@@ -170,13 +170,11 @@ export default function AdminSubmissionsListPage() {
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4">
                         {isGraded ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-[#2E9E5B] border border-emerald-500/20 px-2.5 py-0.5 text-[11px] font-semibold">
-                            <CheckCircle2 className="h-3 w-3" />
+                          <span className="text-xs font-semibold text-[#111827]">
                             Đã hoàn tất đánh giá
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-[#F6EBC8] text-[#B8962E] border border-[#B8962E]/30 px-2.5 py-0.5 text-[11px] font-semibold">
-                            <Clock className="h-3 w-3" />
+                          <span className="text-xs text-[#6B7280]">
                             Chờ đánh giá tự luận
                           </span>
                         )}
