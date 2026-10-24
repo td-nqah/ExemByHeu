@@ -4,7 +4,8 @@
   /* -------------------------------------------------------------
    * Marketing-Intelligence Soft Neutral / Light Glass Neumorphism
    * ------------------------------------------------------------- */
-  --bg: #E9EAEE;
+  --app-bg: #E9EAEE;
+  --bg: var(--app-bg);
   --surface: #F6F6F8;
   --card: #FFFFFF;
 
@@ -45,17 +46,17 @@
   --primary: var(--accent);
   --primary-hover: var(--accent-hover);
 
-  /* Shadcn UI Sidebar variables (Light) */
-  --sidebar-background: #F1F2F5;
+  /* Shadcn UI Sidebar variables (Light - matches page background) */
+  --sidebar-background: var(--app-bg);
   --sidebar-foreground: #111827;
   --sidebar-primary: #111827;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #FFFFFF;
   --sidebar-accent-foreground: #111827;
-  --sidebar-border: rgba(0, 0, 0, 0.06);
+  --sidebar-border: transparent;
   --sidebar-ring: rgba(17, 24, 39, 0.25);
-  --sidebar-width: 18rem;
-  --sidebar-width-icon: 3.5rem;
+  --sidebar-width: 17.5rem;
+  --sidebar-width-icon: 3.75rem;
 }
 
 @theme {
@@ -68,6 +69,7 @@
   --color-ink-muted: var(--ink-muted);
   --color-ink-faint: var(--ink-faint);
 
+  --color-app-bg: var(--app-bg);
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-card: var(--card);
@@ -98,7 +100,7 @@
   body {
     font-family: var(--font-body);
     line-height: 1.6;
-    background-color: #E9EAEE;
+    background-color: var(--app-bg);
     color: #111827;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -131,7 +133,7 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #E9EAEE;
+  background-color: var(--app-bg);
   color-scheme: light;
 }
 
@@ -176,6 +178,20 @@ body {
   text-transform: uppercase;
   color: #6B7280;
   font-weight: 700;
+}
+
+/* -------------------------------------------------------------
+ * Sidebar Floating Glass Card (Yêu cầu 1 & 2)
+ * ------------------------------------------------------------- */
+.sidebar-floating-card {
+  background: color-mix(in srgb, var(--app-bg) 70%, white 30%);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.04),
+    0 12px 32px rgba(17, 24, 39, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 /* -------------------------------------------------------------
@@ -404,25 +420,25 @@ body {
 /* Scrollbar */
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #D1D5DB #E9EAEE;
+  scrollbar-color: rgba(17, 24, 39, 0.15) transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #E9EAEE;
+  background: transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
+  background: rgba(17, 24, 39, 0.12);
   border-radius: 9999px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
+  background: rgba(17, 24, 39, 0.22);
 }
 
 /* iOS Safe Areas */
@@ -559,8 +575,8 @@ body {
   top: 0;
   width: 16px;
   height: 50%;
-  border-left: 1.5px solid rgba(0, 0, 0, 0.08);
-  border-bottom: 1.5px solid rgba(0, 0, 0, 0.08);
+  border-left: 1.5px solid rgba(17, 24, 39, 0.08);
+  border-bottom: 1.5px solid rgba(17, 24, 39, 0.08);
   border-bottom-left-radius: 8px;
   pointer-events: none;
 }
@@ -576,6 +592,6 @@ body {
   left: 16px;
   top: calc(50% - 1px);
   bottom: 0;
-  border-left: 1.5px solid rgba(0, 0, 0, 0.08);
+  border-left: 1.5px solid rgba(17, 24, 39, 0.08);
   pointer-events: none;
 }

@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = "18rem";
-const SIDEBAR_WIDTH_MOBILE = "18rem";
-const SIDEBAR_WIDTH_ICON = "3.5rem";
+const SIDEBAR_WIDTH = "17.5rem";
+const SIDEBAR_WIDTH_MOBILE = "17.5rem";
+const SIDEBAR_WIDTH_ICON = "3.75rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
 interface SidebarContextProps {
@@ -131,7 +131,7 @@ export const SidebarProvider = React.forwardRef<HTMLDivElement, SidebarProviderP
             } as React.CSSProperties
           }
           className={cn(
-            "group/sidebar-wrapper flex min-h-svh w-full text-slate-200 has-data-[variant=inset]:bg-slate-950",
+            "group/sidebar-wrapper flex min-h-svh w-full text-[#111827] bg-transparent",
             className
           )}
           ref={ref}
@@ -170,7 +170,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         <div
           ref={ref}
           className={cn(
-            "flex h-full w-[var(--sidebar-width)] flex-col bg-[#F1F2F5] text-[#111827] border-r border-black/[0.06]",
+            "flex h-full w-[var(--sidebar-width)] flex-col sidebar-floating-card text-[#111827]",
             className
           )}
           {...props}
@@ -185,7 +185,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         <>
           {openMobile && (
             <div
-              className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm transition-opacity md:hidden"
+              className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm transition-opacity md:hidden"
               onClick={() => setOpenMobile(false)}
             />
           )}
@@ -193,13 +193,8 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
             ref={ref}
             data-mobile="true"
             className={cn(
-              "fixed inset-y-0 z-50 flex h-full w-[var(--sidebar-width)] flex-col bg-[#F1F2F5] text-[#111827] border-r border-black/[0.06] shadow-2xl transition-transform duration-300 ease-in-out md:hidden",
-              side === "left" ? "left-0" : "right-0",
-              openMobile
-                ? "translate-x-0"
-                : side === "left"
-                ? "-translate-x-full"
-                : "translate-x-full",
+              "fixed inset-y-2.5 left-2.5 z-50 flex h-[calc(100dvh-1.25rem)] w-[var(--sidebar-width)] flex-col rounded-[28px] sidebar-floating-card text-[#111827] shadow-2xl transition-transform duration-300 ease-in-out md:hidden overflow-hidden",
+              openMobile ? "translate-x-0" : "-translate-x-[calc(100%+1rem)]",
               className
             )}
             {...props}
@@ -218,18 +213,20 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         data-variant={variant}
         data-side={side}
         className={cn(
-          "group peer hidden md:block select-none transition-all duration-300 ease-in-out",
+          "group peer hidden md:block select-none transition-all duration-300 ease-in-out shrink-0",
           state === "expanded"
-            ? "w-[var(--sidebar-width)]"
+            ? "w-[calc(var(--sidebar-width)+24px)]"
             : collapsible === "icon"
-            ? "w-[var(--sidebar-width-icon)]"
+            ? "w-[calc(var(--sidebar-width-icon)+24px)]"
             : "w-0 overflow-hidden"
         )}
       >
         <div
           className={cn(
-            "fixed inset-y-0 z-40 flex h-full flex-col bg-[#F1F2F5] text-[#111827] border-r border-black/[0.06] transition-[width] duration-300 ease-in-out backdrop-blur-xl",
-            side === "left" ? "left-0" : "right-0",
+            "fixed z-40 flex flex-col transition-[width,transform] duration-300 ease-in-out",
+            "top-3.5 bottom-3.5 left-3.5 h-[calc(100dvh-1.75rem)] rounded-[28px] overflow-hidden",
+            "sidebar-floating-card text-[#111827]",
+            side === "left" ? "left-3.5" : "right-3.5",
             state === "expanded"
               ? "w-[var(--sidebar-width)]"
               : collapsible === "icon"
@@ -260,7 +257,7 @@ export const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       aria-label="Toggle Sidebar"
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-xl border border-black/[0.08] bg-white text-[#111827] hover:bg-[#F6F6F8] shadow-xs transition cursor-pointer select-none",
+        "flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.06] bg-white text-[#111827] hover:bg-[#F6F6F8] shadow-xs active:scale-95 transition cursor-pointer select-none",
         className
       )}
       onClick={(event) => {
@@ -269,7 +266,7 @@ export const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      {children || <Menu className="h-4 w-4" />}
+      {children || <Menu className="h-4.5 w-4.5" strokeWidth={2} />}
       <span className="sr-only">Toggle Sidebar</span>
     </button>
   );
@@ -292,7 +289,7 @@ export const SidebarSeparator = React.forwardRef<
     <div
       ref={ref}
       data-sidebar="separator"
-      className={cn("mx-2 my-1 h-[1px] bg-black/[0.06]", className)}
+      className={cn("mx-3 my-2 h-[1px] bg-black/[0.04]", className)}
       {...props}
     />
   );
@@ -324,7 +321,7 @@ export const SidebarHeader = React.forwardRef<
     <div
       ref={ref}
       data-sidebar="header"
-      className={cn("flex flex-col gap-2 p-3", className)}
+      className={cn("flex flex-col gap-2 p-3.5 border-b border-black/[0.04]", className)}
       {...props}
     />
   );
@@ -339,7 +336,7 @@ export const SidebarFooter = React.forwardRef<
     <div
       ref={ref}
       data-sidebar="footer"
-      className={cn("flex flex-col gap-2 p-3", className)}
+      className={cn("flex flex-col gap-2 p-3.5 border-t border-black/[0.04]", className)}
       {...props}
     />
   );
@@ -355,7 +352,7 @@ export const SidebarContent = React.forwardRef<
       ref={ref}
       data-sidebar="content"
       className={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto custom-scrollbar px-2",
+        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto custom-scrollbar px-2.5 py-1",
         className
       )}
       {...props}
@@ -390,7 +387,7 @@ export const SidebarGroupLabel = React.forwardRef<
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "flex h-7 shrink-0 items-center px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[#6B7280] outline-none transition-opacity duration-200 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:h-0 group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden",
+        "flex h-7 shrink-0 items-center px-2.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#6B7280] outline-none transition-opacity duration-200 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:h-0 group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden",
         className
       )}
       {...props}
@@ -476,12 +473,12 @@ export const SidebarMenuButton = React.forwardRef<
         data-active={isActive}
         title={tooltip}
         className={cn(
-          "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-xl p-2 text-left text-xs font-medium outline-none transition-all duration-150 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center",
+          "peer/menu-button flex w-full items-center gap-3 overflow-hidden rounded-2xl px-3.5 py-2 text-left text-[14px] font-medium outline-none transition-all duration-200 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center cursor-pointer",
           isActive
-            ? "bg-white text-[#111827] font-semibold border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.05)]"
-            : "text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.03] border border-transparent",
+            ? "bg-white text-[#111827] font-semibold shadow-[0_2px_8px_rgba(17,24,39,0.08),0_1px_2px_rgba(17,24,39,0.04)] border border-black/[0.04]"
+            : "text-[#4B5563] hover:text-[#111827] hover:bg-white/50 border border-transparent",
           size === "sm" && "h-8 text-xs",
-          size === "default" && "h-9",
+          size === "default" && "h-10",
           size === "lg" && "h-11",
           className
         )}
@@ -542,10 +539,10 @@ export const SidebarMenuSubButton = React.forwardRef<
       data-size={size}
       data-active={isActive}
       className={cn(
-        "flex h-7.5 w-full min-w-0 items-center justify-between gap-2 overflow-hidden rounded-lg px-2.5 text-xs transition-all duration-150 select-none",
+        "flex h-8 w-full min-w-0 items-center justify-between gap-2 overflow-hidden rounded-xl px-3 text-xs transition-all duration-150 select-none cursor-pointer",
         isActive
           ? "bg-white text-[#111827] font-semibold border border-black/[0.04] shadow-xs"
-          : "text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.03] border border-transparent",
+          : "text-[#4B5563] hover:text-[#111827] hover:bg-white/50 border border-transparent",
         className
       )}
       {...props}
