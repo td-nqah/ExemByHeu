@@ -238,7 +238,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
       <SidebarContent className="px-2.5 py-3 custom-scrollbar space-y-4">
         {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
         <SidebarGroup className="p-0">
-          <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+          <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
             TỔNG QUAN / BÁO CÁO
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -268,7 +268,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
 
         {/* Nhóm 2: HỌC LIỆU / ĐÁNH GIÁ */}
         <SidebarGroup className="p-0 pt-2">
-          <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+          <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
             HỌC LIỆU / ĐÁNH GIÁ
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -382,7 +382,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         {/* Nhóm 3: QUẢN LÝ HỆ THỐNG */}
         {user?.role === "admin" && (
           <SidebarGroup className="p-0 pt-2">
-            <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
               QUẢN LÝ HỆ THỐNG
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -420,7 +420,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         {/* Nhóm 4: CẤU HÌNH HỆ THỐNG */}
         {user?.role === "admin" && (
           <SidebarGroup className="p-0 pt-2">
-            <SidebarGroupLabel className="text-[#64748b] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
               CẤU HÌNH HỆ THỐNG
             </SidebarGroupLabel>
             <SidebarGroupContent>
