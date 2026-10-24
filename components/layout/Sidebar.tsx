@@ -128,8 +128,6 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
       active: pathname.startsWith("/analytics"),
     },
   ];
-
-  const isExamsRoute = pathname === "/dashboard" || pathname.startsWith("/exam");
   const isParentActive =
     (pathname === "/dashboard" && !activeCategory) || pathname.startsWith("/exam");
 

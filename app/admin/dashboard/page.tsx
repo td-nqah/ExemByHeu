@@ -21,9 +21,7 @@ import { formatDuration } from "@/lib/utils";
 import {
   BookOpen,
   FilePlus2,
-  Clock,
   Eye,
-  Check,
   Trash2,
   AlertTriangle,
   X,
@@ -31,8 +29,6 @@ import {
   FolderPlus,
   CheckCircle2,
   Shuffle,
-  LockOpen,
-  Lock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";

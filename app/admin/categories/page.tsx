@@ -18,8 +18,6 @@ import {
   Pencil,
   Trash2,
   CheckCircle2,
-  Eye,
-  EyeOff,
   BookText,
   Boxes,
   Code2,
