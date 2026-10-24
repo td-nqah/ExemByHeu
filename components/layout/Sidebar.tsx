@@ -336,7 +336,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                     }}
                     aria-label="Mở hoặc đóng danh mục đề thi"
                     title={examsExpanded ? "Thu gọn danh mục" : "Mở rộng danh mục"}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[#9CA3AF] hover:text-[#111827] hover:bg-black/[0.04] transition-colors cursor-pointer group-data-[collapsible=icon]:hidden mr-1"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-colors cursor-pointer group-data-[collapsible=icon]:hidden mr-1"
                   >
                     <ChevronDown
                       className={cn(

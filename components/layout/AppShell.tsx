@@ -101,12 +101,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        {/* Desktop Top Header Bar (Right-aligned ThemeToggle at top-right corner) */}
-        <header className="sticky top-0 z-20 hidden md:flex h-14 w-full items-center justify-end px-6 lg:px-8 border-b border-black/[0.04] dark:border-white/[0.06] bg-[#E9EAEE]/80 dark:bg-[#090A0E]/80 backdrop-blur-md">
-          <div className="flex items-center gap-3">
-            <ThemeToggle size={12.5} />
-          </div>
-        </header>
+        {/* Desktop Top-Right ThemeToggle: Aligned horizontally with page heading */}
+        <div className="hidden md:flex absolute top-5 right-6 lg:right-8 z-30 items-center">
+          <ThemeToggle size={12.5} />
+        </div>
 
         {/* Page Content */}
         <div className="flex-1 w-full min-w-0">{children}</div>

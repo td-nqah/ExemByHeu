@@ -226,7 +226,7 @@ export default function AdminDashboardPage() {
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="space-y-4"
       >
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:pr-24 lg:md:pr-28">
           <div>
             <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-[#111827] dark:text-white flex flex-wrap items-center gap-3">
               Quản lý Đề thi
@@ -368,7 +368,7 @@ export default function AdminDashboardPage() {
                       key={exam.id}
                       className="group border-b border-black/[0.06] dark:border-white/[0.06] hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors"
                     >
-                      <td className="max-w-xs truncate py-3.5 px-4 font-bold text-[#111827] dark:text-white group-hover:text-[#111827] dark:text-white transition-colors">
+                      <td className="max-w-xs truncate py-3.5 px-4 font-bold text-[#111827] dark:text-white group-hover:text-black dark:group-hover:text-white transition-colors">
                         {exam.title}
                       </td>
 
@@ -486,7 +486,7 @@ export default function AdminDashboardPage() {
                 </h3>
                 <button
                   onClick={() => setIsQuickExamModalOpen(false)}
-                  className="p-1 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:text-white hover:bg-white/5 transition cursor-pointer"
+                  className="p-1 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white/5 transition cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -658,7 +658,7 @@ export default function AdminDashboardPage() {
                   <button
                     type="button"
                     onClick={() => setIsQuickExamModalOpen(false)}
-                    className="px-4 py-2 rounded-xl text-xs text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:text-white hover:bg-white/5 transition cursor-pointer"
+                    className="px-4 py-2 rounded-xl text-xs text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white/5 transition cursor-pointer"
                   >
                     Hủy
                   </button>
@@ -690,7 +690,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => setExamToDelete(null)}
-                className="absolute right-4 top-4 rounded-lg p-1.5 text-[#6B7280] dark:text-[#9CA3AF] hover:bg-white/5 hover:text-[#111827] dark:text-white cursor-pointer"
+                className="absolute right-4 top-4 rounded-lg p-1.5 text-[#6B7280] dark:text-[#9CA3AF] hover:bg-white/5 hover:text-[#111827] dark:hover:text-white cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>

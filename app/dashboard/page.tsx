@@ -95,11 +95,11 @@ function UserDashboardContent() {
     categoryPills.find((c) => c.slug === activeCategory) || categoryPills[0];
 
   return (
-    <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 pt-5 pb-6 space-y-6">
       {/* =========================================================================
           1. SECTION TITLE ROW & STATS OVERVIEW CARD
           ========================================================================= */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:pr-24 lg:md:pr-28">
         <div>
           <h2 className="text-base sm:text-lg font-bold tracking-tight text-[#111827] dark:text-white flex items-center gap-2.5">
             {activeCategory
@@ -214,7 +214,7 @@ export default function UserDashboardPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 pt-5 pb-6 space-y-6">
           <div className="h-10 rounded-xl bg-white/[0.06] animate-pulse" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
             <div className="h-40 rounded-2xl bg-white/[0.06] animate-pulse" />

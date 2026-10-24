@@ -311,7 +311,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                       <span className="text-[10px] font-bold text-[#111827] dark:text-white font-mono">
                         {rel.category_name || "Chuyên đề"}
                       </span>
-                      <h4 className="font-heading text-xs sm:text-sm font-bold text-[#111827] dark:text-white group-hover:text-black transition mt-1 line-clamp-2">
+                      <h4 className="font-heading text-xs sm:text-sm font-bold text-[#111827] dark:text-white group-hover:text-black dark:group-hover:text-white transition mt-1 line-clamp-2">
                         {rel.title}
                       </h4>
                       <p className="text-[11px] text-[#6B7280] dark:text-[#9CA3AF] mt-1 line-clamp-2">
