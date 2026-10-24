@@ -381,7 +381,7 @@ export default function AdminDashboardPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-[#9ca3af] tnum tabular-nums">
-                        <span className="text-[#38bdf8] font-semibold">{questionCount}</span> câu
+                        <span className="text-[#9ca3af] font-semibold">{questionCount}</span> câu
                       </td>
 
                       <td className="py-3.5 px-4 text-[#9ca3af]">
