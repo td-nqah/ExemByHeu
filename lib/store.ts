@@ -693,8 +693,8 @@ export async function getExams(
 
   if (isSupabaseConfigured && supabase) {
     try {
-      // Lightweight fetch: Select exam columns and lightweight questions(id, type) for counts & type
-      let query = supabase.from("exams").select("*, questions(id, type)");
+      // Lightweight fetch: Select exam columns and lightweight questions(id, type, max_score) for counts, type & score
+      let query = supabase.from("exams").select("*, questions(id, type, max_score)");
       query = query.not("title", "like", "__SYSTEM_%");
       if (onlyPublished) {
         query = query.eq("status", "published");
@@ -716,7 +716,10 @@ export async function getExams(
 
       if (!error && data && data.length > 0) {
         const dbSubs = (subRes.data || []) as Submission[];
-        dbExams = (data as any[]).map((exam) => parseExamRecord(exam, dbSubs, shuffleConfig));
+        dbExams = (data as any[]).map((exam) => {
+          const examSubs = dbSubs.filter((s) => s.exam_id === exam.id);
+          return parseExamRecord(exam, examSubs, shuffleConfig);
+        });
       }
     } catch {
       // Use local fallback
@@ -1710,7 +1713,7 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
           "id, exam_id, user_id, status, mcq_score, essay_score, total_score, submitted_at, exam:exams(id, title, duration_minutes, questions(id, max_score, type)), user:profiles(id, username, role)"
         )
         .order("submitted_at", { ascending: false })
-        .limit(20);
+        .limit(100);
 
       if (userId) {
         query = query.eq("user_id", userId);

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -77,6 +77,22 @@ function UserDashboardContent() {
     const matched = exams.filter((exam) => matchCategory(exam, activeCategory));
     return sortExamsAscending(matched);
   }, [exams, activeCategory]);
+
+  // Map of latest submission per exam to determine completion state and score
+  const latestSubmissionByExam = useMemo(() => {
+    const map = new Map<string, Submission>();
+    for (const sub of submissions) {
+      if (!sub.exam_id) continue;
+      const existing = map.get(sub.exam_id);
+      if (
+        !existing ||
+        new Date(sub.submitted_at).getTime() > new Date(existing.submitted_at).getTime()
+      ) {
+        map.set(sub.exam_id, sub);
+      }
+    }
+    return map;
+  }, [submissions]);
 
   // Dynamic Category Pills for Filter Tags Bar
   const categoryPills = useMemo(() => {
@@ -202,7 +218,12 @@ function UserDashboardContent() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
           {filteredExams.map((exam, idx) => (
-            <UserExamCard key={exam.id} exam={exam} index={idx} />
+            <UserExamCard
+              key={exam.id}
+              exam={exam}
+              submission={latestSubmissionByExam.get(exam.id)}
+              index={idx}
+            />
           ))}
         </div>
       )}
