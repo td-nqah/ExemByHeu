@@ -823,3 +823,104 @@ body::-webkit-scrollbar,
   border-left: 1.5px solid rgba(17, 24, 39, 0.08);
   pointer-events: none;
 }
+
+/* =========================================================================
+ * 12. Animated Starfield Background System
+ * ========================================================================= */
+.stars-system-container {
+  --star-color: #0f172a;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(ellipse at bottom, #dbeafe 0%, #f1f5f9 55%, #ffffff 100%);
+  transition: background 0.4s ease;
+}
+
+.dark .stars-system-container,
+[data-theme="dark"] .stars-system-container {
+  --star-color: #ffffff;
+  background: radial-gradient(ellipse at bottom, #151928 0%, #0d0f17 55%, #090a0e 100%);
+}
+
+.stars-layer-1,
+.stars-layer-2,
+.stars-layer-3 {
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.stars-layer-1 {
+  width: 1px;
+  height: 1px;
+  box-shadow: var(--s1);
+  opacity: 0.45;
+  animation: animStar 50s linear infinite;
+}
+
+.stars-layer-2 {
+  width: 2px;
+  height: 2px;
+  box-shadow: var(--s2);
+  opacity: 0.65;
+  animation: animStar 100s linear infinite;
+}
+
+.stars-layer-3 {
+  width: 3px;
+  height: 3px;
+  box-shadow: var(--s3);
+  opacity: 0.85;
+  animation: animStar 150s linear infinite;
+}
+
+.stars-layer-1::after,
+.stars-layer-2::after,
+.stars-layer-3::after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  left: 0;
+  background: transparent;
+  border-radius: 50%;
+}
+
+.stars-layer-1::after {
+  width: 1px;
+  height: 1px;
+  box-shadow: var(--s1);
+}
+
+.stars-layer-2::after {
+  width: 2px;
+  height: 2px;
+  box-shadow: var(--s2);
+}
+
+.stars-layer-3::after {
+  width: 3px;
+  height: 3px;
+  box-shadow: var(--s3);
+}
+
+@keyframes animStar {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-2000px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars-layer-1,
+  .stars-layer-2,
+  .stars-layer-3 {
+    animation: none !important;
+  }
+}
