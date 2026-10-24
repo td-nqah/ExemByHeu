@@ -99,7 +99,7 @@ export default function HistoryPage() {
         >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#F6F6F8] dark:bg-[#0E0F14] text-slate-700 dark:text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-tight text-[11px] font-heading font-bold border-b border-black/[0.06] dark:border-white/[0.08]">
+              <thead className="bg-[#F6F6F8] dark:bg-[#0E0F14] text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-tight text-[11px] font-heading font-bold border-b border-black/[0.06] dark:border-white/[0.08]">
                 <tr>
                   <th className="py-3.5 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
@@ -137,7 +137,7 @@ export default function HistoryPage() {
                       <td className="py-4 px-3 text-center font-mono font-bold text-[#6B7280] dark:text-[#9CA3AF]">
                         #{idx + 1}
                       </td>
-                      <td className="max-w-xs truncate py-4 px-4 font-semibold text-[#111827] dark:text-white group-hover:text-[#111827] dark:text-white transition-colors">
+                      <td className="max-w-xs truncate py-4 px-4 font-semibold text-[#111827] dark:text-white group-hover:text-black dark:group-hover:text-white transition-colors">
                         {sub.exam?.title || "Đề thi thử trực tuyến"}
                       </td>
                       <td className="whitespace-nowrap py-4 px-4 text-[#6B7280] dark:text-[#9CA3AF]">

@@ -114,7 +114,7 @@ export default function KnowledgeHubPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm kiếm tài liệu, khái niệm, chuyên đề..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#14161D] text-xs text-[#111827] dark:text-[#111827] dark:text-white placeholder-[#A4A7B0] dark:placeholder-[#6B7280] focus:border-white/40 shadow-xs focus:outline-none transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#14161D] text-xs text-[#111827] dark:text-white placeholder-[#A4A7B0] dark:placeholder-[#6B7280] focus:border-black/30 dark:focus:border-white/40 shadow-xs focus:outline-none transition-colors"
             />
           </div>
 
@@ -126,8 +126,8 @@ export default function KnowledgeHubPage() {
               className={cn(
                 "w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer",
                 selectedCategory !== "all"
-                  ? "bg-white text-[#0A0B0E] border-white shadow-xs"
-                  : "bg-[#F6F6F8] dark:bg-[#14161D] border-white/[0.1] text-[#111827] dark:text-white hover:bg-white/[0.06] shadow-xs"
+                  ? "bg-[#111827] text-white border-black/80 dark:bg-white dark:text-[#0A0B0E] dark:border-white shadow-xs"
+                  : "bg-white dark:bg-[#14161D] border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white hover:bg-black/[0.03] dark:hover:bg-white/[0.06] shadow-xs"
               )}
             >
               <div className="flex items-center gap-2 truncate">
@@ -380,16 +380,16 @@ export default function KnowledgeHubPage() {
               className="flex flex-col justify-between rounded-[20px] border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1.5 transition-all duration-300 p-5 group"
             >
               <div className="space-y-3">
-                {/* Meta badges: Emerald Teal tag for subject category without reading time */}
+                {/* Meta badges: Subject category without reading time */}
                 <div className="flex items-center justify-between gap-2">
                   {item.category_id === "none" || item.category_slug === "none" ? (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#111827] text-[#111827] dark:text-white dark:bg-white dark:text-[#0A0B0E] border border-black/80 dark:border-white shadow-xs">
-                      <FileText className="h-3 w-3 text-[#111827] dark:text-white dark:text-[#0A0B0E]" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#F6F6F8] dark:bg-[#1A1C24] text-[#111827] dark:text-white border border-black/[0.08] dark:border-white/[0.1] shadow-xs">
+                      <FileText className="h-3 w-3 text-[#111827] dark:text-white" />
                       <span>{item.category_name || "Không thuộc môn nào"}</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#111827] text-[#111827] dark:text-white dark:bg-white dark:text-[#0A0B0E] border border-black/80 dark:border-white shadow-xs">
-                      <Tag className="h-3 w-3 text-[#111827] dark:text-white dark:text-[#0A0B0E]" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#F6F6F8] dark:bg-[#1A1C24] text-[#111827] dark:text-white border border-black/[0.08] dark:border-white/[0.1] shadow-xs">
+                      <Tag className="h-3 w-3 text-[#111827] dark:text-white" />
                       <span>{item.category_name || "Chuyên đề"}</span>
                     </span>
                   )}
@@ -397,7 +397,7 @@ export default function KnowledgeHubPage() {
 
                 {/* Article Title: Bold & High contrast */}
                 <Link href={`/knowledge/${item.id}`} className="block">
-                  <h2 className="font-heading text-base font-bold text-[#111827] dark:text-white group-hover:text-[#111827] dark:text-white transition line-clamp-2 leading-snug">
+                  <h2 className="font-heading text-base font-bold text-[#111827] dark:text-white group-hover:text-black dark:group-hover:text-white transition line-clamp-2 leading-snug">
                     {item.title}
                   </h2>
                 </Link>
@@ -409,9 +409,9 @@ export default function KnowledgeHubPage() {
               </div>
 
               {/* Card Footer */}
-              <div className="mt-5 pt-3.5 border-t border-white/[0.08] flex items-center justify-between text-xs">
+              <div className="mt-5 pt-3.5 border-t border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-[#111827] dark:text-white max-w-[140px] truncate">
-                  <div className="h-6 w-6 rounded-lg bg-[#111827] text-[#111827] dark:text-white dark:bg-white dark:text-[#0A0B0E] flex items-center justify-center font-bold text-[10px] shrink-0 shadow-xs">
+                  <div className="h-6 w-6 rounded-lg bg-[#F6F6F8] dark:bg-[#1A1C24] border border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white flex items-center justify-center font-bold text-[10px] shrink-0 shadow-xs">
                     {(item.author || "A")[0].toUpperCase()}
                   </div>
                   <span className="truncate text-xs font-medium text-[#111827] dark:text-white">
@@ -421,10 +421,10 @@ export default function KnowledgeHubPage() {
 
                 <Link
                   href={`/knowledge/${item.id}`}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#111827] hover:bg-black text-[#111827] dark:text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-3.5 py-1.5 text-xs font-bold cursor-pointer shadow-xs hover:-translate-y-0.5 active:translate-y-0 transition-all active:scale-[0.98]"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-3.5 py-1.5 text-xs font-bold cursor-pointer shadow-xs hover:-translate-y-0.5 active:translate-y-0 transition-all active:scale-[0.98]"
                 >
                   <span>Đọc bài</span>
-                  <ArrowRight className="h-3.5 w-3.5 stroke-[2] text-[#111827] dark:text-white dark:text-[#0A0B0E]" />
+                  <ArrowRight className="h-3.5 w-3.5 stroke-[2]" />
                 </Link>
               </div>
             </motion.div>

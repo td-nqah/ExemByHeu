@@ -37,13 +37,13 @@ export function SubmitConfirmModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ duration: 0.2 }}
-            className="relative w-full max-w-md rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-2xl p-6 text-[#111827] dark:text-[#111827] dark:text-white"
+            className="relative w-full max-w-md rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-2xl p-6 text-[#111827] dark:text-white"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
               disabled={isSubmitting}
-              className="absolute top-4 right-4 rounded-xl p-1.5 text-[#6B7280] dark:text-[#9CA3AF] transition hover:bg-white/[0.06] hover:text-[#111827] dark:text-white"
+              className="absolute top-4 right-4 rounded-xl p-1.5 text-[#6B7280] dark:text-[#9CA3AF] transition hover:bg-black/[0.04] dark:hover:bg-white/[0.06] hover:text-[#111827] dark:hover:text-white"
             >
               <X className="h-4 w-4" />
             </button>

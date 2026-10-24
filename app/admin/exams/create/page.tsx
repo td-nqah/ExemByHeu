@@ -727,15 +727,15 @@ export default function ExamCreatePage() {
       </div>
 
       {/* 2. Exam Metadata Form */}
-      <div className="bg-white border border-white/[0.08] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] mb-8 rounded-2xl p-6">
-        <h2 className="mb-4 text-base font-bold text-white">
+      <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] mb-8 rounded-2xl p-6">
+        <h2 className="mb-4 text-base font-bold text-[#111827] dark:text-white">
           Thông tin cơ bản của Đề đánh giá
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-white">
-              Tiêu đề đề đánh giá <span className="text-white">*</span>
+            <label className="mb-1.5 block text-xs font-medium text-[#111827] dark:text-white">
+              Tiêu đề đề đánh giá <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
@@ -848,14 +848,14 @@ export default function ExamCreatePage() {
           </div>
 
           {/* Toggle Switch: Shuffle Exam */}
-          <div className="sm:col-span-2 rounded-xl bg-white border border-white/[0.08] p-4 transition-all duration-200">
+          <div className="sm:col-span-2 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.08] p-4 transition-all duration-200">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <div
                   className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
                     isShuffled
-                      ? "border-[#5852d6]/50 bg-[#5852d6]/20 text-white shadow-[0_0_12px_rgba(88,82,214,0.3)]"
-                      : "border-white/[0.08] bg-slate-800/60 text-[#9CA3AF]"
+                      ? "border-black/[0.1] bg-black/[0.05] dark:border-white/20 dark:bg-white/10 text-[#111827] dark:text-white"
+                      : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] text-[#9CA3AF]"
                   }`}
                 >
                   <Shuffle className="h-4 w-4" />
@@ -863,16 +863,16 @@ export default function ExamCreatePage() {
                 <div>
                   <label
                     htmlFor="shuffle-toggle-create"
-                    className="text-sm font-semibold text-white flex items-center gap-2 cursor-pointer"
+                    className="text-sm font-semibold text-[#111827] dark:text-white flex items-center gap-2 cursor-pointer"
                   >
                     <span>Trộn ngẫu nhiên câu hỏi & đáp án</span>
                     {isShuffled && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5852d6]/25 text-white border border-[#5852d6]/40 font-mono">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-[#111827] dark:text-white border border-black/20 dark:border-white/20 font-mono">
                         BẬT (ACTIVE)
                       </span>
                     )}
                   </label>
-                  <p className="text-xs text-[#9CA3AF] mt-0.5">
+                  <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF] mt-0.5">
                     Tự động xáo trộn vị trí câu hỏi và các phương án A, B, C, D cho từng lượt đánh giá.
                   </p>
                 </div>
@@ -925,12 +925,12 @@ export default function ExamCreatePage() {
 
       {/* 4. Questions Review & Editor Section */}
       <div className="space-y-4">
-        <div className="flex flex-col gap-3 border-b border-white/[0.08]/80 pb-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-b border-black/[0.06] dark:border-white/[0.08] pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-base font-bold text-white">
+            <h2 className="text-base font-bold text-[#111827] dark:text-white">
               Rà soát & Chỉnh sửa Câu hỏi ({questions.length} câu)
             </h2>
-            <p className="text-xs text-[#9CA3AF]">
+            <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">
               {parsedFileName && `Nguồn: ${parsedFileName} • `}
               {mcqCount} trắc nghiệm ({currentMcqTotal}đ) • {essayCount} tự luận ({currentEssayTotal}đ) • Tổng {totalScore} điểm
             </p>
@@ -940,7 +940,7 @@ export default function ExamCreatePage() {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-3.5 py-2 text-xs font-semibold text-white transition"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-white dark:bg-[#14161D] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] px-3.5 py-2 text-xs font-semibold text-[#111827] dark:text-white transition shadow-xs"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Thêm câu hỏi mới</span>
@@ -949,12 +949,12 @@ export default function ExamCreatePage() {
         </div>
 
         {questions.length === 0 ? (
-          <div className="bg-white border border-white/[0.08] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] rounded-2xl py-12 text-center">
-            <Layers className="mx-auto mb-2 h-8 w-8 text-white" />
-            <p className="text-xs font-semibold text-white">
+          <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl py-12 text-center">
+            <Layers className="mx-auto mb-2 h-8 w-8 text-[#111827] dark:text-white" />
+            <p className="text-xs font-semibold text-[#111827] dark:text-white">
               Chưa có câu hỏi nào trong danh sách
             </p>
-            <p className="mt-0.5 text-[11px] text-[#9CA3AF]">
+            <p className="mt-0.5 text-[11px] text-[#6B7280] dark:text-[#9CA3AF]">
               Tải lên tệp Word, Excel, PDF, dán văn bản từ Clipboard phía trên hoặc nhấn &ldquo;Thêm câu hỏi mới&rdquo; để soạn trực tiếp.
             </p>
           </div>
@@ -972,12 +972,12 @@ export default function ExamCreatePage() {
             ))}
 
             {/* Bottom Add & Confirm Actions */}
-            <div className="bg-white border border-white/[0.08] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
+            <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
                   onClick={handleAddQuestion}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 px-4 py-2 text-xs font-semibold text-white transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-white dark:bg-[#14161D] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] px-4 py-2 text-xs font-semibold text-[#111827] dark:text-white transition shadow-xs"
                 >
                   <Plus className="h-4 w-4" />
                   <span>Thêm câu hỏi</span>

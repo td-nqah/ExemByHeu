@@ -546,7 +546,7 @@ export default function AdminSettingsPage() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -6, scale: 0.98 }}
                       transition={{ duration: 0.15, ease: "easeOut" }}
-                      className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl bg-white backdrop-blur-2xl border border-black/[0.08] shadow-[0_20px_45px_rgba(0,0,0,0.7)] p-1.5 space-y-1 ring-1 ring-black/50"
+                      className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl bg-white dark:bg-[#14161D] backdrop-blur-2xl border border-black/[0.08] dark:border-white/[0.1] shadow-2xl p-1.5 space-y-1"
                     >
                       <div className="px-2.5 py-1.5 text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-wider border-b border-white/[0.08] flex items-center justify-between">
                         <span>Danh sách tài khoản</span>

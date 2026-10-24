@@ -60,7 +60,7 @@ export function QuestionNav({
           const isActive = activeQuestionId === question.id;
 
           let btnColor =
-            "border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-[#6B7280] dark:text-[#6B7280] dark:text-[#9CA3AF] hover:border-black/[0.12] dark:hover:border-white/20 hover:bg-black/[0.03] dark:hover:bg-white/[0.06] hover:text-[#111827] dark:hover:text-[#111827] dark:text-white";
+            "border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-[#6B7280] dark:text-[#9CA3AF] hover:border-black/[0.12] dark:hover:border-white/20 hover:bg-black/[0.03] dark:hover:bg-white/[0.06] hover:text-[#111827] dark:hover:text-white";
 
           if (isFlagged) {
             btnColor =

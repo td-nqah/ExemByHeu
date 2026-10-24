@@ -382,11 +382,11 @@ export default function AdminCategoriesPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md rounded-2xl bg-white border border-black/[0.08] p-6 shadow-2xl relative"
+              className="w-full max-w-md rounded-2xl bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl relative"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <FolderTree className="h-4 w-4 text-white" />
+              <div className="flex items-center justify-between pb-4 border-b border-black/[0.06] dark:border-white/[0.08]">
+                <h3 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">
+                  <FolderTree className="h-4 w-4 text-[#111827] dark:text-white" />
                   <span>
                     {editingCategory ? "Cập nhật Học phần" : "Thêm Học phần mới"}
                   </span>

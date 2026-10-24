@@ -596,16 +596,16 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               </p>
 
               {/* Summary Pill Box: "Trắc nghiệm: X điểm - Tự luận: Đang chờ chấm" */}
-              <div className="my-5 space-y-2.5 rounded-xl border border-black/[0.06] bg-white shadow-sm p-4 text-left">
+              <div className="my-5 space-y-2.5 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] shadow-sm p-4 text-left">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-300 font-medium">Trắc nghiệm:</span>
-                  <span className="font-bold text-emerald-400">
+                  <span className="text-[#6B7280] dark:text-slate-300 font-medium">Trắc nghiệm:</span>
+                  <span className="font-bold text-[#2E9E5B]">
                     {completedSubmission.mcq_score} điểm
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between border-t border-slate-800 pt-2.5 text-xs">
-                  <span className="text-slate-300 font-medium">Tự luận:</span>
+                <div className="flex items-center justify-between border-t border-black/[0.06] dark:border-slate-800 pt-2.5 text-xs">
+                  <span className="text-[#6B7280] dark:text-slate-300 font-medium">Tự luận:</span>
                   <span className="font-bold text-[#111827] dark:text-white">
                     {!hasEssay
                       ? "Không có câu tự luận"

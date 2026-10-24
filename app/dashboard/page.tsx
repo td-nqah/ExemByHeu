@@ -157,8 +157,8 @@ function UserDashboardContent() {
               className={cn(
                 "inline-flex items-center justify-center rounded-full px-4 py-2 text-xs text-center shrink-0 select-none cursor-pointer transition-colors",
                 isActive
-                  ? "bg-[#111827] text-[#111827] dark:text-white border border-[#111827] dark:bg-white dark:text-[#0A0B0E] dark:border-white font-bold shadow-xs"
-                  : "bg-white text-[#111827] border border-black/[0.1] hover:bg-[#FAFAFC] dark:bg-[#14161D] dark:text-[#111827] dark:text-white/90 dark:border-white/[0.1] dark:hover:bg-white/[0.06] font-medium shadow-xs"
+                  ? "bg-[#111827] text-white border border-black/80 dark:bg-white dark:text-[#0A0B0E] dark:border-white font-bold shadow-xs"
+                  : "bg-white text-[#111827] border border-black/[0.08] hover:bg-[#FAFAFC] dark:bg-[#14161D] dark:text-[#9CA3AF] dark:hover:text-white dark:border-white/[0.08] dark:hover:bg-white/[0.06] font-medium shadow-xs"
               )}
             >
               <span>{cat.label}</span>

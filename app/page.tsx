@@ -209,7 +209,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-6 flex h-[50px] sm:h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-[#111827] hover:bg-black text-[#111827] dark:text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-6 text-base sm:text-lg font-bold select-none cursor-pointer shadow-xs dark:shadow-[0_2px_8px_rgba(255,255,255,0.2)] transition-all active:scale-[0.99]"
+                className="mt-6 flex h-[50px] sm:h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-6 text-base sm:text-lg font-bold select-none cursor-pointer shadow-xs dark:shadow-[0_2px_8px_rgba(255,255,255,0.2)] transition-all active:scale-[0.99]"
               >
                 <span>{loading ? "Đang xác thực..." : "Đăng nhập ngay"}</span>
                 <ArrowRight className="h-5 w-5" strokeWidth={2} />

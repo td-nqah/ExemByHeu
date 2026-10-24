@@ -22,7 +22,7 @@ function renderHighlightedExamTitle(title: string) {
     return (
       <>
         <span>{prefix}</span>{" "}
-        <span className="text-[#111827] font-bold">{suffix.trim()}</span>
+        <span className="text-[#111827] dark:text-white font-bold">{suffix.trim()}</span>
       </>
     );
   }
@@ -32,7 +32,7 @@ function renderHighlightedExamTitle(title: string) {
     return (
       <>
         <span>{parenMatch[1]}</span>{" "}
-        <span className="text-[#111827] font-bold">{parenMatch[2]}</span>
+        <span className="text-[#111827] dark:text-white font-bold">{parenMatch[2]}</span>
       </>
     );
   }

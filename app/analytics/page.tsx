@@ -158,7 +158,7 @@ export default function AnalyticsPage() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] px-3 py-1 text-[11px] font-semibold text-[#111827] dark:text-white shadow-xs">
+          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.08] px-3 py-1 text-[11px] font-semibold text-[#111827] dark:text-white shadow-xs">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Trợ lý học thuật AI - Phân tích kết quả học tập</span>
           </div>
@@ -187,7 +187,7 @@ export default function AnalyticsPage() {
             <p className="text-xs font-medium text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider">
               Tiến độ Hoàn thành Bài đánh giá
             </p>
-            <div className="h-9 w-9 rounded-xl bg-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#F6F6F8] dark:bg-[#1A1C24] border border-black/[0.06] dark:border-white/[0.1] flex items-center justify-center text-[#111827] dark:text-white shrink-0">
               <Layers className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -220,7 +220,7 @@ export default function AnalyticsPage() {
             <p className="text-xs font-medium text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider">
               Điểm Trung bình Đánh giá
             </p>
-            <div className="h-9 w-9 rounded-xl bg-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#F6F6F8] dark:bg-[#1A1C24] border border-black/[0.06] dark:border-white/[0.1] flex items-center justify-center text-[#111827] dark:text-white shrink-0">
               <TrendingUp className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -246,7 +246,7 @@ export default function AnalyticsPage() {
             <p className="text-xs font-medium text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider">
               Độ Chính Xác Trắc Nghiệm
             </p>
-            <div className="h-9 w-9 rounded-xl bg-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#F6F6F8] dark:bg-[#1A1C24] border border-black/[0.06] dark:border-white/[0.1] flex items-center justify-center text-[#111827] dark:text-white shrink-0">
               <CheckCircle2 className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -266,7 +266,7 @@ export default function AnalyticsPage() {
             <p className="text-xs font-medium text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider">
               Điểm Đánh giá Cao nhất
             </p>
-            <div className="h-9 w-9 rounded-xl bg-white/[0.06] flex items-center justify-center text-[#B8962E] shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#F6F6F8] dark:bg-[#1A1C24] border border-black/[0.06] dark:border-white/[0.1] flex items-center justify-center text-[#B8962E] shrink-0">
               <Zap className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -299,7 +299,7 @@ export default function AnalyticsPage() {
 
           <div className="flex items-center gap-2 text-xs">
             <span className="flex items-center gap-1.5 text-[#6B7280] dark:text-[#9CA3AF]">
-              <span className="h-2.5 w-2.5 rounded-full bg-white" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#111827] dark:bg-white" />
               Tổng điểm
             </span>
             <span className="text-slate-600">•</span>
@@ -311,7 +311,7 @@ export default function AnalyticsPage() {
 
         {loading ? (
           <div className="h-60 flex items-center justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#111827] border-t-transparent" />
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#111827] dark:border-white border-t-transparent" />
           </div>
         ) : chronological.length === 0 ? (
           <div className="py-16 text-center space-y-3">
@@ -322,7 +322,7 @@ export default function AnalyticsPage() {
             </p>
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-4 py-2 text-xs font-semibold text-[#111827] dark:text-white transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-4 py-2 text-xs font-semibold shadow-xs transition-all hover:-translate-y-0.5"
             >
               <span>Bắt đầu làm bài</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -341,12 +341,12 @@ export default function AnalyticsPage() {
                 >
                   <defs>
                     <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#111827" />
-                      <stop offset="100%" stopColor="#111827" />
+                      <stop offset="0%" stopColor="var(--chart-line)" />
+                      <stop offset="100%" stopColor="var(--chart-line)" />
                     </linearGradient>
                     <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#111827" stopOpacity="0.12" />
-                      <stop offset="100%" stopColor="#111827" stopOpacity="0" />
+                      <stop offset="0%" stopColor="var(--chart-area-stop)" stopOpacity="0.15" />
+                      <stop offset="100%" stopColor="var(--chart-area-stop)" stopOpacity="0" />
                     </linearGradient>
                   </defs>
 
@@ -364,7 +364,7 @@ export default function AnalyticsPage() {
                         y1={grid.y}
                         x2="720"
                         y2={grid.y}
-                        stroke="rgba(0, 0, 0, 0.06)"
+                        stroke="var(--chart-grid-stroke)"
                         strokeDasharray="4 4"
                       />
                       <text
@@ -387,7 +387,7 @@ export default function AnalyticsPage() {
                   {pathD && (
                     <path
                       d={pathD}
-                      stroke="#111827"
+                      stroke="var(--chart-line)"
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -409,8 +409,8 @@ export default function AnalyticsPage() {
                           cx={pt.x}
                           cy={pt.y}
                           r={isHovered ? "6" : "4.5"}
-                          fill="#111827"
-                          stroke="#FFFFFF"
+                          fill="var(--chart-line)"
+                          stroke="var(--chart-node-stroke)"
                           strokeWidth="2"
                           className="transition-all duration-150"
                         />
@@ -419,7 +419,7 @@ export default function AnalyticsPage() {
                         <text
                           x={pt.x}
                           y={232}
-                          fill={isHovered ? "#111827" : "#9CA3AF"}
+                          fill={isHovered ? "var(--chart-line)" : "#9CA3AF"}
                           fontSize="10"
                           textAnchor="middle"
                           fontWeight={isHovered ? "bold" : "normal"}
@@ -435,7 +435,7 @@ export default function AnalyticsPage() {
 
             {/* Hover Tooltip Card */}
             {hoveredPointIndex !== null && chartPoints[hoveredPointIndex] && (
-              <div className="mt-3 rounded-2xl bg-white dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.1] p-4 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-[#111827] dark:text-[#111827] dark:text-white">
+              <div className="mt-3 rounded-2xl bg-white dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.1] p-4 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-[#111827] dark:text-white">
                 <div>
                   <span className="text-[10px] uppercase tracking-wider text-[#111827] dark:text-white font-semibold">
                     Chi tiết lượt thi #{hoveredPointIndex + 1}

@@ -431,7 +431,7 @@ export default function AdminMaterialsPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm kiếm theo tiêu đề hoặc nội dung tóm tắt..."
-              className="w-full rounded-xl border border-black/[0.06] bg-white px-4 py-2.5 text-xs text-white placeholder-[#9ca3af] focus:border-[#4f46e5] focus:outline-none transition-colors"
+              className="w-full rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#14161D] px-4 py-2.5 text-xs text-[#111827] dark:text-white placeholder-[#9CA3AF] focus:border-black/30 dark:focus:border-white/40 shadow-xs focus:outline-none transition-colors"
             />
           </div>
 
@@ -443,14 +443,14 @@ export default function AdminMaterialsPage() {
               className={cn(
                 "w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer",
                 selectedCategory !== "all"
-                  ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-indigo-200 shadow-sm"
-                  : "bg-white border-black/[0.06] text-white hover:border-[#374151] hover:text-white"
+                  ? "bg-[#111827] text-white border-black/80 dark:bg-white dark:text-[#0A0B0E] dark:border-white shadow-xs"
+                  : "bg-white dark:bg-[#14161D] border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white hover:bg-black/[0.03] dark:hover:bg-white/[0.06] shadow-xs"
               )}
             >
               <div className="flex items-center gap-2 truncate">
-                <FolderTree className="h-4 w-4 text-white shrink-0" />
-                <span className="text-[#9CA3AF] font-normal">Học phần:</span>
-                <span className="font-bold text-white truncate">
+                <FolderTree className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
+                <span className="text-[#6B7280] dark:text-[#9CA3AF] font-normal">Học phần:</span>
+                <span className="font-bold text-[#111827] dark:text-white truncate">
                   {selectedCategory === "all"
                     ? "Tất cả học phần"
                     : selectedCategory === "none"
@@ -679,57 +679,57 @@ export default function AdminMaterialsPage() {
           {filteredMaterials.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col justify-between rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:-translate-y-1 transition-all duration-300 p-5 group hover:shadow-[0_4px_12px_rgba(0,0,0,0.08),0_12px_32px_rgba(20,20,40,0.08)]"
+              className="flex flex-col justify-between rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all duration-300 p-5 group"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
                   {item.category_id === "none" || item.category_slug === "none" ? (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#111827] text-white border border-[#111827] shadow-xs">
-                      <FileText className="h-3 w-3 text-white" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#F6F6F8] dark:bg-[#1A1C24] text-[#111827] dark:text-white border border-black/[0.08] dark:border-white/[0.1] shadow-xs">
+                      <FileText className="h-3 w-3 text-[#111827] dark:text-white" />
                       <span>{item.category_name || "Không thuộc môn nào"}</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#111827] text-white border border-[#111827] shadow-xs">
-                      <Tag className="h-3 w-3 text-white" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#F6F6F8] dark:bg-[#1A1C24] text-[#111827] dark:text-white border border-black/[0.08] dark:border-white/[0.1] shadow-xs">
+                      <Tag className="h-3 w-3 text-[#111827] dark:text-white" />
                       <span>{item.category_name || "Chuyên đề"}</span>
                     </span>
                   )}
                 </div>
 
                 <div>
-                  <h3 className="font-heading text-base font-bold text-white group-hover:text-white transition line-clamp-2 leading-snug">
+                  <h3 className="font-heading text-base font-bold text-[#111827] dark:text-white transition line-clamp-2 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-[#9CA3AF] mt-1.5 line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF] mt-1.5 line-clamp-3 leading-relaxed">
                     {item.summary || "Tổng hợp kiến thức trọng tâm..."}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-5 pt-3.5 border-t border-white/[0.08] flex items-center justify-between">
-                <div className="text-[11px] text-[#9CA3AF]">
-                  Tác giả: <span className="text-white">{item.author || "Ban Giảng huấn"}</span>
+              <div className="mt-5 pt-3.5 border-t border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between">
+                <div className="text-[11px] text-[#6B7280] dark:text-[#9CA3AF]">
+                  Tác giả: <span className="text-[#111827] dark:text-white font-medium">{item.author || "Ban Giảng huấn"}</span>
                 </div>
 
                 <div className="flex items-center gap-1">
                   <Link
                     href={`/knowledge/${item.id}`}
                     target="_blank"
-                    className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-white hover:bg-white/5 transition"
+                    className="p-1.5 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/5 transition"
                     title="Xem thử giao diện Người đọc"
                   >
                     <Eye className="h-4 w-4" />
                   </Link>
                   <button
                     onClick={() => handleOpenEdit(item)}
-                    className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-[#B8962E] hover:bg-white/5 transition cursor-pointer"
+                    className="p-1.5 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#B8962E] hover:bg-black/[0.04] dark:hover:bg-white/5 transition cursor-pointer"
                     title="Chỉnh sửa chi tiết nội dung"
                   >
                     <Pencil className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => setDeleteConfirmId(item.id)}
-                    className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-white hover:bg-white/5 transition cursor-pointer"
+                    className="p-1.5 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-rose-500 hover:bg-black/[0.04] dark:hover:bg-white/5 transition cursor-pointer"
                     title="Xóa tài liệu"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -749,11 +749,11 @@ export default function AdminMaterialsPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-lg rounded-2xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] p-6 shadow-2xl relative"
+              className="w-full max-w-lg rounded-2xl bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl relative"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <FolderPlus className="h-5 w-5 text-white shrink-0" />
+              <div className="flex items-center justify-between pb-4 border-b border-black/[0.06] dark:border-white/[0.08]">
+                <h3 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">
+                  <FolderPlus className="h-5 w-5 text-[#111827] dark:text-white shrink-0" />
                   <span>Phân loại Học liệu theo Học phần</span>
                 </h3>
                 <button
@@ -883,25 +883,25 @@ export default function AdminMaterialsPage() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-sm rounded-2xl border border-black/[0.08] bg-white p-5 shadow-2xl space-y-4"
+              className="w-full max-w-sm rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] p-5 shadow-2xl space-y-4"
             >
-              <div className="flex items-center gap-3 text-white">
+              <div className="flex items-center gap-3 text-[#111827] dark:text-white">
                 <div className="p-2.5 rounded-xl bg-rose-50 text-rose-600 border border-rose-500/20">
                   <AlertTriangle className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-white text-sm">Xác nhận xóa học liệu</h4>
-                  <p className="text-xs text-[#9CA3AF]">Hành động này không thể hoàn tác.</p>
+                  <h4 className="font-bold text-[#111827] dark:text-white text-sm">Xác nhận xóa học liệu</h4>
+                  <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">Hành động này không thể hoàn tác.</p>
                 </div>
               </div>
-              <p className="text-xs text-white">
+              <p className="text-xs text-[#111827] dark:text-white">
                 Bạn có chắc chắn muốn xóa học liệu này khỏi hệ thống?
               </p>
               <div className="flex items-center justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setDeleteConfirmId(null)}
-                  className="px-3.5 py-1.5 rounded-xl border border-white/10 text-xs font-semibold text-white hover:bg-white/5 cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-xl border border-black/[0.08] dark:border-white/10 text-xs font-semibold text-[#111827] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/5 cursor-pointer"
                 >
                   Hủy
                 </button>
@@ -926,16 +926,16 @@ export default function AdminMaterialsPage() {
               initial={{ scale: 0.97, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.97, opacity: 0 }}
-              className="w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl border border-black/[0.06] bg-white shadow-2xl overflow-hidden my-auto"
+              className="w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] shadow-2xl overflow-hidden my-auto"
             >
               {/* Modal Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D]">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D]">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl glass-badge text-white border border-[#4f46e5]/20">
+                  <div className="p-2 rounded-xl glass-badge text-[#111827] dark:text-white border border-[#4f46e5]/20">
                     <BookOpen className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-heading text-base font-bold text-white">
+                    <h3 className="font-heading text-base font-bold text-[#111827] dark:text-white">
                       {editingMaterial ? "Chỉnh sửa Học liệu & Đề cương" : "Thêm mới & Xuất bản Học liệu"}
                     </h3>
                     <p className="text-[11px] text-[#9CA3AF]">

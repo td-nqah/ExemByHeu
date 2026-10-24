@@ -554,7 +554,7 @@ export default function AdminPermissionsPage() {
               <p className="text-[#9CA3AF] text-[11px]">
                 Để đọc chính xác kích thước cơ sở dữ liệu Supabase, bạn có thể dán đoạn mã sau vào SQL Editor trong bảng điều khiển Supabase:
               </p>
-              <pre className="p-2.5 rounded-lg bg-white border border-black/[0.06] shadow-xs text-[10px] font-mono text-[#38bdf8] overflow-x-auto">
+              <pre className="p-2.5 rounded-lg bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.08] shadow-xs text-[10px] font-mono text-[#38bdf8] overflow-x-auto">
                 {rpcSqlScript}
               </pre>
               <button
@@ -665,14 +665,14 @@ export default function AdminPermissionsPage() {
                   return (
                     <div
                       key={acc.username}
-                      className="rounded-xl bg-white shadow-xs border border-black/[0.06] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-150"
+                      className="rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] shadow-xs border border-black/[0.06] dark:border-white/[0.08] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-150"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono font-bold text-xs text-white">
+                          <span className="font-mono font-bold text-xs text-[#111827] dark:text-white">
                             {acc.username}
                           </span>
-                          <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#F6F6F8] dark:bg-[#14161D] text-white border border-black/[0.08] font-medium tracking-normal shadow-xs">
+                          <span className="text-xs px-2.5 py-0.5 rounded-full bg-white dark:bg-[#1A1C24] text-[#111827] dark:text-white border border-black/[0.08] dark:border-white/[0.1] font-medium tracking-normal shadow-xs">
                             {acc.role === "admin" ? "Admin" : "Sinh viên"}
                           </span>
                           <span
@@ -831,7 +831,7 @@ export default function AdminPermissionsPage() {
                 return (
                   <div
                     key={acc.username}
-                    className={`rounded-xl bg-white shadow-xs border border-black/[0.06] p-3.5 space-y-2 transition-all duration-150 ${
+                    className={`rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] shadow-xs border border-black/[0.06] dark:border-white/[0.08] p-3.5 space-y-2 transition-all duration-150 ${
                       isOnline
                         ? "border-emerald-500/30 hover:border-emerald-500/50 shadow-[0_0_15px_rgba(52,211,153,0.06)]"
                         : "border-black/[0.06] hover:border-[#374151]"
@@ -967,13 +967,13 @@ export default function AdminPermissionsPage() {
       {/* Modal xác nhận xóa vĩnh viễn tài khoản */}
       {deleteTargetUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-2xl bg-white border border-black/[0.08] p-6 shadow-2xl space-y-4">
+          <div className="w-full max-w-md rounded-2xl bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600 border border-black/[0.08] text-white shrink-0">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600 border border-black/[0.08] shrink-0">
                 <Trash2 className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white">Xác nhận xóa tài khoản</h3>
+                <h3 className="text-base font-bold text-[#111827] dark:text-white">Xác nhận xóa tài khoản</h3>
                 <p className="text-xs text-[#9CA3AF]">Hành động này không thể hoàn tác</p>
               </div>
             </div>
