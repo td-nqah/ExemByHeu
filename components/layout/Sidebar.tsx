@@ -478,12 +478,12 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
       <SidebarFooter className="border-t border-black/[0.06] p-3 group-data-[collapsible=icon]:px-1 group-data-[collapsible=icon]:py-2.5 group-data-[collapsible=icon]:items-center">
         {user ? (
           <div className="flex flex-col gap-2 w-full group-data-[collapsible=icon]:items-center">
-            {/* User Profile Card */}
-            <div className="flex items-center justify-between rounded-2xl bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-[0_1px_2px_rgba(17,24,39,0.04),0_2px_6px_rgba(17,24,39,0.03)] dark:shadow-[0_2px_6px_rgba(0,0,0,0.4)] p-2.5 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
+            {/* User Profile Card - Styled in sleek dark gray */}
+            <div className="flex items-center justify-between rounded-2xl bg-[#F1F2F5] dark:bg-[#262834] border border-black/[0.1] dark:border-white/[0.12] shadow-xs dark:shadow-[0_2px_8px_rgba(0,0,0,0.45)] p-2.5 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
               <div className="flex items-center gap-2.5 min-w-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full">
                 <div
                   title={`${formatDisplayName(user.username)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full glass-icon font-bold text-[#111827] dark:bg-white dark:text-[#0A0B0E] text-xs select-none cursor-default group-data-[collapsible=icon]:mx-auto"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white dark:bg-[#1A1C24] border border-black/[0.08] dark:border-white/[0.1] font-bold text-[#111827] dark:text-white text-xs select-none cursor-default shadow-2xs group-data-[collapsible=icon]:mx-auto"
                 >
                   {formatDisplayName(user.username).charAt(0).toUpperCase()}
                 </div>
@@ -491,7 +491,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                   <p className="truncate text-xs font-semibold text-[#111827] dark:text-white">
                     {formatDisplayName(user.username)}
                   </p>
-                  <p className="text-[10px] text-[#9CA3AF] truncate">
+                  <p className="text-[10px] text-[#6B7280] dark:text-[#9CA3AF] truncate">
                     {user.role === "admin" ? "Quản trị viên" : "Người dùng"}
                   </p>
                 </div>
