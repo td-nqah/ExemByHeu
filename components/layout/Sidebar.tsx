@@ -498,12 +498,12 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
               </div>
             </div>
 
-            {/* Logout Button */}
+            {/* Logout Button - Styled in prominent Red */}
             <button
               type="button"
               onClick={handleLogout}
               title="Đăng xuất khỏi hệ thống"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-[#14161D] hover:bg-[#FAFAFC] dark:hover:bg-white/[0.08] text-[#111827] dark:text-white border border-black/[0.09] dark:border-white/[0.1] px-3 py-2 text-xs font-semibold transition-all cursor-pointer shadow-xs hover:-translate-y-0.5 active:translate-y-0 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-500/10 hover:bg-rose-600 dark:bg-rose-500/15 dark:hover:bg-rose-600 text-rose-600 dark:text-rose-400 hover:text-white dark:hover:text-white border border-rose-500/20 dark:border-rose-500/30 hover:border-rose-600 dark:hover:border-rose-600 px-3 py-2 text-xs font-semibold transition-all cursor-pointer shadow-xs hover:-translate-y-0.5 active:translate-y-0 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
             >
               <LogOut className="h-4 w-4 shrink-0" />
               <span className="truncate group-data-[collapsible=icon]:hidden">Đăng xuất</span>

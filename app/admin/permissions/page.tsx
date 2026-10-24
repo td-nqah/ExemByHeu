@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
@@ -378,13 +378,13 @@ export default function AdminPermissionsPage() {
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-white/[0.08]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-black/[0.08] dark:border-white/[0.08]">
         <div>
-          <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-3">
-            <Sliders className="h-7 w-7 text-white" />
-            <span>Quản trị Tài khoản & Phân quyền Học vụ</span>
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-[#111827] dark:text-white flex items-center gap-3">
+            <Sliders className="h-7 w-7 text-[#111827] dark:text-white" />
+            <span>Quản trị Tài khoản &amp; Phân quyền Học vụ</span>
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-[#9CA3AF]">
+          <p className="mt-1 text-xs sm:text-sm text-[#6B7280] dark:text-[#9CA3AF]">
             Giám sát tài nguyên lưu trữ học vụ, quản trị quyền truy cập và bảo mật thiết bị sinh viên.
           </p>
         </div>
@@ -395,37 +395,37 @@ export default function AdminPermissionsPage() {
           ========================================================================= */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <HardDrive className="h-4.5 w-4.5 text-white" />
+          <h2 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">
+            <HardDrive className="h-4.5 w-4.5 text-[#111827] dark:text-white" />
             <span>1. Giám sát Dung lượng Lưu trữ Học vụ (Đo lường từng MB)</span>
           </h2>
-          <span className="text-xs text-[#9CA3AF] font-sans tracking-normal">
-            Giới hạn: <strong className="font-mono text-white">{maxStorageMB} MB</strong>
+          <span className="text-xs text-[#6B7280] dark:text-[#9CA3AF] font-sans tracking-normal">
+            Giới hạn: <strong className="font-mono text-[#111827] dark:text-white">{maxStorageMB} MB</strong>
           </span>
         </div>
 
-        <div className="rounded-2xl bg-white dark:bg-[#1A1D26] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-5">
+        <div className="rounded-[22px] bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] p-6 space-y-5">
           {/* Status Alert Banner */}
           {isHighStorage ? (
-            <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-500/40 text-rose-200 flex items-start gap-3 shadow-sm">
-              <AlertTriangle className="h-5 w-5 text-white shrink-0 mt-0.5" />
+            <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-700 dark:text-rose-300 flex items-start gap-3 shadow-xs">
+              <AlertTriangle className="h-5 w-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
               <div>
-                <h4 className="font-bold text-sm text-white">
+                <h4 className="font-bold text-sm text-rose-900 dark:text-rose-100">
                   CẢNH BÁO: Dung lượng bộ nhớ đã vượt quá 80% ({storagePercentage}%)!
                 </h4>
-                <p className="text-xs text-white/80 mt-0.5">
+                <p className="text-xs text-rose-700/80 dark:text-rose-300/80 mt-0.5">
                   Bộ nhớ đã dùng {usedStorageMB} MB trên tổng {maxStorageMB} MB. Vui lòng dọn dẹp các bài nộp cũ hoặc tệp đính kèm để tránh gián đoạn các kỳ thi tiếp theo.
                 </p>
               </div>
             </div>
           ) : (
-            <div className="p-3.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex items-center justify-between gap-3 shadow-inner">
+            <div className="p-3.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between gap-3 shadow-inner">
               <div className="flex items-center gap-2.5">
-                <CheckCircle2 className="h-4.5 w-4.5 text-[#2E9E5B] shrink-0" />
+                <CheckCircle2 className="h-4.5 w-4.5 text-emerald-600 dark:text-[#3FB26C] shrink-0" />
                 <div>
-                  <h4 className="font-semibold text-xs text-white">Dung lượng trong ngưỡng an toàn</h4>
-                  <p className="text-[11px] text-[#9CA3AF]">
-                    Đang sử dụng <strong className="text-white font-mono">{isScanning ? "..." : usedStorageMB} MB</strong> / {maxStorageMB} MB ({isScanning ? "..." : storagePercentage}% khả dụng).
+                  <h4 className="font-semibold text-xs text-[#111827] dark:text-white">Dung lượng trong ngưỡng an toàn</h4>
+                  <p className="text-[11px] text-[#6B7280] dark:text-[#9CA3AF]">
+                    Đang sử dụng <strong className="text-[#111827] dark:text-white font-mono">{isScanning ? "..." : usedStorageMB} MB</strong> / {maxStorageMB} MB ({isScanning ? "..." : storagePercentage}% khả dụng).
                   </p>
                 </div>
               </div>
@@ -435,7 +435,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={handleRecalculateStorage}
                 disabled={isScanning}
-                className="px-3 py-1.5 rounded-xl glass-btn text-xs text-[#111827] dark:text-white font-semibold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-xs hover:-translate-y-0.5"
+                className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#1A1D26] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] text-xs text-[#111827] dark:text-white font-semibold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-xs hover:-translate-y-0.5 active:scale-95"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${isScanning ? "animate-spin" : ""}`} />
                 <span>{isScanning ? "Đang quét..." : "Quét lại bộ nhớ"}</span>
@@ -477,7 +477,7 @@ export default function AdminPermissionsPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-black/[0.05] dark:bg-white/[0.08] h-1.5 rounded-full overflow-hidden border border-black/[0.04] dark:border-white/[0.06]">
+                <div className="w-full bg-black/[0.06] dark:bg-white/[0.08] h-1.5 rounded-full overflow-hidden border border-black/[0.04] dark:border-white/[0.06]">
                   <div
                     className="h-full bg-[#111827] dark:bg-white rounded-full"
                     style={{ width: `${Math.min(100, (dbTablesMB / maxStorageMB) * 100 * 2)}%` }}
@@ -502,7 +502,7 @@ export default function AdminPermissionsPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-black/[0.05] dark:bg-white/[0.08] h-1.5 rounded-full overflow-hidden border border-black/[0.04] dark:border-white/[0.06]">
+                <div className="w-full bg-black/[0.06] dark:bg-white/[0.08] h-1.5 rounded-full overflow-hidden border border-black/[0.04] dark:border-white/[0.06]">
                   <div
                     className="h-full bg-[#111827] dark:bg-white rounded-full"
                     style={{ width: `${Math.min(100, (filesStorageMB / maxStorageMB) * 100 * 2)}%` }}
@@ -527,7 +527,7 @@ export default function AdminPermissionsPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-black/[0.05] dark:bg-white/[0.08] h-1.5 rounded-full overflow-hidden border border-black/[0.04] dark:border-white/[0.06]">
+                <div className="w-full bg-black/[0.06] dark:bg-white/[0.08] h-1.5 rounded-full overflow-hidden border border-black/[0.04] dark:border-white/[0.06]">
                   <div
                     className="h-full bg-[#111827] dark:bg-white rounded-full"
                     style={{ width: `${Math.min(100, (cacheLogsMB / maxStorageMB) * 100 * 2)}%` }}
@@ -543,18 +543,18 @@ export default function AdminPermissionsPage() {
 
           {/* RPC Config guidance */}
           {rpcConfigured === false && (
-            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] text-xs space-y-2">
+            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.08] text-xs space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-[#B8962E] flex items-center gap-1.5">
                   <AlertCircle className="h-4 w-4 text-[#B8962E]" />
                   Kích hoạt đo lường dung lượng PostgreSQL thực tế:
                 </span>
-                <span className="text-xs font-sans text-[#9CA3AF] tracking-normal">Tùy chọn nâng cao</span>
+                <span className="text-xs font-sans text-[#6B7280] dark:text-[#9CA3AF] tracking-normal">Tùy chọn nâng cao</span>
               </div>
-              <p className="text-[#9CA3AF] text-[11px]">
+              <p className="text-[#6B7280] dark:text-[#9CA3AF] text-[11px]">
                 Để đọc chính xác kích thước cơ sở dữ liệu Supabase, bạn có thể dán đoạn mã sau vào SQL Editor trong bảng điều khiển Supabase:
               </p>
-              <pre className="p-2.5 rounded-lg bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.08] shadow-xs text-[10px] font-mono text-[#38bdf8] overflow-x-auto">
+              <pre className="p-2.5 rounded-lg bg-white dark:bg-[#0A0B0E] border border-black/[0.08] dark:border-white/[0.08] shadow-xs text-[10px] font-mono text-[#0284c7] dark:text-[#38bdf8] overflow-x-auto">
                 {rpcSqlScript}
               </pre>
               <button
@@ -564,9 +564,9 @@ export default function AdminPermissionsPage() {
                   setCopiedSql(true);
                   setTimeout(() => setCopiedSql(false), 2000);
                 }}
-                className="px-3 py-1.5 rounded-lg glass-btn text-white text-xs font-medium transition-all cursor-pointer flex items-center gap-1.5 hover:-translate-y-0.5"
+                className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#1A1D26] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 hover:-translate-y-0.5 active:scale-95 shadow-xs"
               >
-                {copiedSql ? <Check className="h-3.5 w-3.5 text-[#2E9E5B]" /> : <Copy className="h-3.5 w-3.5" />}
+                {copiedSql ? <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-[#2E9E5B]" /> : <Copy className="h-3.5 w-3.5" />}
                 <span>{copiedSql ? "Đã sao chép" : "Sao chép lệnh SQL"}</span>
               </button>
             </div>
@@ -578,27 +578,29 @@ export default function AdminPermissionsPage() {
           2. QUẢN LÝ TÀI KHOẢN, BẢO MẬT THIẾT BỊ & GIÁM SÁT TRỰC TUYẾN (2 CARDS)
           ========================================================================= */}
       <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <ShieldCheck className="h-4.5 w-4.5 text-white" />
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+          <h2 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">
+            <ShieldCheck className="h-4.5 w-4.5 text-[#111827] dark:text-white" />
             <span>2. Quản trị Tài khoản &amp; Giám sát Truy cập Trực tuyến</span>
           </h2>
-          <span className="text-xs text-[#9CA3AF]">Kiểm soát bảo mật tài khoản học vụ và theo dõi sinh viên trực tuyến thời gian thực</span>
+          <span className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">
+            Kiểm soát bảo mật tài khoản học vụ và theo dõi sinh viên trực tuyến thời gian thực
+          </span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {/* CARD 1 (BÊN TRÁI): Kiểm soát Kích hoạt & Thiết bị Đăng nhập */}
-          <div className="relative rounded-2xl bg-white dark:bg-[#1A1D26] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
-            <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
+          <div className="relative rounded-[22px] bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] p-6 space-y-4 flex flex-col justify-between h-full">
+            <div className="flex items-center justify-between pb-4 border-b border-black/[0.08] dark:border-white/[0.08]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white shadow-2xs">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-[#111827] dark:text-white flex items-center gap-2">
                     <span>Kiểm soát Kích hoạt &amp; Thiết bị Truy cập</span>
                   </h3>
-                  <p className="text-xs text-[#9CA3AF]">
+                  <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">
                     Tự động chuyển trạng thái Tạm khóa nếu tài khoản đăng nhập quá 3 thiết bị
                   </p>
                 </div>
@@ -608,7 +610,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={() => fetchAccountsSecurity(false)}
                 disabled={accountsLoading}
-                className="p-2 rounded-xl glass-btn text-white transition cursor-pointer shadow-xs active:scale-95"
+                className="p-2 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] hover:bg-[#ECECED] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white transition cursor-pointer shadow-xs active:scale-95"
                 title="Làm mới trạng thái bảo mật"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${accountsLoading ? "animate-spin" : ""}`} />
@@ -619,14 +621,14 @@ export default function AdminPermissionsPage() {
               <div
                 className={`p-3 rounded-xl text-xs flex items-start gap-2 shadow-sm ${
                   accountActionNotice.type === "success"
-                    ? "bg-emerald-500/10 border border-emerald-500/25 text-emerald-300"
-                    : "bg-rose-50 text-rose-600 border border-rose-500/25 text-white"
+                    ? "bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300"
+                    : "bg-rose-500/10 border border-rose-500/25 text-rose-700 dark:text-rose-300"
                 }`}
               >
                 {accountActionNotice.type === "success" ? (
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-[#2E9E5B] mt-0.5" />
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 dark:text-[#2E9E5B] mt-0.5" />
                 ) : (
-                  <AlertCircle className="h-4 w-4 shrink-0 text-white mt-0.5" />
+                  <AlertCircle className="h-4 w-4 shrink-0 text-rose-600 dark:text-rose-400 mt-0.5" />
                 )}
                 <span>{accountActionNotice.message}</span>
               </div>
@@ -651,7 +653,7 @@ export default function AdminPermissionsPage() {
 
                 if (filtered.length === 0) {
                   return (
-                    <div className="p-4 rounded-xl border border-dashed border-black/[0.06] text-center text-xs text-[#9CA3AF]">
+                    <div className="p-4 rounded-xl border border-dashed border-black/[0.08] dark:border-white/[0.1] text-center text-xs text-[#6B7280] dark:text-[#9CA3AF]">
                       Chưa có tài khoản sinh viên nào trong hệ thống.
                     </div>
                   );
@@ -678,8 +680,8 @@ export default function AdminPermissionsPage() {
                           <span
                             className={`text-xs px-2.5 py-0.5 rounded-full font-semibold border tracking-normal ${
                               isActive
-                                ? "bg-[#DDF2E5]/70 text-[#2E9E5B] border border-[#2E9E5B]/20 shadow-[0_0_8px_rgba(52,211,153,0.15)]"
-                                : "glass-badge text-white border-black/[0.08] shadow-[0_0_8px_rgba(244,63,94,0.15)]"
+                                ? "bg-emerald-500/10 dark:bg-[#1E3532] text-emerald-700 dark:text-[#3FB26C] border-emerald-500/20 dark:border-[#2A5246]"
+                                : "bg-rose-500/10 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border-rose-500/20 dark:border-rose-500/30"
                             }`}
                           >
                             {isActive ? "Đang kích hoạt" : "Tạm khóa (Off)"}
@@ -687,12 +689,12 @@ export default function AdminPermissionsPage() {
                         </div>
 
                         {/* Device counter */}
-                        <div className="flex items-center gap-2 text-xs text-[#9CA3AF] font-sans tracking-normal">
+                        <div className="flex items-center gap-2 text-xs text-[#6B7280] dark:text-[#9CA3AF] font-sans tracking-normal">
                           <span
                             className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border tracking-normal ${
                               devCount > 3
-                                ? "bg-rose-50 text-rose-600 border-rose-500/25 text-white font-semibold"
-                                : "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.06] text-white"
+                                ? "bg-rose-500/10 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border-rose-500/20 dark:border-rose-500/30 font-semibold"
+                                : "bg-white dark:bg-[#1A1C24] border-black/[0.08] dark:border-white/[0.1] text-[#6B7280] dark:text-[#9CA3AF]"
                             }`}
                             title={
                               acc.devices && acc.devices.length > 0
@@ -700,8 +702,8 @@ export default function AdminPermissionsPage() {
                                 : "Chưa có thiết bị nào ghi nhận"
                             }
                           >
-                            <Monitor className="h-3.5 w-3.5 text-white shrink-0" />
-                            <span>Thiết bị: <strong className="font-mono text-white tabular-nums">{devCount}</strong>/3</span>
+                            <Monitor className="h-3.5 w-3.5 text-[#6B7280] dark:text-[#9CA3AF] shrink-0" />
+                            <span>Thiết bị: <strong className="font-mono text-[#111827] dark:text-white tabular-nums">{devCount}</strong>/3</span>
                           </span>
                         </div>
                       </div>
@@ -715,8 +717,8 @@ export default function AdminPermissionsPage() {
                           disabled={accountsLoading || isDeletingUser}
                           className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal ${
                             isActive
-                              ? "bg-rose-50 text-rose-600 hover:bg-rose-500/25 text-white border border-black/[0.08]"
-                              : "bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30"
+                              ? "bg-rose-500/10 hover:bg-rose-500/20 dark:bg-rose-500/15 dark:hover:bg-rose-500/25 text-rose-600 dark:text-rose-400 border border-rose-500/25 dark:border-rose-500/30"
+                              : "bg-emerald-500/10 hover:bg-emerald-500/20 dark:bg-emerald-500/15 dark:hover:bg-emerald-500/25 text-emerald-700 dark:text-[#3FB26C] border border-emerald-500/25 dark:border-emerald-500/30"
                           }`}
                           title={isActive ? "Chuyển trạng thái sang Off" : "Chuyển trạng thái sang On"}
                         >
@@ -729,7 +731,7 @@ export default function AdminPermissionsPage() {
                           type="button"
                           onClick={() => handleResetSecurity(acc.username)}
                           disabled={accountsLoading || isDeletingUser}
-                          className="px-2.5 py-1.5 rounded-lg bg-[#F6F6F8] dark:bg-[#14161D] hover:bg-[#4f46e5]/25 border border-black/[0.08] text-white text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal"
+                          className="px-2.5 py-1.5 rounded-lg bg-white dark:bg-[#1A1C24] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal shadow-xs"
                           title="Reset danh sách thiết bị về 0/3 và mở khóa tài khoản"
                         >
                           <RefreshCw className="h-3 w-3" />
@@ -741,7 +743,7 @@ export default function AdminPermissionsPage() {
                           type="button"
                           onClick={() => setDeleteTargetUser(acc.username)}
                           disabled={accountsLoading || isDeletingUser}
-                          className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-white hover:bg-rose-50 hover:text-rose-600 border border-black/[0.06] hover:border-black/[0.08] transition cursor-pointer disabled:opacity-50 active:scale-95"
+                          className="p-1.5 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10 dark:hover:bg-rose-500/15 border border-transparent hover:border-rose-500/20 transition cursor-pointer disabled:opacity-50 active:scale-95"
                           title={`Xóa vĩnh viễn tài khoản ${acc.username}`}
                         >
                           <Trash2 className="h-3.5 w-3.5" />
@@ -753,20 +755,20 @@ export default function AdminPermissionsPage() {
               })()}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] text-[#9CA3AF]">
+            <div className="mt-4 pt-3 border-t border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between text-[11px] text-[#6B7280] dark:text-[#9CA3AF]">
               <span className="flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5 text-white shrink-0" />
+                <ShieldCheck className="h-3.5 w-3.5 text-[#6B7280] dark:text-[#9CA3AF] shrink-0" />
                 <span>Chính sách: Khóa bảo vệ khi vượt ngưỡng 3 thiết bị đăng nhập (áp dụng cho user, không giới hạn IP)</span>
               </span>
-              <span className="font-mono text-[10px] text-[#6b7280]">Auto-Enforced</span>
+              <span className="font-mono text-[10px] text-[#6B7280] dark:text-[#9CA3AF]">Auto-Enforced</span>
             </div>
           </div>
 
           {/* CARD 2 (BÊN PHẢI): Người dùng đang Online / Đang hoạt động thời gian thực */}
-          <div className="relative rounded-2xl bg-white dark:bg-[#1A1D26] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
-            <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
+          <div className="relative rounded-[22px] bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] p-6 space-y-4 flex flex-col justify-between h-full">
+            <div className="flex items-center justify-between pb-4 border-b border-black/[0.08] dark:border-white/[0.08]">
               <div className="flex items-center gap-3">
-                <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-[#2E9E5B] shadow-[0_0_12px_rgba(52,211,153,0.15)]">
+                <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-[#2E9E5B] shadow-2xs">
                   <Radio className="h-5 w-5" />
                   <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -774,13 +776,13 @@ export default function AdminPermissionsPage() {
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-[#111827] dark:text-white flex items-center gap-2">
                     <span>Người dùng đang Online</span>
-                    <span className="text-xs font-sans px-2.5 py-0.5 rounded-full bg-[#DDF2E5]/70 text-[#2E9E5B] border border-[#2E9E5B]/20 font-medium tracking-normal">
+                    <span className="text-xs font-sans px-2.5 py-0.5 rounded-full bg-emerald-500/10 dark:bg-[#1E3532] text-emerald-700 dark:text-[#3FB26C] border border-emerald-500/20 dark:border-[#2A5246] font-medium tracking-normal">
                       <strong className="font-mono tabular-nums">{onlineCount}/{allPresenceAccounts.length}</strong> Đang hoạt động
                     </span>
                   </h3>
-                  <p className="text-xs text-[#9CA3AF]">
+                  <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">
                     Theo dõi người dùng đang truy cập &amp; sử dụng hệ thống thời gian thực
                   </p>
                 </div>
@@ -790,7 +792,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={() => fetchAccountsSecurity(false)}
                 disabled={accountsLoading}
-                className="p-2 rounded-xl glass-btn text-white transition cursor-pointer shadow-xs active:scale-95"
+                className="p-2 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] hover:bg-[#ECECED] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white transition cursor-pointer shadow-xs active:scale-95"
                 title="Làm mới trạng thái Online"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${accountsLoading ? "animate-spin" : ""}`} />
@@ -799,24 +801,24 @@ export default function AdminPermissionsPage() {
 
             {/* Quick Metrics Bar */}
             <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="p-2.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex items-center justify-between">
-                <span className="text-[#9CA3AF] flex items-center gap-1.5 text-xs font-sans tracking-normal">
+              <div className="p-2.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between">
+                <span className="text-[#6B7280] dark:text-[#9CA3AF] flex items-center gap-1.5 text-xs font-sans tracking-normal">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                   </span>
                   <span>Đang trực tuyến</span>
                 </span>
-                <span className="font-sans font-medium text-[#2E9E5B] text-xs tracking-normal">
+                <span className="font-sans font-medium text-emerald-700 dark:text-[#2E9E5B] text-xs tracking-normal">
                   <strong className="font-mono font-bold tabular-nums">{onlineCount}</strong> người
                 </span>
               </div>
-              <div className="p-2.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex items-center justify-between">
-                <span className="text-[#9CA3AF] flex items-center gap-1.5 text-xs font-sans tracking-normal">
-                  <span className="h-2 w-2 rounded-full bg-slate-500" />
+              <div className="p-2.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between">
+                <span className="text-[#6B7280] dark:text-[#9CA3AF] flex items-center gap-1.5 text-xs font-sans tracking-normal">
+                  <span className="h-2 w-2 rounded-full bg-slate-400 dark:bg-slate-500" />
                   <span>Ngoại tuyến (Offline)</span>
                 </span>
-                <span className="font-sans font-medium text-[#9CA3AF] text-xs tracking-normal">
+                <span className="font-sans font-medium text-[#6B7280] dark:text-[#9CA3AF] text-xs tracking-normal">
                   <strong className="font-mono font-bold tabular-nums">{allPresenceAccounts.length - onlineCount}</strong> người
                 </span>
               </div>
@@ -831,25 +833,23 @@ export default function AdminPermissionsPage() {
                 return (
                   <div
                     key={acc.username}
-                    className={`rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] shadow-xs border border-black/[0.06] dark:border-white/[0.08] p-3.5 space-y-2 transition-all duration-150 ${
+                    className={`rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] shadow-xs border p-3.5 space-y-2 transition-all duration-150 ${
                       isOnline
                         ? "border-emerald-500/30 hover:border-emerald-500/50 shadow-[0_0_15px_rgba(52,211,153,0.06)]"
-                        : "border-black/[0.06] hover:border-[#374151]"
+                        : "border-black/[0.06] dark:border-white/[0.08] hover:border-black/[0.12] dark:hover:border-white/[0.15]"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2.5">
                         {/* Avatar / Role Initial */}
                         <div
-                          className={`relative flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-bold font-mono ${
-                            "bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white"
-                          }`}
+                          className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#1A1C24] text-xs font-bold font-mono text-[#111827] dark:text-white"
                         >
                           {acc.username.slice(0, 2).toUpperCase()}
                           {isOnline && (
                             <span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5">
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 ring-2 ring-white"></span>
+                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 ring-2 ring-white dark:ring-[#14161D]"></span>
                             </span>
                           )}
                         </div>
@@ -857,33 +857,31 @@ export default function AdminPermissionsPage() {
                         {/* Username & Role Badges */}
                         <div>
                           <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className="font-mono font-bold text-xs text-white">
+                            <span className="font-mono font-bold text-xs text-[#111827] dark:text-white">
                               {acc.username}
                             </span>
                             <span
-                              className={`text-xs px-2 py-0.5 rounded-full border font-medium font-sans tracking-normal ${
-                                "bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white"
-                              }`}
+                              className="text-xs px-2 py-0.5 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#1A1C24] text-[#111827] dark:text-white font-medium font-sans tracking-normal shadow-2xs"
                             >
                               {acc.role === "admin" ? "Admin" : "User"}
                             </span>
                             {isCurrent && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-[#F6F6F8] dark:bg-[#14161D] border border-indigo-500/35 text-white font-semibold font-sans tracking-normal">
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/25 font-semibold font-sans tracking-normal">
                                 (Bạn)
                               </span>
                             )}
                             {acc.is_active === false && (
-                              <span className="text-xs px-2 py-0.5 rounded-full glass-badge text-white border border-black/[0.08] font-medium font-sans tracking-normal">
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/25 font-medium font-sans tracking-normal">
                                 Đã khóa
                               </span>
                             )}
                           </div>
 
                           {/* Activity Description */}
-                          <div className="flex items-center gap-1.5 text-[13px] text-[#9CA3AF] mt-0.5 font-sans tracking-normal font-normal">
+                          <div className="flex items-center gap-1.5 text-xs text-[#6B7280] dark:text-[#9CA3AF] mt-0.5 font-sans tracking-normal font-normal">
                             <Activity
                               className={`h-3.5 w-3.5 shrink-0 ${
-                                isOnline ? "text-[#2E9E5B] animate-pulse" : "text-slate-500"
+                                isOnline ? "text-emerald-600 dark:text-[#2E9E5B] animate-pulse" : "text-slate-400 dark:text-slate-500"
                               }`}
                             />
                             <span className="truncate max-w-[190px] sm:max-w-[260px]">
@@ -898,50 +896,50 @@ export default function AdminPermissionsPage() {
                       {/* Online Status Badge & Time */}
                       <div className="text-right shrink-0">
                         {isOnline ? (
-                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-[#DDF2E5] text-[#2E9E5B] border border-[#2E9E5B]/20 font-semibold tracking-normal select-none shadow-xs">
+                          <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 dark:bg-[#1E3532] text-emerald-700 dark:text-[#3FB26C] border border-emerald-500/20 dark:border-[#2A5246] font-semibold tracking-normal select-none shadow-xs">
                             <span className="relative flex h-2 w-2">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2E9E5B] opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2E9E5B]"></span>
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
                             <span>Online</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-[#F6F6F8] dark:bg-[#14161D] text-white border border-black/[0.08] font-medium tracking-normal select-none shadow-xs">
+                          <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-full bg-white dark:bg-[#1A1C24] text-[#6B7280] dark:text-[#9CA3AF] border border-black/[0.08] dark:border-white/[0.1] font-medium tracking-normal select-none shadow-xs">
                             <span className="h-1.5 w-1.5 rounded-full bg-[#9CA3AF]"></span>
                             <span>Offline</span>
                           </span>
                         )}
-                        <div className="text-[13px] text-[#9CA3AF] mt-1 font-sans tracking-normal font-normal">
+                        <div className="text-xs text-[#6B7280] dark:text-[#9CA3AF] mt-1 font-sans tracking-normal font-normal">
                           {formatTimeAgo(acc.last_active_at, isOnline)}
                         </div>
                       </div>
                     </div>
 
                     {/* Device & IP Details */}
-                    <div className="pt-2 border-t border-black/[0.06] flex items-center justify-between gap-2 text-[10px] text-[#9CA3AF]">
+                    <div className="pt-2 border-t border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between gap-2 text-[10px] text-[#6B7280] dark:text-[#9CA3AF]">
                       <div className="flex items-center gap-3">
                         <span
-                          className="flex items-center gap-1 text-white"
+                          className="flex items-center gap-1 text-[#6B7280] dark:text-[#9CA3AF]"
                           title={acc.last_device || (acc.devices && acc.devices[0]) || "Web Client"}
                         >
-                          <Monitor className="h-3 w-3 text-white shrink-0" />
+                          <Monitor className="h-3 w-3 text-[#6B7280] dark:text-[#9CA3AF] shrink-0" />
                           <span className="truncate max-w-[120px] sm:max-w-[150px]">
                             {acc.last_device || (acc.devices && acc.devices[0]) || "Trình duyệt"}
                           </span>
                         </span>
 
                         <span
-                          className="flex items-center gap-1 text-white"
+                          className="flex items-center gap-1 text-[#6B7280] dark:text-[#9CA3AF]"
                           title={acc.last_ip || (acc.ips && acc.ips[acc.ips.length - 1]) || "127.0.0.1"}
                         >
-                          <Globe className="h-3 w-3 text-[#38bdf8] shrink-0" />
+                          <Globe className="h-3 w-3 text-[#0284c7] dark:text-[#38bdf8] shrink-0" />
                           <span className="font-mono">
                             {acc.last_ip || (acc.ips && acc.ips[acc.ips.length - 1]) || "127.0.0.1"}
                           </span>
                         </span>
                       </div>
 
-                      <span className="text-[13px] text-[#6b7280] font-sans tracking-normal font-normal">
+                      <span className="text-[11px] text-[#6B7280] dark:text-[#9CA3AF] font-sans tracking-normal font-normal">
                         {isOnline ? "● Đang kết nối" : "● Ngắt kết nối"}
                       </span>
                     </div>
@@ -950,13 +948,13 @@ export default function AdminPermissionsPage() {
               })}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] text-[#9CA3AF]">
+            <div className="mt-4 pt-3 border-t border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between text-[11px] text-[#6B7280] dark:text-[#9CA3AF]">
               <span className="flex items-center gap-1.5">
-                <Radio className="h-3.5 w-3.5 text-[#2E9E5B] shrink-0" />
+                <Radio className="h-3.5 w-3.5 text-emerald-600 dark:text-[#2E9E5B] shrink-0" />
                 <span>Cơ chế Heartbeat: Ghi nhận tín hiệu hoạt động phiên thời gian thực</span>
               </span>
-              <span className="font-mono text-[10px] text-[#2E9E5B] flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="font-mono text-[10px] text-emerald-700 dark:text-[#2E9E5B] flex items-center gap-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span>Live Polling (8s)</span>
               </span>
             </div>
@@ -966,21 +964,21 @@ export default function AdminPermissionsPage() {
 
       {/* Modal xác nhận xóa vĩnh viễn tài khoản */}
       {deleteTargetUser && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="w-full max-w-md rounded-2xl bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600 border border-black/[0.08] shrink-0">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-500/20 dark:border-rose-500/30 shrink-0">
                 <Trash2 className="h-5 w-5" />
               </div>
               <div>
                 <h3 className="text-base font-bold text-[#111827] dark:text-white">Xác nhận xóa tài khoản</h3>
-                <p className="text-xs text-[#9CA3AF]">Hành động này không thể hoàn tác</p>
+                <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">Hành động này không thể hoàn tác</p>
               </div>
             </div>
 
-            <p className="text-xs text-white leading-relaxed">
+            <p className="text-xs text-[#374151] dark:text-[#D1D5DB] leading-relaxed">
               Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản{" "}
-              <strong className="font-mono text-white bg-rose-950/40 px-2 py-0.5 rounded border border-black/[0.08]">
+              <strong className="font-mono text-rose-700 dark:text-rose-300 bg-rose-500/10 dark:bg-rose-950/40 px-2 py-0.5 rounded border border-rose-500/20 dark:border-rose-500/30">
                 {deleteTargetUser}
               </strong>{" "}
               khỏi hệ thống? Quyền truy cập, thiết bị đăng nhập và dữ liệu phiên của người dùng này sẽ bị hủy bỏ hoàn toàn.
@@ -991,7 +989,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={() => setDeleteTargetUser(null)}
                 disabled={isDeletingUser}
-                className="px-4 py-2 rounded-xl border border-black/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-xs font-semibold text-white hover:bg-black/[0.04] transition cursor-pointer disabled:opacity-50"
+                className="px-4 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#14161D] text-xs font-semibold text-[#111827] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.08] transition cursor-pointer disabled:opacity-50"
               >
                 Hủy bỏ
               </button>
@@ -999,7 +997,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={() => handleDeleteAccount(deleteTargetUser)}
                 disabled={isDeletingUser}
-                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-bold text-white shadow-lg shadow-rose-600/30 transition cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-xs font-bold text-white shadow-lg shadow-rose-600/30 transition cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
               >
                 {isDeletingUser && <RefreshCw className="h-3.5 w-3.5 animate-spin" />}
                 <span>{isDeletingUser ? "Đang xóa..." : "Xác nhận xóa"}</span>
