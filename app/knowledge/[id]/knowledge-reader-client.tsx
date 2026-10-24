@@ -217,7 +217,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
             <button
               onClick={handlePrint}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#1f2937] bg-[#111827] text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#1f2937] transition cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-btn text-xs font-semibold text-[#111827] transition-all cursor-pointer hover:-translate-y-0.5"
               title="In hoặc Lưu PDF"
             >
               <Printer className="h-3.5 w-3.5 text-[#6B7280]" />
@@ -309,7 +309,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                     <Link
                       key={rel.id}
                       href={`/knowledge/${rel.id}`}
-                      className="p-4 rounded-xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-[#3b82f6] hover:bg-[#1f2937] transition block group hover:-translate-y-0.5"
+                      className="p-4 rounded-xl border border-black/[0.06] bg-white shadow-sm hover:shadow-md transition block group hover:-translate-y-0.5"
                     >
                       <span className="text-[10px] font-bold text-[#34d399] font-mono">
                         {rel.category_name || "Chuyên đề"}
@@ -329,7 +329,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
           {/* Sticky Table of Contents Sidebar */}
           <aside className="lg:col-span-4 hidden lg:block sticky top-20 space-y-6">
-            <div className="rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] p-5 shadow-xl">
+            <div className="rounded-2xl border border-black/[0.06] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)]">
               <div className="flex items-center justify-between pb-3 border-b border-[#1f2937]">
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
                   <List className="h-4 w-4 text-[#6366f1]" />
@@ -356,7 +356,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                           "w-full text-left rounded-lg py-1.5 transition-all text-xs block cursor-pointer",
                           item.level === 3 ? "pl-5 text-[11px]" : "pl-2.5 font-medium",
                           isActive
-                            ? "bg-[#4f46e5]/15 text-indigo-300 font-bold border-l-2 border-[#6366f1]"
+                            ? "bg-[#F6F6F8] text-[#111827] font-bold border-l-2 border-[#111827]"
                             : "text-[#6B7280] hover:text-white hover:bg-white/[0.03]"
                         )}
                       >

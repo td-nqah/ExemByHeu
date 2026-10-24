@@ -455,7 +455,7 @@ export default function AdminPermissionsPage() {
               </span>
             </div>
 
-            <div className="w-full h-3 bg-[#0b0f19] rounded-full overflow-hidden p-0.5 border border-black/[0.06] shadow-inner">
+            <div className="w-full h-3 bg-[#F6F6F8] rounded-full overflow-hidden p-0.5 border border-black/[0.06]">
               <div
                 className={`h-full rounded-full transition-all duration-700 ease-out ${
                   isHighStorage
@@ -612,7 +612,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={() => fetchAccountsSecurity(false)}
                 disabled={accountsLoading}
-                className="p-2 rounded-xl bg-[#0b0f19] hover:bg-[#1f2937] border border-black/[0.06] text-[#111827] hover:text-[#111827] transition cursor-pointer shadow-sm active:scale-95"
+                className="p-2 rounded-xl glass-btn text-[#111827] transition cursor-pointer shadow-xs active:scale-95"
                 title="Làm mới trạng thái bảo mật"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${accountsLoading ? "animate-spin" : ""}`} />
@@ -669,7 +669,7 @@ export default function AdminPermissionsPage() {
                   return (
                     <div
                       key={acc.username}
-                      className="rounded-xl bg-[#0b0f19] hover:bg-[#1f2937]/50 border border-black/[0.06] hover:border-black/[0.08] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-150"
+                      className="rounded-xl bg-white shadow-xs border border-black/[0.06] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-150"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
@@ -696,7 +696,7 @@ export default function AdminPermissionsPage() {
                             className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border tracking-normal ${
                               devCount > 3
                                 ? "bg-rose-50 text-rose-600 border-rose-500/25 text-[#111827] font-semibold"
-                                : "bg-[#0b0f19] border-black/[0.06] text-[#111827]"
+                                : "bg-[#F6F6F8] border-black/[0.06] text-[#111827]"
                             }`}
                             title={
                               acc.devices && acc.devices.length > 0
@@ -794,7 +794,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={() => fetchAccountsSecurity(false)}
                 disabled={accountsLoading}
-                className="p-2 rounded-xl bg-[#0b0f19] hover:bg-[#1f2937] border border-black/[0.06] text-[#111827] hover:text-[#111827] transition cursor-pointer shadow-sm active:scale-95"
+                className="p-2 rounded-xl glass-btn text-[#111827] transition cursor-pointer shadow-xs active:scale-95"
                 title="Làm mới trạng thái Online"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${accountsLoading ? "animate-spin" : ""}`} />
@@ -835,7 +835,7 @@ export default function AdminPermissionsPage() {
                 return (
                   <div
                     key={acc.username}
-                    className={`rounded-xl bg-[#0b0f19] border p-3.5 space-y-2 transition-all duration-150 ${
+                    className={`rounded-xl bg-white shadow-xs border border-black/[0.06] p-3.5 space-y-2 transition-all duration-150 ${
                       isOnline
                         ? "border-emerald-500/30 hover:border-emerald-500/50 shadow-[0_0_15px_rgba(52,211,153,0.06)]"
                         : "border-black/[0.06] hover:border-[#374151]"

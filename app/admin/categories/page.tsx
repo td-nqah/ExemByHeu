@@ -206,7 +206,7 @@ export default function AdminCategoriesPage() {
 
           <button
             onClick={openCreateModal}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-[#111827] font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2.5 text-xs transition-all self-start md:self-auto"
+            className="inline-flex items-center gap-2 rounded-xl glass-btn text-[#111827] px-4 py-2.5 text-xs font-semibold hover:-translate-y-0.5 transition-all self-start md:self-auto"
           >
             <Plus className="h-4 w-4" />
             <span>Thêm Học phần mới</span>
@@ -265,7 +265,7 @@ export default function AdminCategoriesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-white/5 bg-slate-900/50 text-[#6B7280] uppercase font-semibold">
+                <tr className="border-b border-black/[0.06] bg-[#F6F6F8] text-[#6B7280] uppercase font-mono text-[11px] font-semibold">
                   <th className="py-3 px-4">Tên Học phần</th>
                   <th className="py-3 px-4">Mã Học phần (Slug)</th>
                   <th className="py-3 px-4">Biểu tượng đại diện</th>
@@ -274,11 +274,11 @@ export default function AdminCategoriesPage() {
                   <th className="py-3 px-4 text-right">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/[0.04]">
                 {categories.map((cat) => {
                   const examCount = getExamCountForCategory(cat.slug);
                   return (
-                    <tr key={cat.id} className="hover:bg-white/[0.02] transition-colors">
+                    <tr key={cat.id} className="hover:bg-black/[0.02] transition-colors">
                       <td className="py-3.5 px-4 font-semibold text-[#111827]">
                         <div className="flex items-center gap-2.5">
                           <span className="p-1.5 rounded-lg glass-badge text-[#111827] border border-black/[0.08]">
@@ -289,7 +289,7 @@ export default function AdminCategoriesPage() {
                       </td>
 
                       <td className="py-3.5 px-4 font-mono text-[#111827]">
-                        <span className="px-2 py-0.5 rounded bg-slate-900 border border-white/5 text-[11px]">
+                        <span className="px-2.5 py-0.5 rounded bg-[#F6F6F8] border border-black/[0.06] text-[#111827] text-[11px] font-mono">
                           {cat.slug}
                         </span>
                       </td>
@@ -299,7 +299,7 @@ export default function AdminCategoriesPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-center font-bold text-[#111827] font-mono">
-                        <span className="px-2 py-0.5 rounded-full bg-slate-900 border border-white/10 text-xs">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#F6F6F8] border border-black/[0.06] text-[#111827] text-xs font-mono font-bold">
                           {examCount}
                         </span>
                       </td>
@@ -311,7 +311,7 @@ export default function AdminCategoriesPage() {
                             "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-all",
                             cat.status === "active"
                               ? "bg-emerald-500/10 text-[#2E9E5B] border-emerald-500/20 hover:bg-emerald-500/20"
-                              : "bg-slate-800 text-[#6B7280] border-slate-700 hover:bg-slate-750"
+                              : "bg-[#F6F6F8] text-[#6B7280] border-black/[0.06] hover:bg-black/[0.04]"
                           )}
                           title="Bấm để đổi trạng thái"
                         >
@@ -333,7 +333,7 @@ export default function AdminCategoriesPage() {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => openEditModal(cat)}
-                            className="p-1.5 rounded-lg text-[#6B7280] hover:text-[#111827] hover:bg-slate-800 transition"
+                            className="p-1.5 rounded-lg text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.04] transition"
                             title="Chỉnh sửa học phần"
                           >
                             <Pencil className="h-3.5 w-3.5" />
@@ -382,7 +382,7 @@ export default function AdminCategoriesPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md rounded-2xl bg-slate-950 border border-white/10 p-6 shadow-2xl relative"
+              className="w-full max-w-md rounded-2xl bg-white border border-black/[0.08] p-6 shadow-2xl relative"
             >
               <div className="flex items-center justify-between pb-4 border-b border-black/[0.06]">
                 <h3 className="text-base font-bold text-[#111827] flex items-center gap-2">
@@ -411,7 +411,7 @@ export default function AdminCategoriesPage() {
                     value={formName}
                     onChange={(e) => handleNameChange(e.target.value)}
                     placeholder="Ví dụ: Chủ nghĩa xã hội khoa học"
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-[#111827] placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3.5 py-2.5 bg-[#F6F6F8] border border-black/[0.08] rounded-xl text-xs text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-indigo-500"
                   />
                 </div>
 
@@ -426,7 +426,7 @@ export default function AdminCategoriesPage() {
                     value={formSlug}
                     onChange={(e) => setFormSlug(e.target.value)}
                     placeholder="Ví dụ: cnxh"
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-[#111827] placeholder-slate-500 font-mono focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3.5 py-2.5 bg-[#F6F6F8] border border-black/[0.08] rounded-xl text-xs text-[#111827] placeholder-[#9CA3AF] font-mono focus:outline-none focus:border-indigo-500"
                   />
                   <p className="text-[10px] text-slate-500">
                     Dùng trong định danh và lọc đề: <code>/dashboard?category={formSlug || "slug"}</code>
@@ -468,7 +468,7 @@ export default function AdminCategoriesPage() {
                         "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
                         formStatus === "active"
                           ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 font-semibold"
-                          : "bg-slate-900 border-white/5 text-[#6B7280] hover:text-[#111827]"
+                          : "bg-[#F6F6F8] border-black/[0.06] text-[#6B7280] hover:text-[#111827]"
                       )}
                     >
                       Kích hoạt (Active)
@@ -480,7 +480,7 @@ export default function AdminCategoriesPage() {
                         "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
                         formStatus === "hidden"
                           ? "bg-slate-800 border-slate-600 text-[#111827] font-semibold"
-                          : "bg-slate-900 border-white/5 text-[#6B7280] hover:text-[#111827]"
+                          : "bg-[#F6F6F8] border-black/[0.06] text-[#6B7280] hover:text-[#111827]"
                       )}
                     >
                       Ẩn (Hidden)
@@ -493,14 +493,14 @@ export default function AdminCategoriesPage() {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 rounded-xl text-xs text-[#6B7280] hover:text-[#111827] hover:bg-slate-900 transition"
+                    className="px-4 py-2 rounded-xl text-xs text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.04] transition"
                   >
                     Hủy
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-[#111827] font-medium text-xs rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-1.5 disabled:opacity-50"
+                    className="px-4 py-2 glass-btn text-[#111827] font-semibold text-xs rounded-xl transition-all flex items-center gap-1.5 disabled:opacity-50"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     <span>{editingCategory ? "Lưu thay đổi" : "Tạo học phần"}</span>

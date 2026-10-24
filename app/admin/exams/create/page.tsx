@@ -506,8 +506,8 @@ export default function ExamCreatePage() {
       {/* 1. Smart Exam Importer Panel (Tab 1: File Upload | Tab 2: Paste from Clipboard) */}
       <div className="bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] mb-8 overflow-hidden rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
         {/* Importer Mode Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] bg-[#0b0f19]/80 px-4 py-3 sm:px-6">
-          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-[#0b0f19] p-1 border border-black/[0.06]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] bg-[#F6F6F8] px-4 py-3 sm:px-6">
+          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-white p-1 border border-black/[0.06]">
             <button
               type="button"
               onClick={() => {
@@ -516,7 +516,7 @@ export default function ExamCreatePage() {
               }}
               className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
                 importerTab === "file"
-                  ? "bg-[#4f46e5] text-[#111827] shadow-[0_0_15px_rgba(79,70,229,0.35)]"
+                  ? "glass-btn text-[#111827] font-semibold"
                   : "text-[#6B7280] hover:bg-[#1f2937] hover:text-[#111827]"
               }`}
             >
@@ -546,7 +546,7 @@ export default function ExamCreatePage() {
               type="button"
               onClick={handleTestAiConnection}
               disabled={isTestingAi}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#4f46e5] hover:text-[#111827] border border-black/[0.06] px-3 py-1.5 text-[11px] font-semibold text-[#111827] transition disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-3 py-1.5 text-[11px] font-semibold text-[#111827] transition-all disabled:opacity-50 cursor-pointer"
               title="Kiểm tra trạng thái kết nối mô hình Trợ lý AI"
             >
               <Cpu className="h-3.5 w-3.5 text-[#111827]" />
@@ -607,7 +607,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isParsing}
-                className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] px-5 py-2.5 text-xs font-semibold text-[#111827] shadow-[0_0_18px_rgba(79,70,229,0.35)] hover:shadow-[0_0_24px_rgba(99,102,241,0.5)] transition active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-xl glass-btn px-5 py-2.5 text-xs font-semibold text-[#111827] transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
               >
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>
@@ -620,7 +620,7 @@ export default function ExamCreatePage() {
               <button
                 type="button"
                 onClick={() => setImporterTab("clipboard")}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#1f2937] hover:text-[#111827] border border-black/[0.06] px-4 py-2.5 text-xs font-medium text-[#111827] transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-4 py-2.5 text-xs font-medium text-[#111827] transition-all cursor-pointer"
               >
                 <ClipboardPaste className="h-3.5 w-3.5" />
                 <span>Chuyển sang Dán từ bộ nhớ tạm</span>
@@ -848,7 +848,7 @@ export default function ExamCreatePage() {
           </div>
 
           {/* Toggle Switch: Shuffle Exam */}
-          <div className="sm:col-span-2 rounded-xl bg-slate-900/60 border border-white/10 p-4 transition-all duration-200 hover:border-[#5852d6]/50">
+          <div className="sm:col-span-2 rounded-xl bg-white border border-black/[0.06] p-4 transition-all duration-200">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <div

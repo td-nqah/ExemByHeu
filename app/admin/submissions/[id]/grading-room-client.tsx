@@ -226,7 +226,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             </p>
           </div>
 
-          <div className="flex items-center gap-4 rounded-xl border border-black/[0.06] bg-slate-900/80 p-4">
+          <div className="flex items-center gap-4 rounded-xl border border-black/[0.06] bg-white shadow-sm p-4">
             <div className="text-right">
               <p className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280]">Tổng điểm đánh giá</p>
               <p className="text-2xl font-black text-[#111827]">
@@ -349,7 +349,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                       correctKeyLetter.length > 0 && correctKeyLetter === letter;
 
                     let rowStyle =
-                      "border-black/[0.06] bg-slate-900/40 text-[#6B7280] opacity-65";
+                      "border-black/[0.06] bg-[#F6F6F8] text-[#6B7280] opacity-75";
                     let letterBadgeStyle =
                       "border border-slate-700 bg-slate-800 text-[#6B7280]";
 
@@ -413,7 +413,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                     <label className="mb-1.5 block text-[11px] font-semibold text-[#6B7280]">
                       Bài làm của sinh viên
                     </label>
-                    <div className="rounded-xl border border-black/[0.06] bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-[#111827]">
+                    <div className="rounded-xl border border-black/[0.06] bg-[#F6F6F8] p-4 whitespace-pre-wrap text-xs leading-relaxed text-[#111827]">
                       {ans.user_answer ? ans.user_answer : "(Sinh viên không điền nội dung trả lời)"}
                     </div>
                   </div>

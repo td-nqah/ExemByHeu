@@ -58,26 +58,26 @@ export default function AdminSubmissionsListPage() {
       </div>
 
       {/* Submissions Table with Filter */}
-      <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl overflow-hidden">
+      <div className="bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] rounded-2xl overflow-hidden">
         {/* Table Toolbar */}
-        <div className="flex flex-col gap-3 border-b border-white/[0.06] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-black/[0.06] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-center gap-2.5">
             <h2 className="text-sm font-bold text-[#111827]">
               Danh sách Bài nộp Đánh giá
             </h2>
-            <span className="rounded-md bg-[#1f2637] border border-white/[0.05] px-2 py-0.5 text-xs font-semibold text-[#111827]">
+            <span className="rounded-md bg-[#F6F6F8] border border-black/[0.06] px-2 py-0.5 text-xs font-semibold text-[#111827]">
               {filteredSubmissions.length} / 20
             </span>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1 bg-[#10141e] p-1 rounded-xl border border-white/[0.06]">
+          <div className="flex flex-wrap items-center gap-1 bg-[#F6F6F8] p-1 rounded-xl border border-black/[0.06]">
             <button
               type="button"
               onClick={() => setFilterStatus("all")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "all"
-                  ? "bg-[#4f57ea] text-[#111827] shadow-sm"
+                  ? "glass-btn text-[#111827] font-semibold shadow-xs"
                   : "text-[#6B7280] hover:text-[#111827]"
               }`}
             >
@@ -88,7 +88,7 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("pending_grading")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "pending_grading"
-                  ? "bg-[#4f57ea] text-[#111827] shadow-sm"
+                  ? "glass-btn text-[#111827] font-semibold shadow-xs"
                   : "text-[#6B7280] hover:text-[#111827]"
               }`}
             >
@@ -99,7 +99,7 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("graded")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "graded"
-                  ? "bg-[#4f57ea] text-[#111827] shadow-sm"
+                  ? "glass-btn text-[#111827] font-semibold shadow-xs"
                   : "text-[#6B7280] hover:text-[#111827]"
               }`}
             >
@@ -115,7 +115,7 @@ export default function AdminSubmissionsListPage() {
           </div>
         ) : filteredSubmissions.length === 0 ? (
           <div className="py-14 text-center space-y-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1e2538] text-[#111827] mx-auto">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F6F6F8] border border-black/[0.08] text-[#111827] mx-auto">
               <Inbox className="h-6 w-6" />
             </div>
             <p className="text-sm font-semibold text-[#111827]">
@@ -128,7 +128,7 @@ export default function AdminSubmissionsListPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#121722] text-[#6B7280] uppercase tracking-wider text-[11px] border-b border-white/[0.06]">
+              <thead className="bg-[#F6F6F8] text-[#6B7280] uppercase tracking-wider text-[11px] font-mono border-b border-black/[0.06]">
                 <tr>
                   <th className="py-3 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3 px-4 font-semibold">Sinh viên</th>
@@ -141,14 +141,14 @@ export default function AdminSubmissionsListPage() {
                   <th className="py-3 px-4 text-right font-semibold">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.04]">
+              <tbody className="divide-y divide-black/[0.04]">
                 {filteredSubmissions.map((sub, idx) => {
                   const isGraded = sub.status === "graded";
 
                   return (
                     <tr
                       key={sub.id}
-                      className="hover:bg-[#1a2130] transition-colors"
+                      className="hover:bg-black/[0.02] transition-colors"
                     >
                       <td className="py-3.5 px-3 text-center font-mono font-bold text-[#111827]">
                         #{idx + 1}

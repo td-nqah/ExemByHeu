@@ -438,7 +438,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           {/* Toggle Switch: Shuffle Exam */}
-          <div className="sm:col-span-2 rounded-xl bg-slate-900/60 border border-white/10 p-4 transition-all duration-200 hover:border-[#5852d6]/50">
+          <div className="sm:col-span-2 rounded-xl bg-white border border-black/[0.06] p-4 transition-all duration-200">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <div
@@ -500,7 +500,7 @@ export function EditExamClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={() => setShowQuickScoreConfig((prev) => !prev)}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 border border-black/[0.06] px-3.5 py-2 text-xs font-semibold text-[#111827] transition hover:bg-slate-800 hover:text-[#111827]"
+              className="inline-flex items-center gap-2 rounded-xl glass-btn px-3.5 py-2 text-xs font-semibold text-[#111827] transition-all hover:-translate-y-0.5"
             >
               <Sliders className="h-3.5 w-3.5 text-[#111827]" />
               <span>
@@ -560,7 +560,7 @@ export function EditExamClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-black/[0.06] px-3.5 py-2 text-xs font-semibold text-[#111827] transition hover:bg-slate-800 hover:text-[#111827]"
+              className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-3.5 py-2 text-xs font-semibold text-[#111827] transition-all hover:-translate-y-0.5"
             >
               <Plus className="h-3.5 w-3.5 text-[#111827]" />
               <span>Thêm câu hỏi mới</span>
@@ -605,7 +605,7 @@ export function EditExamClient({ examId }: { examId: string }) {
               <button
                 type="button"
                 onClick={handleAddQuestion}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-black/[0.06] px-4 py-2 text-xs font-semibold text-[#111827] transition hover:bg-slate-800 hover:text-[#111827]"
+                className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-4 py-2 text-xs font-semibold text-[#111827] transition-all hover:-translate-y-0.5"
               >
                 <Plus className="h-4 w-4 text-[#111827]" />
                 <span>Thêm câu hỏi mới</span>
@@ -613,7 +613,7 @@ export function EditExamClient({ examId }: { examId: string }) {
 
               <Link
                 href="/admin/dashboard"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-black/[0.06] px-4 py-2 text-xs font-semibold text-[#111827] transition hover:bg-slate-800 hover:text-[#111827]"
+                className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-4 py-2 text-xs font-semibold text-[#111827] transition-all hover:-translate-y-0.5"
               >
                 <span>Hủy bỏ</span>
               </Link>

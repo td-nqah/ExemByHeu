@@ -188,7 +188,7 @@ export default function KnowledgeHubPage() {
                       )}
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="h-8 w-8 rounded-lg bg-[#4f46e5]/15 border border-[#4f46e5]/30 flex items-center justify-center text-[#111827] shrink-0">
+                        <div className="h-8 w-8 rounded-lg bg-[#F6F6F8] border border-black/[0.08] flex items-center justify-center text-[#111827] shrink-0">
                           <Library className="h-4 w-4" />
                         </div>
                         <div>
@@ -199,7 +199,7 @@ export default function KnowledgeHubPage() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-white/5 border border-white/10 text-slate-300 font-bold">
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#F6F6F8] border border-black/[0.08] text-[#111827] font-bold">
                           {materials.length} bài
                         </span>
                         {selectedCategory === "all" && (
@@ -218,23 +218,23 @@ export default function KnowledgeHubPage() {
                       className={cn(
                         "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                         selectedCategory === "none"
-                          ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
-                          : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
+                          ? "bg-[#F6F6F8] border-black/[0.08] text-[#111827] shadow-xs"
+                          : "border-transparent bg-transparent hover:bg-black/[0.03] hover:border-black/[0.06] text-[#111827]"
                       )}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="h-8 w-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 shrink-0">
+                        <div className="h-8 w-8 rounded-lg bg-[#F6F6F8] border border-black/[0.08] flex items-center justify-center text-[#111827] shrink-0">
                           <FileText className="h-4 w-4" />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-xs font-bold text-white group-hover:text-slate-200 transition truncate">
+                          <p className="text-xs font-bold text-[#111827] group-hover:text-[#111827] transition truncate">
                             Tài liệu chung (Không gắn học phần)
                           </p>
                           <p className="text-[10px] text-[#6B7280] truncate">Ghi chú & cẩm nang chung</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 shrink-0 ml-2">
-                        <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-slate-800 border border-slate-700 text-slate-300 font-bold">
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#F6F6F8] border border-black/[0.08] text-[#111827] font-bold">
                           {materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length} bài
                         </span>
                         {selectedCategory === "none" && (
@@ -262,16 +262,16 @@ export default function KnowledgeHubPage() {
                             className={cn(
                               "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                               isSelected
-                                ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
-                                : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
+                                ? "bg-[#F6F6F8] border-black/[0.08] text-[#111827] shadow-xs"
+                                : "border-transparent bg-transparent hover:bg-black/[0.03] hover:border-black/[0.06] text-[#111827]"
                             )}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
-                              <div className="h-8 w-8 rounded-lg bg-[#064e3b]/50 border border-[#064e3b] flex items-center justify-center text-[#34d399] shrink-0">
+                              <div className="h-8 w-8 rounded-lg bg-[#064e3b]/50 border border-[#064e3b] flex items-center justify-center text-[#2E9E5B] shrink-0">
                                 <Tag className="h-4 w-4" />
                               </div>
                               <div className="min-w-0">
-                                <p className="text-xs font-bold text-white group-hover:text-emerald-300 transition truncate">
+                                <p className="text-xs font-bold text-[#111827] group-hover:text-[#111827] transition truncate">
                                   {c.name}
                                 </p>
                                 <p className="text-[10px] text-[#6B7280] font-mono truncate">
@@ -280,11 +280,11 @@ export default function KnowledgeHubPage() {
                               </div>
                             </div>
                             <div className="flex items-center gap-2 shrink-0 ml-2">
-                              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#064e3b]/40 border border-[#064e3b] text-[#34d399] font-bold">
+                              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#064e3b]/40 border border-[#064e3b] text-[#2E9E5B] font-bold">
                                 {count} bài
                               </span>
                               {isSelected && (
-                                <CheckCircle2 className="h-4 w-4 text-[#34d399]" />
+                                <CheckCircle2 className="h-4 w-4 text-[#2E9E5B]" />
                               )}
                             </div>
                           </button>
@@ -322,7 +322,7 @@ export default function KnowledgeHubPage() {
         {selectedCategory !== "all" && (
           <div className="flex items-center gap-2 text-xs text-[#6B7280]">
             <span>Đang lọc theo:</span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 text-xs font-bold">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg glass-chip text-[#111827] border border-black/[0.08] text-xs font-bold">
               <Tag className="h-3 w-3" />
               {selectedCategory === "none"
                 ? "Tài liệu chung (Không gắn học phần)"
@@ -346,14 +346,14 @@ export default function KnowledgeHubPage() {
           {[1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
             <div
               key={idx}
-              className="h-60 rounded-2xl border border-[#1f2937] bg-[#111827]/60 animate-pulse p-6"
+              className="h-60 rounded-2xl border border-black/[0.06] bg-[#F6F6F8] animate-pulse p-6"
             />
           ))}
         </div>
       ) : filteredMaterials.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-[#1f2937] bg-[#111827]/50 p-12 text-center">
+        <div className="rounded-2xl border border-dashed border-black/[0.08] bg-white p-12 text-center">
           <BookOpen className="mx-auto h-12 w-12 text-[#6b7280] mb-3" />
-          <h3 className="text-sm font-bold text-white">Không tìm thấy tài liệu phù hợp</h3>
+          <h3 className="text-sm font-bold text-[#111827]">Không tìm thấy tài liệu phù hợp</h3>
           <p className="text-xs text-[#6B7280] mt-1 max-w-sm mx-auto">
             Thử thay đổi bộ lọc danh mục hoặc từ khóa tìm kiếm để khám phá các bài viết lý thuyết khác.
           </p>
@@ -363,7 +363,7 @@ export default function KnowledgeHubPage() {
                 setSearchQuery("");
                 setSelectedCategory("all");
               }}
-              className="mt-4 px-4 py-2 rounded-xl bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/30 text-xs font-bold hover:bg-[#4f46e5]/30 transition cursor-pointer"
+              className="mt-4 px-4 py-2 rounded-xl glass-btn text-[#111827] text-xs font-bold transition cursor-pointer"
             >
               Đặt lại bộ lọc
             </button>
@@ -377,19 +377,19 @@ export default function KnowledgeHubPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex flex-col justify-between rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-[#3b82f6] hover:-translate-y-1 transition-all duration-300 p-5 group hover:shadow-xl hover:shadow-[0_12px_30px_-10px_rgba(59,130,246,0.15)]"
+              className="flex flex-col justify-between rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:-translate-y-1 transition-all duration-300 p-5 group hover:shadow-[0_4px_12px_rgba(0,0,0,0.08),0_12px_32px_rgba(20,20,40,0.08)]"
             >
               <div className="space-y-3">
                 {/* Meta badges: Emerald Teal tag for subject category without reading time */}
                 <div className="flex items-center justify-between gap-2">
                   {item.category_id === "none" || item.category_slug === "none" ? (
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5">
-                      <FileText className="h-3 w-3 text-slate-400" />
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#F6F6F8] text-[#111827] border border-black/[0.08] flex items-center gap-1.5">
+                      <FileText className="h-3 w-3 text-[#6B7280]" />
                       {item.category_name || "Tài liệu chung (Không gắn học phần)"}
                     </span>
                   ) : (
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">
-                      <Tag className="h-3 w-3 text-[#34d399]" />
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#DDF2E5] text-[#2E9E5B] border border-[#2E9E5B]/20 flex items-center gap-1.5">
+                      <Tag className="h-3 w-3 text-[#2E9E5B]" />
                       {item.category_name || "Chuyên đề"}
                     </span>
                   )}
@@ -411,7 +411,7 @@ export default function KnowledgeHubPage() {
               {/* Card Footer */}
               <div className="mt-5 pt-3.5 border-t border-black/[0.06] flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-[#6B7280] max-w-[140px] truncate">
-                  <div className="h-6 w-6 rounded-lg bg-[#1f2937] text-white flex items-center justify-center font-bold text-[10px] border border-[#1f2937] shrink-0">
+                  <div className="h-6 w-6 rounded-lg bg-[#F6F6F8] text-[#111827] flex items-center justify-center font-bold text-[10px] border border-black/[0.08] shrink-0">
                     {(item.author || "B")[0]}
                   </div>
                   <span className="truncate">{item.author || "Ban Giảng huấn"}</span>
@@ -419,7 +419,7 @@ export default function KnowledgeHubPage() {
 
                 <Link
                   href={`/knowledge/${item.id}`}
-                  className="inline-flex items-center gap-1 font-bold text-xs text-[#111827] group-hover:text-indigo-300 group-hover:translate-x-0.5 transition duration-150"
+                  className="inline-flex items-center gap-1 font-bold text-xs text-[#111827] group-hover:text-black group-hover:translate-x-0.5 transition duration-150"
                 >
                   <span>Đọc bài</span>
                   <ArrowRight className="h-3.5 w-3.5" />

@@ -99,7 +99,7 @@ export default function HistoryPage() {
         >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/90 text-[#6B7280] uppercase tracking-wider text-xs border-b border-white/10">
+              <thead className="bg-[#F6F6F8] text-[#6B7280] uppercase tracking-wider text-[11px] font-mono border-b border-black/[0.06]">
                 <tr>
                   <th className="py-3.5 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
@@ -177,7 +177,7 @@ export default function HistoryPage() {
                       <td className="whitespace-nowrap py-4 px-4 text-right">
                         <Link
                           href={`/history/${sub.id}`}
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 text-[#6B7280] px-3 py-1.5 text-xs font-semibold transition"
+                          className="inline-flex items-center gap-1.5 rounded-xl glass-btn text-[#111827] px-3 py-1.5 text-xs font-semibold hover:-translate-y-0.5 transition-all"
                         >
                           <span>Xem chi tiết</span>
                           <ArrowRight className="h-3 w-3" />

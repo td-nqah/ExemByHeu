@@ -596,7 +596,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               </p>
 
               {/* Summary Pill Box: "Trắc nghiệm: X điểm - Tự luận: Đang chờ chấm" */}
-              <div className="my-5 space-y-2.5 rounded-xl border border-slate-800 bg-slate-900/80 p-4 text-left">
+              <div className="my-5 space-y-2.5 rounded-xl border border-black/[0.06] bg-white shadow-sm p-4 text-left">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-slate-300 font-medium">Trắc nghiệm:</span>
                   <span className="font-bold text-emerald-400">
@@ -646,7 +646,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   onClick={() =>
                     router.push(`/history/${completedSubmission.id}`)
                   }
-                  className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
+                  className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl glass-btn px-4 py-2.5 text-xs font-semibold text-[#111827] transition-all hover:-translate-y-0.5"
                 >
                   <span>Xem chi tiết</span>
                   <ArrowRight className="h-3.5 w-3.5 text-[#111827]" />

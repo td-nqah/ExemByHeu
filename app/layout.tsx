@@ -9,7 +9,6 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-heading",
   subsets: ["latin", "vietnamese"],
   display: "swap",
-  weight: ["600", "700", "800"],
 });
 
 const beVietnamPro = Be_Vietnam_Pro({

@@ -351,7 +351,7 @@ export default function AdminSettingsPage() {
                     className={`py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center gap-2 transition cursor-pointer ${
                       newRole === "user"
                         ? "bg-[#F6F6F8] border-black/[0.08] text-indigo-200 shadow-sm"
-                        : "bg-[#0b0f19] border-black/[0.06] text-[#6B7280] hover:text-[#111827] hover:bg-[#1f2937]"
+                        : "bg-[#F6F6F8] border-black/[0.06] text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.04]"
                     }`}
                   >
                     <User className="h-3.5 w-3.5 text-[#38bdf8]" />
@@ -364,7 +364,7 @@ export default function AdminSettingsPage() {
                     className={`py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center gap-2 transition cursor-pointer ${
                       newRole === "admin"
                         ? "bg-[#F6F6F8] border-black/[0.08] text-indigo-200 shadow-sm"
-                        : "bg-[#0b0f19] border-black/[0.06] text-[#6B7280] hover:text-[#111827] hover:bg-[#1f2937]"
+                        : "bg-[#F6F6F8] border-black/[0.06] text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.04]"
                     }`}
                   >
                     <Shield className="h-3.5 w-3.5 text-[#111827]" />
@@ -546,7 +546,7 @@ export default function AdminSettingsPage() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -6, scale: 0.98 }}
                       transition={{ duration: 0.15, ease: "easeOut" }}
-                      className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl bg-[#0b0f19] backdrop-blur-2xl border border-black/[0.06] shadow-[0_20px_45px_rgba(0,0,0,0.7)] p-1.5 space-y-1 ring-1 ring-black/50"
+                      className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl bg-white backdrop-blur-2xl border border-black/[0.08] shadow-[0_20px_45px_rgba(0,0,0,0.7)] p-1.5 space-y-1 ring-1 ring-black/50"
                     >
                       <div className="px-2.5 py-1.5 text-[10px] font-semibold text-[#6B7280] uppercase tracking-wider border-b border-black/[0.06] flex items-center justify-between">
                         <span>Danh sách tài khoản</span>

@@ -103,7 +103,7 @@ export function SubmitConfirmModal({
                 type="button"
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="rounded-xl bg-slate-900 border border-black/[0.06] px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                className="rounded-xl glass-btn px-4 py-2 text-xs font-semibold text-[#111827] transition-all hover:-translate-y-0.5"
               >
                 Quay lại làm tiếp
               </button>

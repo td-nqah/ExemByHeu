@@ -224,7 +224,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                       correctKeyLetter.length > 0 && correctKeyLetter === letter;
 
                     let rowStyle =
-                      "border-slate-800 bg-slate-900/40 text-[#6B7280] opacity-65";
+                      "border-black/[0.06] bg-[#F6F6F8] text-[#6B7280] opacity-75";
                     let letterBadgeStyle =
                       "border border-slate-700 bg-slate-800 text-[#6B7280]";
 
@@ -288,7 +288,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                     <label className="mb-1.5 block text-[11px] font-semibold text-[#6B7280]">
                       Bài làm của sinh viên
                     </label>
-                    <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-[#111827]">
+                    <div className="rounded-xl border border-black/[0.06] bg-[#F6F6F8] p-4 whitespace-pre-wrap text-xs leading-relaxed text-[#111827]">
                       {answer.user_answer || "(Sinh viên không điền câu trả lời)"}
                     </div>
                   </div>

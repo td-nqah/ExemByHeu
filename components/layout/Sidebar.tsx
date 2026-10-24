@@ -514,7 +514,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             href="/"
             title="Đăng nhập hệ thống"
             onClick={closeSidebarOnNavigate}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-3 py-2 text-xs font-semibold text-white transition-colors group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
+            className="flex w-full items-center justify-center gap-2 rounded-xl glass-btn px-3 py-2 text-xs font-semibold text-[#111827] transition-colors group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
           >
             <User className="h-4 w-4 shrink-0" />
             <span className="truncate group-data-[collapsible=icon]:hidden">Đăng nhập</span>
