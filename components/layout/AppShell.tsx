@@ -66,9 +66,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Main Content Area */}
       <SidebarInset className="flex-1 flex flex-col min-h-screen w-full min-w-0 transition-all duration-300">
         {/* Mobile Top Header */}
-        <header className="sticky top-0 z-30 flex h-[calc(4rem+env(safe-area-inset-top,0px))] w-full items-center justify-between border-b border-[#1f2937] bg-[#111827]/90 backdrop-blur-md px-4 pt-[env(safe-area-inset-top,0px)] md:hidden">
+        <header className="sticky top-0 z-30 flex h-[calc(4rem+env(safe-area-inset-top,0px))] w-full items-center justify-between border-b border-black/[0.06] bg-[#F6F6F8]/90 backdrop-blur-md px-4 pt-[env(safe-area-inset-top,0px)] md:hidden">
           <div className="flex items-center gap-3">
-            <SidebarTrigger className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-[#1f2937] bg-[#111827] text-slate-300 hover:text-white hover:bg-[#1f2937] active:scale-95 transition-transform shadow-sm md:hidden">
+            <SidebarTrigger className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-black/[0.08] bg-white text-[#1F2128] hover:bg-[#F6F6F8] active:scale-95 transition-transform shadow-sm md:hidden">
               <Menu className="h-6 w-6" strokeWidth={2.25} />
             </SidebarTrigger>
 
@@ -76,13 +76,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               href="/home"
               className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1f2937] border border-[#1f2937] text-white">
-                <GraduationCap className="h-5 w-5 text-[#818cf8]" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#D9482B] text-white shadow-xs">
+                <GraduationCap className="h-5 w-5 text-white" />
               </div>
               <span className="brand-logo font-heading text-[17px] font-bold tracking-tight select-none">
-                <span className="text-[#818cf8]">Exam</span>
-                <span className="text-white">By</span>
-                <span className="text-[#818cf8]">Heu</span>
+                <span className="text-[#D9482B]">Exam</span>
+                <span className="text-[#1F2128]">By</span>
+                <span className="text-[#D9482B]">Heu</span>
               </span>
             </Link>
           </div>

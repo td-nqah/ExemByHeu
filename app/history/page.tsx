@@ -51,17 +51,17 @@ export default function HistoryPage() {
         className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center"
       >
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl font-bold tracking-tight text-[#1F2128]">
             Lịch sử Đánh giá Học phần
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-[#7A7D88]">
             Lưu trữ 20 bài đánh giá gần nhất theo cơ chế xoay vòng dữ liệu, kèm điểm số và nhận xét học vụ chi tiết.
           </p>
         </div>
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-2.5 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all sm:self-auto"
+          className="inline-flex items-center gap-2 self-start rounded-xl bg-[#D9482B] hover:bg-[#C43E23] px-4 py-2.5 text-xs font-semibold text-white shadow-[0_4px_14px_rgba(217,72,43,0.3)] hover:-translate-y-0.5 transition-all sm:self-auto"
         >
           <BookOpen className="h-4 w-4" />
           <span>Thực hiện bài đánh giá mới</span>
@@ -70,21 +70,21 @@ export default function HistoryPage() {
 
       {/* History Table / Card List */}
       {loading ? (
-        <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 flex h-48 items-center justify-center rounded-2xl">
-          <p className="text-sm text-slate-400">Đang tải lịch sử đánh giá...</p>
+        <div className="bg-white border border-black/[0.06] shadow-sm flex h-48 items-center justify-center rounded-2xl">
+          <p className="text-sm text-[#7A7D88]">Đang tải lịch sử đánh giá...</p>
         </div>
       ) : submissions.length === 0 ? (
-        <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center shadow-xl">
-          <History className="mb-3 h-10 w-10 text-indigo-400" />
-          <h3 className="text-base font-bold text-white">
+        <div className="bg-white border border-black/[0.06] flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center shadow-sm text-[#1F2128]">
+          <History className="mb-3 h-10 w-10 text-[#D9482B]" />
+          <h3 className="text-base font-bold text-[#1F2128]">
             Chưa có dữ liệu bài đánh giá
           </h3>
-          <p className="mt-1 mb-4 max-w-sm text-xs text-slate-400">
+          <p className="mt-1 mb-4 max-w-sm text-xs text-[#7A7D88]">
             Vui lòng chọn bài đánh giá học phần tại danh mục để bắt đầu.
           </p>
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[#D9482B] hover:bg-[#C43E23] px-4 py-2 text-xs font-semibold text-white shadow-[0_4px_14px_rgba(217,72,43,0.3)] hover:-translate-y-0.5 transition-all"
           >
             <span>Đến ngân hàng đề đánh giá</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -95,11 +95,11 @@ export default function HistoryPage() {
           initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
+          className="bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] overflow-hidden rounded-2xl transition-all"
         >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/90 text-slate-400 uppercase tracking-wider text-xs border-b border-white/10">
+              <thead className="bg-slate-900/90 text-[#7A7D88] uppercase tracking-wider text-xs border-b border-white/10">
                 <tr>
                   <th className="py-3.5 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
@@ -132,44 +132,44 @@ export default function HistoryPage() {
                   return (
                     <tr
                       key={sub.id}
-                      className="group border-b border-white/5 hover:bg-indigo-950/20 transition-colors"
+                      className="group border-b border-black/[0.04] hover:bg-black/[0.02] transition-colors"
                     >
-                      <td className="py-4 px-3 text-center font-mono font-bold text-indigo-400">
+                      <td className="py-4 px-3 text-center font-mono font-bold text-[#7A7D88]">
                         #{idx + 1}
                       </td>
-                      <td className="max-w-xs truncate py-4 px-4 font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">
+                      <td className="max-w-xs truncate py-4 px-4 font-semibold text-[#1F2128] group-hover:text-[#D9482B] transition-colors">
                         {sub.exam?.title || "Đề thi thử trực tuyến"}
                       </td>
-                      <td className="whitespace-nowrap py-4 px-4 text-slate-400">
+                      <td className="whitespace-nowrap py-4 px-4 text-[#7A7D88]">
                         <span className="flex items-center gap-1.5">
-                          <Calendar className="h-3.5 w-3.5 text-indigo-400" />
+                          <Calendar className="h-3.5 w-3.5 text-[#D9482B]" />
                           {formatDate(sub.submitted_at)}
                         </span>
                       </td>
                       <td className="whitespace-nowrap py-4 px-4">
                         {isGraded ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-800/50 px-2.5 py-0.5 text-[11px] font-semibold">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[#DDF2E5] text-[#2E9E5B] border border-[#2E9E5B]/20 px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold">
                             <CheckCircle2 className="h-3 w-3" />
                             Đã hoàn thành
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-amber-400">
+                          <span className="inline-flex items-center gap-1 rounded-full border border-[#B8962E]/30 bg-[#F6EBC8] text-[#B8962E] px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold">
                             <Clock className="h-3 w-3" />
                             Đang chờ chấm
                           </span>
                         )}
                       </td>
-                      <td className="py-4 px-4 font-semibold text-slate-200">
+                      <td className="py-4 px-4 font-semibold text-[#1F2128]">
                         {sub.mcq_score}
                         {maxMcq > 0 ? ` / ${maxMcq}` : ""} điểm
                       </td>
-                      <td className="py-4 px-4 text-slate-300">
+                      <td className="py-4 px-4 text-[#7A7D88]">
                         {sub.essay_score !== null
                           ? `${sub.essay_score}${maxEssay > 0 ? ` / ${maxEssay}` : ""} điểm`
                           : "Đang chờ chấm"}
                       </td>
                       <td className="py-4 px-4">
-                        <span className="text-sm font-extrabold text-indigo-400">
+                        <span className="text-sm font-extrabold text-[#D9482B]">
                           {sub.total_score}
                           {maxTotal > 0 ? ` / ${maxTotal}` : ""} điểm
                         </span>
@@ -177,7 +177,7 @@ export default function HistoryPage() {
                       <td className="whitespace-nowrap py-4 px-4 text-right">
                         <Link
                           href={`/history/${sub.id}`}
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 text-slate-300 px-3 py-1.5 text-xs font-semibold transition"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-white border border-slate-700/60 text-[#7A7D88] px-3 py-1.5 text-xs font-semibold transition"
                         >
                           <span>Xem chi tiết</span>
                           <ArrowRight className="h-3 w-3" />

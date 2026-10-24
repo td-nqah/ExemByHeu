@@ -47,7 +47,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#D9482B] border-t-transparent" />
       </div>
     );
   }
@@ -65,82 +65,88 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
         initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="glass-panel w-full max-w-lg rounded-2xl p-6 sm:p-8 text-center"
+        className="w-full max-w-lg rounded-[24px] bg-white border border-black/[0.06] p-6 sm:p-8 text-center shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)]"
       >
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/20 bg-[#DDF2E5] text-[#2E9E5B]">
           <CheckCircle2 className="h-8 w-8" />
         </div>
 
-        <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+        <h1 className="text-xl font-bold tracking-tight text-[#1F2128] sm:text-2xl font-heading">
           Nộp bài & Chấm điểm thành công!
         </h1>
-        <p className="mt-1 text-xs text-slate-400">
+        <p className="mt-1 text-xs text-[#7A7D88]">
           {submission?.exam?.title || "Bài thi thử trực tuyến"}
         </p>
 
         {/* Summary Status Banner */}
-        <div className="mt-4 rounded-xl border border-indigo-500/20 bg-indigo-500/10 px-4 py-2.5 text-xs font-semibold text-indigo-300">
-          Trắc nghiệm: {submission?.mcq_score ?? 0} điểm - Tự luận:{" "}
-          {essayQuestions.length === 0
-            ? "0 điểm"
-            : isGraded && submission?.essay_score !== null
-            ? `${submission?.essay_score} điểm`
-            : "Đang chờ chấm"}
+        <div className="mt-4 rounded-xl border border-black/[0.06] bg-[#F6F6F8] px-4 py-2.5 text-xs font-semibold text-[#1F2128]">
+          Trắc nghiệm: <span className="font-num text-[#2E9E5B]">{submission?.mcq_score ?? 0}</span> điểm - Tự luận:{" "}
+          <span className="font-num text-[#D9482B]">
+            {essayQuestions.length === 0
+              ? "0 điểm"
+              : isGraded && submission?.essay_score !== null
+              ? `${submission?.essay_score} điểm`
+              : "Đang chờ chấm"}
+          </span>
         </div>
 
         {/* Instant Score Breakdown Cards */}
         <div className="my-6 space-y-3 text-left">
           {/* MCQ Score Card */}
-          <div className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+          <div className="flex items-center justify-between rounded-2xl border border-black/[0.06] bg-[#F6F6F8] p-4">
             <div className="flex items-center gap-3">
-              <Award className="h-5 w-5 text-emerald-400" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#DDF2E5] text-[#2E9E5B]">
+                <Award className="h-5 w-5" />
+              </div>
               <div>
-                <p className="text-xs font-bold text-white">Điểm trắc nghiệm (Tự động)</p>
-                <p className="text-[11px] text-slate-400">Đã chấm theo đáp án chuẩn</p>
+                <p className="text-xs font-bold text-[#1F2128]">Điểm trắc nghiệm (Tự động)</p>
+                <p className="text-[11px] text-[#7A7D88]">Đã chấm theo đáp án chuẩn</p>
               </div>
             </div>
             <div className="text-right">
-              <span className="text-lg font-extrabold text-emerald-400">
+              <span className="text-lg font-bold text-[#2E9E5B] font-num">
                 {submission?.mcq_score ?? 0}
               </span>
-              <span className="text-xs text-slate-400"> / {maxMcqScore} đ</span>
+              <span className="text-xs text-[#7A7D88] font-num"> / {maxMcqScore} đ</span>
             </div>
           </div>
 
           {/* Essay Score Card */}
           {essayQuestions.length > 0 && (
-            <div className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+            <div className="flex items-center justify-between rounded-2xl border border-black/[0.06] bg-[#F6F6F8] p-4">
               <div className="flex items-center gap-3">
-                <Sparkles className="h-5 w-5 text-indigo-400" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FBE3DC] text-[#D9482B]">
+                  <Sparkles className="h-5 w-5" />
+                </div>
                 <div>
-                  <p className="text-xs font-bold text-white">Điểm tự luận</p>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-xs font-bold text-[#1F2128]">Điểm tự luận</p>
+                  <p className="text-[11px] text-[#7A7D88]">
                     {isGraded ? "Đã hoàn tất chấm điểm" : "Đang chờ chấm"}
                   </p>
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-lg font-extrabold text-indigo-400">
+                <span className="text-lg font-bold text-[#D9482B] font-num">
                   {submission?.essay_score !== null ? submission?.essay_score : "Chờ chấm"}
                 </span>
                 {submission?.essay_score !== null && (
-                  <span className="text-xs text-slate-400"> / {maxEssayScore} đ</span>
+                  <span className="text-xs text-[#7A7D88] font-num"> / {maxEssayScore} đ</span>
                 )}
               </div>
             </div>
           )}
 
           {/* Total Score Highlight */}
-          <div className="flex items-center justify-between rounded-xl border border-indigo-500/30 bg-indigo-500/10 p-4 text-white">
+          <div className="flex items-center justify-between rounded-2xl border border-[#D9482B]/20 bg-[#FBE3DC]/50 p-4 text-[#1F2128]">
             <div>
-              <p className="text-xs font-bold text-white">Tổng điểm kết quả</p>
-              <p className="text-[11px] text-indigo-300">Trắc nghiệm + Tự luận</p>
+              <p className="text-xs font-bold text-[#1F2128]">Tổng điểm kết quả</p>
+              <p className="text-[11px] text-[#7A7D88]">Trắc nghiệm + Tự luận</p>
             </div>
             <div className="text-right">
-              <span className="text-2xl font-black text-indigo-400">
+              <span className="text-2xl font-black text-[#D9482B] font-num">
                 {submission?.total_score ?? 0}
               </span>
-              <span className="text-xs text-slate-300"> / {maxTotalScore} điểm</span>
+              <span className="text-xs text-[#7A7D88] font-num"> / {maxTotalScore} điểm</span>
             </div>
           </div>
         </div>
@@ -149,16 +155,16 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/history"
-            className="flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-slate-900 border border-slate-800 px-5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
+            className="flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#F6F6F8] border border-black/[0.06] px-5 text-xs font-semibold text-[#1F2128] transition hover:bg-black/[0.04]"
           >
-            <History className="h-4 w-4 text-indigo-400" />
+            <History className="h-4 w-4 text-[#D9482B]" />
             <span>Danh sách bài đã làm</span>
           </Link>
 
           {submissionId && (
             <Link
               href={`/history/${submissionId}`}
-              className="flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98]"
+              className="flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#D9482B] hover:bg-[#C4492F] px-6 text-xs font-semibold text-white shadow-sm shadow-[#D9482B]/20 transition active:scale-[0.98]"
             >
               <span>Xem chi tiết & Nhận xét</span>
               <ArrowRight className="h-3.5 w-3.5" />

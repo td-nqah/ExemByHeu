@@ -42,17 +42,17 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${plusJakartaSans.variable} ${beVietnamPro.variable} ${jetBrainsMono.variable} dark scroll-smooth h-full antialiased`}
+      className={`${plusJakartaSans.variable} ${beVietnamPro.variable} ${jetBrainsMono.variable} scroll-smooth h-full antialiased`}
     >
-      <body className="min-h-screen bg-transparent font-body text-[#e5e7eb] antialiased selection:bg-[#4f46e5] selection:text-white relative overflow-x-hidden custom-scrollbar">
-        {/* Dynamic System Background: Mưa sao băng on login, Midnight Sky when logged in */}
+      <body className="min-h-screen bg-[#E9EAEE] font-body text-[#1F2128] antialiased selection:bg-[#FBE3DC] selection:text-[#D9482B] relative overflow-x-hidden custom-scrollbar">
+        {/* Dynamic System Background: Soft neutral ambient light UI */}
         <SystemBackground />
 
         <div className="relative z-10 flex min-h-screen flex-col">
           <Suspense
             fallback={
               <div className="h-screen w-full flex items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#D9482B] border-t-transparent" />
               </div>
             }
           >

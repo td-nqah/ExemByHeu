@@ -101,12 +101,12 @@ function UserDashboardContent() {
           ========================================================================= */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2.5">
+          <h2 className="text-base sm:text-lg font-bold tracking-tight text-[#1F2128] flex items-center gap-2.5">
             {activeCategory
               ? `Học phần: ${currentCategoryObj.label}`
               : "Bài đánh giá học phần khả dụng"}
           </h2>
-          <p className="mt-1 text-xs text-[#9ca3af]">
+          <p className="mt-1 text-xs text-[#7A7D88]">
             {activeCategory
               ? `Đang lọc các bài đánh giá thuộc học phần "${currentCategoryObj.label}". Chọn đề bên dưới để bắt đầu làm bài.`
               : "Chọn bài đánh giá bên dưới để bắt đầu làm bài. Thời gian làm bài sẽ được tính tự động."}
@@ -114,24 +114,24 @@ function UserDashboardContent() {
         </div>
 
         {/* Flat Minimal Stats Block */}
-        <div className="flex items-center gap-6 bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] rounded-xl px-4 py-2 text-xs select-none self-start md:self-auto">
+        <div className="flex items-center gap-6 bg-white border border-black/[0.06] rounded-xl px-4 py-2 shadow-xs text-xs select-none self-start md:self-auto">
           <div className="flex items-center gap-2">
-            <ClipboardList className="h-4 w-4 text-[#6366f1] shrink-0" />
-            <span className="text-[#9ca3af]">
+            <ClipboardList className="h-4 w-4 text-[#D9482B] shrink-0" />
+            <span className="text-[#7A7D88]">
               Số bài đánh giá:{" "}
-              <strong className="font-bold text-white text-sm tnum tabular-nums">
+              <strong className="font-bold text-[#1F2128] text-sm tnum tabular-nums">
                 {loading ? "..." : exams.length}
               </strong>
             </span>
           </div>
 
-          <div className="h-4 w-px bg-[#1f2937]" />
+          <div className="h-4 w-px bg-black/[0.06]" />
 
           <div className="flex items-center gap-2">
-            <CheckSquare className="h-4 w-4 text-[#34d399] shrink-0" />
-            <span className="text-[#9ca3af]">
+            <CheckSquare className="h-4 w-4 text-[#2E9E5B] shrink-0" />
+            <span className="text-[#7A7D88]">
               Đã hoàn thành:{" "}
-              <strong className="font-bold text-[#34d399] text-sm tnum tabular-nums">
+              <strong className="font-bold text-[#2E9E5B] text-sm tnum tabular-nums">
                 {loading ? "..." : submissions.length}
               </strong>
             </span>
@@ -159,8 +159,8 @@ function UserDashboardContent() {
               className={cn(
                 "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-medium text-center transition-colors shrink-0 select-none cursor-pointer",
                 isActive
-                  ? "bg-[#4f46e5] text-white shadow-sm shadow-[#4f46e5]/30 font-semibold"
-                  : "bg-[#111827]/85 border border-[#1f2937] text-[#9ca3af] hover:text-white hover:bg-[#1f2937]"
+                  ? "bg-[#D9482B] text-white shadow-xs font-semibold"
+                  : "bg-white border border-black/[0.06] shadow-sm text-[#7A7D88] hover:text-[#1F2128] hover:bg-[#F6F6F8]"
               )}
             >
               <span>{cat.label}</span>
@@ -173,20 +173,20 @@ function UserDashboardContent() {
           3. EXAM CARDS GRID (RESPONSIVE DYNAMIC GRID: 1 -> 2 -> 3 -> 4 COLS)
           ========================================================================= */}
       {loading ? (
-        <div className="bg-[#111827]/85 border border-[#1f2937] flex h-48 items-center justify-center rounded-2xl">
-          <p className="text-xs text-[#9ca3af]">Đang tải danh sách bài đánh giá...</p>
+        <div className="bg-white border border-black/[0.06] shadow-sm flex h-48 items-center justify-center rounded-2xl">
+          <p className="text-xs text-[#7A7D88]">Đang tải danh sách bài đánh giá...</p>
         </div>
       ) : filteredExams.length === 0 ? (
-        <div className="bg-[#111827]/85 border border-[#1f2937] flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
-          <div className="p-3 rounded-xl bg-[#0b0f19] text-[#6366f1] border border-[#1f2937]">
+        <div className="bg-white border border-black/[0.06] shadow-sm flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
+          <div className="p-3 rounded-xl bg-[#FBE3DC] text-[#D9482B] border border-[#D9482B]/20">
             <BookOpen className="h-7 w-7" />
           </div>
-          <h3 className="text-base font-bold text-white">
+          <h3 className="text-base font-bold text-[#1F2128]">
             {activeCategory
               ? `Chưa có bài đánh giá nào trong học phần "${currentCategoryObj.label}"`
               : "Chưa có bài đánh giá nào được ban hành"}
           </h3>
-          <p className="max-w-md text-xs text-[#9ca3af]">
+          <p className="max-w-md text-xs text-[#7A7D88]">
             {activeCategory
               ? "Hiện tại học phần này chưa có bài đánh giá nào được ban hành. Bạn có thể quay lại xem tất cả bài đánh giá hiện có."
               : "Vui lòng đăng nhập với quyền Quản trị viên để ban hành bài đánh giá mới."}
@@ -194,7 +194,7 @@ function UserDashboardContent() {
           {activeCategory && (
             <button
               onClick={() => router.push("/dashboard")}
-              className="mt-2 inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-4 py-2 text-xs font-semibold text-white transition-colors cursor-pointer shadow-md shadow-[#4f46e5]/20"
+              className="mt-2 inline-flex items-center gap-2 rounded-xl bg-[#D9482B] hover:bg-[#C43E23] px-4 py-2 text-xs font-semibold text-white transition-all cursor-pointer shadow-xs hover:-translate-y-0.5"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               <span>Hiển thị tất cả đề đánh giá</span>

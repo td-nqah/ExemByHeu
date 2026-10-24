@@ -83,23 +83,23 @@ export default function KnowledgeHubPage() {
   return (
     <div className="min-fluid-h p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
       {/* Header Section: Tiêu đề chính chỉ để dòng chữ Học liệu & Đề cương */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1f2937]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-black/[0.06]">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FBE3DC] border border-[#D9482B]/20 text-[#D9482B] shadow-xs">
             <BookOpen className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#1F2128] flex items-center gap-2">
               Tài liệu ôn tập
             </h1>
-            <p className="text-xs text-[#9ca3af] mt-0.5">
+            <p className="text-xs text-[#7A7D88] mt-0.5">
               Hệ thống học liệu, đề cương chi tiết và tài liệu tham khảo theo học phần
             </p>
           </div>
         </div>
 
-        <div className="text-xs text-[#9ca3af]">
-          Tổng số: <span className="font-bold text-white">{materials.length}</span> bài viết
+        <div className="text-xs text-[#7A7D88]">
+          Tổng số: <span className="font-bold text-[#1F2128]">{materials.length}</span> bài viết
         </div>
       </div>
 
@@ -108,13 +108,13 @@ export default function KnowledgeHubPage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
           {/* Search box */}
           <div className="md:col-span-5 relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9ca3af]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7A7D88]" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm kiếm tài liệu, khái niệm, chuyên đề..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#1f2937] bg-[#111827] text-xs text-[#e5e7eb] placeholder-[#9ca3af] focus:border-[#4f46e5] focus:outline-none transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-black/[0.08] bg-white text-xs text-[#1F2128] placeholder-[#A4A7B0] focus:border-[#D9482B] shadow-xs focus:outline-none transition-colors"
             />
           </div>
 
@@ -126,14 +126,14 @@ export default function KnowledgeHubPage() {
               className={cn(
                 "w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer",
                 selectedCategory !== "all"
-                  ? "bg-[#4f46e5]/15 border-[#4f46e5]/50 text-indigo-200 shadow-sm"
-                  : "bg-[#111827] border-[#1f2937] text-slate-200 hover:border-[#374151] hover:text-white"
+                  ? "bg-[#FBE3DC] border-[#D9482B]/30 text-[#C4492F] shadow-xs"
+                  : "bg-white border-black/[0.08] text-[#1F2128] hover:border-black/[0.15] shadow-xs"
               )}
             >
               <div className="flex items-center gap-2 truncate">
-                <FolderTree className="h-4 w-4 text-[#6366f1] shrink-0" />
-                <span className="text-[#9ca3af] font-normal">Danh mục:</span>
-                <span className="font-bold text-white truncate">
+                <FolderTree className="h-4 w-4 text-[#D9482B] shrink-0" />
+                <span className="text-[#7A7D88] font-normal">Danh mục:</span>
+                <span className="font-bold text-[#1F2128] truncate">
                   {selectedCategory === "all"
                     ? "Tất cả học phần"
                     : selectedCategory === "none"
@@ -142,14 +142,14 @@ export default function KnowledgeHubPage() {
                 </span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
-                <span className="px-1.5 py-0.5 rounded-md bg-white/10 text-[10px] font-mono text-slate-300">
+                <span className="px-1.5 py-0.5 rounded-md bg-black/[0.05] text-[10px] font-mono text-[#7A7D88]">
                   {selectedCategory === "all"
                     ? materials.length
                     : selectedCategory === "none"
                     ? materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length
                     : materials.filter((m) => m.category_id === selectedCategory || m.category_slug === selectedCategory).length}
                 </span>
-                <ChevronDown className={cn("h-4 w-4 text-[#9ca3af] transition-transform duration-200", isCategoryMenuOpen && "rotate-180")} />
+                <ChevronDown className={cn("h-4 w-4 text-[#7A7D88] transition-transform duration-200", isCategoryMenuOpen && "rotate-180")} />
               </div>
             </button>
 
@@ -166,9 +166,9 @@ export default function KnowledgeHubPage() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 4, scale: 0.98 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-[#1f2937] bg-[#0b0f19]/95 backdrop-blur-xl p-2 shadow-2xl space-y-1.5 min-w-[280px]"
+                    className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-black/[0.08] bg-white/98 backdrop-blur-xl p-2 shadow-2xl space-y-1.5 min-w-[280px] rounded-2xl"
                   >
-                    <div className="px-2.5 py-1.5 text-[11px] font-bold text-[#9ca3af] uppercase tracking-wider flex items-center justify-between border-b border-[#1f2937]/80 pb-2">
+                    <div className="px-2.5 py-1.5 text-[11px] font-bold text-[#7A7D88] uppercase tracking-wider flex items-center justify-between border-b border-black/[0.06] pb-2">
                       <span>Chọn học phần đào tạo</span>
                       <span>{categories.length + 2} phân loại</span>
                     </div>
@@ -183,19 +183,19 @@ export default function KnowledgeHubPage() {
                       className={cn(
                         "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                         selectedCategory === "all"
-                          ? "bg-[#4f46e5]/20 border-[#4f46e5]/50 text-white shadow-sm"
-                          : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#1f2937] text-slate-300"
+                          ? "bg-[#FBE3DC] border-[#D9482B]/30 text-[#1F2128] shadow-xs"
+                          : "border-transparent bg-transparent hover:bg-black/[0.03] hover:border-black/[0.06] text-[#1F2128]"
                       )}
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="h-8 w-8 rounded-lg bg-[#4f46e5]/15 border border-[#4f46e5]/30 flex items-center justify-center text-[#6366f1] shrink-0">
+                        <div className="h-8 w-8 rounded-lg bg-[#4f46e5]/15 border border-[#4f46e5]/30 flex items-center justify-center text-[#D9482B] shrink-0">
                           <Library className="h-4 w-4" />
                         </div>
                         <div>
-                          <p className="text-xs font-bold text-white group-hover:text-indigo-300 transition">
+                          <p className="text-xs font-bold text-[#1F2128] group-hover:text-[#D9482B] transition">
                             Tất cả học phần
                           </p>
-                          <p className="text-[10px] text-[#9ca3af]">Toàn bộ tài liệu trong hệ thống</p>
+                          <p className="text-[10px] text-[#7A7D88]">Toàn bộ tài liệu trong hệ thống</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -203,7 +203,7 @@ export default function KnowledgeHubPage() {
                           {materials.length} bài
                         </span>
                         {selectedCategory === "all" && (
-                          <CheckCircle2 className="h-4 w-4 text-[#6366f1]" />
+                          <CheckCircle2 className="h-4 w-4 text-[#D9482B]" />
                         )}
                       </div>
                     </button>
@@ -230,7 +230,7 @@ export default function KnowledgeHubPage() {
                           <p className="text-xs font-bold text-white group-hover:text-slate-200 transition truncate">
                             Tài liệu chung (Không gắn học phần)
                           </p>
-                          <p className="text-[10px] text-[#9ca3af] truncate">Ghi chú & cẩm nang chung</p>
+                          <p className="text-[10px] text-[#7A7D88] truncate">Ghi chú & cẩm nang chung</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 shrink-0 ml-2">
@@ -238,7 +238,7 @@ export default function KnowledgeHubPage() {
                           {materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length} bài
                         </span>
                         {selectedCategory === "none" && (
-                          <CheckCircle2 className="h-4 w-4 text-[#6366f1]" />
+                          <CheckCircle2 className="h-4 w-4 text-[#D9482B]" />
                         )}
                       </div>
                     </button>
@@ -274,7 +274,7 @@ export default function KnowledgeHubPage() {
                                 <p className="text-xs font-bold text-white group-hover:text-emerald-300 transition truncate">
                                   {c.name}
                                 </p>
-                                <p className="text-[10px] text-[#9ca3af] font-mono truncate">
+                                <p className="text-[10px] text-[#7A7D88] font-mono truncate">
                                   Mã: {c.slug}
                                 </p>
                               </div>
@@ -299,7 +299,7 @@ export default function KnowledgeHubPage() {
 
           {/* Sort Selector */}
           <div className="md:col-span-3 flex items-center justify-end gap-2 text-xs">
-            <span className="text-[#9ca3af] text-xs shrink-0">Sắp xếp:</span>
+            <span className="text-[#7A7D88] text-xs shrink-0">Sắp xếp:</span>
             <PopoverSelect<"newest" | "title">
               value={sortBy}
               onChange={(val) => setSortBy(val)}
@@ -320,7 +320,7 @@ export default function KnowledgeHubPage() {
 
         {/* Active category filter pill */}
         {selectedCategory !== "all" && (
-          <div className="flex items-center gap-2 text-xs text-[#9ca3af]">
+          <div className="flex items-center gap-2 text-xs text-[#7A7D88]">
             <span>Đang lọc theo:</span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#4f46e5]/20 text-indigo-300 border border-[#4f46e5]/40 text-xs font-bold">
               <Tag className="h-3 w-3" />
@@ -354,7 +354,7 @@ export default function KnowledgeHubPage() {
         <div className="rounded-2xl border border-dashed border-[#1f2937] bg-[#111827]/50 p-12 text-center">
           <BookOpen className="mx-auto h-12 w-12 text-[#6b7280] mb-3" />
           <h3 className="text-sm font-bold text-white">Không tìm thấy tài liệu phù hợp</h3>
-          <p className="text-xs text-[#9ca3af] mt-1 max-w-sm mx-auto">
+          <p className="text-xs text-[#7A7D88] mt-1 max-w-sm mx-auto">
             Thử thay đổi bộ lọc danh mục hoặc từ khóa tìm kiếm để khám phá các bài viết lý thuyết khác.
           </p>
           {(searchQuery || selectedCategory !== "all") && (
@@ -397,20 +397,20 @@ export default function KnowledgeHubPage() {
 
                 {/* Article Title: Bold & High contrast */}
                 <Link href={`/knowledge/${item.id}`} className="block">
-                  <h2 className="font-heading text-base font-bold text-white group-hover:text-indigo-300 transition line-clamp-2 leading-snug">
+                  <h2 className="font-heading text-base font-bold text-[#1F2128] group-hover:text-[#D9482B] transition line-clamp-2 leading-snug">
                     {item.title}
                   </h2>
                 </Link>
 
                 {/* Summary */}
-                <p className="text-xs text-[#9ca3af] line-clamp-3 leading-relaxed">
+                <p className="text-xs text-[#7A7D88] line-clamp-3 leading-relaxed">
                   {item.summary || "Tổng hợp kiến thức trọng tâm và các dạng bài thường gặp..."}
                 </p>
               </div>
 
               {/* Card Footer */}
-              <div className="mt-5 pt-3.5 border-t border-[#1f2937] flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-[#9ca3af] max-w-[140px] truncate">
+              <div className="mt-5 pt-3.5 border-t border-black/[0.06] flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-[#7A7D88] max-w-[140px] truncate">
                   <div className="h-6 w-6 rounded-lg bg-[#1f2937] text-white flex items-center justify-center font-bold text-[10px] border border-[#1f2937] shrink-0">
                     {(item.author || "B")[0]}
                   </div>
@@ -419,7 +419,7 @@ export default function KnowledgeHubPage() {
 
                 <Link
                   href={`/knowledge/${item.id}`}
-                  className="inline-flex items-center gap-1 font-bold text-xs text-[#6366f1] group-hover:text-indigo-300 group-hover:translate-x-0.5 transition duration-150"
+                  className="inline-flex items-center gap-1 font-bold text-xs text-[#D9482B] group-hover:text-indigo-300 group-hover:translate-x-0.5 transition duration-150"
                 >
                   <span>Đọc bài</span>
                   <ArrowRight className="h-3.5 w-3.5" />

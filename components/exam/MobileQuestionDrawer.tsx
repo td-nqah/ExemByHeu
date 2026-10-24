@@ -58,20 +58,20 @@ export function MobileQuestionDrawer({
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-600 to-violet-600 text-white border border-white/20 shadow-[0_0_25px_rgba(99,102,241,0.55)] transition-all duration-200 active:scale-90 hover:scale-105"
+          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#D9482B] text-white border border-black/[0.08] shadow-[0_4px_20px_rgba(217,72,43,0.4)] transition-all duration-200 active:scale-90 hover:scale-105"
           aria-label="Mở danh sách câu hỏi"
           title="Danh sách câu hỏi"
         >
           <Menu className="h-6 w-6 stroke-[2.5]" strokeLinecap="round" />
 
           {/* Progress Badge */}
-          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-emerald-500 px-1.5 text-[10px] font-extrabold font-mono tabular-nums text-slate-950 border-2 border-slate-950 shadow-md">
+          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-white px-1.5 text-[10px] font-extrabold font-mono tabular-nums text-[#D9482B] border border-[#D9482B]/30 shadow-xs">
             {answeredCount}/{total}
           </span>
 
           {/* Small Flag indicator if any flagged */}
           {flaggedCount > 0 && (
-            <span className="absolute -bottom-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-slate-950 border-2 border-slate-950 shadow-md">
+            <span className="absolute -bottom-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#B8962E] text-white border border-white shadow-xs">
               <Flag className="h-2.5 w-2.5 fill-current" />
             </span>
           )}
@@ -91,20 +91,20 @@ export function MobileQuestionDrawer({
       {/* 3. Slide-over Bottom Sheet Drawer */}
       <div
         className={cn(
-          "fixed inset-x-0 bottom-0 z-50 flex max-h-[85dvh] flex-col rounded-t-[28px] border-t border-white/10 bg-slate-950/95 backdrop-blur-2xl shadow-[0_-12px_45px_rgba(0,0,0,0.85)] transition-transform duration-300 ease-out md:hidden",
+          "fixed inset-x-0 bottom-0 z-50 flex max-h-[85dvh] flex-col rounded-t-[28px] border-t border-black/[0.08] bg-white/98 backdrop-blur-2xl shadow-[0_-12px_45px_rgba(0,0,0,0.15)] text-[#1F2128] transition-transform duration-300 ease-out md:hidden",
           isOpen ? "translate-y-0" : "translate-y-full pointer-events-none"
         )}
       >
         {/* Drag Pill indicator */}
         <div className="flex w-full items-center justify-center pt-3 pb-1">
-          <div className="h-1.5 w-12 rounded-full bg-slate-700/80" />
+          <div className="h-1.5 w-12 rounded-full bg-black/[0.15]" />
         </div>
 
         {/* Drawer Header */}
-        <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
+        <div className="flex items-center justify-between border-b border-black/[0.06] px-5 py-3">
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold text-white tracking-tight font-heading">
+              <h2 className="text-sm font-bold text-[#1F2128] tracking-tight font-heading">
                 Danh sách câu hỏi
               </h2>
               {flaggedCount > 0 && (
@@ -114,15 +114,15 @@ export function MobileQuestionDrawer({
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">
-              Đã làm <span className="font-semibold font-mono tabular-nums text-indigo-400">{answeredCount}/{total} câu</span> ({progressPercent}%)
+            <p className="text-[11px] text-[#7A7D88] mt-0.5">
+              Đã làm <span className="font-semibold font-mono tabular-nums text-[#D9482B]">{answeredCount}/{total} câu</span> ({progressPercent}%)
             </p>
           </div>
 
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition active:scale-95"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F6F6F8] border border-black/[0.08] text-[#7A7D88] hover:text-[#1F2128] transition active:scale-95"
             aria-label="Đóng ngăn kéo"
           >
             <X className="h-5 w-5" />
@@ -130,9 +130,9 @@ export function MobileQuestionDrawer({
         </div>
 
         {/* Progress Bar Line */}
-        <div className="h-1 w-full bg-slate-900">
+        <div className="h-1 w-full bg-black/[0.05]">
           <div
-            className="h-full bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-400 transition-all duration-300"
+            className="h-full bg-[#D9482B] transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -146,14 +146,14 @@ export function MobileQuestionDrawer({
               const isActive = activeQuestionId === question.id;
 
               // Color states as specifically requested
-              let btnStyle = "border-slate-800 bg-slate-900/80 text-slate-400 hover:bg-slate-850 hover:text-slate-200";
+              let btnStyle = "border-black/[0.06] bg-[#F6F6F8] text-[#7A7D88] hover:bg-black/[0.04] hover:text-[#1F2128]";
 
               if (isFlagged) {
                 // Câu ĐÃ ĐÁNH DẤU: Vàng neon kèm cờ
-                btnStyle = "border-amber-400 bg-amber-500/20 text-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.3)] font-bold";
+                btnStyle = "border-[#B8962E]/40 bg-[#F6EBC8] text-[#B8962E] font-bold shadow-xs";
               } else if (isAnswered) {
                 // Câu ĐÃ LÀM: Tím sáng rực rỡ / Xanh lục bảo
-                btnStyle = "border-indigo-500/50 bg-indigo-600 text-white shadow-[0_0_12px_rgba(99,102,241,0.35)] font-bold";
+                btnStyle = "border-[#2E9E5B]/40 bg-[#DDF2E5] text-[#2E9E5B] font-bold shadow-xs";
               }
 
               return (
@@ -164,7 +164,7 @@ export function MobileQuestionDrawer({
                   className={cn(
                     "relative flex h-11 w-full items-center justify-center rounded-xl text-xs font-mono tabular-nums transition active:scale-95 border",
                     btnStyle,
-                    isActive && "ring-2 ring-white ring-offset-2 ring-offset-slate-950 scale-105 z-10"
+                    isActive && "ring-2 ring-[#D9482B] ring-offset-2 ring-offset-white scale-105 z-10 bg-white text-[#1F2128]"
                   )}
                 >
                   <span>{index + 1}</span>

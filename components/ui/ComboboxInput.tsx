@@ -115,9 +115,9 @@ export function ComboboxInput({
           }}
           placeholder={placeholder}
           className={cn(
-            "w-full px-3.5 py-2.5 pr-9 bg-[#111827] border border-[#1f2937] hover:border-[#374151] focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner",
+            "w-full px-3.5 py-2.5 pr-9 bg-white border border-black/[0.08] hover:border-black/[0.15] focus:border-[#D9482B] rounded-xl text-xs text-[#1F2128] placeholder-[#A4A7B0] focus:outline-none transition-all shadow-xs",
             disabled && "opacity-50 cursor-not-allowed pointer-events-none",
-            isOpen && "border-[#4f46e5]/70 ring-1 ring-[#4f46e5]/30",
+            isOpen && "border-[#D9482B] ring-1 ring-[#D9482B]/20",
             inputClassName
           )}
         />
@@ -133,13 +133,13 @@ export function ComboboxInput({
               inputRef.current?.focus();
             }
           }}
-          className="absolute right-2.5 inset-y-0 flex items-center text-[#9ca3af] hover:text-white transition-colors cursor-pointer disabled:opacity-40"
+          className="absolute right-2.5 inset-y-0 flex items-center text-[#7A7D88] hover:text-[#1F2128] transition-colors cursor-pointer disabled:opacity-40"
           aria-label="Danh sách gợi ý"
         >
           <ChevronDown
             className={cn(
               "h-4 w-4 transition-transform duration-200",
-              isOpen && "rotate-180 text-indigo-400"
+              isOpen && "rotate-180 text-[#D9482B]"
             )}
           />
         </button>
@@ -153,9 +153,9 @@ export function ComboboxInput({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-[#1f2937] bg-[#0b0f19]/95 backdrop-blur-2xl p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] max-h-56 overflow-y-auto custom-scrollbar ring-1 ring-black/60"
+            className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-black/[0.08] bg-white/98 backdrop-blur-2xl p-1.5 shadow-[0_12px_36px_rgba(0,0,0,0.12)] max-h-56 overflow-y-auto custom-scrollbar rounded-xl text-[#1F2128]"
           >
-            <div className="px-2 py-1 text-[10px] font-semibold text-[#9ca3af] uppercase tracking-wider border-b border-[#1f2937]/80 flex items-center justify-between">
+            <div className="px-2 py-1 text-[10px] font-semibold text-[#7A7D88] uppercase tracking-wider border-b border-black/[0.06] flex items-center justify-between">
               <span>Đề thi có sẵn ({filteredSuggestions.length})</span>
               <span className="font-mono text-[9px] text-slate-500 lowercase">
                 Gõ để lọc hoặc chọn
@@ -164,7 +164,7 @@ export function ComboboxInput({
 
             <div className="py-1 space-y-0.5">
               {filteredSuggestions.length === 0 ? (
-                <div className="px-3 py-3 text-center text-xs text-[#9ca3af]">
+                <div className="px-3 py-3 text-center text-xs text-[#7A7D88]">
                   Không tìm thấy bài thi trùng khớp.
                   <span className="block text-[10px] text-slate-500 mt-0.5">
                     Tên mới &quot;{value}&quot; sẽ được tạo.
@@ -188,8 +188,8 @@ export function ComboboxInput({
                       className={cn(
                         "w-full px-2.5 py-2 rounded-lg text-left transition-all duration-150 flex items-center justify-between gap-2 group cursor-pointer border",
                         isSelected
-                          ? "bg-[#4f46e5]/20 border-[#4f46e5]/40 text-white font-semibold shadow-sm"
-                          : "border-transparent hover:bg-[#1f2937] text-slate-300 hover:text-white"
+                          ? "bg-[#FBE3DC] border-[#D9482B]/30 text-[#1F2128] font-semibold shadow-xs"
+                          : "border-transparent hover:bg-black/[0.03] text-[#7A7D88] hover:text-[#1F2128]"
                       )}
                     >
                       <div className="flex items-center gap-2 min-w-0">
@@ -197,8 +197,8 @@ export function ComboboxInput({
                           className={cn(
                             "h-3.5 w-3.5 shrink-0 transition-colors",
                             isSelected
-                              ? "text-indigo-400"
-                              : "text-slate-500 group-hover:text-indigo-300"
+                              ? "text-[#D9482B]"
+                              : "text-[#7A7D88] group-hover:text-[#D9482B]"
                           )}
                         />
                         <div className="min-w-0">
@@ -206,7 +206,7 @@ export function ComboboxInput({
                             {item.title}
                           </p>
                           {item.subtitle && (
-                            <p className="text-[10px] text-[#9ca3af] truncate mt-0.5">
+                            <p className="text-[10px] text-[#7A7D88] truncate mt-0.5">
                               {item.subtitle}
                             </p>
                           )}
@@ -214,7 +214,7 @@ export function ComboboxInput({
                       </div>
 
                       {isSelected && (
-                        <div className="shrink-0 h-4 w-4 rounded-full bg-[#4f46e5]/20 border border-[#4f46e5]/40 flex items-center justify-center text-indigo-300 ml-2">
+                        <div className="shrink-0 h-4 w-4 rounded-full bg-[#FBE3DC] border border-[#D9482B]/30 flex items-center justify-center text-[#D9482B] ml-2">
                           <Check className="h-2.5 w-2.5" />
                         </div>
                       )}

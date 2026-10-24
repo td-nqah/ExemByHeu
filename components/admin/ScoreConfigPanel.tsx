@@ -92,25 +92,25 @@ export function ScoreConfigPanel({
   const formattedEssayTotal = Math.round(currentEssayTotal * 100) / 100;
 
   return (
-    <div className="glass-panel rounded-2xl p-5 sm:p-6">
+    <div className="rounded-[24px] bg-white border border-black/[0.06] p-5 sm:p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)]">
       {/* Header */}
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] pb-4">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-400">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FBE3DC] text-[#D9482B]">
             <Sliders className="h-4 w-4" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-white">
+            <h3 className="text-sm font-bold text-[#1F2128] font-heading">
               Cấu hình & Tự động Phân bổ Điểm số
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#7A7D88]">
               Thiết lập điểm số hàng loạt cho câu hỏi trắc nghiệm, tự luận hoặc quy đổi tự động theo thang điểm mong muốn.
             </p>
           </div>
         </div>
 
         {autoAppliedToast && (
-          <span className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
+          <span className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/20 bg-[#DDF2E5] px-3 py-1 text-xs font-semibold text-[#2E9E5B]">
             <CheckCircle2 className="h-3.5 w-3.5" />
             <span>{autoAppliedToast}</span>
           </span>
@@ -120,13 +120,13 @@ export function ScoreConfigPanel({
       {/* Row 1: Per-Question Score Inputs + Live Total Exam Score */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* 1. MCQ Point per Question */}
-        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+        <div className="rounded-2xl border border-black/[0.06] bg-[#F6F6F8] p-4">
           <div className="mb-2 flex items-center justify-between">
-            <label className="flex items-center gap-1.5 text-xs font-bold text-white">
-              <HelpCircle className="h-3.5 w-3.5 text-indigo-400" />
+            <label className="flex items-center gap-1.5 text-xs font-bold text-[#1F2128]">
+              <HelpCircle className="h-3.5 w-3.5 text-[#D9482B]" />
               <span>Điểm mỗi câu trắc nghiệm</span>
             </label>
-            <span className="rounded-md bg-slate-800 border border-slate-700/60 px-2 py-0.5 text-[10px] font-semibold text-slate-300">
+            <span className="rounded-md bg-white border border-black/[0.06] px-2 py-0.5 text-[10px] font-semibold text-[#7A7D88] font-mono">
               {mcqCount} câu
             </span>
           </div>
@@ -141,22 +141,22 @@ export function ScoreConfigPanel({
               disabled={mcqCount === 0}
               className="w-full justify-between"
             />
-            <span className="shrink-0 text-xs font-medium text-slate-400">điểm/câu</span>
+            <span className="shrink-0 text-xs font-medium text-[#7A7D88]">điểm/câu</span>
           </div>
 
           {/* Quick MCQ Presets */}
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-slate-400">Chọn nhanh:</span>
+            <span className="text-[10px] text-[#7A7D88]">Chọn nhanh:</span>
             {[0.2, 0.25, 0.5, 1.0].map((val) => (
               <button
                 key={val}
                 type="button"
                 disabled={mcqCount === 0}
                 onClick={() => handleMcqChange(String(val))}
-                className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 ${
+                className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 font-mono ${
                   parseFloat(mcqInput) === val
-                    ? "border-indigo-500 bg-indigo-600 text-white"
-                    : "border-slate-800 bg-slate-900 text-slate-300 hover:border-slate-700 hover:text-white"
+                    ? "border-[#D9482B] bg-[#D9482B] text-white"
+                    : "border-black/[0.06] bg-white text-[#1F2128] hover:border-[#D9482B]/40"
                 }`}
               >
                 {val}đ
@@ -166,13 +166,13 @@ export function ScoreConfigPanel({
         </div>
 
         {/* 2. Essay Point per Question */}
-        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+        <div className="rounded-2xl border border-black/[0.06] bg-[#F6F6F8] p-4">
           <div className="mb-2 flex items-center justify-between">
-            <label className="flex items-center gap-1.5 text-xs font-bold text-white">
-              <FileText className="h-3.5 w-3.5 text-indigo-400" />
+            <label className="flex items-center gap-1.5 text-xs font-bold text-[#1F2128]">
+              <FileText className="h-3.5 w-3.5 text-[#D9482B]" />
               <span>Điểm mỗi câu tự luận</span>
             </label>
-            <span className="rounded-md bg-slate-800 border border-slate-700/60 px-2 py-0.5 text-[10px] font-semibold text-slate-300">
+            <span className="rounded-md bg-white border border-black/[0.06] px-2 py-0.5 text-[10px] font-semibold text-[#7A7D88] font-mono">
               {essayCount} câu
             </span>
           </div>
@@ -187,22 +187,22 @@ export function ScoreConfigPanel({
               disabled={essayCount === 0}
               className="w-full justify-between"
             />
-            <span className="shrink-0 text-xs font-medium text-slate-400">điểm/câu</span>
+            <span className="shrink-0 text-xs font-medium text-[#7A7D88]">điểm/câu</span>
           </div>
 
           {/* Quick Essay Presets */}
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-slate-400">Chọn nhanh:</span>
+            <span className="text-[10px] text-[#7A7D88]">Chọn nhanh:</span>
             {[1.0, 2.0, 3.0, 5.0].map((val) => (
               <button
                 key={val}
                 type="button"
                 disabled={essayCount === 0}
                 onClick={() => handleEssayChange(String(val))}
-                className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 ${
+                className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 font-mono ${
                   parseFloat(essayInput) === val
-                    ? "border-indigo-500 bg-indigo-600 text-white"
-                    : "border-slate-800 bg-slate-900 text-slate-300 hover:border-slate-700 hover:text-white"
+                    ? "border-[#D9482B] bg-[#D9482B] text-white"
+                    : "border-black/[0.06] bg-white text-[#1F2128] hover:border-[#D9482B]/40"
                 }`}
               >
                 {val}đ
@@ -212,46 +212,46 @@ export function ScoreConfigPanel({
         </div>
 
         {/* 3. Total Exam Score Display */}
-        <div className="flex flex-col justify-between rounded-xl border border-indigo-500/30 bg-indigo-500/10 p-4">
+        <div className="flex flex-col justify-between rounded-2xl border border-[#D9482B]/20 bg-[#FBE3DC]/40 p-4">
           <div className="flex items-center justify-between">
-            <span className="flex items-center gap-1.5 text-xs font-bold text-white">
-              <Calculator className="h-3.5 w-3.5 text-indigo-400" />
+            <span className="flex items-center gap-1.5 text-xs font-bold text-[#1F2128]">
+              <Calculator className="h-3.5 w-3.5 text-[#D9482B]" />
               <span>Tổng điểm toàn bài</span>
             </span>
-            <span className="rounded-md border border-indigo-500/30 bg-indigo-500/20 px-2 py-0.5 text-[10px] font-bold text-indigo-300">
+            <span className="rounded-md border border-[#D9482B]/20 bg-[#FBE3DC] px-2 py-0.5 text-[10px] font-bold text-[#C4492F] font-mono">
               Tự động tính
             </span>
           </div>
 
           <div className="my-2 flex items-baseline gap-1.5">
-            <span className="text-3xl font-black tracking-tight text-white">
+            <span className="text-3xl font-black tracking-tight text-[#D9482B] font-num">
               {formattedTotal}
             </span>
-            <span className="text-xs font-semibold text-indigo-300">điểm</span>
+            <span className="text-xs font-semibold text-[#7A7D88]">điểm</span>
           </div>
 
-          <div className="border-t border-indigo-500/20 pt-2 text-[11px] text-slate-300">
+          <div className="border-t border-black/[0.06] pt-2 text-[11px] text-[#7A7D88]">
             <span>Trắc nghiệm: </span>
-            <strong className="text-white">{formattedMcqTotal}đ</strong>
-            <span className="mx-1.5 text-slate-500">•</span>
+            <strong className="text-[#1F2128] font-num">{formattedMcqTotal}đ</strong>
+            <span className="mx-1.5 text-black/20">•</span>
             <span>Tự luận: </span>
-            <strong className="text-white">{formattedEssayTotal}đ</strong>
+            <strong className="text-[#1F2128] font-num">{formattedEssayTotal}đ</strong>
           </div>
         </div>
       </div>
 
       {/* Row 2: Auto-Calculate / Scale Score Bar */}
-      <div className="mt-4 flex flex-col justify-between gap-4 rounded-xl border border-slate-800 bg-slate-900/80 p-4 lg:flex-row lg:items-center">
+      <div className="mt-4 flex flex-col justify-between gap-4 rounded-2xl border border-black/[0.06] bg-[#F6F6F8] p-4 lg:flex-row lg:items-center">
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-indigo-400" />
-            <span className="text-xs font-bold text-white">
+            <Sparkles className="h-4 w-4 text-[#D9482B]" />
+            <span className="text-xs font-bold text-[#1F2128]">
               Quy đổi / Tự động chia điểm:
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-xs text-slate-300">Tổng điểm mong muốn:</label>
+            <label className="text-xs text-[#7A7D88]">Tổng điểm mong muốn:</label>
             <NumberStepper
               value={parseInt(desiredTotalInput) || 10}
               onChange={(val) => setDesiredTotalInput(String(val))}
@@ -265,10 +265,10 @@ export function ScoreConfigPanel({
                   key={preset}
                   type="button"
                   onClick={() => setDesiredTotalInput(String(preset))}
-                  className={`rounded-lg border px-2 py-1 text-[10px] font-bold transition ${
+                  className={`rounded-lg border px-2 py-1 text-[10px] font-bold transition font-mono ${
                     parseFloat(desiredTotalInput) === preset
-                      ? "border-indigo-500 bg-indigo-600 text-white"
-                      : "border-slate-800 bg-slate-900 text-slate-300 hover:border-slate-700 hover:text-white"
+                      ? "border-[#D9482B] bg-[#D9482B] text-white"
+                      : "border-black/[0.06] bg-white text-[#1F2128] hover:border-[#D9482B]/40"
                   }`}
                 >
                   Thang {preset}
@@ -301,7 +301,7 @@ export function ScoreConfigPanel({
         <button
           type="button"
           onClick={handleTriggerAutoAllocate}
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98]"
+          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D9482B] hover:bg-[#C4492F] px-4 py-2 text-xs font-semibold text-white shadow-sm shadow-[#D9482B]/20 transition active:scale-[0.98]"
         >
           <Sparkles className="h-3.5 w-3.5" />
           <span>Tự động phân bổ điểm</span>

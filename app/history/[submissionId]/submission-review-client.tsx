@@ -60,10 +60,10 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center p-4">
         <div className="glass-card rounded-2xl p-8 text-center">
-          <h2 className="text-base font-bold text-white">
+          <h2 className="text-base font-bold text-[#1F2128]">
             Không tìm thấy bài làm
           </h2>
-          <Link href="/history" className="mt-3 inline-block text-xs font-semibold text-indigo-400 underline">
+          <Link href="/history" className="mt-3 inline-block text-xs font-semibold text-[#D9482B] underline">
             Quay lại Lịch sử làm bài
           </Link>
         </div>
@@ -79,9 +79,9 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
       <div className="mb-6">
         <Link
           href="/history"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7A7D88] transition hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
+          <ArrowLeft className="h-3.5 w-3.5 text-[#D9482B]" />
           <span>Quay lại lịch sử đánh giá</span>
         </Link>
       </div>
@@ -95,46 +95,46 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="mb-2 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-300">
+              <span className="inline-flex items-center gap-1 rounded-lg bg-black/[0.06]/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-[#1F2128]">
                 <Calendar className="h-3 w-3 text-indigo-400" />
                 {formatDate(submission.submitted_at)}
               </span>
               {isGraded ? (
-                <span className="inline-flex items-center gap-1 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
+                <span className="inline-flex items-center gap-1 rounded-lg border border-[#2E9E5B]/20 bg-[#DDF2E5] px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold text-[#2E9E5B]">
                   <CheckCircle2 className="h-3 w-3" />
                   Đã hoàn tất đánh giá
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-lg border border-amber-500/20 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-amber-400">
+                <span className="inline-flex items-center gap-1 rounded-lg border border-[#B8962E]/30 bg-[#F6EBC8] px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold text-[#B8962E]">
                   <Clock className="h-3 w-3" />
                   Đang chờ chấm điểm tự luận
                 </span>
               )}
             </div>
 
-            <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+            <h1 className="text-xl font-bold tracking-tight text-[#1F2128] sm:text-2xl">
               {submission.exam?.title || "Bài kiểm tra"}
             </h1>
-            <p className="mt-1 text-xs text-slate-400">
-              User: <strong className="text-white">{submission.user?.username || "User"}</strong>
+            <p className="mt-1 text-xs text-[#7A7D88]">
+              User: <strong className="text-[#1F2128]">{submission.user?.username || "User"}</strong>
             </p>
           </div>
 
-          <div className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900/80 p-4">
+          <div className="flex items-center gap-4 rounded-xl border border-black/[0.06] bg-[#F6F6F8] rounded-xl p-4">
             <div className="text-right">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tổng điểm</p>
-              <p className="text-2xl font-black text-indigo-400">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-[#7A7D88]">Tổng điểm</p>
+              <p className="text-2xl font-black text-[#D9482B]">
                 {submission.total_score}
               </p>
             </div>
             <div className="h-8 w-px bg-slate-800" />
-            <div className="space-y-0.5 text-xs text-slate-400">
+            <div className="space-y-0.5 text-xs text-[#7A7D88]">
               <p>
-                Trắc nghiệm: <span className="font-bold text-white">{submission.mcq_score}</span>
+                Trắc nghiệm: <span className="font-bold text-[#1F2128]">{submission.mcq_score}</span>
               </p>
               <p>
                 Tự luận:{" "}
-                <span className="font-bold text-white">
+                <span className="font-bold text-[#1F2128]">
                   {submission.essay_score !== null ? submission.essay_score : "Chờ chấm"}
                 </span>
               </p>
@@ -144,7 +144,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
       </motion.div>
 
       <div className="space-y-6">
-        <h2 className="text-sm font-bold text-slate-300">
+        <h2 className="text-sm font-bold text-[#1F2128]">
           Chi tiết từng câu hỏi ({answers.length} câu)
         </h2>
 
@@ -161,14 +161,14 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.25) }}
-              className="glow-card rounded-2xl p-6"
+              className="card-soft rounded-[24px] bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] p-6"
             >
-              <div className="mb-4 flex items-center justify-between border-b border-slate-800/80 pb-3">
+              <div className="mb-4 flex items-center justify-between border-b border-black/[0.06] pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#D9482B]/20 bg-[#FBE3DC] text-xs font-bold text-[#C4492F]">
                     {index + 1}
                   </span>
-                  <span className="text-xs font-bold text-white">
+                  <span className="text-xs font-bold text-[#1F2128]">
                     {isMCQ ? "Trắc nghiệm" : "Tự luận"}
                   </span>
                 </div>
@@ -195,7 +195,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                 </div>
               </div>
 
-              <p className="mb-4 whitespace-pre-wrap text-sm font-medium leading-relaxed text-slate-100">
+              <p className="mb-4 whitespace-pre-wrap text-sm font-medium leading-relaxed text-[#1F2128]">
                 {q.content}
               </p>
 
@@ -224,20 +224,20 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                       correctKeyLetter.length > 0 && correctKeyLetter === letter;
 
                     let rowStyle =
-                      "border-slate-800 bg-slate-900/40 text-slate-400 opacity-65";
+                      "border-slate-800 bg-slate-900/40 text-[#7A7D88] opacity-65";
                     let letterBadgeStyle =
-                      "border border-slate-700 bg-slate-800 text-slate-400";
+                      "border border-slate-700 bg-slate-800 text-[#7A7D88]";
 
                     if (isCorrectAnswer) {
                       rowStyle =
-                        "border-emerald-500 bg-emerald-950/50 text-emerald-400 font-semibold shadow-[inset_0_1px_0_rgba(16,185,129,0.15)]";
+                        "border-[#2E9E5B] bg-[#DDF2E5] text-[#2E9E5B] font-semibold shadow-xs";
                       letterBadgeStyle =
-                        "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300";
+                        "border border-[#2E9E5B]/40 bg-[#2E9E5B] text-white";
                     } else if (isCandidateChoice && !isCorrectAnswer) {
                       rowStyle =
-                        "border-rose-500 bg-rose-950/50 text-rose-400 font-semibold shadow-[inset_0_1px_0_rgba(244,63,94,0.15)]";
+                        "border-[#D9482B] bg-[#FBE0D9] text-[#D9482B] font-semibold shadow-xs";
                       letterBadgeStyle =
-                        "border border-rose-400/50 bg-rose-500/20 text-rose-300";
+                        "border border-[#D9482B]/40 bg-[#D9482B] text-white";
                     }
 
                     return (
@@ -285,18 +285,18 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="mb-1.5 block text-[11px] font-semibold text-slate-400">
+                    <label className="mb-1.5 block text-[11px] font-semibold text-[#7A7D88]">
                       Bài làm của sinh viên
                     </label>
-                    <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
+                    <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-[#1F2128]">
                       {answer.user_answer || "(Sinh viên không điền câu trả lời)"}
                     </div>
                   </div>
 
-                  <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4">
+                  <div className="rounded-xl border border-[#D9482B]/20 bg-[#FBE3DC]/30 p-4">
                     <div className="mb-1.5 flex items-center gap-2 text-indigo-400">
                       <Sparkles className="h-4 w-4" />
-                      <span className="text-xs font-bold text-white">
+                      <span className="text-xs font-bold text-[#1F2128]">
                         Đánh giá & Nhận xét học vụ (Trợ lý học thuật AI & Giảng viên phụ trách)
                       </span>
                     </div>
@@ -315,7 +315,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                     <Sparkles className="h-3.5 w-3.5" />
                     <span>Lời giải chi tiết:</span>
                   </div>
-                  <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-300">
+                  <p className="whitespace-pre-wrap text-xs leading-relaxed text-[#1F2128]">
                     {q.explanation}
                   </p>
                 </div>
