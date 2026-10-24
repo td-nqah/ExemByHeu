@@ -95,7 +95,7 @@ export default function HistoryPage() {
           initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] overflow-hidden rounded-2xl transition-all"
+          className="bg-white border border-black/[0.08] shadow-[0_1px_2px_rgba(17,24,39,0.04),0_8px_24px_-2px_rgba(17,24,39,0.06),0_20px_40px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] overflow-hidden rounded-[22px] transition-all"
         >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">

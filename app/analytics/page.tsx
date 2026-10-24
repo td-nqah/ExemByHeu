@@ -182,7 +182,7 @@ export default function AnalyticsPage() {
       {/* 4 Flat Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Tiến Độ Hoàn Thành Đề */}
-        <div className="bg-white border border-black/[0.06] rounded-2xl p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:-translate-y-0.5 hover:shadow-md transition-all">
+        <div className="bg-white border border-black/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.06),0_18px_36px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:-translate-y-1 hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_12px_28px_-2px_rgba(17,24,39,0.1),0_28px_52px_-6px_rgba(17,24,39,0.08),inset_0_1px_0_#FFFFFF] hover:border-black/[0.15] transition-all">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-[#6B7280] uppercase tracking-wider">
               Tiến độ Hoàn thành Bài đánh giá
@@ -215,7 +215,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 2: Điểm Trung Bình */}
-        <div className="bg-white border border-black/[0.06] rounded-2xl p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:-translate-y-0.5 hover:shadow-md transition-all">
+        <div className="bg-white border border-black/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.06),0_18px_36px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:-translate-y-1 hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_12px_28px_-2px_rgba(17,24,39,0.1),0_28px_52px_-6px_rgba(17,24,39,0.08),inset_0_1px_0_#FFFFFF] hover:border-black/[0.15] transition-all">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-[#6B7280] uppercase tracking-wider">
               Điểm Trung bình Đánh giá
@@ -241,7 +241,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 3: Tỉ Lệ Đúng Trắc Nghiệm */}
-        <div className="bg-white border border-black/[0.06] rounded-2xl p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:-translate-y-0.5 hover:shadow-md transition-all">
+        <div className="bg-white border border-black/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.06),0_18px_36px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:-translate-y-1 hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_12px_28px_-2px_rgba(17,24,39,0.1),0_28px_52px_-6px_rgba(17,24,39,0.08),inset_0_1px_0_#FFFFFF] hover:border-black/[0.15] transition-all">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-[#6B7280] uppercase tracking-wider">
               Độ Chính Xác Trắc Nghiệm
@@ -261,7 +261,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 4: Điểm Cao Nhất */}
-        <div className="bg-white border border-black/[0.06] rounded-2xl p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:-translate-y-0.5 hover:shadow-md transition-all">
+        <div className="bg-white border border-black/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.06),0_18px_36px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:-translate-y-1 hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_12px_28px_-2px_rgba(17,24,39,0.1),0_28px_52px_-6px_rgba(17,24,39,0.08),inset_0_1px_0_#FFFFFF] hover:border-black/[0.15] transition-all">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-[#6B7280] uppercase tracking-wider">
               Điểm Đánh giá Cao nhất
@@ -285,7 +285,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Main Section: Flat Interactive Score Trend Line Chart */}
-      <div className="bg-white border border-black/[0.06] rounded-[24px] p-6 sm:p-8 space-y-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)]">
+      <div className="bg-white border border-black/[0.08] rounded-[24px] p-6 sm:p-8 space-y-6 shadow-[0_1px_2px_rgba(17,24,39,0.04),0_8px_24px_-2px_rgba(17,24,39,0.06),0_20px_40px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/[0.06] pb-4">
           <div>
             <h2 className="text-base font-bold text-[#111827] flex items-center gap-2">

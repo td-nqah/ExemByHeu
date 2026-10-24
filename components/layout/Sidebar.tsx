@@ -479,7 +479,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         {user ? (
           <div className="flex flex-col gap-2 w-full group-data-[collapsible=icon]:items-center">
             {/* User Profile Card */}
-            <div className="flex items-center justify-between rounded-2xl bg-white/70 border border-white/80 shadow-xs p-2.5 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
+            <div className="flex items-center justify-between rounded-2xl bg-white border border-black/[0.08] shadow-[0_1px_2px_rgba(17,24,39,0.04),0_2px_6px_rgba(17,24,39,0.03),inset_0_1px_0_#FFFFFF] p-2.5 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
               <div className="flex items-center gap-2.5 min-w-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full">
                 <div
                   title={`${formatDisplayName(user.username)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}
@@ -503,7 +503,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
               type="button"
               onClick={handleLogout}
               title="Đăng xuất khỏi hệ thống"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-white hover:bg-black/[0.04] text-[#111827] border border-black/[0.1] px-3 py-2 text-xs font-semibold transition-colors cursor-pointer shadow-2xs group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-white hover:bg-[#FAFAFC] text-[#111827] border border-black/[0.09] px-3 py-2 text-xs font-semibold transition-all cursor-pointer shadow-[0_1px_2px_rgba(17,24,39,0.04),0_2px_5px_rgba(17,24,39,0.03),inset_0_1px_0_#FFFFFF] hover:shadow-[0_2px_6px_rgba(17,24,39,0.06),inset_0_1px_0_#FFFFFF] hover:-translate-y-0.5 active:translate-y-0 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
             >
               <LogOut className="h-4 w-4 shrink-0" />
               <span className="truncate group-data-[collapsible=icon]:hidden">Đăng xuất</span>

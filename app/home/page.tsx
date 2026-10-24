@@ -141,7 +141,7 @@ export default function HomePage() {
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white px-5 py-2.5 text-xs sm:text-sm font-semibold cursor-pointer shadow-xs hover:shadow-md transition-all active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white px-5 py-2.5 text-xs sm:text-sm font-semibold cursor-pointer shadow-[0_1px_2px_rgba(17,24,39,0.2),0_6px_18px_-2px_rgba(17,24,39,0.35),inset_0_1px_0_rgba(255,255,255,0.25)] hover:shadow-[0_2px_4px_rgba(17,24,39,0.2),0_10px_24px_-2px_rgba(17,24,39,0.42),inset_0_1px_0_rgba(255,255,255,0.32)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] transition-all active:scale-[0.98]"
           >
             <Play className="h-3.5 w-3.5 fill-current ml-0.5" />
             <span>Bắt đầu bài đánh giá</span>
@@ -150,7 +150,7 @@ export default function HomePage() {
 
           <Link
             href="/history"
-            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-black/[0.04] border border-black/[0.12] text-[#111827] px-4 py-2.5 text-xs sm:text-sm font-semibold transition-all shadow-2xs hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-[#FAFAFC] border border-black/[0.1] text-[#111827] px-4 py-2.5 text-xs sm:text-sm font-semibold transition-all shadow-[0_1px_2px_rgba(17,24,39,0.04),0_3px_8px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_6px_14px_rgba(17,24,39,0.06),inset_0_1px_0_#FFFFFF] hover:-translate-y-0.5 active:translate-y-0 active:shadow-[inset_0_1px_3px_rgba(17,24,39,0.08)]"
           >
             <History className="h-4 w-4 text-[#111827]" />
             <span>Xem lịch đánh giá</span>
@@ -158,7 +158,7 @@ export default function HomePage() {
 
           <Link
             href="/analytics"
-            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-black/[0.04] border border-black/[0.12] text-[#111827] px-4 py-2.5 text-xs sm:text-sm font-semibold transition-all shadow-2xs hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-[#FAFAFC] border border-black/[0.1] text-[#111827] px-4 py-2.5 text-xs sm:text-sm font-semibold transition-all shadow-[0_1px_2px_rgba(17,24,39,0.04),0_3px_8px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_6px_14px_rgba(17,24,39,0.06),inset_0_1px_0_#FFFFFF] hover:-translate-y-0.5 active:translate-y-0 active:shadow-[inset_0_1px_3px_rgba(17,24,39,0.08)]"
           >
             <TrendingUp className="h-4 w-4 text-[#111827]" />
             <span>Tiến độ học tập</span>
@@ -172,10 +172,10 @@ export default function HomePage() {
           {/* Card 1: Exams */}
           <Link
             href="/dashboard"
-            className="group rounded-[20px] bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/[0.15] hover:-translate-y-1 p-5 transition-all"
+            className="group rounded-[20px] bg-white border border-black/[0.08] shadow-[0_1px_2px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.06),0_18px_36px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_12px_28px_-2px_rgba(17,24,39,0.1),0_28px_52px_-6px_rgba(17,24,39,0.08),inset_0_1px_0_#FFFFFF] hover:border-black/[0.15] hover:-translate-y-1.5 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111827] text-white shadow-xs">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111827] text-white shadow-[0_1px_2px_rgba(17,24,39,0.2),0_4px_10px_-2px_rgba(17,24,39,0.3),inset_0_1px_0_rgba(255,255,255,0.22)]">
                 <BookOpen className="h-5 w-5" />
               </div>
               <span className="font-mono text-2xl font-bold text-[#111827] tabular-nums">
@@ -193,10 +193,10 @@ export default function HomePage() {
           {/* Card 2: Submissions */}
           <Link
             href="/history"
-            className="group rounded-[20px] bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/[0.15] hover:-translate-y-1 p-5 transition-all"
+            className="group rounded-[20px] bg-white border border-black/[0.08] shadow-[0_1px_2px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.06),0_18px_36px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_12px_28px_-2px_rgba(17,24,39,0.1),0_28px_52px_-6px_rgba(17,24,39,0.08),inset_0_1px_0_#FFFFFF] hover:border-black/[0.15] hover:-translate-y-1.5 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111827] text-white shadow-xs">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111827] text-white shadow-[0_1px_2px_rgba(17,24,39,0.2),0_4px_10px_-2px_rgba(17,24,39,0.3),inset_0_1px_0_rgba(255,255,255,0.22)]">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
               <span className="font-mono text-2xl font-bold text-[#111827] tabular-nums">
@@ -212,12 +212,12 @@ export default function HomePage() {
           </Link>
 
           {/* Card 3: Standard Room */}
-          <div className="rounded-[20px] bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-5">
+          <div className="rounded-[20px] bg-white border border-black/[0.08] shadow-[0_1px_2px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.06),0_18px_36px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] p-5">
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111827] text-white shadow-xs">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111827] text-white shadow-[0_1px_2px_rgba(17,24,39,0.2),0_4px_10px_-2px_rgba(17,24,39,0.3),inset_0_1px_0_rgba(255,255,255,0.22)]">
                 <ShieldCheck className="h-5 w-5" />
               </div>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#111827] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-xs">
+              <span className="px-2.5 py-0.5 rounded-full bg-[#111827] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-[0_1px_3px_rgba(17,24,39,0.22),inset_0_1px_0_rgba(255,255,255,0.22)] border border-black/80">
                 SẴN SÀNG
               </span>
             </div>

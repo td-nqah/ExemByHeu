@@ -115,7 +115,7 @@ function UserDashboardContent() {
 
         {/* Flat Minimal Stats Block - Separate Monochrome Pills */}
         <div className="flex items-center gap-3 select-none self-start md:self-auto">
-          <div className="flex items-center gap-2 bg-white border border-black/[0.08] rounded-xl px-3.5 py-1.5 shadow-2xs text-xs">
+          <div className="flex items-center gap-2 bg-white border border-black/[0.08] rounded-xl px-3.5 py-1.5 shadow-[0_1px_2px_rgba(17,24,39,0.04),0_2px_6px_rgba(17,24,39,0.03),inset_0_1px_0_#FFFFFF] text-xs">
             <ClipboardList className="h-4 w-4 text-[#111827] shrink-0" />
             <span className="text-[#6B7280]">
               Số bài đánh giá:{" "}
@@ -125,7 +125,7 @@ function UserDashboardContent() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2 bg-white border border-black/[0.08] rounded-xl px-3.5 py-1.5 shadow-2xs text-xs">
+          <div className="flex items-center gap-2 bg-white border border-black/[0.08] rounded-xl px-3.5 py-1.5 shadow-[0_1px_2px_rgba(17,24,39,0.04),0_2px_6px_rgba(17,24,39,0.03),inset_0_1px_0_#FFFFFF] text-xs">
             <CheckSquare className="h-4 w-4 text-[#111827] shrink-0" />
             <span className="text-[#6B7280]">
               Đã hoàn thành:{" "}
@@ -157,8 +157,8 @@ function UserDashboardContent() {
               className={cn(
                 "inline-flex items-center justify-center rounded-full px-4 py-2 text-xs text-center shrink-0 select-none cursor-pointer transition-colors",
                 isActive
-                  ? "bg-[#111827] text-white border border-[#111827] font-semibold shadow-xs"
-                  : "bg-white text-[#111827] border border-black/[0.12] hover:bg-black/[0.04] font-medium shadow-2xs"
+                  ? "bg-[#111827] text-white border border-[#111827] font-semibold shadow-[0_1px_2px_rgba(17,24,39,0.2),0_4px_12px_-1px_rgba(17,24,39,0.28),inset_0_1px_0_rgba(255,255,255,0.24)]"
+                  : "bg-white text-[#111827] border border-black/[0.1] hover:bg-[#FAFAFC] font-medium shadow-[0_1px_2px_rgba(17,24,39,0.03),0_2px_5px_rgba(17,24,39,0.03),inset_0_1px_0_#FFFFFF] hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_4px_10px_rgba(17,24,39,0.05)] hover:-translate-y-0.5"
               )}
             >
               <span>{cat.label}</span>

@@ -377,7 +377,7 @@ export default function KnowledgeHubPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex flex-col justify-between rounded-[20px] border border-black/[0.08] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:-translate-y-1 hover:border-black/[0.15] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 p-5 group"
+              className="flex flex-col justify-between rounded-[20px] border border-black/[0.08] bg-white shadow-[0_1px_2px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.06),0_18px_36px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:-translate-y-1.5 hover:border-black/[0.15] hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_12px_28px_-2px_rgba(17,24,39,0.1),0_28px_52px_-6px_rgba(17,24,39,0.08),inset_0_1px_0_#FFFFFF] transition-all duration-300 p-5 group"
             >
               <div className="space-y-3">
                 {/* Meta badges: Emerald Teal tag for subject category without reading time */}
@@ -421,7 +421,7 @@ export default function KnowledgeHubPage() {
 
                 <Link
                   href={`/knowledge/${item.id}`}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#111827] hover:bg-black text-white px-3.5 py-1.5 text-xs font-semibold cursor-pointer shadow-xs hover:shadow-sm transition-all active:scale-[0.98]"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#111827] hover:bg-black text-white px-3.5 py-1.5 text-xs font-semibold cursor-pointer shadow-[0_1px_2px_rgba(17,24,39,0.2),0_4px_12px_-2px_rgba(17,24,39,0.28),inset_0_1px_0_rgba(255,255,255,0.24)] hover:shadow-[0_2px_4px_rgba(17,24,39,0.2),0_6px_16px_-2px_rgba(17,24,39,0.36),inset_0_1px_0_rgba(255,255,255,0.32)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] transition-all active:scale-[0.98]"
                 >
                   <span>Đọc bài</span>
                   <ArrowRight className="h-3.5 w-3.5 stroke-[2] text-white" />
