@@ -326,7 +326,7 @@ export default function AnalyticsPage() {
             </p>
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#4f57ea] hover:bg-[#434ac9] px-4 py-2 text-xs font-semibold text-white transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-4 py-2 text-xs font-semibold text-[#111827] transition-all hover:-translate-y-0.5"
             >
               <span>Bắt đầu làm bài</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -346,7 +346,6 @@ export default function AnalyticsPage() {
                   <defs>
                     <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor="#111827" />
-                      <stop offset="50%" stopColor="#E04A2A" />
                       <stop offset="100%" stopColor="#111827" />
                     </linearGradient>
                     <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -392,7 +391,7 @@ export default function AnalyticsPage() {
                   {pathD && (
                     <path
                       d={pathD}
-                      stroke="url(#lineGrad)"
+                      stroke="#111827"
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"

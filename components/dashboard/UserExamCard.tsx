@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { Exam } from "@/types/exam";
-import { formatDuration, formatDate } from "@/lib/utils";
+import { formatDuration } from "@/lib/utils";
 import {
   Clock,
   ClipboardList,
-  Calendar,
   ArrowRight,
 } from "lucide-react";
 
@@ -115,16 +114,11 @@ export function UserExamCard({ exam }: UserExamCardProps) {
         </div>
       </div>
 
-      {/* Pinned Bottom Edge: Calendar Date & Solid Indigo CTA Button */}
-      <div className="mt-auto pt-3 border-t border-black/[0.06] flex items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1 text-xs text-[#6B7280] font-mono tabular-nums truncate">
-          <Calendar className="h-3 w-3 text-[#6B7280] shrink-0" />
-          <span className="truncate">{formatDate(exam.created_at)}</span>
-        </span>
-
+      {/* Pinned Bottom Edge: Bắt đầu làm bài CTA Button */}
+      <div className="mt-auto pt-3 border-t border-black/[0.06] flex items-center justify-end">
         <Link
           href={`/exam/${exam.id}`}
-          className="glass-btn inline-flex items-center gap-1.5 shrink-0 rounded-xl px-3.5 py-2 text-xs font-semibold cursor-pointer"
+          className="glass-btn inline-flex items-center gap-1.5 shrink-0 rounded-xl px-3.5 py-2 text-xs font-semibold cursor-pointer hover:-translate-y-0.5 transition-all"
         >
           <span>Bắt đầu làm bài</span>
           <ArrowRight className="h-3.5 w-3.5 stroke-[2]" />

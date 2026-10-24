@@ -350,7 +350,7 @@ export default function AdminSettingsPage() {
                     onClick={() => setNewRole("user")}
                     className={`py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center gap-2 transition cursor-pointer ${
                       newRole === "user"
-                        ? "bg-[#F6F6F8] border-black/[0.08] text-indigo-200 shadow-sm"
+                        ? "bg-[#F6F6F8] border-black/[0.08] text-[#111827] font-bold shadow-xs"
                         : "bg-[#F6F6F8] border-black/[0.06] text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.04]"
                     }`}
                   >
@@ -363,7 +363,7 @@ export default function AdminSettingsPage() {
                     onClick={() => setNewRole("admin")}
                     className={`py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center gap-2 transition cursor-pointer ${
                       newRole === "admin"
-                        ? "bg-[#F6F6F8] border-black/[0.08] text-indigo-200 shadow-sm"
+                        ? "bg-[#F6F6F8] border-black/[0.08] text-[#111827] font-bold shadow-xs"
                         : "bg-[#F6F6F8] border-black/[0.06] text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.04]"
                     }`}
                   >
@@ -377,7 +377,7 @@ export default function AdminSettingsPage() {
                 <button
                   type="submit"
                   disabled={createLoading}
-                  className="w-full py-2.5 px-4 bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] text-[#111827] font-semibold text-xs rounded-xl shadow-[0_4px_18px_rgba(79,70,229,0.35)] hover:shadow-[0_6px_22px_rgba(99,102,241,0.5)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
+                  className="w-full py-2.5 px-4 glass-btn text-[#111827] font-semibold text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer hover:-translate-y-0.5 active:scale-98"
                 >
                   {createLoading ? (
                     <>
@@ -498,7 +498,7 @@ export default function AdminSettingsPage() {
                             className={`text-[9px] px-1.5 py-0.5 rounded font-semibold border ${
                               isAdmin
                                 ? "glass-badge text-[#111827] border-black/[0.08]"
-                                : "bg-[#1f2937] text-[#6B7280] border-black/[0.06]"
+                                : "bg-[#F6F6F8] text-[#111827] border border-black/[0.08]"
                             }`}
                           >
                             {isAdmin ? "Quản trị viên" : "User"}
@@ -608,7 +608,7 @@ export default function AdminSettingsPage() {
                                       className={`text-[9px] px-1.5 py-0.5 rounded font-semibold border ${
                                         isAdmin
                                           ? "glass-badge text-[#111827] border-black/[0.08]"
-                                          : "bg-[#1f2937] text-[#6B7280] border-black/[0.06]"
+                                          : "bg-[#F6F6F8] text-[#111827] border border-black/[0.08]"
                                       }`}
                                     >
                                       {isAdmin ? "Quản trị viên" : "User"}
@@ -740,7 +740,7 @@ export default function AdminSettingsPage() {
                 <button
                   type="submit"
                   disabled={emergencyLoading}
-                  className="w-full py-2.5 px-4 bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] text-[#111827] font-semibold text-xs rounded-xl shadow-[0_4px_18px_rgba(79,70,229,0.35)] hover:shadow-[0_6px_22px_rgba(99,102,241,0.5)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
+                  className="w-full py-2.5 px-4 glass-btn text-[#111827] font-semibold text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer hover:-translate-y-0.5 active:scale-98"
                 >
                   {emergencyLoading ? (
                     <>

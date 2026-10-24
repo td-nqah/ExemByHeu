@@ -435,7 +435,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={handleRecalculateStorage}
                 disabled={isScanning}
-                className="px-3 py-1.5 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] text-xs text-[#111827] font-semibold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-md shadow-indigo-600/30"
+                className="px-3 py-1.5 rounded-xl glass-btn text-xs text-[#111827] font-semibold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-xs hover:-translate-y-0.5"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${isScanning ? "animate-spin" : ""}`} />
                 <span>{isScanning ? "Đang quét..." : "Quét lại bộ nhớ"}</span>
@@ -481,9 +481,9 @@ export default function AdminPermissionsPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-[#111827] h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-[#F6F6F8] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
                   <div
-                    className="h-full bg-[#6366f1] rounded-full"
+                    className="h-full bg-[#111827] rounded-full"
                     style={{ width: `${Math.min(100, (dbTablesMB / maxStorageMB) * 100 * 2)}%` }}
                   />
                 </div>
@@ -506,7 +506,7 @@ export default function AdminPermissionsPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-[#111827] h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-[#F6F6F8] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
                   <div
                     className="h-full bg-[#38bdf8] rounded-full"
                     style={{ width: `${Math.min(100, (filesStorageMB / maxStorageMB) * 100 * 2)}%` }}
@@ -531,7 +531,7 @@ export default function AdminPermissionsPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-[#111827] h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-[#F6F6F8] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
                   <div
                     className="h-full bg-[#34d399] rounded-full"
                     style={{ width: `${Math.min(100, (cacheLogsMB / maxStorageMB) * 100 * 2)}%` }}
@@ -846,16 +846,14 @@ export default function AdminPermissionsPage() {
                         {/* Avatar / Role Initial */}
                         <div
                           className={`relative flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-bold font-mono ${
-                            acc.role === "admin"
-                              ? "bg-[#F6F6F8] border-black/[0.08] text-[#111827]"
-                              : "bg-cyan-500/10 border-cyan-500/25 text-cyan-300"
+                            "bg-[#F6F6F8] border border-black/[0.08] text-[#111827]"
                           }`}
                         >
                           {acc.username.slice(0, 2).toUpperCase()}
                           {isOnline && (
                             <span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5">
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 ring-2 ring-[#0b0f19]"></span>
+                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 ring-2 ring-white"></span>
                             </span>
                           )}
                         </div>
@@ -868,9 +866,7 @@ export default function AdminPermissionsPage() {
                             </span>
                             <span
                               className={`text-xs px-2 py-0.5 rounded-full border font-medium font-sans tracking-normal ${
-                                acc.role === "admin"
-                                  ? "bg-[#F6F6F8] border-black/[0.08] text-[#111827]"
-                                  : "bg-slate-800 border-slate-700 text-[#111827]"
+                                "bg-[#F6F6F8] border border-black/[0.08] text-[#111827]"
                               }`}
                             >
                               {acc.role === "admin" ? "Admin" : "User"}
@@ -906,16 +902,16 @@ export default function AdminPermissionsPage() {
                       {/* Online Status Badge & Time */}
                       <div className="text-right shrink-0">
                         {isOnline ? (
-                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold tracking-normal shadow-[0_0_8px_rgba(52,211,153,0.15)] select-none">
+                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-[#DDF2E5] text-[#2E9E5B] border border-[#2E9E5B]/20 font-semibold tracking-normal select-none shadow-xs">
                             <span className="relative flex h-2 w-2">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2E9E5B] opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2E9E5B]"></span>
                             </span>
                             <span>Online</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-[#111827] text-[#6B7280] border border-black/[0.06] font-medium tracking-normal select-none">
-                            <span className="h-1.5 w-1.5 rounded-full bg-slate-500"></span>
+                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-[#F6F6F8] text-[#111827] border border-black/[0.08] font-medium tracking-normal select-none shadow-xs">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#9CA3AF]"></span>
                             <span>Offline</span>
                           </span>
                         )}
