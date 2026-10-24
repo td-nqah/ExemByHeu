@@ -28,7 +28,6 @@ import {
   Flag,
   ChevronLeft,
   ChevronRight,
-  Shuffle,
 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
@@ -276,12 +275,6 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
           {/* Right Side: Questions badge + User + Submit CTA */}
           <div className="flex items-center gap-1.5 sm:gap-2.5">
-            {exam.is_shuffled && (
-              <div className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-[#5852d6]/15 border border-[#5852d6]/35 px-2.5 py-1.5 text-xs font-semibold text-indigo-300 shadow-[0_0_12px_rgba(88,82,214,0.2)]">
-                <Shuffle className="h-3.5 w-3.5 text-indigo-400" />
-                <span>Đề xáo trộn câu hỏi và phương án</span>
-              </div>
-            )}
 
             <div className="hidden md:inline-flex items-center gap-1.5 rounded-xl bg-slate-900/80 border border-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200">
               <ListChecks className="h-3.5 w-3.5 text-indigo-400" />
