@@ -57,70 +57,61 @@ export function UserExamCard({ exam }: UserExamCardProps) {
     .trim();
 
   return (
-    <div className="group flex flex-col justify-between h-full min-h-[180px] min-w-0 sm:min-w-[270px] rounded-[20px] bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] p-5 shadow-[0_1px_3px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.05)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:border-black/[0.16] dark:hover:border-white/[0.18] hover:-translate-y-1 transition-all duration-300">
-      {/* Top Header & Metadata */}
-      <div className="space-y-2.5">
-        {/* Top Badges Row */}
-        <div className="flex items-center justify-between gap-1.5">
-          {/* Top-Left: High-contrast TEST badge */}
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#111827] text-white dark:bg-white dark:text-black px-2.5 py-0.5 text-[10px] font-bold font-mono uppercase tracking-wider shrink-0 border border-black/80 dark:border-white shadow-xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-white dark:bg-black" />
-            <span>TEST</span>
-          </span>
-
-          {/* Top-Right: Time + Questions count */}
-          <div className="flex items-center gap-2 text-xs text-[#6B7280] dark:text-[#9CA3AF] font-mono tabular-nums shrink-0">
-            <span className="inline-flex items-center gap-1 shrink-0">
-              <Clock className="h-3 w-3 text-[#9CA3AF] shrink-0" />
-              <span>{formatDuration(exam.duration_minutes)}</span>
-            </span>
-            <span className="inline-flex items-center gap-1 shrink-0">
-              <ClipboardList className="h-3 w-3 text-[#9CA3AF] shrink-0" />
-              <span>{questionCount} câu</span>
-            </span>
-          </div>
+    <div className="group flex flex-col justify-between h-full min-h-[190px] min-w-0 sm:min-w-[270px] rounded-[22px] bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] p-5 shadow-[0_1px_3px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.05)] dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] hover:border-black/[0.18] dark:hover:border-white/[0.18] hover:-translate-y-1 transition-all duration-300">
+      {/* Upper Content: Title & Subtitle, followed by Question Count & Type */}
+      <div className="space-y-4">
+        {/* Title & Subtitle */}
+        <div>
+          <h3
+            className="text-sm sm:text-base font-bold text-[#111827] dark:text-white tracking-tight line-clamp-2 leading-snug"
+            title={exam.title}
+          >
+            <Link
+              href={`/exam/${exam.id}`}
+              className="hover:opacity-85 transition-opacity"
+            >
+              {renderHighlightedExamTitle(exam.title)}
+            </Link>
+          </h3>
+          {cleanDescription && (
+            <p
+              className="text-xs text-[#6B7280] dark:text-[#9CA3AF] line-clamp-1 leading-relaxed mt-1"
+              title={cleanDescription}
+            >
+              {cleanDescription}
+            </p>
+          )}
         </div>
 
-        {/* Card Title with line-clamp-2 */}
-        <h3
-          className="text-sm font-bold text-[#111827] dark:text-white tracking-tight line-clamp-2 leading-snug"
-          title={exam.title}
-        >
-          <Link
-            href={`/exam/${exam.id}`}
-            className="hover:opacity-80 transition-opacity"
-          >
-            {renderHighlightedExamTitle(exam.title)}
-          </Link>
-        </h3>
-
-        {/* Exam Description between Title and Question Count */}
-        {cleanDescription && (
-          <p
-            className="text-xs text-[#6B7280] dark:text-[#9CA3AF] line-clamp-2 leading-relaxed"
-            title={cleanDescription}
-          >
-            {cleanDescription}
-          </p>
-        )}
-      </div>
-
-      {/* Bottom Section: Left Metadata & Right "Bắt đầu" Button nested INSIDE the card */}
-      <div className="mt-4 pt-2 flex items-center justify-between gap-3 select-none">
-        {/* Bottom Left: Question count and type */}
-        <div className="space-y-0.5 text-xs leading-snug min-w-0">
-          <p className="font-bold text-[#111827] dark:text-white tabular-nums truncate text-xs">
+        {/* Question Count & Type */}
+        <div className="space-y-0.5 text-xs leading-snug">
+          <p className="font-bold text-[#111827] dark:text-white text-sm tabular-nums">
             {questionCount} câu hỏi
           </p>
-          <p className="text-[#6B7280] dark:text-[#9CA3AF] text-[11px] truncate">
+          <p className="text-[#6B7280] dark:text-[#9CA3AF] text-xs">
             {examTypeLabel}
           </p>
         </div>
+      </div>
 
-        {/* Bottom Right: Clean docked pill button INSIDE the card */}
+      {/* Bottom Row: Left Metadata (Time + Questions) & Right "Bắt đầu" Pill Button */}
+      <div className="mt-5 flex items-center justify-between gap-3 select-none">
+        {/* Left: Time and Question Count with Icons */}
+        <div className="flex items-center gap-3 text-xs text-[#6B7280] dark:text-[#9CA3AF] font-mono tabular-nums shrink-0">
+          <span className="inline-flex items-center gap-1.5 shrink-0">
+            <Clock className="h-3.5 w-3.5 text-[#9CA3AF] shrink-0" />
+            <span>{formatDuration(exam.duration_minutes)}</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 shrink-0">
+            <ClipboardList className="h-3.5 w-3.5 text-[#9CA3AF] shrink-0" />
+            <span>{questionCount} câu</span>
+          </span>
+        </div>
+
+        {/* Right: Docked Pill Button "Bắt đầu →" */}
         <Link
           href={`/exam/${exam.id}`}
-          className="shrink-0 h-10 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-bold transition-all duration-200 cursor-pointer select-none bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] shadow-xs hover:scale-[1.02] active:scale-[0.98]"
+          className="shrink-0 h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-bold transition-all duration-200 cursor-pointer select-none bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] shadow-sm hover:scale-[1.02] active:scale-[0.98]"
         >
           <span>Bắt đầu</span>
           <ArrowRight className="h-3.5 w-3.5 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-1" />
