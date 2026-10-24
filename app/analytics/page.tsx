@@ -187,7 +187,7 @@ export default function AnalyticsPage() {
             <p className="text-xs font-medium text-[#6B7280] uppercase tracking-wider">
               Tiến độ Hoàn thành Bài đánh giá
             </p>
-            <div className="h-9 w-9 rounded-xl bg-[#F6F6F8] flex items-center justify-center text-[#3B7DD8] shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#F6F6F8] flex items-center justify-center text-[#111827] shrink-0">
               <Layers className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -201,13 +201,13 @@ export default function AnalyticsPage() {
             {/* Visual Progress Bar */}
             <div className="w-full h-1.5 bg-[#F6F6F8] rounded-full overflow-hidden mt-2.5">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 transition-all duration-500"
+                className="h-full rounded-full bg-[#111827] transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.max(0, examCompletionMetrics.rate))}%` }}
               />
             </div>
             <p className="text-[11px] text-[#6B7280] mt-1.5 flex items-center justify-between">
               <span>Tỷ lệ hoàn thành ngân hàng đề</span>
-              <span className="font-semibold text-[#3B7DD8]">
+              <span className="font-semibold text-[#111827]">
                 {examCompletionMetrics.rate}%
               </span>
             </p>
@@ -231,13 +231,9 @@ export default function AnalyticsPage() {
             </p>
             <p className="text-[11px] text-[#6B7280] mt-2 flex items-center gap-1">
               {scoreDelta >= 0 ? (
-                <span className="text-[#2E9E5B] font-semibold">
-                  +{scoreDelta} đ
-                </span>
+                <span className="text-[#111827] font-semibold">+{scoreDelta} đ</span>
               ) : (
-                <span className="text-rose-400 font-semibold">
-                  {scoreDelta} đ
-                </span>
+                <span className="text-[#6B7280] font-semibold">{scoreDelta} đ</span>
               )}{" "}
               <span>so với lượt đầu</span>
             </p>
@@ -250,7 +246,7 @@ export default function AnalyticsPage() {
             <p className="text-xs font-medium text-[#6B7280] uppercase tracking-wider">
               Độ Chính Xác Trắc Nghiệm
             </p>
-            <div className="h-9 w-9 rounded-xl bg-[#F6F6F8] flex items-center justify-center text-[#2E9E5B] shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-[#F6F6F8] flex items-center justify-center text-[#111827] shrink-0">
               <CheckCircle2 className="h-4.5 w-4.5" />
             </div>
           </div>
@@ -315,7 +311,7 @@ export default function AnalyticsPage() {
 
         {loading ? (
           <div className="h-60 flex items-center justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#111827] border-t-transparent" />
           </div>
         ) : chronological.length === 0 ? (
           <div className="py-16 text-center space-y-3">

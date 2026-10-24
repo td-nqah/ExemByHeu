@@ -495,7 +495,7 @@ export default function ExamCreatePage() {
             type="button"
             onClick={handleConfirmAndPublish}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-5 py-2.5 text-xs font-medium text-[#111827] shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 self-start rounded-xl bg-[#111827] hover:bg-black px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition active:scale-[0.98] disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
             <span>{isSaving ? "Đang lưu..." : "Lưu & Ban hành đề đánh giá"}</span>
@@ -693,7 +693,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={handleParseClipboard}
                 disabled={isParsing || !clipboardText.trim()}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-6 py-2.5 text-xs font-medium text-[#111827] shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#111827] hover:bg-black px-6 py-2.5 text-xs font-semibold text-white shadow-xs transition active:scale-[0.98] disabled:opacity-50"
               >
                 <Sparkles className="h-4 w-4" />
                 <span>
@@ -988,7 +988,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={handleConfirmAndPublish}
                 disabled={isSaving}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-6 py-2.5 text-xs font-medium text-[#111827] shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#111827] hover:bg-black px-6 py-2.5 text-xs font-semibold text-white shadow-xs transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
               >
                 <Send className="h-4 w-4" />
                 <span>

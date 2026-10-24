@@ -256,7 +256,7 @@ export default function AdminSettingsPage() {
         <div className="relative rounded-2xl bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
-            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-black/[0.08]" />
             <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#F6F6F8] rounded-full blur-3xl" />
           </div>
 
@@ -407,7 +407,7 @@ export default function AdminSettingsPage() {
         <div className="relative rounded-2xl bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
-            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-black/[0.08]" />
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#F6F6F8] rounded-full blur-3xl" />
           </div>
 

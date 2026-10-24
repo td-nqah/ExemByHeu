@@ -81,7 +81,7 @@ function UserDashboardContent() {
   // Dynamic Category Pills for Filter Tags Bar
   const categoryPills = useMemo(() => {
     return [
-      { id: "all", slug: "", label: "Tất cả đề đánh giá" },
+      { id: "all", slug: "", label: "Tất cả các đánh giá" },
       ...categories.map((c) => ({
         id: c.id,
         slug: c.slug,
@@ -113,25 +113,23 @@ function UserDashboardContent() {
           </p>
         </div>
 
-        {/* Flat Minimal Stats Block */}
-        <div className="flex items-center gap-6 bg-white border border-black/[0.06] rounded-xl px-4 py-2 shadow-xs text-xs select-none self-start md:self-auto">
-          <div className="flex items-center gap-2">
+        {/* Flat Minimal Stats Block - Separate Monochrome Pills */}
+        <div className="flex items-center gap-3 select-none self-start md:self-auto">
+          <div className="flex items-center gap-2 bg-white border border-black/[0.08] rounded-xl px-3.5 py-1.5 shadow-2xs text-xs">
             <ClipboardList className="h-4 w-4 text-[#111827] shrink-0" />
             <span className="text-[#6B7280]">
               Số bài đánh giá:{" "}
-              <strong className="font-bold text-[#111827] text-sm tnum tabular-nums">
+              <strong className="font-bold text-[#111827] text-sm tabular-nums">
                 {loading ? "..." : exams.length}
               </strong>
             </span>
           </div>
 
-          <div className="h-4 w-px bg-black/[0.06]" />
-
-          <div className="flex items-center gap-2">
-            <CheckSquare className="h-4 w-4 text-[#2E9E5B] shrink-0" />
+          <div className="flex items-center gap-2 bg-white border border-black/[0.08] rounded-xl px-3.5 py-1.5 shadow-2xs text-xs">
+            <CheckSquare className="h-4 w-4 text-[#111827] shrink-0" />
             <span className="text-[#6B7280]">
               Đã hoàn thành:{" "}
-              <strong className="font-bold text-[#2E9E5B] text-sm tnum tabular-nums">
+              <strong className="font-bold text-[#111827] text-sm tabular-nums">
                 {loading ? "..." : submissions.length}
               </strong>
             </span>
@@ -157,8 +155,10 @@ function UserDashboardContent() {
                 }
               }}
               className={cn(
-                "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs text-center shrink-0 select-none cursor-pointer",
-                isActive ? "glass-chip-active" : "glass-chip"
+                "inline-flex items-center justify-center rounded-full px-4 py-2 text-xs text-center shrink-0 select-none cursor-pointer transition-colors",
+                isActive
+                  ? "bg-[#111827] text-white border border-[#111827] font-semibold shadow-xs"
+                  : "bg-white text-[#111827] border border-black/[0.12] hover:bg-black/[0.04] font-medium shadow-2xs"
               )}
             >
               <span>{cat.label}</span>

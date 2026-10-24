@@ -148,12 +148,12 @@ export default function HistoryPage() {
                       </td>
                       <td className="whitespace-nowrap py-4 px-4">
                         {isGraded ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-[#DDF2E5] text-[#2E9E5B] border border-[#2E9E5B]/20 px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[#111827] text-white px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold shadow-xs">
                             <CheckCircle2 className="h-3 w-3" />
                             Đã hoàn thành
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full border border-[#B8962E]/30 bg-[#F6EBC8] text-[#B8962E] px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold">
+                          <span className="inline-flex items-center gap-1 rounded-full border border-black/[0.08] bg-black/[0.04] text-[#6B7280] px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold">
                             <Clock className="h-3 w-3" />
                             Đang chờ chấm
                           </span>

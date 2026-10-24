@@ -118,8 +118,8 @@ export default function HomePage() {
             <span>{greetingInfo.greeting} • {greetingInfo.label}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 text-xs text-[#2E9E5B] bg-white border border-black/[0.06] shadow-xs px-3 py-1 rounded-full font-mono">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#2E9E5B] animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 text-xs text-[#111827] bg-white border border-black/[0.08] shadow-xs px-3 py-1 rounded-full font-mono">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#111827]" />
             <span>Hà Nội (GMT+7)</span>
           </span>
         </div>
@@ -196,14 +196,14 @@ export default function HomePage() {
             className="group rounded-2xl bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:shadow-[0_2px_6px_rgba(0,0,0,0.04),0_12px_30px_rgba(20,20,40,0.09)] hover:-translate-y-1 p-4 sm:p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#DDF2E5] text-[#2E9E5B]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-black/[0.04] text-[#111827]">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
-              <span className="font-mono text-xl font-bold text-[#2E9E5B] tabular-nums">
+              <span className="font-mono text-xl font-bold text-[#111827] tabular-nums">
                 {submissionsCount}
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#111827] group-hover:text-[#2E9E5B] transition-colors">
+            <h3 className="mt-3 text-sm font-semibold text-[#111827] group-hover:text-[#111827] transition-colors">
               Đã hoàn thành
             </h3>
             <p className="mt-0.5 text-xs text-[#6B7280]">
@@ -214,12 +214,10 @@ export default function HomePage() {
           {/* Card 3: Standard Room */}
           <div className="rounded-2xl bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] p-4 sm:p-5">
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F6EBC8] text-[#B8962E]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-black/[0.04] text-[#111827]">
                 <ShieldCheck className="h-5 w-5" />
               </div>
-              <span className="text-xs bg-[#DDF2E5] text-[#2E9E5B] border border-[#2E9E5B]/20 px-2.5 py-0.5 rounded-full font-mono text-[10px] font-bold uppercase tracking-wider">
-                Sẵn sàng
-              </span>
+              <span className="text-xs bg-black/[0.04] text-[#111827] border border-black/[0.08] px-2.5 py-0.5 rounded-full font-mono text-[10px] font-bold uppercase tracking-wider">Sẵn sàng</span>
             </div>
             <h3 className="mt-3 text-sm font-semibold text-[#111827]">
               Môi trường Khảo thí

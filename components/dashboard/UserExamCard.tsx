@@ -61,15 +61,15 @@ export function UserExamCard({ exam }: UserExamCardProps) {
     .trim();
 
   return (
-    <div className="group flex flex-col justify-between h-full min-h-[165px] min-w-0 sm:min-w-[270px] rounded-2xl bg-white border border-black/[0.05] p-5 rounded-[24px] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:border-black/[0.1] hover:-translate-y-1 hover:shadow-[0_4px_24px_rgba(20,20,40,0.09)] transition-all duration-300">
+    <div className="group flex flex-col justify-between h-full min-h-[165px] min-w-0 sm:min-w-[270px] rounded-[20px] bg-white border border-black/[0.08] p-5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-black/[0.15] hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300">
       {/* Top Header & Metadata */}
       <div className="space-y-2.5">
         {/* Top Badges Row */}
         <div className="flex items-center justify-between gap-1.5">
           {/* Top-Left: Test badge */}
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#111827] border border-[#111827] px-2.5 py-0.5 text-[10px] font-semibold text-white font-mono uppercase tracking-wider shrink-0 shadow-xs">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#111827] px-2.5 py-0.5 text-[10px] font-semibold text-white font-mono uppercase tracking-wider shrink-0 shadow-xs">
             <span className="h-1.5 w-1.5 rounded-full bg-white" />
-            <span>Test</span>
+            <span>TEST</span>
           </span>
 
           {/* Top-Right: Time + Questions count */}
@@ -115,10 +115,10 @@ export function UserExamCard({ exam }: UserExamCardProps) {
       </div>
 
       {/* Pinned Bottom Edge: Bắt đầu làm bài CTA Button */}
-      <div className="mt-auto pt-3 border-t border-black/[0.06] flex items-center justify-end">
+      <div className="mt-4 pt-0 flex items-center">
         <Link
           href={`/exam/${exam.id}`}
-          className="inline-flex items-center gap-1.5 shrink-0 rounded-xl bg-[#111827] hover:bg-black text-white px-3.5 py-2 text-xs font-semibold cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all active:scale-[0.98]"
+          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white py-2.5 px-4 text-xs font-semibold cursor-pointer shadow-xs hover:shadow-sm transition-all active:scale-[0.99]"
         >
           <span>Bắt đầu làm bài</span>
           <ArrowRight className="h-3.5 w-3.5 stroke-[2] text-white" />

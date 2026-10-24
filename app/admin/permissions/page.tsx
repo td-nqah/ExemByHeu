@@ -448,7 +448,7 @@ export default function AdminPermissionsPage() {
             <div className="flex items-center justify-between text-xs">
               <span className="font-medium text-[#111827] flex items-center gap-2">
                 <span>Tổng dung lượng tài nguyên đã dùng:</span>
-                <strong className="text-[#38bdf8] font-mono text-sm">{usedStorageMB} MB</strong>
+                <strong className="text-[#111827] font-mono text-sm">{usedStorageMB} MB</strong>
               </span>
               <span className="font-mono text-[#6B7280] font-bold">
                 {storagePercentage}% / 100%
@@ -457,11 +457,7 @@ export default function AdminPermissionsPage() {
 
             <div className="w-full h-3 bg-[#F6F6F8] rounded-full overflow-hidden p-0.5 border border-black/[0.06]">
               <div
-                className={`h-full rounded-full transition-all duration-700 ease-out ${
-                  isHighStorage
-                    ? "bg-gradient-to-r from-amber-500 to-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.6)]"
-                    : "bg-gradient-to-r from-[#4f46e5] via-[#6366f1] to-[#38bdf8] shadow-[0_0_12px_rgba(99,102,241,0.5)]"
-                }`}
+                className="h-full rounded-full transition-all duration-700 ease-out bg-[#111827]"
                 style={{ width: `${Math.min(100, Math.max(2, storagePercentage))}%` }}
               />
             </div>
