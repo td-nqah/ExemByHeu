@@ -265,7 +265,7 @@ export default function AdminCategoriesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-black/[0.06] bg-[#F6F6F8] text-[#6B7280] uppercase font-mono text-[11px] font-semibold">
+                <tr className="border-b border-black/[0.06] bg-[#F6F6F8] text-slate-700 uppercase font-heading text-[11px] font-bold tracking-tight">
                   <th className="py-3 px-4">Tên Học phần</th>
                   <th className="py-3 px-4">Mã Học phần (Slug)</th>
                   <th className="py-3 px-4">Biểu tượng đại diện</th>
@@ -299,7 +299,7 @@ export default function AdminCategoriesPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-center font-bold text-[#111827] font-mono">
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#F6F6F8] border border-black/[0.06] text-[#111827] text-xs font-mono font-bold">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#F6F6F8] border border-black/[0.06] text-[#111827] text-xs font-num font-bold">
                           {examCount}
                         </span>
                       </td>

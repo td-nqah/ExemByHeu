@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Plus_Jakarta_Sans, Be_Vietnam_Pro, JetBrains_Mono } from "next/font/google";
+import { Lexend, Be_Vietnam_Pro, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
 import { SystemBackground } from "@/components/layout/SystemBackground";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const lexend = Lexend({
   variable: "--font-heading",
   subsets: ["latin", "vietnamese"],
   display: "swap",
+  weight: ["500", "600", "700"],
 });
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -41,9 +42,9 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${plusJakartaSans.variable} ${beVietnamPro.variable} ${jetBrainsMono.variable} scroll-smooth h-full antialiased`}
+      className={`${lexend.variable} ${beVietnamPro.variable} ${jetBrainsMono.variable} scroll-smooth h-full antialiased`}
     >
-      <body className="min-h-screen bg-[#E9EAEE] font-body text-[#111827] antialiased selection:bg-[#111827]/10 selection:text-[#111827] relative overflow-x-hidden custom-scrollbar">
+      <body className="min-h-screen bg-[#E9EAEE] font-body text-slate-900 antialiased selection:bg-[#111827]/10 selection:text-[#111827] relative overflow-x-hidden custom-scrollbar">
         {/* Dynamic System Background: Soft neutral ambient light UI */}
         <SystemBackground />
 

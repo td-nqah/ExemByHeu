@@ -340,7 +340,7 @@ export default function AdminDashboardPage() {
         ) : (
           <div className="max-h-[560px] overflow-y-auto overflow-x-auto custom-scrollbar">
             <table className="w-full text-left text-xs">
-                    <thead className="bg-[#F6F6F8] text-[#6B7280] uppercase tracking-wider text-[11px] font-mono font-semibold border-b border-black/[0.06] sticky top-0 z-10 backdrop-blur-md">
+                    <thead className="bg-[#F6F6F8] text-slate-700 uppercase tracking-tight text-[11px] font-heading font-bold border-b border-black/[0.06] sticky top-0 z-10 backdrop-blur-md">
                 <tr>
                   <th className="py-3 px-4 font-semibold">TÊN ĐỀ THI</th>
                   <th className="py-3 px-4 font-semibold">DANH MỤC</th>
@@ -377,11 +377,11 @@ export default function AdminDashboardPage() {
                       </td>
 
                       <td className="whitespace-nowrap py-3.5 px-4 text-[#6B7280] tnum tabular-nums">
-                        {formatDuration(exam.duration_minutes)}
+                        <span className="font-num">{formatDuration(exam.duration_minutes)}</span>
                       </td>
 
                       <td className="py-3.5 px-4 text-[#6B7280] tnum tabular-nums">
-                        <span className="text-[#38bdf8] font-semibold">{questionCount}</span> câu
+                        <span className="font-num text-slate-900 font-semibold">{questionCount}</span> câu
                       </td>
 
                       <td className="py-3.5 px-4 text-[#6B7280]">
