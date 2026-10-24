@@ -253,7 +253,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                         <Icon
                           className={cn(
                             "h-4 w-4 shrink-0 transition-colors",
-                            item.active ? "text-[#111827]" : "text-[#4B5563]"
+                            item.active ? "text-white" : "text-[#4B5563]"
                           )}
                         />
                         <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -288,7 +288,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                     <BookOpen
                       className={cn(
                         "h-4 w-4 shrink-0 transition-colors",
-                        pathname.startsWith("/knowledge") ? "text-[#111827]" : "text-[#4B5563]"
+                        pathname.startsWith("/knowledge") ? "text-white" : "text-[#4B5563]"
                       )}
                     />
                     <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -317,7 +317,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                       <Layers
                         className={cn(
                           "h-4 w-4 shrink-0 transition-colors",
-                          isParentActive || isExamsRoute ? "text-[#111827]" : "text-[#4B5563]"
+                          isParentActive ? "text-white" : "text-[#4B5563]"
                         )}
                       />
                       <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -341,7 +341,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                     <ChevronDown
                       className={cn(
                         "h-3.5 w-3.5 shrink-0 transition-transform duration-200",
-                        examsExpanded && "rotate-180 text-white"
+                        examsExpanded && "rotate-180"
                       )}
                     />
                   </button>
@@ -377,7 +377,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                                 >
                                   <span className="truncate">{cat.name}</span>
                                   {isSubActive && (
-                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#111827]" />
+                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white" />
                                   )}
                                 </Link>
                               </SidebarMenuSubButton>
@@ -416,7 +416,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                             <Icon
                               className={cn(
                                 "h-4 w-4 shrink-0 transition-colors",
-                                item.active ? "text-[#111827]" : "text-[#4B5563]"
+                                item.active ? "text-white" : "text-[#4B5563]"
                               )}
                             />
                             <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -456,7 +456,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                             <Icon
                               className={cn(
                                 "h-4 w-4 shrink-0 transition-colors",
-                                item.active ? "text-[#111827]" : "text-[#4B5563]"
+                                item.active ? "text-white" : "text-[#4B5563]"
                               )}
                             />
                             <span className="truncate group-data-[collapsible=icon]:hidden">

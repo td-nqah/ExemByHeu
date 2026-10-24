@@ -215,12 +215,12 @@ export default function UserDashboardPage() {
     <Suspense
       fallback={
         <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-          <div className="h-10 rounded-xl bg-[#151b27] animate-pulse" />
+          <div className="h-10 rounded-xl bg-black/[0.05] animate-pulse" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
-            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
-            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
-            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
-            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-black/[0.05] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-black/[0.05] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-black/[0.05] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-black/[0.05] animate-pulse" />
           </div>
         </div>
       }

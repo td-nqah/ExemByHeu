@@ -67,8 +67,8 @@ export function UserExamCard({ exam }: UserExamCardProps) {
         {/* Top Badges Row */}
         <div className="flex items-center justify-between gap-1.5">
           {/* Top-Left: Test badge */}
-          <span className="glass-badge inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-semibold text-[#111827] font-mono uppercase tracking-wider shrink-0">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#111827]" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#111827] border border-[#111827] px-2.5 py-0.5 text-[10px] font-semibold text-white font-mono uppercase tracking-wider shrink-0 shadow-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-white" />
             <span>Test</span>
           </span>
 
@@ -118,10 +118,10 @@ export function UserExamCard({ exam }: UserExamCardProps) {
       <div className="mt-auto pt-3 border-t border-black/[0.06] flex items-center justify-end">
         <Link
           href={`/exam/${exam.id}`}
-          className="glass-btn inline-flex items-center gap-1.5 shrink-0 rounded-xl px-3.5 py-2 text-xs font-semibold cursor-pointer hover:-translate-y-0.5 transition-all"
+          className="inline-flex items-center gap-1.5 shrink-0 rounded-xl bg-[#111827] hover:bg-black text-white px-3.5 py-2 text-xs font-semibold cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all active:scale-[0.98]"
         >
           <span>Bắt đầu làm bài</span>
-          <ArrowRight className="h-3.5 w-3.5 stroke-[2]" />
+          <ArrowRight className="h-3.5 w-3.5 stroke-[2] text-white" />
         </Link>
       </div>
     </div>
