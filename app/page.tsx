@@ -101,7 +101,7 @@ export default function LoginPage() {
           transition={{ duration: 0.5, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
           className="order-2 lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2 flex justify-center w-full lg:h-full"
         >
-          <div className="relative bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] flex w-full max-w-md lg:max-w-[460px] mx-auto flex-col justify-center rounded-[28px] p-7 sm:p-9 lg:p-10 shadow-xl dark:shadow-[0_4px_24px_rgba(0,0,0,0.5)] lg:h-full">
+          <div className="relative bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] flex w-full max-w-md lg:max-w-[460px] mx-auto flex-col justify-center rounded-[28px] p-7 sm:p-9 lg:p-10 shadow-xl dark:shadow-[0_4px_24px_rgba(0,0,0,0.5)] lg:h-full">
             {/* Ambient Top Glow Line */}
             <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-white/10 to-transparent rounded-t-[28px]" />
 
@@ -232,7 +232,7 @@ export default function LoginPage() {
           transition={{ duration: 0.5, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
           className="order-3 lg:col-span-6 lg:row-start-2 grid grid-cols-1 gap-3.5 sm:grid-cols-12 self-end"
         >
-          <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.05] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 sm:col-span-7 rounded-2xl p-4 sm:p-5">
+          <div className="bg-white dark:bg-[#121318] border border-black/[0.05] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 sm:col-span-7 rounded-2xl p-4 sm:p-5">
             <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl glass-icon">
               <FileSpreadsheet className="h-4 w-4" />
             </div>
@@ -244,7 +244,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.05] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 sm:col-span-5 rounded-2xl p-4 sm:p-5">
+          <div className="bg-white dark:bg-[#121318] border border-black/[0.05] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 sm:col-span-5 rounded-2xl p-4 sm:p-5">
             <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl glass-icon">
               <Clock className="h-4 w-4" />
             </div>
@@ -256,7 +256,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.05] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 sm:col-span-12 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3.5">
+          <div className="bg-white dark:bg-[#121318] border border-black/[0.05] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 sm:col-span-12 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3.5">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl glass-icon">
               <FileText className="h-5 w-5" />
             </div>

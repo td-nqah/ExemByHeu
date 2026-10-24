@@ -306,7 +306,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                     <Link
                       key={rel.id}
                       href={`/knowledge/${rel.id}`}
-                      className="p-4 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] shadow-sm hover:shadow-md transition block group hover:-translate-y-0.5"
+                      className="p-4 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-white dark:bg-[#121318] shadow-sm hover:shadow-md transition block group hover:-translate-y-0.5"
                     >
                       <span className="text-[10px] font-bold text-[#111827] dark:text-white font-mono">
                         {rel.category_name || "Chuyên đề"}
@@ -326,7 +326,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
           {/* Sticky Table of Contents Sidebar */}
           <aside className="lg:col-span-4 hidden lg:block sticky top-20 space-y-6">
-            <div className="rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] p-5 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+            <div className="rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-white dark:bg-[#121318] p-5 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
               <div className="flex items-center justify-between pb-3 border-b border-[#1f2937]">
                 <h3 className="text-xs font-bold text-[#111827] dark:text-white uppercase tracking-wider flex items-center gap-2">
                   <List className="h-4 w-4 text-[#6366f1]" />

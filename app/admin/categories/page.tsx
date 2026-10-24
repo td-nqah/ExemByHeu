@@ -217,13 +217,13 @@ export default function AdminCategoriesPage() {
       {/* 2. Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Card 1: Total */}
-        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.12] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.05),0_6px_16px_rgba(0,0,0,0.05),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-2xl p-5 hover:border-black/[0.22] dark:hover:border-white/[0.18] transition-all">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.12] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.05),0_6px_16px_rgba(0,0,0,0.05),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-2xl p-5 hover:border-black/[0.22] dark:hover:border-white/[0.18] transition-all">
           <span className="text-[11px] font-bold text-[#374151] dark:text-[#9CA3AF] uppercase tracking-wider font-mono">Tổng số học phần</span>
           <div className="mt-3 text-3xl font-extrabold text-[#111827] dark:text-white tabular-nums tracking-tight">{categories.length}</div>
         </div>
 
         {/* Card 2: Active */}
-        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.12] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.05),0_6px_16px_rgba(0,0,0,0.05),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-2xl p-5 hover:border-black/[0.22] dark:hover:border-white/[0.18] transition-all">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.12] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.05),0_6px_16px_rgba(0,0,0,0.05),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-2xl p-5 hover:border-black/[0.22] dark:hover:border-white/[0.18] transition-all">
           <div className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-[#111827] dark:bg-white" />
             <span className="text-[11px] font-bold text-[#374151] dark:text-[#9CA3AF] uppercase tracking-wider font-mono">Đang kích hoạt (Active)</span>
@@ -234,7 +234,7 @@ export default function AdminCategoriesPage() {
         </div>
 
         {/* Card 3: Hidden */}
-        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.12] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.05),0_6px_16px_rgba(0,0,0,0.05),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-2xl p-5 hover:border-black/[0.22] dark:hover:border-white/[0.18] transition-all">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.12] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.05),0_6px_16px_rgba(0,0,0,0.05),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-2xl p-5 hover:border-black/[0.22] dark:hover:border-white/[0.18] transition-all">
           <div className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-[#9CA3AF] dark:bg-[#6B7280]" />
             <span className="text-[11px] font-bold text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider font-mono">Đang ẩn (Hidden)</span>
@@ -250,7 +250,7 @@ export default function AdminCategoriesPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl overflow-hidden"
+        className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl overflow-hidden"
       >
         <div className="p-4 sm:p-5 border-b border-black/[0.08] dark:border-white/[0.08] flex items-center justify-between">
           <h2 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">
@@ -382,7 +382,7 @@ export default function AdminCategoriesPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md rounded-2xl bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl relative"
+              className="w-full max-w-md rounded-2xl bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl relative"
             >
               <div className="flex items-center justify-between pb-4 border-b border-black/[0.06] dark:border-white/[0.08]">
                 <h3 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">

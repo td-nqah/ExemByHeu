@@ -1,39 +1,35 @@
 "use client";
 
-import { useEffect, useRef, Suspense } from "react";
+import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 
 function SystemBackgroundContent() {
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Hàm sinh toạ độ sao ngẫu nhiên trong vùng 2000x2000 gán cho box-shadow
-    function generateShadows(n: number) {
-      const out: string[] = [];
-      for (let i = 0; i < n; i++) {
-        out.push(
-          `${Math.floor(Math.random() * 2000)}px ${Math.floor(Math.random() * 2000)}px var(--star-color)`
-        );
-      }
-      return out.join(", ");
-    }
-
-    if (rootRef.current) {
-      rootRef.current.style.setProperty("--s1", generateShadows(700));
-      rootRef.current.style.setProperty("--s2", generateShadows(200));
-      rootRef.current.style.setProperty("--s3", generateShadows(100));
-    }
-  }, []);
+  const pathname = usePathname();
+  const isLoginPage = pathname === "/" || pathname === "/login";
 
   return (
     <div
-      ref={rootRef}
       aria-hidden="true"
-      className="stars-system-container pointer-events-none fixed inset-0 z-0 overflow-hidden select-none"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#E9EAEE] dark:bg-[#090A0E] transition-colors duration-300 select-none"
     >
-      {/* 3 lớp sao động bay từ dưới lên liên tục */}
-      <div className="stars-layer-1" />
-      <div className="stars-layer-2" />
-      <div className="stars-layer-3" />
+      {/* Top-center ambient diffuse warm glow */}
+      <div
+        className="absolute -top-[20%] left-1/2 h-[600px] w-[1000px] -translate-x-1/2 rounded-full opacity-60 dark:opacity-15 blur-[120px] transition-opacity duration-300"
+        style={{
+          background: isLoginPage
+            ? "radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)"
+            : "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Bottom-right subtle cool ambient tint */}
+      <div
+        className="absolute -bottom-[15%] -right-[10%] h-[500px] w-[700px] rounded-full opacity-50 dark:opacity-15 blur-[100px] transition-opacity duration-300"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(111,160,216,0.06) 0%, transparent 65%)",
+        }}
+      />
     </div>
   );
 }
@@ -42,13 +38,7 @@ export function SystemBackground() {
   return (
     <Suspense
       fallback={
-        <div
-          className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at bottom, #dbeafe 0%, #f1f5f9 55%, #ffffff 100%)",
-          }}
-        />
+        <div className="fixed inset-0 -z-10 bg-[#E9EAEE] dark:bg-[#090A0E]" />
       }
     >
       <SystemBackgroundContent />

@@ -70,11 +70,11 @@ export default function HistoryPage() {
 
       {/* History Table / Card List */}
       {loading ? (
-        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex h-48 items-center justify-center rounded-2xl">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex h-48 items-center justify-center rounded-2xl">
           <p className="text-sm text-[#6B7280] dark:text-[#9CA3AF]">Đang tải lịch sử đánh giá...</p>
         </div>
       ) : submissions.length === 0 ? (
-        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center shadow-[0_2px_6px_rgba(0,0,0,0.3)] text-[#111827] dark:text-white">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center shadow-[0_2px_6px_rgba(0,0,0,0.3)] text-[#111827] dark:text-white">
           <History className="mb-3 h-10 w-10 text-[#111827] dark:text-white" />
           <h3 className="text-base font-bold text-[#111827] dark:text-white">
             Chưa có dữ liệu bài đánh giá
@@ -95,7 +95,7 @@ export default function HistoryPage() {
           initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.5)] overflow-hidden rounded-[22px] transition-all"
+          className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.5)] overflow-hidden rounded-[22px] transition-all"
         >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">

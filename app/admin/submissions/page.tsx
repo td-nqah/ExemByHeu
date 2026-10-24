@@ -58,7 +58,7 @@ export default function AdminSubmissionsListPage() {
       </div>
 
       {/* Submissions Table with Filter */}
-      <div className="bg-white dark:bg-[#1A1D26] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl overflow-hidden">
+      <div className="bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl overflow-hidden">
         {/* Table Toolbar */}
         <div className="flex flex-col gap-3 border-b border-white/[0.08] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-center gap-2.5">

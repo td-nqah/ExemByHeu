@@ -65,7 +65,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
         initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="w-full max-w-lg rounded-[24px] bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] p-6 sm:p-8 text-center shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
+        className="w-full max-w-lg rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] p-6 sm:p-8 text-center shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
       >
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/20 bg-[#DDF2E5] text-[#2E9E5B]">
           <CheckCircle2 className="h-8 w-8" />

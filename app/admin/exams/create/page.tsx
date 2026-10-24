@@ -504,7 +504,7 @@ export default function ExamCreatePage() {
       </div>
 
       {/* 1. Smart Exam Importer Panel (Tab 1: File Upload | Tab 2: Paste from Clipboard) */}
-      <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] mb-8 overflow-hidden rounded-2xl shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+      <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] mb-8 overflow-hidden rounded-2xl shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
         {/* Importer Mode Tabs */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#0E0F14] px-4 py-3 sm:px-6">
           <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-white dark:bg-[#14161D] p-1 border border-black/[0.06] dark:border-white/[0.08]">
@@ -727,7 +727,7 @@ export default function ExamCreatePage() {
       </div>
 
       {/* 2. Exam Metadata Form */}
-      <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] mb-8 rounded-2xl p-6">
+      <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] mb-8 rounded-2xl p-6">
         <h2 className="mb-4 text-base font-bold text-[#111827] dark:text-white">
           Thông tin cơ bản của Đề đánh giá
         </h2>
@@ -855,7 +855,7 @@ export default function ExamCreatePage() {
                   className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
                     isShuffled
                       ? "border-black/[0.1] bg-black/[0.05] dark:border-white/20 dark:bg-white/10 text-[#111827] dark:text-white"
-                      : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] text-[#9CA3AF]"
+                      : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] text-[#9CA3AF]"
                   }`}
                 >
                   <Shuffle className="h-4 w-4" />
@@ -949,7 +949,7 @@ export default function ExamCreatePage() {
         </div>
 
         {questions.length === 0 ? (
-          <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl py-12 text-center">
+          <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl py-12 text-center">
             <Layers className="mx-auto mb-2 h-8 w-8 text-[#111827] dark:text-white" />
             <p className="text-xs font-semibold text-[#111827] dark:text-white">
               Chưa có câu hỏi nào trong danh sách
@@ -972,7 +972,7 @@ export default function ExamCreatePage() {
             ))}
 
             {/* Bottom Add & Confirm Actions */}
-            <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
+            <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"

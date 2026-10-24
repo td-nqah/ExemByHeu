@@ -70,7 +70,7 @@ export function QuestionEditorCard({
   };
 
   return (
-    <div className="rounded-[24px] bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] p-5 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+    <div className="rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] p-5 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
       {/* Header Bar */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.08] dark:border-white/[0.08] pb-3">
         <div className="flex items-center gap-2.5">

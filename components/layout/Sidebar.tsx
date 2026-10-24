@@ -478,8 +478,8 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
       <SidebarFooter className="border-t border-black/[0.06] p-3 group-data-[collapsible=icon]:px-1 group-data-[collapsible=icon]:py-2.5 group-data-[collapsible=icon]:items-center">
         {user ? (
           <div className="flex flex-col gap-2 w-full group-data-[collapsible=icon]:items-center">
-            {/* User Profile Card - Styled in warm charcoal gray */}
-            <div className="flex items-center justify-between rounded-2xl bg-[#F1F2F5] dark:bg-[#1A1D26] border border-black/[0.1] dark:border-white/[0.12] shadow-xs dark:shadow-[0_2px_8px_rgba(0,0,0,0.45)] p-2.5 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
+            {/* User Profile Card */}
+            <div className="flex items-center justify-between rounded-2xl bg-[#F1F2F5] dark:bg-[#121318] border border-black/[0.1] dark:border-white/[0.12] shadow-xs dark:shadow-[0_2px_8px_rgba(0,0,0,0.45)] p-2.5 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
               <div className="flex items-center gap-2.5 min-w-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full">
                 <div
                   title={`${formatDisplayName(user.username)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}

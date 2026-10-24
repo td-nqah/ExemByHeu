@@ -37,7 +37,7 @@ export function SubmitConfirmModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ duration: 0.2 }}
-            className="relative w-full max-w-md rounded-[24px] bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-2xl p-6 text-[#111827] dark:text-white"
+            className="relative w-full max-w-md rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-2xl p-6 text-[#111827] dark:text-white"
           >
             {/* Close Button */}
             <button

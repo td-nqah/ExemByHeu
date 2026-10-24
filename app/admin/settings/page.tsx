@@ -253,7 +253,7 @@ export default function AdminSettingsPage() {
         {/* =========================================================================
             CARD 1: TẠO TÀI KHOẢN MỚI
             ========================================================================= */}
-        <div className="relative rounded-2xl bg-white dark:bg-[#1A1D26] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
+        <div className="relative rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
             <div className="absolute inset-x-0 top-0 h-[1px] bg-black/[0.08]" />
@@ -404,7 +404,7 @@ export default function AdminSettingsPage() {
         {/* =========================================================================
             CARD 2: ĐỔI MẬT KHẨU CÁC TÀI KHOẢN
             ========================================================================= */}
-        <div className="relative rounded-2xl bg-white dark:bg-[#1A1D26] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
+        <div className="relative rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
             <div className="absolute inset-x-0 top-0 h-[1px] bg-black/[0.08]" />

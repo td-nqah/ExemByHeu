@@ -172,7 +172,7 @@ export default function HomePage() {
           {/* Card 1: Exams */}
           <Link
             href="/dashboard"
-            className="group rounded-[20px] bg-white dark:bg-[#1A1D26] border border-black/[0.14] dark:border-white/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.04),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] hover:-translate-y-1.5 p-5 transition-all"
+            className="group rounded-[20px] bg-white dark:bg-[#121318] border border-black/[0.14] dark:border-white/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.04),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] hover:-translate-y-1.5 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F0F1F5] dark:bg-[#1A1C24] border border-black/[0.1] dark:border-white/[0.1] text-[#111827] dark:text-white shadow-xs">
@@ -193,7 +193,7 @@ export default function HomePage() {
           {/* Card 2: Submissions */}
           <Link
             href="/history"
-            className="group rounded-[20px] bg-white dark:bg-[#1A1D26] border border-black/[0.14] dark:border-white/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.04),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] hover:-translate-y-1.5 p-5 transition-all"
+            className="group rounded-[20px] bg-white dark:bg-[#121318] border border-black/[0.14] dark:border-white/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.04),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] hover:-translate-y-1.5 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F0F1F5] dark:bg-[#1A1C24] border border-black/[0.1] dark:border-white/[0.1] text-[#111827] dark:text-white shadow-xs">
@@ -212,7 +212,7 @@ export default function HomePage() {
           </Link>
 
           {/* Card 3: Standard Room */}
-          <div className="rounded-[20px] bg-white dark:bg-[#1A1D26] border border-black/[0.14] dark:border-white/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.04),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] p-5">
+          <div className="rounded-[20px] bg-white dark:bg-[#121318] border border-black/[0.14] dark:border-white/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.04),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] p-5">
             <div className="flex items-center justify-between">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F0F1F5] dark:bg-[#1A1C24] border border-black/[0.1] dark:border-white/[0.1] text-[#111827] dark:text-white shadow-xs">
                 <ShieldCheck className="h-5 w-5" />

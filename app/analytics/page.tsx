@@ -182,7 +182,7 @@ export default function AnalyticsPage() {
       {/* 4 Flat Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Tiến Độ Hoàn Thành Đề */}
-        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider">
               Tiến độ Hoàn thành Bài đánh giá
@@ -215,7 +215,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 2: Điểm Trung Bình */}
-        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider">
               Điểm Trung bình Đánh giá
@@ -241,7 +241,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 3: Tỉ Lệ Đúng Trắc Nghiệm */}
-        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider">
               Độ Chính Xác Trắc Nghiệm
@@ -261,7 +261,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Card 4: Điểm Cao Nhất */}
-        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-[22px] p-5 flex flex-col justify-between shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all">
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider">
               Điểm Đánh giá Cao nhất
@@ -285,7 +285,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Main Section: Flat Interactive Score Trend Line Chart */}
-      <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] rounded-[24px] p-6 sm:p-8 space-y-6 shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
+      <div className="bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-[24px] p-6 sm:p-8 space-y-6 shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
           <div>
             <h2 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">

@@ -104,7 +104,7 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
   const buttonText = isCompleted ? "Làm lại" : "Bắt đầu";
 
   return (
-    <div className="group flex flex-col justify-between h-full min-h-[190px] min-w-0 sm:min-w-[270px] rounded-[22px] bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] p-5 shadow-[0_1px_3px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.05)] dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] hover:border-black/[0.18] dark:hover:border-white/[0.18] hover:-translate-y-1 transition-all duration-300">
+    <div className="group flex flex-col justify-between h-full min-h-[190px] min-w-0 sm:min-w-[270px] rounded-[22px] bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] p-5 shadow-[0_1px_3px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.05)] dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] hover:border-black/[0.18] dark:hover:border-white/[0.18] hover:-translate-y-1 transition-all duration-300">
       {/* Upper Content: Header (Title + Status Badge), Subtitle, Question Count & Type */}
       <div className="space-y-4">
         {/* Top Header Row: Title on Left, Status Badge on Right */}

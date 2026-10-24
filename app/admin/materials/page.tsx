@@ -483,7 +483,7 @@ export default function AdminMaterialsPage() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 4, scale: 0.98 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-black/[0.1] dark:border-white/[0.1] bg-white dark:bg-[#1A1D26] p-2 shadow-2xl space-y-1.5 min-w-[280px]"
+                    className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-black/[0.1] dark:border-white/[0.1] bg-white dark:bg-[#121318] p-2 shadow-2xl space-y-1.5 min-w-[280px]"
                   >
                     <div className="px-2.5 py-1.5 text-[11px] font-bold text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider flex items-center justify-between border-b border-black/[0.08] dark:border-white/[0.08] pb-2">
                       <span>Chọn danh mục học phần</span>
@@ -678,7 +678,7 @@ export default function AdminMaterialsPage() {
           Đang tải danh sách tài liệu...
         </div>
       ) : filteredMaterials.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-black/[0.12] dark:border-white/[0.12] bg-[#F6F6F8] dark:bg-[#1A1D26] p-12 text-center">
+        <div className="rounded-2xl border border-dashed border-black/[0.12] dark:border-white/[0.12] bg-[#F6F6F8] dark:bg-[#121318] p-12 text-center">
           <FileText className="mx-auto h-12 w-12 text-[#6B7280] dark:text-[#9CA3AF] mb-3" />
           <h3 className="text-sm font-semibold text-[#111827] dark:text-white">Chưa có học liệu nào</h3>
           <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF] mt-1 max-w-md mx-auto">
@@ -709,7 +709,7 @@ export default function AdminMaterialsPage() {
           {filteredMaterials.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col justify-between rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all duration-300 p-5 group"
+              className="flex flex-col justify-between rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all duration-300 p-5 group"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
@@ -779,7 +779,7 @@ export default function AdminMaterialsPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-lg rounded-2xl bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl relative"
+              className="w-full max-w-lg rounded-2xl bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl relative"
             >
               <div className="flex items-center justify-between pb-4 border-b border-black/[0.06] dark:border-white/[0.08]">
                 <h3 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">
@@ -914,7 +914,7 @@ export default function AdminMaterialsPage() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-sm rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] p-5 shadow-2xl space-y-4"
+              className="w-full max-w-sm rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] p-5 shadow-2xl space-y-4"
             >
               <div className="flex items-center gap-3 text-[#111827] dark:text-white">
                 <div className="p-2.5 rounded-xl bg-rose-50 text-rose-600 border border-rose-500/20">
@@ -957,7 +957,7 @@ export default function AdminMaterialsPage() {
               initial={{ scale: 0.97, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.97, opacity: 0 }}
-              className="w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] shadow-2xl overflow-hidden my-auto"
+              className="w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] shadow-2xl overflow-hidden my-auto"
             >
               {/* Modal Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-black/[0.08] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D]">
@@ -1364,7 +1364,7 @@ export default function AdminMaterialsPage() {
                 {/* TAB 3: LIVE MAGAZINE PREVIEW */}
                 {modalTab === "preview" && (
                   <div className="space-y-6">
-                    <div className="p-6 sm:p-8 rounded-2xl border border-black/[0.1] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#1A1D26] max-w-4xl mx-auto shadow-sm">
+                    <div className="p-6 sm:p-8 rounded-2xl border border-black/[0.1] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#121318] max-w-4xl mx-auto shadow-sm">
                       {/* Header Preview */}
                       <div className="space-y-3 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
                         <div className="flex items-center gap-2">

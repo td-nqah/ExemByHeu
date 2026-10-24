@@ -404,7 +404,7 @@ export default function AdminPermissionsPage() {
           </span>
         </div>
 
-        <div className="rounded-[22px] bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] p-6 space-y-5">
+        <div className="rounded-[22px] bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] p-6 space-y-5">
           {/* Status Alert Banner */}
           {isHighStorage ? (
             <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-700 dark:text-rose-300 flex items-start gap-3 shadow-xs">
@@ -435,7 +435,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={handleRecalculateStorage}
                 disabled={isScanning}
-                className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#1A1D26] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] text-xs text-[#111827] dark:text-white font-semibold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-xs hover:-translate-y-0.5 active:scale-95"
+                className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#121318] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] text-xs text-[#111827] dark:text-white font-semibold transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-xs hover:-translate-y-0.5 active:scale-95"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${isScanning ? "animate-spin" : ""}`} />
                 <span>{isScanning ? "Đang quét..." : "Quét lại bộ nhớ"}</span>
@@ -564,7 +564,7 @@ export default function AdminPermissionsPage() {
                   setCopiedSql(true);
                   setTimeout(() => setCopiedSql(false), 2000);
                 }}
-                className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#1A1D26] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 hover:-translate-y-0.5 active:scale-95 shadow-xs"
+                className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#121318] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 hover:-translate-y-0.5 active:scale-95 shadow-xs"
               >
                 {copiedSql ? <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-[#2E9E5B]" /> : <Copy className="h-3.5 w-3.5" />}
                 <span>{copiedSql ? "Đã sao chép" : "Sao chép lệnh SQL"}</span>
@@ -590,7 +590,7 @@ export default function AdminPermissionsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {/* CARD 1 (BÊN TRÁI): Kiểm soát Kích hoạt & Thiết bị Đăng nhập */}
-          <div className="relative rounded-[22px] bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] p-6 space-y-4 flex flex-col justify-between h-full">
+          <div className="relative rounded-[22px] bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] p-6 space-y-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between pb-4 border-b border-black/[0.08] dark:border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.1] text-[#111827] dark:text-white shadow-2xs">
@@ -765,7 +765,7 @@ export default function AdminPermissionsPage() {
           </div>
 
           {/* CARD 2 (BÊN PHẢI): Người dùng đang Online / Đang hoạt động thời gian thực */}
-          <div className="relative rounded-[22px] bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] p-6 space-y-4 flex flex-col justify-between h-full">
+          <div className="relative rounded-[22px] bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-xs dark:shadow-[0_2px_10px_rgba(0,0,0,0.4)] p-6 space-y-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between pb-4 border-b border-black/[0.08] dark:border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-[#2E9E5B] shadow-2xs">
@@ -965,7 +965,7 @@ export default function AdminPermissionsPage() {
       {/* Modal xác nhận xóa vĩnh viễn tài khoản */}
       {deleteTargetUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-2xl bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl space-y-4">
+          <div className="w-full max-w-md rounded-2xl bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-500/20 dark:border-rose-500/30 shrink-0">
                 <Trash2 className="h-5 w-5" />

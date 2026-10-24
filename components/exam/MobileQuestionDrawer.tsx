@@ -65,13 +65,13 @@ export function MobileQuestionDrawer({
           <Menu className="h-6 w-6 stroke-[2.5]" strokeLinecap="round" />
 
           {/* Progress Badge */}
-          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-white dark:bg-[#1A1D26] px-1.5 text-[10px] font-extrabold font-mono tabular-nums text-[#0A0B0E] dark:text-white border border-black/10 dark:border-white/20 shadow-xs">
+          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-white dark:bg-[#121318] px-1.5 text-[10px] font-extrabold font-mono tabular-nums text-[#0A0B0E] dark:text-white border border-black/10 dark:border-white/20 shadow-xs">
             {answeredCount}/{total}
           </span>
 
           {/* Small Flag indicator if any flagged */}
           {flaggedCount > 0 && (
-            <span className="absolute -bottom-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#B8962E] text-white border border-white dark:border-[#1A1D26] shadow-xs">
+            <span className="absolute -bottom-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#B8962E] text-white border border-white dark:border-[#121318] shadow-xs">
               <Flag className="h-2.5 w-2.5 fill-current" />
             </span>
           )}
@@ -91,7 +91,7 @@ export function MobileQuestionDrawer({
       {/* 3. Slide-over Bottom Sheet Drawer */}
       <div
         className={cn(
-          "fixed inset-x-0 bottom-0 z-50 flex max-h-[85dvh] flex-col rounded-t-[28px] border-t border-white/[0.1] bg-white/98 dark:bg-[#1A1D26]/98 backdrop-blur-2xl shadow-2xl dark:shadow-[0_-12px_45px_rgba(0,0,0,0.5)] text-[#111827] dark:text-white transition-transform duration-300 ease-out md:hidden",
+          "fixed inset-x-0 bottom-0 z-50 flex max-h-[85dvh] flex-col rounded-t-[28px] border-t border-white/[0.1] bg-white/98 dark:bg-[#121318]/98 backdrop-blur-2xl shadow-2xl dark:shadow-[0_-12px_45px_rgba(0,0,0,0.5)] text-[#111827] dark:text-white transition-transform duration-300 ease-out md:hidden",
           isOpen ? "translate-y-0" : "translate-y-full pointer-events-none"
         )}
       >
@@ -164,7 +164,7 @@ export function MobileQuestionDrawer({
                   className={cn(
                     "relative flex h-11 w-full items-center justify-center rounded-xl text-xs font-mono tabular-nums transition active:scale-95 border",
                     btnStyle,
-                    isActive && "ring-2 ring-white ring-offset-2 ring-offset-[#1A1D26] scale-105 z-10 bg-white text-[#0A0B0E] font-bold"
+                    isActive && "ring-2 ring-white ring-offset-2 ring-offset-[#121318] scale-105 z-10 bg-white text-[#0A0B0E] font-bold"
                   )}
                 >
                   <span>{index + 1}</span>
@@ -189,7 +189,7 @@ export function MobileQuestionDrawer({
         </div>
 
         {/* Legend & Safe Footer */}
-        <div className="border-t border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#1A1D26] px-5 pt-3 pb-6 text-[11px] text-[#6B7280] dark:text-slate-400">
+        <div className="border-t border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#121318] px-5 pt-3 pb-6 text-[11px] text-[#6B7280] dark:text-slate-400">
           <div className="flex items-center justify-around gap-2">
             <div className="flex items-center gap-1.5">
               <span className="h-2.5 w-2.5 rounded-sm border border-[#2E9E5B]/40 bg-[#DDF2E5]" />
