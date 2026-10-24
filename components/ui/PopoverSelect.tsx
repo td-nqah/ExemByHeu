@@ -102,7 +102,7 @@ export function PopoverSelect<T extends string = string>({
           <ChevronDown
             className={cn(
               "h-3.5 w-3.5 text-[#6B7280] transition-transform duration-200 shrink-0",
-              isOpen && "rotate-180 text-white"
+              isOpen && "rotate-180 text-[#111827] dark:text-white"
             )}
           />
         </div>
@@ -117,7 +117,7 @@ export function PopoverSelect<T extends string = string>({
             exit={{ opacity: 0, y: 4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className={cn(
-              "absolute top-full mt-2 z-50 rounded-2xl border border-black/[0.08] dark:border-white/[0.1] bg-white/98 dark:bg-[#14161D]/98 backdrop-blur-xl p-1.5 shadow-2xl space-y-1 min-w-[200px] max-h-72 overflow-y-auto custom-scrollbar rounded-2xl text-[#111827] dark:text-white",
+              "absolute top-full mt-2 z-50 rounded-2xl border border-black/[0.08] dark:border-white/[0.1] bg-white/98 dark:bg-[#14161D]/98 backdrop-blur-xl p-1.5 shadow-2xl space-y-1 min-w-[200px] max-h-72 overflow-y-auto custom-scrollbar text-[#111827] dark:text-white",
               align === "right" ? "right-0" : "left-0",
               menuClassName
             )}
@@ -141,7 +141,7 @@ export function PopoverSelect<T extends string = string>({
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     {opt.icon && (
-                      <div className="shrink-0 text-[#9CA3AF] group-hover:text-white">
+                      <div className="shrink-0 text-[#6B7280] dark:text-[#9CA3AF] group-hover:text-[#111827] dark:group-hover:text-white">
                         {opt.icon}
                       </div>
                     )}

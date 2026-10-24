@@ -16,6 +16,7 @@ export interface ComboboxInputProps {
   onChange: (value: string) => void;
   suggestions: (ComboboxSuggestion | string)[];
   placeholder?: string;
+  categoryLabel?: string;
   required?: boolean;
   className?: string;
   inputClassName?: string;
@@ -29,6 +30,7 @@ export function ComboboxInput({
   onChange,
   suggestions,
   placeholder = "Nhập hoặc chọn từ danh sách...",
+  categoryLabel = "Học liệu / Đề thi có sẵn",
   required = false,
   className,
   inputClassName,
@@ -117,7 +119,7 @@ export function ComboboxInput({
           className={cn(
             "w-full px-3.5 py-2.5 pr-9 bg-white dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.1] hover:border-black/[0.15] dark:hover:border-white/20 focus:border-[#111827] dark:focus:border-white/40 rounded-xl text-xs text-[#111827] dark:text-white placeholder-[#A4A7B0] dark:placeholder-[#6B7280] focus:outline-none transition-all shadow-xs",
             disabled && "opacity-50 cursor-not-allowed pointer-events-none",
-            isOpen && "border-white ring-1 ring-white/20",
+            isOpen && "border-[#111827] ring-1 ring-[#111827]/15 dark:border-white dark:ring-white/20",
             inputClassName
           )}
         />
@@ -133,13 +135,13 @@ export function ComboboxInput({
               inputRef.current?.focus();
             }
           }}
-          className="absolute right-2.5 inset-y-0 flex items-center text-[#6B7280] hover:text-[#111827] transition-colors cursor-pointer disabled:opacity-40"
+          className="absolute right-2.5 inset-y-0 flex items-center text-[#6B7280] hover:text-[#111827] dark:hover:text-white transition-colors cursor-pointer disabled:opacity-40"
           aria-label="Danh sách gợi ý"
         >
           <ChevronDown
             className={cn(
               "h-4 w-4 transition-transform duration-200",
-              isOpen && "rotate-180 text-white"
+              isOpen && "rotate-180 text-[#111827] dark:text-white"
             )}
           />
         </button>
@@ -153,20 +155,20 @@ export function ComboboxInput({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-white/98 dark:bg-[#14161D]/98 backdrop-blur-2xl p-1.5 shadow-2xl max-h-56 overflow-y-auto custom-scrollbar rounded-xl text-[#111827] dark:text-white"
+            className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-white/98 dark:bg-[#14161D]/98 backdrop-blur-2xl p-1.5 shadow-2xl max-h-56 overflow-y-auto custom-scrollbar text-[#111827] dark:text-white"
           >
-            <div className="px-2 py-1 text-[10px] font-semibold text-[#6B7280] uppercase tracking-wider border-b border-white/[0.08] flex items-center justify-between">
-              <span>Đề thi có sẵn ({filteredSuggestions.length})</span>
-              <span className="font-mono text-[9px] text-slate-500 lowercase">
+            <div className="px-2 py-1 text-[10px] font-semibold text-[#6B7280] uppercase tracking-wider border-b border-black/[0.08] dark:border-white/[0.08] flex items-center justify-between">
+              <span>{categoryLabel} ({filteredSuggestions.length})</span>
+              <span className="font-mono text-[9px] text-[#6B7280] dark:text-slate-400 lowercase">
                 Gõ để lọc hoặc chọn
               </span>
             </div>
 
             <div className="py-1 space-y-0.5">
               {filteredSuggestions.length === 0 ? (
-                <div className="px-3 py-3 text-center text-xs text-[#6B7280]">
+                <div className="px-3 py-3 text-center text-xs text-[#6B7280] dark:text-[#9CA3AF]">
                   Không tìm thấy bài thi trùng khớp.
-                  <span className="block text-[10px] text-slate-500 mt-0.5">
+                  <span className="block text-[10px] text-[#9CA3AF] mt-0.5">
                     Tên mới &quot;{value}&quot; sẽ được tạo.
                   </span>
                 </div>
@@ -204,7 +206,7 @@ export function ComboboxInput({
                             {item.title}
                           </p>
                           {item.subtitle && (
-                            <p className="text-[10px] text-[#6B7280] truncate mt-0.5">
+                            <p className="text-[10px] text-[#6B7280] dark:text-[#9CA3AF] truncate mt-0.5">
                               {item.subtitle}
                             </p>
                           )}
@@ -212,7 +214,7 @@ export function ComboboxInput({
                       </div>
 
                       {isSelected && (
-                        <div className="shrink-0 h-4 w-4 rounded-full bg-[#0A0B0E] border border-white flex items-center justify-center text-white ml-2">
+                        <div className="shrink-0 h-4 w-4 rounded-full bg-white text-[#111827] dark:bg-[#0A0B0E] dark:text-white border border-black/20 dark:border-white/40 flex items-center justify-center ml-2">
                           <Check className="h-2.5 w-2.5" />
                         </div>
                       )}
