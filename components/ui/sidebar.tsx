@@ -288,7 +288,7 @@ export const SidebarSeparator = React.forwardRef<
     <div
       ref={ref}
       data-sidebar="separator"
-      className={cn("mx-3 my-2 h-[1px] bg-black/[0.04]", className)}
+      className={cn("mx-2 my-2 h-[1px] bg-[#334155]/60", className)}
       {...props}
     />
   );
@@ -475,7 +475,7 @@ export const SidebarMenuButton = React.forwardRef<
           "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-xl px-3 py-1.5 text-left text-[13.5px] font-medium outline-none transition-all duration-150 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center cursor-pointer",
           isActive
             ? "bg-[#5852d6] text-white font-semibold shadow-[0_4px_18px_rgba(88,82,214,0.4)] border border-[#818cf8]/25"
-            : "text-[#9ca3af] hover:text-white hover:bg-white/[0.05] border border-transparent",
+            : "text-white hover:text-white hover:bg-white/[0.08] border border-transparent",
           size === "sm" && "h-8 text-xs",
           size === "default" && "h-9",
           size === "lg" && "h-11",
@@ -540,8 +540,8 @@ export const SidebarMenuSubButton = React.forwardRef<
       className={cn(
         "flex h-8 w-full min-w-0 items-center justify-between gap-2 overflow-hidden rounded-xl px-3 text-xs transition-all duration-150 select-none cursor-pointer",
         isActive
-          ? "bg-[#111827] text-white border border-[#111827] dark:bg-white dark:text-[#0A0B0E] dark:font-bold dark:border-white shadow-xs"
-          : "text-[#4B5563] hover:text-[#111827] hover:bg-black/[0.04] dark:text-[#9CA3AF] dark:hover:text-white dark:hover:bg-white/[0.06] border border-transparent",
+          ? "bg-[#5852d6] text-white font-semibold border border-[#818cf8]/25 shadow-xs"
+          : "text-white/90 hover:text-white hover:bg-white/[0.06] border border-transparent",
         className
       )}
       {...props}
