@@ -438,7 +438,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           {/* Toggle Switch: Shuffle Exam */}
-          <div className="sm:col-span-2 rounded-xl bg-[#14161D] border border-white/[0.08] p-4 transition-all duration-200">
+          <div className="sm:col-span-2 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-white/[0.08] p-4 transition-all duration-200">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <div

@@ -44,7 +44,7 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
           ? "border-rose-200 bg-rose-50 text-rose-600 animate-pulse"
           : isWarning
           ? "border-[#B8962E]/30 bg-[#F6EBC8] text-[#B8962E]"
-          : "border-white/[0.1] bg-[#14161D] text-white shadow-xs"
+          : "border-black/[0.06] dark:border-white/[0.1] bg-white dark:bg-[#14161D] text-[#111827] dark:text-white shadow-xs"
       }`}
     >
       {isCritical ? (

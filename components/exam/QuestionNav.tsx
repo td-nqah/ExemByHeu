@@ -26,9 +26,9 @@ export function QuestionNav({
   const progressPercent = total > 0 ? Math.round((answeredCount / total) * 100) : 0;
 
   return (
-    <div className="bg-[#121318] border border-white/[0.08] rounded-2xl p-4 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+    <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] rounded-2xl p-4 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
       <div className="mb-3 flex items-center justify-between border-b border-black/[0.06] pb-2.5">
-        <h3 className="text-xs font-bold text-white tracking-wide font-heading">
+        <h3 className="text-xs font-bold text-[#111827] dark:text-white tracking-wide font-heading">
           Mục lục câu hỏi
         </h3>
         <div className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export function QuestionNav({
               {flaggedCount} cờ
             </span>
           )}
-          <span className="text-xs font-semibold font-mono tabular-nums text-white">
+          <span className="text-xs font-semibold font-mono tabular-nums text-[#111827] dark:text-white">
             {answeredCount}/{total} ({progressPercent}%)
           </span>
         </div>
@@ -60,7 +60,7 @@ export function QuestionNav({
           const isActive = activeQuestionId === question.id;
 
           let btnColor =
-            "border-white/[0.08] bg-[#14161D] text-[#9CA3AF] hover:border-white/20 hover:bg-white/[0.06] hover:text-white";
+            "border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-[#6B7280] dark:text-[#6B7280] dark:text-[#9CA3AF] hover:border-black/[0.12] dark:hover:border-white/20 hover:bg-black/[0.03] dark:hover:bg-white/[0.06] hover:text-[#111827] dark:hover:text-[#111827] dark:text-white";
 
           if (isFlagged) {
             btnColor =
@@ -76,7 +76,7 @@ export function QuestionNav({
               onClick={() => onSelectQuestion(question.id)}
               className={`relative flex h-9 w-full items-center justify-center rounded-xl text-xs font-semibold font-mono tabular-nums transition ${
                 isActive
-                  ? "ring-2 ring-white ring-offset-2 ring-offset-[#121318] scale-105 z-10 bg-white text-[#0A0B0E] font-bold shadow-xs"
+                  ? "ring-2 ring-[#111827] dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-[#121318] scale-105 z-10 bg-white text-[#111827] dark:text-[#0A0B0E] font-bold shadow-xs"
                   : ""
               } border ${btnColor}`}
               title={`Câu ${index + 1}: ${
@@ -91,14 +91,14 @@ export function QuestionNav({
 
               {/* Flag Badge */}
               {isFlagged && (
-                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-[#B8962E]/40 bg-[#B8962E] text-white shadow-xs">
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-[#B8962E]/40 bg-[#B8962E] text-[#111827] dark:text-white shadow-xs">
                   <Flag className="h-2.5 w-2.5 fill-current" />
                 </span>
               )}
 
               {/* Answered check (when not flagged or alongside) */}
               {!isFlagged && isAnswered && (
-                <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-[#2E9E5B]/40 bg-[#2E9E5B] text-white shadow-xs">
+                <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-[#2E9E5B]/40 bg-[#2E9E5B] text-[#111827] dark:text-white shadow-xs">
                   <Check className="h-2.5 w-2.5 stroke-[3]" />
                 </span>
               )}
@@ -108,7 +108,7 @@ export function QuestionNav({
       </div>
 
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-black/[0.06] pt-3 text-[11px] text-[#9CA3AF]">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-black/[0.06] pt-3 text-[11px] text-[#6B7280] dark:text-[#9CA3AF]">
         <div className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-sm bg-[#2E9E5B]" />
           <span>Đã làm</span>
@@ -118,7 +118,7 @@ export function QuestionNav({
           <span className="text-amber-300 font-medium">Xem lại</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm border border-white/[0.1] bg-[#14161D]" />
+          <span className="h-2.5 w-2.5 rounded-sm border border-black/[0.1] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#14161D]" />
           <span>Chưa làm</span>
         </div>
       </div>

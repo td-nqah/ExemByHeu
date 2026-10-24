@@ -42,9 +42,28 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
+      suppressHydrationWarning
       className={`${lexend.variable} ${beVietnamPro.variable} ${jetBrainsMono.variable} scroll-smooth h-full antialiased`}
     >
-      <body className="min-h-screen bg-[#E9EAEE] font-body text-slate-900 antialiased selection:bg-[#111827]/10 selection:text-[#111827] relative overflow-x-hidden custom-scrollbar">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var theme = localStorage.getItem('theme');
+                if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                  document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                  document.documentElement.setAttribute('data-theme', 'light');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen bg-[var(--app-bg)] font-body text-[#111827] dark:text-white antialiased transition-colors duration-300 relative overflow-x-hidden custom-scrollbar">
         {/* Dynamic System Background: Soft neutral ambient light UI */}
         <SystemBackground />
 

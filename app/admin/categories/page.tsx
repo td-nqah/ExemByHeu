@@ -216,17 +216,17 @@ export default function AdminCategoriesPage() {
 
       {/* 2. Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl p-4 px-5">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl p-4 px-5">
           <span className="text-xs text-[#9CA3AF] uppercase tracking-wider font-medium">Tổng số học phần</span>
           <div className="mt-2 text-2xl font-bold text-white">{categories.length}</div>
         </div>
-        <div className="bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl p-4 px-5">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl p-4 px-5">
           <span className="text-xs text-[#2E9E5B] uppercase tracking-wider font-medium">Đang kích hoạt (Active)</span>
           <div className="mt-2 text-2xl font-bold text-[#2E9E5B]">
             {categories.filter((c) => c.status === "active").length}
           </div>
         </div>
-        <div className="bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl p-4 px-5">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl p-4 px-5">
           <span className="text-xs text-[#9CA3AF] uppercase tracking-wider font-medium">Đang ẩn (Hidden)</span>
           <div className="mt-2 text-2xl font-bold text-[#9CA3AF]">
             {categories.filter((c) => c.status === "hidden").length}
@@ -239,7 +239,7 @@ export default function AdminCategoriesPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl overflow-hidden"
+        className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl overflow-hidden"
       >
         <div className="p-4 sm:p-5 border-b border-white/[0.08] flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
@@ -265,7 +265,7 @@ export default function AdminCategoriesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-white/[0.08] bg-[#0E0F14] text-[#9CA3AF] uppercase font-heading text-[11px] font-bold tracking-tight">
+                <tr className="border-b border-white/[0.08] bg-[#F6F6F8] dark:bg-[#0E0F14] text-[#9CA3AF] uppercase font-heading text-[11px] font-bold tracking-tight">
                   <th className="py-3 px-4">Tên Học phần</th>
                   <th className="py-3 px-4">Mã Học phần (Slug)</th>
                   <th className="py-3 px-4">Biểu tượng đại diện</th>
@@ -289,7 +289,7 @@ export default function AdminCategoriesPage() {
                       </td>
 
                       <td className="py-3.5 px-4 font-mono text-white">
-                        <span className="px-2.5 py-0.5 rounded bg-[#14161D] border border-white/[0.08] text-white text-[11px] font-mono">
+                        <span className="px-2.5 py-0.5 rounded bg-[#F6F6F8] dark:bg-[#14161D] border border-white/[0.08] text-white text-[11px] font-mono">
                           {cat.slug}
                         </span>
                       </td>
@@ -299,7 +299,7 @@ export default function AdminCategoriesPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-center font-bold text-white font-mono">
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#14161D] border border-white/[0.08] text-white text-xs font-num font-bold">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#F6F6F8] dark:bg-[#14161D] border border-white/[0.08] text-white text-xs font-num font-bold">
                           {examCount}
                         </span>
                       </td>

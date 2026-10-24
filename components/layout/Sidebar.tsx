@@ -189,13 +189,13 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none"
           >
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full glass-icon">
-              <GraduationCap className="h-5 w-5 text-white" strokeWidth={2} />
+              <GraduationCap className="h-5 w-5 text-[#111827] dark:text-white" strokeWidth={2} />
             </div>
             <div className="flex flex-col min-w-0">
               <span className="brand-logo font-heading text-[17px] font-black tracking-tight leading-tight select-none">
-                <span className="text-white">Exam</span>
+                <span className="text-[#111827] dark:text-white">Exam</span>
                 <span className="text-[#9CA3AF]">By</span>
-                <span className="text-white">Heu</span>
+                <span className="text-[#111827] dark:text-white">Heu</span>
               </span>
             </div>
           </Link>
@@ -203,7 +203,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
           {/* Nút Hamburger bên phải: Bỏ dấu X, tròn và autofit với sidebar */}
           <SidebarTrigger
             title="Thu nhỏ sidebar (Ctrl+B)"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.1] bg-[#14161D] text-white hover:bg-white/[0.08] shadow-xs active:scale-95 transition cursor-pointer select-none"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#14161D] text-[#111827] dark:text-white hover:bg-[#F6F6F8] dark:hover:bg-white/[0.08] shadow-xs active:scale-95 transition cursor-pointer select-none"
           >
             <Menu className="h-4.5 w-4.5" strokeWidth={2.25} />
           </SidebarTrigger>
@@ -218,7 +218,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
             title="ExamByHeu - Trang chủ"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full glass-icon hover:scale-105 active:scale-95 transition-all select-none"
           >
-            <GraduationCap className="h-5 w-5 text-white" strokeWidth={2} />
+            <GraduationCap className="h-5 w-5 text-[#111827] dark:text-white" strokeWidth={2} />
           </Link>
 
           {/* Nút 3 gạch mở rộng */}
@@ -253,7 +253,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                         <Icon
                           className={cn(
                             "h-4 w-4 shrink-0 transition-colors",
-                            item.active ? "text-[#0A0B0E]" : "text-[#9CA3AF]"
+                            item.active ? "text-white dark:text-[#0A0B0E]" : "text-[#4B5563] dark:text-[#9CA3AF]"
                           )}
                         />
                         <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -288,7 +288,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                     <BookOpen
                       className={cn(
                         "h-4 w-4 shrink-0 transition-colors",
-                        pathname.startsWith("/knowledge") ? "text-[#0A0B0E]" : "text-[#9CA3AF]"
+                        pathname.startsWith("/knowledge") ? "text-white dark:text-[#0A0B0E]" : "text-[#4B5563] dark:text-[#9CA3AF]"
                       )}
                     />
                     <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -317,7 +317,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                       <Layers
                         className={cn(
                           "h-4 w-4 shrink-0 transition-colors",
-                          isParentActive ? "text-[#0A0B0E]" : "text-[#9CA3AF]"
+                          isParentActive ? "text-white dark:text-[#0A0B0E]" : "text-[#4B5563] dark:text-[#9CA3AF]"
                         )}
                       />
                       <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -377,7 +377,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                                 >
                                   <span className="truncate">{cat.name}</span>
                                   {isSubActive && (
-                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#0A0B0E]" />
+                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white dark:bg-[#0A0B0E]" />
                                   )}
                                 </Link>
                               </SidebarMenuSubButton>
@@ -416,7 +416,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                             <Icon
                               className={cn(
                                 "h-4 w-4 shrink-0 transition-colors",
-                                item.active ? "text-[#0A0B0E]" : "text-[#9CA3AF]"
+                                item.active ? "text-white dark:text-[#0A0B0E]" : "text-[#4B5563] dark:text-[#9CA3AF]"
                               )}
                             />
                             <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -456,7 +456,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                             <Icon
                               className={cn(
                                 "h-4 w-4 shrink-0 transition-colors",
-                                item.active ? "text-[#0A0B0E]" : "text-[#9CA3AF]"
+                                item.active ? "text-white dark:text-[#0A0B0E]" : "text-[#4B5563] dark:text-[#9CA3AF]"
                               )}
                             />
                             <span className="truncate group-data-[collapsible=icon]:hidden">
@@ -479,16 +479,16 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
         {user ? (
           <div className="flex flex-col gap-2 w-full group-data-[collapsible=icon]:items-center">
             {/* User Profile Card */}
-            <div className="flex items-center justify-between rounded-2xl bg-[#121318] border border-white/[0.08] shadow-[0_2px_6px_rgba(0,0,0,0.4)] p-2.5 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
+            <div className="flex items-center justify-between rounded-2xl bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] shadow-[0_1px_2px_rgba(17,24,39,0.04),0_2px_6px_rgba(17,24,39,0.03)] dark:shadow-[0_2px_6px_rgba(0,0,0,0.4)] p-2.5 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
               <div className="flex items-center gap-2.5 min-w-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full">
                 <div
                   title={`${formatDisplayName(user.username)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white font-bold text-[#0A0B0E] text-xs select-none cursor-default group-data-[collapsible=icon]:mx-auto"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full glass-icon font-bold text-[#111827] dark:bg-white dark:text-[#0A0B0E] text-xs select-none cursor-default group-data-[collapsible=icon]:mx-auto"
                 >
                   {formatDisplayName(user.username).charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0 group-data-[collapsible=icon]:hidden">
-                  <p className="truncate text-xs font-semibold text-white">
+                  <p className="truncate text-xs font-semibold text-[#111827] dark:text-white">
                     {formatDisplayName(user.username)}
                   </p>
                   <p className="text-[10px] text-[#9CA3AF] truncate">
@@ -503,7 +503,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
               type="button"
               onClick={handleLogout}
               title="Đăng xuất khỏi hệ thống"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#14161D] hover:bg-white/[0.08] text-white border border-white/[0.1] px-3 py-2 text-xs font-semibold transition-all cursor-pointer shadow-xs hover:-translate-y-0.5 active:translate-y-0 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-[#14161D] hover:bg-[#FAFAFC] dark:hover:bg-white/[0.08] text-[#111827] dark:text-white border border-black/[0.09] dark:border-white/[0.1] px-3 py-2 text-xs font-semibold transition-all cursor-pointer shadow-xs hover:-translate-y-0.5 active:translate-y-0 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
             >
               <LogOut className="h-4 w-4 shrink-0" />
               <span className="truncate group-data-[collapsible=icon]:hidden">Đăng xuất</span>

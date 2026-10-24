@@ -475,8 +475,8 @@ export const SidebarMenuButton = React.forwardRef<
         className={cn(
           "peer/menu-button flex w-full items-center gap-3 overflow-hidden rounded-2xl px-3.5 py-2 text-left text-[14px] font-medium outline-none transition-all duration-200 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center cursor-pointer",
           isActive
-            ? "bg-white text-[#0A0B0E] font-bold shadow-[0_2px_8px_rgba(255,255,255,0.2),0_4px_16px_rgba(0,0,0,0.4)] border border-white"
-            : "text-[#9CA3AF] hover:text-white hover:bg-white/[0.06] border border-transparent",
+            ? "bg-[#111827] text-white shadow-[0_1px_2px_rgba(17,24,39,0.2),0_6px_16px_-2px_rgba(17,24,39,0.3)] border border-[#111827] dark:bg-white dark:text-[#0A0B0E] dark:font-bold dark:shadow-[0_2px_8px_rgba(255,255,255,0.2)] dark:border-white"
+            : "text-[#4B5563] hover:text-[#111827] hover:bg-black/[0.04] dark:text-[#9CA3AF] dark:hover:text-white dark:hover:bg-white/[0.06] border border-transparent",
           size === "sm" && "h-8 text-xs",
           size === "default" && "h-10",
           size === "lg" && "h-11",
@@ -541,8 +541,8 @@ export const SidebarMenuSubButton = React.forwardRef<
       className={cn(
         "flex h-8 w-full min-w-0 items-center justify-between gap-2 overflow-hidden rounded-xl px-3 text-xs transition-all duration-150 select-none cursor-pointer",
         isActive
-          ? "bg-white text-[#0A0B0E] font-bold shadow-xs border border-white"
-          : "text-[#9CA3AF] hover:text-white hover:bg-white/[0.06] border border-transparent",
+          ? "bg-[#111827] text-white border border-[#111827] dark:bg-white dark:text-[#0A0B0E] dark:font-bold dark:border-white shadow-xs"
+          : "text-[#4B5563] hover:text-[#111827] hover:bg-black/[0.04] dark:text-[#9CA3AF] dark:hover:text-white dark:hover:bg-white/[0.06] border border-transparent",
         className
       )}
       {...props}

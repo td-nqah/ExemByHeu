@@ -379,7 +379,7 @@ export default function AdminMaterialsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
         <div>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
               <Library className="h-6 w-6" />
             </div>
             <div>
@@ -443,7 +443,7 @@ export default function AdminMaterialsPage() {
               className={cn(
                 "w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer",
                 selectedCategory !== "all"
-                  ? "bg-[#14161D] border-black/[0.08] text-indigo-200 shadow-sm"
+                  ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-indigo-200 shadow-sm"
                   : "bg-white border-black/[0.06] text-white hover:border-[#374151] hover:text-white"
               )}
             >
@@ -500,12 +500,12 @@ export default function AdminMaterialsPage() {
                       className={cn(
                         "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                         selectedCategory === "all"
-                          ? "bg-[#14161D] border-black/[0.08] text-white shadow-sm"
+                          ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-white shadow-sm"
                           : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-black/[0.06] text-white"
                       )}
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="h-8 w-8 rounded-lg bg-[#14161D] border border-black/[0.08] flex items-center justify-center text-white shrink-0">
+                        <div className="h-8 w-8 rounded-lg bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] flex items-center justify-center text-white shrink-0">
                           <Library className="h-4 w-4" />
                         </div>
                         <div>
@@ -535,7 +535,7 @@ export default function AdminMaterialsPage() {
                       className={cn(
                         "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                         selectedCategory === "none"
-                          ? "bg-[#14161D] border-black/[0.08] text-white shadow-sm"
+                          ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-white shadow-sm"
                           : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-black/[0.06] text-white"
                       )}
                     >
@@ -579,12 +579,12 @@ export default function AdminMaterialsPage() {
                             className={cn(
                               "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                               isSelected
-                                ? "bg-[#14161D] border-black/[0.08] text-white shadow-sm"
+                                ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-white shadow-sm"
                                 : "border-transparent bg-white/[0.02] hover:bg-white/[0.06] hover:border-black/[0.06] text-white"
                             )}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
-                              <div className="h-8 w-8 rounded-lg bg-[#14161D] border border-black/[0.08] flex items-center justify-center text-white shrink-0">
+                              <div className="h-8 w-8 rounded-lg bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] flex items-center justify-center text-white shrink-0">
                                 <Tag className="h-4 w-4" />
                               </div>
                               <div className="min-w-0">
@@ -597,7 +597,7 @@ export default function AdminMaterialsPage() {
                               </div>
                             </div>
                             <div className="flex items-center gap-2 shrink-0 ml-2">
-                              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#14161D] border border-black/[0.08] text-white font-bold">
+                              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white font-bold">
                                 {count} bài
                               </span>
                               {isSelected && (
@@ -749,7 +749,7 @@ export default function AdminMaterialsPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-lg rounded-2xl bg-[#14161D] border border-black/[0.06] p-6 shadow-2xl relative"
+              className="w-full max-w-lg rounded-2xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] p-6 shadow-2xl relative"
             >
               <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -929,7 +929,7 @@ export default function AdminMaterialsPage() {
               className="w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl border border-black/[0.06] bg-white shadow-2xl overflow-hidden my-auto"
             >
               {/* Modal Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#14161D]">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D]">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-xl glass-badge text-white border border-[#4f46e5]/20">
                     <BookOpen className="h-5 w-5" />
@@ -946,7 +946,7 @@ export default function AdminMaterialsPage() {
 
                 <div className="flex items-center gap-2">
                   {/* Tabs */}
-                  <div className="flex items-center gap-1 bg-[#14161D] p-1 rounded-xl border border-black/[0.06] mr-3">
+                  <div className="flex items-center gap-1 bg-[#F6F6F8] dark:bg-[#14161D] p-1 rounded-xl border border-black/[0.06] mr-3">
                     <button
                       type="button"
                       onClick={() => setModalTab("import")}
@@ -1275,7 +1275,7 @@ export default function AdminMaterialsPage() {
                         onClick={() =>
                           insertSnippet(`<div class="callout-box border-l-4 border-[#4f46e5] bg-indigo-950/30 p-4 rounded-r-xl my-4 text-indigo-100 text-sm">\n  <p class="font-bold uppercase tracking-wider text-xs mb-1">Cốt Lõi Cần Nhớ</p>\n  <p class="leading-relaxed">Nội dung ghi chú cốt lõi...</p>\n</div>`)
                         }
-                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#14161D] hover:bg-[#4f46e5]/30 text-white border border-black/[0.08] transition cursor-pointer"
+                        className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#F6F6F8] dark:bg-[#14161D] hover:bg-[#4f46e5]/30 text-white border border-black/[0.08] transition cursor-pointer"
                       >
                         + Callout Cốt Lõi (Tím)
                       </button>
@@ -1365,7 +1365,7 @@ export default function AdminMaterialsPage() {
               </div>
 
               {/* Modal Footer */}
-              <div className="px-6 py-4 border-t border-white/[0.08] bg-[#14161D] flex items-center justify-between">
+              <div className="px-6 py-4 border-t border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] flex items-center justify-between">
                 <div className="text-xs text-[#9CA3AF]">
                   {modalTab === "import" && "Mẹo: Bạn có thể nhấn 'Chuyển thành Tạp chí bằng AI' để tự động định dạng."}
                   {modalTab === "editor" && "Chuyển sang tab 'Xem trước' để kiểm tra giao diện trước khi lưu."}

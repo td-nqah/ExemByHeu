@@ -478,7 +478,7 @@ export default function ExamCreatePage() {
       {/* Header */}
       <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-[#14161D] border border-black/[0.08] px-3 py-1 text-[11px] font-medium text-white">
+          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.08] px-3 py-1 text-[11px] font-medium text-[#111827] dark:text-white">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Trợ lý học thuật AI • Trích xuất Đề đánh giá</span>
           </div>
@@ -504,10 +504,10 @@ export default function ExamCreatePage() {
       </div>
 
       {/* 1. Smart Exam Importer Panel (Tab 1: File Upload | Tab 2: Paste from Clipboard) */}
-      <div className="bg-[#121318] border border-white/[0.08] mb-8 overflow-hidden rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+      <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] mb-8 overflow-hidden rounded-2xl shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
         {/* Importer Mode Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] bg-[#0E0F14] px-4 py-3 sm:px-6">
-          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-[#14161D] p-1 border border-white/[0.08]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#0E0F14] px-4 py-3 sm:px-6">
+          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-white dark:bg-[#14161D] p-1 border border-black/[0.06] dark:border-white/[0.08]">
             <button
               type="button"
               onClick={() => {

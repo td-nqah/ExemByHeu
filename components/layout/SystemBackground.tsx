@@ -10,11 +10,11 @@ function SystemBackgroundContent() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#E9EAEE]"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#E9EAEE] dark:bg-[#090A0E] transition-colors duration-300"
     >
       {/* Subtle top-center ambient diffuse warm glow */}
       <div
-        className="absolute -top-[20%] left-1/2 h-[600px] w-[1000px] -translate-x-1/2 rounded-full opacity-60 blur-[120px]"
+        className="absolute -top-[20%] left-1/2 h-[600px] w-[1000px] -translate-x-1/2 rounded-full opacity-60 dark:opacity-15 blur-[120px] transition-opacity duration-300"
         style={{
           background: isLoginPage
             ? "radial-gradient(circle, rgba(217,72,43,0.08) 0%, rgba(251,227,220,0.5) 45%, transparent 70%)"
@@ -24,7 +24,7 @@ function SystemBackgroundContent() {
 
       {/* Subtle bottom-right cool ambient tint */}
       <div
-        className="absolute -bottom-[15%] -right-[10%] h-[500px] w-[700px] rounded-full opacity-50 blur-[100px]"
+        className="absolute -bottom-[15%] -right-[10%] h-[500px] w-[700px] rounded-full opacity-50 dark:opacity-15 blur-[100px] transition-opacity duration-300"
         style={{
           background:
             "radial-gradient(circle, rgba(111,160,216,0.06) 0%, transparent 65%)",
@@ -36,7 +36,7 @@ function SystemBackgroundContent() {
 
 export function SystemBackground() {
   return (
-    <Suspense fallback={<div className="fixed inset-0 -z-10 bg-[#E9EAEE]" />}>
+    <Suspense fallback={<div className="fixed inset-0 -z-10 bg-[#E9EAEE] dark:bg-[#090A0E]" />}>
       <SystemBackgroundContent />
     </Suspense>
   );

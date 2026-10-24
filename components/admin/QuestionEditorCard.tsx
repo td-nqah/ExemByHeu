@@ -70,7 +70,7 @@ export function QuestionEditorCard({
   };
 
   return (
-    <div className="rounded-[24px] bg-[#121318] border border-white/[0.08] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+    <div className="rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] p-5 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
       {/* Header Bar */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3">
         <div className="flex items-center gap-2.5">
@@ -84,7 +84,7 @@ export function QuestionEditorCard({
 
         <div className="flex flex-wrap items-center gap-3">
           {/* Question Type Switch */}
-          <div className="inline-flex rounded-xl border border-white/[0.08] bg-[#14161D] p-0.5">
+          <div className="inline-flex rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] p-0.5">
             <button
               type="button"
               onClick={() => handleTypeChange("multiple_choice")}
@@ -150,7 +150,7 @@ export function QuestionEditorCard({
           value={question.content}
           onChange={(e) => onChange({ ...question, content: e.target.value })}
           placeholder="Nhập nội dung câu hỏi hoặc công thức..."
-          className="w-full rounded-xl border border-white/[0.08] bg-[#14161D] p-3 text-sm leading-relaxed text-white placeholder-[#6B7280] transition focus:border-white/40 focus:bg-[#14161D] focus:outline-hidden"
+          className="w-full rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] p-3 text-sm leading-relaxed text-[#111827] dark:text-white placeholder-[#6B7280] transition focus:border-white/40 focus:bg-[#F6F6F8] dark:bg-[#14161D] focus:outline-hidden"
         />
       </div>
 
@@ -193,7 +193,7 @@ export function QuestionEditorCard({
                     className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border text-xs font-bold transition font-mono ${
                       isSelectedKey
                         ? "border-emerald-500/30 bg-[#DDF2E5] text-[#2E9E5B]"
-                        : "border-white/[0.08] bg-[#14161D] text-[#9CA3AF] hover:border-white/20 hover:text-white"
+                        : "border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-[#6B7280] dark:text-[#9CA3AF] hover:border-black/[0.12] dark:hover:border-white/20 hover:text-[#111827] dark:hover:text-white"
                     }`}
                     title={`Chọn ${letter} làm đáp án đúng`}
                   >

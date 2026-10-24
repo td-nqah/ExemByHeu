@@ -287,7 +287,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             >
               <div className="mb-4 flex items-center justify-between border-b border-white/[0.08]/80 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-black/[0.08] bg-[#14161D] text-xs font-bold text-white">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-black/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-xs font-bold text-white">
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">
@@ -313,7 +313,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                       </span>
                     </div>
                   ) : (
-                    <span className="rounded-md bg-[#14161D] border border-black/[0.08] px-2.5 py-0.5 text-xs font-bold text-white">
+                    <span className="rounded-md bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] px-2.5 py-0.5 text-xs font-bold text-white">
                       Điểm tối đa: {q.max_score} điểm
                     </span>
                   )}
@@ -349,7 +349,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                       correctKeyLetter.length > 0 && correctKeyLetter === letter;
 
                     let rowStyle =
-                      "border-white/[0.08] bg-[#14161D] text-[#9CA3AF] opacity-75";
+                      "border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-[#9CA3AF] opacity-75";
                     let letterBadgeStyle =
                       "border border-slate-700 bg-slate-800 text-[#9CA3AF]";
 
@@ -413,7 +413,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                     <label className="mb-1.5 block text-[11px] font-semibold text-[#9CA3AF]">
                       Bài làm của sinh viên
                     </label>
-                    <div className="rounded-xl border border-white/[0.08] bg-[#14161D] p-4 whitespace-pre-wrap text-xs leading-relaxed text-white">
+                    <div className="rounded-xl border border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] p-4 whitespace-pre-wrap text-xs leading-relaxed text-white">
                       {ans.user_answer ? ans.user_answer : "(Sinh viên không điền nội dung trả lời)"}
                     </div>
                   </div>

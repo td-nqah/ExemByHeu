@@ -115,7 +115,7 @@ export function ComboboxInput({
           }}
           placeholder={placeholder}
           className={cn(
-            "w-full px-3.5 py-2.5 pr-9 bg-[#14161D] border border-white/[0.1] hover:border-white/20 focus:border-white/40 rounded-xl text-xs text-white placeholder-[#6B7280] focus:outline-none transition-all shadow-xs",
+            "w-full px-3.5 py-2.5 pr-9 bg-white dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.1] hover:border-black/[0.15] dark:hover:border-white/20 focus:border-[#111827] dark:focus:border-white/40 rounded-xl text-xs text-[#111827] dark:text-white placeholder-[#A4A7B0] dark:placeholder-[#6B7280] focus:outline-none transition-all shadow-xs",
             disabled && "opacity-50 cursor-not-allowed pointer-events-none",
             isOpen && "border-white ring-1 ring-white/20",
             inputClassName
@@ -153,7 +153,7 @@ export function ComboboxInput({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-white/[0.1] bg-[#14161D]/98 backdrop-blur-2xl p-1.5 shadow-2xl max-h-56 overflow-y-auto custom-scrollbar rounded-xl text-white"
+            className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-white/98 dark:bg-[#14161D]/98 backdrop-blur-2xl p-1.5 shadow-2xl max-h-56 overflow-y-auto custom-scrollbar rounded-xl text-[#111827] dark:text-white"
           >
             <div className="px-2 py-1 text-[10px] font-semibold text-[#6B7280] uppercase tracking-wider border-b border-white/[0.08] flex items-center justify-between">
               <span>Đề thi có sẵn ({filteredSuggestions.length})</span>
@@ -188,15 +188,15 @@ export function ComboboxInput({
                       className={cn(
                         "w-full px-2.5 py-2 rounded-lg text-left transition-all duration-150 flex items-center justify-between gap-2 group cursor-pointer border",
                         isSelected
-                          ? "bg-white text-[#0A0B0E] font-semibold shadow-xs border-white"
-                          : "border-transparent hover:bg-white/[0.06] text-[#9CA3AF] hover:text-white"
+                          ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] font-semibold shadow-xs border-black/80 dark:border-white"
+                          : "border-transparent hover:bg-black/[0.03] dark:hover:bg-white/[0.06] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
                       )}
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <FileText
                           className={cn(
                             "h-3.5 w-3.5 shrink-0 transition-colors",
-                            isSelected ? "text-[#0A0B0E]" : "text-[#9CA3AF] group-hover:text-white"
+                            isSelected ? "text-white dark:text-[#0A0B0E]" : "text-[#6B7280] dark:text-[#9CA3AF] group-hover:text-[#111827] dark:group-hover:text-white"
                           )}
                         />
                         <div className="min-w-0">

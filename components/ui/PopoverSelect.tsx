@@ -80,8 +80,8 @@ export function PopoverSelect<T extends string = string>({
         className={cn(
           "flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition-all duration-200 cursor-pointer select-none",
           isOpen
-            ? "bg-[#14161D] border-white text-white shadow-xs ring-1 ring-white/20"
-            : "bg-[#14161D] border-white/[0.1] text-white hover:border-white/20 shadow-xs",
+            ? "bg-white border-[#111827] text-[#111827] shadow-xs ring-1 ring-[#111827]/20 dark:bg-[#14161D] dark:border-white dark:text-white dark:ring-white/20"
+            : "bg-white border-black/[0.08] text-[#111827] hover:border-black/[0.15] dark:bg-[#14161D] dark:border-white/[0.1] dark:text-white dark:hover:border-white/20 shadow-xs",
           disabled && "opacity-50 cursor-not-allowed pointer-events-none",
           buttonClassName
         )}
@@ -117,7 +117,7 @@ export function PopoverSelect<T extends string = string>({
             exit={{ opacity: 0, y: 4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className={cn(
-              "absolute top-full mt-2 z-50 rounded-2xl border border-white/[0.1] bg-[#14161D]/98 backdrop-blur-xl p-1.5 shadow-2xl space-y-1 min-w-[200px] max-h-72 overflow-y-auto custom-scrollbar rounded-2xl text-white",
+              "absolute top-full mt-2 z-50 rounded-2xl border border-black/[0.08] dark:border-white/[0.1] bg-white/98 dark:bg-[#14161D]/98 backdrop-blur-xl p-1.5 shadow-2xl space-y-1 min-w-[200px] max-h-72 overflow-y-auto custom-scrollbar rounded-2xl text-[#111827] dark:text-white",
               align === "right" ? "right-0" : "left-0",
               menuClassName
             )}
@@ -135,8 +135,8 @@ export function PopoverSelect<T extends string = string>({
                   className={cn(
                     "w-full flex items-center justify-between p-2.5 rounded-xl border text-xs text-left transition-all duration-150 cursor-pointer group",
                     isSelected
-                      ? "bg-white text-[#0A0B0E] font-bold shadow-xs border-white"
-                      : "border-transparent bg-transparent hover:bg-white/[0.06] hover:border-white/[0.08] text-[#9CA3AF] hover:text-white"
+                      ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] font-bold shadow-xs border-black/80 dark:border-white"
+                      : "border-transparent bg-transparent hover:bg-black/[0.03] dark:hover:bg-white/[0.06] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
                   )}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
@@ -146,7 +146,7 @@ export function PopoverSelect<T extends string = string>({
                       </div>
                     )}
                     <div className="min-w-0">
-                      <p className={cn("truncate", isSelected ? "text-[#0A0B0E]" : "text-white")}>
+                      <p className={cn("truncate", isSelected ? "text-white dark:text-[#0A0B0E]" : "text-[#111827] dark:text-white")}>
                         {opt.label}
                       </p>
                       {opt.description && (
@@ -164,7 +164,7 @@ export function PopoverSelect<T extends string = string>({
                       </span>
                     )}
                     {isSelected && (
-                      <CheckCircle2 className="h-4 w-4 text-[#0A0B0E] shrink-0" />
+                      <CheckCircle2 className="h-4 w-4 text-white dark:text-[#0A0B0E] shrink-0" />
                     )}
                   </div>
                 </button>

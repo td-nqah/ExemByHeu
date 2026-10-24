@@ -61,7 +61,7 @@ export function ExamStatusSelector({
     <div className={cn("space-y-1.5", className)}>
       {/* Label & View Mode Switcher Header */}
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-semibold text-white">
+        <label className="block text-xs font-semibold text-[#111827] dark:text-white">
           {label}
         </label>
         {showModeSwitch && (
@@ -69,7 +69,7 @@ export function ExamStatusSelector({
             <button
               type="button"
               onClick={() => setViewMode(viewMode === "dropdown" ? "cards" : "dropdown")}
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium text-[#9CA3AF] hover:text-white hover:bg-black/[0.04] transition cursor-pointer"
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition cursor-pointer"
               title={viewMode === "dropdown" ? "Chuyển sang dạng Thẻ chọn nhanh" : "Chuyển sang dạng Menu thả xuống"}
             >
               {viewMode === "dropdown" ? (
@@ -99,7 +99,7 @@ export function ExamStatusSelector({
             aria-expanded={isOpen}
             className={cn(
               "group relative flex h-10 w-full items-center justify-between rounded-xl px-3.5 text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer select-none",
-              "border bg-[#14161D]",
+              "border bg-white dark:bg-[#14161D]",
               isPublished
                 ? "border-emerald-500/30 hover:border-emerald-500/60 shadow-xs"
                 : "border-amber-500/30 hover:border-amber-500/60 shadow-xs",
@@ -115,7 +115,7 @@ export function ExamStatusSelector({
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2E9E5B]" />
                   </span>
                   <LockOpen className="h-4 w-4 shrink-0 text-[#2E9E5B]" />
-                  <span className="truncate text-white font-semibold">
+                  <span className="truncate text-[#111827] dark:text-white font-semibold">
                     Đã xuất bản
                   </span>
                 </>
@@ -125,7 +125,7 @@ export function ExamStatusSelector({
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#B8962E]" />
                   </span>
                   <Lock className="h-4 w-4 shrink-0 text-[#B8962E]" />
-                  <span className="truncate text-white font-semibold">
+                  <span className="truncate text-[#111827] dark:text-white font-semibold">
                     Bản nháp
                   </span>
                 </>
@@ -162,7 +162,7 @@ export function ExamStatusSelector({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -6, scale: 0.98 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute left-0 right-0 top-full mt-1.5 z-40 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#14161D]/98 backdrop-blur-xl p-1.5 shadow-2xl space-y-1"
+                className="absolute left-0 right-0 top-full mt-1.5 z-40 overflow-hidden rounded-2xl border border-black/[0.08] dark:border-white/[0.1] bg-white/98 dark:bg-[#14161D]/98 backdrop-blur-xl p-1.5 shadow-2xl space-y-1"
               >
                 {/* Option 1: Published */}
                 <button
@@ -174,8 +174,8 @@ export function ExamStatusSelector({
                   className={cn(
                     "w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer group",
                     isPublished
-                      ? "bg-[#DDF2E5]/50 border border-emerald-500/30 text-white"
-                      : "hover:bg-white/[0.06] border border-transparent text-[#9CA3AF] hover:text-white"
+                      ? "bg-[#DDF2E5]/50 border border-emerald-500/30 text-[#111827] dark:text-white"
+                      : "hover:bg-black/[0.04] dark:hover:bg-white/[0.06] border border-transparent text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
                   )}
                 >
                   <div className="flex items-center gap-3 min-w-0">
@@ -221,8 +221,8 @@ export function ExamStatusSelector({
                   className={cn(
                     "w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer group",
                     !isPublished
-                      ? "bg-[#F6EBC8]/50 border border-amber-500/30 text-white"
-                      : "hover:bg-white/[0.06] border border-transparent text-[#9CA3AF] hover:text-white"
+                      ? "bg-[#F6EBC8]/50 border border-amber-500/30 text-[#111827] dark:text-white"
+                      : "hover:bg-black/[0.04] dark:hover:bg-white/[0.06] border border-transparent text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
                   )}
                 >
                   <div className="flex items-center gap-3 min-w-0">
@@ -271,8 +271,8 @@ export function ExamStatusSelector({
             className={cn(
               "group relative flex items-center justify-between p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none",
               isPublished
-                ? "bg-white border-emerald-500/50 shadow-xs text-white"
-                : "bg-[#F6F6F8] border-black/[0.06] hover:border-black/[0.12] text-[#9CA3AF] hover:text-white hover:bg-white"
+                ? "bg-white dark:bg-[#14161D] border-emerald-500/50 shadow-xs text-[#111827] dark:text-white"
+                : "bg-[#F6F6F8] dark:bg-[#121318] border-black/[0.06] dark:border-white/[0.08] hover:border-black/[0.12] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white dark:hover:bg-[#F6F6F8] dark:bg-[#14161D]"
             )}
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -311,8 +311,8 @@ export function ExamStatusSelector({
             className={cn(
               "group relative flex items-center justify-between p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none",
               !isPublished
-                ? "bg-white border-amber-500/50 shadow-xs text-white"
-                : "bg-[#F6F6F8] border-black/[0.06] hover:border-black/[0.12] text-[#9CA3AF] hover:text-white hover:bg-white"
+                ? "bg-white dark:bg-[#14161D] border-amber-500/50 shadow-xs text-[#111827] dark:text-white"
+                : "bg-[#F6F6F8] dark:bg-[#121318] border-black/[0.06] dark:border-white/[0.08] hover:border-black/[0.12] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white dark:hover:bg-[#F6F6F8] dark:bg-[#14161D]"
             )}
           >
             <div className="flex items-center gap-2.5 min-w-0">

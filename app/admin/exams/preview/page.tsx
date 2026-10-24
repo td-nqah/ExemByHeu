@@ -345,7 +345,7 @@ function AdminExamPreviewContent() {
             >
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.08]/80 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-black/[0.08] bg-[#14161D] text-xs font-bold text-white">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-black/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-xs font-bold text-white">
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">
@@ -354,7 +354,7 @@ function AdminExamPreviewContent() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <div className="flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-[#14161D] px-2.5 py-1">
+                  <div className="flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] px-2.5 py-1">
                     <span className="text-[11px] font-medium text-[#9CA3AF]">
                       Điểm câu này:
                     </span>
@@ -425,7 +425,7 @@ function AdminExamPreviewContent() {
                   })}
                 </div>
               ) : (
-                <div className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-[#14161D] p-3.5 text-xs text-white">
+                <div className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] p-3.5 text-xs text-white">
                   <FileText className="h-4 w-4 shrink-0 text-white" />
                   <span>
                     Câu hỏi tự luận (Điểm tối đa: {q.max_score} điểm • Chấm tự động bằng Gemini AI hoặc Giảng viên duyệt).

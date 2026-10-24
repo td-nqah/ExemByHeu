@@ -85,21 +85,21 @@ export default function KnowledgeHubPage() {
       {/* Header Section: Tiêu đề chính chỉ để dòng chữ Học liệu & Đề cương */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#14161D] border border-white/[0.08] text-white shadow-xs">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-white/[0.08] text-[#111827] dark:text-white shadow-xs">
             <BookOpen className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#111827] dark:text-white flex items-center gap-2">
               Tài liệu ôn tập
             </h1>
-            <p className="text-xs text-[#9CA3AF] mt-0.5">
+            <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF] mt-0.5">
               Hệ thống học liệu, đề cương chi tiết và tài liệu tham khảo theo học phần
             </p>
           </div>
         </div>
 
-        <div className="text-xs text-[#9CA3AF]">
-          Tổng số: <span className="font-bold text-white">{materials.length}</span> bài viết
+        <div className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">
+          Tổng số: <span className="font-bold text-[#111827] dark:text-white">{materials.length}</span> bài viết
         </div>
       </div>
 
@@ -108,13 +108,13 @@ export default function KnowledgeHubPage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
           {/* Search box */}
           <div className="md:col-span-5 relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9CA3AF]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#6B7280] dark:text-[#9CA3AF]" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm kiếm tài liệu, khái niệm, chuyên đề..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/[0.1] bg-[#14161D] text-xs text-white placeholder-[#9CA3AF] focus:border-white/40 shadow-xs focus:outline-none transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#14161D] text-xs text-[#111827] dark:text-[#111827] dark:text-white placeholder-[#A4A7B0] dark:placeholder-[#6B7280] focus:border-white/40 shadow-xs focus:outline-none transition-colors"
             />
           </div>
 
@@ -127,13 +127,13 @@ export default function KnowledgeHubPage() {
                 "w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer",
                 selectedCategory !== "all"
                   ? "bg-white text-[#0A0B0E] border-white shadow-xs"
-                  : "bg-[#14161D] border-white/[0.1] text-white hover:bg-white/[0.06] shadow-xs"
+                  : "bg-[#F6F6F8] dark:bg-[#14161D] border-white/[0.1] text-[#111827] dark:text-white hover:bg-white/[0.06] shadow-xs"
               )}
             >
               <div className="flex items-center gap-2 truncate">
-                <FolderTree className="h-4 w-4 text-white shrink-0" />
-                <span className="text-[#9CA3AF] font-normal">Danh mục:</span>
-                <span className="font-bold text-white truncate">
+                <FolderTree className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
+                <span className="text-[#6B7280] dark:text-[#9CA3AF] font-normal">Danh mục:</span>
+                <span className="font-bold text-[#111827] dark:text-white truncate">
                   {selectedCategory === "all"
                     ? "Tất cả học phần"
                     : selectedCategory === "none"
@@ -142,14 +142,14 @@ export default function KnowledgeHubPage() {
                 </span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
-                <span className="px-1.5 py-0.5 rounded-md bg-white/[0.06] text-[10px] font-mono text-[#9CA3AF]">
+                <span className="px-1.5 py-0.5 rounded-md bg-white/[0.06] text-[10px] font-mono text-[#6B7280] dark:text-[#9CA3AF]">
                   {selectedCategory === "all"
                     ? materials.length
                     : selectedCategory === "none"
                     ? materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length
                     : materials.filter((m) => m.category_id === selectedCategory || m.category_slug === selectedCategory).length}
                 </span>
-                <ChevronDown className={cn("h-4 w-4 text-[#9CA3AF] transition-transform duration-200", isCategoryMenuOpen && "rotate-180")} />
+                <ChevronDown className={cn("h-4 w-4 text-[#6B7280] dark:text-[#9CA3AF] transition-transform duration-200", isCategoryMenuOpen && "rotate-180")} />
               </div>
             </button>
 
@@ -166,9 +166,9 @@ export default function KnowledgeHubPage() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 4, scale: 0.98 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-white/[0.1] bg-[#121318]/98 backdrop-blur-xl p-2 shadow-2xl space-y-1.5 min-w-[280px] rounded-2xl"
+                    className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-white/[0.1] bg-white dark:bg-[#121318]/98 backdrop-blur-xl p-2 shadow-2xl space-y-1.5 min-w-[280px] rounded-2xl"
                   >
-                    <div className="px-2.5 py-1.5 text-[11px] font-bold text-[#9CA3AF] uppercase tracking-wider flex items-center justify-between border-b border-white/[0.08] pb-2">
+                    <div className="px-2.5 py-1.5 text-[11px] font-bold text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider flex items-center justify-between border-b border-white/[0.08] pb-2">
                       <span>Chọn học phần đào tạo</span>
                       <span>{categories.length + 2} phân loại</span>
                     </div>
@@ -184,22 +184,22 @@ export default function KnowledgeHubPage() {
                         "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                         selectedCategory === "all"
                           ? "bg-white text-[#0A0B0E] border-white shadow-xs"
-                          : "border-transparent bg-transparent hover:bg-white/[0.06] hover:border-white/[0.08] text-white/90"
+                          : "border-transparent bg-transparent hover:bg-white/[0.06] hover:border-white/[0.08] text-[#111827] dark:text-white/90"
                       )}
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center shrink-0", selectedCategory === "all" ? "bg-[#0A0B0E] text-white" : "bg-white/[0.08] border border-white/[0.1] text-white")}>
+                        <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center shrink-0", selectedCategory === "all" ? "bg-[#0A0B0E] text-[#111827] dark:text-white" : "bg-white/[0.08] border border-white/[0.1] text-[#111827] dark:text-white")}>
                           <Library className="h-4 w-4" />
                         </div>
                         <div>
-                          <p className={cn("text-xs font-bold transition", selectedCategory === "all" ? "text-[#0A0B0E]" : "text-white")}>
+                          <p className={cn("text-xs font-bold transition", selectedCategory === "all" ? "text-[#0A0B0E]" : "text-[#111827] dark:text-white")}>
                             Tất cả học phần
                           </p>
-                          <p className={cn("text-[10px]", selectedCategory === "all" ? "text-[#4B5563]" : "text-[#9CA3AF]")}>Toàn bộ tài liệu trong hệ thống</p>
+                          <p className={cn("text-[10px]", selectedCategory === "all" ? "text-[#4B5563]" : "text-[#6B7280] dark:text-[#9CA3AF]")}>Toàn bộ tài liệu trong hệ thống</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={cn("px-2 py-0.5 rounded-full text-[11px] font-mono font-bold", selectedCategory === "all" ? "bg-[#0A0B0E] text-white" : "bg-white/[0.08] border border-white/[0.1] text-white")}>
+                        <span className={cn("px-2 py-0.5 rounded-full text-[11px] font-mono font-bold", selectedCategory === "all" ? "bg-[#0A0B0E] text-[#111827] dark:text-white" : "bg-white/[0.08] border border-white/[0.1] text-[#111827] dark:text-white")}>
                           {materials.length} bài
                         </span>
                         {selectedCategory === "all" && (
@@ -219,22 +219,22 @@ export default function KnowledgeHubPage() {
                         "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                         selectedCategory === "none"
                           ? "bg-white text-[#0A0B0E] border-white shadow-xs"
-                          : "border-transparent bg-transparent hover:bg-white/[0.06] hover:border-white/[0.08] text-white/90"
+                          : "border-transparent bg-transparent hover:bg-white/[0.06] hover:border-white/[0.08] text-[#111827] dark:text-white/90"
                       )}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center shrink-0", selectedCategory === "none" ? "bg-[#0A0B0E] text-white" : "bg-white/[0.08] border border-white/[0.1] text-white")}>
+                        <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center shrink-0", selectedCategory === "none" ? "bg-[#0A0B0E] text-[#111827] dark:text-white" : "bg-white/[0.08] border border-white/[0.1] text-[#111827] dark:text-white")}>
                           <FileText className="h-4 w-4" />
                         </div>
                         <div className="min-w-0">
-                          <p className={cn("text-xs font-bold transition truncate", selectedCategory === "none" ? "text-[#0A0B0E]" : "text-white")}>
+                          <p className={cn("text-xs font-bold transition truncate", selectedCategory === "none" ? "text-[#0A0B0E]" : "text-[#111827] dark:text-white")}>
                             Tài liệu chung (Không gắn học phần)
                           </p>
-                          <p className={cn("text-[10px] truncate", selectedCategory === "none" ? "text-[#4B5563]" : "text-[#9CA3AF]")}>Ghi chú & cẩm nang chung</p>
+                          <p className={cn("text-[10px] truncate", selectedCategory === "none" ? "text-[#4B5563]" : "text-[#6B7280] dark:text-[#9CA3AF]")}>Ghi chú & cẩm nang chung</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 shrink-0 ml-2">
-                        <span className={cn("px-2 py-0.5 rounded-full text-[11px] font-mono font-bold", selectedCategory === "none" ? "bg-[#0A0B0E] text-white" : "bg-white/[0.08] border border-white/[0.1] text-white")}>
+                        <span className={cn("px-2 py-0.5 rounded-full text-[11px] font-mono font-bold", selectedCategory === "none" ? "bg-[#0A0B0E] text-[#111827] dark:text-white" : "bg-white/[0.08] border border-white/[0.1] text-[#111827] dark:text-white")}>
                           {materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length} bài
                         </span>
                         {selectedCategory === "none" && (
@@ -263,24 +263,24 @@ export default function KnowledgeHubPage() {
                               "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all text-left cursor-pointer group",
                               isSelected
                                 ? "bg-white text-[#0A0B0E] border-white shadow-xs"
-                                : "border-transparent bg-transparent hover:bg-white/[0.06] hover:border-white/[0.08] text-white/90"
+                                : "border-transparent bg-transparent hover:bg-white/[0.06] hover:border-white/[0.08] text-[#111827] dark:text-white/90"
                             )}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
-                              <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center shrink-0", isSelected ? "bg-[#0A0B0E] text-white" : "bg-white/[0.08] border border-white/[0.1] text-white")}>
+                              <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center shrink-0", isSelected ? "bg-[#0A0B0E] text-[#111827] dark:text-white" : "bg-white/[0.08] border border-white/[0.1] text-[#111827] dark:text-white")}>
                                 <Tag className="h-4 w-4" />
                               </div>
                               <div className="min-w-0">
-                                <p className={cn("text-xs font-bold transition truncate", isSelected ? "text-[#0A0B0E]" : "text-white")}>
+                                <p className={cn("text-xs font-bold transition truncate", isSelected ? "text-[#0A0B0E]" : "text-[#111827] dark:text-white")}>
                                   {c.name}
                                 </p>
-                                <p className={cn("text-[10px] font-mono truncate", isSelected ? "text-[#4B5563]" : "text-[#9CA3AF]")}>
+                                <p className={cn("text-[10px] font-mono truncate", isSelected ? "text-[#4B5563]" : "text-[#6B7280] dark:text-[#9CA3AF]")}>
                                   Mã: {c.slug}
                                 </p>
                               </div>
                             </div>
                             <div className="flex items-center gap-2 shrink-0 ml-2">
-                              <span className={cn("px-2 py-0.5 rounded-full text-[11px] font-mono font-bold", isSelected ? "bg-[#0A0B0E] text-white" : "bg-white/[0.08] border border-white/[0.1] text-white")}>
+                              <span className={cn("px-2 py-0.5 rounded-full text-[11px] font-mono font-bold", isSelected ? "bg-[#0A0B0E] text-[#111827] dark:text-white" : "bg-white/[0.08] border border-white/[0.1] text-[#111827] dark:text-white")}>
                                 {count} bài
                               </span>
                               {isSelected && (
@@ -299,7 +299,7 @@ export default function KnowledgeHubPage() {
 
           {/* Sort Selector */}
           <div className="md:col-span-3 flex items-center justify-end gap-2 text-xs">
-            <span className="text-[#9CA3AF] text-xs shrink-0">Sắp xếp:</span>
+            <span className="text-[#6B7280] dark:text-[#9CA3AF] text-xs shrink-0">Sắp xếp:</span>
             <PopoverSelect<"newest" | "title">
               value={sortBy}
               onChange={(val) => setSortBy(val)}
@@ -320,9 +320,9 @@ export default function KnowledgeHubPage() {
 
         {/* Active category filter pill */}
         {selectedCategory !== "all" && (
-          <div className="flex items-center gap-2 text-xs text-[#9CA3AF]">
+          <div className="flex items-center gap-2 text-xs text-[#6B7280] dark:text-[#9CA3AF]">
             <span>Đang lọc theo:</span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg glass-chip text-white border border-white/[0.08] text-xs font-bold">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg glass-chip text-[#111827] dark:text-white border border-white/[0.08] text-xs font-bold">
               <Tag className="h-3 w-3" />
               {selectedCategory === "none"
                 ? "Tài liệu chung (Không gắn học phần)"
@@ -330,7 +330,7 @@ export default function KnowledgeHubPage() {
               <button
                 type="button"
                 onClick={() => setSelectedCategory("all")}
-                className="hover:text-white ml-1 p-0.5 cursor-pointer rounded hover:bg-white/10 transition"
+                className="hover:text-[#111827] dark:text-white ml-1 p-0.5 cursor-pointer rounded hover:bg-white/10 transition"
                 title="Bỏ lọc, xem tất cả"
               >
                 <X className="h-3 w-3" />
@@ -346,15 +346,15 @@ export default function KnowledgeHubPage() {
           {[1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
             <div
               key={idx}
-              className="h-60 rounded-2xl border border-white/[0.08] bg-[#14161D] animate-pulse p-6"
+              className="h-60 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] animate-pulse p-6"
             />
           ))}
         </div>
       ) : filteredMaterials.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-white/[0.1] bg-[#121318] p-12 text-center">
+        <div className="rounded-2xl border border-dashed border-black/[0.1] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#121318] p-12 text-center">
           <BookOpen className="mx-auto h-12 w-12 text-[#6b7280] mb-3" />
-          <h3 className="text-sm font-bold text-white">Không tìm thấy tài liệu phù hợp</h3>
-          <p className="text-xs text-[#9CA3AF] mt-1 max-w-sm mx-auto">
+          <h3 className="text-sm font-bold text-[#111827] dark:text-white">Không tìm thấy tài liệu phù hợp</h3>
+          <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF] mt-1 max-w-sm mx-auto">
             Thử thay đổi bộ lọc danh mục hoặc từ khóa tìm kiếm để khám phá các bài viết lý thuyết khác.
           </p>
           {(searchQuery || selectedCategory !== "all") && (
@@ -363,7 +363,7 @@ export default function KnowledgeHubPage() {
                 setSearchQuery("");
                 setSelectedCategory("all");
               }}
-              className="mt-4 px-4 py-2 rounded-xl glass-btn text-white text-xs font-bold transition cursor-pointer"
+              className="mt-4 px-4 py-2 rounded-xl glass-btn text-[#111827] dark:text-white text-xs font-bold transition cursor-pointer"
             >
               Đặt lại bộ lọc
             </button>
@@ -377,19 +377,19 @@ export default function KnowledgeHubPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex flex-col justify-between rounded-[20px] border border-white/[0.08] bg-[#121318] shadow-[0_2px_4px_rgba(0,0,0,0.4),0_8px_24px_-2px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] hover:-translate-y-1.5 hover:border-white/[0.18] hover:shadow-[0_4px_8px_rgba(0,0,0,0.5),0_16px_36px_-2px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.12)] transition-all duration-300 p-5 group"
+              className="flex flex-col justify-between rounded-[20px] border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] shadow-xs dark:shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:-translate-y-1.5 transition-all duration-300 p-5 group"
             >
               <div className="space-y-3">
                 {/* Meta badges: Emerald Teal tag for subject category without reading time */}
                 <div className="flex items-center justify-between gap-2">
                   {item.category_id === "none" || item.category_slug === "none" ? (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white text-[#0A0B0E] border border-white shadow-[0_1px_3px_rgba(0,0,0,0.3)] shadow-xs">
-                      <FileText className="h-3 w-3 text-[#0A0B0E]" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#111827] text-[#111827] dark:text-white dark:bg-white dark:text-[#0A0B0E] border border-black/80 dark:border-white shadow-xs">
+                      <FileText className="h-3 w-3 text-[#111827] dark:text-white dark:text-[#0A0B0E]" />
                       <span>{item.category_name || "Không thuộc môn nào"}</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white text-[#0A0B0E] border border-white shadow-[0_1px_3px_rgba(0,0,0,0.3)] shadow-xs">
-                      <Tag className="h-3 w-3 text-[#0A0B0E]" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#111827] text-[#111827] dark:text-white dark:bg-white dark:text-[#0A0B0E] border border-black/80 dark:border-white shadow-xs">
+                      <Tag className="h-3 w-3 text-[#111827] dark:text-white dark:text-[#0A0B0E]" />
                       <span>{item.category_name || "Chuyên đề"}</span>
                     </span>
                   )}
@@ -397,34 +397,34 @@ export default function KnowledgeHubPage() {
 
                 {/* Article Title: Bold & High contrast */}
                 <Link href={`/knowledge/${item.id}`} className="block">
-                  <h2 className="font-heading text-base font-bold text-white group-hover:text-white transition line-clamp-2 leading-snug">
+                  <h2 className="font-heading text-base font-bold text-[#111827] dark:text-white group-hover:text-[#111827] dark:text-white transition line-clamp-2 leading-snug">
                     {item.title}
                   </h2>
                 </Link>
 
                 {/* Summary */}
-                <p className="text-xs text-[#9CA3AF] line-clamp-3 leading-relaxed">
+                <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF] line-clamp-3 leading-relaxed">
                   {item.summary || "Tổng hợp kiến thức trọng tâm và các dạng bài thường gặp..."}
                 </p>
               </div>
 
               {/* Card Footer */}
               <div className="mt-5 pt-3.5 border-t border-white/[0.08] flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-white max-w-[140px] truncate">
-                  <div className="h-6 w-6 rounded-lg bg-white text-[#0A0B0E] flex items-center justify-center font-bold text-[10px] shrink-0 shadow-xs">
+                <div className="flex items-center gap-2 text-[#111827] dark:text-white max-w-[140px] truncate">
+                  <div className="h-6 w-6 rounded-lg bg-[#111827] text-[#111827] dark:text-white dark:bg-white dark:text-[#0A0B0E] flex items-center justify-center font-bold text-[10px] shrink-0 shadow-xs">
                     {(item.author || "A")[0].toUpperCase()}
                   </div>
-                  <span className="truncate text-xs font-medium text-white">
+                  <span className="truncate text-xs font-medium text-[#111827] dark:text-white">
                     {item.author || "An Hiếu"}
                   </span>
                 </div>
 
                 <Link
                   href={`/knowledge/${item.id}`}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-white hover:bg-slate-100 text-[#0A0B0E] px-3.5 py-1.5 text-xs font-bold cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all active:scale-[0.98]"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#111827] hover:bg-black text-[#111827] dark:text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-3.5 py-1.5 text-xs font-bold cursor-pointer shadow-xs hover:-translate-y-0.5 active:translate-y-0 transition-all active:scale-[0.98]"
                 >
                   <span>Đọc bài</span>
-                  <ArrowRight className="h-3.5 w-3.5 stroke-[2] text-[#0A0B0E]" />
+                  <ArrowRight className="h-3.5 w-3.5 stroke-[2] text-[#111827] dark:text-white dark:text-[#0A0B0E]" />
                 </Link>
               </div>
             </motion.div>

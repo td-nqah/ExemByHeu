@@ -101,12 +101,12 @@ function UserDashboardContent() {
           ========================================================================= */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2.5">
+          <h2 className="text-base sm:text-lg font-bold tracking-tight text-[#111827] dark:text-white flex items-center gap-2.5">
             {activeCategory
               ? `Học phần: ${currentCategoryObj.label}`
               : "Bài đánh giá học phần khả dụng"}
           </h2>
-          <p className="mt-1 text-xs text-[#9CA3AF]">
+          <p className="mt-1 text-xs text-[#6B7280] dark:text-[#9CA3AF]">
             {activeCategory
               ? `Đang lọc các bài đánh giá thuộc học phần "${currentCategoryObj.label}". Chọn đề bên dưới để bắt đầu làm bài.`
               : "Chọn bài đánh giá bên dưới để bắt đầu làm bài. Thời gian làm bài sẽ được tính tự động."}
@@ -115,21 +115,21 @@ function UserDashboardContent() {
 
         {/* Flat Minimal Stats Block - Separate Monochrome Pills */}
         <div className="flex items-center gap-3 select-none self-start md:self-auto">
-          <div className="flex items-center gap-2 bg-[#121318] border border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-[0_2px_6px_rgba(0,0,0,0.3)] text-xs">
-            <ClipboardList className="h-4 w-4 text-white shrink-0" />
-            <span className="text-[#9CA3AF]">
+          <div className="flex items-center gap-2 bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-xs text-xs">
+            <ClipboardList className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
+            <span className="text-[#6B7280] dark:text-[#9CA3AF]">
               Số bài đánh giá:{" "}
-              <strong className="font-bold text-white text-sm tabular-nums">
+              <strong className="font-bold text-[#111827] dark:text-white text-sm tabular-nums">
                 {loading ? "..." : exams.length}
               </strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-2 bg-[#121318] border border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-[0_2px_6px_rgba(0,0,0,0.3)] text-xs">
-            <CheckSquare className="h-4 w-4 text-white shrink-0" />
-            <span className="text-[#9CA3AF]">
+          <div className="flex items-center gap-2 bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-xs text-xs">
+            <CheckSquare className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
+            <span className="text-[#6B7280] dark:text-[#9CA3AF]">
               Đã hoàn thành:{" "}
-              <strong className="font-bold text-white text-sm tabular-nums">
+              <strong className="font-bold text-[#111827] dark:text-white text-sm tabular-nums">
                 {loading ? "..." : submissions.length}
               </strong>
             </span>
@@ -157,8 +157,8 @@ function UserDashboardContent() {
               className={cn(
                 "inline-flex items-center justify-center rounded-full px-4 py-2 text-xs text-center shrink-0 select-none cursor-pointer transition-colors",
                 isActive
-                  ? "bg-white text-[#0A0B0E] border border-white font-bold shadow-[0_2px_8px_rgba(255,255,255,0.2),0_4px_16px_rgba(0,0,0,0.4)]"
-                  : "bg-[#14161D] text-white/90 border border-white/[0.1] hover:bg-white/[0.06] font-medium shadow-xs"
+                  ? "bg-[#111827] text-[#111827] dark:text-white border border-[#111827] dark:bg-white dark:text-[#0A0B0E] dark:border-white font-bold shadow-xs"
+                  : "bg-white text-[#111827] border border-black/[0.1] hover:bg-[#FAFAFC] dark:bg-[#14161D] dark:text-[#111827] dark:text-white/90 dark:border-white/[0.1] dark:hover:bg-white/[0.06] font-medium shadow-xs"
               )}
             >
               <span>{cat.label}</span>
@@ -171,20 +171,20 @@ function UserDashboardContent() {
           3. EXAM CARDS GRID (RESPONSIVE DYNAMIC GRID: 1 -> 2 -> 3 -> 4 COLS)
           ========================================================================= */}
       {loading ? (
-        <div className="bg-[#121318] border border-white/[0.08] shadow-[0_2px_6px_rgba(0,0,0,0.3)] flex h-48 items-center justify-center rounded-2xl">
-          <p className="text-xs text-[#9CA3AF]">Đang tải danh sách bài đánh giá...</p>
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex h-48 items-center justify-center rounded-2xl">
+          <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">Đang tải danh sách bài đánh giá...</p>
         </div>
       ) : filteredExams.length === 0 ? (
-        <div className="bg-[#121318] border border-white/[0.08] shadow-[0_2px_6px_rgba(0,0,0,0.3)] flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
-          <div className="p-3 rounded-xl glass-badge text-white border border-white/[0.1]">
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
+          <div className="p-3 rounded-xl glass-badge text-[#111827] dark:text-white border border-white/[0.1]">
             <BookOpen className="h-7 w-7" />
           </div>
-          <h3 className="text-base font-bold text-white">
+          <h3 className="text-base font-bold text-[#111827] dark:text-white">
             {activeCategory
               ? `Chưa có bài đánh giá nào trong học phần "${currentCategoryObj.label}"`
               : "Chưa có bài đánh giá nào được ban hành"}
           </h3>
-          <p className="max-w-md text-xs text-[#9CA3AF]">
+          <p className="max-w-md text-xs text-[#6B7280] dark:text-[#9CA3AF]">
             {activeCategory
               ? "Hiện tại học phần này chưa có bài đánh giá nào được ban hành. Bạn có thể quay lại xem tất cả bài đánh giá hiện có."
               : "Vui lòng đăng nhập với quyền Quản trị viên để ban hành bài đánh giá mới."}

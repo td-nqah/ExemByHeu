@@ -58,20 +58,20 @@ export default function AdminSubmissionsListPage() {
       </div>
 
       {/* Submissions Table with Filter */}
-      <div className="bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl overflow-hidden">
+      <div className="bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl overflow-hidden">
         {/* Table Toolbar */}
         <div className="flex flex-col gap-3 border-b border-white/[0.08] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-center gap-2.5">
             <h2 className="text-sm font-bold text-white">
               Danh sách Bài nộp Đánh giá
             </h2>
-            <span className="rounded-md bg-[#14161D] border border-black/[0.06] px-2 py-0.5 text-xs font-semibold text-white">
+            <span className="rounded-md bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] px-2 py-0.5 text-xs font-semibold text-white">
               {filteredSubmissions.length} / 20
             </span>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1 bg-[#14161D] p-1 rounded-xl border border-black/[0.06]">
+          <div className="flex flex-wrap items-center gap-1 bg-[#F6F6F8] dark:bg-[#14161D] p-1 rounded-xl border border-black/[0.06]">
             <button
               type="button"
               onClick={() => setFilterStatus("all")}
@@ -115,7 +115,7 @@ export default function AdminSubmissionsListPage() {
           </div>
         ) : filteredSubmissions.length === 0 ? (
           <div className="py-14 text-center space-y-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#14161D] border border-black/[0.08] text-white mx-auto">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white mx-auto">
               <Inbox className="h-6 w-6" />
             </div>
             <p className="text-sm font-semibold text-white">
@@ -128,7 +128,7 @@ export default function AdminSubmissionsListPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#0E0F14] text-[#9CA3AF] uppercase tracking-tight text-[11px] font-heading font-bold border-b border-white/[0.08]">
+              <thead className="bg-[#F6F6F8] dark:bg-[#0E0F14] text-[#9CA3AF] uppercase tracking-tight text-[11px] font-heading font-bold border-b border-white/[0.08]">
                 <tr>
                   <th className="py-3 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3 px-4 font-semibold">Sinh viên</th>

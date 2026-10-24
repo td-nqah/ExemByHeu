@@ -404,7 +404,7 @@ export default function AdminPermissionsPage() {
           </span>
         </div>
 
-        <div className="rounded-2xl bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-5">
+        <div className="rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-5">
           {/* Status Alert Banner */}
           {isHighStorage ? (
             <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-500/40 text-rose-200 flex items-start gap-3 shadow-sm">
@@ -419,7 +419,7 @@ export default function AdminPermissionsPage() {
               </div>
             </div>
           ) : (
-            <div className="p-3.5 rounded-xl bg-[#14161D] border border-black/[0.06] flex items-center justify-between gap-3 shadow-inner">
+            <div className="p-3.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex items-center justify-between gap-3 shadow-inner">
               <div className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-4.5 w-4.5 text-[#2E9E5B] shrink-0" />
                 <div>
@@ -455,7 +455,7 @@ export default function AdminPermissionsPage() {
               </span>
             </div>
 
-            <div className="w-full h-3 bg-[#14161D] rounded-full overflow-hidden p-0.5 border border-black/[0.06]">
+            <div className="w-full h-3 bg-[#F6F6F8] dark:bg-[#14161D] rounded-full overflow-hidden p-0.5 border border-black/[0.06]">
               <div
                 className="h-full rounded-full transition-all duration-700 ease-out bg-[#111827]"
                 style={{ width: `${Math.min(100, Math.max(2, storagePercentage))}%` }}
@@ -466,7 +466,7 @@ export default function AdminPermissionsPage() {
           {/* Granular Breakdown (3 Categories) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
             {/* 1. Database Tables */}
-            <div className="p-4 rounded-xl bg-[#14161D] border border-black/[0.06] flex flex-col justify-between">
+            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-white">
                   <Database className="h-4 w-4 text-white" />
@@ -477,7 +477,7 @@ export default function AdminPermissionsPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-[#14161D] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
+                <div className="w-full bg-[#F6F6F8] dark:bg-[#14161D] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
                   <div
                     className="h-full bg-[#111827] rounded-full"
                     style={{ width: `${Math.min(100, (dbTablesMB / maxStorageMB) * 100 * 2)}%` }}
@@ -491,7 +491,7 @@ export default function AdminPermissionsPage() {
             </div>
 
             {/* 2. File Storage Buckets */}
-            <div className="p-4 rounded-xl bg-[#14161D] border border-black/[0.06] flex flex-col justify-between">
+            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-white">
                   <FolderArchive className="h-4 w-4 text-[#38bdf8]" />
@@ -502,7 +502,7 @@ export default function AdminPermissionsPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-[#14161D] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
+                <div className="w-full bg-[#F6F6F8] dark:bg-[#14161D] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
                   <div
                     className="h-full bg-[#38bdf8] rounded-full"
                     style={{ width: `${Math.min(100, (filesStorageMB / maxStorageMB) * 100 * 2)}%` }}
@@ -516,7 +516,7 @@ export default function AdminPermissionsPage() {
             </div>
 
             {/* 3. Browser Cache & Logs */}
-            <div className="p-4 rounded-xl bg-[#14161D] border border-black/[0.06] flex flex-col justify-between">
+            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-white">
                   <Layers className="h-4 w-4 text-[#2E9E5B]" />
@@ -527,7 +527,7 @@ export default function AdminPermissionsPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="w-full bg-[#14161D] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
+                <div className="w-full bg-[#F6F6F8] dark:bg-[#14161D] h-1.5 rounded-full overflow-hidden border border-black/[0.06]">
                   <div
                     className="h-full bg-[#34d399] rounded-full"
                     style={{ width: `${Math.min(100, (cacheLogsMB / maxStorageMB) * 100 * 2)}%` }}
@@ -543,7 +543,7 @@ export default function AdminPermissionsPage() {
 
           {/* RPC Config guidance */}
           {rpcConfigured === false && (
-            <div className="p-4 rounded-xl bg-[#14161D] border border-black/[0.06] text-xs space-y-2">
+            <div className="p-4 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] text-xs space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-[#B8962E] flex items-center gap-1.5">
                   <AlertCircle className="h-4 w-4 text-[#B8962E]" />
@@ -588,10 +588,10 @@ export default function AdminPermissionsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {/* CARD 1 (BÊN TRÁI): Kiểm soát Kích hoạt & Thiết bị Đăng nhập */}
-          <div className="relative rounded-2xl bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
+          <div className="relative rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
@@ -672,7 +672,7 @@ export default function AdminPermissionsPage() {
                           <span className="font-mono font-bold text-xs text-white">
                             {acc.username}
                           </span>
-                          <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#14161D] text-white border border-black/[0.08] font-medium tracking-normal shadow-xs">
+                          <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#F6F6F8] dark:bg-[#14161D] text-white border border-black/[0.08] font-medium tracking-normal shadow-xs">
                             {acc.role === "admin" ? "Admin" : "Sinh viên"}
                           </span>
                           <span
@@ -692,7 +692,7 @@ export default function AdminPermissionsPage() {
                             className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border tracking-normal ${
                               devCount > 3
                                 ? "bg-rose-50 text-rose-600 border-rose-500/25 text-white font-semibold"
-                                : "bg-[#14161D] border-black/[0.06] text-white"
+                                : "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.06] text-white"
                             }`}
                             title={
                               acc.devices && acc.devices.length > 0
@@ -729,7 +729,7 @@ export default function AdminPermissionsPage() {
                           type="button"
                           onClick={() => handleResetSecurity(acc.username)}
                           disabled={accountsLoading || isDeletingUser}
-                          className="px-2.5 py-1.5 rounded-lg bg-[#14161D] hover:bg-[#4f46e5]/25 border border-black/[0.08] text-white text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal"
+                          className="px-2.5 py-1.5 rounded-lg bg-[#F6F6F8] dark:bg-[#14161D] hover:bg-[#4f46e5]/25 border border-black/[0.08] text-white text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50 active:scale-95 tracking-normal"
                           title="Reset danh sách thiết bị về 0/3 và mở khóa tài khoản"
                         >
                           <RefreshCw className="h-3 w-3" />
@@ -763,7 +763,7 @@ export default function AdminPermissionsPage() {
           </div>
 
           {/* CARD 2 (BÊN PHẢI): Người dùng đang Online / Đang hoạt động thời gian thực */}
-          <div className="relative rounded-2xl bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
+          <div className="relative rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-[#2E9E5B] shadow-[0_0_12px_rgba(52,211,153,0.15)]">
@@ -799,7 +799,7 @@ export default function AdminPermissionsPage() {
 
             {/* Quick Metrics Bar */}
             <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="p-2.5 rounded-xl bg-[#14161D] border border-black/[0.06] flex items-center justify-between">
+              <div className="p-2.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex items-center justify-between">
                 <span className="text-[#9CA3AF] flex items-center gap-1.5 text-xs font-sans tracking-normal">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -811,7 +811,7 @@ export default function AdminPermissionsPage() {
                   <strong className="font-mono font-bold tabular-nums">{onlineCount}</strong> người
                 </span>
               </div>
-              <div className="p-2.5 rounded-xl bg-[#14161D] border border-black/[0.06] flex items-center justify-between">
+              <div className="p-2.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex items-center justify-between">
                 <span className="text-[#9CA3AF] flex items-center gap-1.5 text-xs font-sans tracking-normal">
                   <span className="h-2 w-2 rounded-full bg-slate-500" />
                   <span>Ngoại tuyến (Offline)</span>
@@ -842,7 +842,7 @@ export default function AdminPermissionsPage() {
                         {/* Avatar / Role Initial */}
                         <div
                           className={`relative flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-bold font-mono ${
-                            "bg-[#14161D] border border-black/[0.08] text-white"
+                            "bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white"
                           }`}
                         >
                           {acc.username.slice(0, 2).toUpperCase()}
@@ -862,13 +862,13 @@ export default function AdminPermissionsPage() {
                             </span>
                             <span
                               className={`text-xs px-2 py-0.5 rounded-full border font-medium font-sans tracking-normal ${
-                                "bg-[#14161D] border border-black/[0.08] text-white"
+                                "bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white"
                               }`}
                             >
                               {acc.role === "admin" ? "Admin" : "User"}
                             </span>
                             {isCurrent && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-[#14161D] border border-indigo-500/35 text-white font-semibold font-sans tracking-normal">
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-[#F6F6F8] dark:bg-[#14161D] border border-indigo-500/35 text-white font-semibold font-sans tracking-normal">
                                 (Bạn)
                               </span>
                             )}
@@ -906,7 +906,7 @@ export default function AdminPermissionsPage() {
                             <span>Online</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-[#14161D] text-white border border-black/[0.08] font-medium tracking-normal select-none shadow-xs">
+                          <span className="inline-flex items-center gap-1.5 text-[12.5px] px-2.5 py-0.5 rounded-full bg-[#F6F6F8] dark:bg-[#14161D] text-white border border-black/[0.08] font-medium tracking-normal select-none shadow-xs">
                             <span className="h-1.5 w-1.5 rounded-full bg-[#9CA3AF]"></span>
                             <span>Offline</span>
                           </span>
@@ -991,7 +991,7 @@ export default function AdminPermissionsPage() {
                 type="button"
                 onClick={() => setDeleteTargetUser(null)}
                 disabled={isDeletingUser}
-                className="px-4 py-2 rounded-xl border border-black/[0.08] bg-[#14161D] text-xs font-semibold text-white hover:bg-black/[0.04] transition cursor-pointer disabled:opacity-50"
+                className="px-4 py-2 rounded-xl border border-black/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] text-xs font-semibold text-white hover:bg-black/[0.04] transition cursor-pointer disabled:opacity-50"
               >
                 Hủy bỏ
               </button>

@@ -92,7 +92,7 @@ export function ScoreConfigPanel({
   const formattedEssayTotal = Math.round(currentEssayTotal * 100) / 100;
 
   return (
-    <div className="rounded-[24px] bg-[#121318] border border-white/[0.08] p-5 sm:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+    <div className="rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] p-5 sm:p-6 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
       {/* Header */}
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
         <div className="flex items-center gap-2.5">
@@ -120,13 +120,13 @@ export function ScoreConfigPanel({
       {/* Row 1: Per-Question Score Inputs + Live Total Exam Score */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* 1. MCQ Point per Question */}
-        <div className="rounded-2xl border border-white/[0.08] bg-[#14161D] p-4">
+        <div className="rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] p-4">
           <div className="mb-2 flex items-center justify-between">
             <label className="flex items-center gap-1.5 text-xs font-bold text-white">
               <HelpCircle className="h-3.5 w-3.5 text-white" />
               <span>Điểm mỗi câu trắc nghiệm</span>
             </label>
-            <span className="rounded-md bg-[#121318] border border-white/[0.08] px-2 py-0.5 text-[10px] font-semibold text-[#9CA3AF] font-mono">
+            <span className="rounded-md bg-white dark:bg-[#121318] border border-white/[0.08] px-2 py-0.5 text-[10px] font-semibold text-[#9CA3AF] font-mono">
               {mcqCount} câu
             </span>
           </div>
@@ -156,7 +156,7 @@ export function ScoreConfigPanel({
                 className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 font-mono ${
                   parseFloat(mcqInput) === val
                     ? "bg-white text-[#0A0B0E] font-bold border-white shadow-xs"
-                    : "border-white/[0.08] bg-[#121318] text-white/90 hover:bg-white/[0.06]"
+                    : "border-black/[0.06] dark:border-white/[0.08] bg-white dark:bg-[#121318] text-[#111827] dark:text-white/90 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
                 }`}
               >
                 {val}đ
@@ -166,13 +166,13 @@ export function ScoreConfigPanel({
         </div>
 
         {/* 2. Essay Point per Question */}
-        <div className="rounded-2xl border border-white/[0.08] bg-[#14161D] p-4">
+        <div className="rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] p-4">
           <div className="mb-2 flex items-center justify-between">
             <label className="flex items-center gap-1.5 text-xs font-bold text-white">
               <FileText className="h-3.5 w-3.5 text-white" />
               <span>Điểm mỗi câu tự luận</span>
             </label>
-            <span className="rounded-md bg-[#121318] border border-white/[0.08] px-2 py-0.5 text-[10px] font-semibold text-[#9CA3AF] font-mono">
+            <span className="rounded-md bg-white dark:bg-[#121318] border border-white/[0.08] px-2 py-0.5 text-[10px] font-semibold text-[#9CA3AF] font-mono">
               {essayCount} câu
             </span>
           </div>
@@ -202,7 +202,7 @@ export function ScoreConfigPanel({
                 className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 font-mono ${
                   parseFloat(essayInput) === val
                     ? "bg-white text-[#0A0B0E] font-bold border-white shadow-xs"
-                    : "border-white/[0.08] bg-[#121318] text-white/90 hover:bg-white/[0.06]"
+                    : "border-black/[0.06] dark:border-white/[0.08] bg-white dark:bg-[#121318] text-[#111827] dark:text-white/90 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
                 }`}
               >
                 {val}đ
@@ -241,7 +241,7 @@ export function ScoreConfigPanel({
       </div>
 
       {/* Row 2: Auto-Calculate / Scale Score Bar */}
-      <div className="mt-4 flex flex-col justify-between gap-4 rounded-2xl border border-white/[0.08] bg-[#14161D] p-4 lg:flex-row lg:items-center">
+      <div className="mt-4 flex flex-col justify-between gap-4 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] p-4 lg:flex-row lg:items-center">
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-white" />

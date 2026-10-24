@@ -253,17 +253,17 @@ export default function AdminSettingsPage() {
         {/* =========================================================================
             CARD 1: TẠO TÀI KHOẢN MỚI
             ========================================================================= */}
-        <div className="relative rounded-2xl bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
+        <div className="relative rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
             <div className="absolute inset-x-0 top-0 h-[1px] bg-black/[0.08]" />
-            <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#14161D] rounded-full blur-3xl" />
+            <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#F6F6F8] dark:bg-[#14161D] rounded-full blur-3xl" />
           </div>
 
           <div>
             <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
                   <UserPlus className="h-5 w-5 text-white" />
                 </div>
                 <div>
@@ -308,7 +308,7 @@ export default function AdminSettingsPage() {
                   value={newUsername}
                   onChange={(e) => setNewUsername(e.target.value.toLowerCase())}
                   placeholder="VD: sinhvien_01 hoặc trogiang"
-                  className="w-full px-3.5 py-2.5 bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
+                  className="w-full px-3.5 py-2.5 bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
                 />
               </div>
 
@@ -326,7 +326,7 @@ export default function AdminSettingsPage() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Nhập mật khẩu (tối thiểu 4 ký tự)"
-                    className="w-full px-3.5 py-2.5 bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors pr-10 shadow-inner"
+                    className="w-full px-3.5 py-2.5 bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors pr-10 shadow-inner"
                   />
                   <button
                     type="button"
@@ -350,8 +350,8 @@ export default function AdminSettingsPage() {
                     onClick={() => setNewRole("user")}
                     className={`py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center gap-2 transition cursor-pointer ${
                       newRole === "user"
-                        ? "bg-[#14161D] border-black/[0.08] text-white font-bold shadow-xs"
-                        : "bg-[#14161D] border-black/[0.06] text-[#9CA3AF] hover:text-white hover:bg-black/[0.04]"
+                        ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-white font-bold shadow-xs"
+                        : "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.06] text-[#9CA3AF] hover:text-white hover:bg-black/[0.04]"
                     }`}
                   >
                     <User className="h-3.5 w-3.5 text-[#38bdf8]" />
@@ -363,8 +363,8 @@ export default function AdminSettingsPage() {
                     onClick={() => setNewRole("admin")}
                     className={`py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center gap-2 transition cursor-pointer ${
                       newRole === "admin"
-                        ? "bg-[#14161D] border-black/[0.08] text-white font-bold shadow-xs"
-                        : "bg-[#14161D] border-black/[0.06] text-[#9CA3AF] hover:text-white hover:bg-black/[0.04]"
+                        ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-white font-bold shadow-xs"
+                        : "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.06] text-[#9CA3AF] hover:text-white hover:bg-black/[0.04]"
                     }`}
                   >
                     <Shield className="h-3.5 w-3.5 text-white" />
@@ -404,17 +404,17 @@ export default function AdminSettingsPage() {
         {/* =========================================================================
             CARD 2: ĐỔI MẬT KHẨU CÁC TÀI KHOẢN
             ========================================================================= */}
-        <div className="relative rounded-2xl bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
+        <div className="relative rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
             <div className="absolute inset-x-0 top-0 h-[1px] bg-black/[0.08]" />
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#14161D] rounded-full blur-3xl" />
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#F6F6F8] dark:bg-[#14161D] rounded-full blur-3xl" />
           </div>
 
           <div>
             <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
                   <KeyRound className="h-5 w-5 text-white" />
                 </div>
                 <div>
@@ -427,7 +427,7 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
 
-              <span className="text-[10px] px-2.5 py-1 rounded-full font-mono bg-[#14161D] border border-black/[0.06] text-[#9CA3AF]">
+              <span className="text-[10px] px-2.5 py-1 rounded-full font-mono bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] text-[#9CA3AF]">
                 {allProfiles.length} tài khoản
               </span>
             </div>
@@ -463,7 +463,7 @@ export default function AdminSettingsPage() {
                 <button
                   type="button"
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                  className="w-full px-3.5 py-2.5 bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white flex items-center justify-between transition-colors shadow-inner cursor-pointer"
+                  className="w-full px-3.5 py-2.5 bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white flex items-center justify-between transition-colors shadow-inner cursor-pointer"
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     {(() => {
@@ -473,7 +473,7 @@ export default function AdminSettingsPage() {
                         <div
                           className={`h-6 w-6 rounded-lg flex items-center justify-center shrink-0 border ${
                             isAdmin
-                              ? "bg-[#14161D] border-black/[0.08] text-white"
+                              ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-white"
                               : "bg-[#0284c7]/15 border-[#0284c7]/30 text-[#38bdf8]"
                           }`}
                         >
@@ -498,7 +498,7 @@ export default function AdminSettingsPage() {
                             className={`text-[9px] px-1.5 py-0.5 rounded font-semibold border ${
                               isAdmin
                                 ? "glass-badge text-white border-black/[0.08]"
-                                : "bg-[#14161D] text-white border border-black/[0.08]"
+                                : "bg-[#F6F6F8] dark:bg-[#14161D] text-white border border-black/[0.08]"
                             }`}
                           >
                             {isAdmin ? "Quản trị viên" : "User"}
@@ -575,7 +575,7 @@ export default function AdminSettingsPage() {
                               }}
                               className={`w-full px-2.5 py-2 rounded-lg text-left transition-all duration-150 flex items-center justify-between gap-2.5 group cursor-pointer ${
                                 isSelected
-                                  ? "bg-[#14161D] border border-black/[0.08] text-indigo-200 ring-1 ring-[#4f46e5]/20"
+                                  ? "bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-indigo-200 ring-1 ring-[#4f46e5]/20"
                                   : "hover:bg-[#1f2937] text-white hover:text-white border border-transparent"
                               }`}
                             >
@@ -583,7 +583,7 @@ export default function AdminSettingsPage() {
                                 <div
                                   className={`h-7 w-7 rounded-lg flex items-center justify-center shrink-0 border transition-transform duration-150 group-hover:scale-105 ${
                                     isAdmin
-                                      ? "bg-[#14161D] border-black/[0.08] text-white"
+                                      ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-white"
                                       : "bg-[#0284c7]/15 border-[#0284c7]/30 text-[#38bdf8]"
                                   }`}
                                 >
@@ -608,7 +608,7 @@ export default function AdminSettingsPage() {
                                       className={`text-[9px] px-1.5 py-0.5 rounded font-semibold border ${
                                         isAdmin
                                           ? "glass-badge text-white border-black/[0.08]"
-                                          : "bg-[#14161D] text-white border border-black/[0.08]"
+                                          : "bg-[#F6F6F8] dark:bg-[#14161D] text-white border border-black/[0.08]"
                                       }`}
                                     >
                                       {isAdmin ? "Quản trị viên" : "User"}
@@ -638,7 +638,7 @@ export default function AdminSettingsPage() {
 
                               <div className="shrink-0 pl-1">
                                 {isSelected ? (
-                                  <div className="h-5 w-5 rounded-full bg-[#14161D] border border-[#4f46e5]/40 flex items-center justify-center text-white shadow-sm">
+                                  <div className="h-5 w-5 rounded-full bg-[#F6F6F8] dark:bg-[#14161D] border border-[#4f46e5]/40 flex items-center justify-center text-white shadow-sm">
                                     <Check className="h-3 w-3" />
                                   </div>
                                 ) : (
@@ -662,7 +662,7 @@ export default function AdminSettingsPage() {
                   <Shield className="h-3.5 w-3.5 text-white" />
                   <span>Vai trò &amp; Trạng thái tài khoản</span>
                 </label>
-                <div className="px-3.5 py-2.5 rounded-xl bg-[#14161D] border border-black/[0.06] flex items-center justify-between text-xs">
+                <div className="px-3.5 py-2.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <span className="font-mono font-bold text-white text-xs">
                       {selectedUser || "..."}
@@ -670,7 +670,7 @@ export default function AdminSettingsPage() {
                     <span
                       className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
                         selectedProfile?.role === "admin"
-                          ? "bg-[#14161D] border-black/[0.08] text-white"
+                          ? "bg-[#F6F6F8] dark:bg-[#14161D] border-black/[0.08] text-white"
                           : "bg-slate-800 border-slate-700 text-white"
                       }`}
                     >
@@ -703,7 +703,7 @@ export default function AdminSettingsPage() {
                     value={editNewUsername}
                     onChange={(e) => setEditNewUsername(e.target.value)}
                     placeholder="Nhập tên đăng nhập mới"
-                    className="w-full pl-9 pr-3.5 py-2.5 bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
+                    className="w-full pl-9 pr-3.5 py-2.5 bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
                   />
                   <User className="pointer-events-none absolute left-3 top-2.5 z-10 h-4 w-4 text-white" strokeWidth={2.2} />
                 </div>
@@ -723,7 +723,7 @@ export default function AdminSettingsPage() {
                     value={emergencyNewPassword}
                     onChange={(e) => setEmergencyNewPassword(e.target.value)}
                     placeholder="Để trống nếu không đổi mật khẩu"
-                    className="w-full pl-9 pr-10 py-2.5 bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner"
+                    className="w-full pl-9 pr-10 py-2.5 bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner"
                   />
                   <Lock className="pointer-events-none absolute left-3 top-2.5 z-10 h-4 w-4 text-white" strokeWidth={2.2} />
                   <button
