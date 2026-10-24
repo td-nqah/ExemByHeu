@@ -8,7 +8,6 @@ import { Profile } from "@/types/exam";
 import {
   BookOpen,
   History,
-  TrendingUp,
   Play,
   ArrowRight,
   ShieldCheck,
@@ -156,13 +155,6 @@ export default function HomePage() {
             <span>Xem lịch sử đánh giá</span>
           </Link>
 
-          <Link
-            href="/analytics"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#161b22] hover:bg-[#1c2128] border border-[#21262d] text-[#e6edf3] hover:text-white px-5 py-3 text-sm font-medium transition-colors"
-          >
-            <TrendingUp className="h-4 w-4 text-[#8b949e]" />
-            <span>Tiến độ học tập</span>
-          </Link>
         </div>
 
         {/* =========================================================================

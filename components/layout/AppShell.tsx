@@ -24,7 +24,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     else if (pathname.startsWith("/admin/categories")) activity = "Quản lý Danh mục";
     else if (pathname.startsWith("/admin/materials")) activity = "Quản lý Tài liệu";
     else if (pathname.startsWith("/history")) activity = "Xem lịch sử làm bài";
-    else if (pathname.startsWith("/analytics")) activity = "Xem phân tích kết quả";
     else if (pathname.startsWith("/home")) activity = "Trang chủ / Danh sách đề";
 
     const sendPing = () => {

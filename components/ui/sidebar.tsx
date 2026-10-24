@@ -386,7 +386,7 @@ export const SidebarGroupLabel = React.forwardRef<
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "flex h-7 shrink-0 items-center px-2.5 text-[11px] font-heading font-bold uppercase tracking-normal text-slate-600 outline-none transition-opacity duration-200 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:h-0 group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden",
+        "flex h-6 shrink-0 items-center px-2.5 text-[11px] font-heading font-bold uppercase tracking-wider text-[#64748b] outline-none transition-opacity duration-200 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:h-0 group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden",
         className
       )}
       {...props}
@@ -418,7 +418,7 @@ export const SidebarMenu = React.forwardRef<
     <ul
       ref={ref}
       data-sidebar="menu"
-      className={cn("flex w-full min-w-0 flex-col gap-1 list-none p-0 m-0", className)}
+      className={cn("flex w-full min-w-0 flex-col gap-0.5 list-none p-0 m-0", className)}
       {...props}
     />
   );
@@ -472,12 +472,12 @@ export const SidebarMenuButton = React.forwardRef<
         data-active={isActive}
         title={tooltip}
         className={cn(
-          "peer/menu-button flex w-full items-center gap-3 overflow-hidden rounded-2xl px-3.5 py-2 text-left text-[14px] font-medium outline-none transition-all duration-200 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center cursor-pointer",
+          "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-xl px-3 py-1.5 text-left text-[13.5px] font-medium outline-none transition-all duration-150 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center cursor-pointer",
           isActive
-            ? "bg-[#4f46e5] text-white font-semibold shadow-md shadow-[#4f46e5]/30 border border-[#6366f1]/40"
-            : "text-[#9ca3af] hover:text-white hover:bg-white/[0.06] border border-transparent",
+            ? "bg-[#5852d6] text-white font-semibold shadow-[0_4px_18px_rgba(88,82,214,0.4)] border border-[#818cf8]/25"
+            : "text-[#9ca3af] hover:text-white hover:bg-white/[0.05] border border-transparent",
           size === "sm" && "h-8 text-xs",
-          size === "default" && "h-10",
+          size === "default" && "h-9",
           size === "lg" && "h-11",
           className
         )}
