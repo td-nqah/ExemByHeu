@@ -584,7 +584,7 @@ export default function AdminMaterialsPage() {
                             )}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
-                              <div className="h-8 w-8 rounded-lg bg-[#DDF2E5]/50 border border-[#2E9E5B]/20 flex items-center justify-center text-[#2E9E5B] shrink-0">
+                              <div className="h-8 w-8 rounded-lg bg-[#F6F6F8] border border-black/[0.08] flex items-center justify-center text-[#111827] shrink-0">
                                 <Tag className="h-4 w-4" />
                               </div>
                               <div className="min-w-0">
@@ -597,11 +597,11 @@ export default function AdminMaterialsPage() {
                               </div>
                             </div>
                             <div className="flex items-center gap-2 shrink-0 ml-2">
-                              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#DDF2E5]/40 border border-[#2E9E5B]/20 text-[#2E9E5B] font-bold">
+                              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#F6F6F8] border border-black/[0.08] text-[#111827] font-bold">
                                 {count} bài
                               </span>
                               {isSelected && (
-                                <CheckCircle2 className="h-4 w-4 text-[#2E9E5B]" />
+                                <CheckCircle2 className="h-4 w-4 text-[#111827]" />
                               )}
                             </div>
                           </button>
@@ -684,14 +684,14 @@ export default function AdminMaterialsPage() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
                   {item.category_id === "none" || item.category_slug === "none" ? (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#F6F6F8] text-[#111827] border border-black/[0.08]">
-                      <FileText className="h-3 w-3 text-[#6B7280]" />
-                      {item.category_name || "Tài liệu chung (Không gắn học phần)"}
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#111827] text-white border border-[#111827] shadow-xs">
+                      <FileText className="h-3 w-3 text-white" />
+                      <span>{item.category_name || "Không thuộc môn nào"}</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#DDF2E5]/70 text-[#2E9E5B] border border-[#2E9E5B]/20">
-                      <Tag className="h-3 w-3 text-[#2E9E5B]" />
-                      {item.category_name || "Chuyên đề"}
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#111827] text-white border border-[#111827] shadow-xs">
+                      <Tag className="h-3 w-3 text-white" />
+                      <span>{item.category_name || "Chuyên đề"}</span>
                     </span>
                   )}
                 </div>

@@ -229,17 +229,14 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
         {/* Article Title Header */}
         <div className="py-8 sm:py-12 max-w-4xl space-y-4">
           <div className="flex flex-wrap items-center gap-3">
-            {material.category_id === "none" || material.category_slug === "none" ? (
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5">
-                <FileText className="h-3 w-3 text-slate-400" />
-                {material.category_name || "Tài liệu chung (Không gắn học phần)"}
-              </span>
-            ) : (
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">
-                <Tag className="h-3 w-3 text-[#34d399]" />
-                {material.category_name || "Chuyên đề"}
-              </span>
-            )}
+            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#111827] text-white border border-[#111827] flex items-center gap-1.5 shadow-xs">
+              {material.category_id === "none" || material.category_slug === "none" ? (
+                <FileText className="h-3 w-3 text-white" />
+              ) : (
+                <Tag className="h-3 w-3 text-white" />
+              )}
+              <span>{material.category_name || "Tài liệu chung"}</span>
+            </span>
 
             <span className="text-xs text-[#6B7280] flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5" />
@@ -311,10 +308,10 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                       href={`/knowledge/${rel.id}`}
                       className="p-4 rounded-xl border border-black/[0.06] bg-white shadow-sm hover:shadow-md transition block group hover:-translate-y-0.5"
                     >
-                      <span className="text-[10px] font-bold text-[#34d399] font-mono">
+                      <span className="text-[10px] font-bold text-[#111827] font-mono">
                         {rel.category_name || "Chuyên đề"}
                       </span>
-                      <h4 className="font-heading text-xs sm:text-sm font-bold text-white group-hover:text-indigo-300 transition mt-1 line-clamp-2">
+                      <h4 className="font-heading text-xs sm:text-sm font-bold text-[#111827] group-hover:text-black transition mt-1 line-clamp-2">
                         {rel.title}
                       </h4>
                       <p className="text-[11px] text-[#6B7280] mt-1 line-clamp-2">
