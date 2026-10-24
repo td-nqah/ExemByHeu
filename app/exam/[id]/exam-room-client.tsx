@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -342,7 +342,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.3) }}
                   onClick={() => setActiveQuestionId(question.id)}
                   className={cn(
-                    "card-soft scroll-mt-24 rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] transition-all p-6",
+                    "card-soft scroll-mt-24 rounded-[24px] bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] transition-all p-6",
                     activeQuestionId === question.id
                       ? "border-black dark:border-white ring-1 ring-black/30 dark:ring-white/30"
                       : isFlagged
@@ -615,7 +615,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   </span>
                 </div>
 
-                <div className="mt-2 rounded-lg border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#121318] px-3 py-2 text-center text-[11px] font-semibold text-[#111827] dark:text-white">
+                <div className="mt-2 rounded-lg border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#1A1D26] px-3 py-2 text-center text-[11px] font-semibold text-[#111827] dark:text-white">
                   Trắc nghiệm: {completedSubmission.mcq_score} điểm - Tự luận:{" "}
                   {!hasEssay
                     ? "0 điểm"

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
@@ -253,7 +253,7 @@ export default function AdminDashboardPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-white dark:bg-[#121318] border border-black/[0.1] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.04),0_6px_16px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] overflow-hidden rounded-2xl"
+        className="bg-white dark:bg-[#1A1D26] border border-black/[0.1] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.04),0_6px_16px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] overflow-hidden rounded-2xl"
       >
         <div className="flex flex-col gap-3 border-b border-black/[0.08] dark:border-white/[0.08] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
@@ -477,7 +477,7 @@ export default function AdminDashboardPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-lg rounded-2xl bg-[#F6F6F8] dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.1] p-6 shadow-2xl relative"
+              className="w-full max-w-lg rounded-2xl bg-[#F6F6F8] dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.1] p-6 shadow-2xl relative"
             >
               <div className="flex items-center justify-between pb-4 border-b border-black/[0.08] dark:border-white/[0.08]">
                 <h3 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">
@@ -685,7 +685,7 @@ export default function AdminDashboardPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md rounded-2xl bg-[#F6F6F8] dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.1] p-6 shadow-2xl relative"
+              className="w-full max-w-md rounded-2xl bg-[#F6F6F8] dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.1] p-6 shadow-2xl relative"
             >
               <button
                 type="button"

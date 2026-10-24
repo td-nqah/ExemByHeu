@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -272,7 +272,7 @@ export function ExamStatusSelector({
               "group relative flex items-center justify-between p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none",
               isPublished
                 ? "bg-white dark:bg-[#14161D] border-emerald-500/50 shadow-xs text-[#111827] dark:text-white"
-                : "bg-[#F6F6F8] dark:bg-[#121318] border-black/[0.06] dark:border-white/[0.08] hover:border-black/[0.12] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white dark:hover:bg-[#F6F6F8] dark:bg-[#14161D]"
+                : "bg-[#F6F6F8] dark:bg-[#1A1D26] border-black/[0.06] dark:border-white/[0.08] hover:border-black/[0.12] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white dark:hover:bg-[#F6F6F8] dark:bg-[#14161D]"
             )}
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -312,7 +312,7 @@ export function ExamStatusSelector({
               "group relative flex items-center justify-between p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none",
               !isPublished
                 ? "bg-white dark:bg-[#14161D] border-amber-500/50 shadow-xs text-[#111827] dark:text-white"
-                : "bg-[#F6F6F8] dark:bg-[#121318] border-black/[0.06] dark:border-white/[0.08] hover:border-black/[0.12] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white dark:hover:bg-[#F6F6F8] dark:bg-[#14161D]"
+                : "bg-[#F6F6F8] dark:bg-[#1A1D26] border-black/[0.06] dark:border-white/[0.08] hover:border-black/[0.12] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white dark:hover:bg-[#F6F6F8] dark:bg-[#14161D]"
             )}
           >
             <div className="flex items-center gap-2.5 min-w-0">

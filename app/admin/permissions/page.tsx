@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
@@ -404,7 +404,7 @@ export default function AdminPermissionsPage() {
           </span>
         </div>
 
-        <div className="rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-5">
+        <div className="rounded-2xl bg-white dark:bg-[#1A1D26] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-5">
           {/* Status Alert Banner */}
           {isHighStorage ? (
             <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-500/40 text-rose-200 flex items-start gap-3 shadow-sm">
@@ -588,7 +588,7 @@ export default function AdminPermissionsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {/* CARD 1 (BÊN TRÁI): Kiểm soát Kích hoạt & Thiết bị Đăng nhập */}
-          <div className="relative rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
+          <div className="relative rounded-2xl bg-white dark:bg-[#1A1D26] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white shadow-[0_0_12px_rgba(79,70,229,0.15)]">
@@ -763,7 +763,7 @@ export default function AdminPermissionsPage() {
           </div>
 
           {/* CARD 2 (BÊN PHẢI): Người dùng đang Online / Đang hoạt động thời gian thực */}
-          <div className="relative rounded-2xl bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
+          <div className="relative rounded-2xl bg-white dark:bg-[#1A1D26] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-[#2E9E5B] shadow-[0_0_12px_rgba(52,211,153,0.15)]">
@@ -967,7 +967,7 @@ export default function AdminPermissionsPage() {
       {/* Modal xác nhận xóa vĩnh viễn tài khoản */}
       {deleteTargetUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-2xl bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl space-y-4">
+          <div className="w-full max-w-md rounded-2xl bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] p-6 shadow-2xl space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600 border border-black/[0.08] shrink-0">
                 <Trash2 className="h-5 w-5" />

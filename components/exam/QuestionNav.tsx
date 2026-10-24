@@ -26,7 +26,7 @@ export function QuestionNav({
   const progressPercent = total > 0 ? Math.round((answeredCount / total) * 100) : 0;
 
   return (
-    <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] rounded-2xl p-4 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+    <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] rounded-2xl p-4 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
       <div className="mb-3 flex items-center justify-between border-b border-black/[0.06] pb-2.5">
         <h3 className="text-xs font-bold text-[#111827] dark:text-white tracking-wide font-heading">
           Mục lục câu hỏi
@@ -76,7 +76,7 @@ export function QuestionNav({
               onClick={() => onSelectQuestion(question.id)}
               className={`relative flex h-9 w-full items-center justify-center rounded-xl text-xs font-semibold font-mono tabular-nums transition ${
                 isActive
-                  ? "ring-2 ring-[#111827] dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-[#121318] scale-105 z-10 bg-white text-[#111827] dark:text-[#0A0B0E] font-bold shadow-xs"
+                  ? "ring-2 ring-[#111827] dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-[#1A1D26] scale-105 z-10 bg-white text-[#111827] dark:text-[#0A0B0E] font-bold shadow-xs"
                   : ""
               } border ${btnColor}`}
               title={`Câu ${index + 1}: ${

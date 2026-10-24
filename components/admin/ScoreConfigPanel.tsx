@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import {
@@ -92,7 +92,7 @@ export function ScoreConfigPanel({
   const formattedEssayTotal = Math.round(currentEssayTotal * 100) / 100;
 
   return (
-    <div className="rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] p-5 sm:p-6 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+    <div className="rounded-[24px] bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] p-5 sm:p-6 shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
       {/* Header */}
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.08] dark:border-white/[0.08] pb-4">
         <div className="flex items-center gap-2.5">
@@ -126,7 +126,7 @@ export function ScoreConfigPanel({
               <HelpCircle className="h-3.5 w-3.5 text-[#111827] dark:text-white" />
               <span>Điểm mỗi câu trắc nghiệm</span>
             </label>
-            <span className="rounded-md bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] px-2 py-0.5 text-[10px] font-semibold text-[#6B7280] dark:text-[#9CA3AF] font-mono">
+            <span className="rounded-md bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] px-2 py-0.5 text-[10px] font-semibold text-[#6B7280] dark:text-[#9CA3AF] font-mono">
               {mcqCount} câu
             </span>
           </div>
@@ -156,7 +156,7 @@ export function ScoreConfigPanel({
                 className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 font-mono ${
                   parseFloat(mcqInput) === val
                     ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] font-bold border-black/80 dark:border-white shadow-xs"
-                    : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] text-[#111827] dark:text-white/90 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
+                    : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] text-[#111827] dark:text-white/90 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
                 }`}
               >
                 {val}đ
@@ -172,7 +172,7 @@ export function ScoreConfigPanel({
               <FileText className="h-3.5 w-3.5 text-[#111827] dark:text-white" />
               <span>Điểm mỗi câu tự luận</span>
             </label>
-            <span className="rounded-md bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] px-2 py-0.5 text-[10px] font-semibold text-[#6B7280] dark:text-[#9CA3AF] font-mono">
+            <span className="rounded-md bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] px-2 py-0.5 text-[10px] font-semibold text-[#6B7280] dark:text-[#9CA3AF] font-mono">
               {essayCount} câu
             </span>
           </div>
@@ -202,7 +202,7 @@ export function ScoreConfigPanel({
                 className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 font-mono ${
                   parseFloat(essayInput) === val
                     ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] font-bold border-black/80 dark:border-white shadow-xs"
-                    : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] text-[#111827] dark:text-white/90 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
+                    : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] text-[#111827] dark:text-white/90 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
                 }`}
               >
                 {val}đ
@@ -212,7 +212,7 @@ export function ScoreConfigPanel({
         </div>
 
         {/* 3. Total Exam Score Display */}
-        <div className="flex flex-col justify-between rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] shadow-xs p-4">
+        <div className="flex flex-col justify-between rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] shadow-xs p-4">
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-xs font-bold text-[#111827] dark:text-white">
               <Calculator className="h-3.5 w-3.5 text-[#111827] dark:text-white" />
@@ -268,7 +268,7 @@ export function ScoreConfigPanel({
                   className={`rounded-lg border px-2 py-1 text-[10px] font-bold transition font-mono ${
                     parseFloat(desiredTotalInput) === preset
                       ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border-black/80 dark:border-white shadow-xs"
-                      : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#121318] text-[#111827] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
+                      : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1A1D26] text-[#111827] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
                   }`}
                 >
                   Thang {preset}

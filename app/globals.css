@@ -73,7 +73,7 @@
   --app-bg: #090A0E;
   --bg: var(--app-bg);
   --surface: #111217;
-  --card: #121318;
+  --card: #1A1D26;
 
   /* Typography Colors (WCAG AA compliant for dark backgrounds) */
   --ink: #F9FAFB;
@@ -108,7 +108,7 @@
   --chart-line: #FFFFFF;
   --chart-area-stop: #FFFFFF;
   --chart-grid-stroke: rgba(255, 255, 255, 0.08);
-  --chart-node-stroke: #121318;
+  --chart-node-stroke: #1A1D26;
 
   /* System compatibility variables */
   --background: var(--bg);
@@ -340,7 +340,7 @@ body {
 .dark .depth-card,
 .dark .card-soft,
 .dark .glow-card {
-  background-color: #121318;
+  background-color: #1A1D26;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.4),
@@ -397,7 +397,7 @@ body {
 }
 
 .dark .glass-panel, [data-theme="dark"] .glass-panel {
-  background: #121318;
+  background: #1A1D26;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   color: #FFFFFF;
@@ -412,7 +412,7 @@ body {
 }
 
 .dark .glass-card, [data-theme="dark"] .glass-card {
-  background: #121318;
+  background: #1A1D26;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   color: #FFFFFF;
@@ -428,7 +428,7 @@ body {
 }
 
 .dark .glass-card-interactive, [data-theme="dark"] .glass-card-interactive {
-  background: #121318;
+  background: #1A1D26;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
   color: #FFFFFF;

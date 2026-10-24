@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -115,7 +115,7 @@ function UserDashboardContent() {
 
         {/* Flat Minimal Stats Block - Separate Monochrome Pills */}
         <div className="flex items-center gap-3 select-none self-start md:self-auto">
-          <div className="flex items-center gap-2 bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-xs text-xs">
+          <div className="flex items-center gap-2 bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-xs text-xs">
             <ClipboardList className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
             <span className="text-[#6B7280] dark:text-[#9CA3AF]">
               Số bài đánh giá:{" "}
@@ -125,7 +125,7 @@ function UserDashboardContent() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2 bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-xs text-xs">
+          <div className="flex items-center gap-2 bg-white dark:bg-[#1A1D26] border border-black/[0.08] dark:border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-xs text-xs">
             <CheckSquare className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
             <span className="text-[#6B7280] dark:text-[#9CA3AF]">
               Đã hoàn thành:{" "}
@@ -171,11 +171,11 @@ function UserDashboardContent() {
           3. EXAM CARDS GRID (RESPONSIVE DYNAMIC GRID: 1 -> 2 -> 3 -> 4 COLS)
           ========================================================================= */}
       {loading ? (
-        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex h-48 items-center justify-center rounded-2xl">
+        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex h-48 items-center justify-center rounded-2xl">
           <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">Đang tải danh sách bài đánh giá...</p>
         </div>
       ) : filteredExams.length === 0 ? (
-        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
+        <div className="bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
           <div className="p-3 rounded-xl glass-badge text-[#111827] dark:text-white border border-white/[0.1]">
             <BookOpen className="h-7 w-7" />
           </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -161,7 +161,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.25) }}
-              className="card-soft rounded-[24px] bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] p-6"
+              className="card-soft rounded-[24px] bg-white dark:bg-[#1A1D26] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] p-6"
             >
               <div className="mb-4 flex items-center justify-between border-b border-black/[0.06] dark:border-white/[0.08] pb-3">
                 <div className="flex items-center gap-2.5">
