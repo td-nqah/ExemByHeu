@@ -1,9 +1,10 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
 import { loginUser, getCurrentUser } from "@/lib/store";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import {
   GraduationCap,
   ArrowRight,
@@ -64,7 +65,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[100dvh] flex-col justify-center items-center px-4 py-4 sm:py-8 lg:py-12 pb-safe pt-safe">
+    <div className="flex min-h-[100dvh] flex-col justify-center items-center px-4 py-4 sm:py-8 lg:py-12 pb-safe pt-safe relative">
+      {/* Top-Right Theme Toggle */}
+      <div className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50">
+        <ThemeToggle size={12} />
+      </div>
       <div className="mx-auto w-full max-w-6xl grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-12 lg:gap-8 lg:items-stretch">
         {/* 1. Mobile Order 1 / Desktop Top-Left (col-span-6): Page Title & Hero Intro */}
         <motion.div

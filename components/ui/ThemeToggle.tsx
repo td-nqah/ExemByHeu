@@ -17,8 +17,7 @@ export function ThemeToggle({ className, size = 12 }: ThemeToggleProps) {
     // Check localStorage or documentElement class or system preference
     const saved = localStorage.getItem("theme");
     const docHasDark = document.documentElement.classList.contains("dark");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initialDark = saved ? saved === "dark" : docHasDark || prefersDark;
+    const initialDark = saved ? saved === "dark" : docHasDark || true;
 
     setIsDark(initialDark);
     if (initialDark) {
