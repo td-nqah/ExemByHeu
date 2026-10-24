@@ -134,33 +134,33 @@ export default function HomePage() {
 
         {/* Subtitle Line Centered */}
         <p className="text-sm sm:text-base text-[#6B7280] font-normal max-w-xl mx-auto leading-relaxed">
-          Chào mừng quay trở lại hệ thống khảo thí và đánh giá học phần.
+          Tính giờ tự động & Kiểm soát phiên thi
         </p>
 
         {/* Centered Primary Actions */}
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/dashboard"
-            className="glass-btn inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white px-5 py-2.5 text-xs sm:text-sm font-semibold cursor-pointer shadow-xs hover:shadow-md transition-all active:scale-[0.98]"
           >
-            <Play className="h-4 w-4 fill-current ml-0.5" />
+            <Play className="h-3.5 w-3.5 fill-current ml-0.5" />
             <span>Bắt đầu bài đánh giá</span>
             <ArrowRight className="h-4 w-4 ml-0.5" />
           </Link>
 
           <Link
             href="/history"
-            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-[#F6F6F8] border border-black/[0.08] text-[#111827] hover:text-[#111827] px-5 py-3 text-sm font-medium transition-all shadow-xs hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-black/[0.04] border border-black/[0.12] text-[#111827] px-4 py-2.5 text-xs sm:text-sm font-semibold transition-all shadow-2xs hover:-translate-y-0.5"
           >
-            <History className="h-4 w-4 text-[#6B7280]" />
-            <span>Xem lịch sử đánh giá</span>
+            <History className="h-4 w-4 text-[#111827]" />
+            <span>Xem lịch đánh giá</span>
           </Link>
 
           <Link
             href="/analytics"
-            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-[#F6F6F8] border border-black/[0.08] text-[#111827] hover:text-[#111827] px-5 py-3 text-sm font-medium transition-all shadow-xs hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-black/[0.04] border border-black/[0.12] text-[#111827] px-4 py-2.5 text-xs sm:text-sm font-semibold transition-all shadow-2xs hover:-translate-y-0.5"
           >
-            <TrendingUp className="h-4 w-4 text-[#6B7280]" />
+            <TrendingUp className="h-4 w-4 text-[#111827]" />
             <span>Tiến độ học tập</span>
           </Link>
         </div>
@@ -172,20 +172,20 @@ export default function HomePage() {
           {/* Card 1: Exams */}
           <Link
             href="/dashboard"
-            className="group rounded-2xl bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:shadow-[0_2px_6px_rgba(0,0,0,0.04),0_12px_30px_rgba(20,20,40,0.09)] hover:-translate-y-1 p-4 sm:p-5 transition-all"
+            className="group rounded-[20px] bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/[0.15] hover:-translate-y-1 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl glass-icon">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111827] text-white shadow-xs">
                 <BookOpen className="h-5 w-5" />
               </div>
-              <span className="font-mono text-xl font-bold text-[#111827] tabular-nums">
+              <span className="font-mono text-2xl font-bold text-[#111827] tabular-nums">
                 {examsCount}
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#111827] group-hover:text-[#111827] transition-colors">
+            <h3 className="mt-3 text-sm font-bold text-[#111827] transition-colors">
               Đề đánh giá Khả dụng
             </h3>
-            <p className="mt-0.5 text-xs text-[#6B7280]">
+            <p className="mt-1 text-xs text-[#6B7280]">
               Trắc nghiệm & tự luận theo học phần
             </p>
           </Link>
@@ -193,36 +193,38 @@ export default function HomePage() {
           {/* Card 2: Submissions */}
           <Link
             href="/history"
-            className="group rounded-2xl bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] hover:shadow-[0_2px_6px_rgba(0,0,0,0.04),0_12px_30px_rgba(20,20,40,0.09)] hover:-translate-y-1 p-4 sm:p-5 transition-all"
+            className="group rounded-[20px] bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/[0.15] hover:-translate-y-1 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-black/[0.04] text-[#111827]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111827] text-white shadow-xs">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
-              <span className="font-mono text-xl font-bold text-[#111827] tabular-nums">
+              <span className="font-mono text-2xl font-bold text-[#111827] tabular-nums">
                 {submissionsCount}
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#111827] group-hover:text-[#111827] transition-colors">
+            <h3 className="mt-3 text-sm font-bold text-[#111827] transition-colors">
               Đã hoàn thành
             </h3>
-            <p className="mt-0.5 text-xs text-[#6B7280]">
+            <p className="mt-1 text-xs text-[#6B7280]">
               Lịch sử đánh giá và kết quả chi tiết
             </p>
           </Link>
 
           {/* Card 3: Standard Room */}
-          <div className="rounded-2xl bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] p-4 sm:p-5">
+          <div className="rounded-[20px] bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-5">
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-black/[0.04] text-[#111827]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#111827] text-white shadow-xs">
                 <ShieldCheck className="h-5 w-5" />
               </div>
-              <span className="text-xs bg-black/[0.04] text-[#111827] border border-black/[0.08] px-2.5 py-0.5 rounded-full font-mono text-[10px] font-bold uppercase tracking-wider">Sẵn sàng</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-[#111827] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-xs">
+                SẴN SÀNG
+              </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#111827]">
+            <h3 className="mt-3 text-sm font-bold text-[#111827]">
               Môi trường Khảo thí
             </h3>
-            <p className="mt-0.5 text-xs text-[#6B7280]">
+            <p className="mt-1 text-xs text-[#6B7280]">
               Tính giờ tự động & Kiểm soát phiên thi
             </p>
           </div>
