@@ -430,28 +430,38 @@ body {
   }
 }
 
-/* Scrollbar */
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(17, 24, 39, 0.15) transparent;
+/*
+ * Cuộn mượt mà không hiện thanh cuộn (Hide scrollbars while preserving scrolling)
+ */
+html,
+body,
+* {
+  scrollbar-width: none !important; /* Firefox & modern Chrome/Edge */
+  -ms-overflow-style: none !important; /* IE & Edge Legacy */
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none !important; /* Safari, Chrome, Chromium, Opera */
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+.custom-scrollbar,
+.no-scrollbar,
+.scrollbar-none {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(17, 24, 39, 0.12);
-  border-radius: 9999px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(17, 24, 39, 0.22);
+.custom-scrollbar::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* iOS Safe Areas */
