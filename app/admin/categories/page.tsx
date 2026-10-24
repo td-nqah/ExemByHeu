@@ -193,13 +193,13 @@ export default function AdminCategoriesPage() {
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white flex flex-wrap items-center gap-3">
+            <h1 className="text-3xl font-bold tracking-tight text-[#111827] dark:text-white flex flex-wrap items-center gap-3">
               Quản lý Danh mục Học phần
-              <span className="text-xs glass-badge text-white border border-black/[0.08] px-2.5 py-1 rounded-full font-normal">
+              <span className="text-xs rounded-full border border-black/[0.1] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#1A1C24] text-[#111827] dark:text-white px-2.5 py-0.5 font-mono text-[11px] font-medium shadow-2xs">
                 Course Management
               </span>
             </h1>
-            <p className="mt-1 text-sm text-[#9CA3AF]">
+            <p className="mt-1 text-sm text-[#4B5563] dark:text-[#9CA3AF]">
               Tạo mới, cập nhật hoặc điều chỉnh trạng thái hiển thị các danh mục học phần trong chương trình đào tạo.
             </p>
           </div>
@@ -216,19 +216,30 @@ export default function AdminCategoriesPage() {
 
       {/* 2. Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl p-4 px-5">
-          <span className="text-xs text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider font-medium">Tổng số học phần</span>
-          <div className="mt-2 text-2xl font-bold text-[#111827] dark:text-white">{categories.length}</div>
+        {/* Card 1: Total */}
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.12] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.05),0_6px_16px_rgba(0,0,0,0.05),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-2xl p-5 hover:border-black/[0.22] dark:hover:border-white/[0.18] transition-all">
+          <span className="text-[11px] font-bold text-[#374151] dark:text-[#9CA3AF] uppercase tracking-wider font-mono">Tổng số học phần</span>
+          <div className="mt-3 text-3xl font-extrabold text-[#111827] dark:text-white tabular-nums tracking-tight">{categories.length}</div>
         </div>
-        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl p-4 px-5">
-          <span className="text-xs text-[#2E9E5B] uppercase tracking-wider font-medium">Đang kích hoạt (Active)</span>
-          <div className="mt-2 text-2xl font-bold text-[#2E9E5B]">
+
+        {/* Card 2: Active */}
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.12] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.05),0_6px_16px_rgba(0,0,0,0.05),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-2xl p-5 hover:border-black/[0.22] dark:hover:border-white/[0.18] transition-all">
+          <div className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-[#111827] dark:bg-white" />
+            <span className="text-[11px] font-bold text-[#374151] dark:text-[#9CA3AF] uppercase tracking-wider font-mono">Đang kích hoạt (Active)</span>
+          </div>
+          <div className="mt-3 text-3xl font-extrabold text-[#111827] dark:text-white tabular-nums tracking-tight">
             {categories.filter((c) => c.status === "active").length}
           </div>
         </div>
-        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl p-4 px-5">
-          <span className="text-xs text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider font-medium">Đang ẩn (Hidden)</span>
-          <div className="mt-2 text-2xl font-bold text-[#6B7280] dark:text-[#9CA3AF]">
+
+        {/* Card 3: Hidden */}
+        <div className="bg-white dark:bg-[#121318] border border-black/[0.12] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.05),0_6px_16px_rgba(0,0,0,0.05),inset_0_1px_0_#FFFFFF] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-2xl p-5 hover:border-black/[0.22] dark:hover:border-white/[0.18] transition-all">
+          <div className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-[#9CA3AF] dark:bg-[#6B7280]" />
+            <span className="text-[11px] font-bold text-[#6B7280] dark:text-[#9CA3AF] uppercase tracking-wider font-mono">Đang ẩn (Hidden)</span>
+          </div>
+          <div className="mt-3 text-3xl font-extrabold text-[#6B7280] dark:text-[#9CA3AF] tabular-nums tracking-tight">
             {categories.filter((c) => c.status === "hidden").length}
           </div>
         </div>
@@ -288,44 +299,33 @@ export default function AdminCategoriesPage() {
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono text-[#111827] dark:text-white">
-                        <span className="px-2.5 py-0.5 rounded bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.08] text-[#111827] dark:text-white text-[11px] font-mono">
-                          {cat.slug}
-                        </span>
+                      <td className="py-3.5 px-4 font-mono text-xs text-[#6B7280] dark:text-[#9CA3AF]">
+                        {cat.slug}
                       </td>
 
                       <td className="py-3.5 px-4 text-[#6B7280] dark:text-[#9CA3AF] font-mono text-[11px]">
                         {cat.icon || "BookText"}
                       </td>
 
-                      <td className="py-3.5 px-4 text-center font-bold text-[#111827] dark:text-white font-mono">
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.08] text-[#111827] dark:text-white text-xs font-num font-bold">
-                          {examCount}
-                        </span>
+                      <td className="py-3.5 px-4 text-center font-bold text-[#111827] dark:text-white font-mono tabular-nums text-xs">
+                        {examCount}
                       </td>
 
                       <td className="py-3.5 px-4 text-center">
                         <button
                           onClick={() => handleToggleStatus(cat)}
-                          className={cn(
-                            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-all",
-                            cat.status === "active"
-                              ? "bg-emerald-500/10 text-[#2E9E5B] border-emerald-500/20 hover:bg-emerald-500/20"
-                              : "bg-[#F6F6F8] text-[#9CA3AF] border-black/[0.06] hover:bg-white/[0.06]"
-                          )}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#111827] dark:text-white hover:opacity-70 transition-opacity cursor-pointer select-none"
                           title="Bấm để đổi trạng thái"
                         >
-                          {cat.status === "active" ? (
-                            <>
-                              <Eye className="h-3 w-3" />
-                              <span>Hoạt động</span>
-                            </>
-                          ) : (
-                            <>
-                              <EyeOff className="h-3 w-3" />
-                              <span>Đang ẩn</span>
-                            </>
-                          )}
+                          <span
+                            className={cn(
+                              "h-1.5 w-1.5 rounded-full",
+                              cat.status === "active"
+                                ? "bg-[#111827] dark:bg-white"
+                                : "bg-[#9CA3AF] dark:bg-[#6B7280]"
+                            )}
+                          />
+                          <span>{cat.status === "active" ? "Hoạt động" : "Đang ẩn"}</span>
                         </button>
                       </td>
 
@@ -333,7 +333,7 @@ export default function AdminCategoriesPage() {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => openEditModal(cat)}
-                            className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-white hover:bg-white/[0.06] transition"
+                            className="p-1.5 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition"
                             title="Chỉnh sửa học phần"
                           >
                             <Pencil className="h-3.5 w-3.5" />
@@ -343,13 +343,13 @@ export default function AdminCategoriesPage() {
                             <div className="inline-flex items-center gap-1">
                               <button
                                 onClick={() => handleDelete(cat.id)}
-                                className="px-2 py-1 rounded bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold"
+                                className="px-2 py-1 rounded bg-[#111827] dark:bg-white text-white dark:text-[#0A0B0E] text-[10px] font-bold"
                               >
                                 Xóa ngay
                               </button>
                               <button
                                 onClick={() => setDeleteConfirmId(null)}
-                                className="p-1 rounded text-[#9CA3AF] hover:text-white"
+                                className="p-1 rounded text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
                               >
                                 <X className="h-3 w-3" />
                               </button>
@@ -357,7 +357,7 @@ export default function AdminCategoriesPage() {
                           ) : (
                             <button
                               onClick={() => setDeleteConfirmId(cat.id)}
-                              className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-white hover:bg-rose-50 hover:text-rose-600 transition"
+                              className="p-1.5 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition"
                               title="Xóa học phần"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -393,7 +393,7 @@ export default function AdminCategoriesPage() {
                 </h3>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-1 rounded-lg text-[#9CA3AF] hover:text-white"
+                  className="p-1 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -402,7 +402,7 @@ export default function AdminCategoriesPage() {
               <form onSubmit={handleSubmit} className="space-y-4 mt-5">
                 {/* Category Name */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-white">
+                  <label className="text-xs font-semibold text-[#111827] dark:text-white">
                     Tên Học phần *
                   </label>
                   <input
@@ -411,13 +411,13 @@ export default function AdminCategoriesPage() {
                     value={formName}
                     onChange={(e) => handleNameChange(e.target.value)}
                     placeholder="Ví dụ: Chủ nghĩa xã hội khoa học"
-                    className="w-full px-3.5 py-2.5 bg-[#F6F6F8] border border-black/[0.08] rounded-xl text-xs text-white placeholder-[#9CA3AF] focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3.5 py-2.5 bg-white dark:bg-[#14161D] border border-black/[0.1] dark:border-white/[0.1] rounded-xl text-xs text-[#111827] dark:text-white placeholder-[#9CA3AF] focus:outline-none focus:border-black dark:focus:border-white"
                   />
                 </div>
 
                 {/* Slug / Code */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-white">
+                  <label className="text-xs font-semibold text-[#111827] dark:text-white">
                     Mã Học phần (Slug / Code) *
                   </label>
                   <input
@@ -426,16 +426,16 @@ export default function AdminCategoriesPage() {
                     value={formSlug}
                     onChange={(e) => setFormSlug(e.target.value)}
                     placeholder="Ví dụ: cnxh"
-                    className="w-full px-3.5 py-2.5 bg-[#F6F6F8] border border-black/[0.08] rounded-xl text-xs text-white placeholder-[#9CA3AF] font-mono focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3.5 py-2.5 bg-white dark:bg-[#14161D] border border-black/[0.1] dark:border-white/[0.1] rounded-xl text-xs text-[#111827] dark:text-white placeholder-[#9CA3AF] font-mono focus:outline-none focus:border-black dark:focus:border-white"
                   />
-                  <p className="text-[10px] text-slate-500">
+                  <p className="text-[10px] text-[#6B7280] dark:text-[#9CA3AF]">
                     Dùng trong định danh và lọc đề: <code>/dashboard?category={formSlug || "slug"}</code>
                   </p>
                 </div>
 
                 {/* Icon Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-white">
+                  <label className="text-xs font-semibold text-[#111827] dark:text-white">
                     Biểu tượng đại diện (Icon)
                   </label>
                   <PopoverSelect
@@ -449,7 +449,7 @@ export default function AdminCategoriesPage() {
                       return {
                         value: opt.value,
                         label: opt.label,
-                        icon: <Icon className="h-4 w-4 text-white" />,
+                        icon: <Icon className="h-4 w-4 text-[#111827] dark:text-white" />,
                       };
                     })}
                   />
@@ -457,7 +457,7 @@ export default function AdminCategoriesPage() {
 
                 {/* Status Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-white">
+                  <label className="text-xs font-semibold text-[#111827] dark:text-white">
                     Trạng thái hiển thị (Status)
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -465,10 +465,10 @@ export default function AdminCategoriesPage() {
                       type="button"
                       onClick={() => setFormStatus("active")}
                       className={cn(
-                        "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
+                        "py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer",
                         formStatus === "active"
-                          ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 font-semibold"
-                          : "bg-[#F6F6F8] border-black/[0.06] text-[#9CA3AF] hover:text-white"
+                          ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border-black/80 dark:border-white shadow-xs"
+                          : "bg-white dark:bg-[#14161D] border-black/[0.08] dark:border-white/[0.08] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
                       )}
                     >
                       Kích hoạt (Active)
@@ -477,10 +477,10 @@ export default function AdminCategoriesPage() {
                       type="button"
                       onClick={() => setFormStatus("hidden")}
                       className={cn(
-                        "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
+                        "py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer",
                         formStatus === "hidden"
-                          ? "bg-slate-800 border-slate-600 text-white font-semibold"
-                          : "bg-[#F6F6F8] border-black/[0.06] text-[#9CA3AF] hover:text-white"
+                          ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border-black/80 dark:border-white shadow-xs"
+                          : "bg-white dark:bg-[#14161D] border-black/[0.08] dark:border-white/[0.08] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
                       )}
                     >
                       Ẩn (Hidden)
@@ -493,14 +493,14 @@ export default function AdminCategoriesPage() {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 rounded-xl text-xs text-[#9CA3AF] hover:text-white hover:bg-white/[0.06] transition"
+                    className="px-4 py-2 rounded-xl text-xs text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition cursor-pointer"
                   >
                     Hủy
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-4 py-2 glass-btn text-white font-semibold text-xs rounded-xl transition-all flex items-center gap-1.5 disabled:opacity-50"
+                    className="px-4 py-2 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] font-bold text-xs shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     <span>{editingCategory ? "Lưu thay đổi" : "Tạo học phần"}</span>
