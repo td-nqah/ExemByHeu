@@ -37,13 +37,13 @@ export function SubmitConfirmModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ duration: 0.2 }}
-            className="relative w-full max-w-md rounded-[24px] bg-white border border-black/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] p-6 text-[#111827]"
+            className="relative w-full max-w-md rounded-[24px] bg-[#121318] border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.5)] p-6 text-white"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
               disabled={isSubmitting}
-              className="absolute top-4 right-4 rounded-xl p-1.5 text-[#6B7280] transition hover:bg-black/[0.04] hover:text-[#111827]"
+              className="absolute top-4 right-4 rounded-xl p-1.5 text-[#9CA3AF] transition hover:bg-white/[0.06] hover:text-white"
             >
               <X className="h-4 w-4" />
             </button>
@@ -64,23 +64,23 @@ export function SubmitConfirmModal({
                 )}
               </div>
               <div>
-                <h3 className="text-base font-bold text-[#111827]">
+                <h3 className="text-base font-bold text-white">
                   Xác nhận nộp bài đánh giá
                 </h3>
-                <p className="text-xs text-[#6B7280]">
+                <p className="text-xs text-[#9CA3AF]">
                   Hệ thống sẽ ghi nhận bài làm và tính điểm đánh giá học phần.
                 </p>
               </div>
             </div>
 
             {/* Status Box */}
-            <div className="mb-5 rounded-xl border border-black/[0.06] bg-[#F6F6F8] rounded-xl p-4">
+            <div className="mb-5 rounded-xl border border-white/[0.08] bg-[#14161D] rounded-xl p-4">
               <div className="flex items-center justify-between py-1 text-xs">
-                <span className="text-[#6B7280]">Tổng số câu hỏi:</span>
-                <span className="font-bold text-[#111827]">{totalQuestions} câu</span>
+                <span className="text-[#9CA3AF]">Tổng số câu hỏi:</span>
+                <span className="font-bold text-white">{totalQuestions} câu</span>
               </div>
               <div className="flex items-center justify-between py-1 text-xs">
-                <span className="text-[#6B7280]">Đã hoàn thành:</span>
+                <span className="text-[#9CA3AF]">Đã hoàn thành:</span>
                 <span className="font-bold text-[#2E9E5B]">{answeredCount} câu</span>
               </div>
               {hasUnanswered && (
@@ -103,7 +103,7 @@ export function SubmitConfirmModal({
                 type="button"
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="rounded-xl glass-btn px-4 py-2 text-xs font-semibold text-[#111827] transition-all hover:-translate-y-0.5"
+                className="rounded-xl glass-btn px-4 py-2 text-xs font-semibold text-white transition-all hover:-translate-y-0.5"
               >
                 Quay lại làm tiếp
               </button>

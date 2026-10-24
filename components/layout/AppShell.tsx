@@ -66,9 +66,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Main Content Area */}
       <SidebarInset className="flex-1 flex flex-col min-h-screen w-full min-w-0 transition-all duration-300">
         {/* Mobile Top Header */}
-        <header className="sticky top-0 z-30 flex h-[calc(4rem+env(safe-area-inset-top,0px))] w-full items-center justify-between border-b border-black/[0.06] bg-[#F6F6F8]/90 backdrop-blur-md px-4 pt-[env(safe-area-inset-top,0px)] md:hidden">
+        <header className="sticky top-0 z-30 flex h-[calc(4rem+env(safe-area-inset-top,0px))] w-full items-center justify-between border-b border-white/[0.08] bg-[#090A0E]/90 backdrop-blur-md px-4 pt-[env(safe-area-inset-top,0px)] md:hidden">
           <div className="flex items-center gap-3">
-            <SidebarTrigger className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-black/[0.08] bg-white text-[#111827] hover:bg-[#F6F6F8] active:scale-95 transition-transform shadow-sm md:hidden">
+            <SidebarTrigger className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-white/[0.1] bg-[#14161D] text-white hover:bg-white/[0.08] active:scale-95 transition-transform shadow-sm md:hidden">
               <Menu className="h-6 w-6" strokeWidth={2.25} />
             </SidebarTrigger>
 
@@ -77,12 +77,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-lg glass-icon">
-                <GraduationCap className="h-5 w-5 text-[#111827]" strokeWidth={2} />
+                <GraduationCap className="h-5 w-5 text-white" strokeWidth={2} />
               </div>
               <span className="brand-logo font-heading text-[17px] font-bold tracking-tight select-none">
-                <span className="text-[#111827]">Exam</span>
+                <span className="text-white">Exam</span>
                 <span className="text-[#9CA3AF]">By</span>
-                <span className="text-[#111827]">Heu</span>
+                <span className="text-white">Heu</span>
               </span>
             </Link>
           </div>

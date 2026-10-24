@@ -80,8 +80,8 @@ export function PopoverSelect<T extends string = string>({
         className={cn(
           "flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition-all duration-200 cursor-pointer select-none",
           isOpen
-            ? "bg-white border-[#111827] text-[#111827] shadow-xs ring-1 ring-[#111827]/20"
-            : "bg-white border-black/[0.08] text-[#111827] hover:border-black/[0.15] shadow-xs",
+            ? "bg-[#14161D] border-white text-white shadow-xs ring-1 ring-white/20"
+            : "bg-[#14161D] border-white/[0.1] text-white hover:border-white/20 shadow-xs",
           disabled && "opacity-50 cursor-not-allowed pointer-events-none",
           buttonClassName
         )}
@@ -95,14 +95,14 @@ export function PopoverSelect<T extends string = string>({
 
         <div className="flex items-center gap-1.5 shrink-0 ml-1">
           {selectedOption?.badge !== undefined && (
-            <span className="px-1.5 py-0.5 rounded-md bg-black/[0.05] text-[10px] font-mono text-[#6B7280] font-bold">
+            <span className="px-1.5 py-0.5 rounded-md bg-white/[0.06] text-[10px] font-mono text-[#9CA3AF] font-bold">
               {selectedOption.badge}
             </span>
           )}
           <ChevronDown
             className={cn(
               "h-3.5 w-3.5 text-[#6B7280] transition-transform duration-200 shrink-0",
-              isOpen && "rotate-180 text-[#111827]"
+              isOpen && "rotate-180 text-white"
             )}
           />
         </div>
@@ -117,7 +117,7 @@ export function PopoverSelect<T extends string = string>({
             exit={{ opacity: 0, y: 4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className={cn(
-              "absolute top-full mt-2 z-50 rounded-2xl border border-black/[0.08] bg-white/98 backdrop-blur-xl p-1.5 shadow-2xl space-y-1 min-w-[200px] max-h-72 overflow-y-auto custom-scrollbar rounded-2xl text-[#111827]",
+              "absolute top-full mt-2 z-50 rounded-2xl border border-white/[0.1] bg-[#14161D]/98 backdrop-blur-xl p-1.5 shadow-2xl space-y-1 min-w-[200px] max-h-72 overflow-y-auto custom-scrollbar rounded-2xl text-white",
               align === "right" ? "right-0" : "left-0",
               menuClassName
             )}
@@ -135,18 +135,18 @@ export function PopoverSelect<T extends string = string>({
                   className={cn(
                     "w-full flex items-center justify-between p-2.5 rounded-xl border text-xs text-left transition-all duration-150 cursor-pointer group",
                     isSelected
-                      ? "glass-chip-active text-[#111827] font-bold shadow-xs"
-                      : "border-transparent bg-transparent hover:bg-black/[0.03] hover:border-black/[0.06] text-[#6B7280] hover:text-[#111827]"
+                      ? "bg-white text-[#0A0B0E] font-bold shadow-xs border-white"
+                      : "border-transparent bg-transparent hover:bg-white/[0.06] hover:border-white/[0.08] text-[#9CA3AF] hover:text-white"
                   )}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     {opt.icon && (
-                      <div className="shrink-0 text-[#6B7280] group-hover:text-[#111827]">
+                      <div className="shrink-0 text-[#9CA3AF] group-hover:text-white">
                         {opt.icon}
                       </div>
                     )}
                     <div className="min-w-0">
-                      <p className={cn("truncate", isSelected && "text-[#111827]")}>
+                      <p className={cn("truncate", isSelected ? "text-[#0A0B0E]" : "text-white")}>
                         {opt.label}
                       </p>
                       {opt.description && (
@@ -159,12 +159,12 @@ export function PopoverSelect<T extends string = string>({
 
                   <div className="flex items-center gap-2 shrink-0 ml-2">
                     {opt.badge !== undefined && (
-                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-black/[0.04] border border-black/[0.06] text-[#6B7280]">
+                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-white/[0.06] border border-white/[0.08] text-[#9CA3AF]">
                         {opt.badge}
                       </span>
                     )}
                     {isSelected && (
-                      <CheckCircle2 className="h-4 w-4 text-[#111827] shrink-0" />
+                      <CheckCircle2 className="h-4 w-4 text-[#0A0B0E] shrink-0" />
                     )}
                   </div>
                 </button>

@@ -65,7 +65,7 @@ export function MobileQuestionDrawer({
           <Menu className="h-6 w-6 stroke-[2.5]" strokeLinecap="round" />
 
           {/* Progress Badge */}
-          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-white px-1.5 text-[10px] font-extrabold font-mono tabular-nums text-[#111827] border border-black/[0.08] shadow-xs">
+          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-white px-1.5 text-[10px] font-extrabold font-mono tabular-nums text-[#0A0B0E] border border-white shadow-xs">
             {answeredCount}/{total}
           </span>
 
@@ -91,7 +91,7 @@ export function MobileQuestionDrawer({
       {/* 3. Slide-over Bottom Sheet Drawer */}
       <div
         className={cn(
-          "fixed inset-x-0 bottom-0 z-50 flex max-h-[85dvh] flex-col rounded-t-[28px] border-t border-black/[0.08] bg-white/98 backdrop-blur-2xl shadow-[0_-12px_45px_rgba(0,0,0,0.15)] text-[#111827] transition-transform duration-300 ease-out md:hidden",
+          "fixed inset-x-0 bottom-0 z-50 flex max-h-[85dvh] flex-col rounded-t-[28px] border-t border-white/[0.1] bg-[#121318]/98 backdrop-blur-2xl shadow-[0_-12px_45px_rgba(0,0,0,0.5)] text-white transition-transform duration-300 ease-out md:hidden",
           isOpen ? "translate-y-0" : "translate-y-full pointer-events-none"
         )}
       >
@@ -104,7 +104,7 @@ export function MobileQuestionDrawer({
         <div className="flex items-center justify-between border-b border-black/[0.06] px-5 py-3">
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold text-[#111827] tracking-tight font-heading">
+              <h2 className="text-sm font-bold text-white tracking-tight font-heading">
                 Danh sách câu hỏi
               </h2>
               {flaggedCount > 0 && (
@@ -114,15 +114,15 @@ export function MobileQuestionDrawer({
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-[#6B7280] mt-0.5">
-              Đã làm <span className="font-semibold font-mono tabular-nums text-[#111827]">{answeredCount}/{total} câu</span> ({progressPercent}%)
+            <p className="text-[11px] text-[#9CA3AF] mt-0.5">
+              Đã làm <span className="font-semibold font-mono tabular-nums text-white">{answeredCount}/{total} câu</span> ({progressPercent}%)
             </p>
           </div>
 
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F6F6F8] border border-black/[0.08] text-[#6B7280] hover:text-[#111827] transition active:scale-95"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#14161D] border border-white/[0.1] text-[#9CA3AF] hover:text-white transition active:scale-95"
             aria-label="Đóng ngăn kéo"
           >
             <X className="h-5 w-5" />
@@ -146,7 +146,7 @@ export function MobileQuestionDrawer({
               const isActive = activeQuestionId === question.id;
 
               // Color states as specifically requested
-              let btnStyle = "border-black/[0.06] bg-[#F6F6F8] text-[#6B7280] hover:bg-black/[0.04] hover:text-[#111827]";
+              let btnStyle = "border-white/[0.08] bg-[#14161D] text-[#9CA3AF] hover:bg-white/[0.06] hover:text-white";
 
               if (isFlagged) {
                 // Câu ĐÃ ĐÁNH DẤU: Vàng neon kèm cờ
@@ -164,7 +164,7 @@ export function MobileQuestionDrawer({
                   className={cn(
                     "relative flex h-11 w-full items-center justify-center rounded-xl text-xs font-mono tabular-nums transition active:scale-95 border",
                     btnStyle,
-                    isActive && "ring-2 ring-[#111827] ring-offset-2 ring-offset-white scale-105 z-10 bg-white text-[#111827]"
+                    isActive && "ring-2 ring-white ring-offset-2 ring-offset-[#121318] scale-105 z-10 bg-white text-[#0A0B0E] font-bold"
                   )}
                 >
                   <span>{index + 1}</span>

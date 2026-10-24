@@ -191,7 +191,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
         <div className="flex items-center justify-between gap-4 pb-6 border-b border-[#1f2937]">
           <Link
             href="/knowledge"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-[#6B7280] hover:text-indigo-300 transition group"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-[#9CA3AF] hover:text-indigo-300 transition group"
           >
             <ArrowLeft className="h-4 w-4 transition group-hover:-translate-x-1" />
             Tất cả tài liệu ôn tập
@@ -200,7 +200,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopyShare}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-black/[0.08] bg-[#F6F6F8] text-xs font-semibold text-[#111827] hover:bg-black/[0.04] shadow-xs transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/[0.1] bg-[#14161D] text-xs font-semibold text-white hover:bg-white/[0.08] shadow-xs transition cursor-pointer"
             >
               {copied ? (
                 <>
@@ -209,7 +209,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                 </>
               ) : (
                 <>
-                  <Share2 className="h-3.5 w-3.5 text-[#6B7280]" />
+                  <Share2 className="h-3.5 w-3.5 text-[#9CA3AF]" />
                   <span>Chia sẻ</span>
                 </>
               )}
@@ -217,10 +217,10 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
             <button
               onClick={handlePrint}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-btn text-xs font-semibold text-[#111827] transition-all cursor-pointer hover:-translate-y-0.5"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-btn text-xs font-semibold text-white transition-all cursor-pointer hover:-translate-y-0.5"
               title="In hoặc Lưu PDF"
             >
-              <Printer className="h-3.5 w-3.5 text-[#6B7280]" />
+              <Printer className="h-3.5 w-3.5 text-[#9CA3AF]" />
               <span>In bài</span>
             </button>
           </div>
@@ -238,29 +238,29 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
               <span>{material.category_name || "Tài liệu chung"}</span>
             </span>
 
-            <span className="text-xs text-[#6B7280] flex items-center gap-1">
+            <span className="text-xs text-[#9CA3AF] flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5" />
               {formattedDate}
             </span>
           </div>
 
-          <h1 className="font-heading text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#111827] tracking-tight leading-tight">
+          <h1 className="font-heading text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
             {material.title}
           </h1>
 
           {material.summary && (
-            <p className="text-sm sm:text-base text-[#111827] italic border-l-4 border-[#111827] pl-4 py-2 leading-relaxed bg-[#F6F6F8]/40 rounded-r-xl">
+            <p className="text-sm sm:text-base text-white italic border-l-4 border-white pl-4 py-2 leading-relaxed bg-[#14161D] rounded-r-xl">
               {material.summary}
             </p>
           )}
 
-          <div className="flex items-center gap-3 pt-2 text-xs text-[#6B7280]">
+          <div className="flex items-center gap-3 pt-2 text-xs text-[#9CA3AF]">
             <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#4f46e5] to-[#6366f1] text-white flex items-center justify-center font-bold text-xs shadow-md">
               {(material.author || "B")[0]}
             </div>
             <div>
-              <p className="font-semibold text-[#111827]">{material.author || "Ban Giảng huấn"}</p>
-              <p className="text-[11px] text-[#6B7280]">Giảng viên / Chuyên viên biên soạn</p>
+              <p className="font-semibold text-white">{material.author || "Ban Giảng huấn"}</p>
+              <p className="text-[11px] text-[#9CA3AF]">Giảng viên / Chuyên viên biên soạn</p>
             </div>
           </div>
         </div>
@@ -276,13 +276,13 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
             />
 
             {/* End of article notice */}
-            <div className="mt-12 p-6 rounded-2xl border border-black/[0.06] bg-[#F6F6F8] rounded-2xl flex items-center justify-between gap-4">
+            <div className="mt-12 p-6 rounded-2xl border border-white/[0.08] bg-[#14161D] rounded-2xl flex items-center justify-between gap-4">
               <div className="space-y-1">
-                <h4 className="text-xs sm:text-sm font-bold text-[#111827] flex items-center gap-1.5">
-                  <Sparkles className="h-4 w-4 text-[#111827]" />
+                <h4 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                  <Sparkles className="h-4 w-4 text-white" />
                   Bạn đã đọc hết bài viết này!
                 </h4>
-                <p className="text-xs text-[#6B7280]">
+                <p className="text-xs text-[#9CA3AF]">
                   Hãy thực hiện các bài đánh giá tương ứng trong mục "Ngân hàng Đề đánh giá" để kiểm tra mức độ nắm vững chuẩn đầu ra.
                 </p>
               </div>
@@ -306,15 +306,15 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                     <Link
                       key={rel.id}
                       href={`/knowledge/${rel.id}`}
-                      className="p-4 rounded-xl border border-black/[0.06] bg-white shadow-sm hover:shadow-md transition block group hover:-translate-y-0.5"
+                      className="p-4 rounded-xl border border-white/[0.08] bg-[#121318] shadow-sm hover:shadow-md transition block group hover:-translate-y-0.5"
                     >
-                      <span className="text-[10px] font-bold text-[#111827] font-mono">
+                      <span className="text-[10px] font-bold text-white font-mono">
                         {rel.category_name || "Chuyên đề"}
                       </span>
-                      <h4 className="font-heading text-xs sm:text-sm font-bold text-[#111827] group-hover:text-black transition mt-1 line-clamp-2">
+                      <h4 className="font-heading text-xs sm:text-sm font-bold text-white group-hover:text-black transition mt-1 line-clamp-2">
                         {rel.title}
                       </h4>
-                      <p className="text-[11px] text-[#6B7280] mt-1 line-clamp-2">
+                      <p className="text-[11px] text-[#9CA3AF] mt-1 line-clamp-2">
                         {rel.summary}
                       </p>
                     </Link>
@@ -326,7 +326,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
           {/* Sticky Table of Contents Sidebar */}
           <aside className="lg:col-span-4 hidden lg:block sticky top-20 space-y-6">
-            <div className="rounded-2xl border border-black/[0.06] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)]">
+            <div className="rounded-2xl border border-white/[0.08] bg-[#121318] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
               <div className="flex items-center justify-between pb-3 border-b border-[#1f2937]">
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
                   <List className="h-4 w-4 text-[#6366f1]" />
@@ -353,8 +353,8 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                           "w-full text-left rounded-lg py-1.5 transition-all text-xs block cursor-pointer",
                           item.level === 3 ? "pl-5 text-[11px]" : "pl-2.5 font-medium",
                           isActive
-                            ? "bg-[#F6F6F8] text-[#111827] font-bold border-l-2 border-[#111827]"
-                            : "text-[#6B7280] hover:text-white hover:bg-white/[0.03]"
+                            ? "bg-white/[0.1] text-white font-bold border-l-2 border-white"
+                            : "text-[#9CA3AF] hover:text-white hover:bg-white/[0.03]"
                         )}
                       >
                         <span className="line-clamp-2">{item.text}</span>
@@ -364,7 +364,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                 </nav>
               )}
 
-              <div className="mt-4 pt-3 border-t border-[#1f2937] text-[11px] text-[#6B7280] flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-[#1f2937] text-[11px] text-[#9CA3AF] flex items-center justify-between">
                 <span>Cuộn để theo dõi tiến độ</span>
                 <span className="text-[#34d399] font-semibold">Tự do ôn tập</span>
               </div>

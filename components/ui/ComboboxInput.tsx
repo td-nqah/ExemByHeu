@@ -115,9 +115,9 @@ export function ComboboxInput({
           }}
           placeholder={placeholder}
           className={cn(
-            "w-full px-3.5 py-2.5 pr-9 bg-white border border-black/[0.08] hover:border-black/[0.15] focus:border-[#111827] rounded-xl text-xs text-[#111827] placeholder-[#A4A7B0] focus:outline-none transition-all shadow-xs",
+            "w-full px-3.5 py-2.5 pr-9 bg-[#14161D] border border-white/[0.1] hover:border-white/20 focus:border-white/40 rounded-xl text-xs text-white placeholder-[#6B7280] focus:outline-none transition-all shadow-xs",
             disabled && "opacity-50 cursor-not-allowed pointer-events-none",
-            isOpen && "border-[#111827] ring-1 ring-[#111827]/20",
+            isOpen && "border-white ring-1 ring-white/20",
             inputClassName
           )}
         />
@@ -139,7 +139,7 @@ export function ComboboxInput({
           <ChevronDown
             className={cn(
               "h-4 w-4 transition-transform duration-200",
-              isOpen && "rotate-180 text-[#111827]"
+              isOpen && "rotate-180 text-white"
             )}
           />
         </button>
@@ -153,9 +153,9 @@ export function ComboboxInput({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-black/[0.08] bg-white/98 backdrop-blur-2xl p-1.5 shadow-[0_12px_36px_rgba(0,0,0,0.12)] max-h-56 overflow-y-auto custom-scrollbar rounded-xl text-[#111827]"
+            className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-white/[0.1] bg-[#14161D]/98 backdrop-blur-2xl p-1.5 shadow-2xl max-h-56 overflow-y-auto custom-scrollbar rounded-xl text-white"
           >
-            <div className="px-2 py-1 text-[10px] font-semibold text-[#6B7280] uppercase tracking-wider border-b border-black/[0.06] flex items-center justify-between">
+            <div className="px-2 py-1 text-[10px] font-semibold text-[#6B7280] uppercase tracking-wider border-b border-white/[0.08] flex items-center justify-between">
               <span>Đề thi có sẵn ({filteredSuggestions.length})</span>
               <span className="font-mono text-[9px] text-slate-500 lowercase">
                 Gõ để lọc hoặc chọn
@@ -188,17 +188,15 @@ export function ComboboxInput({
                       className={cn(
                         "w-full px-2.5 py-2 rounded-lg text-left transition-all duration-150 flex items-center justify-between gap-2 group cursor-pointer border",
                         isSelected
-                          ? "glass-chip-active text-[#111827] font-semibold shadow-xs"
-                          : "border-transparent hover:bg-black/[0.03] text-[#6B7280] hover:text-[#111827]"
+                          ? "bg-white text-[#0A0B0E] font-semibold shadow-xs border-white"
+                          : "border-transparent hover:bg-white/[0.06] text-[#9CA3AF] hover:text-white"
                       )}
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <FileText
                           className={cn(
                             "h-3.5 w-3.5 shrink-0 transition-colors",
-                            isSelected
-                              ? "text-[#111827]"
-                              : "text-[#6B7280] group-hover:text-[#111827]"
+                            isSelected ? "text-[#0A0B0E]" : "text-[#9CA3AF] group-hover:text-white"
                           )}
                         />
                         <div className="min-w-0">
@@ -214,7 +212,7 @@ export function ComboboxInput({
                       </div>
 
                       {isSelected && (
-                        <div className="shrink-0 h-4 w-4 rounded-full bg-[#F6F6F8] border border-black/[0.08] flex items-center justify-center text-[#111827] ml-2">
+                        <div className="shrink-0 h-4 w-4 rounded-full bg-[#0A0B0E] border border-white flex items-center justify-center text-white ml-2">
                           <Check className="h-2.5 w-2.5" />
                         </div>
                       )}

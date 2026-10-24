@@ -61,25 +61,25 @@ export function UserExamCard({ exam }: UserExamCardProps) {
     .trim();
 
   return (
-    <div className="group flex flex-col justify-between h-full min-h-[165px] min-w-0 sm:min-w-[270px] rounded-[20px] bg-white border border-black/[0.08] p-5 shadow-[0_1px_2px_rgba(17,24,39,0.04),0_6px_18px_-2px_rgba(17,24,39,0.06),0_18px_36px_-6px_rgba(17,24,39,0.04),inset_0_1px_0_#FFFFFF] hover:border-black/[0.15] hover:-translate-y-1.5 hover:shadow-[0_2px_4px_rgba(17,24,39,0.04),0_12px_28px_-2px_rgba(17,24,39,0.1),0_28px_52px_-6px_rgba(17,24,39,0.08),inset_0_1px_0_#FFFFFF] transition-all duration-300">
+    <div className="group flex flex-col justify-between h-full min-h-[165px] min-w-0 sm:min-w-[270px] rounded-[20px] bg-[#121318] border border-white/[0.08] p-5 shadow-[0_2px_4px_rgba(0,0,0,0.4),0_8px_24px_-2px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] hover:border-white/[0.18] hover:-translate-y-1.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.5),0_16px_36px_-2px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.12)] transition-all duration-300">
       {/* Top Header & Metadata */}
       <div className="space-y-2.5">
         {/* Top Badges Row */}
         <div className="flex items-center justify-between gap-1.5">
           {/* Top-Left: Test badge */}
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#111827] px-2.5 py-0.5 text-[10px] font-semibold text-white font-mono uppercase tracking-wider shrink-0 shadow-[0_1px_3px_rgba(17,24,39,0.22),inset_0_1px_0_rgba(255,255,255,0.22)] border border-black/80">
-            <span className="h-1.5 w-1.5 rounded-full bg-white" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-0.5 text-[10px] font-bold text-[#0A0B0E] font-mono uppercase tracking-wider shrink-0 shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#0A0B0E]" />
             <span>TEST</span>
           </span>
 
           {/* Top-Right: Time + Questions count */}
-          <div className="flex items-center gap-2 text-xs text-[#6B7280] font-mono tabular-nums shrink-0">
+          <div className="flex items-center gap-2 text-xs text-[#9CA3AF] font-mono tabular-nums shrink-0">
             <span className="inline-flex items-center gap-1 shrink-0">
-              <Clock className="h-3 w-3 text-[#6B7280] shrink-0" />
+              <Clock className="h-3 w-3 text-[#9CA3AF] shrink-0" />
               <span>{formatDuration(exam.duration_minutes)}</span>
             </span>
             <span className="inline-flex items-center gap-1 shrink-0">
-              <ClipboardList className="h-3 w-3 text-[#6B7280] shrink-0" />
+              <ClipboardList className="h-3 w-3 text-[#9CA3AF] shrink-0" />
               <span>{questionCount} câu</span>
             </span>
           </div>
@@ -87,7 +87,7 @@ export function UserExamCard({ exam }: UserExamCardProps) {
 
         {/* Card Title with line-clamp-2 */}
         <h3
-          className="text-sm font-bold text-[#111827] tracking-tight line-clamp-2 leading-snug"
+          className="text-sm font-bold text-white tracking-tight line-clamp-2 leading-snug"
           title={exam.title}
         >
           {renderHighlightedExamTitle(exam.title)}
@@ -96,7 +96,7 @@ export function UserExamCard({ exam }: UserExamCardProps) {
         {/* Exam Description between Title and Question Count */}
         {cleanDescription && (
           <p
-            className="text-xs text-[#6B7280] line-clamp-2 leading-relaxed"
+            className="text-xs text-[#9CA3AF] line-clamp-2 leading-relaxed"
             title={cleanDescription}
           >
             {cleanDescription}
@@ -105,10 +105,10 @@ export function UserExamCard({ exam }: UserExamCardProps) {
 
         {/* Directly below: Line 1: Question count, Line 2: Question Type */}
         <div className="text-xs leading-snug select-none space-y-0.5">
-          <p className="text-[#111827] font-medium truncate tabular-nums">
+          <p className="text-white font-medium truncate tabular-nums">
             {questionCount} câu hỏi
           </p>
-          <p className="text-[#6B7280] font-normal truncate">
+          <p className="text-[#9CA3AF] font-normal truncate">
             {examTypeLabel}
           </p>
         </div>
@@ -118,10 +118,10 @@ export function UserExamCard({ exam }: UserExamCardProps) {
       <div className="mt-4 pt-0 flex items-center">
         <Link
           href={`/exam/${exam.id}`}
-          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white py-2.5 px-4 text-xs font-semibold cursor-pointer shadow-[0_1px_2px_rgba(17,24,39,0.2),0_5px_14px_-2px_rgba(17,24,39,0.3),inset_0_1px_0_rgba(255,255,255,0.24)] hover:shadow-[0_2px_4px_rgba(17,24,39,0.2),0_8px_20px_-2px_rgba(17,24,39,0.38),inset_0_1px_0_rgba(255,255,255,0.32)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] transition-all active:scale-[0.99]"
+          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-slate-100 text-[#0A0B0E] py-2.5 px-4 text-xs font-bold cursor-pointer shadow-[0_2px_8px_rgba(255,255,255,0.18),0_4px_16px_rgba(0,0,0,0.4)] hover:shadow-[0_4px_14px_rgba(255,255,255,0.25),0_6px_20px_rgba(0,0,0,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all active:scale-[0.99]"
         >
           <span>Bắt đầu làm bài</span>
-          <ArrowRight className="h-3.5 w-3.5 stroke-[2] text-white" />
+          <ArrowRight className="h-3.5 w-3.5 stroke-[2] text-[#0A0B0E]" />
         </Link>
       </div>
     </div>

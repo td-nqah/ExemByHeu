@@ -44,20 +44,20 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
           ? "border-rose-200 bg-rose-50 text-rose-600 animate-pulse"
           : isWarning
           ? "border-[#B8962E]/30 bg-[#F6EBC8] text-[#B8962E]"
-          : "border-black/[0.06] bg-white text-[#111827] shadow-xs"
+          : "border-white/[0.1] bg-[#14161D] text-white shadow-xs"
       }`}
     >
       {isCritical ? (
         <AlertTriangle className="h-4 w-4 text-rose-400" />
       ) : (
-        <Clock className="h-4 w-4 text-[#111827]" />
+        <Clock className="h-4 w-4 text-white" />
       )}
 
       <div className="flex flex-col">
         <span className="text-[10px] font-semibold text-[#6B7280]">
           Thời gian còn lại
         </span>
-        <span className="font-mono text-sm font-bold tracking-tight tabular-nums text-[#111827]">
+        <span className="font-mono text-sm font-bold tracking-tight tabular-nums text-white">
           {formatTimeLeft(secondsLeft)}
         </span>
       </div>

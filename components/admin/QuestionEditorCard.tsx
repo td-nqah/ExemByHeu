@@ -70,31 +70,31 @@ export function QuestionEditorCard({
   };
 
   return (
-    <div className="rounded-[24px] bg-white border border-black/[0.06] p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)]">
+    <div className="rounded-[24px] bg-[#121318] border border-white/[0.08] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
       {/* Header Bar */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] pb-3">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg glass-badge text-xs font-bold text-[#111827] font-mono">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg glass-badge text-xs font-bold text-white font-mono">
             {index + 1}
           </span>
-          <span className="text-xs font-medium text-[#6B7280]">
+          <span className="text-xs font-medium text-[#9CA3AF]">
             Câu hỏi {index + 1} trên {total}
           </span>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
           {/* Question Type Switch */}
-          <div className="inline-flex rounded-xl border border-black/[0.06] bg-[#F6F6F8] p-0.5">
+          <div className="inline-flex rounded-xl border border-white/[0.08] bg-[#14161D] p-0.5">
             <button
               type="button"
               onClick={() => handleTypeChange("multiple_choice")}
               className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 question.type === "multiple_choice"
-                  ? "bg-white text-[#111827] shadow-xs"
-                  : "text-[#6B7280] hover:text-[#111827]"
+                  ? "bg-white text-[#0A0B0E] font-bold shadow-xs"
+                  : "text-[#9CA3AF] hover:text-white"
               }`}
             >
-              <HelpCircle className="h-3 w-3 text-[#111827]" />
+              <HelpCircle className="h-3 w-3 text-white" />
               Trắc nghiệm
             </button>
             <button
@@ -102,18 +102,18 @@ export function QuestionEditorCard({
               onClick={() => handleTypeChange("essay")}
               className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 question.type === "essay"
-                  ? "bg-white text-[#111827] shadow-xs"
-                  : "text-[#6B7280] hover:text-[#111827]"
+                  ? "bg-white text-[#0A0B0E] font-bold shadow-xs"
+                  : "text-[#9CA3AF] hover:text-white"
               }`}
             >
-              <FileText className="h-3 w-3 text-[#111827]" />
+              <FileText className="h-3 w-3 text-white" />
               Tự luận
             </button>
           </div>
 
           {/* Max Score Input */}
           <div className="flex items-center gap-1.5">
-            <label className="text-xs text-[#6B7280]">Điểm:</label>
+            <label className="text-xs text-[#9CA3AF]">Điểm:</label>
             <NumberStepper
               value={question.max_score}
               onChange={(val) =>
@@ -142,7 +142,7 @@ export function QuestionEditorCard({
 
       {/* Question Content Input */}
       <div className="mb-4">
-        <label className="mb-1.5 block text-xs font-semibold text-[#111827]">
+        <label className="mb-1.5 block text-xs font-semibold text-white">
           Nội dung câu hỏi
         </label>
         <textarea
@@ -150,7 +150,7 @@ export function QuestionEditorCard({
           value={question.content}
           onChange={(e) => onChange({ ...question, content: e.target.value })}
           placeholder="Nhập nội dung câu hỏi hoặc công thức..."
-          className="w-full rounded-xl border border-black/[0.06] bg-[#F6F6F8] p-3 text-sm leading-relaxed text-[#111827] placeholder-[#A4A7B0] transition focus:border-[#111827] focus:bg-white focus:outline-hidden"
+          className="w-full rounded-xl border border-white/[0.08] bg-[#14161D] p-3 text-sm leading-relaxed text-white placeholder-[#6B7280] transition focus:border-white/40 focus:bg-[#14161D] focus:outline-hidden"
         />
       </div>
 
@@ -158,13 +158,13 @@ export function QuestionEditorCard({
       {question.type === "multiple_choice" ? (
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#111827]">
+            <span className="text-xs font-semibold text-white">
               Lựa chọn đáp án (đánh dấu đáp án đúng)
             </span>
             <button
               type="button"
               onClick={handleAddOption}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#111827] hover:text-[#111827]"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-white hover:text-white"
             >
               <Plus className="h-3 w-3" />
               Thêm lựa chọn
@@ -193,7 +193,7 @@ export function QuestionEditorCard({
                     className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border text-xs font-bold transition font-mono ${
                       isSelectedKey
                         ? "border-emerald-500/30 bg-[#DDF2E5] text-[#2E9E5B]"
-                        : "border-black/[0.06] bg-[#F6F6F8] text-[#6B7280] hover:border-black/[0.12] hover:text-[#111827]"
+                        : "border-white/[0.08] bg-[#14161D] text-[#9CA3AF] hover:border-white/20 hover:text-white"
                     }`}
                     title={`Chọn ${letter} làm đáp án đúng`}
                   >
@@ -205,7 +205,7 @@ export function QuestionEditorCard({
                     type="text"
                     value={option}
                     onChange={(e) => handleOptionChange(optIdx, e.target.value)}
-                    className="h-9 flex-1 rounded-xl border border-black/[0.06] bg-[#F6F6F8] px-3 text-xs text-[#111827] transition focus:border-[#111827] focus:bg-white focus:outline-hidden"
+                    className="h-9 flex-1 rounded-xl border border-black/[0.06] bg-[#F6F6F8] px-3 text-xs text-white transition focus:border-[#111827] focus:bg-white focus:outline-hidden"
                   />
 
                   {/* Remove option button */}
@@ -225,7 +225,7 @@ export function QuestionEditorCard({
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border border-dashed border-black/[0.12] bg-[#F6F6F8] p-3 text-xs text-[#6B7280]">
+        <div className="rounded-xl border border-dashed border-black/[0.12] bg-[#F6F6F8] p-3 text-xs text-[#9CA3AF]">
           Câu hỏi tự luận: User nhập câu trả lời dạng văn bản trong phòng thi. Hệ thống sẽ chấm điểm tự luận trên thang điểm chuẩn.
         </div>
       )}
