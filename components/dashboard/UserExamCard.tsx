@@ -16,21 +16,61 @@ function renderHighlightedExamTitle(title: string) {
   if (title.includes(":")) {
     const colonIdx = title.indexOf(":");
     const prefix = title.substring(0, colonIdx + 1);
-    const suffix = title.substring(colonIdx + 1);
+    const suffix = title.substring(colonIdx + 1).trim();
+
+    const deMatch = suffix.match(/^(.*?)((?:Đề|ĐỀ|đề)\s*\d+)(.*)$/);
+    if (deMatch) {
+      const [, before, deText, after] = deMatch;
+      return (
+        <>
+          <span className="text-[#9ca3af] font-medium">{prefix}</span>{" "}
+          {before && <span className="text-white font-extrabold">{before}</span>}
+          <span className="text-[#818cf8] font-extrabold">{deText}</span>
+          {after && <span className="text-white font-extrabold">{after}</span>}
+        </>
+      );
+    }
+
     return (
       <>
         <span className="text-[#9ca3af] font-medium">{prefix}</span>{" "}
-        <span className="text-white font-extrabold">{suffix.trim()}</span>
+        <span className="text-white font-extrabold">{suffix}</span>
       </>
     );
   }
 
   const parenMatch = title.match(/^(.*?)([\(\[][^\)\]]+[\)\]].*)$/);
   if (parenMatch) {
+    const prefix = parenMatch[1];
+    const suffix = parenMatch[2];
+    const deMatch = suffix.match(/^(.*?)((?:Đề|ĐỀ|đề)\s*\d+)(.*)$/);
+    if (deMatch) {
+      const [, before, deText, after] = deMatch;
+      return (
+        <>
+          <span className="text-[#9ca3af] font-medium">{prefix}</span>{" "}
+          {before && <span className="text-white font-extrabold">{before}</span>}
+          <span className="text-[#818cf8] font-extrabold">{deText}</span>
+          {after && <span className="text-white font-extrabold">{after}</span>}
+        </>
+      );
+    }
     return (
       <>
-        <span className="text-[#9ca3af] font-medium">{parenMatch[1]}</span>{" "}
-        <span className="text-white font-extrabold">{parenMatch[2]}</span>
+        <span className="text-[#9ca3af] font-medium">{prefix}</span>{" "}
+        <span className="text-white font-extrabold">{suffix}</span>
+      </>
+    );
+  }
+
+  const deMatch = title.match(/^(.*?)((?:Đề|ĐỀ|đề)\s*\d+)(.*)$/);
+  if (deMatch) {
+    const [, before, deText, after] = deMatch;
+    return (
+      <>
+        {before && <span className="text-white font-extrabold">{before}</span>}
+        <span className="text-[#818cf8] font-extrabold">{deText}</span>
+        {after && <span className="text-white font-extrabold">{after}</span>}
       </>
     );
   }
