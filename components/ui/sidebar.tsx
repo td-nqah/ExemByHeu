@@ -170,7 +170,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         <div
           ref={ref}
           className={cn(
-            "flex h-full w-[var(--sidebar-width)] flex-col bg-[#F1F2F5] text-[#1F2128] border-r border-black/[0.06]",
+            "flex h-full w-[var(--sidebar-width)] flex-col bg-[#F1F2F5] text-[#111827] border-r border-black/[0.06]",
             className
           )}
           {...props}
@@ -193,7 +193,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
             ref={ref}
             data-mobile="true"
             className={cn(
-              "fixed inset-y-0 z-50 flex h-full w-[var(--sidebar-width)] flex-col bg-[#F1F2F5] text-[#1F2128] border-r border-black/[0.06] shadow-2xl transition-transform duration-300 ease-in-out md:hidden",
+              "fixed inset-y-0 z-50 flex h-full w-[var(--sidebar-width)] flex-col bg-[#F1F2F5] text-[#111827] border-r border-black/[0.06] shadow-2xl transition-transform duration-300 ease-in-out md:hidden",
               side === "left" ? "left-0" : "right-0",
               openMobile
                 ? "translate-x-0"
@@ -228,7 +228,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
       >
         <div
           className={cn(
-            "fixed inset-y-0 z-40 flex h-full flex-col bg-[#F1F2F5] text-[#1F2128] border-r border-black/[0.06] transition-[width] duration-300 ease-in-out backdrop-blur-xl",
+            "fixed inset-y-0 z-40 flex h-full flex-col bg-[#F1F2F5] text-[#111827] border-r border-black/[0.06] transition-[width] duration-300 ease-in-out backdrop-blur-xl",
             side === "left" ? "left-0" : "right-0",
             state === "expanded"
               ? "w-[var(--sidebar-width)]"
@@ -260,7 +260,7 @@ export const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       aria-label="Toggle Sidebar"
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-xl border border-black/[0.08] bg-white text-[#1F2128] hover:bg-[#F6F6F8] shadow-xs transition cursor-pointer select-none",
+        "flex h-8 w-8 items-center justify-center rounded-xl border border-black/[0.08] bg-white text-[#111827] hover:bg-[#F6F6F8] shadow-xs transition cursor-pointer select-none",
         className
       )}
       onClick={(event) => {
@@ -390,7 +390,7 @@ export const SidebarGroupLabel = React.forwardRef<
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "flex h-7 shrink-0 items-center px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[#7A7D88] outline-none transition-opacity duration-200 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:h-0 group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden",
+        "flex h-7 shrink-0 items-center px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[#6B7280] outline-none transition-opacity duration-200 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:h-0 group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden",
         className
       )}
       {...props}
@@ -478,8 +478,8 @@ export const SidebarMenuButton = React.forwardRef<
         className={cn(
           "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-xl p-2 text-left text-xs font-medium outline-none transition-all duration-150 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center",
           isActive
-            ? "bg-white text-[#1F2128] font-semibold border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.05)]"
-            : "text-[#7A7D88] hover:text-[#1F2128] hover:bg-black/[0.03] border border-transparent",
+            ? "bg-white text-[#111827] font-semibold border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.05)]"
+            : "text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.03] border border-transparent",
           size === "sm" && "h-8 text-xs",
           size === "default" && "h-9",
           size === "lg" && "h-11",
@@ -544,8 +544,8 @@ export const SidebarMenuSubButton = React.forwardRef<
       className={cn(
         "flex h-7.5 w-full min-w-0 items-center justify-between gap-2 overflow-hidden rounded-lg px-2.5 text-xs transition-all duration-150 select-none",
         isActive
-          ? "bg-white text-[#1F2128] font-semibold border border-black/[0.04] shadow-xs"
-          : "text-[#7A7D88] hover:text-[#1F2128] hover:bg-black/[0.03] border border-transparent",
+          ? "bg-white text-[#111827] font-semibold border border-black/[0.04] shadow-xs"
+          : "text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.03] border border-transparent",
         className
       )}
       {...props}

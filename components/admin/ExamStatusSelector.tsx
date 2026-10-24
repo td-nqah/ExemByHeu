@@ -61,7 +61,7 @@ export function ExamStatusSelector({
     <div className={cn("space-y-1.5", className)}>
       {/* Label & View Mode Switcher Header */}
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-semibold text-[#1F2128]">
+        <label className="block text-xs font-semibold text-[#111827]">
           {label}
         </label>
         {showModeSwitch && (
@@ -69,7 +69,7 @@ export function ExamStatusSelector({
             <button
               type="button"
               onClick={() => setViewMode(viewMode === "dropdown" ? "cards" : "dropdown")}
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium text-[#7A7D88] hover:text-[#D9482B] hover:bg-black/[0.04] transition cursor-pointer"
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium text-[#6B7280] hover:text-[#111827] hover:bg-black/[0.04] transition cursor-pointer"
               title={viewMode === "dropdown" ? "Chuyển sang dạng Thẻ chọn nhanh" : "Chuyển sang dạng Menu thả xuống"}
             >
               {viewMode === "dropdown" ? (
@@ -103,7 +103,7 @@ export function ExamStatusSelector({
               isPublished
                 ? "border-emerald-500/30 hover:border-emerald-500/60 shadow-xs"
                 : "border-amber-500/30 hover:border-amber-500/60 shadow-xs",
-              isOpen && "ring-2 ring-[#D9482B]/20 border-[#D9482B]/50"
+              isOpen && "ring-2 ring-[#111827]/20 border-[#111827]/50"
             )}
           >
             {/* Left side: Status dot + Icon + Text */}
@@ -115,7 +115,7 @@ export function ExamStatusSelector({
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2E9E5B]" />
                   </span>
                   <LockOpen className="h-4 w-4 shrink-0 text-[#2E9E5B]" />
-                  <span className="truncate text-[#1F2128] font-semibold">
+                  <span className="truncate text-[#111827] font-semibold">
                     Đã xuất bản
                   </span>
                 </>
@@ -125,7 +125,7 @@ export function ExamStatusSelector({
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#B8962E]" />
                   </span>
                   <Lock className="h-4 w-4 shrink-0 text-[#B8962E]" />
-                  <span className="truncate text-[#1F2128] font-semibold">
+                  <span className="truncate text-[#111827] font-semibold">
                     Bản nháp
                   </span>
                 </>
@@ -147,8 +147,8 @@ export function ExamStatusSelector({
 
               <ChevronDown
                 className={cn(
-                  "h-4 w-4 text-[#7A7D88] transition-transform duration-200 group-hover:text-[#1F2128]",
-                  isOpen && "rotate-180 text-[#D9482B]"
+                  "h-4 w-4 text-[#6B7280] transition-transform duration-200 group-hover:text-[#111827]",
+                  isOpen && "rotate-180 text-[#111827]"
                 )}
               />
             </div>
@@ -174,8 +174,8 @@ export function ExamStatusSelector({
                   className={cn(
                     "w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer group",
                     isPublished
-                      ? "bg-[#DDF2E5]/50 border border-emerald-500/30 text-[#1F2128]"
-                      : "hover:bg-black/[0.03] border border-transparent text-[#7A7D88] hover:text-[#1F2128]"
+                      ? "bg-[#DDF2E5]/50 border border-emerald-500/30 text-[#111827]"
+                      : "hover:bg-black/[0.03] border border-transparent text-[#6B7280] hover:text-[#111827]"
                   )}
                 >
                   <div className="flex items-center gap-3 min-w-0">
@@ -184,7 +184,7 @@ export function ExamStatusSelector({
                         "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all",
                         isPublished
                           ? "bg-[#DDF2E5] border-emerald-500/30 text-[#2E9E5B]"
-                          : "bg-black/[0.03] border-black/[0.06] text-[#7A7D88] group-hover:text-[#2E9E5B] group-hover:border-emerald-500/30"
+                          : "bg-black/[0.03] border-black/[0.06] text-[#6B7280] group-hover:text-[#2E9E5B] group-hover:border-emerald-500/30"
                       )}
                     >
                       <LockOpen className="h-4 w-4" />
@@ -198,7 +198,7 @@ export function ExamStatusSelector({
                           <span className="h-1.5 w-1.5 rounded-full bg-[#2E9E5B] animate-pulse" />
                         )}
                       </div>
-                      <p className="text-[11px] text-[#7A7D88] truncate mt-0.5">
+                      <p className="text-[11px] text-[#6B7280] truncate mt-0.5">
                         User nhìn thấy đề thi và có thể vào làm bài ngay
                       </p>
                     </div>
@@ -221,8 +221,8 @@ export function ExamStatusSelector({
                   className={cn(
                     "w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer group",
                     !isPublished
-                      ? "bg-[#F6EBC8]/50 border border-amber-500/30 text-[#1F2128]"
-                      : "hover:bg-black/[0.03] border border-transparent text-[#7A7D88] hover:text-[#1F2128]"
+                      ? "bg-[#F6EBC8]/50 border border-amber-500/30 text-[#111827]"
+                      : "hover:bg-black/[0.03] border border-transparent text-[#6B7280] hover:text-[#111827]"
                   )}
                 >
                   <div className="flex items-center gap-3 min-w-0">
@@ -231,7 +231,7 @@ export function ExamStatusSelector({
                         "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all",
                         !isPublished
                           ? "bg-[#F6EBC8] border-amber-500/30 text-[#B8962E]"
-                          : "bg-black/[0.03] border-black/[0.06] text-[#7A7D88] group-hover:text-[#B8962E] group-hover:border-amber-500/30"
+                          : "bg-black/[0.03] border-black/[0.06] text-[#6B7280] group-hover:text-[#B8962E] group-hover:border-amber-500/30"
                       )}
                     >
                       <Lock className="h-4 w-4" />
@@ -245,7 +245,7 @@ export function ExamStatusSelector({
                           <span className="h-1.5 w-1.5 rounded-full bg-[#B8962E]" />
                         )}
                       </div>
-                      <p className="text-[11px] text-[#7A7D88] truncate mt-0.5">
+                      <p className="text-[11px] text-[#6B7280] truncate mt-0.5">
                         Tạm ẩn với user, chỉ Quản trị viên mới thấy
                       </p>
                     </div>
@@ -271,8 +271,8 @@ export function ExamStatusSelector({
             className={cn(
               "group relative flex items-center justify-between p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none",
               isPublished
-                ? "bg-white border-emerald-500/50 shadow-xs text-[#1F2128]"
-                : "bg-[#F6F6F8] border-black/[0.06] hover:border-black/[0.12] text-[#7A7D88] hover:text-[#1F2128] hover:bg-white"
+                ? "bg-white border-emerald-500/50 shadow-xs text-[#111827]"
+                : "bg-[#F6F6F8] border-black/[0.06] hover:border-black/[0.12] text-[#6B7280] hover:text-[#111827] hover:bg-white"
             )}
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -281,7 +281,7 @@ export function ExamStatusSelector({
                   "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all",
                   isPublished
                     ? "bg-[#DDF2E5] border-emerald-500/30 text-[#2E9E5B]"
-                    : "bg-white border-black/[0.06] text-[#7A7D88] group-hover:text-[#2E9E5B]"
+                    : "bg-white border-black/[0.06] text-[#6B7280] group-hover:text-[#2E9E5B]"
                 )}
               >
                 <LockOpen className="h-4 w-4" />
@@ -293,7 +293,7 @@ export function ExamStatusSelector({
                     <span className="h-1.5 w-1.5 rounded-full bg-[#2E9E5B] animate-pulse" />
                   )}
                 </div>
-                <p className="text-[10px] text-[#7A7D88] truncate">Vào thi ngay</p>
+                <p className="text-[10px] text-[#6B7280] truncate">Vào thi ngay</p>
               </div>
             </div>
 
@@ -311,8 +311,8 @@ export function ExamStatusSelector({
             className={cn(
               "group relative flex items-center justify-between p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none",
               !isPublished
-                ? "bg-white border-amber-500/50 shadow-xs text-[#1F2128]"
-                : "bg-[#F6F6F8] border-black/[0.06] hover:border-black/[0.12] text-[#7A7D88] hover:text-[#1F2128] hover:bg-white"
+                ? "bg-white border-amber-500/50 shadow-xs text-[#111827]"
+                : "bg-[#F6F6F8] border-black/[0.06] hover:border-black/[0.12] text-[#6B7280] hover:text-[#111827] hover:bg-white"
             )}
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -321,7 +321,7 @@ export function ExamStatusSelector({
                   "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all",
                   !isPublished
                     ? "bg-[#F6EBC8] border-amber-500/30 text-[#B8962E]"
-                    : "bg-white border-black/[0.06] text-[#7A7D88] group-hover:text-[#B8962E]"
+                    : "bg-white border-black/[0.06] text-[#6B7280] group-hover:text-[#B8962E]"
                 )}
               >
                 <Lock className="h-4 w-4" />
@@ -333,7 +333,7 @@ export function ExamStatusSelector({
                     <span className="h-1.5 w-1.5 rounded-full bg-[#B8962E]" />
                   )}
                 </div>
-                <p className="text-[10px] text-[#7A7D88] truncate">Chỉ Admin thấy</p>
+                <p className="text-[10px] text-[#6B7280] truncate">Chỉ Admin thấy</p>
               </div>
             </div>
 

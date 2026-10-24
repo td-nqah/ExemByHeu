@@ -39,7 +39,7 @@ export default function NumberStepper({
         disabled={disabled || value <= min}
         aria-label="Giảm"
         className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition
-                   hover:bg-[#FBE3DC] hover:text-[#D9482B] active:scale-90
+                   hover:bg-black/[0.05] hover:text-[#111827] active:scale-90
                    disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer"
       >
         <Minus size={16} />
@@ -60,7 +60,7 @@ export default function NumberStepper({
         onBlur={() => {
           if (!value || value < min) onChange(min);
         }}
-        className="w-14 bg-transparent text-center text-base font-semibold font-mono tabular-nums text-[#1F2128] outline-none
+        className="w-14 bg-transparent text-center text-base font-semibold font-mono tabular-nums text-[#111827] outline-none
                    [appearance:textfield]
                    [&::-webkit-inner-spin-button]:appearance-none
                    [&::-webkit-outer-spin-button]:appearance-none"
@@ -72,7 +72,7 @@ export default function NumberStepper({
         disabled={disabled || value >= max}
         aria-label="Tăng"
         className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition
-                   hover:bg-[#FBE3DC] hover:text-[#D9482B] active:scale-90
+                   hover:bg-black/[0.05] hover:text-[#111827] active:scale-90
                    disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer"
       >
         <Plus size={16} />

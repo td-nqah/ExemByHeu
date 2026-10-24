@@ -49,10 +49,10 @@ export default function AdminSubmissionsListPage() {
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1F2128]">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111827]">
           Quản lý Bài nộp & Đánh giá Học phần
         </h1>
-        <p className="mt-1 text-xs sm:text-sm text-[#7A7D88]">
+        <p className="mt-1 text-xs sm:text-sm text-[#6B7280]">
           Theo dõi bài nộp của sinh viên, xác nhận điểm trắc nghiệm và đánh giá tự luận (hệ thống lưu trữ 20 bài nộp gần nhất).
         </p>
       </div>
@@ -62,10 +62,10 @@ export default function AdminSubmissionsListPage() {
         {/* Table Toolbar */}
         <div className="flex flex-col gap-3 border-b border-white/[0.06] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-center gap-2.5">
-            <h2 className="text-sm font-bold text-[#1F2128]">
+            <h2 className="text-sm font-bold text-[#111827]">
               Danh sách Bài nộp Đánh giá
             </h2>
-            <span className="rounded-md bg-[#1f2637] border border-white/[0.05] px-2 py-0.5 text-xs font-semibold text-[#1F2128]">
+            <span className="rounded-md bg-[#1f2637] border border-white/[0.05] px-2 py-0.5 text-xs font-semibold text-[#111827]">
               {filteredSubmissions.length} / 20
             </span>
           </div>
@@ -77,8 +77,8 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("all")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "all"
-                  ? "bg-[#4f57ea] text-[#1F2128] shadow-sm"
-                  : "text-[#7A7D88] hover:text-[#1F2128]"
+                  ? "bg-[#4f57ea] text-[#111827] shadow-sm"
+                  : "text-[#6B7280] hover:text-[#111827]"
               }`}
             >
               Tất cả ({submissions.length})
@@ -88,8 +88,8 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("pending_grading")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "pending_grading"
-                  ? "bg-[#4f57ea] text-[#1F2128] shadow-sm"
-                  : "text-[#7A7D88] hover:text-[#1F2128]"
+                  ? "bg-[#4f57ea] text-[#111827] shadow-sm"
+                  : "text-[#6B7280] hover:text-[#111827]"
               }`}
             >
               Chờ đánh giá ({submissions.filter((s) => s.status === "pending_grading").length})
@@ -99,8 +99,8 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("graded")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "graded"
-                  ? "bg-[#4f57ea] text-[#1F2128] shadow-sm"
-                  : "text-[#7A7D88] hover:text-[#1F2128]"
+                  ? "bg-[#4f57ea] text-[#111827] shadow-sm"
+                  : "text-[#6B7280] hover:text-[#111827]"
               }`}
             >
               Đã hoàn tất đánh giá ({submissions.filter((s) => s.status === "graded").length})
@@ -111,24 +111,24 @@ export default function AdminSubmissionsListPage() {
         {/* Table Body */}
         {loading ? (
           <div className="flex h-40 items-center justify-center">
-            <p className="text-xs text-[#7A7D88]">Đang tải dữ liệu bài nộp...</p>
+            <p className="text-xs text-[#6B7280]">Đang tải dữ liệu bài nộp...</p>
           </div>
         ) : filteredSubmissions.length === 0 ? (
           <div className="py-14 text-center space-y-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1e2538] text-[#D9482B] mx-auto">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1e2538] text-[#111827] mx-auto">
               <Inbox className="h-6 w-6" />
             </div>
-            <p className="text-sm font-semibold text-[#1F2128]">
+            <p className="text-sm font-semibold text-[#111827]">
               Chưa có bài nộp nào
             </p>
-            <p className="text-xs text-[#7A7D88] max-w-sm mx-auto">
+            <p className="text-xs text-[#6B7280] max-w-sm mx-auto">
               Khi sinh viên hoàn thành bài đánh giá, dữ liệu sẽ tự động hiển thị tại đây để Giảng viên đánh giá và ghi nhận điểm.
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#121722] text-[#7A7D88] uppercase tracking-wider text-[11px] border-b border-white/[0.06]">
+              <thead className="bg-[#121722] text-[#6B7280] uppercase tracking-wider text-[11px] border-b border-white/[0.06]">
                 <tr>
                   <th className="py-3 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3 px-4 font-semibold">Sinh viên</th>
@@ -150,19 +150,19 @@ export default function AdminSubmissionsListPage() {
                       key={sub.id}
                       className="hover:bg-[#1a2130] transition-colors"
                     >
-                      <td className="py-3.5 px-3 text-center font-mono font-bold text-[#D9482B]">
+                      <td className="py-3.5 px-3 text-center font-mono font-bold text-[#111827]">
                         #{idx + 1}
                       </td>
-                      <td className="whitespace-nowrap py-3.5 px-4 font-bold text-[#1F2128]">
+                      <td className="whitespace-nowrap py-3.5 px-4 font-bold text-[#111827]">
                         <span className="flex items-center gap-1.5">
-                          <User className="h-3.5 w-3.5 text-[#D9482B]" />
+                          <User className="h-3.5 w-3.5 text-[#111827]" />
                           {sub.user?.username || "Sinh viên"}
                         </span>
                       </td>
-                      <td className="max-w-xs truncate py-3.5 px-4 font-medium text-[#1F2128]">
+                      <td className="max-w-xs truncate py-3.5 px-4 font-medium text-[#111827]">
                         {sub.exam?.title || "Đề đánh giá"}
                       </td>
-                      <td className="whitespace-nowrap py-3.5 px-4 text-[#7A7D88]">
+                      <td className="whitespace-nowrap py-3.5 px-4 text-[#6B7280]">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3 text-slate-500" />
                           {formatDate(sub.submitted_at)}
@@ -181,13 +181,13 @@ export default function AdminSubmissionsListPage() {
                           </span>
                         )}
                       </td>
-                      <td className="py-3.5 px-4 font-semibold text-[#1F2128]">
+                      <td className="py-3.5 px-4 font-semibold text-[#111827]">
                         {sub.mcq_score} điểm
                       </td>
-                      <td className="py-3.5 px-4 text-[#1F2128]">
+                      <td className="py-3.5 px-4 text-[#111827]">
                         {sub.essay_score !== null ? `${sub.essay_score} điểm` : "Chờ đánh giá"}
                       </td>
-                      <td className="py-3.5 px-4 text-sm font-bold text-[#D9482B]">
+                      <td className="py-3.5 px-4 text-sm font-bold text-[#111827]">
                         {sub.total_score} điểm
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 text-right">
@@ -195,8 +195,8 @@ export default function AdminSubmissionsListPage() {
                           href={`/admin/submissions/${sub.id}`}
                           className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
                             isGraded
-                              ? "bg-[#1f2637] hover:bg-[#283248] text-[#1F2128] border border-white/[0.06]"
-                              : "bg-[#4f57ea] hover:bg-[#434ac9] text-[#1F2128] shadow-sm"
+                              ? "bg-[#1f2637] hover:bg-[#283248] text-[#111827] border border-white/[0.06]"
+                              : "bg-[#4f57ea] hover:bg-[#434ac9] text-[#111827] shadow-sm"
                           }`}
                         >
                           <span>{isGraded ? "Xem lại & Cập nhật điểm" : "Đánh giá bài làm"}</span>

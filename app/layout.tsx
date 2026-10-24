@@ -44,7 +44,7 @@ export default function RootLayout({
       lang="vi"
       className={`${plusJakartaSans.variable} ${beVietnamPro.variable} ${jetBrainsMono.variable} scroll-smooth h-full antialiased`}
     >
-      <body className="min-h-screen bg-[#E9EAEE] font-body text-[#1F2128] antialiased selection:bg-[#FBE3DC] selection:text-[#D9482B] relative overflow-x-hidden custom-scrollbar">
+      <body className="min-h-screen bg-[#E9EAEE] font-body text-[#111827] antialiased selection:bg-[#111827]/10 selection:text-[#111827] relative overflow-x-hidden custom-scrollbar">
         {/* Dynamic System Background: Soft neutral ambient light UI */}
         <SystemBackground />
 
@@ -52,7 +52,7 @@ export default function RootLayout({
           <Suspense
             fallback={
               <div className="h-screen w-full flex items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#D9482B] border-t-transparent" />
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#111827] border-t-transparent" />
               </div>
             }
           >

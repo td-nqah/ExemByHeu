@@ -28,7 +28,7 @@ export function QuestionNav({
   return (
     <div className="bg-white border border-black/[0.06] rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)]">
       <div className="mb-3 flex items-center justify-between border-b border-black/[0.06] pb-2.5">
-        <h3 className="text-xs font-bold text-[#1F2128] tracking-wide font-heading">
+        <h3 className="text-xs font-bold text-[#111827] tracking-wide font-heading">
           Mục lục câu hỏi
         </h3>
         <div className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export function QuestionNav({
               {flaggedCount} cờ
             </span>
           )}
-          <span className="text-xs font-semibold font-mono tabular-nums text-[#D9482B]">
+          <span className="text-xs font-semibold font-mono tabular-nums text-[#111827]">
             {answeredCount}/{total} ({progressPercent}%)
           </span>
         </div>
@@ -47,7 +47,7 @@ export function QuestionNav({
       {/* Progress Track */}
       <div className="mb-4 h-1.5 w-full overflow-hidden rounded-full bg-black/[0.05] border border-black/[0.04]">
         <div
-          className="h-full bg-[#D9482B] transition-all duration-300"
+          className="h-full bg-[#111827] transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
@@ -60,7 +60,7 @@ export function QuestionNav({
           const isActive = activeQuestionId === question.id;
 
           let btnColor =
-            "border-black/[0.06] bg-[#F6F6F8] text-[#7A7D88] hover:border-black/[0.12] hover:bg-black/[0.03] hover:text-[#1F2128]";
+            "border-black/[0.06] bg-[#F6F6F8] text-[#6B7280] hover:border-black/[0.12] hover:bg-black/[0.03] hover:text-[#111827]";
 
           if (isFlagged) {
             btnColor =
@@ -76,7 +76,7 @@ export function QuestionNav({
               onClick={() => onSelectQuestion(question.id)}
               className={`relative flex h-9 w-full items-center justify-center rounded-xl text-xs font-semibold font-mono tabular-nums transition ${
                 isActive
-                  ? "ring-2 ring-[#D9482B] ring-offset-2 ring-offset-white scale-105 z-10 bg-white text-[#1F2128] font-bold shadow-xs"
+                  ? "ring-2 ring-[#111827] ring-offset-2 ring-offset-white scale-105 z-10 bg-white text-[#111827] font-bold shadow-xs"
                   : ""
               } border ${btnColor}`}
               title={`Câu ${index + 1}: ${
@@ -108,7 +108,7 @@ export function QuestionNav({
       </div>
 
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-black/[0.06] pt-3 text-[11px] text-[#7A7D88]">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-black/[0.06] pt-3 text-[11px] text-[#6B7280]">
         <div className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-sm bg-[#2E9E5B]" />
           <span>Đã làm</span>

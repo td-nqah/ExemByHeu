@@ -308,13 +308,13 @@ export function EditExamClient({ examId }: { examId: string }) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center p-4">
         <div className="glass-card rounded-2xl p-8 text-center">
-          <AlertCircle className="mx-auto mb-2 h-10 w-10 text-[#D9482B]" />
-          <h2 className="text-base font-bold text-[#1F2128]">
+          <AlertCircle className="mx-auto mb-2 h-10 w-10 text-[#111827]" />
+          <h2 className="text-base font-bold text-[#111827]">
             Không tìm thấy đề đánh giá cần chỉnh sửa
           </h2>
           <Link
             href="/admin/dashboard"
-            className="mt-4 inline-block text-xs font-semibold text-[#D9482B] underline"
+            className="mt-4 inline-block text-xs font-semibold text-[#111827] underline"
           >
             Quay lại Ngân hàng Đề đánh giá
           </Link>
@@ -344,9 +344,9 @@ export function EditExamClient({ examId }: { examId: string }) {
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <Link
           href="/admin/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7A7D88] transition hover:text-[#1F2128]"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#6B7280] transition hover:text-[#111827]"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-[#D9482B]" />
+          <ArrowLeft className="h-3.5 w-3.5 text-[#111827]" />
           <span>Quay lại Ngân hàng Đề đánh giá</span>
         </Link>
       </div>
@@ -354,10 +354,10 @@ export function EditExamClient({ examId }: { examId: string }) {
       {/* Header */}
       <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#1F2128] sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-[#111827] sm:text-3xl">
             Chỉnh sửa Đề đánh giá
           </h1>
-          <p className="mt-1 text-sm text-[#7A7D88]">
+          <p className="mt-1 text-sm text-[#6B7280]">
             Cập nhật thông tin học phần, nội dung câu hỏi, đáp án chuẩn và barem điểm.
           </p>
         </div>
@@ -374,7 +374,7 @@ export function EditExamClient({ examId }: { examId: string }) {
             type="button"
             onClick={handleSaveChanges}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 text-xs font-semibold text-[#1F2128] shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 text-xs font-semibold text-[#111827] shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             <span>{isSaving ? "Đang lưu..." : "Lưu thay đổi"}</span>
@@ -384,14 +384,14 @@ export function EditExamClient({ examId }: { examId: string }) {
 
       {/* 1. General Exam Metadata Form */}
       <div className="glass-card mb-8 rounded-2xl p-6">
-        <h2 className="mb-4 text-base font-bold text-[#1F2128]">
+        <h2 className="mb-4 text-base font-bold text-[#111827]">
           Thông tin cơ bản của Đề đánh giá
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-[#1F2128]">
-              Tên đề đánh giá <span className="text-[#D9482B]">*</span>
+            <label className="mb-1.5 block text-xs font-medium text-[#111827]">
+              Tên đề đánh giá <span className="text-[#111827]">*</span>
             </label>
             <input
               type="text"
@@ -404,7 +404,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-[#1F2128]">
+            <label className="mb-1.5 block text-xs font-medium text-[#111827]">
               Mô tả / Hướng dẫn làm bài
             </label>
             <textarea
@@ -417,7 +417,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-[#1F2128]">
+            <label className="mb-1.5 block text-xs font-medium text-[#111827]">
               Thời lượng làm bài (Phút)
             </label>
             <NumberStepper
@@ -444,8 +444,8 @@ export function EditExamClient({ examId }: { examId: string }) {
                 <div
                   className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
                     isShuffled
-                      ? "border-[#5852d6]/50 bg-[#5852d6]/20 text-[#D9482B] shadow-[0_0_12px_rgba(88,82,214,0.3)]"
-                      : "border-black/[0.06] bg-slate-800/60 text-[#7A7D88]"
+                      ? "border-[#5852d6]/50 bg-[#5852d6]/20 text-[#111827] shadow-[0_0_12px_rgba(88,82,214,0.3)]"
+                      : "border-black/[0.06] bg-slate-800/60 text-[#6B7280]"
                   }`}
                 >
                   <Shuffle className="h-4 w-4" />
@@ -453,16 +453,16 @@ export function EditExamClient({ examId }: { examId: string }) {
                 <div>
                   <label
                     htmlFor="shuffle-toggle-edit"
-                    className="text-sm font-semibold text-[#1F2128] flex items-center gap-2 cursor-pointer"
+                    className="text-sm font-semibold text-[#111827] flex items-center gap-2 cursor-pointer"
                   >
                     <span>Trộn ngẫu nhiên câu hỏi & đáp án</span>
                     {isShuffled && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5852d6]/25 text-[#C4492F] border border-[#5852d6]/40 font-mono">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5852d6]/25 text-[#111827] border border-[#5852d6]/40 font-mono">
                         BẬT (ACTIVE)
                       </span>
                     )}
                   </label>
-                  <p className="text-xs text-[#7A7D88] mt-0.5">
+                  <p className="text-xs text-[#6B7280] mt-0.5">
                     Tự động xáo trộn vị trí câu hỏi và các phương án A, B, C, D cho từng lượt đánh giá.
                   </p>
                 </div>
@@ -500,9 +500,9 @@ export function EditExamClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={() => setShowQuickScoreConfig((prev) => !prev)}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 border border-black/[0.06] px-3.5 py-2 text-xs font-semibold text-[#1F2128] transition hover:bg-slate-800 hover:text-[#1F2128]"
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 border border-black/[0.06] px-3.5 py-2 text-xs font-semibold text-[#111827] transition hover:bg-slate-800 hover:text-[#111827]"
             >
-              <Sliders className="h-3.5 w-3.5 text-[#D9482B]" />
+              <Sliders className="h-3.5 w-3.5 text-[#111827]" />
               <span>
                 {showQuickScoreConfig
                   ? "Ẩn bảng Cấu hình điểm nhanh"
@@ -510,9 +510,9 @@ export function EditExamClient({ examId }: { examId: string }) {
               </span>
             </button>
 
-            <span className="text-xs font-semibold text-[#1F2128]">
+            <span className="text-xs font-semibold text-[#111827]">
               Tổng điểm hiện tại:{" "}
-              <strong className="text-[#D9482B]">{totalScore} điểm</strong>
+              <strong className="text-[#111827]">{totalScore} điểm</strong>
             </span>
           </div>
 
@@ -547,10 +547,10 @@ export function EditExamClient({ examId }: { examId: string }) {
       <div className="space-y-4">
         <div className="flex flex-col gap-3 border-b border-black/[0.06]/80 pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-base font-bold text-[#1F2128]">
+            <h2 className="text-base font-bold text-[#111827]">
               Chỉnh sửa Danh sách Câu hỏi ({questions.length} câu)
             </h2>
-            <p className="text-xs text-[#7A7D88]">
+            <p className="text-xs text-[#6B7280]">
               {mcqCount} trắc nghiệm ({currentMcqTotal}đ) • {essayCount} tự luận (
               {currentEssayTotal}đ) • Tổng {totalScore} điểm
             </p>
@@ -560,9 +560,9 @@ export function EditExamClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-black/[0.06] px-3.5 py-2 text-xs font-semibold text-[#1F2128] transition hover:bg-slate-800 hover:text-[#1F2128]"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-black/[0.06] px-3.5 py-2 text-xs font-semibold text-[#111827] transition hover:bg-slate-800 hover:text-[#111827]"
             >
-              <Plus className="h-3.5 w-3.5 text-[#D9482B]" />
+              <Plus className="h-3.5 w-3.5 text-[#111827]" />
               <span>Thêm câu hỏi mới</span>
             </button>
           </div>
@@ -570,14 +570,14 @@ export function EditExamClient({ examId }: { examId: string }) {
 
         {questions.length === 0 ? (
           <div className="glass-card rounded-2xl py-12 text-center">
-            <Layers className="mx-auto mb-2 h-8 w-8 text-[#D9482B]" />
-            <p className="text-xs font-semibold text-[#1F2128]">
+            <Layers className="mx-auto mb-2 h-8 w-8 text-[#111827]" />
+            <p className="text-xs font-semibold text-[#111827]">
               Đề đánh giá hiện chưa có câu hỏi nào
             </p>
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-[#1F2128] shadow-lg shadow-indigo-600/20"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-[#111827] shadow-lg shadow-indigo-600/20"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Thêm câu hỏi đầu tiên</span>
@@ -605,15 +605,15 @@ export function EditExamClient({ examId }: { examId: string }) {
               <button
                 type="button"
                 onClick={handleAddQuestion}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-black/[0.06] px-4 py-2 text-xs font-semibold text-[#1F2128] transition hover:bg-slate-800 hover:text-[#1F2128]"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-black/[0.06] px-4 py-2 text-xs font-semibold text-[#111827] transition hover:bg-slate-800 hover:text-[#111827]"
               >
-                <Plus className="h-4 w-4 text-[#D9482B]" />
+                <Plus className="h-4 w-4 text-[#111827]" />
                 <span>Thêm câu hỏi mới</span>
               </button>
 
               <Link
                 href="/admin/dashboard"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-black/[0.06] px-4 py-2 text-xs font-semibold text-[#1F2128] transition hover:bg-slate-800 hover:text-[#1F2128]"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-black/[0.06] px-4 py-2 text-xs font-semibold text-[#111827] transition hover:bg-slate-800 hover:text-[#111827]"
               >
                 <span>Hủy bỏ</span>
               </Link>
@@ -623,7 +623,7 @@ export function EditExamClient({ examId }: { examId: string }) {
               type="button"
               onClick={handleSaveChanges}
               disabled={isSaving}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-[#1F2128] shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-[#111827] shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
             >
               <Save className="h-4 w-4" />
               <span>

@@ -467,9 +467,9 @@ export default function ExamCreatePage() {
       <div className="mb-4">
         <Link
           href="/admin/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7A7D88] transition hover:text-[#1F2128]"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#6B7280] transition hover:text-[#111827]"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-[#D9482B]" />
+          <ArrowLeft className="h-3.5 w-3.5 text-[#111827]" />
           <span>Quay lại Bảng điều khiển Quản trị</span>
         </Link>
       </div>
@@ -478,14 +478,14 @@ export default function ExamCreatePage() {
       {/* Header */}
       <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-[#FBE3DC] border border-[#D9482B]/20 px-3 py-1 text-[11px] font-medium text-[#D9482B]">
+          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-[#F6F6F8] border border-black/[0.08] px-3 py-1 text-[11px] font-medium text-[#111827]">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Trợ lý học thuật AI • Trích xuất Đề đánh giá</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#1F2128] sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-[#111827] sm:text-3xl">
             Tạo Đề đánh giá Học phần & Trích xuất Dữ liệu
           </h1>
-          <p className="mt-1 text-sm text-[#7A7D88]">
+          <p className="mt-1 text-sm text-[#6B7280]">
             Tải lên tệp Word (.docx), Excel (.xlsx), PDF hoặc dán trực tiếp văn bản từ bộ nhớ tạm để Trợ lý học thuật AI tự động nhận diện câu hỏi, phương án và barem điểm.
           </p>
         </div>
@@ -495,7 +495,7 @@ export default function ExamCreatePage() {
             type="button"
             onClick={handleConfirmAndPublish}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-5 py-2.5 text-xs font-medium text-[#1F2128] shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-5 py-2.5 text-xs font-medium text-[#111827] shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
             <span>{isSaving ? "Đang lưu..." : "Lưu & Ban hành đề đánh giá"}</span>
@@ -516,8 +516,8 @@ export default function ExamCreatePage() {
               }}
               className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
                 importerTab === "file"
-                  ? "bg-[#4f46e5] text-[#1F2128] shadow-[0_0_15px_rgba(79,70,229,0.35)]"
-                  : "text-[#7A7D88] hover:bg-[#1f2937] hover:text-[#1F2128]"
+                  ? "bg-[#4f46e5] text-[#111827] shadow-[0_0_15px_rgba(79,70,229,0.35)]"
+                  : "text-[#6B7280] hover:bg-[#1f2937] hover:text-[#111827]"
               }`}
             >
               <UploadCloud className="h-4 w-4" />
@@ -532,8 +532,8 @@ export default function ExamCreatePage() {
               }}
               className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
                 importerTab === "clipboard"
-                  ? "bg-[#4f46e5] text-[#1F2128] shadow-[0_0_15px_rgba(79,70,229,0.35)]"
-                  : "text-[#7A7D88] hover:bg-[#1f2937] hover:text-[#1F2128]"
+                  ? "bg-[#4f46e5] text-[#111827] shadow-[0_0_15px_rgba(79,70,229,0.35)]"
+                  : "text-[#6B7280] hover:bg-[#1f2937] hover:text-[#111827]"
               }`}
             >
               <ClipboardPaste className="h-4 w-4" />
@@ -546,10 +546,10 @@ export default function ExamCreatePage() {
               type="button"
               onClick={handleTestAiConnection}
               disabled={isTestingAi}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#4f46e5] hover:text-[#1F2128] border border-black/[0.06] px-3 py-1.5 text-[11px] font-semibold text-[#1F2128] transition disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#4f46e5] hover:text-[#111827] border border-black/[0.06] px-3 py-1.5 text-[11px] font-semibold text-[#111827] transition disabled:opacity-50 cursor-pointer"
               title="Kiểm tra trạng thái kết nối mô hình Trợ lý AI"
             >
-              <Cpu className="h-3.5 w-3.5 text-[#D9482B]" />
+              <Cpu className="h-3.5 w-3.5 text-[#111827]" />
               <span>{isTestingAi ? "Đang kiểm tra AI..." : "Kiểm tra kết nối Trợ lý AI"}</span>
             </button>
           </div>
@@ -591,14 +591,14 @@ export default function ExamCreatePage() {
               className="hidden"
             />
 
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#D9482B]/20 bg-[#FBE3DC] text-[#D9482B]">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-black/[0.08] glass-badge text-[#111827]">
               <UploadCloud className="h-7 w-7" />
             </div>
 
-            <h3 className="text-base font-bold text-[#1F2128]">
+            <h3 className="text-base font-bold text-[#111827]">
               Kéo thả tệp đề đánh giá hoặc nhấn để chọn tệp
             </h3>
-            <p className="mx-auto mt-1 max-w-lg text-xs text-[#7A7D88]">
+            <p className="mx-auto mt-1 max-w-lg text-xs text-[#6B7280]">
               Hỗ trợ định dạng Microsoft Word (.docx), Microsoft Excel (.xlsx), PDF và TXT. Hệ thống sẽ trích xuất văn bản và sử dụng Trợ lý học thuật AI để phân tích cấu trúc câu hỏi.
             </p>
 
@@ -607,7 +607,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isParsing}
-                className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] px-5 py-2.5 text-xs font-semibold text-[#1F2128] shadow-[0_0_18px_rgba(79,70,229,0.35)] hover:shadow-[0_0_24px_rgba(99,102,241,0.5)] transition active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] active:bg-[#4338ca] px-5 py-2.5 text-xs font-semibold text-[#111827] shadow-[0_0_18px_rgba(79,70,229,0.35)] hover:shadow-[0_0_24px_rgba(99,102,241,0.5)] transition active:scale-[0.98] disabled:opacity-50 cursor-pointer"
               >
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>
@@ -620,7 +620,7 @@ export default function ExamCreatePage() {
               <button
                 type="button"
                 onClick={() => setImporterTab("clipboard")}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#1f2937] hover:text-[#1F2128] border border-black/[0.06] px-4 py-2.5 text-xs font-medium text-[#1F2128] transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#1f2937] hover:text-[#111827] border border-black/[0.06] px-4 py-2.5 text-xs font-medium text-[#111827] transition cursor-pointer"
               >
                 <ClipboardPaste className="h-3.5 w-3.5" />
                 <span>Chuyển sang Dán từ bộ nhớ tạm</span>
@@ -631,12 +631,12 @@ export default function ExamCreatePage() {
           <div className="p-6 sm:p-8 space-y-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h3 className="text-base font-bold text-[#1F2128] flex items-center gap-2">
-                  <ClipboardPaste className="h-4 w-4 text-[#D9482B]" />
+                <h3 className="text-base font-bold text-[#111827] flex items-center gap-2">
+                  <ClipboardPaste className="h-4 w-4 text-[#111827]" />
                   <span>Dán nội dung đề đánh giá từ bộ nhớ tạm</span>
                 </h3>
-                <p className="mt-0.5 text-xs text-[#7A7D88]">
-                  Sao chép toàn bộ nội dung đề đánh giá từ Word, Notepad, Website hoặc PDF rồi bấm <strong className="text-[#1F2128]">Ctrl + V</strong> vào ô bên dưới.
+                <p className="mt-0.5 text-xs text-[#6B7280]">
+                  Sao chép toàn bộ nội dung đề đánh giá từ Word, Notepad, Website hoặc PDF rồi bấm <strong className="text-[#111827]">Ctrl + V</strong> vào ô bên dưới.
                 </p>
               </div>
 
@@ -644,7 +644,7 @@ export default function ExamCreatePage() {
                 <button
                   type="button"
                   onClick={handleQuickPasteFromNavigator}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-[#1F2128] border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-[#1F2128] transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-[#111827] border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-[#111827] transition"
                   title="Đọc và dán trực tiếp từ bộ nhớ tạm (Clipboard)"
                 >
                   <ClipboardPaste className="h-3.5 w-3.5" />
@@ -657,7 +657,7 @@ export default function ExamCreatePage() {
                     setClipboardText(SAMPLE_CLIPBOARD_EXAM);
                     setParseError("");
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-[#1F2128] border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-[#1F2128] transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-[#111827] border border-slate-700/60 px-3 py-1.5 text-xs font-semibold text-[#111827] transition"
                 >
                   <Wand2 className="h-3.5 w-3.5" />
                   <span>Chèn cấu trúc đề mẫu</span>
@@ -667,7 +667,7 @@ export default function ExamCreatePage() {
                   <button
                     type="button"
                     onClick={() => setClipboardText("")}
-                    className="inline-flex items-center gap-1 rounded-xl bg-rose-950/30 text-[#D9482B] hover:bg-rose-600 hover:text-[#1F2128] border border-rose-900/40 px-3 py-1.5 text-xs font-semibold transition"
+                    className="inline-flex items-center gap-1 rounded-xl bg-rose-950/30 text-[#111827] hover:bg-rose-600 hover:text-[#111827] border border-rose-900/40 px-3 py-1.5 text-xs font-semibold transition"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
                     <span>Xóa trắng</span>
@@ -681,11 +681,11 @@ export default function ExamCreatePage() {
               value={clipboardText}
               onChange={(e) => setClipboardText(e.target.value)}
               placeholder={`Dán (Ctrl+V) toàn bộ nội dung đề thi vào đây...\n\nVí dụ:\nCâu 1: Giao thức nào hoạt động ở tầng Transport trong mô hình OSI?\nA. HTTP   B. TCP   C. IP   D. ARP\nĐáp án: B\n\nCâu 2 (Tự luận - 3 điểm): Phân tích sự khác nhau giữa TCP và UDP...`}
-              className="glass-input w-full rounded-xl p-4 font-mono text-xs leading-relaxed text-[#1F2128]"
+              className="glass-input w-full rounded-xl p-4 font-mono text-xs leading-relaxed text-[#111827]"
             />
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-1">
-              <p className="text-[11px] text-[#7A7D88]">
+              <p className="text-[11px] text-[#6B7280]">
                 Lưu ý nghiệp vụ: Trợ lý học thuật AI tự động phân tích và trích xuất cả câu hỏi trắc nghiệm lẫn tự luận định dạng tự do.
               </p>
 
@@ -693,7 +693,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={handleParseClipboard}
                 disabled={isParsing || !clipboardText.trim()}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-6 py-2.5 text-xs font-medium text-[#1F2128] shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-6 py-2.5 text-xs font-medium text-[#111827] shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50"
               >
                 <Sparkles className="h-4 w-4" />
                 <span>
@@ -708,7 +708,7 @@ export default function ExamCreatePage() {
 
         {/* Error or Success Notice inside Importer Panel */}
         {parseError && (
-          <div className="mx-6 mb-6 rounded-xl border border-[#D9482B]/25 bg-rose-950/40 p-3.5 text-xs text-rose-200">
+          <div className="mx-6 mb-6 rounded-xl border border-black/[0.08] bg-rose-950/40 p-3.5 text-xs text-rose-200">
             {parseError}
           </div>
         )}
@@ -728,14 +728,14 @@ export default function ExamCreatePage() {
 
       {/* 2. Exam Metadata Form */}
       <div className="bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] mb-8 rounded-2xl p-6">
-        <h2 className="mb-4 text-base font-bold text-[#1F2128]">
+        <h2 className="mb-4 text-base font-bold text-[#111827]">
           Thông tin cơ bản của Đề đánh giá
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-[#1F2128]">
-              Tiêu đề đề đánh giá <span className="text-[#D9482B]">*</span>
+            <label className="mb-1.5 block text-xs font-medium text-[#111827]">
+              Tiêu đề đề đánh giá <span className="text-[#111827]">*</span>
             </label>
             <input
               type="text"
@@ -748,7 +748,7 @@ export default function ExamCreatePage() {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-[#1F2128]">
+            <label className="mb-1.5 block text-xs font-medium text-[#111827]">
               Mô tả / Hướng dẫn làm bài
             </label>
             <textarea
@@ -761,8 +761,8 @@ export default function ExamCreatePage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-[#1F2128]">
-              Học phần đào tạo <span className="text-[#D9482B]">*</span>
+            <label className="mb-1.5 block text-xs font-medium text-[#111827]">
+              Học phần đào tạo <span className="text-[#111827]">*</span>
             </label>
             <PopoverSelect
               className="w-full"
@@ -783,7 +783,7 @@ export default function ExamCreatePage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-[#1F2128]">
+            <label className="mb-1.5 block text-xs font-medium text-[#111827]">
               Hình thức câu hỏi
             </label>
             <PopoverSelect<"auto" | "multiple_choice" | "essay" | "mixed">
@@ -815,7 +815,7 @@ export default function ExamCreatePage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-[#1F2128]">
+            <label className="mb-1.5 block text-xs font-medium text-[#111827]">
               Thời gian làm bài (Phút)
             </label>
             <NumberStepper
@@ -828,7 +828,7 @@ export default function ExamCreatePage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-[#1F2128]">
+            <label className="mb-1.5 block text-xs font-medium text-[#111827]">
               Thời hạn đóng ca thi (Tùy chọn)
             </label>
             <input
@@ -854,8 +854,8 @@ export default function ExamCreatePage() {
                 <div
                   className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
                     isShuffled
-                      ? "border-[#5852d6]/50 bg-[#5852d6]/20 text-[#D9482B] shadow-[0_0_12px_rgba(88,82,214,0.3)]"
-                      : "border-black/[0.06] bg-slate-800/60 text-[#7A7D88]"
+                      ? "border-[#5852d6]/50 bg-[#5852d6]/20 text-[#111827] shadow-[0_0_12px_rgba(88,82,214,0.3)]"
+                      : "border-black/[0.06] bg-slate-800/60 text-[#6B7280]"
                   }`}
                 >
                   <Shuffle className="h-4 w-4" />
@@ -863,16 +863,16 @@ export default function ExamCreatePage() {
                 <div>
                   <label
                     htmlFor="shuffle-toggle-create"
-                    className="text-sm font-semibold text-[#1F2128] flex items-center gap-2 cursor-pointer"
+                    className="text-sm font-semibold text-[#111827] flex items-center gap-2 cursor-pointer"
                   >
                     <span>Trộn ngẫu nhiên câu hỏi & đáp án</span>
                     {isShuffled && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5852d6]/25 text-[#C4492F] border border-[#5852d6]/40 font-mono">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5852d6]/25 text-[#111827] border border-[#5852d6]/40 font-mono">
                         BẬT (ACTIVE)
                       </span>
                     )}
                   </label>
-                  <p className="text-xs text-[#7A7D88] mt-0.5">
+                  <p className="text-xs text-[#6B7280] mt-0.5">
                     Tự động xáo trộn vị trí câu hỏi và các phương án A, B, C, D cho từng lượt đánh giá.
                   </p>
                 </div>
@@ -927,10 +927,10 @@ export default function ExamCreatePage() {
       <div className="space-y-4">
         <div className="flex flex-col gap-3 border-b border-black/[0.06]/80 pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-base font-bold text-[#1F2128]">
+            <h2 className="text-base font-bold text-[#111827]">
               Rà soát & Chỉnh sửa Câu hỏi ({questions.length} câu)
             </h2>
-            <p className="text-xs text-[#7A7D88]">
+            <p className="text-xs text-[#6B7280]">
               {parsedFileName && `Nguồn: ${parsedFileName} • `}
               {mcqCount} trắc nghiệm ({currentMcqTotal}đ) • {essayCount} tự luận ({currentEssayTotal}đ) • Tổng {totalScore} điểm
             </p>
@@ -940,7 +940,7 @@ export default function ExamCreatePage() {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-[#1F2128] border border-slate-700/60 px-3.5 py-2 text-xs font-semibold text-[#1F2128] transition"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-[#111827] border border-slate-700/60 px-3.5 py-2 text-xs font-semibold text-[#111827] transition"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Thêm câu hỏi mới</span>
@@ -950,11 +950,11 @@ export default function ExamCreatePage() {
 
         {questions.length === 0 ? (
           <div className="bg-white border border-black/[0.06] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(20,20,40,0.06)] rounded-2xl py-12 text-center">
-            <Layers className="mx-auto mb-2 h-8 w-8 text-[#D9482B]" />
-            <p className="text-xs font-semibold text-[#1F2128]">
+            <Layers className="mx-auto mb-2 h-8 w-8 text-[#111827]" />
+            <p className="text-xs font-semibold text-[#111827]">
               Chưa có câu hỏi nào trong danh sách
             </p>
-            <p className="mt-0.5 text-[11px] text-[#7A7D88]">
+            <p className="mt-0.5 text-[11px] text-[#6B7280]">
               Tải lên tệp Word, Excel, PDF, dán văn bản từ Clipboard phía trên hoặc nhấn &ldquo;Thêm câu hỏi mới&rdquo; để soạn trực tiếp.
             </p>
           </div>
@@ -977,7 +977,7 @@ export default function ExamCreatePage() {
                 <button
                   type="button"
                   onClick={handleAddQuestion}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-[#1F2128] border border-slate-700/60 px-4 py-2 text-xs font-semibold text-[#1F2128] transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 hover:text-[#111827] border border-slate-700/60 px-4 py-2 text-xs font-semibold text-[#111827] transition"
                 >
                   <Plus className="h-4 w-4" />
                   <span>Thêm câu hỏi</span>
@@ -988,7 +988,7 @@ export default function ExamCreatePage() {
                 type="button"
                 onClick={handleConfirmAndPublish}
                 disabled={isSaving}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-6 py-2.5 text-xs font-medium text-[#1F2128] shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-6 py-2.5 text-xs font-medium text-[#111827] shadow-[0_0_15px_rgba(99,102,241,0.3)] transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
               >
                 <Send className="h-4 w-4" />
                 <span>

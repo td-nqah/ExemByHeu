@@ -74,10 +74,10 @@ export function QuestionEditorCard({
       {/* Header Bar */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] pb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FBE3DC] text-xs font-bold text-[#D9482B] font-mono">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg glass-badge text-xs font-bold text-[#111827] font-mono">
             {index + 1}
           </span>
-          <span className="text-xs font-medium text-[#7A7D88]">
+          <span className="text-xs font-medium text-[#6B7280]">
             Câu hỏi {index + 1} trên {total}
           </span>
         </div>
@@ -90,11 +90,11 @@ export function QuestionEditorCard({
               onClick={() => handleTypeChange("multiple_choice")}
               className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 question.type === "multiple_choice"
-                  ? "bg-white text-[#1F2128] shadow-xs"
-                  : "text-[#7A7D88] hover:text-[#1F2128]"
+                  ? "bg-white text-[#111827] shadow-xs"
+                  : "text-[#6B7280] hover:text-[#111827]"
               }`}
             >
-              <HelpCircle className="h-3 w-3 text-[#D9482B]" />
+              <HelpCircle className="h-3 w-3 text-[#111827]" />
               Trắc nghiệm
             </button>
             <button
@@ -102,18 +102,18 @@ export function QuestionEditorCard({
               onClick={() => handleTypeChange("essay")}
               className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 question.type === "essay"
-                  ? "bg-white text-[#1F2128] shadow-xs"
-                  : "text-[#7A7D88] hover:text-[#1F2128]"
+                  ? "bg-white text-[#111827] shadow-xs"
+                  : "text-[#6B7280] hover:text-[#111827]"
               }`}
             >
-              <FileText className="h-3 w-3 text-[#D9482B]" />
+              <FileText className="h-3 w-3 text-[#111827]" />
               Tự luận
             </button>
           </div>
 
           {/* Max Score Input */}
           <div className="flex items-center gap-1.5">
-            <label className="text-xs text-[#7A7D88]">Điểm:</label>
+            <label className="text-xs text-[#6B7280]">Điểm:</label>
             <NumberStepper
               value={question.max_score}
               onChange={(val) =>
@@ -142,7 +142,7 @@ export function QuestionEditorCard({
 
       {/* Question Content Input */}
       <div className="mb-4">
-        <label className="mb-1.5 block text-xs font-semibold text-[#1F2128]">
+        <label className="mb-1.5 block text-xs font-semibold text-[#111827]">
           Nội dung câu hỏi
         </label>
         <textarea
@@ -150,7 +150,7 @@ export function QuestionEditorCard({
           value={question.content}
           onChange={(e) => onChange({ ...question, content: e.target.value })}
           placeholder="Nhập nội dung câu hỏi hoặc công thức..."
-          className="w-full rounded-xl border border-black/[0.06] bg-[#F6F6F8] p-3 text-sm leading-relaxed text-[#1F2128] placeholder-[#A4A7B0] transition focus:border-[#D9482B] focus:bg-white focus:outline-hidden"
+          className="w-full rounded-xl border border-black/[0.06] bg-[#F6F6F8] p-3 text-sm leading-relaxed text-[#111827] placeholder-[#A4A7B0] transition focus:border-[#111827] focus:bg-white focus:outline-hidden"
         />
       </div>
 
@@ -158,13 +158,13 @@ export function QuestionEditorCard({
       {question.type === "multiple_choice" ? (
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#1F2128]">
+            <span className="text-xs font-semibold text-[#111827]">
               Lựa chọn đáp án (đánh dấu đáp án đúng)
             </span>
             <button
               type="button"
               onClick={handleAddOption}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#D9482B] hover:text-[#C4492F]"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#111827] hover:text-[#111827]"
             >
               <Plus className="h-3 w-3" />
               Thêm lựa chọn
@@ -193,7 +193,7 @@ export function QuestionEditorCard({
                     className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border text-xs font-bold transition font-mono ${
                       isSelectedKey
                         ? "border-emerald-500/30 bg-[#DDF2E5] text-[#2E9E5B]"
-                        : "border-black/[0.06] bg-[#F6F6F8] text-[#7A7D88] hover:border-black/[0.12] hover:text-[#1F2128]"
+                        : "border-black/[0.06] bg-[#F6F6F8] text-[#6B7280] hover:border-black/[0.12] hover:text-[#111827]"
                     }`}
                     title={`Chọn ${letter} làm đáp án đúng`}
                   >
@@ -205,7 +205,7 @@ export function QuestionEditorCard({
                     type="text"
                     value={option}
                     onChange={(e) => handleOptionChange(optIdx, e.target.value)}
-                    className="h-9 flex-1 rounded-xl border border-black/[0.06] bg-[#F6F6F8] px-3 text-xs text-[#1F2128] transition focus:border-[#D9482B] focus:bg-white focus:outline-hidden"
+                    className="h-9 flex-1 rounded-xl border border-black/[0.06] bg-[#F6F6F8] px-3 text-xs text-[#111827] transition focus:border-[#111827] focus:bg-white focus:outline-hidden"
                   />
 
                   {/* Remove option button */}
@@ -225,7 +225,7 @@ export function QuestionEditorCard({
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border border-dashed border-black/[0.12] bg-[#F6F6F8] p-3 text-xs text-[#7A7D88]">
+        <div className="rounded-xl border border-dashed border-black/[0.12] bg-[#F6F6F8] p-3 text-xs text-[#6B7280]">
           Câu hỏi tự luận: User nhập câu trả lời dạng văn bản trong phòng thi. Hệ thống sẽ chấm điểm tự luận trên thang điểm chuẩn.
         </div>
       )}

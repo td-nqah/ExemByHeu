@@ -41,23 +41,23 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
     <div
       className={`inline-flex items-center gap-2.5 rounded-xl border px-3.5 py-1.5 backdrop-blur-xl transition ${
         isCritical
-          ? "border-[#D9482B]/40 bg-[#FBE0D9] text-[#D9482B] animate-pulse"
+          ? "border-rose-200 bg-rose-50 text-rose-600 animate-pulse"
           : isWarning
           ? "border-[#B8962E]/30 bg-[#F6EBC8] text-[#B8962E]"
-          : "border-black/[0.06] bg-white text-[#1F2128] shadow-xs"
+          : "border-black/[0.06] bg-white text-[#111827] shadow-xs"
       }`}
     >
       {isCritical ? (
         <AlertTriangle className="h-4 w-4 text-rose-400" />
       ) : (
-        <Clock className="h-4 w-4 text-[#D9482B]" />
+        <Clock className="h-4 w-4 text-[#111827]" />
       )}
 
       <div className="flex flex-col">
-        <span className="text-[10px] font-semibold text-[#7A7D88]">
+        <span className="text-[10px] font-semibold text-[#6B7280]">
           Thời gian còn lại
         </span>
-        <span className="font-mono text-sm font-bold tracking-tight tabular-nums text-[#1F2128]">
+        <span className="font-mono text-sm font-bold tracking-tight tabular-nums text-[#111827]">
           {formatTimeLeft(secondsLeft)}
         </span>
       </div>
@@ -66,7 +66,7 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
       <div className="hidden sm:block h-2 w-16 overflow-hidden rounded-full bg-black/[0.06] border border-black/[0.04]">
         <div
           className={`h-full transition-all duration-1000 ${
-            isCritical ? "bg-rose-500" : isWarning ? "bg-amber-400" : "bg-[#D9482B]"
+            isCritical ? "bg-rose-500" : isWarning ? "bg-amber-400" : "bg-[#111827]"
           }`}
           style={{ width: `${percentage}%` }}
         />

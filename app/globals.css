@@ -2,21 +2,27 @@
 
 :root {
   /* -------------------------------------------------------------
-   * Marketing-Intelligence Soft Neutral / Light Glass Theme Tokens
+   * Marketing-Intelligence Soft Neutral / Light Glass Neumorphism
    * ------------------------------------------------------------- */
   --bg: #E9EAEE;
   --surface: #F6F6F8;
   --card: #FFFFFF;
-  --text: #1F2128;
-  --text-muted: #7A7D88;
-  --text-faint: #A4A7B0;
+
+  /* Typography Colors (WCAG AA compliant) */
+  --ink: #111827;
+  --ink-muted: #6B7280;
+  --ink-faint: #9CA3AF;
+
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --text-faint: var(--ink-faint);
   --border: rgba(0, 0, 0, 0.06);
 
-  /* Primary Accent: Cam Đỏ */
-  --accent: #D9482B;
-  --accent-hover: #C43E23;
-  --accent-soft: #FBE3DC;
-  --accent-text-soft: #C4492F;
+  /* Primary Accent: Sophisticated Ink with Glass Neumorphism */
+  --accent: #111827;
+  --accent-hover: #1F2937;
+  --accent-soft: rgba(255, 255, 255, 0.85);
+  --accent-text-soft: #111827;
 
   /* Status Colors */
   --status-success: #2E9E5B;
@@ -29,9 +35,9 @@
   --status-info-bg: #DCE8F8;
 
   /* Chart Colors */
-  --chart-primary: #D9482B;
+  --chart-primary: #111827;
   --chart-secondary: #6FA0D8;
-  --chart-tertiary: #B5B8C0;
+  --chart-tertiary: #9CA3AF;
 
   /* System compatibility variables */
   --background: var(--bg);
@@ -41,13 +47,13 @@
 
   /* Shadcn UI Sidebar variables (Light) */
   --sidebar-background: #F1F2F5;
-  --sidebar-foreground: #1F2128;
-  --sidebar-primary: #D9482B;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #111827;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #FFFFFF;
-  --sidebar-accent-foreground: #1F2128;
+  --sidebar-accent-foreground: #111827;
   --sidebar-border: rgba(0, 0, 0, 0.06);
-  --sidebar-ring: rgba(217, 72, 43, 0.35);
+  --sidebar-ring: rgba(17, 24, 39, 0.25);
   --sidebar-width: 18rem;
   --sidebar-width-icon: 3.5rem;
 }
@@ -57,6 +63,10 @@
   --font-body: var(--font-body), sans-serif;
   --font-mono: var(--font-mono), monospace;
   --font-sans: var(--font-body), sans-serif;
+
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -89,14 +99,14 @@
     font-family: var(--font-body);
     line-height: 1.6;
     background-color: #E9EAEE;
-    color: #1F2128;
+    color: #111827;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     letter-spacing: -0.02em;
-    color: #1F2128;
+    color: #111827;
   }
 }
 
@@ -142,15 +152,15 @@ select:-webkit-autofill:focus,
 select:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset !important;
   box-shadow: 0 0 0 1000px #FFFFFF inset !important;
-  -webkit-text-fill-color: #1F2128 !important;
-  color: #1F2128 !important;
-  caret-color: #D9482B !important;
+  -webkit-text-fill-color: #111827 !important;
+  color: #111827 !important;
+  caret-color: #111827 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 
 body {
   background-color: transparent;
-  color: #1F2128;
+  color: #111827;
 }
 
 /* Brand Logo: ExamByHeu */
@@ -164,7 +174,7 @@ body {
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #7A7D88;
+  color: #6B7280;
   font-weight: 700;
 }
 
@@ -226,7 +236,7 @@ body {
 }
 
 .glass-card-interactive:hover {
-  border-color: rgba(217, 72, 43, 0.35);
+  border-color: rgba(17, 24, 39, 0.2);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04), 0 14px 34px rgba(20, 20, 40, 0.08);
   transform: translateY(-2px);
 }
@@ -234,19 +244,19 @@ body {
 .glass-input {
   background: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  color: #1F2128;
+  color: #111827;
   border-radius: 12px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-input::placeholder {
-  color: #A4A7B0;
+  color: #9CA3AF;
 }
 
 .glass-input:focus {
   background: #FFFFFF;
-  border-color: #D9482B;
-  box-shadow: 0 0 0 3px rgba(217, 72, 43, 0.15);
+  border-color: #111827;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
   outline: none;
 }
 
@@ -255,6 +265,140 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 9999px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+/* =========================================================================
+ * Glassmorphism + Neumorphism Components (Yêu cầu 2)
+ * ========================================================================= */
+
+/* 1. Primary Glass Neumorphic Button (.glass-btn) */
+.glass-btn {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    -4px -4px 10px rgba(255, 255, 255, 0.95),
+     4px  4px 12px rgba(17, 24, 39, 0.12),
+     inset 0 1px 0 rgba(255, 255, 255, 0.9),
+     0 0 0 1px rgba(0, 0, 0, 0.04);
+  color: #111827;
+  font-weight: 600;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.92);
+  transform: translateY(-1px);
+  box-shadow:
+    -5px -5px 12px rgba(255, 255, 255, 1),
+     5px  5px 14px rgba(17, 24, 39, 0.15),
+     inset 0 1px 0 rgba(255, 255, 255, 0.95),
+     0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.glass-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow:
+    inset 3px 3px 8px rgba(17, 24, 39, 0.12),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.9);
+}
+
+.glass-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    -4px -4px 10px rgba(255, 255, 255, 0.9),
+     4px  4px 12px rgba(17, 24, 39, 0.12),
+     inset 0 1px 0 rgba(255, 255, 255, 0.9),
+     0 0 0 2px rgba(17, 24, 39, 0.25);
+}
+
+.glass-btn:disabled {
+  opacity: 0.5;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+  background: rgba(255, 255, 255, 0.5);
+  color: #6B7280;
+}
+
+/* 2. Glass Icon Container (.glass-icon) */
+.glass-icon {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    -3px -3px 8px rgba(255, 255, 255, 0.95),
+     3px  3px 10px rgba(17, 24, 39, 0.1),
+     inset 0 1px 0 rgba(255, 255, 255, 0.9),
+     0 0 0 1px rgba(0, 0, 0, 0.04);
+  color: #111827;
+  transition: all 180ms ease-out;
+}
+
+.glass-icon:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+  box-shadow:
+    -4px -4px 10px rgba(255, 255, 255, 1),
+     4px  4px 12px rgba(17, 24, 39, 0.12),
+     inset 0 1px 0 rgba(255, 255, 255, 0.95),
+     0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+/* 3. Glass Chips / Tabs (.glass-chip & .glass-chip-active) */
+.glass-chip {
+  background: #EAEBED;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  color: #6B7280;
+  font-weight: 500;
+  transition: all 180ms ease-out;
+}
+
+.glass-chip:hover {
+  background: rgba(255, 255, 255, 0.7);
+  color: #111827;
+}
+
+.glass-chip-active {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow:
+    -3px -3px 8px rgba(255, 255, 255, 0.95),
+     3px  3px 10px rgba(17, 24, 39, 0.1),
+     inset 0 1px 0 rgba(255, 255, 255, 0.9),
+     0 0 0 1px rgba(0, 0, 0, 0.04);
+  color: #111827;
+  font-weight: 600;
+}
+
+/* 4. Glass Badge (.glass-badge) */
+.glass-badge {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    -2px -2px 6px rgba(255, 255, 255, 0.9),
+     2px  2px 8px rgba(17, 24, 39, 0.08),
+     inset 0 1px 0 rgba(255, 255, 255, 0.9),
+     0 0 0 1px rgba(0, 0, 0, 0.04);
+  color: #111827;
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-btn,
+  .glass-icon,
+  .glass-chip,
+  .glass-chip-active,
+  .glass-badge {
+    transition: none !important;
+    transform: none !important;
+  }
 }
 
 /* Scrollbar */
@@ -299,7 +443,7 @@ body {
   font-family: var(--font-heading), sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1F2128;
+  color: #111827;
   margin-top: 2rem;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
@@ -312,7 +456,7 @@ body {
   font-family: var(--font-heading), sans-serif;
   font-size: 1.15rem;
   font-weight: 600;
-  color: #D9482B;
+  color: #111827;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   scroll-margin-top: 6rem;
@@ -326,7 +470,7 @@ body {
 }
 
 .magazine-article-content strong {
-  color: #1F2128;
+  color: #111827;
   font-weight: 600;
 }
 
@@ -355,10 +499,10 @@ body {
 .magazine-article-content .callout-box {
   margin: 1.5rem 0;
   border-radius: 0 0.75rem 0.75rem 0;
-  background-color: #FBE3DC;
-  border-left: 4px solid #D9482B;
+  background-color: #F6F6F8;
+  border-left: 4px solid #111827;
   padding: 1rem;
-  color: #1F2128;
+  color: #111827;
 }
 
 .magazine-article-content table {
@@ -373,14 +517,14 @@ body {
   font-weight: 600;
   text-align: left;
   background-color: #F6F6F8;
-  color: #7A7D88;
+  color: #6B7280;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .magazine-article-content table td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  color: #1F2128;
+  color: #111827;
 }
 
 /*
@@ -408,7 +552,6 @@ body {
   padding-right: 4px;
 }
 
-/* Curved elbow branch for each sub-item */
 .sidebar-tree-item::before {
   content: "";
   position: absolute;
@@ -422,13 +565,11 @@ body {
   pointer-events: none;
 }
 
-/* First item connects up towards the parent item button */
 .sidebar-tree-item:first-child::before {
   top: -4px;
   height: calc(50% + 4px);
 }
 
-/* Continuous trunk line for all items except the last */
 .sidebar-tree-item:not(:last-child)::after {
   content: "";
   position: absolute;
