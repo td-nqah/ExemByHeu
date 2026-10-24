@@ -345,9 +345,9 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.2, ease: "easeInOut" }}
-                      className="overflow-hidden group-data-[collapsible=icon]:hidden pl-3"
+                      className="overflow-hidden group-data-[collapsible=icon]:hidden"
                     >
-                      <SidebarMenuSub className="border-l border-[#334155]/60 ml-2 pl-2 space-y-0.5">
+                      <SidebarMenuSub className="pl-6 pr-1 py-1 space-y-1">
                         {categories.map((cat) => {
                           const isSubActive =
                             pathname === "/dashboard" &&

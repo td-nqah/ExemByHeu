@@ -497,7 +497,7 @@ export const SidebarMenuSub = React.forwardRef<
       ref={ref}
       data-sidebar="menu-sub"
       className={cn(
-        "sidebar-tree-sub group-data-[collapsible=icon]:hidden",
+        "flex flex-col gap-0.5 min-w-0 group-data-[collapsible=icon]:hidden",
         className
       )}
       {...props}
@@ -514,7 +514,7 @@ export const SidebarMenuSubItem = React.forwardRef<
     <li
       ref={ref}
       data-sidebar="menu-sub-item"
-      className={cn("sidebar-tree-item", className)}
+      className={cn("list-none", className)}
       {...props}
     />
   );

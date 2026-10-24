@@ -717,61 +717,9 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/*
- * Sidebar Tree Branch Connectors (Curved Elbow Submenu)
- */
-.sidebar-tree-sub {
-  position: relative;
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  padding: 2px 0;
-  margin: 0;
-  list-style: none;
-}
 
-.sidebar-tree-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-width: 0;
-  list-style: none;
-  min-height: 32px;
-  padding-left: 32px;
-  padding-right: 4px;
-}
 
-/* Curved elbow branch for each sub-item */
-.sidebar-tree-item::before {
-  content: "";
-  position: absolute;
-  left: 16px;
-  top: 0;
-  width: 16px;
-  height: 50%;
-  border-left: 1.5px solid rgba(148, 163, 184, 0.35);
-  border-bottom: 1.5px solid rgba(148, 163, 184, 0.35);
-  border-bottom-left-radius: 8px;
-  pointer-events: none;
-}
 
-/* First item connects up towards the parent item button */
-.sidebar-tree-item:first-child::before {
-  top: -4px;
-  height: calc(50% + 4px);
-}
-
-/* Continuous trunk line for all items except the last */
-.sidebar-tree-item:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: 16px;
-  top: calc(50% - 1px);
-  bottom: 0;
-  border-left: 1.5px solid rgba(148, 163, 184, 0.35);
-  pointer-events: none;
-}
 
 /*
  * Floating Rounded Sidebar Card for Obsidian Cyber Purple Theme
