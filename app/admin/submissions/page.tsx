@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -52,33 +52,33 @@ export default function AdminSubmissionsListPage() {
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
           Quản lý Bài nộp & Đánh giá Học phần
         </h1>
-        <p className="mt-1 text-xs sm:text-sm text-[#9CA3AF]">
+        <p className="mt-1 text-xs sm:text-sm text-slate-400">
           Theo dõi bài nộp của sinh viên, xác nhận điểm trắc nghiệm và đánh giá tự luận (hệ thống lưu trữ 20 bài nộp gần nhất).
         </p>
       </div>
 
       {/* Submissions Table with Filter */}
-      <div className="bg-white dark:bg-[#121318] border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.4)] rounded-2xl overflow-hidden">
+      <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl overflow-hidden">
         {/* Table Toolbar */}
-        <div className="flex flex-col gap-3 border-b border-white/[0.08] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-white/[0.06] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-center gap-2.5">
             <h2 className="text-sm font-bold text-white">
               Danh sách Bài nộp Đánh giá
             </h2>
-            <span className="rounded-md bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] px-2 py-0.5 text-xs font-semibold text-white">
+            <span className="rounded-md bg-[#1f2637] border border-white/[0.05] px-2 py-0.5 text-xs font-semibold text-slate-300">
               {filteredSubmissions.length} / 20
             </span>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1 bg-[#F6F6F8] dark:bg-[#14161D] p-1 rounded-xl border border-black/[0.06]">
+          <div className="flex flex-wrap items-center gap-1 bg-[#10141e] p-1 rounded-xl border border-white/[0.06]">
             <button
               type="button"
               onClick={() => setFilterStatus("all")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "all"
-                  ? "glass-btn text-white font-semibold shadow-xs"
-                  : "text-[#9CA3AF] hover:text-white"
+                  ? "bg-[#4f57ea] text-white shadow-sm"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
               Tất cả ({submissions.length})
@@ -88,8 +88,8 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("pending_grading")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "pending_grading"
-                  ? "glass-btn text-white font-semibold shadow-xs"
-                  : "text-[#9CA3AF] hover:text-white"
+                  ? "bg-[#4f57ea] text-white shadow-sm"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
               Chờ đánh giá ({submissions.filter((s) => s.status === "pending_grading").length})
@@ -99,8 +99,8 @@ export default function AdminSubmissionsListPage() {
               onClick={() => setFilterStatus("graded")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 filterStatus === "graded"
-                  ? "glass-btn text-white font-semibold shadow-xs"
-                  : "text-[#9CA3AF] hover:text-white"
+                  ? "bg-[#4f57ea] text-white shadow-sm"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
               Đã hoàn tất đánh giá ({submissions.filter((s) => s.status === "graded").length})
@@ -111,24 +111,24 @@ export default function AdminSubmissionsListPage() {
         {/* Table Body */}
         {loading ? (
           <div className="flex h-40 items-center justify-center">
-            <p className="text-xs text-[#9CA3AF]">Đang tải dữ liệu bài nộp...</p>
+            <p className="text-xs text-slate-400">Đang tải dữ liệu bài nộp...</p>
           </div>
         ) : filteredSubmissions.length === 0 ? (
           <div className="py-14 text-center space-y-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] text-white mx-auto">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1e2538] text-indigo-400 mx-auto">
               <Inbox className="h-6 w-6" />
             </div>
             <p className="text-sm font-semibold text-white">
               Chưa có bài nộp nào
             </p>
-            <p className="text-xs text-[#9CA3AF] max-w-sm mx-auto">
+            <p className="text-xs text-slate-400 max-w-sm mx-auto">
               Khi sinh viên hoàn thành bài đánh giá, dữ liệu sẽ tự động hiển thị tại đây để Giảng viên đánh giá và ghi nhận điểm.
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#F6F6F8] dark:bg-[#0E0F14] text-[#9CA3AF] uppercase tracking-tight text-[11px] font-heading font-bold border-b border-white/[0.08]">
+              <thead className="bg-[#121722] text-slate-400 uppercase tracking-wider text-[11px] border-b border-white/[0.06]">
                 <tr>
                   <th className="py-3 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3 px-4 font-semibold">Sinh viên</th>
@@ -141,28 +141,28 @@ export default function AdminSubmissionsListPage() {
                   <th className="py-3 px-4 text-right font-semibold">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-black/[0.04]">
+              <tbody className="divide-y divide-white/[0.04]">
                 {filteredSubmissions.map((sub, idx) => {
                   const isGraded = sub.status === "graded";
 
                   return (
                     <tr
                       key={sub.id}
-                      className="hover:bg-white/[0.03] transition-colors"
+                      className="hover:bg-[#1a2130] transition-colors"
                     >
-                      <td className="py-3.5 px-3 text-center font-mono font-bold text-white">
+                      <td className="py-3.5 px-3 text-center font-mono font-bold text-indigo-400">
                         #{idx + 1}
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 font-bold text-white">
                         <span className="flex items-center gap-1.5">
-                          <User className="h-3.5 w-3.5 text-white" />
+                          <User className="h-3.5 w-3.5 text-indigo-400" />
                           {sub.user?.username || "Sinh viên"}
                         </span>
                       </td>
-                      <td className="max-w-xs truncate py-3.5 px-4 font-medium text-white">
+                      <td className="max-w-xs truncate py-3.5 px-4 font-medium text-slate-200">
                         {sub.exam?.title || "Đề đánh giá"}
                       </td>
-                      <td className="whitespace-nowrap py-3.5 px-4 text-[#9CA3AF]">
+                      <td className="whitespace-nowrap py-3.5 px-4 text-slate-400">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3 text-slate-500" />
                           {formatDate(sub.submitted_at)}
@@ -170,22 +170,24 @@ export default function AdminSubmissionsListPage() {
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4">
                         {isGraded ? (
-                          <span className="text-xs font-semibold text-white">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 text-[11px] font-semibold">
+                            <CheckCircle2 className="h-3 w-3" />
                             Đã hoàn tất đánh giá
                           </span>
                         ) : (
-                          <span className="text-xs text-[#9CA3AF]">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 text-[11px] font-semibold">
+                            <Clock className="h-3 w-3" />
                             Chờ đánh giá tự luận
                           </span>
                         )}
                       </td>
-                      <td className="py-3.5 px-4 font-semibold text-white">
+                      <td className="py-3.5 px-4 font-semibold text-slate-200">
                         {sub.mcq_score} điểm
                       </td>
-                      <td className="py-3.5 px-4 text-white">
+                      <td className="py-3.5 px-4 text-slate-300">
                         {sub.essay_score !== null ? `${sub.essay_score} điểm` : "Chờ đánh giá"}
                       </td>
-                      <td className="py-3.5 px-4 text-sm font-bold text-white">
+                      <td className="py-3.5 px-4 text-sm font-bold text-[#818cf8]">
                         {sub.total_score} điểm
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 text-right">
@@ -193,7 +195,7 @@ export default function AdminSubmissionsListPage() {
                           href={`/admin/submissions/${sub.id}`}
                           className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
                             isGraded
-                              ? "bg-[#1f2637] hover:bg-[#283248] text-white border border-white/[0.06]"
+                              ? "bg-[#1f2637] hover:bg-[#283248] text-slate-300 border border-white/[0.06]"
                               : "bg-[#4f57ea] hover:bg-[#434ac9] text-white shadow-sm"
                           }`}
                         >

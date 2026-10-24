@@ -308,13 +308,13 @@ export function EditExamClient({ examId }: { examId: string }) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center p-4">
         <div className="glass-card rounded-2xl p-8 text-center">
-          <AlertCircle className="mx-auto mb-2 h-10 w-10 text-[#111827] dark:text-white" />
-          <h2 className="text-base font-bold text-[#111827] dark:text-white">
+          <AlertCircle className="mx-auto mb-2 h-10 w-10 text-rose-400" />
+          <h2 className="text-base font-bold text-white">
             Không tìm thấy đề đánh giá cần chỉnh sửa
           </h2>
           <Link
             href="/admin/dashboard"
-            className="mt-4 inline-block text-xs font-semibold text-[#111827] dark:text-white underline"
+            className="mt-4 inline-block text-xs font-semibold text-indigo-400 underline"
           >
             Quay lại Ngân hàng Đề đánh giá
           </Link>
@@ -344,9 +344,9 @@ export function EditExamClient({ examId }: { examId: string }) {
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <Link
           href="/admin/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#6B7280] dark:text-[#9CA3AF] transition hover:text-[#111827] dark:hover:text-white"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-[#111827] dark:text-white" />
+          <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
           <span>Quay lại Ngân hàng Đề đánh giá</span>
         </Link>
       </div>
@@ -354,18 +354,18 @@ export function EditExamClient({ examId }: { examId: string }) {
       {/* Header */}
       <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#111827] dark:text-white sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
             Chỉnh sửa Đề đánh giá
           </h1>
-          <p className="mt-1 text-sm text-[#6B7280] dark:text-[#9CA3AF]">
+          <p className="mt-1 text-sm text-slate-400">
             Cập nhật thông tin học phần, nội dung câu hỏi, đáp án chuẩn và barem điểm.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
           {saveSuccess && (
-            <span className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-[#DDF2E5]/50 px-3 py-2 text-xs font-bold text-[#2E9E5B]">
-              <CheckCircle2 className="h-4 w-4 text-[#2E9E5B]" />
+            <span className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-950/50 px-3 py-2 text-xs font-bold text-emerald-400">
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
               <span>Đã lưu thay đổi!</span>
             </span>
           )}
@@ -374,7 +374,7 @@ export function EditExamClient({ examId }: { examId: string }) {
             type="button"
             onClick={handleSaveChanges}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-5 py-2.5 text-xs font-semibold shadow-xs transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             <span>{isSaving ? "Đang lưu..." : "Lưu thay đổi"}</span>
@@ -384,14 +384,14 @@ export function EditExamClient({ examId }: { examId: string }) {
 
       {/* 1. General Exam Metadata Form */}
       <div className="glass-card mb-8 rounded-2xl p-6">
-        <h2 className="mb-4 text-base font-bold text-[#111827] dark:text-white">
+        <h2 className="mb-4 text-base font-bold text-white">
           Thông tin cơ bản của Đề đánh giá
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-[#111827] dark:text-white">
-              Tên đề đánh giá <span className="text-rose-500">*</span>
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
+              Tên đề đánh giá <span className="text-rose-400">*</span>
             </label>
             <input
               type="text"
@@ -404,7 +404,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-[#111827] dark:text-white">
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Mô tả / Hướng dẫn làm bài
             </label>
             <textarea
@@ -417,7 +417,7 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-[#111827] dark:text-white">
+            <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Thời lượng làm bài (Phút)
             </label>
             <NumberStepper
@@ -438,14 +438,14 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           {/* Toggle Switch: Shuffle Exam */}
-          <div className="sm:col-span-2 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.08] dark:border-white/[0.08] p-4 transition-all duration-200">
+          <div className="sm:col-span-2 rounded-xl bg-slate-900/60 border border-white/10 p-4 transition-all duration-200 hover:border-[#5852d6]/50">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <div
                   className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
                     isShuffled
-                      ? "border-black/80 bg-[#111827] text-white dark:border-white dark:bg-white dark:text-[#0A0B0E] shadow-xs"
-                      : "border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1A1C24] text-[#6B7280] dark:text-[#9CA3AF]"
+                      ? "border-[#5852d6]/50 bg-[#5852d6]/20 text-indigo-400 shadow-[0_0_12px_rgba(88,82,214,0.3)]"
+                      : "border-slate-800 bg-slate-800/60 text-slate-400"
                   }`}
                 >
                   <Shuffle className="h-4 w-4" />
@@ -453,16 +453,16 @@ export function EditExamClient({ examId }: { examId: string }) {
                 <div>
                   <label
                     htmlFor="shuffle-toggle-edit"
-                    className="text-sm font-semibold text-[#111827] dark:text-white flex items-center gap-2 cursor-pointer"
+                    className="text-sm font-semibold text-white flex items-center gap-2 cursor-pointer"
                   >
                     <span>Trộn ngẫu nhiên câu hỏi & đáp án</span>
                     {isShuffled && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border border-black/80 dark:border-white font-mono font-bold">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5852d6]/25 text-indigo-300 border border-[#5852d6]/40 font-mono">
                         BẬT (ACTIVE)
                       </span>
                     )}
                   </label>
-                  <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF] mt-0.5">
+                  <p className="text-xs text-slate-400 mt-0.5">
                     Tự động xáo trộn vị trí câu hỏi và các phương án A, B, C, D cho từng lượt đánh giá.
                   </p>
                 </div>
@@ -475,15 +475,15 @@ export function EditExamClient({ examId }: { examId: string }) {
                 role="switch"
                 aria-checked={isShuffled}
                 onClick={() => setIsShuffled(!isShuffled)}
-                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none ${
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#5852d6]/50 ${
                   isShuffled
-                    ? "border-black bg-[#111827] dark:border-white dark:bg-white"
-                    : "border-black/[0.1] bg-black/[0.05] dark:border-white/[0.1] dark:bg-white/[0.08]"
+                    ? "border-indigo-400 bg-[#5852d6] shadow-[0_0_14px_rgba(88,82,214,0.5)]"
+                    : "border-slate-700 bg-slate-800"
                 }`}
               >
                 <span
                   aria-hidden="true"
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-[#0A0B0E] shadow-sm ring-0 transition duration-200 ease-in-out ${
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
                     isShuffled ? "translate-x-5" : "translate-x-0"
                   }`}
                 />
@@ -500,9 +500,9 @@ export function EditExamClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={() => setShowQuickScoreConfig((prev) => !prev)}
-              className="inline-flex items-center gap-2 rounded-xl glass-btn px-3.5 py-2 text-xs font-semibold text-[#111827] dark:text-white transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 border border-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
             >
-              <Sliders className="h-3.5 w-3.5 text-[#111827] dark:text-white" />
+              <Sliders className="h-3.5 w-3.5 text-indigo-400" />
               <span>
                 {showQuickScoreConfig
                   ? "Ẩn bảng Cấu hình điểm nhanh"
@@ -510,9 +510,9 @@ export function EditExamClient({ examId }: { examId: string }) {
               </span>
             </button>
 
-            <span className="text-xs font-semibold text-[#6B7280] dark:text-[#9CA3AF]">
+            <span className="text-xs font-semibold text-slate-300">
               Tổng điểm hiện tại:{" "}
-              <strong className="text-[#111827] dark:text-white">{totalScore} điểm</strong>
+              <strong className="text-indigo-400">{totalScore} điểm</strong>
             </span>
           </div>
 
@@ -545,12 +545,12 @@ export function EditExamClient({ examId }: { examId: string }) {
 
       {/* 3. Questions Editor List (Always in Edit Mode) */}
       <div className="space-y-4">
-        <div className="flex flex-col gap-3 border-b border-black/[0.08] dark:border-white/[0.08] pb-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-b border-slate-800/80 pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-base font-bold text-[#111827] dark:text-white">
+            <h2 className="text-base font-bold text-white">
               Chỉnh sửa Danh sách Câu hỏi ({questions.length} câu)
             </h2>
-            <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">
+            <p className="text-xs text-slate-400">
               {mcqCount} trắc nghiệm ({currentMcqTotal}đ) • {essayCount} tự luận (
               {currentEssayTotal}đ) • Tổng {totalScore} điểm
             </p>
@@ -560,9 +560,9 @@ export function EditExamClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-3.5 py-2 text-xs font-semibold text-[#111827] dark:text-white transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
             >
-              <Plus className="h-3.5 w-3.5 text-[#111827] dark:text-white" />
+              <Plus className="h-3.5 w-3.5 text-indigo-400" />
               <span>Thêm câu hỏi mới</span>
             </button>
           </div>
@@ -570,14 +570,14 @@ export function EditExamClient({ examId }: { examId: string }) {
 
         {questions.length === 0 ? (
           <div className="glass-card rounded-2xl py-12 text-center">
-            <Layers className="mx-auto mb-2 h-8 w-8 text-[#111827] dark:text-white" />
-            <p className="text-xs font-semibold text-[#111827] dark:text-white">
+            <Layers className="mx-auto mb-2 h-8 w-8 text-indigo-400" />
+            <p className="text-xs font-semibold text-slate-200">
               Đề đánh giá hiện chưa có câu hỏi nào
             </p>
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-4 py-2 text-xs font-semibold shadow-xs"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Thêm câu hỏi đầu tiên</span>
@@ -605,15 +605,15 @@ export function EditExamClient({ examId }: { examId: string }) {
               <button
                 type="button"
                 onClick={handleAddQuestion}
-                className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-4 py-2 text-xs font-semibold text-[#111827] dark:text-white transition-all hover:-translate-y-0.5"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
               >
-                <Plus className="h-4 w-4 text-[#111827] dark:text-white" />
+                <Plus className="h-4 w-4 text-indigo-400" />
                 <span>Thêm câu hỏi mới</span>
               </button>
 
               <Link
                 href="/admin/dashboard"
-                className="inline-flex items-center gap-1.5 rounded-xl glass-btn px-4 py-2 text-xs font-semibold text-[#111827] dark:text-white transition-all hover:-translate-y-0.5"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white"
               >
                 <span>Hủy bỏ</span>
               </Link>
@@ -623,7 +623,7 @@ export function EditExamClient({ examId }: { examId: string }) {
               type="button"
               onClick={handleSaveChanges}
               disabled={isSaving}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] px-6 py-2.5 text-xs font-semibold shadow-xs transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
             >
               <Save className="h-4 w-4" />
               <span>

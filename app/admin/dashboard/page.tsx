@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
@@ -21,7 +21,9 @@ import { formatDuration } from "@/lib/utils";
 import {
   BookOpen,
   FilePlus2,
+  Clock,
   Eye,
+  Check,
   Trash2,
   AlertTriangle,
   X,
@@ -29,6 +31,8 @@ import {
   FolderPlus,
   CheckCircle2,
   Shuffle,
+  LockOpen,
+  Lock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
@@ -222,23 +226,23 @@ export default function AdminDashboardPage() {
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="space-y-4"
       >
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:pr-24 lg:md:pr-28">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-[#111827] dark:text-white flex flex-wrap items-center gap-3">
+            <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white flex flex-wrap items-center gap-3">
               Quản lý Đề thi
-              <span className="text-xs rounded-full border border-black/[0.1] dark:border-white/[0.1] bg-[#F6F6F8] dark:bg-[#1A1C24] text-[#111827] dark:text-white px-2.5 py-0.5 font-mono text-[11px] font-medium shadow-2xs">
+              <span className="text-[11px] bg-[#064e3b]/50 text-[#34d399] border border-[#059669]/40 px-2.5 py-0.5 rounded-full font-medium tracking-normal">
                 Admin Panel
               </span>
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-[#6B7280] dark:text-[#9CA3AF]">
+            <p className="mt-1 text-xs sm:text-sm text-[#9ca3af]">
               Tổng quan hệ thống ExamByHeu, quản lý ngân hàng đề thi và phân loại danh mục.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center gap-2 bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.1] dark:border-white/[0.08] shadow-xs rounded-xl px-4 py-2 text-xs text-[#6B7280] dark:text-[#9CA3AF] font-medium select-none cursor-default">
-              <BookOpen className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
-              <span>Tổng số đề: <strong className="text-[#111827] dark:text-white font-bold tnum tabular-nums">{loading ? "..." : exams.length}</strong></span>
+            <div className="inline-flex items-center gap-2 bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] rounded-xl px-4 py-2 text-xs text-[#9ca3af] font-medium select-none cursor-default">
+              <BookOpen className="h-4 w-4 text-[#6366f1] shrink-0" />
+              <span>Tổng số đề: <strong className="text-white font-bold tnum tabular-nums">{loading ? "..." : exams.length}</strong></span>
             </div>
           </div>
         </div>
@@ -249,28 +253,28 @@ export default function AdminDashboardPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-white dark:bg-[#121318] border border-black/[0.1] dark:border-white/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.04),0_6px_16px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.4)] overflow-hidden rounded-2xl"
+        className="bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] overflow-hidden rounded-2xl"
       >
-        <div className="flex flex-col gap-3 border-b border-black/[0.08] dark:border-white/[0.08] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-[#1f2937] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
-            <h2 className="text-base sm:text-lg font-bold tracking-tight text-[#111827] dark:text-white">
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-white">
               Ngân hàng Đề thi ({exams.length})
             </h2>
-            <p className="mt-0.5 text-xs text-[#6B7280] dark:text-[#9CA3AF]">
+            <p className="mt-0.5 text-xs text-[#9ca3af]">
               Xem trước cấu trúc đề, chỉnh sửa câu hỏi, đóng/mở xuất bản hoặc gán chuyên mục.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            {/* Nút Bật/Tắt Trộn Đề */}
+            {/* Nút Bật/Tắt Trộn Đề (đồng bộ UX kích thước với 2 card bên cạnh) */}
             <div
               className={cn(
-                "inline-flex items-center gap-2 rounded-xl border border-black/[0.12] dark:border-white/[0.08] bg-[#F6F6F8] dark:bg-[#14161D] shadow-xs px-3.5 py-2 text-xs select-none transition-colors",
-                shuffledCount > 0 && "border-black/[0.25] dark:border-white/[0.2]"
+                "inline-flex items-center gap-2 rounded-xl border border-[#1f2937] bg-[#0b0f19] px-3.5 py-2 text-xs select-none transition-colors",
+                shuffledCount > 0 && "border-[#4f46e5]/50"
               )}
             >
-              <Shuffle className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
-              <span className="font-semibold text-[#111827] dark:text-white">Trộn đề thi</span>
+              <Shuffle className="h-4 w-4 text-[#6366f1] shrink-0" />
+              <span className="font-medium text-slate-200">Trộn đề thi</span>
 
               {/* Toggle Switch */}
               <button
@@ -281,15 +285,13 @@ export default function AdminDashboardPage() {
                 disabled={isTogglingGlobalShuffle}
                 className={cn(
                   "relative ml-0.5 inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50",
-                  shuffledCount > 0
-                    ? "bg-[#111827] dark:bg-white"
-                    : "bg-[#D1D5DB] dark:bg-slate-700"
+                  shuffledCount > 0 ? "bg-[#4f46e5]" : "bg-slate-700"
                 )}
                 title="Bật/Tắt chế độ trộn đề cho toàn bộ đề thi"
               >
                 <span
                   className={cn(
-                    "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white dark:bg-[#0A0B0E] shadow ring-0 transition duration-200 ease-in-out",
+                    "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
                     shuffledCount > 0 ? "translate-x-4" : "translate-x-0"
                   )}
                 />
@@ -301,17 +303,17 @@ export default function AdminDashboardPage() {
                 setQuickTitle("");
                 setIsQuickExamModalOpen(true);
               }}
-              className="inline-flex items-center gap-2 rounded-xl border border-black/[0.12] dark:border-white/[0.08] bg-[#F6F6F8] hover:bg-[#ECECED] dark:bg-[#14161D] dark:hover:bg-[#1C1E26] text-[#111827] dark:text-white font-semibold px-3.5 py-2 text-xs shadow-xs transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0b0f19] hover:bg-[#111827] border border-[#4f46e5]/50 hover:border-[#6366f1] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
             >
-              <FolderPlus className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
+              <FolderPlus className="h-4 w-4 text-[#6366f1] shrink-0" />
               <span>Thêm vào Danh mục</span>
             </button>
 
             <Link
               href="/admin/exams/create"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#111827] hover:bg-black text-white dark:bg-white dark:hover:bg-slate-100 dark:text-[#0A0B0E] font-semibold px-4 py-2 text-xs shadow-xs transition-all hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-medium px-4 py-2 text-xs transition-colors shadow-md shadow-indigo-600/30"
             >
-              <FilePlus2 className="h-4 w-4 shrink-0" />
+              <FilePlus2 className="h-4 w-4" />
               <span>Tạo đề</span>
             </Link>
           </div>
@@ -319,17 +321,17 @@ export default function AdminDashboardPage() {
 
         {loading ? (
           <div className="flex h-40 items-center justify-center">
-            <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">Đang tải dữ liệu...</p>
+            <p className="text-xs text-[#9ca3af]">Đang tải dữ liệu...</p>
           </div>
         ) : exams.length === 0 ? (
           <div className="py-12 text-center">
-            <BookOpen className="mx-auto mb-2 h-8 w-8 text-[#111827] dark:text-white" />
-            <p className="text-xs font-semibold text-[#111827] dark:text-white">
+            <BookOpen className="mx-auto mb-2 h-8 w-8 text-indigo-400" />
+            <p className="text-xs font-semibold text-slate-300">
               Chưa có đề thi nào
             </p>
             <button
               onClick={() => setIsQuickExamModalOpen(true)}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl glass-btn text-[#111827] dark:text-white font-semibold px-4 py-2 text-xs transition-all"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-medium shadow-[0_0_15px_rgba(79,70,229,0.3)] px-4 py-2 text-xs transition-all"
             >
               <FilePlus2 className="h-3.5 w-3.5" />
               Tạo đề thi đầu tiên
@@ -338,7 +340,7 @@ export default function AdminDashboardPage() {
         ) : (
           <div className="max-h-[560px] overflow-y-auto overflow-x-auto custom-scrollbar">
             <table className="w-full text-left text-xs">
-                    <thead className="bg-[#F6F6F8] dark:bg-[#0E0F14] text-[#4B5563] dark:text-[#9CA3AF] uppercase tracking-tight text-[11px] font-heading font-bold border-b border-black/[0.06] dark:border-white/[0.08] sticky top-0 z-10 backdrop-blur-md">
+                    <thead className="bg-[#0b0f19] text-[#9ca3af] uppercase tracking-wider text-[11px] font-semibold border-b border-[#1f2937] sticky top-0 z-10 backdrop-blur-md">
                 <tr>
                   <th className="py-3 px-4 font-semibold">TÊN ĐỀ THI</th>
                   <th className="py-3 px-4 font-semibold">DANH MỤC</th>
@@ -362,29 +364,29 @@ export default function AdminDashboardPage() {
                   return (
                     <tr
                       key={exam.id}
-                      className="group border-b border-black/[0.06] dark:border-white/[0.06] hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors"
+                      className="group border-b border-[#1f2937] hover:bg-[#1f2937]/40 transition-colors"
                     >
-                      <td className="max-w-xs truncate py-3.5 px-4 font-bold text-[#111827] dark:text-white group-hover:text-black dark:group-hover:text-white transition-colors">
+                      <td className="max-w-xs truncate py-3.5 px-4 font-bold text-white group-hover:text-indigo-300 transition-colors">
                         {exam.title}
                       </td>
 
                       <td className="whitespace-nowrap py-3.5 px-4">
-                        <span className="text-xs font-medium text-[#111827] dark:text-[#E5E7EB]">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b]">
                           {catName}
                         </span>
                       </td>
 
-                      <td className="whitespace-nowrap py-3.5 px-4 text-[#6B7280] dark:text-[#9CA3AF] tnum tabular-nums">
-                        <span className="font-num">{formatDuration(exam.duration_minutes)}</span>
+                      <td className="whitespace-nowrap py-3.5 px-4 text-[#9ca3af] tnum tabular-nums">
+                        {formatDuration(exam.duration_minutes)}
                       </td>
 
-                      <td className="py-3.5 px-4 text-[#6B7280] dark:text-[#9CA3AF] tnum tabular-nums">
-                        <span className="font-num font-bold text-[#111827] dark:text-white">{questionCount}</span> câu
+                      <td className="py-3.5 px-4 text-[#9ca3af] tnum tabular-nums">
+                        <span className="text-[#38bdf8] font-semibold">{questionCount}</span> câu
                       </td>
 
-                      <td className="py-3.5 px-4 text-[#6B7280] dark:text-[#9CA3AF]">
+                      <td className="py-3.5 px-4 text-[#9ca3af]">
                         <div className="flex flex-col gap-1 items-start">
-                          <span className="capitalize font-medium text-[#111827] dark:text-white">
+                          <span className="capitalize font-medium text-slate-300">
                             {exam.question_type === "essay"
                               ? "Tự luận"
                               : exam.question_type === "mixed"
@@ -397,8 +399,8 @@ export default function AdminDashboardPage() {
                             className={cn(
                               "inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-md border font-mono transition cursor-pointer select-none",
                               exam.is_shuffled
-                                ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border-black/80 dark:border-white shadow-xs"
-                                : "bg-[#F6F6F8] dark:bg-[#1A1C24] text-[#6B7280] dark:text-[#9CA3AF] border-black/[0.08] dark:border-white/[0.08] hover:text-[#111827] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
+                                ? "bg-[#4f46e5]/20 text-indigo-300 border-[#4f46e5]/40 hover:bg-[#4f46e5]/30 shadow-[0_0_8px_rgba(79,70,229,0.2)]"
+                                : "bg-slate-900/50 text-slate-500 border-white/5 hover:text-slate-300 hover:border-white/10"
                             )}
                             title={exam.is_shuffled ? "Đề này đang bật trộn (bấm để tắt nhanh)" : "Đề này đang tắt trộn (bấm để bật nhanh)"}
                           >
@@ -412,18 +414,25 @@ export default function AdminDashboardPage() {
                         <button
                           type="button"
                           onClick={() => handleToggleStatus(exam.id)}
-                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#111827] dark:text-white hover:opacity-70 transition-opacity cursor-pointer select-none"
+                          className={cn(
+                            "inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold transition cursor-pointer",
+                            isPublished
+                              ? "bg-[#064e3b]/60 text-[#34d399] border-[#059669]/50 hover:bg-[#064e3b]/80"
+                              : "border-slate-700/60 bg-slate-800/80 text-slate-400 hover:bg-slate-800"
+                          )}
                           title="Bấm để bật/tắt xuất bản đề thi"
                         >
-                          <span
-                            className={cn(
-                              "h-1.5 w-1.5 rounded-full",
-                              isPublished
-                                ? "bg-[#111827] dark:bg-white"
-                                : "bg-[#9CA3AF] dark:bg-[#6B7280]"
-                            )}
-                          />
-                          <span>{isPublished ? "Đã xuất bản" : "Bản nháp"}</span>
+                          {isPublished ? (
+                            <>
+                              <LockOpen className="h-3 w-3" />
+                              Đã xuất bản
+                            </>
+                          ) : (
+                            <>
+                              <Lock className="h-3 w-3" />
+                              Bản nháp
+                            </>
+                          )}
                         </button>
                       </td>
 
@@ -431,7 +440,7 @@ export default function AdminDashboardPage() {
                         <div className="inline-flex items-center justify-end gap-2">
                           <Link
                             href={`/admin/exams/preview?id=${exam.id}`}
-                            className="inline-flex items-center gap-1.5 rounded-xl glass-btn text-[#111827] dark:text-white px-2.5 py-1.5 text-[11px] font-semibold hover:-translate-y-0.5 transition-all"
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#4f46e5] hover:text-white border border-[#1f2937] text-[#e5e7eb] px-2.5 py-1.5 text-[11px] font-medium transition-colors"
                             title="Xem trước toàn bộ câu hỏi và đáp án"
                           >
                             <Eye className="h-3.5 w-3.5" />
@@ -440,7 +449,7 @@ export default function AdminDashboardPage() {
 
                           <Link
                             href={`/admin/exams/${exam.id}/edit`}
-                            className="inline-flex items-center gap-1 rounded-xl glass-btn text-[#111827] dark:text-white hover:text-amber-600 px-2.5 py-1.5 text-[11px] font-medium transition-all"
+                            className="inline-flex items-center gap-1 rounded-xl bg-[#0b0f19] hover:bg-amber-600 hover:text-white border border-[#1f2937] text-[#e5e7eb] px-2.5 py-1.5 text-[11px] font-medium transition-colors"
                             title="Chỉnh sửa chi tiết đề thi"
                           >
                             <Pencil className="h-3.5 w-3.5" />
@@ -449,7 +458,7 @@ export default function AdminDashboardPage() {
                           <button
                             type="button"
                             onClick={() => setExamToDelete(exam)}
-                            className="inline-flex items-center gap-1 rounded-xl glass-btn text-[#6B7280] dark:text-[#9CA3AF] hover:text-rose-600 px-2 py-1.5 text-[11px] transition-all cursor-pointer"
+                            className="inline-flex items-center gap-1 rounded-xl bg-[#0b0f19] hover:bg-rose-600 hover:text-white border border-[#1f2937] text-[#9ca3af] hover:border-rose-500 px-2 py-1.5 text-[11px] transition-colors cursor-pointer"
                             title="Xóa đề thi"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
@@ -473,16 +482,16 @@ export default function AdminDashboardPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-lg rounded-2xl bg-[#F6F6F8] dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.1] p-6 shadow-2xl relative"
+              className="w-full max-w-lg rounded-2xl bg-[#0b0f19] border border-[#1f2937] p-6 shadow-2xl relative"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-black/[0.08] dark:border-white/[0.08]">
-                <h3 className="text-base font-bold text-[#111827] dark:text-white flex items-center gap-2">
-                  <FolderPlus className="h-4.5 w-4.5 text-[#111827] dark:text-white shrink-0" />
+              <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <FolderPlus className="h-4.5 w-4.5 text-[#6366f1] shrink-0" />
                   <span>Thêm bài thi mới vào Chuyên mục</span>
                 </h3>
                 <button
                   onClick={() => setIsQuickExamModalOpen(false)}
-                  className="p-1 rounded-lg text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white/5 transition cursor-pointer"
+                  className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -492,10 +501,10 @@ export default function AdminDashboardPage() {
                 {/* Title */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs font-medium text-[#111827] dark:text-white">
+                    <label className="text-xs font-medium text-slate-300">
                       Tiêu đề bài thi (Title) *
                     </label>
-                    <span className="text-[11px] text-[#6B7280] dark:text-[#9CA3AF]">
+                    <span className="text-[11px] text-[#9ca3af]">
                       Gõ tên mới hoặc chọn đề có sẵn
                     </span>
                   </div>
@@ -514,7 +523,7 @@ export default function AdminDashboardPage() {
 
                 {/* Sub-category Dropdown */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-[#111827] dark:text-white">
+                  <label className="text-xs font-medium text-slate-300">
                     Chọn Danh mục con (Sub-category selection) *
                   </label>
                   <PopoverSelect
@@ -536,7 +545,7 @@ export default function AdminDashboardPage() {
                   <button
                     type="button"
                     onClick={() => setShowAdvancedQuick(!showAdvancedQuick)}
-                    className="text-xs text-[#111827] dark:text-white hover:text-[#111827] dark:text-white flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+                    className="text-xs text-[#6366f1] hover:text-indigo-300 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
                   >
                     <span>
                       {showAdvancedQuick
@@ -546,11 +555,11 @@ export default function AdminDashboardPage() {
                   </button>
 
                   {showAdvancedQuick && (
-                    <div className="mt-3 space-y-4 p-3.5 rounded-xl bg-[#F6F6F8] dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.08]">
+                    <div className="mt-3 space-y-4 p-3.5 rounded-xl bg-[#0b0f19]/70 border border-[#1f2937]">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Duration */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-medium text-[#111827] dark:text-white block">
+                          <label className="text-xs font-medium text-slate-300 block">
                             Thời lượng làm bài (phút)
                           </label>
                           <NumberStepper
@@ -565,7 +574,7 @@ export default function AdminDashboardPage() {
 
                         {/* Question Count */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-medium text-[#111827] dark:text-white block">
+                          <label className="text-xs font-medium text-slate-300 block">
                             Số lượng câu hỏi (Question Count)
                           </label>
                           <NumberStepper
@@ -582,7 +591,7 @@ export default function AdminDashboardPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Question Type */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-medium text-[#111827] dark:text-white">
+                          <label className="text-xs font-medium text-slate-300">
                             Dạng câu hỏi (Question Type)
                           </label>
                           <PopoverSelect<"multiple_choice" | "essay" | "mixed">
@@ -601,21 +610,21 @@ export default function AdminDashboardPage() {
 
                         {/* Expiration / Scheduled Date-Time */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-medium text-[#111827] dark:text-white">
+                          <label className="text-xs font-medium text-slate-300">
                             Hạn thi / Lên lịch (Expiration Date-Time)
                           </label>
                           <input
                             type="datetime-local"
                             value={quickExpiresAt}
                             onChange={(e) => setQuickExpiresAt(e.target.value)}
-                            className="w-full px-3.5 py-2.5 bg-white dark:bg-[#14161D] border border-black/[0.06] dark:border-white/[0.1] shadow-xs rounded-xl text-xs text-[#111827] dark:text-white focus:outline-none focus:border-black dark:focus:border-white"
+                            className="w-full px-3.5 py-2.5 bg-[#111827] border border-[#1f2937] rounded-xl text-xs text-white focus:outline-none focus:border-[#4f46e5]"
                           />
                         </div>
                       </div>
 
                       {/* Status action: Save draft vs Publish */}
                       <div className="space-y-1.5 pt-1">
-                        <label className="text-xs font-medium text-[#111827] dark:text-white">
+                        <label className="text-xs font-medium text-slate-300">
                           Trạng thái xuất bản
                         </label>
                         <div className="grid grid-cols-2 gap-2">
@@ -623,10 +632,10 @@ export default function AdminDashboardPage() {
                             type="button"
                             onClick={() => setQuickStatus("published")}
                             className={cn(
-                              "py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer",
+                              "py-2 px-3 rounded-xl border text-xs font-medium transition-all cursor-pointer",
                               quickStatus === "published"
-                                ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border-black/80 dark:border-white shadow-xs"
-                                : "bg-white dark:bg-[#14161D] border-black/[0.08] dark:border-white/[0.08] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
+                                ? "bg-[#064e3b]/50 border-[#059669]/40 text-[#34d399] font-semibold"
+                                : "bg-[#111827] border-[#1f2937] text-[#9ca3af] hover:text-white"
                             )}
                           >
                             Xuất bản ngay (Mở thi)
@@ -635,10 +644,10 @@ export default function AdminDashboardPage() {
                             type="button"
                             onClick={() => setQuickStatus("draft")}
                             className={cn(
-                              "py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer",
+                              "py-2 px-3 rounded-xl border text-xs font-medium transition-all cursor-pointer",
                               quickStatus === "draft"
-                                ? "bg-[#111827] text-white dark:bg-white dark:text-[#0A0B0E] border-black/80 dark:border-white shadow-xs"
-                                : "bg-white dark:bg-[#14161D] border-black/[0.08] dark:border-white/[0.08] text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white"
+                                ? "bg-amber-500/20 border-amber-500/40 text-amber-300 font-semibold"
+                                : "bg-[#111827] border-[#1f2937] text-[#9ca3af] hover:text-white"
                             )}
                           >
                             Lưu bản nháp (Đóng)
@@ -650,18 +659,18 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* Submit buttons */}
-                <div className="pt-3 flex items-center justify-end gap-2 border-t border-black/[0.08] dark:border-white/[0.08]">
+                <div className="pt-3 flex items-center justify-end gap-2 border-t border-[#1f2937]">
                   <button
                     type="button"
                     onClick={() => setIsQuickExamModalOpen(false)}
-                    className="px-4 py-2 rounded-xl text-xs text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white hover:bg-white/5 transition cursor-pointer"
+                    className="px-4 py-2 rounded-xl text-xs text-[#9ca3af] hover:text-white hover:bg-white/5 transition cursor-pointer"
                   >
                     Hủy
                   </button>
                   <button
                     type="submit"
                     disabled={isCreatingQuick}
-                    className="px-5 py-2 glass-btn text-[#111827] dark:text-white font-semibold text-xs rounded-xl transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                    className="px-5 py-2 bg-[#4f46e5] hover:bg-[#6366f1] text-white font-medium text-xs rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     <span>{isCreatingQuick ? "Đang lưu..." : "✓ Xác nhận & Thêm vào Danh mục"}</span>
@@ -681,33 +690,33 @@ export default function AdminDashboardPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md rounded-2xl bg-[#F6F6F8] dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.1] p-6 shadow-2xl relative"
+              className="w-full max-w-md rounded-2xl bg-[#0b0f19] border border-[#1f2937] p-6 shadow-2xl relative"
             >
               <button
                 type="button"
                 onClick={() => setExamToDelete(null)}
-                className="absolute right-4 top-4 rounded-lg p-1.5 text-[#6B7280] dark:text-[#9CA3AF] hover:bg-white/5 hover:text-[#111827] dark:hover:text-white cursor-pointer"
+                className="absolute right-4 top-4 rounded-lg p-1.5 text-slate-400 hover:bg-white/5 hover:text-white cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
 
               <div className="mb-4 flex items-center gap-3.5">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-black/[0.08] glass-badge text-[#111827] dark:text-white">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400">
                   <AlertTriangle className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-[#111827] dark:text-white">
+                  <h3 className="text-base font-bold text-white">
                     Xác nhận xóa đề thi
                   </h3>
-                  <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">
+                  <p className="text-xs text-[#9ca3af]">
                     Thao tác này không thể hoàn tác.
                   </p>
                 </div>
               </div>
 
-              <div className="mb-5 rounded-xl border border-black/[0.1] dark:border-white/[0.08] bg-white dark:bg-[#14161D] p-4 text-xs leading-relaxed text-[#111827] dark:text-white">
+              <div className="mb-5 rounded-xl border border-[#1f2937] bg-[#111827] p-4 text-xs leading-relaxed text-slate-300">
                 Bạn có chắc chắn muốn xóa đề thi{" "}
-                <strong className="text-[#111827] dark:text-white">
+                <strong className="text-white">
                   &ldquo;{examToDelete.title}&rdquo;
                 </strong>
                 ? Toàn bộ câu hỏi và lịch sử bài nộp liên quan đến đề thi này sẽ bị xóa tự động.
@@ -718,7 +727,7 @@ export default function AdminDashboardPage() {
                   type="button"
                   onClick={() => setExamToDelete(null)}
                   disabled={isDeleting}
-                  className="rounded-xl bg-white dark:bg-[#14161D] border border-black/[0.1] dark:border-white/[0.08] shadow-xs px-4 py-2 text-xs font-semibold text-[#111827] dark:text-white transition hover:bg-black/[0.04] dark:hover:bg-white/5 cursor-pointer"
+                  className="rounded-xl bg-[#111827] border border-[#1f2937] px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white cursor-pointer"
                 >
                   Hủy bỏ
                 </button>

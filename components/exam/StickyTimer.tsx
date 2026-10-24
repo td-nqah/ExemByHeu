@@ -41,32 +41,32 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
     <div
       className={`inline-flex items-center gap-2.5 rounded-xl border px-3.5 py-1.5 backdrop-blur-xl transition ${
         isCritical
-          ? "border-rose-200 bg-rose-50 text-rose-600 animate-pulse"
+          ? "border-rose-500/50 bg-rose-950/50 text-rose-200 animate-pulse"
           : isWarning
-          ? "border-[#B8962E]/30 bg-[#F6EBC8] text-[#B8962E]"
-          : "border-black/[0.06] dark:border-white/[0.1] bg-white dark:bg-[#14161D] text-[#111827] dark:text-white shadow-xs"
+          ? "border-amber-500/40 bg-amber-950/40 text-amber-200"
+          : "border-slate-800 bg-slate-900/90 text-slate-100"
       }`}
     >
       {isCritical ? (
-        <AlertTriangle className="h-4 w-4 text-rose-500" />
+        <AlertTriangle className="h-4 w-4 text-rose-400" />
       ) : (
-        <Clock className="h-4 w-4 text-[#111827] dark:text-white" />
+        <Clock className="h-4 w-4 text-indigo-400" />
       )}
 
       <div className="flex flex-col">
-        <span className="text-[10px] font-semibold text-[#6B7280] dark:text-[#9CA3AF]">
+        <span className="text-[10px] font-semibold text-slate-400">
           Thời gian còn lại
         </span>
-        <span className="font-mono text-sm font-bold tracking-tight tabular-nums text-[#111827] dark:text-white">
+        <span className="font-mono text-sm font-bold tracking-tight tabular-nums text-white">
           {formatTimeLeft(secondsLeft)}
         </span>
       </div>
 
       {/* Mini Progress Bar */}
-      <div className="hidden sm:block h-2 w-16 overflow-hidden rounded-full bg-black/[0.06] dark:bg-white/[0.08] border border-black/[0.04] dark:border-white/[0.06]">
+      <div className="hidden sm:block h-2 w-16 overflow-hidden rounded-full bg-slate-950 border border-slate-800">
         <div
           className={`h-full transition-all duration-1000 ${
-            isCritical ? "bg-rose-500" : isWarning ? "bg-amber-400" : "bg-[#111827] dark:bg-white"
+            isCritical ? "bg-rose-500" : isWarning ? "bg-amber-400" : "bg-indigo-500"
           }`}
           style={{ width: `${percentage}%` }}
         />

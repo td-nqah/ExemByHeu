@@ -97,7 +97,7 @@ function UserDashboardContent() {
   // Dynamic Category Pills for Filter Tags Bar
   const categoryPills = useMemo(() => {
     return [
-      { id: "all", slug: "", label: "Tất cả các đánh giá" },
+      { id: "all", slug: "", label: "Tất cả đề đánh giá" },
       ...categories.map((c) => ({
         id: c.id,
         slug: c.slug,
@@ -111,41 +111,43 @@ function UserDashboardContent() {
     categoryPills.find((c) => c.slug === activeCategory) || categoryPills[0];
 
   return (
-    <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 pt-5 pb-6 space-y-6">
+    <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* =========================================================================
           1. SECTION TITLE ROW & STATS OVERVIEW CARD
           ========================================================================= */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:pr-24 lg:md:pr-28">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base sm:text-lg font-bold tracking-tight text-[#111827] dark:text-white flex items-center gap-2.5">
+          <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2.5">
             {activeCategory
               ? `Học phần: ${currentCategoryObj.label}`
               : "Bài đánh giá học phần khả dụng"}
           </h2>
-          <p className="mt-1 text-xs text-[#6B7280] dark:text-[#9CA3AF]">
+          <p className="mt-1 text-xs text-[#9ca3af]">
             {activeCategory
               ? `Đang lọc các bài đánh giá thuộc học phần "${currentCategoryObj.label}". Chọn đề bên dưới để bắt đầu làm bài.`
               : "Chọn bài đánh giá bên dưới để bắt đầu làm bài. Thời gian làm bài sẽ được tính tự động."}
           </p>
         </div>
 
-        {/* Flat Minimal Stats Block - Separate Monochrome Pills */}
-        <div className="flex items-center gap-3 select-none self-start md:self-auto">
-          <div className="flex items-center gap-2 bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-xs text-xs">
-            <ClipboardList className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
-            <span className="text-[#6B7280] dark:text-[#9CA3AF]">
+        {/* Flat Minimal Stats Block */}
+        <div className="flex items-center gap-6 bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] rounded-xl px-4 py-2 text-xs select-none self-start md:self-auto">
+          <div className="flex items-center gap-2">
+            <ClipboardList className="h-4 w-4 text-[#6366f1] shrink-0" />
+            <span className="text-[#9ca3af]">
               Số bài đánh giá:{" "}
-              <strong className="font-bold text-[#111827] dark:text-white text-sm tabular-nums">
+              <strong className="font-bold text-white text-sm tnum tabular-nums">
                 {loading ? "..." : exams.length}
               </strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-2 bg-white dark:bg-[#121318] border border-black/[0.08] dark:border-white/[0.08] rounded-xl px-3.5 py-1.5 shadow-xs text-xs">
-            <CheckSquare className="h-4 w-4 text-[#111827] dark:text-white shrink-0" />
-            <span className="text-[#6B7280] dark:text-[#9CA3AF]">
+          <div className="h-4 w-px bg-[#1f2937]" />
+
+          <div className="flex items-center gap-2">
+            <CheckSquare className="h-4 w-4 text-[#34d399] shrink-0" />
+            <span className="text-[#9ca3af]">
               Đã hoàn thành:{" "}
-              <strong className="font-bold text-[#111827] dark:text-white text-sm tabular-nums">
+              <strong className="font-bold text-[#34d399] text-sm tnum tabular-nums">
                 {loading ? "..." : submissions.length}
               </strong>
             </span>
@@ -171,10 +173,10 @@ function UserDashboardContent() {
                 }
               }}
               className={cn(
-                "inline-flex items-center justify-center rounded-full px-4 py-2 text-xs text-center shrink-0 select-none cursor-pointer transition-colors",
+                "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-medium text-center transition-colors shrink-0 select-none cursor-pointer",
                 isActive
-                  ? "bg-[#111827] text-white border border-black/80 dark:bg-white dark:text-[#0A0B0E] dark:border-white font-bold shadow-xs"
-                  : "bg-white text-[#111827] border border-black/[0.08] hover:bg-[#FAFAFC] dark:bg-[#14161D] dark:text-[#9CA3AF] dark:hover:text-white dark:border-white/[0.08] dark:hover:bg-white/[0.06] font-medium shadow-xs"
+                  ? "bg-[#4f46e5] text-white shadow-sm shadow-[#4f46e5]/30 font-semibold"
+                  : "bg-[#111827]/85 border border-[#1f2937] text-[#9ca3af] hover:text-white hover:bg-[#1f2937]"
               )}
             >
               <span>{cat.label}</span>
@@ -187,20 +189,20 @@ function UserDashboardContent() {
           3. EXAM CARDS GRID (RESPONSIVE DYNAMIC GRID: 1 -> 2 -> 3 -> 4 COLS)
           ========================================================================= */}
       {loading ? (
-        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex h-48 items-center justify-center rounded-2xl">
-          <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">Đang tải danh sách bài đánh giá...</p>
+        <div className="bg-[#111827]/85 border border-[#1f2937] flex h-48 items-center justify-center rounded-2xl">
+          <p className="text-xs text-[#9ca3af]">Đang tải danh sách bài đánh giá...</p>
         </div>
       ) : filteredExams.length === 0 ? (
-        <div className="bg-white dark:bg-[#121318] border border-black/[0.06] dark:border-white/[0.08] shadow-xs flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
-          <div className="p-3 rounded-xl glass-badge text-[#111827] dark:text-white border border-white/[0.1]">
+        <div className="bg-[#111827]/85 border border-[#1f2937] flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
+          <div className="p-3 rounded-xl bg-[#0b0f19] text-[#6366f1] border border-[#1f2937]">
             <BookOpen className="h-7 w-7" />
           </div>
-          <h3 className="text-base font-bold text-[#111827] dark:text-white">
+          <h3 className="text-base font-bold text-white">
             {activeCategory
               ? `Chưa có bài đánh giá nào trong học phần "${currentCategoryObj.label}"`
               : "Chưa có bài đánh giá nào được ban hành"}
           </h3>
-          <p className="max-w-md text-xs text-[#6B7280] dark:text-[#9CA3AF]">
+          <p className="max-w-md text-xs text-[#9ca3af]">
             {activeCategory
               ? "Hiện tại học phần này chưa có bài đánh giá nào được ban hành. Bạn có thể quay lại xem tất cả bài đánh giá hiện có."
               : "Vui lòng đăng nhập với quyền Quản trị viên để ban hành bài đánh giá mới."}
@@ -208,7 +210,7 @@ function UserDashboardContent() {
           {activeCategory && (
             <button
               onClick={() => router.push("/dashboard")}
-              className="glass-btn mt-2 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold cursor-pointer"
+              className="mt-2 inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-4 py-2 text-xs font-semibold text-white transition-colors cursor-pointer shadow-md shadow-[#4f46e5]/20"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               <span>Hiển thị tất cả đề đánh giá</span>
@@ -235,13 +237,13 @@ export default function UserDashboardPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 pt-5 pb-6 space-y-6">
-          <div className="h-10 rounded-xl bg-white/[0.06] animate-pulse" />
+        <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+          <div className="h-10 rounded-xl bg-[#151b27] animate-pulse" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
-            <div className="h-40 rounded-2xl bg-white/[0.06] animate-pulse" />
-            <div className="h-40 rounded-2xl bg-white/[0.06] animate-pulse" />
-            <div className="h-40 rounded-2xl bg-white/[0.06] animate-pulse" />
-            <div className="h-40 rounded-2xl bg-white/[0.06] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
+            <div className="h-40 rounded-2xl bg-[#151b27] animate-pulse" />
           </div>
         </div>
       }

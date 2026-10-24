@@ -192,7 +192,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
             ref={ref}
             data-mobile="true"
             className={cn(
-              "fixed inset-y-2.5 left-2.5 z-50 flex h-[calc(100dvh-1.25rem)] w-[var(--sidebar-width)] flex-col rounded-[28px] sidebar-floating-card text-[#111827] shadow-2xl transition-transform duration-300 ease-in-out md:hidden overflow-hidden",
+              "fixed inset-y-2.5 left-2.5 z-50 flex h-[calc(100dvh-1.25rem)] w-[var(--sidebar-width)] flex-col rounded-[28px] sidebar-floating-card text-white shadow-2xl transition-transform duration-300 ease-in-out md:hidden overflow-hidden",
               openMobile ? "translate-x-0" : "-translate-x-[calc(100%+1rem)]",
               className
             )}
@@ -224,7 +224,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
           className={cn(
             "fixed z-40 flex flex-col transition-[width,transform] duration-300 ease-in-out",
             "top-3.5 bottom-3.5 left-3.5 h-[calc(100dvh-1.75rem)] rounded-[28px] overflow-hidden",
-            "sidebar-floating-card text-[#111827]",
+            "sidebar-floating-card text-white",
             side === "left" ? "left-3.5" : "right-3.5",
             state === "expanded"
               ? "w-[var(--sidebar-width)]"
@@ -474,8 +474,8 @@ export const SidebarMenuButton = React.forwardRef<
         className={cn(
           "peer/menu-button flex w-full items-center gap-3 overflow-hidden rounded-2xl px-3.5 py-2 text-left text-[14px] font-medium outline-none transition-all duration-200 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center cursor-pointer",
           isActive
-            ? "bg-[#111827] text-white shadow-[0_1px_2px_rgba(17,24,39,0.2),0_6px_16px_-2px_rgba(17,24,39,0.3)] border border-[#111827] dark:bg-white dark:text-[#0A0B0E] dark:font-bold dark:shadow-[0_2px_8px_rgba(255,255,255,0.2)] dark:border-white"
-            : "text-[#4B5563] hover:text-[#111827] hover:bg-black/[0.04] dark:text-[#9CA3AF] dark:hover:text-white dark:hover:bg-white/[0.06] border border-transparent",
+            ? "bg-[#4f46e5] text-white font-semibold shadow-md shadow-[#4f46e5]/30 border border-[#6366f1]/40"
+            : "text-[#9ca3af] hover:text-white hover:bg-white/[0.06] border border-transparent",
           size === "sm" && "h-8 text-xs",
           size === "default" && "h-10",
           size === "lg" && "h-11",
