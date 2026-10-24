@@ -58,9 +58,9 @@ export default function AdminSubmissionsListPage() {
       </div>
 
       {/* Submissions Table with Filter */}
-      <div className="bg-[#151b27] border border-white/[0.06] rounded-2xl overflow-hidden">
+      <div className="obsidian-card rounded-2xl overflow-hidden">
         {/* Table Toolbar */}
-        <div className="flex flex-col gap-3 border-b border-white/[0.06] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-indigo-500/20 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-center gap-2.5">
             <h2 className="text-sm font-bold text-white">
               Danh sách Bài nộp Đánh giá
@@ -71,7 +71,7 @@ export default function AdminSubmissionsListPage() {
           </div>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1 bg-[#10141e] p-1 rounded-xl border border-white/[0.06]">
+          <div className="flex flex-wrap items-center gap-1 bg-indigo-950/40 p-1 rounded-xl border border-indigo-500/25">
             <button
               type="button"
               onClick={() => setFilterStatus("all")}
@@ -128,7 +128,7 @@ export default function AdminSubmissionsListPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#121722] text-slate-400 uppercase tracking-wider text-[11px] border-b border-white/[0.06]">
+              <thead className="bg-[#121722] text-slate-400 uppercase tracking-wider text-[11px] border-b border-indigo-500/20">
                 <tr>
                   <th className="py-3 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3 px-4 font-semibold">Sinh viên</th>
@@ -148,7 +148,7 @@ export default function AdminSubmissionsListPage() {
                   return (
                     <tr
                       key={sub.id}
-                      className="hover:bg-[#1a2130] transition-colors"
+                      className="hover:bg-indigo-500/[0.06] transition-colors"
                     >
                       <td className="py-3.5 px-3 text-center font-mono font-bold text-indigo-400">
                         #{idx + 1}

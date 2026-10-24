@@ -240,7 +240,7 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center gap-2 bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] rounded-xl px-4 py-2 text-xs text-[#9ca3af] font-medium select-none cursor-default">
+            <div className="inline-flex items-center gap-2 obsidian-card rounded-xl px-4 py-2 text-xs text-slate-300 font-medium select-none cursor-default">
               <BookOpen className="h-4 w-4 text-[#6366f1] shrink-0" />
               <span>Tổng số đề: <strong className="text-white font-bold tnum tabular-nums">{loading ? "..." : exams.length}</strong></span>
             </div>
@@ -253,9 +253,9 @@ export default function AdminDashboardPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] overflow-hidden rounded-2xl"
+        className="obsidian-card overflow-hidden rounded-2xl"
       >
-        <div className="flex flex-col gap-3 border-b border-[#1f2937] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-indigo-500/20 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
             <h2 className="text-base sm:text-lg font-bold tracking-tight text-white">
               Ngân hàng Đề thi ({exams.length})
@@ -269,7 +269,7 @@ export default function AdminDashboardPage() {
             {/* Nút Bật/Tắt Trộn Đề (đồng bộ UX kích thước với 2 card bên cạnh) */}
             <div
               className={cn(
-                "inline-flex items-center gap-2 rounded-xl border border-[#1f2937] bg-[#0b0f19] px-3.5 py-2 text-xs select-none transition-colors",
+                "inline-flex items-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-950/40 px-3.5 py-2 text-xs select-none transition-colors",
                 shuffledCount > 0 && "border-[#4f46e5]/50"
               )}
             >
@@ -303,7 +303,7 @@ export default function AdminDashboardPage() {
                 setQuickTitle("");
                 setIsQuickExamModalOpen(true);
               }}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0b0f19] hover:bg-[#111827] border border-[#4f46e5]/50 hover:border-[#6366f1] text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl bg-indigo-950/40 hover:bg-indigo-900/60 border border-indigo-500/30 hover:border-indigo-400 text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
             >
               <FolderPlus className="h-4 w-4 text-[#6366f1] shrink-0" />
               <span>Thêm vào Danh mục</span>
@@ -340,7 +340,7 @@ export default function AdminDashboardPage() {
         ) : (
           <div className="max-h-[560px] overflow-y-auto overflow-x-auto custom-scrollbar">
             <table className="w-full text-left text-xs">
-                    <thead className="bg-[#0b0f19] text-[#9ca3af] uppercase tracking-wider text-[11px] font-semibold border-b border-[#1f2937] sticky top-0 z-10 backdrop-blur-md">
+                    <thead className="bg-indigo-950/50 text-slate-300 uppercase tracking-wider text-[11px] font-semibold border-b border-indigo-500/20 sticky top-0 z-10 backdrop-blur-md">
                 <tr>
                   <th className="py-3 px-4 font-semibold">TÊN ĐỀ THI</th>
                   <th className="py-3 px-4 font-semibold">DANH MỤC</th>
@@ -364,7 +364,7 @@ export default function AdminDashboardPage() {
                   return (
                     <tr
                       key={exam.id}
-                      className="group border-b border-[#1f2937] hover:bg-[#1f2937]/40 transition-colors"
+                      className="group border-b border-indigo-500/15 hover:bg-indigo-500/[0.06] transition-colors"
                     >
                       <td className="max-w-xs truncate py-3.5 px-4 font-bold text-white group-hover:text-indigo-300 transition-colors">
                         {exam.title}

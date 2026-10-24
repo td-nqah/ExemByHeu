@@ -216,18 +216,18 @@ export default function AdminCategoriesPage() {
 
       {/* 2. Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 px-5 shadow-xl">
-          <span className="text-xs text-slate-400 uppercase tracking-wider font-medium">Tổng số học phần</span>
+        <div className="obsidian-card rounded-2xl p-4 px-5">
+          <span className="text-xs text-indigo-300 uppercase tracking-wider font-semibold font-mono">Tổng số học phần</span>
           <div className="mt-2 text-2xl font-bold text-white">{categories.length}</div>
         </div>
-        <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 px-5 shadow-xl">
-          <span className="text-xs text-emerald-400 uppercase tracking-wider font-medium">Đang kích hoạt (Active)</span>
+        <div className="obsidian-card rounded-2xl p-4 px-5">
+          <span className="text-xs text-emerald-400 uppercase tracking-wider font-semibold font-mono">Đang kích hoạt (Active)</span>
           <div className="mt-2 text-2xl font-bold text-emerald-400">
             {categories.filter((c) => c.status === "active").length}
           </div>
         </div>
-        <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 px-5 shadow-xl">
-          <span className="text-xs text-slate-400 uppercase tracking-wider font-medium">Đang ẩn (Hidden)</span>
+        <div className="obsidian-card rounded-2xl p-4 px-5">
+          <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold font-mono">Đang ẩn (Hidden)</span>
           <div className="mt-2 text-2xl font-bold text-slate-400">
             {categories.filter((c) => c.status === "hidden").length}
           </div>
@@ -239,9 +239,9 @@ export default function AdminCategoriesPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-slate-950/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl overflow-hidden"
+        className="obsidian-card rounded-2xl overflow-hidden"
       >
-        <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between">
+        <div className="p-4 sm:p-5 border-b border-indigo-500/20 flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
             <FolderTree className="h-4 w-4 text-indigo-400" />
             <span>Danh sách Học phần ({categories.length})</span>
@@ -265,7 +265,7 @@ export default function AdminCategoriesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-white/5 bg-slate-900/50 text-slate-400 uppercase font-semibold">
+                <tr className="border-b border-indigo-500/20 bg-indigo-950/40 text-slate-300 uppercase font-semibold">
                   <th className="py-3 px-4">Tên Học phần</th>
                   <th className="py-3 px-4">Mã Học phần (Slug)</th>
                   <th className="py-3 px-4">Biểu tượng đại diện</th>
@@ -274,11 +274,11 @@ export default function AdminCategoriesPage() {
                   <th className="py-3 px-4 text-right">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-indigo-500/10">
                 {categories.map((cat) => {
                   const examCount = getExamCountForCategory(cat.slug);
                   return (
-                    <tr key={cat.id} className="hover:bg-white/[0.02] transition-colors">
+                    <tr key={cat.id} className="hover:bg-indigo-500/[0.06] transition-colors">
                       <td className="py-3.5 px-4 font-semibold text-white">
                         <div className="flex items-center gap-2.5">
                           <span className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
@@ -289,7 +289,7 @@ export default function AdminCategoriesPage() {
                       </td>
 
                       <td className="py-3.5 px-4 font-mono text-slate-300">
-                        <span className="px-2 py-0.5 rounded bg-slate-900 border border-white/5 text-[11px]">
+                        <span className="px-2 py-0.5 rounded bg-indigo-950/50 border border-indigo-500/25 text-indigo-300 text-[11px] font-mono">
                           {cat.slug}
                         </span>
                       </td>
@@ -299,7 +299,7 @@ export default function AdminCategoriesPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-center font-bold text-white font-mono">
-                        <span className="px-2 py-0.5 rounded-full bg-slate-900 border border-white/10 text-xs">
+                        <span className="px-2 py-0.5 rounded-full bg-indigo-950/50 border border-indigo-500/25 text-white font-bold text-xs">
                           {examCount}
                         </span>
                       </td>
@@ -382,9 +382,9 @@ export default function AdminCategoriesPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md rounded-2xl bg-slate-950 border border-white/10 p-6 shadow-2xl relative"
+              className="w-full max-w-md rounded-2xl obsidian-card p-6 relative"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-white/10">
+              <div className="flex items-center justify-between pb-4 border-b border-indigo-500/20">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <FolderTree className="h-4 w-4 text-indigo-400" />
                   <span>
@@ -411,7 +411,7 @@ export default function AdminCategoriesPage() {
                     value={formName}
                     onChange={(e) => handleNameChange(e.target.value)}
                     placeholder="Ví dụ: Chủ nghĩa xã hội khoa học"
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3.5 py-2.5 bg-indigo-950/40 border border-indigo-500/25 rounded-xl text-xs text-white placeholder-indigo-300/40 focus:outline-none focus:border-indigo-400"
                   />
                 </div>
 
@@ -426,7 +426,7 @@ export default function AdminCategoriesPage() {
                     value={formSlug}
                     onChange={(e) => setFormSlug(e.target.value)}
                     placeholder="Ví dụ: cnxh"
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3.5 py-2.5 bg-indigo-950/40 border border-indigo-500/25 rounded-xl text-xs text-white placeholder-indigo-300/40 font-mono focus:outline-none focus:border-indigo-400"
                   />
                   <p className="text-[10px] text-slate-500">
                     Dùng trong định danh và lọc đề: <code>/dashboard?category={formSlug || "slug"}</code>

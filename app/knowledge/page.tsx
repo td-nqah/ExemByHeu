@@ -377,7 +377,7 @@ export default function KnowledgeHubPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex flex-col justify-between rounded-2xl border border-[#1f2937] bg-[#111827]/85 backdrop-blur-[12px] hover:border-[#3b82f6] hover:-translate-y-1 transition-all duration-300 p-5 group hover:shadow-xl hover:shadow-[0_12px_30px_-10px_rgba(59,130,246,0.15)]"
+              className="flex flex-col justify-between rounded-2xl obsidian-card-interactive p-5 group"
             >
               <div className="space-y-3">
                 {/* Meta badges: Emerald Teal tag for subject category without reading time */}
@@ -409,7 +409,7 @@ export default function KnowledgeHubPage() {
               </div>
 
               {/* Card Footer */}
-              <div className="mt-5 pt-3.5 border-t border-[#1f2937] flex items-center justify-between text-xs">
+              <div className="mt-5 pt-3.5 border-t border-indigo-500/20 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-[#9ca3af] max-w-[140px] truncate">
                   <div className="h-6 w-6 rounded-lg bg-[#1f2937] text-white flex items-center justify-center font-bold text-[10px] border border-[#1f2937] shrink-0">
                     {(item.author || "B")[0]}

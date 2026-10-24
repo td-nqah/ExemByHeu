@@ -236,7 +236,7 @@ export default function AdminSettingsPage() {
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[#1f2937]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-indigo-500/20">
         <div>
           <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-3">
             <Settings className="h-7 w-7 text-[#6366f1]" />
@@ -253,7 +253,7 @@ export default function AdminSettingsPage() {
         {/* =========================================================================
             CARD 1: TẠO TÀI KHOẢN MỚI
             ========================================================================= */}
-        <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
+        <div className="relative rounded-2xl obsidian-card p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
             <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
@@ -261,7 +261,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div>
-            <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
+            <div className="flex items-center justify-between pb-4 border-b border-indigo-500/20">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
                   <UserPlus className="h-5 w-5 text-[#6366f1]" />
@@ -308,7 +308,7 @@ export default function AdminSettingsPage() {
                   value={newUsername}
                   onChange={(e) => setNewUsername(e.target.value.toLowerCase())}
                   placeholder="VD: sinhvien_01 hoặc trogiang"
-                  className="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
+                  className="w-full px-3.5 py-2.5 bg-indigo-950/40 border border-indigo-500/25 hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
                 />
               </div>
 
@@ -326,7 +326,7 @@ export default function AdminSettingsPage() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Nhập mật khẩu (tối thiểu 4 ký tự)"
-                    className="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors pr-10 shadow-inner"
+                    className="w-full px-3.5 py-2.5 bg-indigo-950/40 border border-indigo-500/25 hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors pr-10 shadow-inner"
                   />
                   <button
                     type="button"
@@ -395,7 +395,7 @@ export default function AdminSettingsPage() {
             </form>
           </div>
 
-          <div className="mt-5 pt-3 border-t border-[#1f2937] text-[11px] text-[#9ca3af] flex items-center justify-between">
+          <div className="mt-5 pt-3 border-t border-indigo-500/20 text-[11px] text-[#9ca3af] flex items-center justify-between">
             <span>Bảo mật: Mật khẩu được mã hóa an toàn qua Bcrypt</span>
             <span className="font-mono text-[10px] text-slate-500">Auto-Hashed</span>
           </div>
@@ -404,7 +404,7 @@ export default function AdminSettingsPage() {
         {/* =========================================================================
             CARD 2: ĐỔI MẬT KHẨU CÁC TÀI KHOẢN
             ========================================================================= */}
-        <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 flex flex-col justify-between h-full">
+        <div className="relative rounded-2xl obsidian-card p-6 flex flex-col justify-between h-full">
           {/* Ambient glow accent line & blur circle */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
             <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/60 via-[#6366f1]/40 to-transparent" />
@@ -412,7 +412,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div>
-            <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
+            <div className="flex items-center justify-between pb-4 border-b border-indigo-500/20">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
                   <KeyRound className="h-5 w-5 text-[#6366f1]" />
@@ -427,7 +427,7 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
 
-              <span className="text-[10px] px-2.5 py-1 rounded-full font-mono bg-[#0b0f19] border border-[#1f2937] text-[#9ca3af]">
+              <span className="text-[10px] px-2.5 py-1 rounded-full font-mono bg-indigo-950/40 border border-indigo-500/25 text-[#9ca3af]">
                 {allProfiles.length} tài khoản
               </span>
             </div>
@@ -463,7 +463,7 @@ export default function AdminSettingsPage() {
                 <button
                   type="button"
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                  className="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white flex items-center justify-between transition-colors shadow-inner cursor-pointer"
+                  className="w-full px-3.5 py-2.5 bg-indigo-950/40 border border-indigo-500/25 hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white flex items-center justify-between transition-colors shadow-inner cursor-pointer"
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     {(() => {
@@ -548,7 +548,7 @@ export default function AdminSettingsPage() {
                       transition={{ duration: 0.15, ease: "easeOut" }}
                       className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl bg-[#0b0f19] backdrop-blur-2xl border border-[#1f2937] shadow-[0_20px_45px_rgba(0,0,0,0.7)] p-1.5 space-y-1 ring-1 ring-black/50"
                     >
-                      <div className="px-2.5 py-1.5 text-[10px] font-semibold text-[#9ca3af] uppercase tracking-wider border-b border-[#1f2937] flex items-center justify-between">
+                      <div className="px-2.5 py-1.5 text-[10px] font-semibold text-[#9ca3af] uppercase tracking-wider border-b border-indigo-500/20 flex items-center justify-between">
                         <span>Danh sách tài khoản</span>
                         <span className="font-mono text-slate-500 lowercase">
                           {allProfiles.length} tài khoản
@@ -662,7 +662,7 @@ export default function AdminSettingsPage() {
                   <Shield className="h-3.5 w-3.5 text-[#6366f1]" />
                   <span>Vai trò &amp; Trạng thái tài khoản</span>
                 </label>
-                <div className="px-3.5 py-2.5 rounded-xl bg-[#0b0f19] border border-[#1f2937] flex items-center justify-between text-xs">
+                <div className="px-3.5 py-2.5 rounded-xl bg-indigo-950/40 border border-indigo-500/25 flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <span className="font-mono font-bold text-white text-xs">
                       {selectedUser || "..."}
@@ -703,7 +703,7 @@ export default function AdminSettingsPage() {
                     value={editNewUsername}
                     onChange={(e) => setEditNewUsername(e.target.value)}
                     placeholder="Nhập tên đăng nhập mới"
-                    className="w-full pl-9 pr-3.5 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
+                    className="w-full pl-9 pr-3.5 py-2.5 bg-indigo-950/40 border border-indigo-500/25 hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner font-mono"
                   />
                   <User className="pointer-events-none absolute left-3 top-2.5 z-10 h-4 w-4 text-[#818cf8]" strokeWidth={2.2} />
                 </div>
@@ -723,7 +723,7 @@ export default function AdminSettingsPage() {
                     value={emergencyNewPassword}
                     onChange={(e) => setEmergencyNewPassword(e.target.value)}
                     placeholder="Để trống nếu không đổi mật khẩu"
-                    className="w-full pl-9 pr-10 py-2.5 bg-[#0b0f19] border border-[#1f2937] hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner"
+                    className="w-full pl-9 pr-10 py-2.5 bg-indigo-950/40 border border-indigo-500/25 hover:border-[#4f46e5]/40 focus:border-[#4f46e5] rounded-xl text-xs text-white placeholder-[#9ca3af] focus:outline-none transition-colors shadow-inner"
                   />
                   <Lock className="pointer-events-none absolute left-3 top-2.5 z-10 h-4 w-4 text-[#818cf8]" strokeWidth={2.2} />
                   <button
@@ -758,7 +758,7 @@ export default function AdminSettingsPage() {
             </form>
           </div>
 
-          <div className="mt-5 pt-3 border-t border-[#1f2937] text-[11px] text-[#9ca3af] flex items-center justify-between">
+          <div className="mt-5 pt-3 border-t border-indigo-500/20 text-[11px] text-[#9ca3af] flex items-center justify-between">
             <span>Hiệu lực: Cập nhật thông tin tài khoản ngay tức thì</span>
             <span className="font-mono text-[10px] text-slate-500">Instant-Sync</span>
           </div>

@@ -100,7 +100,7 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
   const buttonText = isCompleted ? "Làm lại" : "Bắt đầu";
 
   return (
-    <div className="group flex flex-col justify-between h-full min-h-[195px] min-w-0 sm:min-w-[270px] rounded-[22px] bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] hover:border-[#6366f1]/40 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] hover:-translate-y-1 transition-all duration-300">
+    <div className="group flex flex-col justify-between h-full min-h-[195px] min-w-0 sm:min-w-[270px] rounded-[22px] obsidian-card-interactive p-5">
       {/* Upper Content: Header (Title + Status Badge), Subtitle, Question Count & Type */}
       <div className="space-y-4">
         {/* Top Header Row: Title on Left, Status Badge on Right */}
@@ -127,8 +127,8 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
                 </span>
               </span>
             ) : (
-              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-slate-800/80 text-[#9ca3af] border border-slate-700/60 select-none">
-                <span className="h-1.5 w-1.5 rounded-full bg-slate-400 shrink-0" />
+              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-indigo-950/50 text-indigo-300 border border-indigo-500/25 select-none">
+                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
                 <span>Chưa làm</span>
               </span>
             )}

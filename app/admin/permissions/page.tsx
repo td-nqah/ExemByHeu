@@ -404,7 +404,7 @@ export default function AdminPermissionsPage() {
           </span>
         </div>
 
-        <div className="rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-5">
+        <div className="rounded-2xl obsidian-card p-6 space-y-5">
           {/* Status Alert Banner */}
           {isHighStorage ? (
             <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-500/40 text-rose-200 flex items-start gap-3 shadow-sm">
@@ -419,7 +419,7 @@ export default function AdminPermissionsPage() {
               </div>
             </div>
           ) : (
-            <div className="p-3.5 rounded-xl bg-[#0b0f19] border border-[#1f2937] flex items-center justify-between gap-3 shadow-inner">
+            <div className="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-500/25 flex items-center justify-between gap-3 shadow-inner">
               <div className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-4.5 w-4.5 text-emerald-400 shrink-0" />
                 <div>
@@ -470,7 +470,7 @@ export default function AdminPermissionsPage() {
           {/* Granular Breakdown (3 Categories) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
             {/* 1. Database Tables */}
-            <div className="p-4 rounded-xl bg-[#0b0f19] border border-[#1f2937] flex flex-col justify-between">
+            <div className="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/25 flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-200">
                   <Database className="h-4 w-4 text-[#6366f1]" />
@@ -495,7 +495,7 @@ export default function AdminPermissionsPage() {
             </div>
 
             {/* 2. File Storage Buckets */}
-            <div className="p-4 rounded-xl bg-[#0b0f19] border border-[#1f2937] flex flex-col justify-between">
+            <div className="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/25 flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-200">
                   <FolderArchive className="h-4 w-4 text-[#38bdf8]" />
@@ -520,7 +520,7 @@ export default function AdminPermissionsPage() {
             </div>
 
             {/* 3. Browser Cache & Logs */}
-            <div className="p-4 rounded-xl bg-[#0b0f19] border border-[#1f2937] flex flex-col justify-between">
+            <div className="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/25 flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-200">
                   <Layers className="h-4 w-4 text-[#34d399]" />
@@ -547,7 +547,7 @@ export default function AdminPermissionsPage() {
 
           {/* RPC Config guidance */}
           {rpcConfigured === false && (
-            <div className="p-4 rounded-xl bg-[#0b0f19] border border-[#1f2937] text-xs space-y-2">
+            <div className="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/25 text-xs space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-amber-300 flex items-center gap-1.5">
                   <AlertCircle className="h-4 w-4 text-amber-400" />
@@ -592,8 +592,8 @@ export default function AdminPermissionsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {/* CARD 1 (BÊN TRÁI): Kiểm soát Kích hoạt & Thiết bị Đăng nhập */}
-          <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
-            <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
+          <div className="relative rounded-2xl obsidian-card p-6 space-y-4 flex flex-col justify-between h-full">
+            <div className="flex items-center justify-between pb-4 border-b border-indigo-500/20">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
                   <ShieldCheck className="h-5 w-5" />
@@ -767,8 +767,8 @@ export default function AdminPermissionsPage() {
           </div>
 
           {/* CARD 2 (BÊN PHẢI): Người dùng đang Online / Đang hoạt động thời gian thực */}
-          <div className="relative rounded-2xl bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 space-y-4 flex flex-col justify-between h-full">
-            <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
+          <div className="relative rounded-2xl obsidian-card p-6 space-y-4 flex flex-col justify-between h-full">
+            <div className="flex items-center justify-between pb-4 border-b border-indigo-500/20">
               <div className="flex items-center gap-3">
                 <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
                   <Radio className="h-5 w-5" />

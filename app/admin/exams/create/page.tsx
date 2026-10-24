@@ -504,10 +504,10 @@ export default function ExamCreatePage() {
       </div>
 
       {/* 1. Smart Exam Importer Panel (Tab 1: File Upload | Tab 2: Paste from Clipboard) */}
-      <div className="bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] mb-8 overflow-hidden rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+      <div className="obsidian-card mb-8 overflow-hidden rounded-2xl">
         {/* Importer Mode Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1f2937] bg-[#0b0f19]/80 px-4 py-3 sm:px-6">
-          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-[#0b0f19] p-1 border border-[#1f2937]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo-500/20 bg-indigo-950/40 px-4 py-3 sm:px-6">
+          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-indigo-950/40 p-1 border border-indigo-500/25">
             <button
               type="button"
               onClick={() => {
@@ -727,7 +727,7 @@ export default function ExamCreatePage() {
       </div>
 
       {/* 2. Exam Metadata Form */}
-      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 mb-8 rounded-2xl p-6">
+      <div className="obsidian-card mb-8 rounded-2xl p-6">
         <h2 className="mb-4 text-base font-bold text-white">
           Thông tin cơ bản của Đề đánh giá
         </h2>
@@ -949,7 +949,7 @@ export default function ExamCreatePage() {
         </div>
 
         {questions.length === 0 ? (
-          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 rounded-2xl py-12 text-center">
+          <div className="obsidian-card rounded-2xl py-12 text-center">
             <Layers className="mx-auto mb-2 h-8 w-8 text-indigo-400" />
             <p className="text-xs font-semibold text-slate-200">
               Chưa có câu hỏi nào trong danh sách
@@ -972,7 +972,7 @@ export default function ExamCreatePage() {
             ))}
 
             {/* Bottom Add & Confirm Actions */}
-            <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
+            <div className="obsidian-card flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"

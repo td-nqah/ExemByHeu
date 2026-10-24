@@ -130,10 +130,10 @@ function UserDashboardContent() {
         </div>
 
         {/* Flat Minimal Stats Block */}
-        <div className="flex items-center gap-6 bg-[#111827]/85 backdrop-blur-[12px] border border-[#1f2937] rounded-xl px-4 py-2 text-xs select-none self-start md:self-auto">
+        <div className="flex items-center gap-6 obsidian-card rounded-xl px-4 py-2 text-xs select-none self-start md:self-auto">
           <div className="flex items-center gap-2">
-            <ClipboardList className="h-4 w-4 text-[#6366f1] shrink-0" />
-            <span className="text-[#9ca3af]">
+            <ClipboardList className="h-4 w-4 text-indigo-400 shrink-0" />
+            <span className="text-slate-300">
               Số bài đánh giá:{" "}
               <strong className="font-bold text-white text-sm tnum tabular-nums">
                 {loading ? "..." : exams.length}
@@ -141,11 +141,11 @@ function UserDashboardContent() {
             </span>
           </div>
 
-          <div className="h-4 w-px bg-[#1f2937]" />
+          <div className="h-4 w-px bg-indigo-500/25" />
 
           <div className="flex items-center gap-2">
             <CheckSquare className="h-4 w-4 text-[#34d399] shrink-0" />
-            <span className="text-[#9ca3af]">
+            <span className="text-slate-300">
               Đã hoàn thành:{" "}
               <strong className="font-bold text-[#34d399] text-sm tnum tabular-nums">
                 {loading ? "..." : submissions.length}
@@ -176,7 +176,7 @@ function UserDashboardContent() {
                 "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-medium text-center transition-colors shrink-0 select-none cursor-pointer",
                 isActive
                   ? "bg-[#4f46e5] text-white shadow-sm shadow-[#4f46e5]/30 font-semibold"
-                  : "bg-[#111827]/85 border border-[#1f2937] text-[#9ca3af] hover:text-white hover:bg-[#1f2937]"
+                  : "bg-indigo-950/40 border border-indigo-500/25 text-indigo-200 hover:text-white hover:bg-indigo-900/50"
               )}
             >
               <span>{cat.label}</span>
@@ -189,11 +189,11 @@ function UserDashboardContent() {
           3. EXAM CARDS GRID (RESPONSIVE DYNAMIC GRID: 1 -> 2 -> 3 -> 4 COLS)
           ========================================================================= */}
       {loading ? (
-        <div className="bg-[#111827]/85 border border-[#1f2937] flex h-48 items-center justify-center rounded-2xl">
+        <div className="obsidian-card flex h-48 items-center justify-center rounded-2xl">
           <p className="text-xs text-[#9ca3af]">Đang tải danh sách bài đánh giá...</p>
         </div>
       ) : filteredExams.length === 0 ? (
-        <div className="bg-[#111827]/85 border border-[#1f2937] flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
+        <div className="obsidian-card flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
           <div className="p-3 rounded-xl bg-[#0b0f19] text-[#6366f1] border border-[#1f2937]">
             <BookOpen className="h-7 w-7" />
           </div>

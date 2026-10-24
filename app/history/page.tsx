@@ -70,11 +70,11 @@ export default function HistoryPage() {
 
       {/* History Table / Card List */}
       {loading ? (
-        <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800/80 flex h-48 items-center justify-center rounded-2xl">
+        <div className="obsidian-card flex h-48 items-center justify-center rounded-2xl">
           <p className="text-sm text-slate-400">Đang tải lịch sử đánh giá...</p>
         </div>
       ) : submissions.length === 0 ? (
-        <div className="bg-slate-950/60 backdrop-blur-xl border border-white/10 flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center shadow-xl">
+        <div className="obsidian-card flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center">
           <History className="mb-3 h-10 w-10 text-indigo-400" />
           <h3 className="text-base font-bold text-white">
             Chưa có dữ liệu bài đánh giá
@@ -95,11 +95,11 @@ export default function HistoryPage() {
           initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="bg-slate-950/60 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 overflow-hidden rounded-2xl shadow-xl"
+          className="obsidian-card overflow-hidden rounded-2xl"
         >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/90 text-slate-400 uppercase tracking-wider text-xs border-b border-white/10">
+              <thead className="bg-indigo-950/50 text-slate-300 uppercase tracking-wider text-xs border-b border-indigo-500/20">
                 <tr>
                   <th className="py-3.5 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
