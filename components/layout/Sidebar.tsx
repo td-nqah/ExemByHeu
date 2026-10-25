@@ -33,7 +33,6 @@ import {
   Settings,
   LogOut,
   User,
-  X,
   Menu,
   Shield,
   FileText,
@@ -211,7 +210,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             title="Thu nhỏ sidebar (Ctrl+B)"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#334155]/60 bg-[#1e293b]/50 hover:bg-[#1e293b] text-slate-300 hover:text-white active:scale-95 transition cursor-pointer select-none shadow-sm ml-2"
           >
-            <X className="h-4.5 w-4.5" strokeWidth={2.2} />
+            <Menu className="h-4.5 w-4.5" strokeWidth={2.2} />
           </SidebarTrigger>
         </div>
 
