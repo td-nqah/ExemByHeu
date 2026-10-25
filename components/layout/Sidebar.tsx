@@ -64,9 +64,9 @@ function SidebarActivePill() {
       className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#5852d6] to-[#4f46e5] shadow-[0_4px_20px_rgba(88,82,214,0.5),0_0_12px_rgba(129,140,248,0.35)] border border-[#818cf8]/40 pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
       transition={{
         type: "spring",
-        stiffness: 350,
-        damping: 28,
-        mass: 0.6,
+        stiffness: 300,
+        damping: 25,
+        mass: 0.8,
       }}
     />
   );
@@ -79,9 +79,9 @@ function SidebarSubActivePill() {
       className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#5852d6]/80 to-[#4f46e5]/80 border border-[#818cf8]/30 shadow-[0_2px_12px_rgba(88,82,214,0.35)] pointer-events-none z-0"
       transition={{
         type: "spring",
-        stiffness: 380,
-        damping: 30,
-        mass: 0.6,
+        stiffness: 320,
+        damping: 26,
+        mass: 0.7,
       }}
     />
   );
@@ -144,7 +144,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
     router.push("/");
   };
 
-  // Dynamic Navigation Active & Hover Indicator States
+  // Navigation Active States
   const getActiveNavKey = (): string => {
     if (pathname === "/home") return "/home";
     if (pathname.startsWith("/history")) return "/history";
@@ -165,13 +165,37 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
     return "";
   };
 
-  const activeNavKey = getActiveNavKey();
-  const [hoveredNavKey, setHoveredNavKey] = useState<string | null>(null);
-  const currentNavKey = hoveredNavKey || activeNavKey;
+  const [activeNavKey, setActiveNavKey] = useState<string>(() => getActiveNavKey());
 
-  const [hoveredSubKey, setHoveredSubKey] = useState<string | null>(null);
-  const activeSubKey = pathname === "/dashboard" ? activeCategory : "";
-  const currentSubKey = hoveredSubKey || activeSubKey;
+  useEffect(() => {
+    const current = getActiveNavKey();
+    if (current) {
+      setActiveNavKey(current);
+    }
+  }, [pathname]);
+
+  const [activeSubKey, setActiveSubKey] = useState<string>(() =>
+    pathname === "/dashboard" ? activeCategory : ""
+  );
+
+  useEffect(() => {
+    if (pathname === "/dashboard") {
+      setActiveSubKey(activeCategory);
+    } else {
+      setActiveSubKey("");
+    }
+  }, [pathname, activeCategory]);
+
+  const handleNavClick = (href: string) => {
+    setActiveNavKey(href);
+    closeSidebarOnNavigate();
+  };
+
+  const handleSubClick = (catKey: string) => {
+    setActiveSubKey(catKey);
+    setActiveNavKey("/dashboard");
+    closeSidebarOnNavigate();
+  };
 
   // Group 1: TỔNG QUAN / BÁO CÁO (Đã bỏ Kết quả học tập)
   const overviewNavLinks = [
@@ -230,7 +254,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
           {/* Brand Logo & Name: Exam (Trắng) ByHeu (Tím) */}
           <Link
             href="/home"
-            onClick={closeSidebarOnNavigate}
+            onClick={() => handleNavClick("/home")}
             title="ExamByHeu - Hệ thống đánh giá"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none min-w-0"
           >
@@ -264,7 +288,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
         <div className="hidden group-data-[collapsible=icon]:flex flex-col items-center justify-center gap-2.5 py-1 w-full">
           <Link
             href="/home"
-            onClick={closeSidebarOnNavigate}
+            onClick={() => handleNavClick("/home")}
             title="ExamByHeu - Trang chủ"
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#6366f1] to-[#4f46e5] text-white shadow-[0_0_16px_rgba(99,102,241,0.45)] hover:scale-105 active:scale-95 transition-all select-none"
           >
@@ -280,14 +304,8 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
         </div>
       </SidebarHeader>
 
-      {/* 2. Content: Groups & Navigation Menu (Có hiệu ứng bay lướt mượt mà theo con trỏ chuột) */}
-      <SidebarContent
-        onMouseLeave={() => {
-          setHoveredNavKey(null);
-          setHoveredSubKey(null);
-        }}
-        className="px-2.5 py-3 custom-scrollbar space-y-2"
-      >
+      {/* 2. Content: Groups & Navigation Menu (Khung tím bay lướt khi ấn chọn chức năng) */}
+      <SidebarContent className="px-2.5 py-3 custom-scrollbar space-y-2">
         <LayoutGroup id="sidebar-nav">
           {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
           <SidebarGroup className="p-0">
@@ -298,44 +316,37 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
               <SidebarMenu className="gap-1">
                 {overviewNavLinks.map((item) => {
                   const Icon = item.icon;
-                  const isHighlighted = currentNavKey === item.href;
-                  const isActiveRoute = activeNavKey === item.href;
+                  const isActive = activeNavKey === item.href;
 
                   return (
-                    <SidebarMenuItem
-                      key={item.href}
-                      onMouseEnter={() => setHoveredNavKey(item.href)}
-                    >
+                    <SidebarMenuItem key={item.href}>
                       <SidebarMenuButton
                         asChild
-                        isActive={isHighlighted}
+                        isActive={isActive}
                         tooltip={item.title}
                       >
                         <Link
                           href={item.href}
-                          onClick={closeSidebarOnNavigate}
+                          onClick={() => handleNavClick(item.href)}
                           className="relative flex items-center gap-2.5 w-full"
                         >
-                          {isHighlighted && <SidebarActivePill />}
+                          {isActive && <SidebarActivePill />}
                           <Icon
                             className={cn(
                               "h-4 w-4 shrink-0 transition-colors relative z-10",
-                              isHighlighted ? "text-white" : "text-slate-300"
+                              isActive ? "text-white" : "text-slate-300"
                             )}
                           />
                           <span
                             className={cn(
                               "truncate group-data-[collapsible=icon]:hidden relative z-10",
-                              isHighlighted
+                              isActive
                                 ? "text-white font-semibold"
                                 : "text-slate-300"
                             )}
                           >
                             {item.title}
                           </span>
-                          {isActiveRoute && !isHighlighted && (
-                            <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
-                          )}
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -356,24 +367,22 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             <SidebarGroupContent>
               <SidebarMenu className="gap-1">
                 {/* Mục 1: Tài liệu ôn tập */}
-                <SidebarMenuItem
-                  onMouseEnter={() => setHoveredNavKey("/knowledge")}
-                >
+                <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    isActive={currentNavKey === "/knowledge"}
+                    isActive={activeNavKey === "/knowledge"}
                     tooltip="Tài liệu ôn tập"
                   >
                     <Link
                       href="/knowledge"
-                      onClick={closeSidebarOnNavigate}
+                      onClick={() => handleNavClick("/knowledge")}
                       className="relative flex items-center gap-2.5 w-full"
                     >
-                      {currentNavKey === "/knowledge" && <SidebarActivePill />}
+                      {activeNavKey === "/knowledge" && <SidebarActivePill />}
                       <BookOpen
                         className={cn(
                           "h-4 w-4 shrink-0 transition-colors relative z-10",
-                          currentNavKey === "/knowledge"
+                          activeNavKey === "/knowledge"
                             ? "text-white"
                             : "text-slate-300"
                         )}
@@ -381,45 +390,39 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                       <span
                         className={cn(
                           "truncate group-data-[collapsible=icon]:hidden relative z-10",
-                          currentNavKey === "/knowledge"
+                          activeNavKey === "/knowledge"
                             ? "text-white font-semibold"
                             : "text-slate-300"
                         )}
                       >
                         Tài liệu ôn tập
                       </span>
-                      {activeNavKey === "/knowledge" &&
-                        currentNavKey !== "/knowledge" && (
-                          <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
-                        )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 {/* Mục 2: Ngân hàng đề thi */}
-                <SidebarMenuItem
-                  onMouseEnter={() => setHoveredNavKey("/dashboard")}
-                >
+                <SidebarMenuItem>
                   <div className="flex w-full items-center">
                     <SidebarMenuButton
                       asChild
-                      isActive={currentNavKey === "/dashboard"}
+                      isActive={activeNavKey === "/dashboard"}
                       tooltip="Ngân hàng đề thi"
                       className="flex-1"
                     >
                       <Link
                         href="/dashboard"
                         onClick={() => {
+                          handleNavClick("/dashboard");
                           setExamsExpanded((prev) => !prev);
-                          closeSidebarOnNavigate();
                         }}
                         className="relative flex items-center gap-2.5 w-full"
                       >
-                        {currentNavKey === "/dashboard" && <SidebarActivePill />}
+                        {activeNavKey === "/dashboard" && <SidebarActivePill />}
                         <Shield
                           className={cn(
                             "h-4 w-4 shrink-0 transition-colors relative z-10",
-                            currentNavKey === "/dashboard"
+                            activeNavKey === "/dashboard"
                               ? "text-white"
                               : "text-slate-300"
                           )}
@@ -427,17 +430,13 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                         <span
                           className={cn(
                             "truncate group-data-[collapsible=icon]:hidden relative z-10",
-                            currentNavKey === "/dashboard"
+                            activeNavKey === "/dashboard"
                               ? "text-white font-semibold"
                               : "text-slate-300"
                           )}
                         >
                           Ngân hàng đề thi
                         </span>
-                        {activeNavKey === "/dashboard" &&
-                          currentNavKey !== "/dashboard" && (
-                            <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
-                          )}
                       </Link>
                     </SidebarMenuButton>
 
@@ -472,52 +471,39 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                         transition={{ duration: 0.2, ease: "easeInOut" }}
                         className="overflow-hidden group-data-[collapsible=icon]:hidden"
                       >
-                        <SidebarMenuSub
-                          onMouseLeave={() => setHoveredSubKey(null)}
-                          className="pl-6 pr-1 py-1 space-y-1"
-                        >
+                        <SidebarMenuSub className="pl-6 pr-1 py-1 space-y-1">
                           <LayoutGroup id="sidebar-sub-nav">
                             {categories.map((cat) => {
                               const catKey = cat.slug || cat.id;
-                              const isSubActiveRoute =
-                                pathname === "/dashboard" &&
-                                (activeCategory === cat.slug ||
-                                  activeCategory === cat.id);
-                              const isSubHighlighted = currentSubKey === catKey;
+                              const isSubActive = activeSubKey === catKey;
 
                               return (
-                                <SidebarMenuSubItem
-                                  key={cat.id}
-                                  onMouseEnter={() => {
-                                    setHoveredSubKey(catKey);
-                                    setHoveredNavKey("/dashboard");
-                                  }}
-                                >
+                                <SidebarMenuSubItem key={cat.id}>
                                   <SidebarMenuSubButton
                                     asChild
-                                    isActive={isSubHighlighted}
+                                    isActive={isSubActive}
                                   >
                                     <Link
                                       href={`/dashboard?category=${encodeURIComponent(
                                         cat.slug || cat.id
                                       )}`}
-                                      onClick={closeSidebarOnNavigate}
+                                      onClick={() => handleSubClick(catKey)}
                                       className="relative flex items-center justify-between w-full text-xs py-1"
                                     >
-                                      {isSubHighlighted && (
+                                      {isSubActive && (
                                         <SidebarSubActivePill />
                                       )}
                                       <span
                                         className={cn(
                                           "truncate relative z-10",
-                                          isSubHighlighted
+                                          isSubActive
                                             ? "text-white font-medium"
                                             : "text-slate-300"
                                         )}
                                       >
                                         {cat.name}
                                       </span>
-                                      {isSubActiveRoute && (
+                                      {isSubActive && (
                                         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white relative z-10" />
                                       )}
                                     </Link>
@@ -549,29 +535,25 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                   <SidebarMenu className="gap-1">
                     {systemManagementNavLinks.map((item) => {
                       const Icon = item.icon;
-                      const isHighlighted = currentNavKey === item.href;
-                      const isActiveRoute = activeNavKey === item.href;
+                      const isActive = activeNavKey === item.href;
 
                       return (
-                        <SidebarMenuItem
-                          key={item.href}
-                          onMouseEnter={() => setHoveredNavKey(item.href)}
-                        >
+                        <SidebarMenuItem key={item.href}>
                           <SidebarMenuButton
                             asChild
-                            isActive={isHighlighted}
+                            isActive={isActive}
                             tooltip={item.title}
                           >
                             <Link
                               href={item.href}
-                              onClick={closeSidebarOnNavigate}
+                              onClick={() => handleNavClick(item.href)}
                               className="relative flex items-center gap-2.5 w-full"
                             >
-                              {isHighlighted && <SidebarActivePill />}
+                              {isActive && <SidebarActivePill />}
                               <Icon
                                 className={cn(
                                   "h-4 w-4 shrink-0 transition-colors relative z-10",
-                                  isHighlighted
+                                  isActive
                                     ? "text-white"
                                     : "text-slate-300"
                                 )}
@@ -579,7 +561,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                               <span
                                 className={cn(
                                   "truncate group-data-[collapsible=icon]:hidden relative z-10",
-                                  isHighlighted
+                                  isActive
                                     ? "text-white font-semibold"
                                     : "text-slate-300"
                                 )}
@@ -592,11 +574,6 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                                   {item.badge}
                                 </span>
                               )}
-                              {isActiveRoute &&
-                                !isHighlighted &&
-                                item.badge === undefined && (
-                                  <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
-                                )}
                             </Link>
                           </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -622,29 +599,25 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                   <SidebarMenu className="gap-1">
                     {systemConfigNavLinks.map((item) => {
                       const Icon = item.icon;
-                      const isHighlighted = currentNavKey === item.href;
-                      const isActiveRoute = activeNavKey === item.href;
+                      const isActive = activeNavKey === item.href;
 
                       return (
-                        <SidebarMenuItem
-                          key={item.href}
-                          onMouseEnter={() => setHoveredNavKey(item.href)}
-                        >
+                        <SidebarMenuItem key={item.href}>
                           <SidebarMenuButton
                             asChild
-                            isActive={isHighlighted}
+                            isActive={isActive}
                             tooltip={item.title}
                           >
                             <Link
                               href={item.href}
-                              onClick={closeSidebarOnNavigate}
+                              onClick={() => handleNavClick(item.href)}
                               className="relative flex items-center gap-2.5 w-full"
                             >
-                              {isHighlighted && <SidebarActivePill />}
+                              {isActive && <SidebarActivePill />}
                               <Icon
                                 className={cn(
                                   "h-4 w-4 shrink-0 transition-colors relative z-10",
-                                  isHighlighted
+                                  isActive
                                     ? "text-white"
                                     : "text-slate-300"
                                 )}
@@ -652,16 +625,13 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                               <span
                                 className={cn(
                                   "truncate group-data-[collapsible=icon]:hidden relative z-10",
-                                  isHighlighted
+                                  isActive
                                     ? "text-white font-semibold"
                                     : "text-slate-300"
                                 )}
                               >
                                 {item.title}
                               </span>
-                              {isActiveRoute && !isHighlighted && (
-                                <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
-                              )}
                             </Link>
                           </SidebarMenuButton>
                         </SidebarMenuItem>
