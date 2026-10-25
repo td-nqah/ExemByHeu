@@ -57,7 +57,7 @@ function formatDisplayName(name?: string): string {
   return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
 }
 
-export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyOnCloseMobile }: SidebarProps = {}) {
+export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -74,7 +74,7 @@ export function Sidebar({ mobileOpen: _legacyMobileOpen, onCloseMobile: _legacyO
     if (isMobile) {
       setOpenMobile(false);
     }
-    _legacyOnCloseMobile?.();
+    onCloseMobile?.();
   };
 
   useEffect(() => {

@@ -1365,7 +1365,7 @@ export async function toggleAllExamsShuffle(enable: boolean): Promise<Exam[]> {
   });
 
   // 2. Save exams locally
-  const cleaned = updatedExams.map(({ _metaDesc: _unused, ...rest }) => rest);
+  const cleaned = updatedExams.map(({ _metaDesc: _, ...rest }) => rest);
   setLocal(KEY_EXAMS, cleaned);
   invalidateExamCache();
 
