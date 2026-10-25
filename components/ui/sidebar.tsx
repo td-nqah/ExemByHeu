@@ -474,7 +474,7 @@ export const SidebarMenuButton = React.forwardRef<
         className={cn(
           "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-xl px-3 py-1.5 text-left text-[13.5px] font-medium outline-none transition-all duration-150 select-none group-data-[collapsible=icon]:!rounded-full group-data-[collapsible=icon]:!w-9 group-data-[collapsible=icon]:!h-9 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:justify-center cursor-pointer",
           isActive
-            ? "bg-[#5852d6] text-white font-semibold shadow-[0_4px_18px_rgba(88,82,214,0.4)] border border-[#818cf8]/25"
+            ? "text-white font-semibold"
             : "text-white hover:text-white hover:bg-white/[0.08] border border-transparent",
           size === "sm" && "h-8 text-xs",
           size === "default" && "h-9",

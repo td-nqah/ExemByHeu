@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, LayoutGroup } from "motion/react";
 import { getCurrentUser, setCurrentUser, getCategories, getExams } from "@/lib/store";
 import { Profile, Category } from "@/types/exam";
 import { cn } from "@/lib/utils";
@@ -54,6 +54,22 @@ function formatDisplayName(name?: string): string {
   if (lower === "user2") return "User2";
   if (lower === "user3") return "User3";
   return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+}
+
+
+function SidebarActivePill() {
+  return (
+    <motion.span
+      layoutId="sidebar-active-pill"
+      className="absolute inset-0 rounded-xl bg-[#5852d6] shadow-[0_4px_18px_rgba(88,82,214,0.45)] border border-[#818cf8]/35 pointer-events-none group-data-[collapsible=icon]:rounded-full"
+      transition={{
+        type: "spring",
+        stiffness: 380,
+        damping: 30,
+        mass: 0.8,
+      }}
+    />
+  );
 }
 
 export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
@@ -236,6 +252,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
 
       {/* 2. Content: Groups & Navigation Menu (Có thanh gạch ngang xám phân biệt các nhóm chức năng) */}
       <SidebarContent className="px-2.5 py-3 custom-scrollbar space-y-2">
+        <LayoutGroup id="sidebar-nav">
         {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
         <SidebarGroup className="p-0">
           <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
@@ -252,9 +269,10 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                       isActive={item.active}
                       tooltip={item.title}
                     >
-                      <Link href={item.href} onClick={closeSidebarOnNavigate}>
-                        <Icon className="h-4 w-4 shrink-0 transition-colors" />
-                        <span className="truncate group-data-[collapsible=icon]:hidden">
+                      <Link href={item.href} onClick={closeSidebarOnNavigate} className="relative">
+                        {item.active && <SidebarActivePill />}
+                        <Icon className="h-4 w-4 shrink-0 transition-colors relative z-10" />
+                        <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
                           {item.title}
                         </span>
                       </Link>
@@ -283,9 +301,10 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                   isActive={pathname.startsWith("/knowledge")}
                   tooltip="Tài liệu ôn tập"
                 >
-                  <Link href="/knowledge" onClick={closeSidebarOnNavigate}>
-                    <BookOpen className="h-4 w-4 shrink-0 transition-colors" />
-                    <span className="truncate group-data-[collapsible=icon]:hidden">
+                  <Link href="/knowledge" onClick={closeSidebarOnNavigate} className="relative">
+                    {pathname.startsWith("/knowledge") && <SidebarActivePill />}
+                    <BookOpen className="h-4 w-4 shrink-0 transition-colors relative z-10" />
+                    <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
                       Tài liệu ôn tập
                     </span>
                   </Link>
@@ -307,9 +326,11 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                         setExamsExpanded((prev) => !prev);
                         closeSidebarOnNavigate();
                       }}
+                      className="relative"
                     >
-                      <Shield className="h-4 w-4 shrink-0 transition-colors" />
-                      <span className="truncate group-data-[collapsible=icon]:hidden">
+                      {isParentActive && <SidebarActivePill />}
+                      <Shield className="h-4 w-4 shrink-0 transition-colors relative z-10" />
+                      <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
                         Ngân hàng đề thi
                       </span>
                     </Link>
@@ -362,11 +383,23 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                                     cat.slug || cat.id
                                   )}`}
                                   onClick={closeSidebarOnNavigate}
-                                  className="flex items-center justify-between w-full text-xs py-1"
+                                  className="relative flex items-center justify-between w-full text-xs py-1"
                                 >
-                                  <span className="truncate">{cat.name}</span>
                                   {isSubActive && (
-                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white" />
+                                    <motion.span
+                                      layoutId="sidebar-sub-active-pill"
+                                      className="absolute inset-0 rounded-lg bg-white/[0.12] border border-white/15 pointer-events-none"
+                                      transition={{
+                                        type: "spring",
+                                        stiffness: 380,
+                                        damping: 30,
+                                        mass: 0.8,
+                                      }}
+                                    />
+                                  )}
+                                  <span className="truncate relative z-10">{cat.name}</span>
+                                  {isSubActive && (
+                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white relative z-10" />
                                   )}
                                 </Link>
                               </SidebarMenuSubButton>
@@ -403,14 +436,15 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                           isActive={item.active}
                           tooltip={item.title}
                         >
-                          <Link href={item.href} onClick={closeSidebarOnNavigate}>
-                            <Icon className="h-4 w-4 shrink-0 transition-colors" />
-                            <span className="truncate group-data-[collapsible=icon]:hidden">
+                          <Link href={item.href} onClick={closeSidebarOnNavigate} className="relative">
+                            {item.active && <SidebarActivePill />}
+                            <Icon className="h-4 w-4 shrink-0 transition-colors relative z-10" />
+                            <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
                               {item.title}
                             </span>
                             {/* Badge số lượng đề thi */}
                             {item.badge !== undefined && (
-                              <span className="ml-auto flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-[#f43f5e] text-white text-[11px] font-bold shadow-sm group-data-[collapsible=icon]:hidden">
+                              <span className="ml-auto flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-[#f43f5e] text-white text-[11px] font-bold shadow-sm group-data-[collapsible=icon]:hidden relative z-10">
                                 {item.badge}
                               </span>
                             )}
@@ -446,9 +480,10 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                           isActive={item.active}
                           tooltip={item.title}
                         >
-                          <Link href={item.href} onClick={closeSidebarOnNavigate}>
-                            <Icon className="h-4 w-4 shrink-0 transition-colors" />
-                            <span className="truncate group-data-[collapsible=icon]:hidden">
+                          <Link href={item.href} onClick={closeSidebarOnNavigate} className="relative">
+                            {item.active && <SidebarActivePill />}
+                            <Icon className="h-4 w-4 shrink-0 transition-colors relative z-10" />
+                            <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
                               {item.title}
                             </span>
                           </Link>
@@ -461,6 +496,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             </SidebarGroup>
           </>
         )}
+              </LayoutGroup>
       </SidebarContent>
 
       {/* 3. Footer: User Profile & Đăng xuất */}
