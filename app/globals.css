@@ -771,3 +771,85 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css
     0 0 30px rgba(99, 102, 241, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
+
+
+/*
+ * ==========================================================================
+ * SYSTEM THEMES (Chủ đề hệ thống: Obsidian | Navy Blue | Clean White)
+ * Chỉ tài khoản Admin có quyền chọn, User mặc định dùng Obsidian
+ * ==========================================================================
+ */
+
+/* 1. Theme Navy Blue (Nền xanh đen đại dương công nghệ) */
+[data-theme="navy-blue"] {
+  --background: #040914;
+  --foreground: #f0f6fc;
+  --surface: #0a1628;
+  --surface-glass: rgba(10, 22, 40, 0.88);
+  --border: #132a48;
+  --primary: #2563eb;
+  --primary-hover: #3b82f6;
+  --sidebar-background: #0a1628;
+  --sidebar-border: #132a48;
+  --sidebar-primary: #2563eb;
+  --sidebar-ring: #3b82f6;
+}
+
+[data-theme="navy-blue"] .obsidian-card,
+[data-theme="navy-blue"] .obsidian-card-interactive,
+[data-theme="navy-blue"] .glass-card,
+[data-theme="navy-blue"] .glass-card-interactive,
+[data-theme="navy-blue"] .glow-card {
+  background: radial-gradient(130% 130% at 50% 0%, rgba(14, 38, 74, 0.52) 0%, rgba(7, 16, 32, 0.94) 100%), rgba(7, 16, 32, 0.94);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.7), 0 0 20px rgba(37, 99, 235, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="navy-blue"] .obsidian-card-interactive:hover,
+[data-theme="navy-blue"] .glass-card-interactive:hover {
+  background: radial-gradient(130% 130% at 50% 30%, rgba(6, 16, 32, 0.98) 0%, rgba(3, 7, 16, 1) 100%), #030710;
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.9), 0 0 20px rgba(56, 189, 248, 0.22), inset 0 3px 12px rgba(0, 0, 0, 0.85);
+}
+
+/* 2. Theme Clean White (Nền trắng sáng tối giản) */
+[data-theme="clean-white"] {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --surface-glass: rgba(255, 255, 255, 0.92);
+  --border: #e2e8f0;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --sidebar-background: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-border: #e2e8f0;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #0f172a;
+  --text-heading: #0f172a;
+  --text-body: #334155;
+  --text-muted: #64748b;
+  color-scheme: light;
+}
+
+[data-theme="clean-white"] body {
+  color: #0f172a;
+  background-color: #f8fafc;
+}
+
+[data-theme="clean-white"] .obsidian-card,
+[data-theme="clean-white"] .obsidian-card-interactive,
+[data-theme="clean-white"] .glass-card,
+[data-theme="clean-white"] .glass-card-interactive,
+[data-theme="clean-white"] .glow-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 0 1px 1px rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="clean-white"] .obsidian-card-interactive:hover,
+[data-theme="clean-white"] .glass-card-interactive:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}

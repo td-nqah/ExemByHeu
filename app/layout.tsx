@@ -4,6 +4,7 @@ import { Plus_Jakarta_Sans, Be_Vietnam_Pro, JetBrains_Mono } from "next/font/goo
 import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
 import { SystemBackground } from "@/components/layout/SystemBackground";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-heading",
@@ -42,23 +43,52 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
+      suppressHydrationWarning
       className={`${plusJakartaSans.variable} ${beVietnamPro.variable} ${jetBrainsMono.variable} dark scroll-smooth h-full antialiased`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const u = localStorage.getItem("exambyheu_user_profile");
+                const user = u ? JSON.parse(u) : null;
+                if (user && user.role === "admin") {
+                  const t = localStorage.getItem("exambyheu_system_theme");
+                  if (t === "navy-blue" || t === "clean-white" || t === "obsidian") {
+                    document.documentElement.setAttribute("data-theme", t);
+                    if (t === "clean-white") {
+                      document.documentElement.classList.remove("dark");
+                      document.documentElement.classList.add("light");
+                    }
+                  } else {
+                    document.documentElement.setAttribute("data-theme", "obsidian");
+                  }
+                } else {
+                  document.documentElement.setAttribute("data-theme", "obsidian");
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-transparent font-body text-[#e5e7eb] antialiased selection:bg-[#4f46e5] selection:text-white relative overflow-x-hidden custom-scrollbar">
-        {/* Dynamic System Background: Mưa sao băng on login, Midnight Sky when logged in */}
-        <SystemBackground />
+        <ThemeProvider>
+          {/* Dynamic System Background: Mưa sao băng on login, Midnight Sky when logged in */}
+          <SystemBackground />
 
-        <div className="relative z-10 flex min-h-screen flex-col">
-          <Suspense
-            fallback={
-              <div className="h-screen w-full flex items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
-              </div>
-            }
-          >
-            <AppShell>{children}</AppShell>
-          </Suspense>
-        </div>
+          <div className="relative z-10 flex min-h-screen flex-col">
+            <Suspense
+              fallback={
+                <div className="h-screen w-full flex items-center justify-center">
+                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+                </div>
+              }
+            >
+              <AppShell>{children}</AppShell>
+            </Suspense>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

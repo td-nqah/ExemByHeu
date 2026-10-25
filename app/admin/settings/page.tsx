@@ -9,6 +9,7 @@ import {
   adminCreateAccount,
 } from "@/lib/store";
 import { Profile, AccountSecurity } from "@/types/exam";
+import { THEMES, SystemTheme, getSystemTheme, setSystemTheme } from "@/lib/theme";
 import {
   KeyRound,
   Shield,
@@ -22,6 +23,7 @@ import {
   Check,
   RefreshCw,
   Settings,
+  Palette,
   Lock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -51,6 +53,34 @@ export default function AdminSettingsPage() {
   const [showEmergencyPass, setShowEmergencyPass] = useState(false);
   const [emergencyLoading, setEmergencyLoading] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  // Card 3: Theme Switcher State
+  const [currentTheme, setCurrentTheme] = useState<SystemTheme>("obsidian");
+  const [themeNotice, setThemeNotice] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
+  useEffect(() => {
+    setCurrentTheme(getSystemTheme());
+  }, []);
+
+  const handleSelectTheme = (themeId: SystemTheme) => {
+    const res = setSystemTheme(themeId);
+    if (res.success) {
+      setCurrentTheme(themeId);
+      const thName = THEMES.find((t) => t.id === themeId)?.name || themeId;
+      setThemeNotice({
+        type: "success",
+        message: `Đã đổi chủ đề giao diện thành '${thName}'. (Lưu ý: Chỉ tài khoản Admin mới áp dụng chủ đề tùy chỉnh, các tài khoản User khác luôn giữ màu Obsidian mặc định).`,
+      });
+    } else {
+      setThemeNotice({
+        type: "error",
+        message: res.message || "Không thể đổi giao diện.",
+      });
+    }
+  };
+
   const [emergencyNotice, setEmergencyNotice] = useState<{
     type: "success" | "error";
     message: string;
@@ -762,6 +792,137 @@ export default function AdminSettingsPage() {
             <span>Hiệu lực: Cập nhật thông tin tài khoản ngay tức thì</span>
             <span className="font-mono text-[10px] text-slate-500">Instant-Sync</span>
           </div>
+        </div>
+      </div>
+
+      {/* =========================================================================
+          CARD 3: CHỦ ĐỀ GIAO DIỆN HỆ THỐNG (THEME SWITCHER)
+          ========================================================================= */}
+      <div className="relative rounded-2xl obsidian-card p-6">
+        <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#818cf8]/60 via-[#6366f1]/40 to-transparent" />
+          <div className="absolute -top-24 right-0 w-48 h-48 bg-[#818cf8]/10 rounded-full blur-3xl" />
+        </div>
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-indigo-500/20 gap-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#818cf8]/15 border border-[#818cf8]/30 text-[#818cf8] shadow-[0_0_12px_rgba(129,140,248,0.2)]">
+              <Palette className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-bold text-white">
+                  Chủ đề Giao diện Hệ thống
+                </h3>
+                <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                  <Shield className="h-3 w-3" />
+                  Chỉ quyền Admin
+                </span>
+              </div>
+              <p className="text-xs text-[#9ca3af]">
+                Lựa chọn chủ đề màu sắc cho giao diện. Các tài khoản người dùng khác sẽ luôn sử dụng giao diện mặc định Obsidian.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {themeNotice && (
+          <div
+            className={`mt-4 p-3 rounded-xl text-xs flex items-start gap-2 shadow-sm ${
+              themeNotice.type === "success"
+                ? "bg-emerald-500/10 border border-emerald-500/25 text-emerald-300"
+                : "bg-rose-500/10 border border-rose-500/25 text-rose-300"
+            }`}
+          >
+            {themeNotice.type === "success" ? (
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
+            ) : (
+              <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+            )}
+            <span>{themeNotice.message}</span>
+          </div>
+        )}
+
+        {/* 3 Theme Options Grid */}
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {THEMES.map((th) => {
+            const isSelected = currentTheme === th.id;
+            return (
+              <button
+                key={th.id}
+                type="button"
+                onClick={() => handleSelectTheme(th.id)}
+                className={`relative flex flex-col justify-between p-4 rounded-xl text-left transition-all duration-200 cursor-pointer ${
+                  isSelected
+                    ? "bg-[#181335] border-2 border-[#818cf8] shadow-[0_0_25px_rgba(129,140,248,0.25)] ring-1 ring-[#818cf8]/50"
+                    : "bg-[#0b0f19]/80 border border-[#1f2937] hover:border-indigo-500/40 hover:bg-[#121829]"
+                }`}
+              >
+                <div>
+                  {/* Top: Header + Active Check */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="font-heading font-bold text-sm text-white">
+                        {th.name}
+                      </span>
+                      {th.badge && (
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                            th.id === "obsidian"
+                              ? "bg-purple-500/15 text-purple-300 border border-purple-500/30"
+                              : "bg-amber-500/15 text-amber-300 border border-amber-500/30"
+                          }`}
+                        >
+                          {th.badge}
+                        </span>
+                      )}
+                    </div>
+                    {isSelected ? (
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#818cf8] text-[#0b0f19] shadow-sm">
+                        <Check className="h-4 w-4 stroke-[3]" />
+                      </span>
+                    ) : (
+                      <span className="h-5 w-5 rounded-full border border-slate-700 bg-slate-900/50" />
+                    )}
+                  </div>
+
+                  {/* Gradient & Swatches Preview Bar */}
+                  <div className="space-y-2 mb-3">
+                    <div
+                      className="h-10 w-full rounded-lg border border-white/10 shadow-inner flex items-center justify-end pr-2"
+                      style={{ background: th.gradientPreview }}
+                    >
+                      <div className="flex items-center gap-1.5 p-1 rounded-md bg-black/40 backdrop-blur-sm">
+                        {th.previewColors.map((color, i) => (
+                          <span
+                            key={i}
+                            className="h-3.5 w-3.5 rounded-full border border-white/20 shadow-xs"
+                            style={{ backgroundColor: color }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Subtitle / Description */}
+                  <p className="text-xs text-[#9ca3af] leading-relaxed">
+                    {th.subtitle}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px]">
+                  <span className={isSelected ? "font-bold text-[#818cf8]" : "text-slate-500"}>
+                    {isSelected ? "● Đang kích hoạt" : "Nhấn để kích hoạt"}
+                  </span>
+                  {th.id !== "obsidian" && (
+                    <span className="text-[10px] text-amber-400/80">
+                      Chờ mã màu chi tiết
+                    </span>
+                  )}
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
