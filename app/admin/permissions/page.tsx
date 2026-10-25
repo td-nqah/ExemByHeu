@@ -827,7 +827,7 @@ export default function AdminPermissionsPage() {
             </div>
 
             {/* List of Accounts with Live Online / Recent Session Status (Scrollable) */}
-            <div className="space-y-2.5 flex-1 min-h-0 overflow-y-auto max-h-[225px] sm:max-h-[235px] pr-1.5 custom-scrollbar">
+            <div className="space-y-2.5 flex-1 min-h-0 overflow-y-auto max-h-[225px] sm:max-h-[235px] pr-0.5 custom-scrollbar no-scrollbar">
               {allPresenceAccounts.map((acc) => {
                 const isOnline = isAccountOnline(acc);
                 const isCurrent = currentUser?.username?.toLowerCase() === acc.username.toLowerCase();

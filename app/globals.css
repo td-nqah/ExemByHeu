@@ -623,6 +623,26 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css
   border: 1px solid rgba(30, 41, 59, 0.8);
 }
 
+/*
+ * Scrollbar Utilities:
+ * Ẩn hoàn toàn thanh cuộn nhưng vẫn giữ khả năng cuộn chuột / touchpad mượt mà
+ */
+.custom-scrollbar,
+.no-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
 @media (prefers-reduced-transparency: reduce) {
   .glass-nav,
   .glass-panel,
