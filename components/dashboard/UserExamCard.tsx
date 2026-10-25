@@ -23,7 +23,7 @@ function renderHighlightedExamTitle(title: string) {
       const [, before, deText, after] = deMatch;
       return (
         <>
-          <span className="text-[#9ca3af] font-medium">{prefix}</span>{" "}
+          <span className="text-white font-bold">{prefix}</span>{" "}
           {before && <span className="text-white font-extrabold">{before}</span>}
           <span className="text-[#818cf8] font-extrabold">{deText}</span>
           {after && <span className="text-white font-extrabold">{after}</span>}
@@ -33,7 +33,7 @@ function renderHighlightedExamTitle(title: string) {
 
     return (
       <>
-        <span className="text-[#9ca3af] font-medium">{prefix}</span>{" "}
+        <span className="text-white font-bold">{prefix}</span>{" "}
         <span className="text-white font-extrabold">{suffix}</span>
       </>
     );
@@ -48,7 +48,7 @@ function renderHighlightedExamTitle(title: string) {
       const [, before, deText, after] = deMatch;
       return (
         <>
-          <span className="text-[#9ca3af] font-medium">{prefix}</span>{" "}
+          <span className="text-white font-bold">{prefix}</span>{" "}
           {before && <span className="text-white font-extrabold">{before}</span>}
           <span className="text-[#818cf8] font-extrabold">{deText}</span>
           {after && <span className="text-white font-extrabold">{after}</span>}
@@ -57,7 +57,7 @@ function renderHighlightedExamTitle(title: string) {
     }
     return (
       <>
-        <span className="text-[#9ca3af] font-medium">{prefix}</span>{" "}
+        <span className="text-white font-bold">{prefix}</span>{" "}
         <span className="text-white font-extrabold">{suffix}</span>
       </>
     );
