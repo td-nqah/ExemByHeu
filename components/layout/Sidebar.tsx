@@ -60,13 +60,28 @@ function formatDisplayName(name?: string): string {
 function SidebarActivePill() {
   return (
     <motion.span
-      layoutId="sidebar-active-pill"
-      className="absolute inset-0 rounded-xl bg-[#5852d6] shadow-[0_4px_18px_rgba(88,82,214,0.45)] border border-[#818cf8]/35 pointer-events-none group-data-[collapsible=icon]:rounded-full"
+      layoutId="sidebar-flying-pill"
+      className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#5852d6] to-[#4f46e5] shadow-[0_4px_20px_rgba(88,82,214,0.5),0_0_12px_rgba(129,140,248,0.35)] border border-[#818cf8]/40 pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
+      transition={{
+        type: "spring",
+        stiffness: 350,
+        damping: 28,
+        mass: 0.6,
+      }}
+    />
+  );
+}
+
+function SidebarSubActivePill() {
+  return (
+    <motion.span
+      layoutId="sidebar-sub-flying-pill"
+      className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#5852d6]/80 to-[#4f46e5]/80 border border-[#818cf8]/30 shadow-[0_2px_12px_rgba(88,82,214,0.35)] pointer-events-none z-0"
       transition={{
         type: "spring",
         stiffness: 380,
         damping: 30,
-        mass: 0.8,
+        mass: 0.6,
       }}
     />
   );
@@ -129,24 +144,48 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
     router.push("/");
   };
 
+  // Dynamic Navigation Active & Hover Indicator States
+  const getActiveNavKey = (): string => {
+    if (pathname === "/home") return "/home";
+    if (pathname.startsWith("/history")) return "/history";
+    if (pathname.startsWith("/knowledge")) return "/knowledge";
+    if (pathname === "/dashboard" || pathname.startsWith("/exam")) return "/dashboard";
+    if (pathname.startsWith("/admin/categories")) return "/admin/categories";
+    if (
+      pathname === "/admin" ||
+      pathname === "/admin/dashboard" ||
+      (pathname.startsWith("/admin/exams") &&
+        !pathname.startsWith("/admin/exams/create"))
+    ) {
+      return "/admin/dashboard";
+    }
+    if (pathname.startsWith("/admin/materials")) return "/admin/materials";
+    if (pathname.startsWith("/admin/permissions")) return "/admin/permissions";
+    if (pathname.startsWith("/admin/settings")) return "/admin/settings";
+    return "";
+  };
+
+  const activeNavKey = getActiveNavKey();
+  const [hoveredNavKey, setHoveredNavKey] = useState<string | null>(null);
+  const currentNavKey = hoveredNavKey || activeNavKey;
+
+  const [hoveredSubKey, setHoveredSubKey] = useState<string | null>(null);
+  const activeSubKey = pathname === "/dashboard" ? activeCategory : "";
+  const currentSubKey = hoveredSubKey || activeSubKey;
+
   // Group 1: TỔNG QUAN / BÁO CÁO (Đã bỏ Kết quả học tập)
   const overviewNavLinks = [
     {
       title: "Trang chủ",
       href: "/home",
       icon: Home,
-      active: pathname === "/home",
     },
     {
       title: "Lịch sử đánh giá",
       href: "/history",
       icon: History,
-      active: pathname.startsWith("/history"),
     },
   ];
-
-  const isParentActive =
-    (pathname === "/dashboard" && !activeCategory) || pathname.startsWith("/exam");
 
   // Group 3: QUẢN LÝ HỆ THỐNG
   const systemManagementNavLinks = [
@@ -154,24 +193,17 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Danh mục",
       href: "/admin/categories",
       icon: Menu,
-      active: pathname.startsWith("/admin/categories"),
     },
     {
       title: "Đề thi",
       href: "/admin/dashboard",
       icon: FileText,
       badge: examsCount,
-      active:
-        pathname === "/admin" ||
-        pathname === "/admin/dashboard" ||
-        (pathname.startsWith("/admin/exams") &&
-          !pathname.startsWith("/admin/exams/create")),
     },
     {
       title: "Tài liệu",
       href: "/admin/materials",
       icon: BarChart2,
-      active: pathname.startsWith("/admin/materials"),
     },
   ];
 
@@ -181,13 +213,11 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Phân quyền",
       href: "/admin/permissions",
       icon: User,
-      active: pathname.startsWith("/admin/permissions"),
     },
     {
       title: "Cài đặt",
       href: "/admin/settings",
       icon: Settings,
-      active: pathname.startsWith("/admin/settings"),
     },
   ];
 
@@ -250,253 +280,399 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
         </div>
       </SidebarHeader>
 
-      {/* 2. Content: Groups & Navigation Menu (Có thanh gạch ngang xám phân biệt các nhóm chức năng) */}
-      <SidebarContent className="px-2.5 py-3 custom-scrollbar space-y-2">
+      {/* 2. Content: Groups & Navigation Menu (Có hiệu ứng bay lướt mượt mà theo con trỏ chuột) */}
+      <SidebarContent
+        onMouseLeave={() => {
+          setHoveredNavKey(null);
+          setHoveredSubKey(null);
+        }}
+        className="px-2.5 py-3 custom-scrollbar space-y-2"
+      >
         <LayoutGroup id="sidebar-nav">
-        {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
-        <SidebarGroup className="p-0">
-          <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
-            TỔNG QUAN / BÁO CÁO
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="gap-1">
-              {overviewNavLinks.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={item.active}
-                      tooltip={item.title}
+          {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
+          <SidebarGroup className="p-0">
+            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+              TỔNG QUAN / BÁO CÁO
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className="gap-1">
+                {overviewNavLinks.map((item) => {
+                  const Icon = item.icon;
+                  const isHighlighted = currentNavKey === item.href;
+                  const isActiveRoute = activeNavKey === item.href;
+
+                  return (
+                    <SidebarMenuItem
+                      key={item.href}
+                      onMouseEnter={() => setHoveredNavKey(item.href)}
                     >
-                      <Link href={item.href} onClick={closeSidebarOnNavigate} className="relative">
-                        {item.active && <SidebarActivePill />}
-                        <Icon className="h-4 w-4 shrink-0 transition-colors relative z-10" />
-                        <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
-                          {item.title}
-                        </span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={isHighlighted}
+                        tooltip={item.title}
+                      >
+                        <Link
+                          href={item.href}
+                          onClick={closeSidebarOnNavigate}
+                          className="relative flex items-center gap-2.5 w-full"
+                        >
+                          {isHighlighted && <SidebarActivePill />}
+                          <Icon
+                            className={cn(
+                              "h-4 w-4 shrink-0 transition-colors relative z-10",
+                              isHighlighted ? "text-white" : "text-slate-300"
+                            )}
+                          />
+                          <span
+                            className={cn(
+                              "truncate group-data-[collapsible=icon]:hidden relative z-10",
+                              isHighlighted
+                                ? "text-white font-semibold"
+                                : "text-slate-300"
+                            )}
+                          >
+                            {item.title}
+                          </span>
+                          {isActiveRoute && !isHighlighted && (
+                            <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
+                          )}
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
 
-        {/* Gạch ngang phân cách giữa Nhóm 1 và Nhóm 2 */}
-        <SidebarSeparator className="my-2 bg-[#334155]/60" />
+          {/* Gạch ngang phân cách giữa Nhóm 1 và Nhóm 2 */}
+          <SidebarSeparator className="my-2 bg-[#334155]/60" />
 
-        {/* Nhóm 2: HỌC LIỆU / ĐÁNH GIÁ */}
-        <SidebarGroup className="p-0">
-          <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
-            HỌC LIỆU / ĐÁNH GIÁ
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="gap-1">
-              {/* Mục 1: Tài liệu ôn tập */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname.startsWith("/knowledge")}
-                  tooltip="Tài liệu ôn tập"
+          {/* Nhóm 2: HỌC LIỆU / ĐÁNH GIÁ */}
+          <SidebarGroup className="p-0">
+            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+              HỌC LIỆU / ĐÁNH GIÁ
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className="gap-1">
+                {/* Mục 1: Tài liệu ôn tập */}
+                <SidebarMenuItem
+                  onMouseEnter={() => setHoveredNavKey("/knowledge")}
                 >
-                  <Link href="/knowledge" onClick={closeSidebarOnNavigate} className="relative">
-                    {pathname.startsWith("/knowledge") && <SidebarActivePill />}
-                    <BookOpen className="h-4 w-4 shrink-0 transition-colors relative z-10" />
-                    <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
-                      Tài liệu ôn tập
-                    </span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-
-              {/* Mục 2: Ngân hàng đề thi */}
-              <SidebarMenuItem>
-                <div className="flex w-full items-center">
                   <SidebarMenuButton
                     asChild
-                    isActive={isParentActive}
-                    tooltip="Ngân hàng đề thi"
-                    className="flex-1"
+                    isActive={currentNavKey === "/knowledge"}
+                    tooltip="Tài liệu ôn tập"
                   >
                     <Link
-                      href="/dashboard"
-                      onClick={() => {
-                        setExamsExpanded((prev) => !prev);
-                        closeSidebarOnNavigate();
-                      }}
-                      className="relative"
+                      href="/knowledge"
+                      onClick={closeSidebarOnNavigate}
+                      className="relative flex items-center gap-2.5 w-full"
                     >
-                      {isParentActive && <SidebarActivePill />}
-                      <Shield className="h-4 w-4 shrink-0 transition-colors relative z-10" />
-                      <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
-                        Ngân hàng đề thi
+                      {currentNavKey === "/knowledge" && <SidebarActivePill />}
+                      <BookOpen
+                        className={cn(
+                          "h-4 w-4 shrink-0 transition-colors relative z-10",
+                          currentNavKey === "/knowledge"
+                            ? "text-white"
+                            : "text-slate-300"
+                        )}
+                      />
+                      <span
+                        className={cn(
+                          "truncate group-data-[collapsible=icon]:hidden relative z-10",
+                          currentNavKey === "/knowledge"
+                            ? "text-white font-semibold"
+                            : "text-slate-300"
+                        )}
+                      >
+                        Tài liệu ôn tập
                       </span>
+                      {activeNavKey === "/knowledge" &&
+                        currentNavKey !== "/knowledge" && (
+                          <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
+                        )}
                     </Link>
                   </SidebarMenuButton>
+                </SidebarMenuItem>
 
-                  {/* Nút bấm Chevron sổ xuống */}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setExamsExpanded((prev) => !prev);
-                    }}
-                    aria-label="Mở hoặc đóng danh mục đề thi"
-                    title={examsExpanded ? "Thu gọn danh mục" : "Mở rộng danh mục"}
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer group-data-[collapsible=icon]:hidden mr-1"
-                  >
-                    <ChevronDown
-                      className={cn(
-                        "h-3.5 w-3.5 shrink-0 transition-transform duration-200",
-                        examsExpanded && "rotate-180"
-                      )}
-                    />
-                  </button>
-                </div>
-
-                {/* Submenu: Dynamic Categories */}
-                <AnimatePresence>
-                  {examsExpanded && categories.length > 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      className="overflow-hidden group-data-[collapsible=icon]:hidden"
+                {/* Mục 2: Ngân hàng đề thi */}
+                <SidebarMenuItem
+                  onMouseEnter={() => setHoveredNavKey("/dashboard")}
+                >
+                  <div className="flex w-full items-center">
+                    <SidebarMenuButton
+                      asChild
+                      isActive={currentNavKey === "/dashboard"}
+                      tooltip="Ngân hàng đề thi"
+                      className="flex-1"
                     >
-                      <SidebarMenuSub className="pl-6 pr-1 py-1 space-y-1">
-                        {categories.map((cat) => {
-                          const isSubActive =
-                            pathname === "/dashboard" &&
-                            (activeCategory === cat.slug || activeCategory === cat.id);
-                          return (
-                            <SidebarMenuSubItem key={cat.id}>
-                              <SidebarMenuSubButton
-                                asChild
-                                isActive={isSubActive}
-                              >
-                                <Link
-                                  href={`/dashboard?category=${encodeURIComponent(
-                                    cat.slug || cat.id
-                                  )}`}
-                                  onClick={closeSidebarOnNavigate}
-                                  className="relative flex items-center justify-between w-full text-xs py-1"
+                      <Link
+                        href="/dashboard"
+                        onClick={() => {
+                          setExamsExpanded((prev) => !prev);
+                          closeSidebarOnNavigate();
+                        }}
+                        className="relative flex items-center gap-2.5 w-full"
+                      >
+                        {currentNavKey === "/dashboard" && <SidebarActivePill />}
+                        <Shield
+                          className={cn(
+                            "h-4 w-4 shrink-0 transition-colors relative z-10",
+                            currentNavKey === "/dashboard"
+                              ? "text-white"
+                              : "text-slate-300"
+                          )}
+                        />
+                        <span
+                          className={cn(
+                            "truncate group-data-[collapsible=icon]:hidden relative z-10",
+                            currentNavKey === "/dashboard"
+                              ? "text-white font-semibold"
+                              : "text-slate-300"
+                          )}
+                        >
+                          Ngân hàng đề thi
+                        </span>
+                        {activeNavKey === "/dashboard" &&
+                          currentNavKey !== "/dashboard" && (
+                            <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
+                          )}
+                      </Link>
+                    </SidebarMenuButton>
+
+                    {/* Nút bấm Chevron sổ xuống */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setExamsExpanded((prev) => !prev);
+                      }}
+                      aria-label="Mở hoặc đóng danh mục đề thi"
+                      title={examsExpanded ? "Thu gọn danh mục" : "Mở rộng danh mục"}
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-slate-300 hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer group-data-[collapsible=icon]:hidden mr-1"
+                    >
+                      <ChevronDown
+                        className={cn(
+                          "h-3.5 w-3.5 shrink-0 transition-transform duration-200",
+                          examsExpanded && "rotate-180"
+                        )}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Submenu: Dynamic Categories */}
+                  <AnimatePresence>
+                    {examsExpanded && categories.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="overflow-hidden group-data-[collapsible=icon]:hidden"
+                      >
+                        <SidebarMenuSub
+                          onMouseLeave={() => setHoveredSubKey(null)}
+                          className="pl-6 pr-1 py-1 space-y-1"
+                        >
+                          <LayoutGroup id="sidebar-sub-nav">
+                            {categories.map((cat) => {
+                              const catKey = cat.slug || cat.id;
+                              const isSubActiveRoute =
+                                pathname === "/dashboard" &&
+                                (activeCategory === cat.slug ||
+                                  activeCategory === cat.id);
+                              const isSubHighlighted = currentSubKey === catKey;
+
+                              return (
+                                <SidebarMenuSubItem
+                                  key={cat.id}
+                                  onMouseEnter={() => {
+                                    setHoveredSubKey(catKey);
+                                    setHoveredNavKey("/dashboard");
+                                  }}
                                 >
-                                  {isSubActive && (
-                                    <motion.span
-                                      layoutId="sidebar-sub-active-pill"
-                                      className="absolute inset-0 rounded-lg bg-white/[0.12] border border-white/15 pointer-events-none"
-                                      transition={{
-                                        type: "spring",
-                                        stiffness: 380,
-                                        damping: 30,
-                                        mass: 0.8,
-                                      }}
-                                    />
-                                  )}
-                                  <span className="truncate relative z-10">{cat.name}</span>
-                                  {isSubActive && (
-                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white relative z-10" />
-                                  )}
-                                </Link>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          );
-                        })}
-                      </SidebarMenuSub>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                                  <SidebarMenuSubButton
+                                    asChild
+                                    isActive={isSubHighlighted}
+                                  >
+                                    <Link
+                                      href={`/dashboard?category=${encodeURIComponent(
+                                        cat.slug || cat.id
+                                      )}`}
+                                      onClick={closeSidebarOnNavigate}
+                                      className="relative flex items-center justify-between w-full text-xs py-1"
+                                    >
+                                      {isSubHighlighted && (
+                                        <SidebarSubActivePill />
+                                      )}
+                                      <span
+                                        className={cn(
+                                          "truncate relative z-10",
+                                          isSubHighlighted
+                                            ? "text-white font-medium"
+                                            : "text-slate-300"
+                                        )}
+                                      >
+                                        {cat.name}
+                                      </span>
+                                      {isSubActiveRoute && (
+                                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white relative z-10" />
+                                      )}
+                                    </Link>
+                                  </SidebarMenuSubButton>
+                                </SidebarMenuSubItem>
+                              );
+                            })}
+                          </LayoutGroup>
+                        </SidebarMenuSub>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
 
-        {/* Nhóm 3: QUẢN LÝ HỆ THỐNG */}
-        {user?.role === "admin" && (
-          <>
-            {/* Gạch ngang phân cách giữa Nhóm 2 và Nhóm 3 */}
-            <SidebarSeparator className="my-2 bg-[#334155]/60" />
+          {/* Nhóm 3: QUẢN LÝ HỆ THỐNG */}
+          {user?.role === "admin" && (
+            <>
+              {/* Gạch ngang phân cách giữa Nhóm 2 và Nhóm 3 */}
+              <SidebarSeparator className="my-2 bg-[#334155]/60" />
 
-            <SidebarGroup className="p-0">
-              <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
-                QUẢN LÝ HỆ THỐNG
-              </SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu className="gap-1">
-                  {systemManagementNavLinks.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <SidebarMenuItem key={item.href}>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={item.active}
-                          tooltip={item.title}
+              <SidebarGroup className="p-0">
+                <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+                  QUẢN LÝ HỆ THỐNG
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu className="gap-1">
+                    {systemManagementNavLinks.map((item) => {
+                      const Icon = item.icon;
+                      const isHighlighted = currentNavKey === item.href;
+                      const isActiveRoute = activeNavKey === item.href;
+
+                      return (
+                        <SidebarMenuItem
+                          key={item.href}
+                          onMouseEnter={() => setHoveredNavKey(item.href)}
                         >
-                          <Link href={item.href} onClick={closeSidebarOnNavigate} className="relative">
-                            {item.active && <SidebarActivePill />}
-                            <Icon className="h-4 w-4 shrink-0 transition-colors relative z-10" />
-                            <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
-                              {item.title}
-                            </span>
-                            {/* Badge số lượng đề thi */}
-                            {item.badge !== undefined && (
-                              <span className="ml-auto flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-[#f43f5e] text-white text-[11px] font-bold shadow-sm group-data-[collapsible=icon]:hidden relative z-10">
-                                {item.badge}
+                          <SidebarMenuButton
+                            asChild
+                            isActive={isHighlighted}
+                            tooltip={item.title}
+                          >
+                            <Link
+                              href={item.href}
+                              onClick={closeSidebarOnNavigate}
+                              className="relative flex items-center gap-2.5 w-full"
+                            >
+                              {isHighlighted && <SidebarActivePill />}
+                              <Icon
+                                className={cn(
+                                  "h-4 w-4 shrink-0 transition-colors relative z-10",
+                                  isHighlighted
+                                    ? "text-white"
+                                    : "text-slate-300"
+                                )}
+                              />
+                              <span
+                                className={cn(
+                                  "truncate group-data-[collapsible=icon]:hidden relative z-10",
+                                  isHighlighted
+                                    ? "text-white font-semibold"
+                                    : "text-slate-300"
+                                )}
+                              >
+                                {item.title}
                               </span>
-                            )}
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    );
-                  })}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </>
-        )}
+                              {/* Badge số lượng đề thi */}
+                              {item.badge !== undefined && (
+                                <span className="ml-auto flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-[#f43f5e] text-white text-[11px] font-bold shadow-sm group-data-[collapsible=icon]:hidden relative z-10">
+                                  {item.badge}
+                                </span>
+                              )}
+                              {isActiveRoute &&
+                                !isHighlighted &&
+                                item.badge === undefined && (
+                                  <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
+                                )}
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </>
+          )}
 
-        {/* Nhóm 4: CẤU HÌNH HỆ THỐNG */}
-        {user?.role === "admin" && (
-          <>
-            {/* Gạch ngang phân cách giữa Nhóm 3 và Nhóm 4 */}
-            <SidebarSeparator className="my-2 bg-[#334155]/60" />
+          {/* Nhóm 4: CẤU HÌNH HỆ THỐNG */}
+          {user?.role === "admin" && (
+            <>
+              {/* Gạch ngang phân cách giữa Nhóm 3 và Nhóm 4 */}
+              <SidebarSeparator className="my-2 bg-[#334155]/60" />
 
-            <SidebarGroup className="p-0">
-              <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
-                CẤU HÌNH HỆ THỐNG
-              </SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu className="gap-1">
-                  {systemConfigNavLinks.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <SidebarMenuItem key={item.href}>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={item.active}
-                          tooltip={item.title}
+              <SidebarGroup className="p-0">
+                <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+                  CẤU HÌNH HỆ THỐNG
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu className="gap-1">
+                    {systemConfigNavLinks.map((item) => {
+                      const Icon = item.icon;
+                      const isHighlighted = currentNavKey === item.href;
+                      const isActiveRoute = activeNavKey === item.href;
+
+                      return (
+                        <SidebarMenuItem
+                          key={item.href}
+                          onMouseEnter={() => setHoveredNavKey(item.href)}
                         >
-                          <Link href={item.href} onClick={closeSidebarOnNavigate} className="relative">
-                            {item.active && <SidebarActivePill />}
-                            <Icon className="h-4 w-4 shrink-0 transition-colors relative z-10" />
-                            <span className="truncate group-data-[collapsible=icon]:hidden relative z-10">
-                              {item.title}
-                            </span>
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    );
-                  })}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </>
-        )}
-              </LayoutGroup>
+                          <SidebarMenuButton
+                            asChild
+                            isActive={isHighlighted}
+                            tooltip={item.title}
+                          >
+                            <Link
+                              href={item.href}
+                              onClick={closeSidebarOnNavigate}
+                              className="relative flex items-center gap-2.5 w-full"
+                            >
+                              {isHighlighted && <SidebarActivePill />}
+                              <Icon
+                                className={cn(
+                                  "h-4 w-4 shrink-0 transition-colors relative z-10",
+                                  isHighlighted
+                                    ? "text-white"
+                                    : "text-slate-300"
+                                )}
+                              />
+                              <span
+                                className={cn(
+                                  "truncate group-data-[collapsible=icon]:hidden relative z-10",
+                                  isHighlighted
+                                    ? "text-white font-semibold"
+                                    : "text-slate-300"
+                                )}
+                              >
+                                {item.title}
+                              </span>
+                              {isActiveRoute && !isHighlighted && (
+                                <span className="ml-auto mr-1 h-1.5 w-1.5 rounded-full bg-[#818cf8] shadow-[0_0_8px_#818cf8] relative z-10" />
+                              )}
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </>
+          )}
+        </LayoutGroup>
       </SidebarContent>
 
       {/* 3. Footer: User Profile & Đăng xuất */}
