@@ -90,12 +90,10 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           const processedQuestions = questionsList.map((q) => {
             if (q.type === "multiple_choice" && Array.isArray(q.options) && q.options.length > 0) {
               const baseOpts = getQuestionOptionsWithIds(q);
-              const finalOpts = data.is_shuffled ? shuffleArray(baseOpts) : baseOpts;
-
-              const option_items: QuestionOptionItem[] = finalOpts.map((opt, idx) => ({
+              const option_items: QuestionOptionItem[] = baseOpts.map((opt, idx) => ({
                 id: opt.id,
                 original_letter: opt.original_letter,
-                display_letter: String.fromCharCode(65 + idx),
+                display_letter: opt.original_letter || String.fromCharCode(65 + idx),
                 text: opt.clean_text,
               }));
 

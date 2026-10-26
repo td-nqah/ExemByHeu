@@ -1548,15 +1548,36 @@ export async function submitExam(
       const correctOption = optionsWithIds.find((o) => o.is_correct);
       const correctOptionId = correctOption?.id || "";
 
-      // Lookup candidate's selected option by option_id, original letter, or matching option text
-      const selectedOption = optionsWithIds.find(
-        (o) =>
-          o.id === rawAnswer ||
-          o.original_letter.toUpperCase() === rawAnswer.toUpperCase() ||
-          rawAnswer.toUpperCase().startsWith(o.original_letter.toUpperCase()) ||
-          o.raw_text.trim().toLowerCase() === rawAnswer.trim().toLowerCase() ||
-          o.clean_text.trim().toLowerCase() === rawAnswer.trim().toLowerCase()
-      );
+      // 1. Exact match by option ID (guaranteed accurate and immune to UUID collisions)
+      let selectedOption = optionsWithIds.find((o) => o.id === rawAnswer);
+
+      // 2. Match by exact single letter (e.g. "A", "B", "C", "D")
+      if (!selectedOption && rawAnswer.trim().length === 1) {
+        selectedOption = optionsWithIds.find(
+          (o) => o.original_letter.toUpperCase() === rawAnswer.trim().toUpperCase()
+        );
+      }
+
+      // 3. Match by standard letter prefix format (e.g. "A.", "A)", "A:")
+      if (!selectedOption) {
+        const letterPrefixMatch = rawAnswer.trim().match(/^([A-D])[\.\:\)\s]/i);
+        if (letterPrefixMatch) {
+          const letter = letterPrefixMatch[1].toUpperCase();
+          selectedOption = optionsWithIds.find(
+            (o) => o.original_letter.toUpperCase() === letter
+          );
+        }
+      }
+
+      // 4. Fallback match by exact text content
+      if (!selectedOption) {
+        const cleanAnswer = rawAnswer.trim().toLowerCase();
+        selectedOption = optionsWithIds.find(
+          (o) =>
+            o.raw_text.trim().toLowerCase() === cleanAnswer ||
+            o.clean_text.trim().toLowerCase() === cleanAnswer
+        );
+      }
 
       // Requirement 4: Compare selected_option_id with correct_option_id for 100% accurate grading
       const selectedOptionId = selectedOption?.id || rawAnswer;
