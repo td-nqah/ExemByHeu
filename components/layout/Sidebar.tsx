@@ -227,7 +227,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Lịch sử đánh giá",
       href: "/history",
       icon: History,
-      color: "text-emerald-400",
+      color: "text-indigo-400",
     },
   ];
 
@@ -237,7 +237,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Danh mục",
       href: "/admin/categories",
       icon: Menu,
-      color: "text-violet-400",
+      color: "text-indigo-400",
     },
     {
       title: "Đề thi",
@@ -250,7 +250,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Tài liệu",
       href: "/admin/materials",
       icon: BarChart2,
-      color: "text-teal-400",
+      color: "text-indigo-400",
     },
   ];
 
@@ -260,13 +260,13 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Phân quyền",
       href: "/admin/permissions",
       icon: User,
-      color: "text-blue-400",
+      color: "text-indigo-400",
     },
     {
       title: "Cài đặt",
       href: "/admin/settings",
       icon: Settings,
-      color: "text-slate-300",
+      color: "text-indigo-400",
     },
   ];
 
@@ -334,7 +334,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
         <LayoutGroup id="sidebar-nav">
           {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
+            <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
               TỔNG QUAN / BÁO CÁO
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -386,7 +386,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
 
           {/* Nhóm 2: HỌC LIỆU / ĐÁNH GIÁ */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
+            <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
               HỌC LIỆU / ĐÁNH GIÁ
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -409,7 +409,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                           "h-4 w-4 shrink-0 transition-colors relative z-10",
                           activeNavKey === "/knowledge"
                             ? "text-black"
-                            : "text-sky-400"
+                            : "text-indigo-400"
                         )}
                       />
                       <span
@@ -448,7 +448,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                             "h-4 w-4 shrink-0 transition-colors relative z-10",
                             activeNavKey === "/dashboard"
                               ? "text-black"
-                              : "text-amber-400"
+                              : "text-indigo-400"
                           )}
                         />
                         <span
@@ -552,7 +552,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
               <SidebarSeparator className="my-2 bg-[#1b1f2a]" />
 
               <SidebarGroup className="p-0">
-                <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
+                <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
                   QUẢN LÝ HỆ THỐNG
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
@@ -616,7 +616,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
               <SidebarSeparator className="my-2 bg-[#1b1f2a]" />
 
               <SidebarGroup className="p-0">
-                <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
+                <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
                   CẤU HÌNH HỆ THỐNG
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
