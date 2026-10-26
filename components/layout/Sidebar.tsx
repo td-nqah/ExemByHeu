@@ -61,7 +61,7 @@ function SidebarActivePill() {
   return (
     <motion.span
       layoutId="sidebar-flying-pill"
-      className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 shadow-md shadow-indigo-600/30 border border-indigo-400/25 pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
+      className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 shadow-sm shadow-black/40 border border-indigo-400/25 pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
       transition={{
         type: "spring",
         stiffness: 300,

@@ -222,7 +222,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
       >
         <div
           className={cn(
-            "fixed z-40 flex flex-col transition-[width,transform] duration-300 ease-in-out",
+            "fixed z-40 flex flex-col transition-transform duration-300 ease-in-out",
             "top-3.5 bottom-3.5 left-3.5 h-[calc(100dvh-1.75rem)] rounded-[28px] overflow-hidden",
             "sidebar-floating-card text-white",
             side === "left" ? "left-3.5" : "right-3.5",

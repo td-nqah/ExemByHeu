@@ -118,7 +118,7 @@ export default function HomePage() {
           </span>
 
           <span className="inline-flex items-center gap-1.5 text-xs text-emerald-300 bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full font-medium backdrop-blur-md shadow-xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             <span>Hà Nội (GMT+7)</span>
           </span>
         </div>
@@ -140,7 +140,7 @@ export default function HomePage() {
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 active:from-indigo-700 active:to-violet-700 text-white px-7 py-3.5 text-sm font-semibold shadow-md shadow-indigo-600/25 hover:shadow-indigo-600/35 transition-all hover:scale-[1.02] active:scale-[0.98] select-none"
+            className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 active:from-indigo-700 active:to-violet-700 text-white px-7 py-3.5 text-sm font-semibold shadow-md shadow-black/40 hover:shadow-lg hover:shadow-black/50 transition-all hover:scale-[1.02] active:scale-[0.98] select-none"
           >
             <Play className="h-4 w-4 fill-current ml-0.5" />
             <span>Bắt đầu bài đánh giá</span>
@@ -149,7 +149,7 @@ export default function HomePage() {
 
           <Link
             href="/history"
-            className="inline-flex items-center gap-2 rounded-2xl obsidian-card border border-indigo-500/25 hover:border-indigo-400 text-slate-200 hover:text-white px-6 py-3.5 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm select-none"
+            className="inline-flex items-center gap-2 rounded-2xl bg-slate-900/80 border border-slate-700/60 hover:border-slate-500 text-slate-200 hover:text-white px-6 py-3.5 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm shadow-black/40 select-none"
           >
             <History className="h-4 w-4 text-[#818cf8]" />
             <span>Xem lịch sử đánh giá</span>
@@ -187,14 +187,14 @@ export default function HomePage() {
             className="group rounded-2xl obsidian-card-interactive border border-indigo-500/20 hover:border-indigo-500/40 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
-              <span className="font-heading text-2xl font-extrabold text-emerald-400 tabular-nums drop-shadow-sm">
+              <span className="font-heading text-2xl font-extrabold text-white tabular-nums drop-shadow-sm">
                 {submissionsCount}
               </span>
             </div>
-            <h2 className="mt-4 text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">
+            <h2 className="mt-4 text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">
               Đã hoàn thành
             </h2>
             <p className="mt-1 text-xs text-slate-400 leading-relaxed">
@@ -205,10 +205,10 @@ export default function HomePage() {
           {/* Card 3: Standard Room */}
           <div className="rounded-2xl obsidian-card border border-indigo-500/20 p-5">
             <div className="flex items-center justify-between">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/25 text-amber-400">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400">
                 <ShieldCheck className="h-5 w-5" />
               </div>
-              <span className="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full font-medium shadow-xs">
+              <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2.5 py-0.5 rounded-full font-medium shadow-xs">
                 Sẵn sàng
               </span>
             </div>
