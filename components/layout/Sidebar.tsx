@@ -61,7 +61,7 @@ function SidebarActivePill() {
   return (
     <motion.span
       layoutId="sidebar-flying-pill"
-      className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 shadow-sm shadow-black/40 border border-indigo-400/25 pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
+      className="absolute inset-0 rounded-xl bg-indigo-600 shadow-sm shadow-black/30 border border-indigo-400/30 pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
       transition={{
         type: "spring",
         stiffness: 300,
@@ -259,7 +259,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none min-w-0"
           >
             {/* Squircle Glowing Purple Icon Box */}
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#6366f1] to-[#4f46e5] text-white shadow-[0_0_20px_rgba(99,102,241,0.45)]">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-md shadow-black/40 border border-indigo-400/20">
               <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
             </div>
 
@@ -290,7 +290,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             href="/home"
             onClick={() => handleNavClick("/home")}
             title="ExamByHeu - Trang chủ"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#6366f1] to-[#4f46e5] text-white shadow-[0_0_16px_rgba(99,102,241,0.45)] hover:scale-105 active:scale-95 transition-all select-none"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-sm shadow-black/40 hover:scale-105 active:scale-95 transition-all select-none border border-indigo-400/20"
           >
             <GraduationCap className="h-5 w-5" />
           </Link>
