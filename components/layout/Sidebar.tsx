@@ -62,7 +62,7 @@ function SidebarActivePill() {
   return (
     <motion.span
       layoutId="sidebar-flying-pill"
-      className="absolute inset-0 rounded-xl bg-indigo-600 shadow-sm shadow-black/30 border border-indigo-400/30 pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
+      className="absolute inset-0 rounded-xl bg-white shadow-sm pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
       transition={{
         type: "spring",
         stiffness: 300,
@@ -77,7 +77,7 @@ function SidebarSubActivePill() {
   return (
     <motion.span
       layoutId="sidebar-sub-flying-pill"
-      className="absolute inset-0 rounded-lg bg-indigo-600/60 border border-indigo-400/25 shadow-xs pointer-events-none z-0"
+      className="absolute inset-0 rounded-lg bg-[#232836] border border-[#2a2f3c] pointer-events-none z-0"
       transition={{
         type: "spring",
         stiffness: 320,
@@ -266,26 +266,27 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
   return (
     <ShadcnSidebar collapsible="icon">
       {/* 1. Header: Logo / Brand & Toggle Trigger */}
-      <SidebarHeader className="border-b border-[#1f2937]/70 px-3.5 py-3 group-data-[collapsible=icon]:px-1 group-data-[collapsible=icon]:py-2.5">
+      <SidebarHeader className="border-b border-[#1b1f2a] px-3.5 py-3 group-data-[collapsible=icon]:px-1 group-data-[collapsible=icon]:py-2.5">
         {/* In Expanded Mode */}
         <div className="relative flex items-center justify-between w-full min-h-[44px] group-data-[collapsible=icon]:hidden">
-          {/* Brand Logo & Name: Exam (Trắng) ByHeu (Tím) */}
+          {/* Brand Logo & Name: Exam (Trắng) By (Xám) Heu (Trắng) */}
           <Link
             href="/home"
             onClick={() => handleNavClick("/home")}
             title="ExamByHeu - Hệ thống đánh giá"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none min-w-0"
           >
-            {/* Squircle Glowing Purple Icon Box */}
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-md shadow-black/40 border border-indigo-400/20">
+            {/* Dark Starry Night Icon Box */}
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] text-white shadow-sm border border-[#252a37]">
               <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
             </div>
 
-            {/* Brand Text: Exam Trắng - ByHeu Tím */}
+            {/* Brand Text: Exam Trắng - By Xám - Heu Trắng */}
             <div className="flex flex-col min-w-0">
               <span className="brand-logo font-heading text-[19px] font-black tracking-tight leading-none select-none">
                 <span className="text-white">Exam</span>
-                <span className="text-[#818cf8]">ByHeu</span>
+                <span className="text-[#9ca3af]">By</span>
+                <span className="text-white">Heu</span>
               </span>
               <span className="text-[11px] font-medium text-[#9ca3af] leading-none mt-1">
                 Hệ thống đánh giá
@@ -296,7 +297,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
           {/* Squircle Close / Toggle Button bên phải */}
           <SidebarTrigger
             title="Thu nhỏ sidebar (Ctrl+B)"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#334155]/60 bg-[#1e293b]/50 hover:bg-[#1e293b] text-slate-300 hover:text-white active:scale-95 transition cursor-pointer select-none shadow-sm ml-2"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#252a37] bg-[#10131b] hover:bg-[#161a24] text-slate-300 hover:text-white active:scale-95 transition cursor-pointer select-none shadow-sm ml-2"
           >
             <Menu className="h-4.5 w-4.5" strokeWidth={2.2} />
           </SidebarTrigger>
@@ -308,26 +309,26 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             href="/home"
             onClick={() => handleNavClick("/home")}
             title="ExamByHeu - Trang chủ"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-sm shadow-black/40 hover:scale-105 active:scale-95 transition-all select-none border border-indigo-400/20"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] text-white shadow-sm hover:scale-105 active:scale-95 transition-all select-none border border-[#252a37]"
           >
-            <GraduationCap className="h-5 w-5" />
+            <GraduationCap className="h-5 w-5 text-white" />
           </Link>
 
           <SidebarTrigger
             title="Mở rộng sidebar (Ctrl+B)"
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#334155]/60 bg-[#1e293b]/50 hover:bg-[#1e293b] text-slate-300 hover:text-white active:scale-95 transition shadow-sm cursor-pointer select-none"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#252a37] bg-[#10131b] hover:bg-[#161a24] text-slate-300 hover:text-white active:scale-95 transition shadow-sm cursor-pointer select-none"
           >
             <Menu className="h-4.5 w-4.5" strokeWidth={2.2} />
           </SidebarTrigger>
         </div>
       </SidebarHeader>
 
-      {/* 2. Content: Groups & Navigation Menu (Khung tím bay lướt khi ấn chọn chức năng) */}
+      {/* 2. Content: Groups & Navigation Menu */}
       <SidebarContent className="px-2.5 py-3 custom-scrollbar space-y-2">
         <LayoutGroup id="sidebar-nav">
           {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+            <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
               TỔNG QUAN / BÁO CÁO
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -352,14 +353,14 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                           <Icon
                             className={cn(
                               "h-4 w-4 shrink-0 transition-colors relative z-10",
-                              isActive ? "text-white" : "text-slate-300"
+                              isActive ? "text-black" : "text-slate-300"
                             )}
                           />
                           <span
                             className={cn(
                               "truncate group-data-[collapsible=icon]:hidden relative z-10",
                               isActive
-                                ? "text-white font-semibold"
+                                ? "text-black font-bold"
                                 : "text-slate-300"
                             )}
                           >
@@ -375,11 +376,11 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
           </SidebarGroup>
 
           {/* Gạch ngang phân cách giữa Nhóm 1 và Nhóm 2 */}
-          <SidebarSeparator className="my-2 bg-[#334155]/60" />
+          <SidebarSeparator className="my-2 bg-[#1b1f2a]" />
 
           {/* Nhóm 2: HỌC LIỆU / ĐÁNH GIÁ */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+            <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
               HỌC LIỆU / ĐÁNH GIÁ
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -401,7 +402,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                         className={cn(
                           "h-4 w-4 shrink-0 transition-colors relative z-10",
                           activeNavKey === "/knowledge"
-                            ? "text-white"
+                            ? "text-black"
                             : "text-slate-300"
                         )}
                       />
@@ -409,7 +410,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                         className={cn(
                           "truncate group-data-[collapsible=icon]:hidden relative z-10",
                           activeNavKey === "/knowledge"
-                            ? "text-white font-semibold"
+                            ? "text-black font-bold"
                             : "text-slate-300"
                         )}
                       >
@@ -440,7 +441,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                           className={cn(
                             "h-4 w-4 shrink-0 transition-colors relative z-10",
                             activeNavKey === "/dashboard"
-                              ? "text-white"
+                              ? "text-black"
                               : "text-slate-300"
                           )}
                         />
@@ -448,7 +449,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                           className={cn(
                             "truncate group-data-[collapsible=icon]:hidden relative z-10",
                             activeNavKey === "/dashboard"
-                              ? "text-white font-semibold"
+                              ? "text-black font-bold"
                               : "text-slate-300"
                           )}
                         >
@@ -542,10 +543,10 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
           {user?.role === "admin" && (
             <>
               {/* Gạch ngang phân cách giữa Nhóm 2 và Nhóm 3 */}
-              <SidebarSeparator className="my-2 bg-[#334155]/60" />
+              <SidebarSeparator className="my-2 bg-[#1b1f2a]" />
 
               <SidebarGroup className="p-0">
-                <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+                <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
                   QUẢN LÝ HỆ THỐNG
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
@@ -571,7 +572,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                                 className={cn(
                                   "h-4 w-4 shrink-0 transition-colors relative z-10",
                                   isActive
-                                    ? "text-white"
+                                    ? "text-black"
                                     : "text-slate-300"
                                 )}
                               />
@@ -579,7 +580,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                                 className={cn(
                                   "truncate group-data-[collapsible=icon]:hidden relative z-10",
                                   isActive
-                                    ? "text-white font-semibold"
+                                    ? "text-black font-bold"
                                     : "text-slate-300"
                                 )}
                               >
@@ -587,7 +588,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                               </span>
                               {/* Badge số lượng đề thi */}
                               {item.badge !== undefined && (
-                                <span className="ml-auto flex items-center justify-center min-w-[22px] h-5 px-2 rounded-full bg-rose-600 text-white text-xs font-bold font-heading shadow-xs group-data-[collapsible=icon]:hidden relative z-10">
+                                <span className="ml-auto flex items-center justify-center min-w-[22px] h-5 px-2 rounded-full bg-[#232836] border border-[#2a2f3c] text-white text-xs font-bold font-mono shadow-xs group-data-[collapsible=icon]:hidden relative z-10">
                                   {item.badge}
                                 </span>
                               )}
@@ -606,10 +607,10 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
           {user?.role === "admin" && (
             <>
               {/* Gạch ngang phân cách giữa Nhóm 3 và Nhóm 4 */}
-              <SidebarSeparator className="my-2 bg-[#334155]/60" />
+              <SidebarSeparator className="my-2 bg-[#1b1f2a]" />
 
               <SidebarGroup className="p-0">
-                <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-bold tracking-wider uppercase px-2.5 mb-1">
+                <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
                   CẤU HÌNH HỆ THỐNG
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
@@ -635,7 +636,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                                 className={cn(
                                   "h-4 w-4 shrink-0 transition-colors relative z-10",
                                   isActive
-                                    ? "text-white"
+                                    ? "text-black"
                                     : "text-slate-300"
                                 )}
                               />
@@ -643,7 +644,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                                 className={cn(
                                   "truncate group-data-[collapsible=icon]:hidden relative z-10",
                                   isActive
-                                    ? "text-white font-semibold"
+                                    ? "text-black font-bold"
                                     : "text-slate-300"
                                 )}
                               >
@@ -663,7 +664,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       </SidebarContent>
 
       {/* 3. Footer: User Profile & Đăng xuất */}
-      <SidebarFooter className="border-t border-[#1f2937]/70 p-2.5 group-data-[collapsible=icon]:px-1 group-data-[collapsible=icon]:py-2 group-data-[collapsible=icon]:items-center">
+      <SidebarFooter className="border-t border-[#1b1f2a] p-2.5 group-data-[collapsible=icon]:px-1 group-data-[collapsible=icon]:py-2 group-data-[collapsible=icon]:items-center">
         {user ? (
           <div className="flex flex-col gap-2 w-full group-data-[collapsible=icon]:items-center">
             {/* User Profile Info */}
@@ -671,7 +672,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
               <div className="flex items-center gap-2.5 min-w-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full">
                 <div
                   title={`${formatDisplayName(user.username, user.role)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-800 text-slate-200 font-bold text-xs select-none shadow-xs cursor-default group-data-[collapsible=icon]:mx-auto"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#10131b] border border-[#252a37] text-white font-bold text-xs select-none shadow-xs cursor-default group-data-[collapsible=icon]:mx-auto"
                 >
                   {formatDisplayName(user.username, user.role).charAt(0).toUpperCase()}
                 </div>
@@ -686,12 +687,12 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
               </div>
             </div>
 
-            {/* Logout Button - Red Border Outline matching Image 1 */}
+            {/* Logout Button */}
             <button
               type="button"
               onClick={handleLogout}
               title="Đăng xuất khỏi hệ thống"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-transparent hover:bg-rose-500/10 text-[#f43f5e] border border-[#f43f5e]/40 hover:border-[#f43f5e] px-3 py-2 text-xs font-semibold transition-all cursor-pointer shadow-xs active:scale-98 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#10131b]/60 hover:bg-[#161a24] text-slate-300 hover:text-white border border-[#252a37] hover:border-[#2a2f3c] px-3 py-2 text-xs font-semibold transition-all cursor-pointer shadow-xs active:scale-98 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
             >
               <LogOut className="h-4 w-4 shrink-0" />
               <span className="truncate group-data-[collapsible=icon]:hidden">Đăng xuất</span>
@@ -702,7 +703,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             href="/"
             title="Đăng nhập hệ thống"
             onClick={closeSidebarOnNavigate}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-3 py-2 text-xs font-semibold text-white transition-colors group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-white hover:bg-slate-100 px-3 py-2 text-xs font-bold text-black transition-colors group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
           >
             <User className="h-4 w-4 shrink-0" />
             <span className="truncate group-data-[collapsible=icon]:hidden">Đăng nhập</span>

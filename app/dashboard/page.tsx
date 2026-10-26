@@ -130,9 +130,9 @@ function UserDashboardContent() {
         </div>
 
         {/* Flat Minimal Stats Block */}
-        <div className="flex items-center gap-6 obsidian-card rounded-xl px-4 py-2 text-xs select-none self-start md:self-auto">
+        <div className="flex items-center gap-6 bg-[#161a24] border border-[#252a37] rounded-2xl px-4 py-2 text-xs select-none self-start md:self-auto">
           <div className="flex items-center gap-2">
-            <ClipboardList className="h-4 w-4 text-indigo-400 shrink-0" />
+            <ClipboardList className="h-4 w-4 text-[#8b93a5] shrink-0" />
             <span className="text-slate-300">
               Số bài đánh giá:{" "}
               <strong className="font-bold text-white text-sm tnum tabular-nums">
@@ -141,13 +141,13 @@ function UserDashboardContent() {
             </span>
           </div>
 
-          <div className="h-4 w-px bg-indigo-500/25" />
+          <div className="h-4 w-px bg-[#252a37]" />
 
           <div className="flex items-center gap-2">
-            <CheckSquare className="h-4 w-4 text-[#34d399] shrink-0" />
+            <CheckSquare className="h-4 w-4 text-[#8b93a5] shrink-0" />
             <span className="text-slate-300">
               Đã hoàn thành:{" "}
-              <strong className="font-bold text-[#34d399] text-sm tnum tabular-nums">
+              <strong className="font-bold text-white text-sm tnum tabular-nums">
                 {loading ? "..." : submissions.length}
               </strong>
             </span>
@@ -176,8 +176,8 @@ function UserDashboardContent() {
                 className={cn(
                   "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-medium text-center transition-all shrink-0 select-none cursor-pointer",
                   isActive
-                    ? "bg-indigo-600 text-white shadow-sm shadow-black/40 font-semibold border border-indigo-400/30"
-                    : "bg-indigo-950/40 border border-indigo-500/20 text-indigo-200 hover:text-white hover:bg-indigo-900/40 hover:border-indigo-500/35 active:scale-95"
+                    ? "bg-white text-black font-bold shadow-sm"
+                    : "bg-[#10131b] border border-[#252a37] text-slate-300 hover:text-white hover:bg-[#161a24] hover:border-[#2a2f3c] active:scale-95"
                 )}
               >
                 <span>{cat.label}</span>
@@ -191,12 +191,12 @@ function UserDashboardContent() {
           3. EXAM CARDS GRID (RESPONSIVE DYNAMIC GRID: 1 -> 2 -> 3 -> 4 COLS)
           ========================================================================= */}
       {loading ? (
-        <div className="obsidian-card flex h-48 items-center justify-center rounded-2xl">
+        <div className="bg-[#161a24] border border-[#252a37] flex h-48 items-center justify-center rounded-3xl">
           <p className="text-xs text-[#9ca3af]">Đang tải danh sách bài đánh giá...</p>
         </div>
       ) : filteredExams.length === 0 ? (
-        <div className="obsidian-card flex flex-col items-center justify-center rounded-2xl py-12 px-4 text-center space-y-3">
-          <div className="p-3 rounded-xl bg-[#0b0f19] text-[#6366f1] border border-[#1f2937]">
+        <div className="bg-[#161a24] border border-[#252a37] flex flex-col items-center justify-center rounded-3xl py-12 px-4 text-center space-y-3">
+          <div className="p-3 rounded-2xl bg-[#10131b] text-white border border-[#252a37]">
             <BookOpen className="h-7 w-7" />
           </div>
           <h3 className="text-base font-bold text-white">
@@ -212,7 +212,7 @@ function UserDashboardContent() {
           {activeCategory && (
             <button
               onClick={() => router.push("/dashboard")}
-              className="mt-2 inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-4 py-2 text-xs font-semibold text-white transition-colors cursor-pointer shadow-sm shadow-black/40 border border-indigo-400/20"
+              className="mt-2 inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-100 px-5 py-2 text-xs font-bold text-black transition-colors cursor-pointer shadow-sm"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               <span>Hiển thị tất cả đề đánh giá</span>

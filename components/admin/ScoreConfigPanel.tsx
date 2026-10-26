@@ -92,26 +92,26 @@ export function ScoreConfigPanel({
   const formattedEssayTotal = Math.round(currentEssayTotal * 100) / 100;
 
   return (
-    <div className="obsidian-card mb-8 rounded-2xl p-6 border border-indigo-500/25 shadow-xl">
+    <div className="mb-8 rounded-3xl border border-[#252A37] bg-[#161A24] p-6 shadow-xl">
       {/* Header */}
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-[#252A37] pb-4">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-400">
-            <Sliders className="h-4 w-4" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-2xl border border-[#252A37] bg-[#10131B] text-white">
+            <Sliders className="h-4 w-4 text-white" />
           </div>
           <div>
             <h3 className="text-sm font-bold text-white">
               Cấu hình & Tự động Phân bổ Điểm số
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#9CA3AF]">
               Thiết lập điểm số hàng loạt cho câu hỏi trắc nghiệm, tự luận hoặc quy đổi tự động theo thang điểm mong muốn.
             </p>
           </div>
         </div>
 
         {autoAppliedToast && (
-          <span className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
-            <CheckCircle2 className="h-3.5 w-3.5" />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2A2F3C] bg-[#232836] px-3 py-1 text-xs font-semibold text-white">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
             <span>{autoAppliedToast}</span>
           </span>
         )}
@@ -120,13 +120,13 @@ export function ScoreConfigPanel({
       {/* Row 1: Per-Question Score Inputs + Live Total Exam Score */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* 1. MCQ Point per Question */}
-        <div className="rounded-xl border border-indigo-500/15 bg-slate-900/70 p-4">
+        <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-4">
           <div className="mb-2 flex items-center justify-between">
             <label className="flex items-center gap-1.5 text-xs font-bold text-white">
-              <HelpCircle className="h-3.5 w-3.5 text-indigo-400" />
+              <HelpCircle className="h-3.5 w-3.5 text-[#8B93A5]" />
               <span>Điểm mỗi câu trắc nghiệm</span>
             </label>
-            <span className="rounded-md bg-slate-800 border border-slate-700/60 px-2 py-0.5 text-[10px] font-semibold text-slate-300">
+            <span className="rounded-full bg-[#161A24] border border-[#252A37] px-2.5 py-0.5 text-[10px] font-mono font-semibold text-[#E5E7EB]">
               {mcqCount} câu
             </span>
           </div>
@@ -141,22 +141,22 @@ export function ScoreConfigPanel({
               disabled={mcqCount === 0}
               className="w-full justify-between"
             />
-            <span className="shrink-0 text-xs font-medium text-slate-400">điểm/câu</span>
+            <span className="shrink-0 text-xs font-mono font-medium text-[#8B93A5]">đ/câu</span>
           </div>
 
           {/* Quick MCQ Presets */}
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-slate-400">Chọn nhanh:</span>
+            <span className="text-[10px] text-[#8B93A5] font-mono">Chọn nhanh:</span>
             {[0.2, 0.25, 0.5, 1.0].map((val) => (
               <button
                 key={val}
                 type="button"
                 disabled={mcqCount === 0}
                 onClick={() => handleMcqChange(String(val))}
-                className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 ${
+                className={`rounded-full border px-2.5 py-0.5 text-[10px] font-mono font-semibold transition disabled:opacity-40 cursor-pointer ${
                   parseFloat(mcqInput) === val
-                    ? "border-indigo-500 bg-indigo-600 text-white"
-                    : "border-slate-800 bg-slate-900 text-slate-300 hover:border-slate-700 hover:text-white"
+                    ? "border-transparent bg-white text-black"
+                    : "border-[#252A37] bg-[#161A24] text-slate-300 hover:border-white/30 hover:text-white"
                 }`}
               >
                 {val}đ
@@ -166,13 +166,13 @@ export function ScoreConfigPanel({
         </div>
 
         {/* 2. Essay Point per Question */}
-        <div className="rounded-xl border border-indigo-500/15 bg-slate-900/70 p-4">
+        <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-4">
           <div className="mb-2 flex items-center justify-between">
             <label className="flex items-center gap-1.5 text-xs font-bold text-white">
-              <FileText className="h-3.5 w-3.5 text-indigo-400" />
+              <FileText className="h-3.5 w-3.5 text-[#8B93A5]" />
               <span>Điểm mỗi câu tự luận</span>
             </label>
-            <span className="rounded-md bg-slate-800 border border-slate-700/60 px-2 py-0.5 text-[10px] font-semibold text-slate-300">
+            <span className="rounded-full bg-[#161A24] border border-[#252A37] px-2.5 py-0.5 text-[10px] font-mono font-semibold text-[#E5E7EB]">
               {essayCount} câu
             </span>
           </div>
@@ -187,22 +187,22 @@ export function ScoreConfigPanel({
               disabled={essayCount === 0}
               className="w-full justify-between"
             />
-            <span className="shrink-0 text-xs font-medium text-slate-400">điểm/câu</span>
+            <span className="shrink-0 text-xs font-mono font-medium text-[#8B93A5]">đ/câu</span>
           </div>
 
           {/* Quick Essay Presets */}
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-slate-400">Chọn nhanh:</span>
+            <span className="text-[10px] text-[#8B93A5] font-mono">Chọn nhanh:</span>
             {[1.0, 2.0, 3.0, 5.0].map((val) => (
               <button
                 key={val}
                 type="button"
                 disabled={essayCount === 0}
                 onClick={() => handleEssayChange(String(val))}
-                className={`rounded-lg border px-2 py-0.5 text-[10px] font-semibold transition disabled:opacity-40 ${
+                className={`rounded-full border px-2.5 py-0.5 text-[10px] font-mono font-semibold transition disabled:opacity-40 cursor-pointer ${
                   parseFloat(essayInput) === val
-                    ? "border-indigo-500 bg-indigo-600 text-white"
-                    : "border-slate-800 bg-slate-900 text-slate-300 hover:border-slate-700 hover:text-white"
+                    ? "border-transparent bg-white text-black"
+                    : "border-[#252A37] bg-[#161A24] text-slate-300 hover:border-white/30 hover:text-white"
                 }`}
               >
                 {val}đ
@@ -212,28 +212,28 @@ export function ScoreConfigPanel({
         </div>
 
         {/* 3. Total Exam Score Display */}
-        <div className="flex flex-col justify-between rounded-xl border border-indigo-500/30 bg-indigo-500/10 p-4">
+        <div className="flex flex-col justify-between rounded-2xl border border-[#252A37] bg-[#141824] p-4">
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-xs font-bold text-white">
-              <Calculator className="h-3.5 w-3.5 text-indigo-400" />
+              <Calculator className="h-3.5 w-3.5 text-white" />
               <span>Tổng điểm toàn bài</span>
             </span>
-            <span className="rounded-md border border-indigo-500/30 bg-indigo-500/20 px-2 py-0.5 text-[10px] font-bold text-indigo-300">
+            <span className="rounded-full border border-[#2A2F3C] bg-[#232836] px-2.5 py-0.5 text-[10px] font-mono font-bold text-white">
               Tự động tính
             </span>
           </div>
 
-          <div className="my-2 flex items-baseline gap-1.5">
+          <div className="my-2 flex items-baseline gap-1.5 font-mono">
             <span className="text-3xl font-black tracking-tight text-white">
               {formattedTotal}
             </span>
-            <span className="text-xs font-semibold text-indigo-300">điểm</span>
+            <span className="text-xs font-semibold text-[#8B93A5]">điểm</span>
           </div>
 
-          <div className="border-t border-indigo-500/20 pt-2 text-[11px] text-slate-300">
+          <div className="border-t border-[#252A37] pt-2 text-[11px] text-[#9CA3AF] font-mono">
             <span>Trắc nghiệm: </span>
             <strong className="text-white">{formattedMcqTotal}đ</strong>
-            <span className="mx-1.5 text-slate-500">•</span>
+            <span className="mx-1.5 text-[#252A37]">•</span>
             <span>Tự luận: </span>
             <strong className="text-white">{formattedEssayTotal}đ</strong>
           </div>
@@ -241,17 +241,17 @@ export function ScoreConfigPanel({
       </div>
 
       {/* Row 2: Auto-Calculate / Scale Score Bar */}
-      <div className="mt-4 flex flex-col justify-between gap-4 rounded-xl border border-indigo-500/20 bg-slate-900/80 p-4 lg:flex-row lg:items-center">
+      <div className="mt-4 flex flex-col justify-between gap-4 rounded-2xl border border-[#252A37] bg-[#10131B] p-4 lg:flex-row lg:items-center">
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-indigo-400" />
+            <Sparkles className="h-4 w-4 text-white" />
             <span className="text-xs font-bold text-white">
               Quy đổi / Tự động chia điểm:
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-xs text-slate-300">Tổng điểm mong muốn:</label>
+            <label className="text-xs text-[#9CA3AF]">Tổng điểm mong muốn:</label>
             <NumberStepper
               value={parseInt(desiredTotalInput) || 10}
               onChange={(val) => setDesiredTotalInput(String(val))}
@@ -265,10 +265,10 @@ export function ScoreConfigPanel({
                   key={preset}
                   type="button"
                   onClick={() => setDesiredTotalInput(String(preset))}
-                  className={`rounded-lg border px-2 py-1 text-[10px] font-bold transition ${
+                  className={`rounded-full border px-2.5 py-1 text-[10px] font-mono font-bold transition cursor-pointer ${
                     parseFloat(desiredTotalInput) === preset
-                      ? "border-indigo-500 bg-indigo-600 text-white"
-                      : "border-slate-800 bg-slate-900 text-slate-300 hover:border-slate-700 hover:text-white"
+                      ? "border-transparent bg-white text-black"
+                      : "border-[#252A37] bg-[#161A24] text-slate-300 hover:border-white/30 hover:text-white"
                   }`}
                 >
                   Thang {preset}
@@ -301,9 +301,9 @@ export function ScoreConfigPanel({
         <button
           type="button"
           onClick={handleTriggerAutoAllocate}
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98]"
+          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white hover:bg-slate-200 px-5 py-2.5 text-xs font-bold text-[#05070D] shadow-lg transition active:scale-[0.98] cursor-pointer"
         >
-          <Sparkles className="h-3.5 w-3.5" />
+          <Sparkles className="h-3.5 w-3.5 text-black" />
           <span>Tự động phân bổ điểm</span>
         </button>
       </div>

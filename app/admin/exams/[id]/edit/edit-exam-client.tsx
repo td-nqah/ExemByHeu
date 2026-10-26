@@ -309,7 +309,7 @@ export function EditExamClient({ examId }: { examId: string }) {
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
       </div>
     );
   }
@@ -317,14 +317,14 @@ export function EditExamClient({ examId }: { examId: string }) {
   if (notFound) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center p-4">
-        <div className="glass-card rounded-2xl p-8 text-center">
+        <div className="rounded-3xl border border-[#252A37] bg-[#161A24] p-8 text-center shadow-xl">
           <AlertCircle className="mx-auto mb-2 h-10 w-10 text-rose-400" />
           <h2 className="text-base font-bold text-white">
             Không tìm thấy đề đánh giá cần chỉnh sửa
           </h2>
           <Link
             href="/admin/dashboard"
-            className="mt-4 inline-block text-xs font-semibold text-indigo-400 underline"
+            className="mt-4 inline-block text-xs font-semibold text-white underline"
           >
             Quay lại Ngân hàng Đề đánh giá
           </Link>
@@ -354,9 +354,9 @@ export function EditExamClient({ examId }: { examId: string }) {
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <Link
           href="/admin/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9CA3AF] transition hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
+          <ArrowLeft className="h-3.5 w-3.5 text-white" />
           <span>Quay lại Ngân hàng Đề đánh giá</span>
         </Link>
       </div>
@@ -367,14 +367,14 @@ export function EditExamClient({ examId }: { examId: string }) {
           <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
             Chỉnh sửa Đề đánh giá
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-[#9CA3AF]">
             Cập nhật thông tin học phần, nội dung câu hỏi, đáp án chuẩn và barem điểm.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
           {saveSuccess && (
-            <span className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-950/50 px-3 py-2 text-xs font-bold text-emerald-400">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-[#232836] px-4 py-2 text-xs font-bold text-emerald-300">
               <CheckCircle2 className="h-4 w-4 text-emerald-400" />
               <span>Đã lưu thay đổi!</span>
             </span>
@@ -384,7 +384,7 @@ export function EditExamClient({ examId }: { examId: string }) {
             type="button"
             onClick={handleSaveChanges}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-200 px-5 py-2.5 text-xs font-bold text-black shadow-md transition active:scale-[0.98] disabled:opacity-50 cursor-pointer"
           >
             <Save className="h-4 w-4" />
             <span>{isSaving ? "Đang lưu..." : "Lưu thay đổi"}</span>
@@ -393,7 +393,7 @@ export function EditExamClient({ examId }: { examId: string }) {
       </div>
 
       {/* 1. General Exam Metadata Form */}
-      <div className="glass-card mb-8 rounded-2xl p-6">
+      <div className="rounded-3xl border border-[#252A37] bg-[#161A24] mb-8 p-6 sm:p-8 shadow-xl">
         <h2 className="mb-4 text-base font-bold text-white">
           Thông tin cơ bản của Đề đánh giá
         </h2>
@@ -409,7 +409,7 @@ export function EditExamClient({ examId }: { examId: string }) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Nhập tên đề đánh giá..."
-              className="glass-input h-10 w-full rounded-xl px-3.5 text-sm"
+              className="h-10 w-full rounded-full border border-[#252A37] bg-[#10131B] px-4 text-sm text-white placeholder-[#8B93A5] focus:border-white focus:outline-none"
             />
           </div>
 
@@ -422,7 +422,7 @@ export function EditExamClient({ examId }: { examId: string }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Ghi chú về quy chế phòng thi, thời gian làm bài hoặc tài liệu được phép sử dụng..."
-              className="glass-input w-full rounded-xl p-3 text-xs"
+              className="w-full rounded-2xl border border-[#252A37] bg-[#10131B] p-3.5 text-xs text-white placeholder-[#8B93A5] focus:border-white focus:outline-none"
             />
           </div>
 
@@ -448,14 +448,14 @@ export function EditExamClient({ examId }: { examId: string }) {
           </div>
 
           {/* Toggle Switch: Shuffle Exam */}
-          <div className="sm:col-span-2 rounded-xl bg-slate-900/60 border border-white/10 p-4 transition-all duration-200 hover:border-[#5852d6]/50">
+          <div className="sm:col-span-2 rounded-2xl bg-[#10131B] border border-[#252A37] p-4 transition-all duration-200 hover:border-white/40">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <div
-                  className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
+                  className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border transition-all ${
                     isShuffled
-                      ? "border-[#5852d6]/50 bg-[#5852d6]/20 text-indigo-400 shadow-[0_0_12px_rgba(88,82,214,0.3)]"
-                      : "border-slate-800 bg-slate-800/60 text-slate-400"
+                      ? "border-white/40 bg-white/10 text-white"
+                      : "border-[#252A37] bg-[#161A24] text-slate-400"
                   }`}
                 >
                   <Shuffle className="h-4 w-4" />
@@ -467,12 +467,12 @@ export function EditExamClient({ examId }: { examId: string }) {
                   >
                     <span>Xáo trộn thứ tự câu hỏi</span>
                     {isShuffled && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5852d6]/25 text-indigo-300 border border-[#5852d6]/40 font-mono">
+                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#232836] text-white border border-[#2A2F3C] font-mono">
                         BẬT (ACTIVE)
                       </span>
                     )}
                   </label>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-[#9CA3AF] mt-0.5">
                     Tự động đảo ngẫu nhiên vị trí các câu hỏi cho từng lượt đánh giá (giữ nguyên thứ tự các phương án A, B, C, D).
                   </p>
                 </div>
@@ -485,16 +485,16 @@ export function EditExamClient({ examId }: { examId: string }) {
                 role="switch"
                 aria-checked={isShuffled}
                 onClick={() => setIsShuffled(!isShuffled)}
-                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#5852d6]/50 ${
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none ${
                   isShuffled
-                    ? "border-indigo-400 bg-[#5852d6] shadow-[0_0_14px_rgba(88,82,214,0.5)]"
-                    : "border-slate-700 bg-slate-800"
+                    ? "border-white bg-white"
+                    : "border-[#252A37] bg-[#161A24]"
                 }`}
               >
                 <span
                   aria-hidden="true"
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
-                    isShuffled ? "translate-x-5" : "translate-x-0"
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out ${
+                    isShuffled ? "translate-x-5 bg-black" : "translate-x-0 bg-white"
                   }`}
                 />
               </button>
@@ -510,9 +510,9 @@ export function EditExamClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={() => setShowQuickScoreConfig((prev) => !prev)}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-900/90 border border-indigo-500/25 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:border-indigo-500/40 hover:text-white shadow-sm"
+              className="inline-flex items-center gap-2 rounded-full bg-[#10131B] border border-[#252A37] px-4 py-2 text-xs font-semibold text-slate-200 transition hover:bg-[#161A24] hover:text-white shadow-sm cursor-pointer"
             >
-              <Sliders className="h-3.5 w-3.5 text-indigo-400" />
+              <Sliders className="h-3.5 w-3.5 text-white" />
               <span>
                 {showQuickScoreConfig
                   ? "Ẩn bảng Cấu hình điểm nhanh"
@@ -522,7 +522,7 @@ export function EditExamClient({ examId }: { examId: string }) {
 
             <span className="text-xs font-semibold text-slate-300">
               Tổng điểm hiện tại:{" "}
-              <strong className="text-indigo-400">{totalScore} điểm</strong>
+              <strong className="text-white font-mono">{totalScore} điểm</strong>
             </span>
           </div>
 
@@ -555,12 +555,12 @@ export function EditExamClient({ examId }: { examId: string }) {
 
       {/* 3. Questions Editor List (Always in Edit Mode) */}
       <div className="space-y-4">
-        <div className="flex flex-col gap-3 border-b border-slate-800/80 pb-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-b border-[#252A37] pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-base font-bold text-white">
               Chỉnh sửa Danh sách Câu hỏi ({questions.length} câu)
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#9CA3AF]">
               {mcqCount} trắc nghiệm ({currentMcqTotal}đ) • {essayCount} tự luận (
               {currentEssayTotal}đ) • Tổng {totalScore} điểm
             </p>
@@ -570,24 +570,24 @@ export function EditExamClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#2A2F3C] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#161A24]"
             >
-              <Plus className="h-3.5 w-3.5 text-indigo-400" />
+              <Plus className="h-3.5 w-3.5 text-white" />
               <span>Thêm câu hỏi mới</span>
             </button>
           </div>
         </div>
 
         {questions.length === 0 ? (
-          <div className="glass-card rounded-2xl py-12 text-center">
-            <Layers className="mx-auto mb-2 h-8 w-8 text-indigo-400" />
+          <div className="rounded-3xl border border-dashed border-[#252A37] bg-[#161A24]/50 py-12 text-center">
+            <Layers className="mx-auto mb-2 h-8 w-8 text-white" />
             <p className="text-xs font-semibold text-slate-200">
               Đề đánh giá hiện chưa có câu hỏi nào
             </p>
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-slate-200 px-5 py-2 text-xs font-bold text-black shadow-md cursor-pointer"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Thêm câu hỏi đầu tiên</span>
@@ -610,20 +610,20 @@ export function EditExamClient({ examId }: { examId: string }) {
 
         {/* Bottom Action Bar */}
         {questions.length > 0 && (
-          <div className="glass-panel mt-6 flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row">
+          <div className="rounded-3xl border border-[#252A37] bg-[#161A24] mt-6 flex flex-col items-center justify-between gap-4 p-5 sm:flex-row shadow-xl">
             <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
                 onClick={handleAddQuestion}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#2A2F3C] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#161A24] cursor-pointer"
               >
-                <Plus className="h-4 w-4 text-indigo-400" />
+                <Plus className="h-4 w-4 text-white" />
                 <span>Thêm câu hỏi mới</span>
               </button>
 
               <Link
                 href="/admin/dashboard"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#2A2F3C] px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-[#161A24] hover:text-white"
               >
                 <span>Hủy bỏ</span>
               </Link>
@@ -633,7 +633,7 @@ export function EditExamClient({ examId }: { examId: string }) {
               type="button"
               onClick={handleSaveChanges}
               disabled={isSaving}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white hover:bg-slate-200 px-6 py-2.5 text-xs font-bold text-black shadow-md transition active:scale-[0.98] disabled:opacity-50 sm:w-auto cursor-pointer"
             >
               <Save className="h-4 w-4" />
               <span>
@@ -655,17 +655,17 @@ export function EditExamClient({ examId }: { examId: string }) {
               transition={{ duration: 0.2 }}
               className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2 w-[92%] max-w-2xl pointer-events-none"
             >
-              <div className="pointer-events-auto flex items-center justify-between gap-3 rounded-2xl border border-indigo-500/30 bg-slate-950/90 px-4 py-2.5 shadow-2xl shadow-black/80 backdrop-blur-xl">
+              <div className="pointer-events-auto flex items-center justify-between gap-3 rounded-full border border-[#252A37] bg-[#0A0C12]/95 px-5 py-2.5 shadow-2xl shadow-black/80 backdrop-blur-xl">
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-400">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#161A24] border border-[#252A37] text-white">
                     <Layers className="h-4 w-4" />
                   </span>
                   <div className="min-w-0">
-                    <p className="truncate text-xs font-semibold text-slate-200">
+                    <p className="truncate text-xs font-semibold text-white">
                       {title || "Chỉnh sửa bài thi"}
                     </p>
-                    <p className="text-[10px] text-slate-400">
-                      {questions.length} câu hỏi • Tổng: <span className="font-semibold text-indigo-400">{totalScore}đ</span>
+                    <p className="text-[10px] text-[#9CA3AF]">
+                      {questions.length} câu hỏi • Tổng: <span className="font-semibold text-white">{totalScore}đ</span>
                     </p>
                   </div>
                 </div>
@@ -675,7 +675,7 @@ export function EditExamClient({ examId }: { examId: string }) {
                     type="button"
                     onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                     aria-label="Cuộn lên đầu trang"
-                    className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 transition hover:border-slate-700 hover:bg-slate-800 hover:text-white cursor-pointer"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-[#252A37] bg-[#10131B] text-slate-300 transition hover:bg-[#161A24] hover:text-white cursor-pointer"
                   >
                     <ArrowUp className="h-4 w-4" />
                   </button>
@@ -683,9 +683,9 @@ export function EditExamClient({ examId }: { examId: string }) {
                   <button
                     type="button"
                     onClick={handleAddQuestion}
-                    className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/80 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-slate-700 hover:bg-slate-800 hover:text-white cursor-pointer"
+                    className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-[#2A2F3C] bg-[#10131B] px-3.5 py-1.5 text-xs font-medium text-slate-200 transition hover:bg-[#161A24] hover:text-white cursor-pointer"
                   >
-                    <Plus className="h-3.5 w-3.5 text-indigo-400" />
+                    <Plus className="h-3.5 w-3.5 text-white" />
                     <span>Thêm câu</span>
                   </button>
 
@@ -693,7 +693,7 @@ export function EditExamClient({ examId }: { examId: string }) {
                     type="button"
                     onClick={handleSaveChanges}
                     disabled={isSaving}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-1.5 text-xs font-semibold text-white shadow-md shadow-indigo-500/25 transition active:scale-95 disabled:opacity-50 cursor-pointer"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-slate-200 px-4 py-1.5 text-xs font-bold text-black shadow-md transition active:scale-95 disabled:opacity-50 cursor-pointer"
                   >
                     <Save className="h-3.5 w-3.5" />
                     <span>{isSaving ? "Đang lưu..." : "Lưu bài thi"}</span>

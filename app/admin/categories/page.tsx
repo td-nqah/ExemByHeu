@@ -104,47 +104,50 @@ export default function AdminCategoriesPage() {
     setFormName(cat.name);
     setFormSlug(cat.slug);
     setFormIcon(cat.icon || "BookText");
-    setFormStatus(cat.status);
+    setFormStatus(cat.status || "active");
     setIsModalOpen(true);
   };
 
-  const handleNameChange = (name: string) => {
-    setFormName(name);
+  const generateSlugFromName = (name: string) => {
+    return name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/[^a-z0-9]/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  };
+
+  const handleNameChange = (val: string) => {
+    setFormName(val);
     if (!editingCategory) {
-      // Auto-suggest slug
-      const slugCandidate = name
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[đĐ]/g, "d")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-      setFormSlug(slugCandidate);
+      setFormSlug(generateSlugFromName(val));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formName.trim() || !formSlug.trim()) return;
+    if (!formName.trim() || !formSlug.trim() || isSubmitting) return;
 
     setIsSubmitting(true);
     try {
       if (editingCategory) {
         const updated = await updateCategory(editingCategory.id, {
           name: formName.trim(),
-          slug: formSlug.trim(),
+          slug: formSlug.trim().toLowerCase(),
           icon: formIcon,
           status: formStatus,
         });
         if (updated) {
           setCategories((prev) =>
-            prev.map((c) => (c.id === editingCategory.id ? updated : c))
+            prev.map((c) => (c.id === updated.id ? updated : c))
           );
         }
       } else {
         const created = await createCategory({
           name: formName.trim(),
-          slug: formSlug.trim(),
+          slug: formSlug.trim().toLowerCase(),
           icon: formIcon,
           status: formStatus,
         });
@@ -195,18 +198,18 @@ export default function AdminCategoriesPage() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-white flex flex-wrap items-center gap-3">
               Quản lý Danh mục Học phần
-              <span className="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2.5 py-1 rounded-full font-normal">
+              <span className="text-xs bg-[#10131B] text-[#9CA3AF] border border-[#252A37] px-3 py-1 rounded-full font-mono">
                 Course Management
               </span>
             </h1>
-            <p className="mt-1 text-sm text-slate-400 max-w-xl">
+            <p className="mt-1 text-sm text-[#9CA3AF] max-w-xl">
               Tạo mới, cập nhật hoặc điều chỉnh trạng thái hiển thị các danh mục học phần trong chương trình đào tạo.
             </p>
           </div>
 
           <button
             onClick={openCreateModal}
-            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold shadow-sm shadow-black/40 border border-indigo-400/20 px-4 py-2.5 text-xs transition-all self-start md:self-auto select-none"
+            className="inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-200 active:scale-95 text-[#05070D] font-bold px-5 py-2.5 text-xs transition-all self-start md:self-auto select-none shadow-lg cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             <span>Thêm Học phần mới</span>
@@ -216,22 +219,22 @@ export default function AdminCategoriesPage() {
 
       {/* 2. Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="obsidian-card rounded-2xl p-4 px-5">
-          <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Tổng số học phần</span>
-          <div className="mt-2 text-3xl font-extrabold text-white font-heading tracking-tight">{categories.length}</div>
+        <div className="rounded-3xl border border-[#252A37] bg-[#161A24] p-5 shadow-xl">
+          <span className="text-xs text-[#8B93A5] uppercase tracking-wider font-mono font-bold">Tổng số học phần</span>
+          <div className="mt-2 text-3xl font-extrabold text-white font-mono tracking-tight">{categories.length}</div>
         </div>
-        <div className="obsidian-card rounded-2xl p-4 px-5">
-          <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold flex items-center gap-1.5">
+        <div className="rounded-3xl border border-[#252A37] bg-[#161A24] p-5 shadow-xl">
+          <span className="text-xs text-[#8B93A5] uppercase tracking-wider font-mono font-bold flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
             Đang kích hoạt (Active)
           </span>
-          <div className="mt-2 text-3xl font-extrabold text-white font-heading tracking-tight">
+          <div className="mt-2 text-3xl font-extrabold text-white font-mono tracking-tight">
             {categories.filter((c) => c.status === "active").length}
           </div>
         </div>
-        <div className="obsidian-card rounded-2xl p-4 px-5">
-          <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Đang ẩn (Hidden)</span>
-          <div className="mt-2 text-3xl font-extrabold text-slate-300 font-heading tracking-tight">
+        <div className="rounded-3xl border border-[#252A37] bg-[#161A24] p-5 shadow-xl">
+          <span className="text-xs text-[#8B93A5] uppercase tracking-wider font-mono font-bold">Đang ẩn (Hidden)</span>
+          <div className="mt-2 text-3xl font-extrabold text-[#9CA3AF] font-mono tracking-tight">
             {categories.filter((c) => c.status === "hidden").length}
           </div>
         </div>
@@ -242,24 +245,24 @@ export default function AdminCategoriesPage() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="obsidian-card rounded-2xl overflow-hidden"
+        className="rounded-3xl border border-[#252A37] bg-[#161A24] overflow-hidden shadow-xl"
       >
-        <div className="p-4 sm:p-5 border-b border-indigo-500/20 flex items-center justify-between">
+        <div className="p-4 sm:p-5 border-b border-[#252A37] flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <FolderTree className="h-4 w-4 text-indigo-400" />
+            <FolderTree className="h-4 w-4 text-white" />
             <span>Danh sách Học phần ({categories.length})</span>
           </h2>
-          <span className="text-xs text-slate-400">Đồng bộ với phân hệ khảo thí và điều hướng</span>
+          <span className="text-xs text-[#9CA3AF]">Đồng bộ với phân hệ khảo thí và điều hướng</span>
         </div>
 
         {loading ? (
-          <div className="p-12 text-center text-xs text-slate-400">Đang tải danh mục học phần...</div>
+          <div className="p-12 text-center text-xs text-[#9CA3AF]">Đang tải danh mục học phần...</div>
         ) : categories.length === 0 ? (
           <div className="p-12 text-center space-y-3">
-            <p className="text-sm text-slate-400">Chưa có học phần nào trong danh mục.</p>
+            <p className="text-sm text-[#9CA3AF]">Chưa có học phần nào trong danh mục.</p>
             <button
               onClick={openCreateModal}
-              className="px-4 py-2 bg-indigo-600 rounded-xl text-xs text-white"
+              className="px-5 py-2 bg-white text-black font-bold rounded-full text-xs hover:bg-slate-200 transition"
             >
               Thêm học phần đầu tiên
             </button>
@@ -268,23 +271,30 @@ export default function AdminCategoriesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-indigo-500/20 bg-indigo-950/40 text-slate-300 uppercase font-semibold">
-                  <th className="py-3 px-4">Tên Học phần</th>
-                  <th className="py-3 px-4">Mã Học phần (Slug)</th>
-                  <th className="py-3 px-4">Biểu tượng đại diện</th>
-                  <th className="py-3 px-4 text-center">Số đề đánh giá</th>
-                  <th className="py-3 px-4 text-center">Trạng thái</th>
-                  <th className="py-3 px-4 text-right">Thao tác</th>
+                <tr className="border-b border-[#252A37] bg-[#10131B] text-[#8B93A5] font-mono uppercase tracking-wider font-bold">
+                  <th className="py-3.5 px-4">Tên Học phần</th>
+                  <th className="py-3.5 px-4">Mã Học phần (Slug)</th>
+                  <th className="py-3.5 px-4">Biểu tượng đại diện</th>
+                  <th className="py-3.5 px-4 text-center">Số đề đánh giá</th>
+                  <th className="py-3.5 px-4 text-center">Trạng thái</th>
+                  <th className="py-3.5 px-4 text-right">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-indigo-500/10">
-                {categories.map((cat) => {
+              <tbody className="divide-y divide-[#252A37]">
+                {categories.map((cat, idx) => {
                   const examCount = getExamCountForCategory(cat.slug);
                   return (
-                    <tr key={cat.id} className="hover:bg-indigo-500/[0.06] transition-colors">
+                    <tr
+                      key={cat.id}
+                      className={cn(
+                        "transition-colors",
+                        idx % 2 === 0 ? "bg-[#141824]" : "bg-[#161A24]",
+                        "hover:bg-[#191E2B]"
+                      )}
+                    >
                       <td className="py-3.5 px-4 font-semibold text-white">
                         <div className="flex items-center gap-2.5">
-                          <span className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                          <span className="p-1.5 rounded-xl bg-[#10131B] text-white border border-[#252A37]">
                             <BookText className="h-4 w-4" />
                           </span>
                           <span className="text-sm font-bold text-white">{cat.name}</span>
@@ -292,17 +302,17 @@ export default function AdminCategoriesPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-slate-300">
-                        <span className="px-2 py-0.5 rounded bg-indigo-950/50 border border-indigo-500/25 text-indigo-300 text-[11px] font-mono">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#10131B] border border-[#252A37] text-white text-[11px] font-mono">
                           {cat.slug}
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4 text-slate-400 text-xs">
+                      <td className="py-3.5 px-4 text-[#9CA3AF] text-xs font-mono">
                         {cat.icon || "BookText"}
                       </td>
 
                       <td className="py-3.5 px-4 text-center">
-                        <span className="px-2.5 py-0.5 rounded-full bg-indigo-950/50 border border-indigo-500/25 text-white font-bold font-heading text-xs">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#10131B] border border-[#252A37] text-white font-bold font-mono text-xs">
                           {examCount}
                         </span>
                       </td>
@@ -311,21 +321,21 @@ export default function AdminCategoriesPage() {
                         <button
                           onClick={() => handleToggleStatus(cat)}
                           className={cn(
-                            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border transition-all",
+                            "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border transition-all cursor-pointer",
                             cat.status === "active"
-                              ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/20 hover:bg-emerald-500/20"
-                              : "bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-750"
+                              ? "bg-[#232836] text-white border-[#2A2F3C] hover:border-white/30"
+                              : "bg-[#10131B] text-[#9CA3AF] border-[#252A37] hover:border-white/30"
                           )}
                           title="Bấm để đổi trạng thái"
                         >
                           {cat.status === "active" ? (
                             <>
-                              <Eye className="h-3 w-3" />
+                              <Eye className="h-3 w-3 text-emerald-400" />
                               <span>Hoạt động</span>
                             </>
                           ) : (
                             <>
-                              <EyeOff className="h-3 w-3" />
+                              <EyeOff className="h-3 w-3 text-[#8B93A5]" />
                               <span>Đang ẩn</span>
                             </>
                           )}
@@ -336,7 +346,7 @@ export default function AdminCategoriesPage() {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => openEditModal(cat)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition"
+                            className="p-1.5 rounded-full text-[#9CA3AF] hover:text-white hover:bg-[#10131B] transition cursor-pointer"
                             title="Chỉnh sửa học phần"
                           >
                             <Pencil className="h-3.5 w-3.5" />
@@ -346,13 +356,13 @@ export default function AdminCategoriesPage() {
                             <div className="inline-flex items-center gap-1">
                               <button
                                 onClick={() => handleDelete(cat.id)}
-                                className="px-2 py-1 rounded bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold"
+                                className="px-2.5 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold cursor-pointer"
                               >
                                 Xóa ngay
                               </button>
                               <button
                                 onClick={() => setDeleteConfirmId(null)}
-                                className="p-1 rounded text-slate-400 hover:text-white"
+                                className="p-1 rounded-full text-[#9CA3AF] hover:text-white cursor-pointer"
                               >
                                 <X className="h-3 w-3" />
                               </button>
@@ -360,7 +370,7 @@ export default function AdminCategoriesPage() {
                           ) : (
                             <button
                               onClick={() => setDeleteConfirmId(cat.id)}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition"
+                              className="p-1.5 rounded-full text-[#9CA3AF] hover:text-rose-400 hover:bg-[#10131B] transition cursor-pointer"
                               title="Xóa học phần"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -380,23 +390,23 @@ export default function AdminCategoriesPage() {
       {/* 4. Modal: Create / Edit Category */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md rounded-2xl obsidian-card p-6 relative"
+              className="w-full max-w-md rounded-3xl border border-[#252A37] bg-[#161A24] p-6 sm:p-7 shadow-2xl relative"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-indigo-500/20">
+              <div className="flex items-center justify-between pb-4 border-b border-[#252A37]">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <FolderTree className="h-4 w-4 text-indigo-400" />
+                  <FolderTree className="h-4 w-4 text-white" />
                   <span>
                     {editingCategory ? "Cập nhật Học phần" : "Thêm Học phần mới"}
                   </span>
                 </h3>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-1 rounded-lg text-slate-400 hover:text-white"
+                  className="p-1.5 rounded-full text-[#9CA3AF] hover:text-white hover:bg-[#10131B] transition cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -405,7 +415,7 @@ export default function AdminCategoriesPage() {
               <form onSubmit={handleSubmit} className="space-y-4 mt-5">
                 {/* Category Name */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-slate-300">
+                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
                     Tên Học phần *
                   </label>
                   <input
@@ -414,13 +424,13 @@ export default function AdminCategoriesPage() {
                     value={formName}
                     onChange={(e) => handleNameChange(e.target.value)}
                     placeholder="Ví dụ: Chủ nghĩa xã hội khoa học"
-                    className="w-full px-3.5 py-2.5 bg-indigo-950/40 border border-indigo-500/25 rounded-xl text-xs text-white placeholder-indigo-300/40 focus:outline-none focus:border-indigo-400"
+                    className="w-full px-4 py-2.5 bg-[#10131B] border border-[#252A37] rounded-full text-xs text-white placeholder-[#8B93A5] focus:outline-none focus:border-white/50 transition-colors"
                   />
                 </div>
 
                 {/* Slug / Code */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-slate-300">
+                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
                     Mã Học phần (Slug / Code) *
                   </label>
                   <input
@@ -429,16 +439,16 @@ export default function AdminCategoriesPage() {
                     value={formSlug}
                     onChange={(e) => setFormSlug(e.target.value)}
                     placeholder="Ví dụ: cnxh"
-                    className="w-full px-3.5 py-2.5 bg-indigo-950/40 border border-indigo-500/25 rounded-xl text-xs text-white placeholder-indigo-300/40 font-mono focus:outline-none focus:border-indigo-400"
+                    className="w-full px-4 py-2.5 bg-[#10131B] border border-[#252A37] rounded-full text-xs text-white placeholder-[#8B93A5] font-mono focus:outline-none focus:border-white/50 transition-colors"
                   />
-                  <p className="text-[10px] text-slate-500">
+                  <p className="text-[10px] text-[#8B93A5] font-mono">
                     Dùng trong định danh và lọc đề: <code>/dashboard?category={formSlug || "slug"}</code>
                   </p>
                 </div>
 
                 {/* Icon Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-slate-300">
+                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
                     Biểu tượng đại diện (Icon)
                   </label>
                   <PopoverSelect
@@ -452,7 +462,7 @@ export default function AdminCategoriesPage() {
                       return {
                         value: opt.value,
                         label: opt.label,
-                        icon: <Icon className="h-4 w-4 text-indigo-400" />,
+                        icon: <Icon className="h-4 w-4 text-white" />,
                       };
                     })}
                   />
@@ -460,7 +470,7 @@ export default function AdminCategoriesPage() {
 
                 {/* Status Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-slate-300">
+                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
                     Trạng thái hiển thị (Status)
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -468,10 +478,10 @@ export default function AdminCategoriesPage() {
                       type="button"
                       onClick={() => setFormStatus("active")}
                       className={cn(
-                        "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
+                        "py-2.5 px-3 rounded-full border text-xs font-semibold transition-all cursor-pointer",
                         formStatus === "active"
-                          ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 font-semibold"
-                          : "bg-slate-900 border-white/5 text-slate-400 hover:text-white"
+                          ? "bg-white text-black border-transparent shadow-sm"
+                          : "bg-[#10131B] border-[#252A37] text-[#9CA3AF] hover:text-white"
                       )}
                     >
                       Kích hoạt (Active)
@@ -480,10 +490,10 @@ export default function AdminCategoriesPage() {
                       type="button"
                       onClick={() => setFormStatus("hidden")}
                       className={cn(
-                        "py-2 px-3 rounded-xl border text-xs font-medium transition-all",
+                        "py-2.5 px-3 rounded-full border text-xs font-semibold transition-all cursor-pointer",
                         formStatus === "hidden"
-                          ? "bg-slate-800 border-slate-600 text-white font-semibold"
-                          : "bg-slate-900 border-white/5 text-slate-400 hover:text-white"
+                          ? "bg-white text-black border-transparent shadow-sm"
+                          : "bg-[#10131B] border-[#252A37] text-[#9CA3AF] hover:text-white"
                       )}
                     >
                       Ẩn (Hidden)
@@ -496,16 +506,16 @@ export default function AdminCategoriesPage() {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 rounded-xl text-xs text-slate-400 hover:text-white hover:bg-slate-900 transition"
+                    className="px-5 py-2.5 rounded-full text-xs text-[#9CA3AF] hover:text-white hover:bg-[#10131B] transition cursor-pointer"
                   >
                     Hủy
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium text-xs rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-1.5 disabled:opacity-50"
+                    className="px-5 py-2.5 bg-white hover:bg-slate-200 text-[#05070D] font-bold text-xs rounded-full shadow-lg transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                   >
-                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-black" />
                     <span>{editingCategory ? "Lưu thay đổi" : "Tạo học phần"}</span>
                   </button>
                 </div>

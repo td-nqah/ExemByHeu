@@ -25,7 +25,7 @@ function renderHighlightedExamTitle(title: string) {
         <>
           <span className="text-white font-bold">{prefix}</span>{" "}
           {before && <span className="text-white font-extrabold">{before}</span>}
-          <span className="text-[#818cf8] font-extrabold">{deText}</span>
+          <span className="text-white font-extrabold underline decoration-[#252a37]">{deText}</span>
           {after && <span className="text-white font-extrabold">{after}</span>}
         </>
       );
@@ -50,7 +50,7 @@ function renderHighlightedExamTitle(title: string) {
         <>
           <span className="text-white font-bold">{prefix}</span>{" "}
           {before && <span className="text-white font-extrabold">{before}</span>}
-          <span className="text-[#818cf8] font-extrabold">{deText}</span>
+          <span className="text-white font-extrabold underline decoration-[#252a37]">{deText}</span>
           {after && <span className="text-white font-extrabold">{after}</span>}
         </>
       );
@@ -69,7 +69,7 @@ function renderHighlightedExamTitle(title: string) {
     return (
       <>
         {before && <span className="text-white font-extrabold">{before}</span>}
-        <span className="text-[#818cf8] font-extrabold">{deText}</span>
+        <span className="text-white font-extrabold">{deText}</span>
         {after && <span className="text-white font-extrabold">{after}</span>}
       </>
     );
@@ -140,7 +140,7 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
   const buttonText = isCompleted ? "Làm lại" : "Bắt đầu";
 
   return (
-    <div className="group flex flex-col justify-between h-full min-h-[195px] min-w-0 sm:min-w-[270px] rounded-[22px] obsidian-card-interactive p-5">
+    <div className="group flex flex-col justify-between h-full min-h-[195px] min-w-0 sm:min-w-[270px] rounded-3xl bg-[#161a24] border border-[#252a37] hover:border-[#2a2f3c] p-5 transition-all shadow-md">
       {/* Upper Content: Header (Title + Status Badge), Subtitle, Question Count & Type */}
       <div className="space-y-4">
         {/* Top Header Row: Title on Left, Status Badge on Right */}
@@ -152,7 +152,7 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
             >
               <Link
                 href={`/exam/${exam.id}`}
-                className="hover:text-indigo-300 transition-colors"
+                className="hover:text-slate-200 transition-colors"
               >
                 {renderHighlightedExamTitle(exam.title)}
               </Link>
@@ -160,15 +160,15 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
 
             {/* Status Badge: Chưa làm vs Đã làm · score/max */}
             {isCompleted ? (
-              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 select-none">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
+              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-[#232836] text-[#e2e8f0] border border-[#2a2f3c] select-none">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#9ca3af] shrink-0" />
                 <span>
                   Đã làm · {scoreDisplay}/{maxScoreDisplay}
                 </span>
               </span>
             ) : (
-              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-indigo-950/50 text-indigo-300 border border-indigo-500/25 select-none">
-                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
+              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-[#10131b] text-[#9ca3af] border border-[#252a37] select-none">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#6b7280] shrink-0" />
                 <span>Chưa làm</span>
               </span>
             )}
@@ -200,19 +200,19 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
         {/* Left: Time and Question Count with Icons */}
         <div className="flex items-center gap-3 text-xs text-slate-400 font-medium shrink-0">
           <span className="inline-flex items-center gap-1.5 shrink-0">
-            <Clock className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
+            <Clock className="h-3.5 w-3.5 text-[#8b93a5] shrink-0" />
             <span className="text-slate-300">{formatDuration(exam.duration_minutes)}</span>
           </span>
           <span className="inline-flex items-center gap-1.5 shrink-0">
-            <ClipboardList className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
+            <ClipboardList className="h-3.5 w-3.5 text-[#8b93a5] shrink-0" />
             <span className="text-slate-300"><strong className="text-white font-semibold font-heading">{questionCount}</strong> câu</span>
           </span>
         </div>
 
-        {/* Right: Docked Pill Button "Bắt đầu →" or "Làm lại →" */}
+        {/* Right: Docked Pill Button "Bắt đầu →" or "Làm lại →" (Nền TRẮNG, chữ ĐEN, bo pill) */}
         <Link
           href={`/exam/${exam.id}`}
-          className="shrink-0 h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold transition-all duration-200 cursor-pointer select-none bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm shadow-black/40 hover:shadow-md hover:shadow-black/50 border border-indigo-400/20 hover:scale-[1.02] active:scale-[0.98]"
+          className="shrink-0 h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-bold transition-all duration-200 cursor-pointer select-none bg-white hover:bg-slate-100 text-black shadow-sm hover:scale-[1.02] active:scale-[0.98]"
         >
           <span>{buttonText}</span>
           <ArrowRight className="h-3.5 w-3.5 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-1" />

@@ -1,32 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0f19;
-  --foreground: #f3f4f6;
-  --surface: #111827;
-  --surface-glass: rgba(17, 24, 39, 0.85);
-  --border: #1f2937;
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --primary: #4f46e5;
-  --primary-hover: #6366f1;
-  --accent-emerald: #059669;
-  --accent-emerald-light: #34d399;
-  --accent-cyan: #0284c7;
-  --accent-cyan-light: #38bdf8;
+  --background: #05070d;
+  --foreground: #ffffff;
+  --surface: #161a24;
+  --surface-card: #161a24;
+  --surface-subtle: #10131b;
+  --surface-pill: #232836;
+  --border: #252a37;
+  --border-subtle: #1b1f2a;
+  --border-strong: #2a2f3c;
+  --primary: #ffffff;
+  --primary-foreground: #05070d;
   --text-heading: #ffffff;
-  --text-body: #e5e7eb;
+  --text-body: #ffffff;
   --text-muted: #9ca3af;
-  --text-subtle: #6b7280;
+  --text-label: #8b93a5;
 
   /* Shadcn UI Sidebar variables */
-  --sidebar-background: #111827;
-  --sidebar-foreground: #f3f4f6;
-  --sidebar-primary: #4f46e5;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1f2937;
+  --sidebar-background: #0a0c12;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #05070d;
+  --sidebar-accent: #161a24;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #1f2937;
-  --sidebar-ring: #6366f1;
+  --sidebar-border: #1b1f2a;
+  --sidebar-ring: #2a2f3c;
   --sidebar-width: 18rem;
   --sidebar-width-icon: 3.5rem;
 }
@@ -40,8 +39,13 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
-  --color-border-subtle: var(--border);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-pill: var(--surface-pill);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
   --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
   --color-sidebar: var(--sidebar-background);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -81,7 +85,7 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #0b0f19;
+  background-color: #05070d;
   color-scheme: dark;
 }
 
@@ -100,8 +104,8 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus,
 select:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #0b0f19 inset !important;
-  box-shadow: 0 0 0 1000px #0b0f19 inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #10131b inset !important;
+  box-shadow: 0 0 0 1000px #10131b inset !important;
   -webkit-text-fill-color: #ffffff !important;
   color: #ffffff !important;
   caret-color: #ffffff !important;
@@ -110,7 +114,7 @@ select:-webkit-autofill:active {
 
 body {
   background-color: transparent;
-  color: #f3f4f6;
+  color: #ffffff;
 }
 
 /* Brand Logo: ExamByHeu */
@@ -118,147 +122,99 @@ body {
   font-family: var(--font-heading);
 }
 
-/* Heading màu tím ở sidebar */
+/* Heading ở sidebar */
 [data-sidebar="group-label"] {
   font-family: var(--font-heading);
   letter-spacing: 0.05em;
 }
 
 /*
- * Midnight Sky Background for Entire System (Bầu trời sao lấp lánh & Sao băng)
- * From Uiverse.io by kiranmayee-abbireddy (Moon omitted per user request)
+ * Dark Starry Night Background for Entire System
+ * Pure CSS (radial-gradient white dots 1-3px, 20-80% opacity)
  */
+.starry-night-sky,
 .uiverse-midnight-sky {
   position: fixed !important;
   inset: 0 !important;
   width: 100vw !important;
-  max-width: 100vw !important;
   height: 100vh !important;
   overflow: hidden;
-  background-color: #050505;
+  background: radial-gradient(120% 120% at 50% 0%, #05070d 0%, #070a12 60%, #040509 100%);
   pointer-events: none;
   z-index: 0;
 }
 
-.uiverse-midnight-sky .sky-canvas {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-  background: #050505;
-}
-
-.uiverse-midnight-sky .stars {
-  position: absolute;
-  inset: 0;
-  background-repeat: repeat;
-  pointer-events: none;
-}
-
-/* Layer 1: Small fast twinkling stars - High density */
+.starry-night-sky .stars-layer-1,
 .uiverse-midnight-sky .stars-1 {
-  background-image: radial-gradient(1px 1px at 10% 10%, #fff, transparent),
-    radial-gradient(1px 1px at 30% 20%, #fff, transparent),
-    radial-gradient(1px 1px at 50% 50%, #fff, transparent),
-    radial-gradient(1px 1px at 70% 30%, #fff, transparent),
-    radial-gradient(1px 1px at 90% 10%, #fff, transparent);
-  background-size: 200px 200px;
-  animation: twinkle 3s ease-in-out infinite;
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 8% 12%, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1px 1px at 24% 35%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 38% 18%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 52% 48%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1.5px 1.5px at 67% 22%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 82% 14%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1px 1px at 93% 42%, rgba(255, 255, 255, 0.6), transparent);
+  background-size: 240px 240px;
+  animation: star-twinkle-slow 5s ease-in-out infinite;
 }
 
-/* Layer 2: Medium slower twinkling stars */
+.starry-night-sky .stars-layer-2,
 .uiverse-midnight-sky .stars-2 {
-  background-image: radial-gradient(1.5px 1.5px at 20% 40%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 60% 85%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 85% 65%, #fff, transparent);
-  background-size: 300px 300px;
-  animation: twinkle 5s ease-in-out infinite 1s;
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 15% 65%, rgba(255, 255, 255, 0.65), transparent),
+    radial-gradient(2px 2px at 32% 82%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 45% 72%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(2px 2px at 73% 88%, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1px 1px at 88% 62%, rgba(255, 255, 255, 0.55), transparent);
+  background-size: 360px 360px;
+  animation: star-twinkle-medium 7s ease-in-out infinite 1.5s;
 }
 
-/* Layer 3: Larger, very slow twinkling stars */
+.starry-night-sky .stars-layer-3,
 .uiverse-midnight-sky .stars-3 {
-  background-image: radial-gradient(2px 2px at 40% 70%, #fff, transparent),
-    radial-gradient(2px 2px at 10% 80%, #fff, transparent),
-    radial-gradient(2px 2px at 80% 40%, #fff, transparent);
-  background-size: 400px 400px;
-  animation: twinkle 7s ease-in-out infinite 2s;
-}
-
-/* Meteor / Shooting Star Layer */
-.uiverse-midnight-sky .meteor {
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5);
-  opacity: 0;
-  pointer-events: none;
+  inset: 0;
+  background-image:
+    radial-gradient(2.5px 2.5px at 20% 25%, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(2px 2px at 60% 15%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(3px 3px at 85% 75%, rgba(255, 255, 255, 0.75), transparent);
+  background-size: 480px 480px;
+  animation: star-twinkle-soft 9s ease-in-out infinite 3s;
 }
 
-/* Meteor Tail */
-.uiverse-midnight-sky .meteor::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 80px;
-  height: 1px;
-  background: linear-gradient(90deg, #fff, transparent);
+@keyframes star-twinkle-slow {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 0.35; }
 }
 
-/* Meteor Instances with staggered starts */
-.uiverse-midnight-sky .m1 {
-  top: 10%;
-  left: 110%;
-  animation: shoot 8s linear infinite;
+@keyframes star-twinkle-medium {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.4; }
 }
 
-.uiverse-midnight-sky .m2 {
-  top: 30%;
-  left: 110%;
-  animation: shoot 12s linear infinite 4s;
+@keyframes star-twinkle-soft {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 0.25; }
 }
 
-.uiverse-midnight-sky .m3 {
-  top: 50%;
-  left: 110%;
-  animation: shoot 10s linear infinite 2s;
-}
-
-/* Twinkle Animation */
-@keyframes twinkle {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.2;
+@media (prefers-reduced-motion: reduce) {
+  .starry-night-sky .stars-layer-1,
+  .starry-night-sky .stars-layer-2,
+  .starry-night-sky .stars-layer-3,
+  .uiverse-midnight-sky .stars-1,
+  .uiverse-midnight-sky .stars-2,
+  .uiverse-midnight-sky .stars-3 {
+    animation: none !important;
   }
 }
 
-/* Shooting Star Animation */
-@keyframes shoot {
-  0% {
-    transform: translateX(0) translateY(0) rotate(-35deg);
-    opacity: 0;
-  }
-  5% {
-    opacity: 1;
-  }
-  15% {
-    transform: translateX(-1500px) translateY(1000px) rotate(-35deg);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(-1500px) translateY(1000px) rotate(-35deg);
-    opacity: 0;
-  }
-}
- 
 /*
- * ExamByHeu v2.0 Linear Cyber Obsidian (SaaS Premium Dark)
- * Hệ thống Card Tím Obsidian Cyber Purple
+ * Dark Starry Night Card & Panel System
+ * Xám xanh than #161A24, viền #252A37, bo góc lớn (24-32px)
  */
 .obsidian-card,
 .obsidian-card-interactive,
@@ -267,80 +223,62 @@ body {
 .glass-panel,
 .glow-card {
   position: relative;
-  background: radial-gradient(130% 130% at 50% 0%, rgba(36, 26, 82, 0.58) 0%, rgba(12, 10, 26, 0.95) 100%), rgba(12, 10, 26, 0.95);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(129, 140, 248, 0.22);
-  box-shadow:
-    0 10px 30px -4px rgba(0, 0, 0, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: #161a24;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #252a37;
+  border-radius: 1.5rem; /* 24px */
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .obsidian-card:hover,
 .glass-panel:hover,
 .glow-card:hover {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(46, 32, 104, 0.68) 0%, rgba(9, 7, 20, 0.96) 100%), rgba(9, 7, 20, 0.96);
-  border-color: rgba(129, 140, 248, 0.38);
-  box-shadow:
-    0 14px 38px -6px rgba(0, 0, 0, 0.8),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background-color: #181d29;
+  border-color: #2a2f3c;
 }
 
-/*
- * Interactive Obsidian Cards:
- * Lúc rê chuột vào: hiệu ứng chìm xuống như đang chọn, tối đi có chiều sâu và nổi khối
- */
 .obsidian-card-interactive:hover,
 .glass-card-interactive:hover {
-  background: radial-gradient(130% 130% at 50% 30%, rgba(40, 28, 92, 0.6) 0%, rgba(10, 8, 22, 0.98) 100%), #04030a;
-  border-color: rgba(129, 140, 248, 0.45);
-  box-shadow:
-    0 8px 24px -2px rgba(0, 0, 0, 0.85),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background-color: #191e2b;
+  border-color: #32384a;
   transform: translateY(-2px);
+  box-shadow: 0 8px 26px -4px rgba(0, 0, 0, 0.65);
 }
 
 .obsidian-card-interactive:active,
 .glass-card-interactive:active {
-  background: #030208;
-  border-color: rgba(129, 140, 248, 0.6);
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.9),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  background-color: #141720;
+  border-color: #252a37;
   transform: translateY(0);
 }
 
 .glass-input {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(30, 41, 59, 0.8);
-  color: #F8FAFC;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: #10131b;
+  border: 1px solid #252a37;
+  color: #ffffff;
+  border-radius: 0.75rem;
+  transition: all 0.15s ease-in-out;
 }
 
 .glass-input::placeholder {
-  color: #64748B;
+  color: #6b7280;
 }
 
 .glass-input:focus {
-  background: rgba(15, 23, 42, 0.95);
-  border-color: #6366F1;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  background-color: #10131b;
+  border-color: #4b5563;
   outline: none;
 }
 
 .glass-pill {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(30, 41, 59, 0.8);
+  background-color: #10131b;
+  border: 1px solid #252a37;
 }
 
 /*
- * Scrollbar Utilities:
- * Ẩn hoàn toàn thanh cuộn nhưng vẫn giữ khả năng cuộn chuột / touchpad mượt mà
+ * Scrollbar Utilities
  */
 .custom-scrollbar,
 .no-scrollbar,
@@ -367,10 +305,9 @@ body {
   .glass-pill {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: #0F172A;
+    background-color: #161a24;
   }
 }
-
 
 /*
  * iOS Safari Safe Area & Mobile Viewport Utilities
@@ -385,7 +322,6 @@ body {
   min-height: 100dvh;
 }
 
-
 /*
  * Tech Magazine Article Reader Styles
  */
@@ -397,7 +333,7 @@ body {
   margin-top: 2rem;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #252a37;
   scroll-margin-top: 6rem;
   letter-spacing: -0.015em;
 }
@@ -406,14 +342,14 @@ body {
   font-family: var(--font-heading), sans-serif;
   font-size: 1.15rem;
   font-weight: 700;
-  color: #a5b4fc;
+  color: #e5e7eb;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   scroll-margin-top: 6rem;
 }
 
 .magazine-article-content p {
-  color: #cbd5e1;
+  color: #9ca3af;
   line-height: 1.8;
   margin-bottom: 1.25rem;
   font-size: 0.95rem;
@@ -429,7 +365,7 @@ body {
   margin-top: 0.75rem;
   margin-bottom: 1.25rem;
   padding-left: 1.5rem;
-  color: #cbd5e1;
+  color: #9ca3af;
   font-size: 0.95rem;
 }
 
@@ -449,7 +385,9 @@ body {
 .magazine-article-content .callout-box {
   margin: 1.5rem 0;
   border-radius: 0 0.75rem 0.75rem 0;
-  backdrop-filter: blur(8px);
+  background-color: #10131b;
+  border-left: 4px solid #ffffff;
+  padding: 1rem;
 }
 
 .magazine-article-content table {
@@ -462,27 +400,25 @@ body {
   padding: 0.75rem 1rem;
   font-weight: 600;
   text-align: left;
+  background-color: #10131b;
+  color: #8b93a5;
+  border-bottom: 1px solid #252a37;
 }
 
 .magazine-article-content table td {
   padding: 0.75rem 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid #252a37;
+  color: #ffffff;
 }
 
-
-
-
-
 /*
- * Floating Rounded Sidebar Card for Obsidian Cyber Purple Theme
+ * Floating Rounded Sidebar Card for Dark Starry Night
  */
 .sidebar-floating-card {
-  background: rgba(17, 24, 39, 0.88);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #0a0c12;
+  border: 1px solid #1b1f2a;
+  border-radius: 1.75rem;
   box-shadow:
-    0 20px 50px -10px rgba(0, 0, 0, 0.65),
-    0 4px 16px -2px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 20px 50px -10px rgba(0, 0, 0, 0.75),
+    0 4px 16px -2px rgba(0, 0, 0, 0.5);
 }

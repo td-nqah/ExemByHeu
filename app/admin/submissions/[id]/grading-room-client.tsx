@@ -161,7 +161,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
   if (loading) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center p-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
       </div>
     );
   }
@@ -169,12 +169,12 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
   if (!submission) {
     return (
       <div className="flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center p-4">
-        <div className="glass-card rounded-2xl p-8 text-center">
+        <div className="rounded-3xl border border-[#252A37] bg-[#161A24] p-8 text-center shadow-xl">
           <AlertCircle className="mx-auto mb-2 h-10 w-10 text-rose-400" />
           <h2 className="text-base font-bold text-white">
             Không tìm thấy bài nộp
           </h2>
-          <Link href="/admin/submissions" className="mt-3 inline-block text-xs font-semibold text-indigo-400 underline">
+          <Link href="/admin/submissions" className="mt-4 inline-flex items-center rounded-full bg-white px-5 py-2 text-xs font-bold text-black hover:bg-slate-200 transition">
             Quay lại danh sách bài nộp
           </Link>
         </div>
@@ -192,9 +192,9 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
       <div className="mb-6">
         <Link
           href="/admin/submissions"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition hover:text-white"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9CA3AF] transition hover:text-white"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
+          <ArrowLeft className="h-3.5 w-3.5 text-white" />
           <span>Quay lại Quản lý Bài nộp & Đánh giá</span>
         </Link>
       </div>
@@ -203,17 +203,17 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
         initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="glass-panel mb-8 rounded-2xl p-6 sm:p-8"
+        className="mb-8 rounded-3xl border border-[#252A37] bg-[#161A24] p-6 sm:p-8 shadow-xl"
       >
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="mb-2 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-200">
-                <User className="h-3 w-3 text-indigo-400" />
-                Sinh viên: <strong>{submission.user?.username || "Sinh viên"}</strong>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-mono text-[#9CA3AF]">
+                <User className="h-3 w-3 text-white" />
+                Sinh viên: <strong className="text-white">{submission.user?.username || "Sinh viên"}</strong>
               </span>
-              <span className="inline-flex items-center gap-1 rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-300">
-                <Calendar className="h-3 w-3 text-indigo-400" />
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-mono text-[#9CA3AF]">
+                <Calendar className="h-3 w-3 text-[#8B93A5]" />
                 {formatDate(submission.submitted_at)}
               </span>
             </div>
@@ -221,22 +221,22 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
               Đánh giá Học phần: {submission.exam?.title}
             </h1>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-[#9CA3AF]">
               Kiểm tra kết quả trắc nghiệm và tiến hành đánh giá chi tiết các câu hỏi tự luận.
             </p>
           </div>
 
-          <div className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900/80 p-4">
+          <div className="flex items-center gap-4 rounded-2xl border border-[#252A37] bg-[#10131B] p-4">
             <div className="text-right">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tổng điểm đánh giá</p>
-              <p className="text-2xl font-black text-indigo-400">
+              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#8B93A5]">Tổng điểm đánh giá</p>
+              <p className="text-2xl font-black text-white font-mono">
                 {liveTotalScore}
               </p>
             </div>
-            <div className="h-8 w-px bg-slate-800" />
-            <div className="space-y-0.5 text-xs text-slate-400">
+            <div className="h-8 w-px bg-[#252A37]" />
+            <div className="space-y-0.5 text-xs text-[#9CA3AF] font-mono">
               <p>
-                Điểm trắc nghiệm (Đã khóa): <strong className="text-white">{mcqScore}</strong>
+                Trắc nghiệm (Đã khóa): <strong className="text-white">{mcqScore}</strong>
               </p>
               <p>
                 Điểm tự luận: <strong className="text-white">{currentEssayTotal}</strong>
@@ -245,8 +245,8 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800/80 pt-4">
-          <div className="flex items-center gap-2 text-xs text-slate-400">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[#252A37] pt-4">
+          <div className="flex items-center gap-2 text-xs text-[#9CA3AF]">
             {savedSuccess ? (
               <span className="flex items-center gap-1.5 font-bold text-emerald-400">
                 <Check className="h-4 w-4 stroke-[3]" />
@@ -261,9 +261,9 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             type="button"
             onClick={handleFinalize}
             disabled={isSubmitting}
-            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-200 px-6 py-2.5 text-xs font-bold text-[#05070D] shadow-lg transition active:scale-[0.98] disabled:opacity-50 cursor-pointer"
           >
-            <Save className="h-4 w-4" />
+            <Save className="h-4 w-4 text-black" />
             <span>{isSubmitting ? "Đang lưu..." : "Lưu kết quả đánh giá & Cập nhật điểm"}</span>
           </button>
         </div>
@@ -281,13 +281,11 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
               initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.25) }}
-              className={`glow-card rounded-2xl p-6 ${
-                !isMCQ ? "border-indigo-500/30 ring-1 ring-indigo-500/15" : ""
-              }`}
+              className="rounded-3xl border border-[#252A37] bg-[#161A24] p-6 shadow-xl"
             >
-              <div className="mb-4 flex items-center justify-between border-b border-slate-800/80 pb-3">
+              <div className="mb-4 flex items-center justify-between border-b border-[#252A37] pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs font-mono font-bold text-white">
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">
@@ -298,22 +296,22 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                 <div>
                   {isMCQ ? (
                     <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-md bg-slate-800/90 border border-slate-700/50 px-2 py-0.5 text-xs font-medium text-slate-300">
-                        <Lock className="h-3 w-3 text-indigo-400" />
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#10131B] border border-[#252A37] px-2.5 py-0.5 text-xs font-mono font-medium text-[#9CA3AF]">
+                        <Lock className="h-3 w-3 text-white" />
                         Tự động ghi nhận
                       </span>
                       <span
-                        className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-bold ${
+                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-mono font-bold ${
                           ans.is_correct
-                            ? "border-emerald-500/40 bg-emerald-950/50 text-emerald-400"
-                            : "border-rose-500/40 bg-rose-950/50 text-rose-400"
+                            ? "border-emerald-500/40 bg-[#232836] text-emerald-400"
+                            : "border-rose-500/40 bg-[#232836] text-rose-400"
                         }`}
                       >
                         {ans.is_correct ? `+${ans.score_awarded} điểm` : "0 điểm"}
                       </span>
                     </div>
                   ) : (
-                    <span className="rounded-md bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-400">
+                    <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-xs font-mono font-bold text-white">
                       Điểm tối đa: {q.max_score} điểm
                     </span>
                   )}
@@ -349,55 +347,55 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                       correctKeyLetter.length > 0 && correctKeyLetter === letter;
 
                     let rowStyle =
-                      "border-slate-800 bg-slate-900/40 text-slate-400 opacity-65";
+                      "border-[#252A37] bg-[#10131B] text-[#9CA3AF]";
                     let letterBadgeStyle =
-                      "border border-slate-700 bg-slate-800 text-slate-400";
+                      "border border-[#252A37] bg-[#161A24] text-[#8B93A5] font-mono";
 
                     if (isCorrectAnswer) {
                       rowStyle =
-                        "border-emerald-500 bg-emerald-950/50 text-emerald-400 font-semibold shadow-[inset_0_1px_0_rgba(16,185,129,0.15)]";
+                        "border-emerald-500/60 bg-emerald-950/30 text-emerald-300 font-semibold";
                       letterBadgeStyle =
-                        "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300";
+                        "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300 font-mono";
                     } else if (isCandidateChoice && !isCorrectAnswer) {
                       rowStyle =
-                        "border-rose-500 bg-rose-950/50 text-rose-400 font-semibold shadow-[inset_0_1px_0_rgba(244,63,94,0.15)]";
+                        "border-rose-500/60 bg-rose-950/30 text-rose-300 font-semibold";
                       letterBadgeStyle =
-                        "border border-rose-400/50 bg-rose-500/20 text-rose-300";
+                        "border border-rose-400/50 bg-rose-500/20 text-rose-300 font-mono";
                     }
 
                     return (
                       <div
                         key={optI}
-                        className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-xs leading-relaxed transition ${rowStyle}`}
+                        className={`flex items-start justify-between gap-3 rounded-2xl border p-3.5 text-xs leading-relaxed transition ${rowStyle}`}
                       >
                         <div className="flex items-start gap-3">
                           <span
-                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${letterBadgeStyle}`}
+                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-xs font-bold ${letterBadgeStyle}`}
                           >
                             {letter}
                           </span>
-                          <span className="pt-0.5">
+                          <span className="pt-0.5 text-slate-200">
                             {optText.replace(/^[A-Z][\.\:\)]\s*/i, "")}
                           </span>
                         </div>
 
                         <div className="flex shrink-0 flex-wrap items-center gap-1.5 text-[11px] font-semibold">
                           {isCandidateChoice && isCorrectAnswer && (
-                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
                               <Check className="h-3 w-3 text-emerald-400" />
                               <span>Sinh viên chọn (Chính xác)</span>
                             </span>
                           )}
 
                           {isCandidateChoice && !isCorrectAnswer && (
-                            <span className="inline-flex items-center gap-1 rounded-md border border-rose-500/40 bg-rose-950/80 px-2.5 py-0.5 text-[10px] font-bold text-rose-400">
+                            <span className="inline-flex items-center gap-1 rounded-full border border-rose-500/40 bg-rose-950/80 px-2.5 py-0.5 text-[10px] font-bold text-rose-400">
                               <AlertCircle className="h-3 w-3 text-rose-400" />
                               <span>Phương án sinh viên chọn</span>
                             </span>
                           )}
 
                           {!isCandidateChoice && isCorrectAnswer && (
-                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
                               <Check className="h-3 w-3 text-emerald-400" />
                               <span>Đáp án chuẩn</span>
                             </span>
@@ -410,34 +408,34 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="mb-1.5 block text-[11px] font-semibold text-slate-400">
+                    <label className="mb-1.5 block text-[11px] font-mono uppercase tracking-wider text-[#8B93A5]">
                       Bài làm của sinh viên
                     </label>
-                    <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
+                    <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
                       {ans.user_answer ? ans.user_answer : "(Sinh viên không điền nội dung trả lời)"}
                     </div>
                   </div>
 
-                  <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4">
+                  <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-4">
                     <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2.5">
                         <label className="flex items-center gap-1.5 text-xs font-bold text-white">
-                          <Award className="h-4 w-4 text-indigo-400" />
+                          <Award className="h-4 w-4 text-white" />
                           Điểm số cho câu này (Tối đa: {q.max_score} điểm)
                         </label>
                         <button
                           type="button"
                           disabled={aiLoadingId === q.id}
                           onClick={() => handleGradeWithAI(q.id, q.content, ans.user_answer, q.max_score)}
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600/20 border border-indigo-500/30 px-2.5 py-1 text-[11px] font-semibold text-indigo-300 transition hover:bg-indigo-600/30 hover:text-white active:scale-[0.98] disabled:opacity-50"
+                          className="inline-flex items-center gap-1.5 rounded-full bg-[#232836] border border-[#2A2F3C] px-3 py-1 text-[11px] font-semibold text-white transition hover:bg-white hover:text-black active:scale-[0.98] disabled:opacity-50 cursor-pointer"
                           title="Sử dụng Trợ lý học thuật AI để phân tích câu trả lời và đề xuất điểm theo barem"
                         >
-                          <Sparkles className="h-3 w-3 text-indigo-400" />
+                          <Sparkles className="h-3 w-3" />
                           <span>{aiLoadingId === q.id ? "Trợ lý AI đang phân tích barem..." : "Đề xuất điểm với Trợ lý AI"}</span>
                         </button>
                       </div>
 
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-1.5 font-mono">
                         <NumberStepper
                           value={essayGrades[q.id]?.score ?? 0}
                           onChange={(val) => handleScoreChange(q.id, q.max_score, String(val))}
@@ -445,13 +443,13 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                           max={q.max_score}
                           step={0.25}
                         />
-                        <span className="text-xs text-slate-400">/ {q.max_score}</span>
+                        <span className="text-xs text-[#8B93A5]">/ {q.max_score}</span>
                       </div>
                     </div>
 
                     <div>
                       <label className="mb-1.5 flex items-center gap-1 text-xs font-medium text-slate-300">
-                        <MessageSquare className="h-3.5 w-3.5 text-indigo-400" />
+                        <MessageSquare className="h-3.5 w-3.5 text-white" />
                         Nhận xét học vụ của Giảng viên phụ trách
                       </label>
                       <textarea
@@ -459,7 +457,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                         value={essayGrades[q.id]?.feedback ?? ""}
                         onChange={(e) => handleFeedbackChange(q.id, e.target.value)}
                         placeholder="Nhập nhận xét học vụ chi tiết, đối sánh barem điểm và hướng dẫn cải thiện..."
-                        className="glass-input w-full rounded-xl p-3 text-xs leading-relaxed"
+                        className="w-full rounded-2xl border border-[#252A37] bg-[#161A24] p-3.5 text-xs leading-relaxed text-white placeholder-[#8B93A5] focus:border-white/50 focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
@@ -470,12 +468,12 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
         })}
       </div>
 
-      <div className="glass-panel mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl p-6 sm:flex-row">
+      <div className="mt-8 flex flex-col items-center justify-between gap-4 rounded-3xl border border-[#252A37] bg-[#161A24] p-6 sm:flex-row shadow-xl">
         <div>
           <h4 className="text-sm font-bold text-white">
             Xác nhận lưu kết quả đánh giá học phần?
           </h4>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-[#9CA3AF]">
             Điểm tự luận ({currentEssayTotal} đ) kết hợp cùng điểm trắc nghiệm ({mcqScore} đ) thành tổng điểm {liveTotalScore} (Thang điểm 10).
           </p>
         </div>
@@ -484,9 +482,9 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
           type="button"
           onClick={handleFinalize}
           disabled={isSubmitting}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-3 text-xs font-semibold text-white shadow-lg shadow-indigo-600/20 transition active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white hover:bg-slate-200 px-7 py-3 text-xs font-bold text-[#05070D] shadow-xl transition active:scale-[0.98] disabled:opacity-50 sm:w-auto cursor-pointer"
         >
-          <Save className="h-4 w-4" />
+          <Save className="h-4 w-4 text-black" />
           <span>{isSubmitting ? "Đang lưu..." : "Lưu kết quả đánh giá & Cập nhật điểm"}</span>
         </button>
       </div>
