@@ -99,7 +99,9 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
   const [user, setUser] = useState<Profile | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [examsCount, setExamsCount] = useState<number>(14);
-  const [examsExpanded, setExamsExpanded] = useState<boolean>(false);
+  const [examsExpanded, setExamsExpanded] = useState<boolean>(() => {
+    return pathname === "/dashboard" || pathname.startsWith("/exam");
+  });
 
   const closeSidebarOnNavigate = () => {
     if (isMobile) {
@@ -110,6 +112,15 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
 
   useEffect(() => {
     setUser(getCurrentUser());
+  }, [pathname]);
+
+  // Tự động mở rộng khi vào mục Ngân hàng đề thi, tự động thu gọn khi chọn chức năng khác
+  useEffect(() => {
+    if (pathname === "/dashboard" || pathname.startsWith("/exam")) {
+      setExamsExpanded(true);
+    } else {
+      setExamsExpanded(false);
+    }
   }, [pathname]);
 
   // Load categories and sync dynamically with admin updates
@@ -189,12 +200,18 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
 
   const handleNavClick = (href: string) => {
     setActiveNavKey(href);
+    if (href === "/dashboard") {
+      setExamsExpanded(true);
+    } else {
+      setExamsExpanded(false);
+    }
     closeSidebarOnNavigate();
   };
 
   const handleSubClick = (catKey: string) => {
     setActiveSubKey(catKey);
     setActiveNavKey("/dashboard");
+    setExamsExpanded(true);
     closeSidebarOnNavigate();
   };
 
@@ -415,7 +432,6 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                         href="/dashboard"
                         onClick={() => {
                           handleNavClick("/dashboard");
-                          setExamsExpanded((prev) => !prev);
                         }}
                         className="relative flex items-center gap-2.5 w-full"
                       >
