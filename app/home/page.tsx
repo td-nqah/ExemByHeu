@@ -113,13 +113,13 @@ export default function HomePage() {
       <div className="w-full text-center space-y-6">
         {/* Top Badges */}
         <div className="flex flex-wrap items-center justify-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#232836] border border-[#252a37] text-[#9ca3af] backdrop-blur-md shadow-xs">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-500/10 border border-amber-500/25 text-amber-300 backdrop-blur-md shadow-xs">
             <span>{greetingInfo.emoji}</span>
             <span>{greetingInfo.greeting} • {greetingInfo.label}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 text-xs text-[#9ca3af] bg-[#232836] border border-[#252a37] px-3.5 py-1.5 rounded-full font-medium backdrop-blur-md shadow-xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#8b93a5]" />
+          <span className="inline-flex items-center gap-1.5 text-xs text-emerald-300 bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full font-medium backdrop-blur-md shadow-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             <span>Hà Nội (GMT+7)</span>
           </span>
         </div>
@@ -127,7 +127,7 @@ export default function HomePage() {
         {/* Prominent Greeting Headline Centered */}
         <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
           <span>{greetingInfo.greeting}, </span>
-          <span className="text-white">
+          <span className="text-[#818cf8]">
             {formatDisplayName(currentUser?.username || "Admin", currentUser?.role)}
           </span>
         </h1>
@@ -152,7 +152,7 @@ export default function HomePage() {
             href="/history"
             className="inline-flex items-center gap-2 rounded-full bg-[#10131b]/80 border border-[#2a2f3c] hover:border-[#3b4252] hover:bg-[#161a24] text-white px-6 py-3.5 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm select-none cursor-pointer"
           >
-            <History className="h-4 w-4 text-slate-300" />
+            <History className="h-4 w-4 text-[#818cf8]" />
             <span>Xem lịch sử đánh giá</span>
           </Link>
         </div>
@@ -164,17 +164,17 @@ export default function HomePage() {
           {/* Card 1: Exams */}
           <Link
             href="/dashboard"
-            className="group rounded-3xl bg-[#161a24] border border-[#252a37] hover:border-[#2a2f3c] p-5 transition-all"
+            className="group rounded-3xl bg-[#161a24] border border-[#252a37] hover:border-indigo-500/40 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-400">
                 <BookOpen className="h-5 w-5" />
               </div>
               <span className="font-heading text-2xl font-extrabold text-white tabular-nums drop-shadow-sm">
                 {examsCount}
               </span>
             </div>
-            <h2 className="mt-4 text-sm font-bold text-white group-hover:text-slate-200 transition-colors">
+            <h2 className="mt-4 text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">
               Đề đánh giá Khả dụng
             </h2>
             <p className="mt-1 text-xs text-slate-400 leading-relaxed">
@@ -185,17 +185,17 @@ export default function HomePage() {
           {/* Card 2: Submissions */}
           <Link
             href="/history"
-            className="group rounded-3xl bg-[#161a24] border border-[#252a37] hover:border-[#2a2f3c] p-5 transition-all"
+            className="group rounded-3xl bg-[#161a24] border border-[#252a37] hover:border-emerald-500/40 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
-              <span className="font-heading text-2xl font-extrabold text-white tabular-nums drop-shadow-sm">
+              <span className="font-heading text-2xl font-extrabold text-emerald-400 tabular-nums drop-shadow-sm">
                 {submissionsCount}
               </span>
             </div>
-            <h2 className="mt-4 text-sm font-bold text-white group-hover:text-slate-200 transition-colors">
+            <h2 className="mt-4 text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">
               Đã hoàn thành
             </h2>
             <p className="mt-1 text-xs text-slate-400 leading-relaxed">
@@ -206,10 +206,10 @@ export default function HomePage() {
           {/* Card 3: Standard Room */}
           <div className="rounded-3xl bg-[#161a24] border border-[#252a37] p-5">
             <div className="flex items-center justify-between">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400">
                 <ShieldCheck className="h-5 w-5" />
               </div>
-              <span className="text-xs bg-[#232836] text-[#9ca3af] border border-[#252a37] px-2.5 py-0.5 rounded-full font-medium shadow-xs">
+              <span className="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full font-medium shadow-xs">
                 Sẵn sàng
               </span>
             </div>

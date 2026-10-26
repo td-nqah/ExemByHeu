@@ -154,13 +154,13 @@ export default function HistoryPage() {
                       </td>
                       <td className="whitespace-nowrap py-4 px-4">
                         {isGraded ? (
-                          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#232836] text-[#e2e8f0] border border-[#2a2f3c] px-2.5 py-1 text-xs font-medium">
-                            <span className="h-1.5 w-1.5 rounded-full bg-[#9ca3af]" />
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 text-xs font-semibold select-none shadow-xs">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
                             Đã hoàn thành
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#252a37] bg-[#10131b] px-2.5 py-1 text-xs font-medium text-[#9ca3af]">
-                            <span className="h-1.5 w-1.5 rounded-full bg-[#6b7280]" />
+                          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-300">
+                            <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
                             Đang chờ chấm
                           </span>
                         )}

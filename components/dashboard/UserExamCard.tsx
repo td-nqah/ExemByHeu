@@ -25,7 +25,7 @@ function renderHighlightedExamTitle(title: string) {
         <>
           <span className="text-white font-bold">{prefix}</span>{" "}
           {before && <span className="text-white font-extrabold">{before}</span>}
-          <span className="text-white font-extrabold underline decoration-[#252a37]">{deText}</span>
+          <span className="text-[#818cf8] font-extrabold">{deText}</span>
           {after && <span className="text-white font-extrabold">{after}</span>}
         </>
       );
@@ -50,7 +50,7 @@ function renderHighlightedExamTitle(title: string) {
         <>
           <span className="text-white font-bold">{prefix}</span>{" "}
           {before && <span className="text-white font-extrabold">{before}</span>}
-          <span className="text-white font-extrabold underline decoration-[#252a37]">{deText}</span>
+          <span className="text-[#818cf8] font-extrabold">{deText}</span>
           {after && <span className="text-white font-extrabold">{after}</span>}
         </>
       );
@@ -69,7 +69,7 @@ function renderHighlightedExamTitle(title: string) {
     return (
       <>
         {before && <span className="text-white font-extrabold">{before}</span>}
-        <span className="text-white font-extrabold">{deText}</span>
+        <span className="text-[#818cf8] font-extrabold">{deText}</span>
         {after && <span className="text-white font-extrabold">{after}</span>}
       </>
     );
@@ -160,15 +160,15 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
 
             {/* Status Badge: Chưa làm vs Đã làm · score/max */}
             {isCompleted ? (
-              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-[#232836] text-[#e2e8f0] border border-[#2a2f3c] select-none">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#9ca3af] shrink-0" />
+              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 select-none shadow-xs">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
                 <span>
                   Đã làm · {scoreDisplay}/{maxScoreDisplay}
                 </span>
               </span>
             ) : (
-              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-[#10131b] text-[#9ca3af] border border-[#252a37] select-none">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#6b7280] shrink-0" />
+              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-indigo-950/40 text-indigo-300 border border-indigo-500/25 select-none">
+                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
                 <span>Chưa làm</span>
               </span>
             )}
@@ -200,11 +200,11 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
         {/* Left: Time and Question Count with Icons */}
         <div className="flex items-center gap-3 text-xs text-slate-400 font-medium shrink-0">
           <span className="inline-flex items-center gap-1.5 shrink-0">
-            <Clock className="h-3.5 w-3.5 text-[#8b93a5] shrink-0" />
+            <Clock className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
             <span className="text-slate-300">{formatDuration(exam.duration_minutes)}</span>
           </span>
           <span className="inline-flex items-center gap-1.5 shrink-0">
-            <ClipboardList className="h-3.5 w-3.5 text-[#8b93a5] shrink-0" />
+            <ClipboardList className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
             <span className="text-slate-300"><strong className="text-white font-semibold font-heading">{questionCount}</strong> câu</span>
           </span>
         </div>

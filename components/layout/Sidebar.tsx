@@ -221,11 +221,13 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Trang chủ",
       href: "/home",
       icon: Home,
+      color: "text-indigo-400",
     },
     {
       title: "Lịch sử đánh giá",
       href: "/history",
       icon: History,
+      color: "text-emerald-400",
     },
   ];
 
@@ -235,17 +237,20 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Danh mục",
       href: "/admin/categories",
       icon: Menu,
+      color: "text-violet-400",
     },
     {
       title: "Đề thi",
       href: "/admin/dashboard",
       icon: FileText,
       badge: examsCount,
+      color: "text-indigo-400",
     },
     {
       title: "Tài liệu",
       href: "/admin/materials",
       icon: BarChart2,
+      color: "text-teal-400",
     },
   ];
 
@@ -255,11 +260,13 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Phân quyền",
       href: "/admin/permissions",
       icon: User,
+      color: "text-blue-400",
     },
     {
       title: "Cài đặt",
       href: "/admin/settings",
       icon: Settings,
+      color: "text-slate-300",
     },
   ];
 
@@ -276,17 +283,16 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             title="ExamByHeu - Hệ thống đánh giá"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none min-w-0"
           >
-            {/* Dark Starry Night Icon Box */}
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] text-white shadow-sm border border-[#252a37]">
+            {/* Squircle Glowing Purple Icon Box */}
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-md shadow-indigo-600/30 border border-indigo-400/20">
               <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
             </div>
 
-            {/* Brand Text: Exam Trắng - By Xám - Heu Trắng */}
+            {/* Brand Text: Exam Trắng - ByHeu Tím */}
             <div className="flex flex-col min-w-0">
               <span className="brand-logo font-heading text-[19px] font-black tracking-tight leading-none select-none">
                 <span className="text-white">Exam</span>
-                <span className="text-[#9ca3af]">By</span>
-                <span className="text-white">Heu</span>
+                <span className="text-[#818cf8]">ByHeu</span>
               </span>
               <span className="text-[11px] font-medium text-[#9ca3af] leading-none mt-1">
                 Hệ thống đánh giá
@@ -309,7 +315,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             href="/home"
             onClick={() => handleNavClick("/home")}
             title="ExamByHeu - Trang chủ"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] text-white shadow-sm hover:scale-105 active:scale-95 transition-all select-none border border-[#252a37]"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-sm shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all select-none border border-indigo-400/20"
           >
             <GraduationCap className="h-5 w-5 text-white" />
           </Link>
@@ -328,7 +334,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
         <LayoutGroup id="sidebar-nav">
           {/* Nhóm 1: TỔNG QUAN / BÁO CÁO */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
+            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
               TỔNG QUAN / BÁO CÁO
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -353,7 +359,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                           <Icon
                             className={cn(
                               "h-4 w-4 shrink-0 transition-colors relative z-10",
-                              isActive ? "text-black" : "text-slate-300"
+                              isActive ? "text-black" : (item.color || "text-slate-300")
                             )}
                           />
                           <span
@@ -380,7 +386,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
 
           {/* Nhóm 2: HỌC LIỆU / ĐÁNH GIÁ */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
+            <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
               HỌC LIỆU / ĐÁNH GIÁ
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -403,7 +409,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                           "h-4 w-4 shrink-0 transition-colors relative z-10",
                           activeNavKey === "/knowledge"
                             ? "text-black"
-                            : "text-slate-300"
+                            : "text-sky-400"
                         )}
                       />
                       <span
@@ -442,7 +448,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                             "h-4 w-4 shrink-0 transition-colors relative z-10",
                             activeNavKey === "/dashboard"
                               ? "text-black"
-                              : "text-slate-300"
+                              : "text-amber-400"
                           )}
                         />
                         <span
@@ -546,7 +552,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
               <SidebarSeparator className="my-2 bg-[#1b1f2a]" />
 
               <SidebarGroup className="p-0">
-                <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
+                <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
                   QUẢN LÝ HỆ THỐNG
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
@@ -573,7 +579,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                                   "h-4 w-4 shrink-0 transition-colors relative z-10",
                                   isActive
                                     ? "text-black"
-                                    : "text-slate-300"
+                                    : (item.color || "text-slate-300")
                                 )}
                               />
                               <span
@@ -588,7 +594,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                               </span>
                               {/* Badge số lượng đề thi */}
                               {item.badge !== undefined && (
-                                <span className="ml-auto flex items-center justify-center min-w-[22px] h-5 px-2 rounded-full bg-[#232836] border border-[#2a2f3c] text-white text-xs font-bold font-mono shadow-xs group-data-[collapsible=icon]:hidden relative z-10">
+                                <span className="ml-auto flex items-center justify-center min-w-[22px] h-5 px-2 rounded-full bg-rose-600 text-white text-xs font-bold font-mono shadow-xs group-data-[collapsible=icon]:hidden relative z-10">
                                   {item.badge}
                                 </span>
                               )}
@@ -610,7 +616,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
               <SidebarSeparator className="my-2 bg-[#1b1f2a]" />
 
               <SidebarGroup className="p-0">
-                <SidebarGroupLabel className="text-[#8b93a5] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
+                <SidebarGroupLabel className="text-[#818cf8] text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 mb-1">
                   CẤU HÌNH HỆ THỐNG
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
@@ -637,7 +643,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                                   "h-4 w-4 shrink-0 transition-colors relative z-10",
                                   isActive
                                     ? "text-black"
-                                    : "text-slate-300"
+                                    : (item.color || "text-slate-300")
                                 )}
                               />
                               <span
@@ -692,7 +698,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
               type="button"
               onClick={handleLogout}
               title="Đăng xuất khỏi hệ thống"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#10131b]/60 hover:bg-[#161a24] text-slate-300 hover:text-white border border-[#252a37] hover:border-[#2a2f3c] px-3 py-2 text-xs font-semibold transition-all cursor-pointer shadow-xs active:scale-98 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-transparent hover:bg-rose-500/10 text-[#f43f5e] border border-[#f43f5e]/40 hover:border-[#f43f5e] px-3 py-2 text-xs font-semibold transition-all cursor-pointer shadow-xs active:scale-98 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-9 group-data-[collapsible=icon]:h-9 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:mx-auto"
             >
               <LogOut className="h-4 w-4 shrink-0" />
               <span className="truncate group-data-[collapsible=icon]:hidden">Đăng xuất</span>

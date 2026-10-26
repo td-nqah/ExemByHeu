@@ -132,7 +132,7 @@ function UserDashboardContent() {
         {/* Flat Minimal Stats Block */}
         <div className="flex items-center gap-6 bg-[#161a24] border border-[#252a37] rounded-2xl px-4 py-2 text-xs select-none self-start md:self-auto">
           <div className="flex items-center gap-2">
-            <ClipboardList className="h-4 w-4 text-[#8b93a5] shrink-0" />
+            <ClipboardList className="h-4 w-4 text-indigo-400 shrink-0" />
             <span className="text-slate-300">
               Số bài đánh giá:{" "}
               <strong className="font-bold text-white text-sm tnum tabular-nums">
@@ -144,10 +144,10 @@ function UserDashboardContent() {
           <div className="h-4 w-px bg-[#252a37]" />
 
           <div className="flex items-center gap-2">
-            <CheckSquare className="h-4 w-4 text-[#8b93a5] shrink-0" />
+            <CheckSquare className="h-4 w-4 text-[#34d399] shrink-0" />
             <span className="text-slate-300">
               Đã hoàn thành:{" "}
-              <strong className="font-bold text-white text-sm tnum tabular-nums">
+              <strong className="font-bold text-[#34d399] text-sm tnum tabular-nums">
                 {loading ? "..." : submissions.length}
               </strong>
             </span>
