@@ -97,7 +97,8 @@ export default function HistoryPage() {
           transition={{ duration: 0.35, delay: 0.05 }}
           className="obsidian-card overflow-hidden rounded-2xl"
         >
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-indigo-950/50 text-slate-300 uppercase tracking-wider text-xs border-b border-indigo-500/20">
                 <tr>
@@ -188,6 +189,81 @@ export default function HistoryPage() {
                 })}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card-based List View (< 768px) */}
+          <div className="md:hidden divide-y divide-white/10">
+            {submissions.map((sub, idx) => {
+              const isGraded = sub.status === "graded";
+              const examQuestions = sub.exam?.questions || [];
+              const maxMcq =
+                Math.round(
+                  examQuestions
+                    .filter((q) => q.type === "multiple_choice")
+                    .reduce((s, q) => s + Number(q.max_score || 0), 0) * 100
+                ) / 100;
+              const maxEssay =
+                Math.round(
+                  examQuestions
+                    .filter((q) => q.type === "essay")
+                    .reduce((s, q) => s + Number(q.max_score || 0), 0) * 100
+                ) / 100;
+              const maxTotal = Math.round((maxMcq + maxEssay) * 100) / 100;
+
+              return (
+                <div key={sub.id} className="p-4 space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <span className="text-[10px] font-mono font-bold text-indigo-400 mr-1.5">
+                        #{idx + 1}
+                      </span>
+                      <h4 className="text-sm font-bold text-white inline">
+                        {sub.exam?.title || "Đề thi thử trực tuyến"}
+                      </h4>
+                    </div>
+                    {isGraded ? (
+                      <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-800/50 px-2 py-0.5 text-[10px] font-semibold">
+                        <CheckCircle2 className="h-2.5 w-2.5" />
+                        Hoàn thành
+                      </span>
+                    ) : (
+                      <span className="shrink-0 inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400">
+                        <Clock className="h-2.5 w-2.5" />
+                        Chờ chấm
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                    <Calendar className="h-3 w-3 text-indigo-400" />
+                    <span>{formatDate(sub.submitted_at)}</span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 rounded-xl bg-slate-900/60 border border-white/5 p-2.5 text-center text-xs">
+                    <div>
+                      <p className="text-[10px] text-slate-400">Trắc nghiệm</p>
+                      <p className="font-bold text-white text-xs">{sub.mcq_score}{maxMcq > 0 ? `/${maxMcq}` : ""}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-400">Tự luận</p>
+                      <p className="font-bold text-white text-xs">{sub.essay_score !== null ? `${sub.essay_score}${maxEssay > 0 ? `/${maxEssay}` : ""}` : "—"}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-400">Tổng điểm</p>
+                      <p className="font-bold text-indigo-400 text-xs">{sub.total_score}{maxTotal > 0 ? `/${maxTotal}` : ""}</p>
+                    </div>
+                  </div>
+
+                  <Link
+                    href={`/history/${sub.id}`}
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-slate-800/90 hover:bg-indigo-600 hover:text-white border border-slate-700/60 text-slate-200 py-2 text-xs font-semibold transition"
+                  >
+                    <span>Xem chi tiết bài làm</span>
+                    <ArrowRight className="h-3.5 w-3.5 text-indigo-400" />
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </motion.div>
       )}

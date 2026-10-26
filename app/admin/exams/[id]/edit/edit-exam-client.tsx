@@ -18,6 +18,7 @@ import {
   CheckCircle2,
   AlertCircle,
   Shuffle,
+  ArrowUp,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -39,6 +40,15 @@ export function EditExamClient({ examId }: { examId: string }) {
   const [showQuickScoreConfig, setShowQuickScoreConfig] = useState<boolean>(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 350);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -634,6 +644,65 @@ export function EditExamClient({ examId }: { examId: string }) {
             </button>
           </div>
         )}
+
+        {/* Floating Quick Action Bar */}
+        <AnimatePresence>
+          {showScrollTop && questions.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 30 }}
+              transition={{ duration: 0.2 }}
+              className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2 w-[92%] max-w-2xl pointer-events-none"
+            >
+              <div className="pointer-events-auto flex items-center justify-between gap-3 rounded-2xl border border-indigo-500/30 bg-slate-950/90 px-4 py-2.5 shadow-2xl shadow-black/80 backdrop-blur-xl">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-400">
+                    <Layers className="h-4 w-4" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="truncate text-xs font-semibold text-slate-200">
+                      {title || "Chỉnh sửa bài thi"}
+                    </p>
+                    <p className="text-[10px] text-slate-400">
+                      {questions.length} câu hỏi • Tổng: <span className="font-semibold text-indigo-400">{totalScore}đ</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    aria-label="Cuộn lên đầu trang"
+                    className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 transition hover:border-slate-700 hover:bg-slate-800 hover:text-white cursor-pointer"
+                  >
+                    <ArrowUp className="h-4 w-4" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleAddQuestion}
+                    className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/80 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-slate-700 hover:bg-slate-800 hover:text-white cursor-pointer"
+                  >
+                    <Plus className="h-3.5 w-3.5 text-indigo-400" />
+                    <span>Thêm câu</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSaveChanges}
+                    disabled={isSaving}
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-1.5 text-xs font-semibold text-white shadow-md shadow-indigo-500/25 transition active:scale-95 disabled:opacity-50 cursor-pointer"
+                  >
+                    <Save className="h-3.5 w-3.5" />
+                    <span>{isSaving ? "Đang lưu..." : "Lưu bài thi"}</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

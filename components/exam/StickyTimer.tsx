@@ -39,12 +39,12 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
 
   return (
     <div
-      className={`inline-flex items-center gap-2.5 rounded-xl border px-3.5 py-1.5 backdrop-blur-xl transition ${
+      className={`inline-flex items-center gap-2.5 rounded-xl border px-3.5 py-1.5 backdrop-blur-xl transition select-none ${
         isCritical
-          ? "border-rose-500/50 bg-rose-950/50 text-rose-200 animate-pulse"
+          ? "border-rose-500/50 bg-rose-950/60 text-rose-200 animate-pulse shadow-[0_0_20px_rgba(244,63,94,0.45)] ring-1 ring-rose-500/50"
           : isWarning
-          ? "border-amber-500/40 bg-amber-950/40 text-amber-200"
-          : "border-slate-800 bg-slate-900/90 text-slate-100"
+          ? "border-amber-500/40 bg-amber-950/50 text-amber-200 shadow-[0_0_12px_rgba(251,191,36,0.25)]"
+          : "border-indigo-500/20 bg-slate-900/90 text-slate-100 shadow-sm"
       }`}
     >
       {isCritical ? (

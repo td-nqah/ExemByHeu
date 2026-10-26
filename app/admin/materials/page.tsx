@@ -749,9 +749,9 @@ export default function AdminMaterialsPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-lg rounded-2xl bg-[#0b0f19] border border-[#1f2937] p-6 shadow-2xl relative"
+              className="w-full max-w-lg rounded-2xl bg-slate-950/95 border border-indigo-500/25 p-6 shadow-2xl shadow-indigo-950/50 backdrop-blur-xl relative"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-[#1f2937]">
+              <div className="flex items-center justify-between pb-4 border-b border-indigo-500/20">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <FolderPlus className="h-5 w-5 text-[#6366f1] shrink-0" />
                   <span>Phân loại Học liệu theo Học phần</span>
@@ -883,7 +883,7 @@ export default function AdminMaterialsPage() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-sm rounded-2xl border border-rose-500/30 bg-[#161c28] p-5 shadow-2xl space-y-4"
+              className="w-full max-w-sm rounded-2xl border border-rose-500/30 bg-slate-950/95 p-5 shadow-2xl shadow-rose-950/50 backdrop-blur-xl space-y-4"
             >
               <div className="flex items-center gap-3 text-rose-400">
                 <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20">
@@ -926,12 +926,12 @@ export default function AdminMaterialsPage() {
               initial={{ scale: 0.97, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.97, opacity: 0 }}
-              className="w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl border border-[#1f2937] bg-[#0b0f19] shadow-2xl overflow-hidden my-auto"
+              className="w-full max-w-5xl max-h-[90vh] flex flex-col rounded-2xl border border-indigo-500/25 bg-slate-950/95 shadow-2xl shadow-indigo-950/50 backdrop-blur-xl overflow-hidden my-auto"
             >
               {/* Modal Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[#1f2937] bg-[#111827]">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-indigo-500/15 bg-slate-900/70 backdrop-blur-md shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-[#4f46e5]/10 text-indigo-400 border border-[#4f46e5]/20">
+                  <div className="p-2 rounded-xl bg-indigo-500/15 text-indigo-400 border border-indigo-500/25">
                     <BookOpen className="h-5 w-5" />
                   </div>
                   <div>
@@ -946,7 +946,7 @@ export default function AdminMaterialsPage() {
 
                 <div className="flex items-center gap-2">
                   {/* Tabs */}
-                  <div className="flex items-center gap-1 bg-[#0b0f19] p-1 rounded-xl border border-[#1f2937] mr-3">
+                  <div className="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-indigo-500/20 mr-3">
                     <button
                       type="button"
                       onClick={() => setModalTab("import")}
@@ -1365,7 +1365,7 @@ export default function AdminMaterialsPage() {
               </div>
 
               {/* Modal Footer */}
-              <div className="px-6 py-4 border-t border-[#1f2937] bg-[#111827] flex items-center justify-between">
+              <div className="px-6 py-4 border-t border-indigo-500/15 bg-slate-900/70 backdrop-blur-md flex items-center justify-between shrink-0">
                 <div className="text-xs text-[#9ca3af]">
                   {modalTab === "import" && "Mẹo: Bạn có thể nhấn 'Chuyển thành Tạp chí bằng AI' để tự động định dạng."}
                   {modalTab === "editor" && "Chuyển sang tab 'Xem trước' để kiểm tra giao diện trước khi lưu."}
@@ -1376,7 +1376,7 @@ export default function AdminMaterialsPage() {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 rounded-xl border border-[#1f2937] text-xs font-semibold text-slate-300 hover:bg-white/5 cursor-pointer"
+                    className="px-4 py-2 rounded-xl border border-slate-700/60 bg-slate-800/60 text-xs font-semibold text-slate-300 hover:bg-slate-700 hover:text-white transition cursor-pointer"
                   >
                     Hủy bỏ
                   </button>
@@ -1384,7 +1384,7 @@ export default function AdminMaterialsPage() {
                     type="button"
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-xs font-bold text-white transition shadow-lg shadow-[#4f46e5]/20 cursor-pointer disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-xs font-bold text-white transition shadow-lg shadow-indigo-600/25 active:scale-95 cursor-pointer disabled:opacity-50"
                   >
                     {isSaving ? (
                       <>

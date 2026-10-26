@@ -158,31 +158,33 @@ function UserDashboardContent() {
       {/* =========================================================================
           2. CATEGORY FILTER TABS / PILLS
           ========================================================================= */}
-      <div className="flex items-center gap-2 overflow-x-auto sm:flex-wrap pb-1.5 scrollbar-none">
-        {categoryPills.map((cat) => {
-          const isActive = activeCategory === cat.slug;
+      <div className="relative -mx-1 px-1">
+        <div className="flex items-center gap-2 overflow-x-auto sm:flex-wrap pb-1.5 scrollbar-none [mask-image:linear-gradient(to_right,black_calc(100%-28px),transparent)] sm:[mask-image:none]">
+          {categoryPills.map((cat) => {
+            const isActive = activeCategory === cat.slug;
 
-          return (
-            <button
-              key={cat.id}
-              onClick={() => {
-                if (cat.slug) {
-                  router.push(`/dashboard?category=${cat.slug}`);
-                } else {
-                  router.push("/dashboard");
-                }
-              }}
-              className={cn(
-                "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-medium text-center transition-colors shrink-0 select-none cursor-pointer",
-                isActive
-                  ? "bg-[#4f46e5] text-white shadow-sm shadow-[#4f46e5]/30 font-semibold"
-                  : "bg-indigo-950/40 border border-indigo-500/25 text-indigo-200 hover:text-white hover:bg-indigo-900/50"
-              )}
-            >
-              <span>{cat.label}</span>
-            </button>
-          );
-        })}
+            return (
+              <button
+                key={cat.id}
+                onClick={() => {
+                  if (cat.slug) {
+                    router.push(`/dashboard?category=${cat.slug}`);
+                  } else {
+                    router.push("/dashboard");
+                  }
+                }}
+                className={cn(
+                  "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-medium text-center transition-all shrink-0 select-none cursor-pointer",
+                  isActive
+                    ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-600/30 font-semibold ring-1 ring-indigo-400/30"
+                    : "bg-indigo-950/40 border border-indigo-500/20 text-indigo-200 hover:text-white hover:bg-indigo-900/40 hover:border-indigo-500/35 active:scale-95"
+                )}
+              >
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* =========================================================================

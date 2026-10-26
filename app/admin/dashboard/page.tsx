@@ -31,6 +31,7 @@ import {
   Shuffle,
   LockOpen,
   Lock,
+  Search,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
@@ -58,10 +59,22 @@ export default function AdminDashboardPage() {
   const [isCreatingQuick, setIsCreatingQuick] = useState(false);
   const [showAdvancedQuick, setShowAdvancedQuick] = useState(false);
 
-  // Sorted exams in ascending order (Đề 1 -> Đề 5)
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  // Sorted exams in ascending order (Đề 1 -> Đề 5), filtered by searchKeyword
   const sortedExams = useMemo(() => {
-    return sortExamsAscending(exams);
-  }, [exams]);
+    let list = sortExamsAscending(exams);
+    if (searchKeyword.trim()) {
+      const q = searchKeyword.trim().toLowerCase();
+      list = list.filter((e) => {
+        const titleMatch = e.title.toLowerCase().includes(q);
+        const descMatch = (e.description || "").toLowerCase().includes(q);
+        const catMatch = (e.category_slug || "").toLowerCase().includes(q);
+        return titleMatch || descMatch || catMatch;
+      });
+    }
+    return list;
+  }, [exams, searchKeyword]);
 
   // Shuffle Exam States & Handlers
   const [isTogglingGlobalShuffle, setIsTogglingGlobalShuffle] = useState(false);
@@ -255,8 +268,11 @@ export default function AdminDashboardPage() {
       >
         <div className="flex flex-col gap-3 border-b border-indigo-500/20 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
-            <h2 className="text-base sm:text-lg font-bold tracking-tight text-white">
-              Ngân hàng Đề thi ({exams.length})
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+              Ngân hàng Đề thi
+              <span className="text-xs font-mono font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/25 px-2 py-0.5 rounded-full">
+                {sortedExams.length}{searchKeyword ? `/${exams.length}` : ""} đề
+              </span>
             </h2>
             <p className="mt-0.5 text-xs text-[#9ca3af]">
               Xem trước cấu trúc đề, chỉnh sửa câu hỏi, đóng/mở xuất bản hoặc gán chuyên mục.
@@ -264,6 +280,28 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
+            {/* Live Search Input */}
+            <div className="relative min-w-[200px] sm:min-w-[240px]">
+              <Search className="pointer-events-none absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-400" />
+              <input
+                type="text"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+                placeholder="Tìm kiếm theo tên đề..."
+                className="h-9 w-full rounded-xl bg-slate-900/80 border border-indigo-500/25 pl-8 pr-7 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400 transition"
+              />
+              {searchKeyword && (
+                <button
+                  type="button"
+                  onClick={() => setSearchKeyword("")}
+                  className="absolute right-2.5 top-2 text-slate-400 hover:text-white text-xs p-0.5"
+                  title="Xóa tìm kiếm"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
             {/* Nút Bật/Tắt Đảo Câu Hỏi (đồng bộ UX kích thước với 2 card bên cạnh) */}
             <div
               className={cn(
@@ -333,6 +371,20 @@ export default function AdminDashboardPage() {
             >
               <FilePlus2 className="h-3.5 w-3.5" />
               Tạo đề thi đầu tiên
+            </button>
+          </div>
+        ) : sortedExams.length === 0 ? (
+          <div className="py-12 text-center space-y-3">
+            <Search className="mx-auto h-8 w-8 text-slate-500" />
+            <p className="text-xs font-semibold text-slate-300">
+              Không tìm thấy đề thi phù hợp với từ khóa &quot;{searchKeyword}&quot;
+            </p>
+            <button
+              type="button"
+              onClick={() => setSearchKeyword("")}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3.5 py-1.5 text-xs font-medium transition cursor-pointer"
+            >
+              Xóa bộ lọc tìm kiếm
             </button>
           </div>
         ) : (

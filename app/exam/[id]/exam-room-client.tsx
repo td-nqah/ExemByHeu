@@ -44,6 +44,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const [flaggedQuestions, setFlaggedQuestions] = useState<Record<string, boolean>>({});
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showMobileNav, setShowMobileNav] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [completedSubmission, setCompletedSubmission] = useState<Submission | null>(null);
 
@@ -131,6 +132,36 @@ export function ExamRoomClient({ examId }: { examId: string }) {
       [questionId]: optionId,
     }));
   };
+
+  // Keyboard shortcut listener for fast answering (A, B, C, D)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target?.tagName === "TEXTAREA" ||
+        target?.tagName === "INPUT" ||
+        target?.isContentEditable
+      ) {
+        return;
+      }
+      if (isSubmitting || completedSubmission) return;
+
+      const key = e.key.toUpperCase();
+      if (["A", "B", "C", "D"].includes(key)) {
+        const qId = activeQuestionId || exam?.questions?.[0]?.id;
+        if (!qId || !exam) return;
+        const currentQ = exam.questions?.find((q) => q.id === qId);
+        if (currentQ?.type === "multiple_choice") {
+          const optIndex = key.charCodeAt(0) - 65;
+          const optionId = currentQ.option_items?.[optIndex]?.id || `${currentQ.id}_opt_${optIndex}`;
+          handleSelectMCQ(qId, optionId);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeQuestionId, exam, isSubmitting, completedSubmission]);
 
   const handleEssayChange = (questionId: string, text: string) => {
     setUserAnswers((prev) => ({

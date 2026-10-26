@@ -112,35 +112,35 @@ export default function HomePage() {
       <div className="w-full text-center space-y-6">
         {/* Top Badges */}
         <div className="flex flex-wrap items-center justify-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#24221b] border border-amber-500/20 text-amber-300">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-500/10 border border-amber-500/25 text-amber-300 backdrop-blur-md shadow-xs">
             <span>{greetingInfo.emoji}</span>
             <span>{greetingInfo.greeting} • {greetingInfo.label}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 bg-[#162723] border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 text-xs text-emerald-300 bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full font-mono backdrop-blur-md shadow-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
             <span>Hà Nội (GMT+7)</span>
           </span>
         </div>
 
         {/* Prominent Greeting Headline Centered */}
-        <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
+        <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
           <span>{greetingInfo.greeting}, </span>
-          <span className="text-[#818cf8]">
+          <span className="text-[#818cf8] drop-shadow-[0_0_20px_rgba(129,140,248,0.35)]">
             {formatDisplayName(currentUser?.username || "User1")}
           </span>
         </h1>
 
         {/* Subtitle Line Centered */}
-        <p className="text-sm sm:text-base text-[#8b949e] font-normal max-w-xl mx-auto leading-relaxed">
+        <p className="text-sm sm:text-base text-slate-300/80 font-normal max-w-xl mx-auto leading-relaxed">
           Chào mừng quay trở lại hệ thống khảo thí và đánh giá học phần.
         </p>
 
         {/* Centered Primary Actions */}
-        <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#5852d6] hover:bg-[#4b45bd] active:bg-[#433ea8] text-white px-6 py-3 text-sm font-semibold shadow-sm transition-all hover:scale-[1.01]"
+            className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 active:from-indigo-700 active:to-violet-700 text-white px-7 py-3.5 text-sm font-semibold shadow-[0_0_25px_rgba(99,102,241,0.35)] hover:shadow-[0_0_35px_rgba(99,102,241,0.5)] transition-all hover:scale-[1.02] active:scale-[0.98] select-none"
           >
             <Play className="h-4 w-4 fill-current ml-0.5" />
             <span>Bắt đầu bài đánh giá</span>
@@ -149,75 +149,74 @@ export default function HomePage() {
 
           <Link
             href="/history"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#161b22] hover:bg-[#1c2128] border border-[#21262d] text-[#e6edf3] hover:text-white px-5 py-3 text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 rounded-2xl obsidian-card border border-indigo-500/25 hover:border-indigo-400 text-slate-200 hover:text-white px-6 py-3.5 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm select-none"
           >
-            <History className="h-4 w-4 text-[#8b949e]" />
+            <History className="h-4 w-4 text-[#818cf8]" />
             <span>Xem lịch sử đánh giá</span>
           </Link>
-
         </div>
 
         {/* =========================================================================
-            QUICK STATS SUMMARY TILES (FLAT MINIMALIST)
+            QUICK STATS SUMMARY TILES (OBSIDIAN CYBER CARDS)
             ========================================================================= */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 max-w-3xl mx-auto text-left">
           {/* Card 1: Exams */}
           <Link
             href="/dashboard"
-            className="group rounded-xl bg-[#161b22] border border-[#21262d] hover:border-[#30363d] hover:bg-[#1c2128] p-4 sm:p-5 transition-all"
+            className="group rounded-2xl obsidian-card-interactive border border-indigo-500/20 hover:border-indigo-500/40 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-[#5852d6]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-[#818cf8] shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                 <BookOpen className="h-5 w-5" />
               </div>
-              <span className="font-mono text-xl font-bold text-white tabular-nums">
+              <span className="font-mono text-2xl font-bold text-white tabular-nums drop-shadow-sm">
                 {examsCount}
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#e6edf3] group-hover:text-indigo-300 transition-colors">
+            <h3 className="mt-4 text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">
               Đề đánh giá Khả dụng
             </h3>
-            <p className="mt-0.5 text-xs text-[#8b949e]">
-              Trắc nghiệm & tự luận theo học phần
+            <p className="mt-1 text-xs text-slate-400 leading-relaxed">
+              Trắc nghiệm &amp; tự luận theo học phần
             </p>
           </Link>
 
           {/* Card 2: Submissions */}
           <Link
             href="/history"
-            className="group rounded-xl bg-[#161b22] border border-[#21262d] hover:border-[#30363d] hover:bg-[#1c2128] p-4 sm:p-5 transition-all"
+            className="group rounded-2xl obsidian-card-interactive border border-indigo-500/20 hover:border-indigo-500/40 p-5 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-emerald-400">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.2)]">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
-              <span className="font-mono text-xl font-bold text-emerald-400 tabular-nums">
+              <span className="font-mono text-2xl font-bold text-emerald-400 tabular-nums drop-shadow-sm">
                 {submissionsCount}
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#e6edf3] group-hover:text-emerald-300 transition-colors">
+            <h3 className="mt-4 text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">
               Đã hoàn thành
             </h3>
-            <p className="mt-0.5 text-xs text-[#8b949e]">
+            <p className="mt-1 text-xs text-slate-400 leading-relaxed">
               Lịch sử đánh giá và kết quả chi tiết
             </p>
           </Link>
 
           {/* Card 3: Standard Room */}
-          <div className="rounded-xl bg-[#161b22] border border-[#21262d] p-4 sm:p-5">
+          <div className="rounded-2xl obsidian-card border border-indigo-500/20 p-5">
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#21262d] text-amber-400">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
                 <ShieldCheck className="h-5 w-5" />
               </div>
-              <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-medium">
+              <span className="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full font-medium shadow-xs">
                 Sẵn sàng
               </span>
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-[#e6edf3]">
+            <h3 className="mt-4 text-sm font-bold text-white">
               Môi trường Khảo thí
             </h3>
-            <p className="mt-0.5 text-xs text-[#8b949e]">
-              Tính giờ tự động & Kiểm soát phiên thi
+            <p className="mt-1 text-xs text-slate-400 leading-relaxed">
+              Tính giờ tự động &amp; Kiểm soát phiên thi
             </p>
           </div>
         </div>
