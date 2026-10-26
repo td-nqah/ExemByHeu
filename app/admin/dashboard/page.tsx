@@ -329,7 +329,7 @@ export default function AdminDashboardPage() {
 
             <Link
               href="/admin/exams/create"
-              className="inline-flex items-center gap-2 rounded-full bg-[#9CA3AF] hover:bg-[#858D9B] text-[#05070D] font-bold px-5 py-2 text-xs transition-colors shadow-lg"
+              className="inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-200 text-[#05070D] font-bold px-5 py-2 text-xs transition-colors shadow-lg"
             >
               <FilePlus2 className="h-4 w-4 text-[#05070D]" />
               <span>Tạo đề</span>

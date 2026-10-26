@@ -209,7 +209,7 @@ export default function AdminCategoriesPage() {
 
           <button
             onClick={openCreateModal}
-            className="inline-flex items-center gap-2 rounded-full bg-[#9CA3AF] hover:bg-[#858D9B] active:scale-95 text-[#05070D] font-bold px-5 py-2.5 text-xs transition-all self-start md:self-auto select-none shadow-lg cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-200 active:scale-95 text-[#05070D] font-bold px-5 py-2.5 text-xs transition-all self-start md:self-auto select-none shadow-lg cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             <span>Thêm Học phần mới</span>
@@ -513,7 +513,7 @@ export default function AdminCategoriesPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-5 py-2.5 bg-[#9CA3AF] hover:bg-[#858D9B] text-[#05070D] font-bold text-xs rounded-full shadow-lg transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                    className="px-5 py-2.5 bg-white hover:bg-slate-200 text-[#05070D] font-bold text-xs rounded-full shadow-lg transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5 text-black" />
                     <span>{editingCategory ? "Lưu thay đổi" : "Tạo học phần"}</span>

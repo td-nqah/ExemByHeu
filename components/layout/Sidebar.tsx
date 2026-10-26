@@ -221,13 +221,13 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Trang chủ",
       href: "/home",
       icon: Home,
-      color: "text-indigo-400",
+      color: "text-white",
     },
     {
       title: "Lịch sử đánh giá",
       href: "/history",
       icon: History,
-      color: "text-indigo-400",
+      color: "text-white",
     },
   ];
 
@@ -237,20 +237,20 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Danh mục",
       href: "/admin/categories",
       icon: Menu,
-      color: "text-indigo-400",
+      color: "text-white",
     },
     {
       title: "Đề thi",
       href: "/admin/dashboard",
       icon: FileText,
       badge: examsCount,
-      color: "text-indigo-400",
+      color: "text-white",
     },
     {
       title: "Tài liệu",
       href: "/admin/materials",
       icon: BarChart2,
-      color: "text-indigo-400",
+      color: "text-white",
     },
   ];
 
@@ -260,13 +260,13 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Phân quyền",
       href: "/admin/permissions",
       icon: User,
-      color: "text-indigo-400",
+      color: "text-white",
     },
     {
       title: "Cài đặt",
       href: "/admin/settings",
       icon: Settings,
-      color: "text-indigo-400",
+      color: "text-white",
     },
   ];
 
@@ -283,8 +283,8 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             title="ExamByHeu - Hệ thống đánh giá"
             className="flex items-center gap-2.5 transition-opacity hover:opacity-90 select-none min-w-0"
           >
-            {/* Squircle Glowing Purple Icon Box */}
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-md shadow-indigo-600/30 border border-indigo-400/20">
+            {/* Squircle Neutral Dark Icon Box with White Logo Icon */}
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white shadow-sm">
               <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
             </div>
 
@@ -315,7 +315,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             href="/home"
             onClick={() => handleNavClick("/home")}
             title="ExamByHeu - Trang chủ"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-sm shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all select-none border border-indigo-400/20"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] text-white shadow-sm hover:scale-105 active:scale-95 transition-all select-none border border-[#252a37]"
           >
             <GraduationCap className="h-5 w-5 text-white" />
           </Link>
@@ -409,7 +409,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                           "h-4 w-4 shrink-0 transition-colors relative z-10",
                           activeNavKey === "/knowledge"
                             ? "text-black"
-                            : "text-indigo-400"
+                            : "text-white"
                         )}
                       />
                       <span
@@ -448,7 +448,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                             "h-4 w-4 shrink-0 transition-colors relative z-10",
                             activeNavKey === "/dashboard"
                               ? "text-black"
-                              : "text-indigo-400"
+                              : "text-white"
                           )}
                         />
                         <span

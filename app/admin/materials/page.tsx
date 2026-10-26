@@ -407,7 +407,7 @@ export default function AdminMaterialsPage() {
 
           <button
             onClick={handleOpenCreate}
-            className="inline-flex items-center gap-2 rounded-full bg-[#9CA3AF] hover:bg-[#858D9B] px-5 py-2 text-xs font-bold text-black transition shadow-md cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-200 px-5 py-2 text-xs font-bold text-black transition shadow-md cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             <span>Thêm học liệu mới</span>
