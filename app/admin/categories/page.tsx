@@ -199,14 +199,14 @@ export default function AdminCategoriesPage() {
                 Course Management
               </span>
             </h1>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-slate-400 max-w-xl">
               Tạo mới, cập nhật hoặc điều chỉnh trạng thái hiển thị các danh mục học phần trong chương trình đào tạo.
             </p>
           </div>
 
           <button
             onClick={openCreateModal}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium shadow-[0_0_15px_rgba(99,102,241,0.3)] px-4 py-2.5 text-xs transition-all self-start md:self-auto"
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold shadow-sm shadow-black/40 border border-indigo-400/20 px-4 py-2.5 text-xs transition-all self-start md:self-auto select-none"
           >
             <Plus className="h-4 w-4" />
             <span>Thêm Học phần mới</span>
@@ -217,17 +217,20 @@ export default function AdminCategoriesPage() {
       {/* 2. Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="obsidian-card rounded-2xl p-4 px-5">
-          <span className="text-[11px] text-indigo-300 uppercase tracking-wider font-bold">Tổng số học phần</span>
+          <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Tổng số học phần</span>
           <div className="mt-2 text-3xl font-extrabold text-white font-heading tracking-tight">{categories.length}</div>
         </div>
         <div className="obsidian-card rounded-2xl p-4 px-5">
-          <span className="text-[11px] text-emerald-400 uppercase tracking-wider font-bold">Đang kích hoạt (Active)</span>
-          <div className="mt-2 text-3xl font-extrabold text-emerald-400 font-heading tracking-tight">
+          <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            Đang kích hoạt (Active)
+          </span>
+          <div className="mt-2 text-3xl font-extrabold text-white font-heading tracking-tight">
             {categories.filter((c) => c.status === "active").length}
           </div>
         </div>
         <div className="obsidian-card rounded-2xl p-4 px-5">
-          <span className="text-[11px] text-slate-400 uppercase tracking-wider font-bold">Đang ẩn (Hidden)</span>
+          <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Đang ẩn (Hidden)</span>
           <div className="mt-2 text-3xl font-extrabold text-slate-300 font-heading tracking-tight">
             {categories.filter((c) => c.status === "hidden").length}
           </div>
@@ -308,9 +311,9 @@ export default function AdminCategoriesPage() {
                         <button
                           onClick={() => handleToggleStatus(cat)}
                           className={cn(
-                            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-all",
+                            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border transition-all",
                             cat.status === "active"
-                              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20"
+                              ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/20 hover:bg-emerald-500/20"
                               : "bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-750"
                           )}
                           title="Bấm để đổi trạng thái"

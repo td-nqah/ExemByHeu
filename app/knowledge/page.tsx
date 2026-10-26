@@ -85,7 +85,7 @@ export default function KnowledgeHubPage() {
       {/* Header Section: Tiêu đề chính chỉ để dòng chữ Học liệu & Đề cương */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1f2937]">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white shadow-sm shadow-black/40">
             <BookOpen className="h-6 w-6" />
           </div>
           <div>
@@ -377,7 +377,7 @@ export default function KnowledgeHubPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex flex-col justify-between rounded-2xl obsidian-card-interactive p-5 group"
+              className="flex flex-col justify-between rounded-2xl obsidian-card-interactive border border-white/10 hover:border-white/20 p-5 group transition-all"
             >
               <div className="space-y-3">
                 {/* Meta badges: Emerald Teal tag for subject category without reading time */}
@@ -388,7 +388,7 @@ export default function KnowledgeHubPage() {
                       {item.category_name || "Tài liệu chung (Không gắn học phần)"}
                     </span>
                   ) : (
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b] flex items-center gap-1.5">
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 flex items-center gap-1.5">
                       <Tag className="h-3 w-3 text-[#34d399]" />
                       {item.category_name || "Chuyên đề"}
                     </span>
@@ -397,7 +397,7 @@ export default function KnowledgeHubPage() {
 
                 {/* Article Title: Bold & High contrast */}
                 <Link href={`/knowledge/${item.id}`} className="block">
-                  <h2 className="font-heading text-base font-bold text-white group-hover:text-indigo-300 transition line-clamp-2 leading-snug">
+                  <h2 className="font-heading text-base font-bold text-white group-hover:text-slate-200 transition line-clamp-2 leading-snug">
                     {item.title}
                   </h2>
                 </Link>
@@ -419,7 +419,7 @@ export default function KnowledgeHubPage() {
 
                 <Link
                   href={`/knowledge/${item.id}`}
-                  className="inline-flex items-center gap-1 font-bold text-xs text-[#6366f1] group-hover:text-indigo-300 group-hover:translate-x-0.5 transition duration-150"
+                  className="inline-flex items-center gap-1 font-semibold text-xs text-slate-300 hover:text-white group-hover:text-white group-hover:translate-x-0.5 transition duration-150"
                 >
                   <span>Đọc bài</span>
                   <ArrowRight className="h-3.5 w-3.5" />

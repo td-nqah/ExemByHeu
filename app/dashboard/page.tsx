@@ -122,7 +122,7 @@ function UserDashboardContent() {
               ? `Học phần: ${currentCategoryObj.label}`
               : "Bài đánh giá học phần khả dụng"}
           </h2>
-          <p className="mt-1 text-xs text-[#9ca3af]">
+          <p className="mt-1 text-xs text-[#9ca3af] max-w-xl">
             {activeCategory
               ? `Đang lọc các bài đánh giá thuộc học phần "${currentCategoryObj.label}". Chọn đề bên dưới để bắt đầu làm bài.`
               : "Chọn bài đánh giá bên dưới để bắt đầu làm bài. Thời gian làm bài sẽ được tính tự động."}
@@ -176,7 +176,7 @@ function UserDashboardContent() {
                 className={cn(
                   "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-medium text-center transition-all shrink-0 select-none cursor-pointer",
                   isActive
-                    ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-600/30 font-semibold ring-1 ring-indigo-400/30"
+                    ? "bg-indigo-600 text-white shadow-sm shadow-black/40 font-semibold border border-indigo-400/30"
                     : "bg-indigo-950/40 border border-indigo-500/20 text-indigo-200 hover:text-white hover:bg-indigo-900/40 hover:border-indigo-500/35 active:scale-95"
                 )}
               >
@@ -212,7 +212,7 @@ function UserDashboardContent() {
           {activeCategory && (
             <button
               onClick={() => router.push("/dashboard")}
-              className="mt-2 inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-4 py-2 text-xs font-semibold text-white transition-colors cursor-pointer shadow-md shadow-[#4f46e5]/20"
+              className="mt-2 inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] px-4 py-2 text-xs font-semibold text-white transition-colors cursor-pointer shadow-sm shadow-black/40 border border-indigo-400/20"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               <span>Hiển thị tất cả đề đánh giá</span>

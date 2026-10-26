@@ -245,7 +245,7 @@ export default function AdminDashboardPage() {
                 Admin Panel
               </span>
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-[#9ca3af]">
+            <p className="mt-1 text-xs sm:text-sm text-[#9ca3af] max-w-xl">
               Tổng quan hệ thống ExamByHeu, quản lý ngân hàng đề thi và phân loại danh mục.
             </p>
           </div>
@@ -302,11 +302,11 @@ export default function AdminDashboardPage() {
               )}
             </div>
 
-            {/* Nút Bật/Tắt Đảo Câu Hỏi (đồng bộ UX kích thước với 2 card bên cạnh) */}
+            {/* Nút Bật/Tắt Đảo Câu Hỏi */}
             <div
               className={cn(
-                "inline-flex items-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-950/40 px-3.5 py-2 text-xs select-none transition-colors",
-                shuffledCount > 0 && "border-[#4f46e5]/50"
+                "inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] hover:border-white/20 px-3.5 py-1.5 text-xs select-none transition-colors",
+                shuffledCount > 0 && "border-indigo-500/30"
               )}
             >
               <Shuffle className="h-4 w-4 text-[#6366f1] shrink-0" />
@@ -339,7 +339,7 @@ export default function AdminDashboardPage() {
                 setQuickTitle("");
                 setIsQuickExamModalOpen(true);
               }}
-              className="inline-flex items-center gap-2 rounded-xl bg-indigo-950/40 hover:bg-indigo-900/60 border border-indigo-500/30 hover:border-indigo-400 text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-slate-200 hover:text-white font-medium px-3.5 py-2 text-xs transition-colors cursor-pointer"
             >
               <FolderPlus className="h-4 w-4 text-[#6366f1] shrink-0" />
               <span>Thêm vào Danh mục</span>
@@ -347,7 +347,7 @@ export default function AdminDashboardPage() {
 
             <Link
               href="/admin/exams/create"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] hover:bg-[#6366f1] text-white font-medium px-4 py-2 text-xs transition-colors shadow-md shadow-indigo-600/30"
+              className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium px-4 py-2 text-xs transition-colors shadow-sm shadow-black/40 border border-indigo-400/20"
             >
               <FilePlus2 className="h-4 w-4" />
               <span>Tạo đề</span>
@@ -421,7 +421,7 @@ export default function AdminDashboardPage() {
                       </td>
 
                       <td className="whitespace-nowrap py-3.5 px-4">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b]">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
                           {catName}
                         </span>
                       </td>
@@ -447,10 +447,10 @@ export default function AdminDashboardPage() {
                             type="button"
                             onClick={() => handleToggleSingleShuffle(exam.id)}
                             className={cn(
-                              "inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-md border transition cursor-pointer select-none",
+                              "inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-md border transition cursor-pointer select-none",
                               exam.is_shuffled
-                                ? "bg-[#4f46e5]/20 text-indigo-300 border-[#4f46e5]/40 hover:bg-[#4f46e5]/30 shadow-[0_0_8px_rgba(79,70,229,0.2)]"
-                                : "bg-slate-900/50 text-slate-500 border-white/5 hover:text-slate-300 hover:border-white/10"
+                                ? "bg-indigo-500/15 text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/25"
+                                : "bg-slate-900/50 text-slate-400 border-white/5 hover:text-slate-300 hover:border-white/10"
                             )}
                             title={exam.is_shuffled ? "Đề này đang bật đảo câu hỏi (bấm để tắt nhanh)" : "Đề này đang tắt đảo câu hỏi (bấm để bật nhanh)"}
                           >
@@ -465,9 +465,9 @@ export default function AdminDashboardPage() {
                           type="button"
                           onClick={() => handleToggleStatus(exam.id)}
                           className={cn(
-                            "inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold transition cursor-pointer",
+                            "inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium transition cursor-pointer",
                             isPublished
-                              ? "bg-[#064e3b]/60 text-[#34d399] border-[#059669]/50 hover:bg-[#064e3b]/80"
+                              ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/20 hover:bg-emerald-500/20"
                               : "border-slate-700/60 bg-slate-800/80 text-slate-400 hover:bg-slate-800"
                           )}
                           title="Bấm để bật/tắt xuất bản đề thi"
@@ -487,10 +487,10 @@ export default function AdminDashboardPage() {
                       </td>
 
                       <td className="whitespace-nowrap py-3.5 px-4 text-right">
-                        <div className="inline-flex items-center justify-end gap-2">
+                        <div className="inline-flex items-center justify-end gap-1.5">
                           <Link
                             href={`/admin/exams/preview?id=${exam.id}`}
-                            className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b0f19] hover:bg-[#4f46e5] hover:text-white border border-[#1f2937] text-[#e5e7eb] px-2.5 py-1.5 text-[11px] font-medium transition-colors"
+                            className="inline-flex items-center gap-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 px-2.5 py-1.5 text-xs font-medium transition-colors"
                             title="Xem trước toàn bộ câu hỏi và đáp án"
                           >
                             <Eye className="h-3.5 w-3.5" />
@@ -499,7 +499,7 @@ export default function AdminDashboardPage() {
 
                           <Link
                             href={`/admin/exams/${exam.id}/edit`}
-                            className="inline-flex items-center gap-1 rounded-xl bg-[#0b0f19] hover:bg-amber-600 hover:text-white border border-[#1f2937] text-[#e5e7eb] px-2.5 py-1.5 text-[11px] font-medium transition-colors"
+                            className="inline-flex items-center justify-center rounded-lg text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 p-2 text-xs font-medium transition-colors"
                             title="Chỉnh sửa chi tiết đề thi"
                           >
                             <Pencil className="h-3.5 w-3.5" />
@@ -508,7 +508,7 @@ export default function AdminDashboardPage() {
                           <button
                             type="button"
                             onClick={() => setExamToDelete(exam)}
-                            className="inline-flex items-center gap-1 rounded-xl bg-[#0b0f19] hover:bg-rose-600 hover:text-white border border-[#1f2937] text-[#9ca3af] hover:border-rose-500 px-2 py-1.5 text-[11px] transition-colors cursor-pointer"
+                            className="inline-flex items-center justify-center rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 p-2 text-xs transition-colors cursor-pointer"
                             title="Xóa đề thi"
                           >
                             <Trash2 className="h-3.5 w-3.5" />

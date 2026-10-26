@@ -160,8 +160,8 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
 
             {/* Status Badge: Chưa làm vs Đã làm · score/max */}
             {isCompleted ? (
-              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 select-none shadow-xs">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
+              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 select-none">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
                 <span>
                   Đã làm · {scoreDisplay}/{maxScoreDisplay}
                 </span>
@@ -212,7 +212,7 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
         {/* Right: Docked Pill Button "Bắt đầu →" or "Làm lại →" */}
         <Link
           href={`/exam/${exam.id}`}
-          className="shrink-0 h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold transition-all duration-200 cursor-pointer select-none bg-[#4f46e5] hover:bg-[#6366f1] text-white shadow-md shadow-[#4f46e5]/25 hover:shadow-[#4f46e5]/40 hover:scale-[1.02] active:scale-[0.98]"
+          className="shrink-0 h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold transition-all duration-200 cursor-pointer select-none bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm shadow-black/40 hover:shadow-md hover:shadow-black/50 border border-indigo-400/20 hover:scale-[1.02] active:scale-[0.98]"
         >
           <span>{buttonText}</span>
           <ArrowRight className="h-3.5 w-3.5 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-1" />
