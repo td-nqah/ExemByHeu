@@ -500,7 +500,7 @@ export function EditExamClient({ examId }: { examId: string }) {
             <button
               type="button"
               onClick={() => setShowQuickScoreConfig((prev) => !prev)}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 border border-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-900/90 border border-indigo-500/25 px-3.5 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 hover:border-indigo-500/40 hover:text-white shadow-sm"
             >
               <Sliders className="h-3.5 w-3.5 text-indigo-400" />
               <span>

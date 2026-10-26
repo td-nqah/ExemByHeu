@@ -1,38 +1,12 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { Suspense } from "react";
-
-function SystemBackgroundContent() {
-  const pathname = usePathname();
-  // Giữ nền mưa sao băng khi ở màn hình đăng nhập (chưa vào hệ thống)
-  const isLoginPage = pathname === "/" || pathname === "/login";
-
-  if (isLoginPage) {
-    // Mưa sao băng Uiverse (login background)
-    return <div className="container" />;
-  }
-
-  // Nền Midnight Sky bầu trời đêm lấp lánh và sao băng khi đã đăng nhập (bỏ mặt trăng)
-  return (
-    <div className="uiverse-midnight-sky">
-      <div className="sky-canvas">
-        <div className="stars stars-1" />
-        <div className="stars stars-2" />
-        <div className="stars stars-3" />
-
-        <div className="meteor m1" />
-        <div className="meteor m2" />
-        <div className="meteor m3" />
-      </div>
-    </div>
-  );
-}
-
 export function SystemBackground() {
   return (
-    <Suspense fallback={<div className="container" />}>
-      <SystemBackgroundContent />
-    </Suspense>
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#070712]">
+      {/* Unified ambient background: Clean, elegant dark lighting (no starry sky, no meteors) */}
+      <div className="absolute -top-[25%] left-1/2 -translate-x-1/2 h-[650px] w-[1100px] rounded-full bg-gradient-to-b from-[#4f46e5]/12 via-[#3730a3]/5 to-transparent blur-[140px] pointer-events-none" />
+      <div className="absolute top-[35%] -left-[10%] h-[550px] w-[550px] rounded-full bg-[#4338ca]/5 blur-[160px] pointer-events-none" />
+      <div className="absolute -bottom-[15%] right-[5%] h-[650px] w-[650px] rounded-full bg-[#312e81]/8 blur-[160px] pointer-events-none" />
+    </div>
   );
 }

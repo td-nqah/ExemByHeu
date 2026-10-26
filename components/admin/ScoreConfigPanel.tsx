@@ -92,7 +92,7 @@ export function ScoreConfigPanel({
   const formattedEssayTotal = Math.round(currentEssayTotal * 100) / 100;
 
   return (
-    <div className="glass-panel rounded-2xl p-5 sm:p-6">
+    <div className="obsidian-card mb-8 rounded-2xl p-6 border border-indigo-500/25 shadow-xl">
       {/* Header */}
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
         <div className="flex items-center gap-2.5">
@@ -120,7 +120,7 @@ export function ScoreConfigPanel({
       {/* Row 1: Per-Question Score Inputs + Live Total Exam Score */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* 1. MCQ Point per Question */}
-        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+        <div className="rounded-xl border border-indigo-500/15 bg-slate-900/70 p-4">
           <div className="mb-2 flex items-center justify-between">
             <label className="flex items-center gap-1.5 text-xs font-bold text-white">
               <HelpCircle className="h-3.5 w-3.5 text-indigo-400" />
@@ -166,7 +166,7 @@ export function ScoreConfigPanel({
         </div>
 
         {/* 2. Essay Point per Question */}
-        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+        <div className="rounded-xl border border-indigo-500/15 bg-slate-900/70 p-4">
           <div className="mb-2 flex items-center justify-between">
             <label className="flex items-center gap-1.5 text-xs font-bold text-white">
               <FileText className="h-3.5 w-3.5 text-indigo-400" />
@@ -241,7 +241,7 @@ export function ScoreConfigPanel({
       </div>
 
       {/* Row 2: Auto-Calculate / Scale Score Bar */}
-      <div className="mt-4 flex flex-col justify-between gap-4 rounded-xl border border-slate-800 bg-slate-900/80 p-4 lg:flex-row lg:items-center">
+      <div className="mt-4 flex flex-col justify-between gap-4 rounded-xl border border-indigo-500/20 bg-slate-900/80 p-4 lg:flex-row lg:items-center">
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-indigo-400" />
