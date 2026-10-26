@@ -1811,10 +1811,15 @@ export async function getSubmissionById(id: string): Promise<Submission | null> 
         if (sortedQuestions.length > 0) {
           sortedQuestions.sort((a: Question, b: Question) => a.order_index - b.order_index);
         }
-        const enrichedAnswers = (data.answers || []).map((a: any) => ({
-          ...a,
-          question: sortedQuestions.find((q: Question) => q.id === a.question_id),
-        }));
+        const enrichedAnswers = (data.answers || [])
+          .map((a: any) => ({
+            ...a,
+            question: sortedQuestions.find((q: Question) => q.id === a.question_id),
+          }))
+          .sort(
+            (a: any, b: any) =>
+              (a.question?.order_index ?? 0) - (b.question?.order_index ?? 0)
+          );
 
         return {
           id: data.id,
@@ -1848,10 +1853,15 @@ export async function getSubmissionById(id: string): Promise<Submission | null> 
   const examQuestions = questions.filter((q) => q.exam_id === sub.exam_id);
   const subAnswers = answers.filter((a) => a.submission_id === id);
 
-  const enrichedAnswers = subAnswers.map((a) => ({
-    ...a,
-    question: examQuestions.find((q) => q.id === a.question_id),
-  }));
+  const enrichedAnswers = subAnswers
+    .map((a) => ({
+      ...a,
+      question: examQuestions.find((q) => q.id === a.question_id),
+    }))
+    .sort(
+      (a: any, b: any) =>
+        (a.question?.order_index ?? 0) - (b.question?.order_index ?? 0)
+    );
 
   const user = SEED_PROFILES.find((p) => p.id === sub.user_id);
 
