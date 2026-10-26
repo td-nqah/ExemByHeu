@@ -373,7 +373,7 @@ export default function AdminSettingsPage() {
                     onClick={() => setNewRole("user")}
                     className={`py-2.5 px-3 rounded-full border text-xs flex items-center justify-center gap-2 transition-all cursor-pointer ${
                       newRole === "user"
-                        ? "bg-white text-black font-bold border-transparent shadow-sm"
+                        ? "bg-[#9CA3AF] text-black font-bold border-transparent shadow-sm"
                         : "bg-[#10131B] border-[#252A37] text-[#9CA3AF] hover:text-white"
                     }`}
                   >
@@ -386,7 +386,7 @@ export default function AdminSettingsPage() {
                     onClick={() => setNewRole("admin")}
                     className={`py-2.5 px-3 rounded-full border text-xs flex items-center justify-center gap-2 transition-all cursor-pointer ${
                       newRole === "admin"
-                        ? "bg-white text-black font-bold border-transparent shadow-sm"
+                        ? "bg-[#9CA3AF] text-black font-bold border-transparent shadow-sm"
                         : "bg-[#10131B] border-[#252A37] text-[#9CA3AF] hover:text-white"
                     }`}
                   >
@@ -400,7 +400,7 @@ export default function AdminSettingsPage() {
                 <button
                   type="submit"
                   disabled={createLoading}
-                  className="w-full py-2.5 px-4 bg-white hover:bg-slate-200 text-[#05070D] font-bold text-xs rounded-full shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
+                  className="w-full py-2.5 px-4 bg-[#9CA3AF] hover:bg-[#858D9B] text-[#05070D] font-bold text-xs rounded-full shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
                 >
                   {createLoading ? (
                     <>
@@ -583,7 +583,7 @@ export default function AdminSettingsPage() {
                               }}
                               className={`w-full px-3 py-2 rounded-2xl text-left transition-all duration-150 flex items-center justify-between gap-2.5 group cursor-pointer border ${
                                 isSelected
-                                  ? "bg-white text-black border-transparent shadow-sm"
+                                  ? "bg-[#9CA3AF] text-black border-transparent shadow-sm"
                                   : "hover:bg-[#161A24] text-slate-300 hover:text-white border-transparent bg-transparent"
                               }`}
                             >
@@ -738,7 +738,7 @@ export default function AdminSettingsPage() {
                 <button
                   type="submit"
                   disabled={emergencyLoading}
-                  className="w-full py-2.5 px-4 bg-white hover:bg-slate-200 text-[#05070D] font-bold text-xs rounded-full shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
+                  className="w-full py-2.5 px-4 bg-[#9CA3AF] hover:bg-[#858D9B] text-[#05070D] font-bold text-xs rounded-full shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
                 >
                   {emergencyLoading ? (
                     <>
