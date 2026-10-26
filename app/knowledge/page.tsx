@@ -84,18 +84,13 @@ export default function KnowledgeHubPage() {
     <div className="min-fluid-h p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1B1F2A]">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#10131B] border border-[#252A37] text-white shadow-sm shadow-black/40">
-            <BookOpen className="h-5 w-5 text-white" />
-          </div>
-          <div>
-            <h1 className="font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight flex items-center gap-2">
-              Tài liệu ôn tập
-            </h1>
-            <p className="text-xs sm:text-sm text-[#9CA3AF] mt-1.5 leading-relaxed">
-              Hệ thống học liệu, đề cương chi tiết và tài liệu tham khảo theo học phần
-            </p>
-          </div>
+        <div>
+          <h1 className="font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight">
+            Tài liệu ôn tập
+          </h1>
+          <p className="text-xs sm:text-sm text-[#9CA3AF] mt-1.5 leading-relaxed">
+            Hệ thống học liệu, đề cương chi tiết và tài liệu tham khảo theo học phần
+          </p>
         </div>
 
         <div className="text-xs text-[#9CA3AF] tabular-nums">

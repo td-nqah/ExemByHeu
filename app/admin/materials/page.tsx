@@ -378,22 +378,15 @@ export default function AdminMaterialsPage() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#252A37]">
         <div>
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#10131B] border border-[#252A37] text-white shadow-sm">
-              <Library className="h-6 w-6" />
-            </div>
-            <div>
-              <h1 className="font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight flex items-center gap-2">
-                Quản lý Học liệu & Đề cương
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#232836] text-slate-300 border border-[#2A2F3C] font-medium font-sans">
-                  Học liệu học thuật
-                </span>
-              </h1>
-              <p className="text-xs sm:text-sm text-[#9CA3AF] mt-1.5 max-w-xl leading-relaxed">
-                Biên soạn, xuất bản và phân loại học liệu học thuật, đề cương học phần trực tuyến.
-              </p>
-            </div>
-          </div>
+          <h1 className="font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight flex items-center gap-2">
+            Quản lý Học liệu & Đề cương
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#232836] text-slate-300 border border-[#2A2F3C] font-medium font-sans">
+              Học liệu học thuật
+            </span>
+          </h1>
+          <p className="text-xs sm:text-sm text-[#9CA3AF] mt-1.5 max-w-xl leading-relaxed">
+            Biên soạn, xuất bản và phân loại học liệu học thuật, đề cương học phần trực tuyến.
+          </p>
         </div>
 
         <div className="flex items-center gap-3">
