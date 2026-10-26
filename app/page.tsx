@@ -73,12 +73,12 @@ export default function LoginPage() {
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="order-1 lg:col-span-6 lg:row-start-1 space-y-2 sm:space-y-4 text-center lg:text-left"
         >
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-medium text-indigo-400">
-            <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-indigo-400" />
-            <span>
-              <span className="text-[#818cf8] font-bold">Exam</span>
-              <span className="text-white font-bold">By</span>
-              <span className="text-[#818cf8] font-bold">Heu</span> v2.0 • Khảo thí & Đánh giá Học phần
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-medium text-white">
+            <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-white" />
+            <span className="text-white">
+              <span className="text-white font-bold">Exam</span>
+              <span className="text-[#818cf8] font-bold">ByHeu</span>{" "}
+              <span className="text-white">v2.0 • Khảo thí &amp; Đánh giá Học phần</span>
             </span>
           </div>
 
