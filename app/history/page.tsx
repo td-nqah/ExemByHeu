@@ -71,11 +71,11 @@ export default function HistoryPage() {
       {/* History Table / Card List */}
       <h2 className="sr-only">Danh sách lịch sử bài đánh giá</h2>
       {loading ? (
-        <div className="rounded-2xl border border-white/10 bg-[#0c0a1a]/80 backdrop-blur-md flex h-48 items-center justify-center">
+        <div className="obsidian-card rounded-2xl border border-indigo-500/20 flex h-48 items-center justify-center">
           <p className="text-sm text-slate-400">Đang tải lịch sử đánh giá...</p>
         </div>
       ) : submissions.length === 0 ? (
-        <div className="rounded-2xl border border-white/10 bg-[#0c0a1a]/80 backdrop-blur-md flex flex-col items-center justify-center py-12 px-4 text-center">
+        <div className="obsidian-card rounded-2xl border border-indigo-500/20 flex flex-col items-center justify-center py-12 px-4 text-center">
           <History className="mb-3 h-10 w-10 text-indigo-400" />
           <h3 className="text-base font-bold text-white">
             Chưa có dữ liệu bài đánh giá
@@ -96,12 +96,12 @@ export default function HistoryPage() {
           initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="rounded-2xl border border-white/10 bg-[#0c0a1a]/80 backdrop-blur-md overflow-hidden shadow-sm shadow-black/40"
+          className="obsidian-card rounded-2xl overflow-hidden border border-indigo-500/20 shadow-sm shadow-black/40"
         >
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-white/[0.03] text-slate-300 uppercase tracking-wider text-xs border-b border-white/10">
+              <thead className="bg-indigo-950/40 text-slate-300 uppercase tracking-wider text-xs border-b border-indigo-500/20">
                 <tr>
                   <th className="py-3.5 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>
@@ -134,7 +134,7 @@ export default function HistoryPage() {
                   return (
                     <tr
                       key={sub.id}
-                      className="group border-b border-white/5 hover:bg-white/[0.03] transition-colors"
+                      className="group border-b border-indigo-500/10 hover:bg-indigo-950/25 transition-colors"
                     >
                       <td className="py-4 px-3 text-center font-bold font-heading text-indigo-400 text-xs">
                         #{idx + 1}
@@ -193,7 +193,7 @@ export default function HistoryPage() {
           </div>
 
           {/* Mobile Card-based List View (< 768px) */}
-          <div className="md:hidden divide-y divide-white/10">
+          <div className="md:hidden divide-y divide-indigo-500/15">
             {submissions.map((sub, idx) => {
               const isGraded = sub.status === "graded";
               const examQuestions = sub.exam?.questions || [];
@@ -240,7 +240,7 @@ export default function HistoryPage() {
                     <span>{formatDate(sub.submitted_at)}</span>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2 rounded-xl bg-slate-900/60 border border-white/5 p-2.5 text-center text-xs">
+                  <div className="grid grid-cols-3 gap-2 rounded-xl bg-indigo-950/30 border border-indigo-500/15 p-2.5 text-center text-xs">
                     <div>
                       <p className="text-[10px] text-slate-400">Trắc nghiệm</p>
                       <p className="font-bold text-white text-xs">{sub.mcq_score}{maxMcq > 0 ? `/${maxMcq}` : ""}</p>
@@ -257,7 +257,7 @@ export default function HistoryPage() {
 
                   <Link
                     href={`/history/${sub.id}`}
-                    className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-slate-800/90 hover:bg-indigo-600 hover:text-white border border-slate-700/60 text-slate-200 py-2 text-xs font-semibold transition"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-indigo-950/60 hover:bg-indigo-600 hover:text-white border border-indigo-500/30 text-slate-200 py-2 text-xs font-semibold transition"
                   >
                     <span>Xem chi tiết bài làm</span>
                     <ArrowRight className="h-3.5 w-3.5 text-indigo-400" />

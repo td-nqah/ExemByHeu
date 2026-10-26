@@ -680,7 +680,7 @@ export default function AdminMaterialsPage() {
           {filteredMaterials.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col justify-between rounded-2xl obsidian-card-interactive border border-white/10 hover:border-white/20 p-5 group transition-all"
+              className="flex flex-col justify-between rounded-2xl obsidian-card-interactive border border-indigo-500/20 hover:border-indigo-500/40 p-5 group transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
@@ -698,7 +698,7 @@ export default function AdminMaterialsPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-heading text-base font-bold text-white group-hover:text-white transition line-clamp-2 leading-snug">
+                  <h3 className="font-heading text-base font-bold text-white group-hover:text-indigo-300 transition line-clamp-2 leading-snug">
                     {item.title}
                   </h3>
                   <p className="text-xs text-[#9ca3af] mt-1.5 line-clamp-3 leading-relaxed">
@@ -707,8 +707,8 @@ export default function AdminMaterialsPage() {
                 </div>
               </div>
 
-              <div className="mt-5 pt-3.5 border-t border-[#1f2937] flex items-center justify-between">
-                <div className="text-[11px] text-[#9ca3af]">
+              <div className="mt-5 pt-3.5 border-t border-indigo-500/20 flex items-center justify-between">
+                <div className="text-xs text-[#9ca3af]">
                   Tác giả: <span className="text-slate-300">{item.author || "Ban Giảng huấn"}</span>
                 </div>
 
@@ -716,7 +716,7 @@ export default function AdminMaterialsPage() {
                   <Link
                     href={`/knowledge/${item.id}`}
                     target="_blank"
-                    className="p-1.5 rounded-lg text-[#9ca3af] hover:text-[#6366f1] hover:bg-white/5 transition"
+                    className="p-1.5 rounded-lg text-[#9ca3af] hover:text-[#818cf8] hover:bg-white/5 transition"
                     title="Xem thử giao diện Người đọc"
                   >
                     <Eye className="h-4 w-4" />

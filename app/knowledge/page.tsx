@@ -85,7 +85,7 @@ export default function KnowledgeHubPage() {
       {/* Header Section: Tiêu đề chính chỉ để dòng chữ Học liệu & Đề cương */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1f2937]">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white shadow-sm shadow-black/40">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 shadow-sm shadow-black/40">
             <BookOpen className="h-6 w-6" />
           </div>
           <div>
@@ -377,13 +377,13 @@ export default function KnowledgeHubPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="flex flex-col justify-between rounded-2xl obsidian-card-interactive border border-white/10 hover:border-white/20 p-5 group transition-all"
+              className="flex flex-col justify-between rounded-2xl obsidian-card-interactive border border-indigo-500/20 hover:border-indigo-500/40 p-5 group transition-all"
             >
               <div className="space-y-3">
                 {/* Meta badges: Emerald Teal tag for subject category without reading time */}
                 <div className="flex items-center justify-between gap-2">
                   {item.category_id === "none" || item.category_slug === "none" ? (
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5">
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5">
                       <FileText className="h-3 w-3 text-slate-400" />
                       {item.category_name || "Tài liệu chung (Không gắn học phần)"}
                     </span>
@@ -397,7 +397,7 @@ export default function KnowledgeHubPage() {
 
                 {/* Article Title: Bold & High contrast */}
                 <Link href={`/knowledge/${item.id}`} className="block">
-                  <h2 className="font-heading text-base font-bold text-white group-hover:text-slate-200 transition line-clamp-2 leading-snug">
+                  <h2 className="font-heading text-base font-bold text-white group-hover:text-indigo-300 transition line-clamp-2 leading-snug">
                     {item.title}
                   </h2>
                 </Link>
@@ -411,7 +411,7 @@ export default function KnowledgeHubPage() {
               {/* Card Footer */}
               <div className="mt-5 pt-3.5 border-t border-indigo-500/20 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-[#9ca3af] max-w-[140px] truncate">
-                  <div className="h-6 w-6 rounded-lg bg-[#1f2937] text-white flex items-center justify-center font-bold text-[10px] border border-[#1f2937] shrink-0">
+                  <div className="h-6 w-6 rounded-lg bg-indigo-950/60 text-indigo-300 flex items-center justify-center font-bold text-[10px] border border-indigo-500/25 shrink-0">
                     {(item.author || "B")[0]}
                   </div>
                   <span className="truncate">{item.author || "Ban Giảng huấn"}</span>
@@ -419,7 +419,7 @@ export default function KnowledgeHubPage() {
 
                 <Link
                   href={`/knowledge/${item.id}`}
-                  className="inline-flex items-center gap-1 font-semibold text-xs text-slate-300 hover:text-white group-hover:text-white group-hover:translate-x-0.5 transition duration-150"
+                  className="inline-flex items-center gap-1 font-semibold text-xs text-[#818cf8] hover:text-indigo-300 group-hover:text-indigo-300 group-hover:translate-x-0.5 transition duration-150"
                 >
                   <span>Đọc bài</span>
                   <ArrowRight className="h-3.5 w-3.5" />
