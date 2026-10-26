@@ -263,8 +263,8 @@ export default function AdminSettingsPage() {
           <div>
             <div className="flex items-center justify-between pb-4 border-b border-indigo-500/20">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
-                  <UserPlus className="h-5 w-5 text-[#6366f1]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white shadow-sm shadow-black/40">
+                  <UserPlus className="h-5 w-5 text-indigo-300" />
                 </div>
                 <div>
                   <h2 className="text-sm font-bold text-white">
@@ -350,8 +350,8 @@ export default function AdminSettingsPage() {
                     onClick={() => setNewRole("user")}
                     className={`py-2.5 px-3 rounded-xl border text-xs flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer select-none ${
                       newRole === "user"
-                        ? "bg-gradient-to-b from-[#18133b] to-[#0a071e] border-indigo-500/70 text-white font-bold shadow-[0_4px_16px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.18)] ring-1 ring-indigo-500/40"
-                        : "bg-[#060513]/70 hover:bg-[#02010a] border-indigo-500/20 hover:border-indigo-500/40 text-slate-400 hover:text-slate-200 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]"
+                        ? "bg-indigo-600/30 border-indigo-400/60 text-white font-bold shadow-sm shadow-black/40 ring-1 ring-indigo-500/40"
+                        : "bg-white/[0.03] hover:bg-white/[0.06] border-white/10 text-slate-400 hover:text-slate-200"
                     }`}
                   >
                     <User className="h-3.5 w-3.5 text-indigo-300" />
@@ -363,8 +363,8 @@ export default function AdminSettingsPage() {
                     onClick={() => setNewRole("admin")}
                     className={`py-2.5 px-3 rounded-xl border text-xs flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer select-none ${
                       newRole === "admin"
-                        ? "bg-gradient-to-b from-[#18133b] to-[#0a071e] border-indigo-500/70 text-white font-bold shadow-[0_4px_16px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.18)] ring-1 ring-indigo-500/40"
-                        : "bg-[#060513]/70 hover:bg-[#02010a] border-indigo-500/20 hover:border-indigo-500/40 text-slate-400 hover:text-slate-200 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]"
+                        ? "bg-indigo-600/30 border-indigo-400/60 text-white font-bold shadow-sm shadow-black/40 ring-1 ring-indigo-500/40"
+                        : "bg-white/[0.03] hover:bg-white/[0.06] border-white/10 text-slate-400 hover:text-slate-200"
                     }`}
                   >
                     <Shield className="h-3.5 w-3.5 text-indigo-400" />
@@ -377,7 +377,7 @@ export default function AdminSettingsPage() {
                 <button
                   type="submit"
                   disabled={createLoading}
-                  className="w-full py-2.5 px-4 bg-gradient-to-b from-[#4f46e5] to-[#3730a3] hover:from-[#4338ca] hover:to-[#2b247c] active:from-[#3730a3] active:to-[#221c60] text-white font-semibold text-xs rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.2)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.25)] border border-indigo-400/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
+                  className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold text-xs rounded-xl shadow-sm shadow-black/40 border border-indigo-400/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98 select-none"
                 >
                   {createLoading ? (
                     <>
@@ -395,9 +395,9 @@ export default function AdminSettingsPage() {
             </form>
           </div>
 
-          <div className="mt-5 pt-3 border-t border-indigo-500/20 text-[11px] text-[#9ca3af] flex items-center justify-between">
+          <div className="mt-5 pt-3 border-t border-white/10 text-xs text-[#9ca3af] flex items-center justify-between">
             <span>Bảo mật: Mật khẩu được mã hóa an toàn qua Bcrypt</span>
-            <span className="font-mono text-[10px] text-slate-500">Auto-Hashed</span>
+            <span className="font-mono text-xs text-slate-500">Auto-Hashed</span>
           </div>
         </div>
 
@@ -414,8 +414,8 @@ export default function AdminSettingsPage() {
           <div>
             <div className="flex items-center justify-between pb-4 border-b border-indigo-500/20">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
-                  <KeyRound className="h-5 w-5 text-[#6366f1]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white shadow-sm shadow-black/40">
+                  <KeyRound className="h-5 w-5 text-indigo-300" />
                 </div>
                 <div>
                   <h2 className="text-sm font-bold text-white">
@@ -427,7 +427,7 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
 
-              <span className="text-[10px] px-2.5 py-1 rounded-full font-mono bg-indigo-950/40 border border-indigo-500/25 text-[#9ca3af]">
+              <span className="text-xs px-2.5 py-1 rounded-full font-mono bg-white/[0.04] border border-white/10 text-slate-300">
                 {allProfiles.length} tài khoản
               </span>
             </div>
@@ -454,7 +454,7 @@ export default function AdminSettingsPage() {
               <div className="space-y-1.5 relative">
                 <label className="text-xs font-semibold text-slate-300 flex items-center justify-between">
                   <span>Chọn tài khoản cần đổi mật khẩu:</span>
-                  <span className="text-[10px] font-mono text-[#9ca3af]">
+                  <span className="text-xs font-mono text-slate-400">
                     ({allProfiles.length} tài khoản)
                   </span>
                 </label>
@@ -495,10 +495,10 @@ export default function AdminSettingsPage() {
                         const isAdmin = prof?.role === "admin";
                         return (
                           <span
-                            className={`text-[9px] px-1.5 py-0.5 rounded font-semibold border ${
+                            className={`text-xs px-2 py-0.5 rounded font-medium border ${
                               isAdmin
-                                ? "bg-[#4f46e5]/20 text-indigo-300 border-[#4f46e5]/30"
-                                : "bg-[#1f2937] text-[#9ca3af] border-[#1f2937]"
+                                ? "bg-indigo-500/20 text-indigo-300 border-indigo-500/30"
+                                : "bg-[#1f2937] text-slate-300 border-[#1f2937]"
                             }`}
                           >
                             {isAdmin ? "Quản trị viên" : "User"}
@@ -514,15 +514,15 @@ export default function AdminSettingsPage() {
                       const isActive = sec ? sec.is_active !== false : true;
                       return (
                         <span
-                          className={`text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 border ${
+                          className={`text-xs px-2 py-0.5 rounded-full font-medium flex items-center gap-1 border ${
                             isActive
-                              ? "bg-[#064e3b]/70 text-[#34d399] border-[#064e3b]"
+                              ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/20"
                               : "bg-rose-500/10 text-rose-400 border-rose-500/25"
                           }`}
                         >
                           <span
                             className={`h-1.5 w-1.5 rounded-full ${
-                              isActive ? "bg-[#34d399] animate-pulse" : "bg-rose-400"
+                              isActive ? "bg-emerald-400" : "bg-rose-400"
                             }`}
                           />
                           <span>{isActive ? "Active" : "Khóa"}</span>
@@ -662,28 +662,28 @@ export default function AdminSettingsPage() {
                   <Shield className="h-3.5 w-3.5 text-[#6366f1]" />
                   <span>Vai trò &amp; Trạng thái tài khoản</span>
                 </label>
-                <div className="px-3.5 py-2.5 rounded-xl bg-indigo-950/40 border border-indigo-500/25 flex items-center justify-between text-xs">
+                <div className="px-3.5 py-2.5 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <span className="font-mono font-bold text-white text-xs">
                       {selectedUser || "..."}
                     </span>
                     <span
-                      className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
+                      className={`text-xs px-2 py-0.5 rounded-full border font-medium ${
                         selectedProfile?.role === "admin"
-                          ? "bg-[#4f46e5]/15 border-[#4f46e5]/30 text-indigo-300"
+                          ? "bg-indigo-500/15 border-indigo-500/30 text-indigo-300"
                           : "bg-slate-800 border-slate-700 text-slate-300"
                       }`}
                     >
                       {selectedProfile?.role === "admin" ? "Quản trị viên (Admin)" : "User"}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-[11px] text-[#9ca3af]">
-                    <span className="inline-flex items-center gap-1 text-[#34d399] font-medium">
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                    <span className="inline-flex items-center gap-1 text-emerald-300 font-medium">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
                       <span>{selectedSecurity?.is_active !== false ? "Active" : "Đã khóa"}</span>
                     </span>
                     {selectedSecurity && (
-                      <span className="text-slate-500 font-mono text-[10px]">
+                      <span className="text-slate-400 font-mono text-xs">
                         • {selectedSecurity.devices?.length || 0}/3 thiết bị
                       </span>
                     )}
@@ -695,7 +695,7 @@ export default function AdminSettingsPage() {
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-300 flex items-center justify-between">
                   <span>Tên đăng nhập (Username)</span>
-                  <span className="text-[10px] text-slate-400">Có thể đổi mới hoặc giữ nguyên</span>
+                  <span className="text-xs text-slate-400">Có thể đổi mới hoặc giữ nguyên</span>
                 </label>
                 <div className="relative">
                   <input
@@ -713,7 +713,7 @@ export default function AdminSettingsPage() {
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-300 flex items-center justify-between">
                   <span>Mật khẩu mới</span>
-                  <span className="text-[10px] text-slate-400">Để trống nếu không đổi mật khẩu</span>
+                  <span className="text-xs text-slate-400">Để trống nếu không đổi mật khẩu</span>
                 </label>
                 <div className="relative">
                   <input
@@ -740,7 +740,7 @@ export default function AdminSettingsPage() {
                 <button
                   type="submit"
                   disabled={emergencyLoading}
-                  className="w-full py-2.5 px-4 bg-gradient-to-b from-[#4f46e5] to-[#3730a3] hover:from-[#4338ca] hover:to-[#2b247c] active:from-[#3730a3] active:to-[#221c60] text-white font-semibold text-xs rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.2)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.25)] border border-indigo-400/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98"
+                  className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold text-xs rounded-xl shadow-sm shadow-black/40 border border-indigo-400/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-98 select-none"
                 >
                   {emergencyLoading ? (
                     <>
@@ -758,9 +758,9 @@ export default function AdminSettingsPage() {
             </form>
           </div>
 
-          <div className="mt-5 pt-3 border-t border-indigo-500/20 text-[11px] text-[#9ca3af] flex items-center justify-between">
+          <div className="mt-5 pt-3 border-t border-white/10 text-xs text-[#9ca3af] flex items-center justify-between">
             <span>Hiệu lực: Cập nhật thông tin tài khoản ngay tức thì</span>
-            <span className="font-mono text-[10px] text-slate-500">Instant-Sync</span>
+            <span className="font-mono text-xs text-slate-500">Instant-Sync</span>
           </div>
         </div>
       </div>

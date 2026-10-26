@@ -195,7 +195,7 @@ export function ExamStatusSelector({
                           Đã xuất bản
                         </span>
                         {isPublished && (
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                         )}
                       </div>
                       <p className="text-[11px] text-slate-400 truncate mt-0.5">
@@ -290,7 +290,7 @@ export function ExamStatusSelector({
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-bold truncate">Đã xuất bản</span>
                   {isPublished && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                   )}
                 </div>
                 <p className="text-[10px] text-slate-400 truncate">Vào thi ngay</p>

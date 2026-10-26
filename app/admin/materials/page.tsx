@@ -379,7 +379,7 @@ export default function AdminMaterialsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1f2937]">
         <div>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#4f46e5]/10 border border-[#4f46e5]/30 text-indigo-400 shadow-[0_0_12px_rgba(79,70,229,0.15)]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white shadow-sm shadow-black/40">
               <Library className="h-6 w-6" />
             </div>
             <div>
@@ -389,7 +389,7 @@ export default function AdminMaterialsPage() {
                   Học liệu học thuật
                 </span>
               </h1>
-              <p className="text-xs sm:text-sm text-[#9ca3af] mt-0.5">
+              <p className="text-xs sm:text-sm text-[#9ca3af] mt-0.5 max-w-xl">
                 Biên soạn, xuất bản và phân loại học liệu học thuật, đề cương học phần trực tuyến.
               </p>
             </div>
@@ -642,6 +642,7 @@ export default function AdminMaterialsPage() {
       </div>
 
       {/* Materials List */}
+      <h2 className="sr-only">Danh sách học liệu học thuật</h2>
       {loading ? (
         <div className="flex items-center justify-center py-20 text-[#9ca3af] text-xs">
           <RefreshCw className="h-5 w-5 animate-spin mr-2 text-indigo-400" />
@@ -667,7 +668,7 @@ export default function AdminMaterialsPage() {
             </button>
             <button
               onClick={handleOpenCreate}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#4f46e5] px-4 py-2 text-xs font-bold text-white hover:bg-[#6366f1] transition cursor-pointer shadow-md shadow-indigo-600/30"
+              className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-500 transition cursor-pointer shadow-sm shadow-black/40 border border-indigo-400/20"
             >
               <Plus className="h-4 w-4" />
               Biên tập học liệu mới
@@ -679,17 +680,17 @@ export default function AdminMaterialsPage() {
           {filteredMaterials.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col justify-between rounded-2xl obsidian-card-interactive p-5 group"
+              className="flex flex-col justify-between rounded-2xl obsidian-card-interactive border border-white/10 hover:border-white/20 p-5 group transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
                   {item.category_id === "none" || item.category_slug === "none" ? (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
                       <FileText className="h-3 w-3 text-slate-400" />
                       {item.category_name || "Tài liệu chung (Không gắn học phần)"}
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#064e3b]/70 text-[#34d399] border border-[#064e3b]">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
                       <Tag className="h-3 w-3 text-[#34d399]" />
                       {item.category_name || "Chuyên đề"}
                     </span>
@@ -697,7 +698,7 @@ export default function AdminMaterialsPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-heading text-base font-bold text-white group-hover:text-indigo-300 transition line-clamp-2 leading-snug">
+                  <h3 className="font-heading text-base font-bold text-white group-hover:text-white transition line-clamp-2 leading-snug">
                     {item.title}
                   </h3>
                   <p className="text-xs text-[#9ca3af] mt-1.5 line-clamp-3 leading-relaxed">
