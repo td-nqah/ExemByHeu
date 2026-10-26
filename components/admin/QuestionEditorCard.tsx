@@ -74,10 +74,10 @@ export function QuestionEditorCard({
       {/* Header Bar */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-[#252A37] pb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs font-mono font-bold text-white">
+          <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs tabular-nums font-bold text-white">
             {index + 1}
           </span>
-          <span className="text-xs font-mono text-[#8B93A5]">
+          <span className="text-xs tabular-nums text-[#8B93A5]">
             Câu hỏi {index + 1} trên {total}
           </span>
         </div>
@@ -113,7 +113,7 @@ export function QuestionEditorCard({
 
           {/* Max Score Input */}
           <div className="flex items-center gap-1.5">
-            <label className="text-xs font-mono text-[#8B93A5]">Điểm:</label>
+            <label className="text-xs text-[#8B93A5]">Điểm:</label>
             <NumberStepper
               value={question.max_score}
               onChange={(val) =>
@@ -190,7 +190,7 @@ export function QuestionEditorCard({
                         correct_answer: letter,
                       })
                     }
-                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border text-xs font-mono font-bold transition cursor-pointer ${
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border text-xs font-bold transition cursor-pointer ${
                       isSelectedKey
                         ? "border-transparent bg-white text-black shadow-sm"
                         : "border-[#252A37] bg-[#10131B] text-[#8B93A5] hover:border-white/30 hover:text-white"

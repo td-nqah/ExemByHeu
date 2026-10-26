@@ -79,7 +79,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
         </p>
 
         {/* Summary Status Banner */}
-        <div className="mt-4 rounded-full border border-[#2A2F3C] bg-[#232836] px-4 py-2 text-xs font-mono font-semibold text-white">
+        <div className="mt-4 rounded-full border border-[#2A2F3C] bg-[#232836] px-4 py-2 text-xs tabular-nums font-semibold text-white">
           Trắc nghiệm: {submission?.mcq_score ?? 0} đ - Tự luận:{" "}
           {essayQuestions.length === 0
             ? "0 đ"
@@ -99,7 +99,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
                 <p className="text-[11px] text-[#9CA3AF]">Đã chấm theo đáp án chuẩn</p>
               </div>
             </div>
-            <div className="text-right font-mono">
+            <div className="text-right tabular-nums">
               <span className="text-lg font-extrabold text-emerald-400">
                 {submission?.mcq_score ?? 0}
               </span>
@@ -119,7 +119,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
                   </p>
                 </div>
               </div>
-              <div className="text-right font-mono">
+              <div className="text-right tabular-nums">
                 <span className="text-lg font-extrabold text-white">
                   {submission?.essay_score !== null ? submission?.essay_score : "Chờ chấm"}
                 </span>
@@ -136,7 +136,7 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
               <p className="text-xs font-bold text-white">Tổng điểm kết quả</p>
               <p className="text-[11px] text-[#9CA3AF]">Trắc nghiệm + Tự luận</p>
             </div>
-            <div className="text-right font-mono">
+            <div className="text-right tabular-nums">
               <span className="text-2xl font-black text-white">
                 {submission?.total_score ?? 0}
               </span>

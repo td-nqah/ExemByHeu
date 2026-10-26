@@ -60,7 +60,7 @@ export default function NumberStepper({
         onBlur={() => {
           if (!value || value < min) onChange(min);
         }}
-        className="w-14 bg-transparent text-center text-xs font-semibold font-mono tabular-nums text-white outline-none
+        className="w-14 bg-transparent text-center text-xs font-semibold tabular-nums text-white outline-none
                    [appearance:textfield]
                    [&::-webkit-inner-spin-button]:appearance-none
                    [&::-webkit-outer-spin-button]:appearance-none"

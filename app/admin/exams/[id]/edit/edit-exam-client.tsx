@@ -467,7 +467,7 @@ export function EditExamClient({ examId }: { examId: string }) {
                   >
                     <span>Xáo trộn thứ tự câu hỏi</span>
                     {isShuffled && (
-                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#232836] text-white border border-[#2A2F3C] font-mono">
+                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#232836] text-white border border-[#2A2F3C] font-semibold">
                         BẬT (ACTIVE)
                       </span>
                     )}
@@ -522,7 +522,7 @@ export function EditExamClient({ examId }: { examId: string }) {
 
             <span className="text-xs font-semibold text-slate-300">
               Tổng điểm hiện tại:{" "}
-              <strong className="text-white font-mono">{totalScore} điểm</strong>
+              <strong className="text-white tabular-nums">{totalScore} điểm</strong>
             </span>
           </div>
 

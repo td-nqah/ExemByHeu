@@ -65,7 +65,7 @@ export function MobileQuestionDrawer({
           <Menu className="h-6 w-6 stroke-[2.5]" strokeLinecap="round" />
 
           {/* Progress Badge */}
-          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-[#232836] border border-[#2A2F3C] px-1.5 text-[10px] font-mono font-bold text-white shadow-md">
+          <span className="absolute -top-1.5 -right-1.5 flex min-w-[24px] h-[22px] items-center justify-center rounded-full bg-[#232836] border border-[#2A2F3C] px-1.5 text-[10px] tabular-nums font-bold text-white shadow-md">
             {answeredCount}/{total}
           </span>
 
@@ -108,13 +108,13 @@ export function MobileQuestionDrawer({
                 Danh sách câu hỏi
               </h2>
               {flaggedCount > 0 && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#232836] text-amber-300 border border-[#2A2F3C] px-2 py-0.5 text-[10px] font-mono font-semibold">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#232836] text-amber-300 border border-[#2A2F3C] px-2 py-0.5 text-[10px] tabular-nums font-semibold">
                   <Flag className="h-2.5 w-2.5 fill-current" />
                   <span>{flaggedCount} cờ</span>
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-[#9CA3AF] mt-0.5 font-mono">
+            <p className="text-[11px] text-[#9CA3AF] mt-0.5 tabular-nums">
               Đã làm <span className="font-bold text-white">{answeredCount}/{total} câu</span> ({progressPercent}%)
             </p>
           </div>
@@ -159,7 +159,7 @@ export function MobileQuestionDrawer({
                   type="button"
                   onClick={() => handleSelect(question.id)}
                   className={cn(
-                    "relative flex h-11 w-full items-center justify-center rounded-xl text-xs font-mono font-bold transition active:scale-95 border",
+                    "relative flex h-11 w-full items-center justify-center rounded-xl text-xs tabular-nums font-bold transition active:scale-95 border",
                     btnStyle,
                     isActive && "ring-2 ring-white ring-offset-2 ring-offset-[#0A0C12] scale-105 z-10"
                   )}

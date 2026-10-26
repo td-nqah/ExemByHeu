@@ -95,7 +95,7 @@ export function PopoverSelect<T extends string = string>({
 
         <div className="flex items-center gap-1.5 shrink-0 ml-1">
           {selectedOption?.badge !== undefined && (
-            <span className="px-1.5 py-0.5 rounded-full bg-[#161A24] border border-[#252A37] text-[10px] font-mono text-[#E5E7EB]">
+            <span className="px-1.5 py-0.5 rounded-full bg-[#161A24] border border-[#252A37] text-[10px] tabular-nums text-[#E5E7EB]">
               {selectedOption.badge}
             </span>
           )}
@@ -160,7 +160,7 @@ export function PopoverSelect<T extends string = string>({
                   <div className="flex items-center gap-2 shrink-0 ml-2">
                     {opt.badge !== undefined && (
                       <span className={cn(
-                        "px-1.5 py-0.5 rounded-full text-[10px] font-mono",
+                        "px-1.5 py-0.5 rounded-full text-[10px] tabular-nums",
                         isSelected ? "bg-black/10 text-black font-bold" : "bg-[#10131B] border border-[#252A37] text-slate-300"
                       )}>
                         {opt.badge}

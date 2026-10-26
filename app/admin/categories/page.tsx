@@ -198,7 +198,7 @@ export default function AdminCategoriesPage() {
           <div>
             <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight flex flex-wrap items-center gap-3">
               Quản lý Danh mục Học phần
-              <span className="text-xs bg-[#10131B] text-[#9CA3AF] border border-[#252A37] px-3 py-1 rounded-full font-mono">
+              <span className="text-xs bg-[#10131B] text-[#9CA3AF] border border-[#252A37] px-3 py-1 rounded-full font-medium">
                 Course Management
               </span>
             </h1>
@@ -220,21 +220,21 @@ export default function AdminCategoriesPage() {
       {/* 2. Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="rounded-3xl border border-[#252A37] bg-[#161A24] p-5 shadow-xl">
-          <span className="text-xs text-[#8B93A5] uppercase tracking-wider font-mono font-bold">Tổng số học phần</span>
-          <div className="mt-2 text-3xl font-extrabold text-white font-mono tracking-tight">{categories.length}</div>
+          <span className="text-xs text-[#8B93A5] uppercase tracking-wide font-heading font-bold">Tổng số học phần</span>
+          <div className="mt-2 text-3xl font-extrabold text-white tracking-tight tabular-nums">{categories.length}</div>
         </div>
         <div className="rounded-3xl border border-[#252A37] bg-[#161A24] p-5 shadow-xl">
-          <span className="text-xs text-[#8B93A5] uppercase tracking-wider font-mono font-bold flex items-center gap-1.5">
+          <span className="text-xs text-[#8B93A5] uppercase tracking-wide font-heading font-bold flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
             Đang kích hoạt (Active)
           </span>
-          <div className="mt-2 text-3xl font-extrabold text-white font-mono tracking-tight">
+          <div className="mt-2 text-3xl font-extrabold text-white tracking-tight tabular-nums">
             {categories.filter((c) => c.status === "active").length}
           </div>
         </div>
         <div className="rounded-3xl border border-[#252A37] bg-[#161A24] p-5 shadow-xl">
-          <span className="text-xs text-[#8B93A5] uppercase tracking-wider font-mono font-bold">Đang ẩn (Hidden)</span>
-          <div className="mt-2 text-3xl font-extrabold text-[#9CA3AF] font-mono tracking-tight">
+          <span className="text-xs text-[#8B93A5] uppercase tracking-wide font-heading font-bold">Đang ẩn (Hidden)</span>
+          <div className="mt-2 text-3xl font-extrabold text-[#9CA3AF] tracking-tight tabular-nums">
             {categories.filter((c) => c.status === "hidden").length}
           </div>
         </div>
@@ -302,17 +302,17 @@ export default function AdminCategoriesPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-slate-300">
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#10131B] border border-[#252A37] text-white text-[11px] font-mono">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#10131B] border border-[#252A37] text-white text-[11px] font-medium">
                           {cat.slug}
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4 text-[#9CA3AF] text-xs font-mono">
+                      <td className="py-3.5 px-4 text-[#9CA3AF] text-xs">
                         {cat.icon || "BookText"}
                       </td>
 
                       <td className="py-3.5 px-4 text-center">
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#10131B] border border-[#252A37] text-white font-bold font-mono text-xs">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#10131B] border border-[#252A37] text-white font-bold tabular-nums text-xs">
                           {examCount}
                         </span>
                       </td>
@@ -415,7 +415,7 @@ export default function AdminCategoriesPage() {
               <form onSubmit={handleSubmit} className="space-y-4 mt-5">
                 {/* Category Name */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+                  <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
                     Tên Học phần *
                   </label>
                   <input
@@ -430,7 +430,7 @@ export default function AdminCategoriesPage() {
 
                 {/* Slug / Code */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+                  <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
                     Mã Học phần (Slug / Code) *
                   </label>
                   <input
@@ -439,16 +439,16 @@ export default function AdminCategoriesPage() {
                     value={formSlug}
                     onChange={(e) => setFormSlug(e.target.value)}
                     placeholder="Ví dụ: cnxh"
-                    className="w-full px-4 py-2.5 bg-[#10131B] border border-[#252A37] rounded-full text-xs text-white placeholder-[#8B93A5] font-mono focus:outline-none focus:border-white/50 transition-colors"
+                    className="w-full px-4 py-2.5 bg-[#10131B] border border-[#252A37] rounded-full text-xs text-white placeholder-[#8B93A5] focus:outline-none focus:border-white/50 transition-colors"
                   />
-                  <p className="text-[10px] text-[#8B93A5] font-mono">
+                  <p className="text-[10px] text-[#8B93A5]">
                     Dùng trong định danh và lọc đề: <code>/dashboard?category={formSlug || "slug"}</code>
                   </p>
                 </div>
 
                 {/* Icon Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+                  <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
                     Biểu tượng đại diện (Icon)
                   </label>
                   <PopoverSelect
@@ -470,7 +470,7 @@ export default function AdminCategoriesPage() {
 
                 {/* Status Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+                  <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
                     Trạng thái hiển thị (Status)
                   </label>
                   <div className="grid grid-cols-2 gap-2">

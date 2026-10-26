@@ -208,11 +208,11 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="mb-2 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-mono text-[#9CA3AF]">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] text-[#9CA3AF]">
                 <User className="h-3 w-3 text-white" />
                 Sinh viên: <strong className="text-white">{submission.user?.username || "Sinh viên"}</strong>
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-mono text-[#9CA3AF]">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] tabular-nums text-[#9CA3AF]">
                 <Calendar className="h-3 w-3 text-[#8B93A5]" />
                 {formatDate(submission.submitted_at)}
               </span>
@@ -228,13 +228,13 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
 
           <div className="flex items-center gap-4 rounded-2xl border border-[#252A37] bg-[#10131B] p-4">
             <div className="text-right">
-              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#8B93A5]">Tổng điểm đánh giá</p>
-              <p className="text-2xl font-black text-white font-mono">
+              <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-[#8B93A5]">Tổng điểm đánh giá</p>
+              <p className="text-2xl font-black text-white tabular-nums">
                 {liveTotalScore}
               </p>
             </div>
             <div className="h-8 w-px bg-[#252A37]" />
-            <div className="space-y-0.5 text-xs text-[#9CA3AF] font-mono">
+            <div className="space-y-0.5 text-xs text-[#9CA3AF] tabular-nums">
               <p>
                 Trắc nghiệm (Đã khóa): <strong className="text-white">{mcqScore}</strong>
               </p>
@@ -285,7 +285,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
             >
               <div className="mb-4 flex items-center justify-between border-b border-[#252A37] pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs font-mono font-bold text-white">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs tabular-nums font-bold text-white">
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">
@@ -296,12 +296,12 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                 <div>
                   {isMCQ ? (
                     <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-[#10131B] border border-[#252A37] px-2.5 py-0.5 text-xs font-mono font-medium text-[#9CA3AF]">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#10131B] border border-[#252A37] px-2.5 py-0.5 text-xs font-medium text-[#9CA3AF]">
                         <Lock className="h-3 w-3 text-white" />
                         Tự động ghi nhận
                       </span>
                       <span
-                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-mono font-bold ${
+                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs tabular-nums font-bold ${
                           ans.is_correct
                             ? "border-emerald-500/40 bg-[#232836] text-emerald-400"
                             : "border-rose-500/40 bg-[#232836] text-rose-400"
@@ -311,7 +311,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                       </span>
                     </div>
                   ) : (
-                    <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-xs font-mono font-bold text-white">
+                    <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-xs tabular-nums font-bold text-white">
                       Điểm tối đa: {q.max_score} điểm
                     </span>
                   )}
@@ -349,18 +349,18 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                     let rowStyle =
                       "border-[#252A37] bg-[#10131B] text-[#9CA3AF]";
                     let letterBadgeStyle =
-                      "border border-[#252A37] bg-[#161A24] text-[#8B93A5] font-mono";
+                      "border border-[#252A37] bg-[#161A24] text-[#8B93A5]";
 
                     if (isCorrectAnswer) {
                       rowStyle =
                         "border-emerald-500/60 bg-emerald-950/30 text-emerald-300 font-semibold";
                       letterBadgeStyle =
-                        "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300 font-mono";
+                        "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300";
                     } else if (isCandidateChoice && !isCorrectAnswer) {
                       rowStyle =
                         "border-rose-500/60 bg-rose-950/30 text-rose-300 font-semibold";
                       letterBadgeStyle =
-                        "border border-rose-400/50 bg-rose-500/20 text-rose-300 font-mono";
+                        "border border-rose-400/50 bg-rose-500/20 text-rose-300";
                     }
 
                     return (
@@ -408,7 +408,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="mb-1.5 block text-[11px] font-mono uppercase tracking-wider text-[#8B93A5]">
+                    <label className="mb-1.5 block text-[11px] uppercase tracking-wider text-[#8B93A5] font-semibold">
                       Bài làm của sinh viên
                     </label>
                     <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
@@ -435,7 +435,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                         </button>
                       </div>
 
-                      <div className="flex items-center gap-1.5 font-mono">
+                      <div className="flex items-center gap-1.5 tabular-nums">
                         <NumberStepper
                           value={essayGrades[q.id]?.score ?? 0}
                           onChange={(val) => handleScoreChange(q.id, q.max_score, String(val))}

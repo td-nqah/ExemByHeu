@@ -65,7 +65,7 @@ export default function AdminSubmissionsListPage() {
             <h2 className="text-sm font-bold text-white">
               Danh sách Bài nộp Đánh giá
             </h2>
-            <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-0.5 text-xs font-mono font-semibold text-white">
+            <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-0.5 text-xs font-semibold tabular-nums text-white">
               {filteredSubmissions.length} / 20
             </span>
           </div>
@@ -154,7 +154,7 @@ export default function AdminSubmissionsListPage() {
                         "hover:bg-[#191E2B]"
                       )}
                     >
-                      <td className="py-3.5 px-3 text-center font-bold font-mono text-[#8B93A5] text-xs">
+                      <td className="py-3.5 px-3 text-center font-bold tabular-nums text-[#8B93A5] text-xs">
                         #{idx + 1}
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 font-bold text-white">
@@ -166,7 +166,7 @@ export default function AdminSubmissionsListPage() {
                       <td className="max-w-xs truncate py-3.5 px-4 font-medium text-slate-200">
                         {sub.exam?.title || "Đề đánh giá"}
                       </td>
-                      <td className="whitespace-nowrap py-3.5 px-4 text-[#9CA3AF] font-mono">
+                      <td className="whitespace-nowrap py-3.5 px-4 text-[#9CA3AF] tabular-nums">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3 text-[#8B93A5]" />
                           {formatDate(sub.submitted_at)}
@@ -185,13 +185,13 @@ export default function AdminSubmissionsListPage() {
                           </span>
                         )}
                       </td>
-                      <td className="py-3.5 px-4 font-semibold text-slate-200 font-mono">
+                      <td className="py-3.5 px-4 font-semibold text-slate-200 tabular-nums">
                         {sub.mcq_score} điểm
                       </td>
-                      <td className="py-3.5 px-4 text-slate-300 font-mono">
+                      <td className="py-3.5 px-4 text-slate-300 tabular-nums">
                         {sub.essay_score !== null ? `${sub.essay_score} điểm` : "Chờ đánh giá"}
                       </td>
-                      <td className="py-3.5 px-4 text-sm font-bold text-white font-mono">
+                      <td className="py-3.5 px-4 text-sm font-bold text-white tabular-nums">
                         {sub.total_score} điểm
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 text-right">

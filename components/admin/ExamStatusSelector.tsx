@@ -61,7 +61,7 @@ export function ExamStatusSelector({
     <div className={cn("space-y-1.5", className)}>
       {/* Label & View Mode Switcher Header */}
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+        <label className="block text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
           {label}
         </label>
         {showModeSwitch && (
@@ -69,7 +69,7 @@ export function ExamStatusSelector({
             <button
               type="button"
               onClick={() => setViewMode(viewMode === "dropdown" ? "cards" : "dropdown")}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-mono text-[#9CA3AF] hover:text-white bg-[#10131B] border border-[#252A37] transition cursor-pointer"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] text-[#9CA3AF] hover:text-white bg-[#10131B] border border-[#252A37] transition cursor-pointer"
               title={viewMode === "dropdown" ? "Chuyển sang dạng Thẻ chọn nhanh" : "Chuyển sang dạng Menu thả xuống"}
             >
               {viewMode === "dropdown" ? (
@@ -132,7 +132,7 @@ export function ExamStatusSelector({
             <div className="flex items-center gap-2 shrink-0 ml-2">
               <span
                 className={cn(
-                  "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider border",
+                  "px-2.5 py-0.5 rounded-full text-[10px] font-heading font-bold uppercase tracking-wider border",
                   isPublished
                     ? "bg-[#232836] text-[#E5E7EB] border-[#2A2F3C]"
                     : "bg-[#161A24] text-[#9CA3AF] border-[#252A37]"

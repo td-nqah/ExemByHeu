@@ -691,7 +691,7 @@ export default function ExamCreatePage() {
               value={clipboardText}
               onChange={(e) => setClipboardText(e.target.value)}
               placeholder={`Dán (Ctrl+V) toàn bộ nội dung đề thi vào đây...\n\nVí dụ:\nCâu 1: Giao thức nào hoạt động ở tầng Transport trong mô hình OSI?\nA. HTTP   B. TCP   C. IP   D. ARP\nĐáp án: B\n\nCâu 2 (Tự luận - 3 điểm): Phân tích sự khác nhau giữa TCP và UDP...`}
-              className="w-full rounded-2xl border border-[#252A37] bg-[#10131B] p-4 font-mono text-xs leading-relaxed text-white placeholder-[#8B93A5] focus:border-white focus:outline-none"
+              className="w-full rounded-2xl border border-[#252A37] bg-[#10131B] p-4 text-xs leading-relaxed text-white placeholder-[#8B93A5] focus:border-white focus:outline-none"
             />
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-1">
@@ -877,7 +877,7 @@ export default function ExamCreatePage() {
                   >
                     <span>Xáo trộn thứ tự câu hỏi</span>
                     {isShuffled && (
-                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#232836] text-white border border-[#2A2F3C] font-mono">
+                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#232836] text-white border border-[#2A2F3C] font-semibold">
                         BẬT (ACTIVE)
                       </span>
                     )}

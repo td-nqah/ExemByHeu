@@ -594,7 +594,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                               </span>
                               {/* Badge số lượng đề thi */}
                               {item.badge !== undefined && (
-                                <span className="ml-auto flex items-center justify-center min-w-[22px] h-5 px-2 rounded-full bg-rose-600 text-white text-xs font-bold font-mono shadow-xs group-data-[collapsible=icon]:hidden relative z-10">
+                                <span className="ml-auto flex items-center justify-center min-w-[22px] h-5 px-2 rounded-full bg-rose-600 text-white text-xs font-bold tabular-nums shadow-xs group-data-[collapsible=icon]:hidden relative z-10">
                                   {item.badge}
                                 </span>
                               )}

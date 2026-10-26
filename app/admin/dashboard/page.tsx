@@ -226,7 +226,7 @@ export default function AdminDashboardPage() {
           <div>
             <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight flex flex-wrap items-center gap-3">
               Quản lý Đề thi
-              <span className="text-[11px] bg-[#10131B] text-[#9CA3AF] border border-[#252A37] px-3 py-1 rounded-full font-mono">
+              <span className="text-[11px] bg-[#10131B] text-[#9CA3AF] border border-[#252A37] px-3 py-1 rounded-full font-medium">
                 Admin Panel
               </span>
             </h1>
@@ -236,7 +236,7 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#252A37] bg-[#10131B] px-4 py-2 text-xs text-[#9CA3AF] font-mono select-none">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#252A37] bg-[#10131B] px-4 py-2 text-xs text-[#9CA3AF] select-none">
               <BookOpen className="h-4 w-4 text-white shrink-0" />
               <span>Tổng số đề: <strong className="text-white font-bold tabular-nums">{loading ? "..." : exams.length}</strong></span>
             </div>
@@ -255,7 +255,7 @@ export default function AdminDashboardPage() {
           <div>
             <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
               Ngân hàng Đề thi
-              <span className="text-xs font-bold font-mono text-white bg-[#10131B] border border-[#252A37] px-2.5 py-0.5 rounded-full">
+              <span className="text-xs font-bold text-white bg-[#10131B] border border-[#252A37] px-2.5 py-0.5 rounded-full tabular-nums">
                 {sortedExams.length}{searchKeyword ? `/${exams.length}` : ""} đề
               </span>
             </h2>
@@ -412,11 +412,11 @@ export default function AdminDashboardPage() {
                         </span>
                       </td>
 
-                      <td className="whitespace-nowrap py-3.5 px-4 text-[#9CA3AF] font-mono tabular-nums">
+                      <td className="whitespace-nowrap py-3.5 px-4 text-[#9CA3AF] tabular-nums font-medium">
                         {formatDuration(exam.duration_minutes)}
                       </td>
 
-                      <td className="py-3.5 px-4 text-[#9CA3AF] font-mono tabular-nums">
+                      <td className="py-3.5 px-4 text-[#9CA3AF] tabular-nums">
                         <span className="text-white font-bold">{questionCount}</span> câu
                       </td>
 
@@ -433,7 +433,7 @@ export default function AdminDashboardPage() {
                             type="button"
                             onClick={() => handleToggleSingleShuffle(exam.id)}
                             className={cn(
-                              "inline-flex items-center gap-1 text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-full border transition cursor-pointer select-none",
+                              "inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-0.5 rounded-full border transition cursor-pointer select-none",
                               exam.is_shuffled
                                 ? "bg-[#232836] text-white border-[#2A2F3C]"
                                 : "bg-[#10131B] text-[#9CA3AF] border-[#252A37] hover:text-white hover:border-white/30"
@@ -537,7 +537,7 @@ export default function AdminDashboardPage() {
                 {/* Title */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+                    <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
                       Tiêu đề bài thi (Title) *
                     </label>
                     <span className="text-[11px] text-[#9CA3AF]">
@@ -559,7 +559,7 @@ export default function AdminDashboardPage() {
 
                 {/* Sub-category Dropdown */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+                  <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
                     Chọn Danh mục con (Sub-category selection) *
                   </label>
                   <PopoverSelect
@@ -595,7 +595,7 @@ export default function AdminDashboardPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Duration */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5] block">
+                          <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5] block">
                             Thời lượng làm bài (phút)
                           </label>
                           <NumberStepper
@@ -610,7 +610,7 @@ export default function AdminDashboardPage() {
 
                         {/* Question Count */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5] block">
+                          <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5] block">
                             Số lượng câu hỏi
                           </label>
                           <NumberStepper
@@ -627,7 +627,7 @@ export default function AdminDashboardPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Question Type */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+                          <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
                             Dạng câu hỏi
                           </label>
                           <PopoverSelect<"multiple_choice" | "essay" | "mixed">
@@ -646,7 +646,7 @@ export default function AdminDashboardPage() {
 
                         {/* Expiration / Scheduled Date-Time */}
                         <div className="space-y-1.5">
-                          <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+                          <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
                             Hạn thi / Lên lịch
                           </label>
                           <input
@@ -660,7 +660,7 @@ export default function AdminDashboardPage() {
 
                       {/* Status action: Save draft vs Publish */}
                       <div className="space-y-1.5 pt-1">
-                        <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+                        <label className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
                           Trạng thái xuất bản
                         </label>
                         <div className="grid grid-cols-2 gap-2">

@@ -98,7 +98,7 @@ export default function KnowledgeHubPage() {
           </div>
         </div>
 
-        <div className="text-xs text-[#9CA3AF] font-mono">
+        <div className="text-xs text-[#9CA3AF] tabular-nums">
           Tổng số: <span className="font-bold text-white">{materials.length}</span> bài viết
         </div>
       </div>
@@ -132,7 +132,7 @@ export default function KnowledgeHubPage() {
             >
               <div className="flex items-center gap-2 truncate">
                 <FolderTree className="h-4 w-4 text-white shrink-0" />
-                <span className="text-[#8B93A5] font-normal font-mono">Danh mục:</span>
+                <span className="text-[#8B93A5] font-normal">Danh mục:</span>
                 <span className="font-bold text-white truncate">
                   {selectedCategory === "all"
                     ? "Tất cả học phần"
@@ -142,7 +142,7 @@ export default function KnowledgeHubPage() {
                 </span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
-                <span className="px-2 py-0.5 rounded-full bg-[#161A24] border border-[#252A37] text-[10px] font-mono text-[#E5E7EB]">
+                <span className="px-2 py-0.5 rounded-full bg-[#161A24] border border-[#252A37] text-[10px] tabular-nums text-[#E5E7EB]">
                   {selectedCategory === "all"
                     ? materials.length
                     : selectedCategory === "none"
@@ -168,7 +168,7 @@ export default function KnowledgeHubPage() {
                     transition={{ duration: 0.15 }}
                     className="absolute left-0 right-0 top-full mt-2 z-40 rounded-3xl border border-[#252A37] bg-[#0A0C12] p-2 shadow-2xl space-y-1.5 min-w-[280px]"
                   >
-                    <div className="px-3 py-1.5 text-[11px] font-mono font-bold text-[#8B93A5] uppercase tracking-wider flex items-center justify-between border-b border-[#1B1F2A] pb-2">
+                    <div className="px-3 py-1.5 text-[11px] font-heading font-bold text-[#8B93A5] uppercase tracking-wider flex items-center justify-between border-b border-[#1B1F2A] pb-2">
                       <span>Chọn học phần đào tạo</span>
                       <span>{categories.length + 2} phân loại</span>
                     </div>
@@ -205,7 +205,7 @@ export default function KnowledgeHubPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <span className={cn(
-                          "px-2 py-0.5 rounded-full text-[11px] font-mono font-bold",
+                          "px-2 py-0.5 rounded-full text-[11px] tabular-nums font-bold",
                           selectedCategory === "all" ? "bg-black/10 text-black" : "bg-[#10131B] border border-[#252A37] text-[#E5E7EB]"
                         )}>
                           {materials.length} bài
@@ -248,7 +248,7 @@ export default function KnowledgeHubPage() {
                       </div>
                       <div className="flex items-center gap-2 shrink-0 ml-2">
                         <span className={cn(
-                          "px-2 py-0.5 rounded-full text-[11px] font-mono font-bold",
+                          "px-2 py-0.5 rounded-full text-[11px] tabular-nums font-bold",
                           selectedCategory === "none" ? "bg-black/10 text-black" : "bg-[#10131B] border border-[#252A37] text-[#E5E7EB]"
                         )}>
                           {materials.filter((m) => m.category_id === "none" || m.category_slug === "none" || !m.category_id).length} bài
@@ -293,14 +293,14 @@ export default function KnowledgeHubPage() {
                                 <p className={cn("text-xs font-bold truncate transition", isSelected ? "text-black" : "text-white")}>
                                   {c.name}
                                 </p>
-                                <p className={cn("text-[10px] font-mono truncate", isSelected ? "text-slate-600" : "text-[#9CA3AF]")}>
+                                <p className={cn("text-[10px] truncate", isSelected ? "text-slate-600" : "text-[#9CA3AF]")}>
                                   Mã: {c.slug}
                                 </p>
                               </div>
                             </div>
                             <div className="flex items-center gap-2 shrink-0 ml-2">
                               <span className={cn(
-                                "px-2 py-0.5 rounded-full text-[11px] font-mono font-bold",
+                                "px-2 py-0.5 rounded-full text-[11px] tabular-nums font-bold",
                                 isSelected ? "bg-black/10 text-black" : "bg-[#10131B] border border-[#252A37] text-[#E5E7EB]"
                               )}>
                                 {count} bài
@@ -321,7 +321,7 @@ export default function KnowledgeHubPage() {
 
           {/* Sort Selector */}
           <div className="md:col-span-3 flex items-center justify-end gap-2 text-xs">
-            <span className="text-[#8B93A5] font-mono text-xs shrink-0 uppercase tracking-wider">Sắp xếp:</span>
+            <span className="text-[#8B93A5] font-heading font-semibold text-xs shrink-0 uppercase tracking-wider">Sắp xếp:</span>
             <PopoverSelect<"newest" | "title">
               value={sortBy}
               onChange={(val) => setSortBy(val)}
@@ -433,7 +433,7 @@ export default function KnowledgeHubPage() {
               {/* Card Footer */}
               <div className="mt-5 pt-3.5 border-t border-[#252A37] flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-[#9CA3AF] max-w-[140px] truncate">
-                  <div className="h-6 w-6 rounded-lg bg-[#10131B] text-white flex items-center justify-center font-bold text-[10px] border border-[#252A37] shrink-0 font-mono">
+                  <div className="h-6 w-6 rounded-lg bg-[#10131B] text-white flex items-center justify-center font-bold text-[10px] border border-[#252A37] shrink-0">
                     {(item.author || "B")[0]}
                   </div>
                   <span className="truncate">{item.author || "Ban Giảng huấn"}</span>

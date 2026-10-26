@@ -345,7 +345,7 @@ function AdminExamPreviewContent() {
             >
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-[#252A37] pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs font-bold text-white font-mono">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs font-bold text-white tabular-nums">
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">

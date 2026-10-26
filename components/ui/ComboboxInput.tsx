@@ -155,9 +155,9 @@ export function ComboboxInput({
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="absolute left-0 right-0 top-full mt-2 z-50 rounded-3xl border border-[#252A37] bg-[#0A0C12] p-2 shadow-2xl max-h-56 overflow-y-auto custom-scrollbar"
           >
-            <div className="px-3 py-1 text-[10px] font-mono font-bold text-[#8B93A5] uppercase tracking-wider border-b border-[#1B1F2A] flex items-center justify-between pb-1.5">
+            <div className="px-3 py-1 text-[10px] font-heading font-bold text-[#8B93A5] uppercase tracking-wider border-b border-[#1B1F2A] flex items-center justify-between pb-1.5">
               <span>Đề thi có sẵn ({filteredSuggestions.length})</span>
-              <span className="font-mono text-[9px] text-[#8B93A5] lowercase">
+              <span className="text-[9px] text-[#8B93A5] lowercase">
                 Gõ để lọc hoặc chọn
               </span>
             </div>

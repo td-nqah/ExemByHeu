@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Plus_Jakarta_Sans, Be_Vietnam_Pro, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
 import { SystemBackground } from "@/components/layout/SystemBackground";
@@ -19,13 +19,6 @@ const beVietnamPro = Be_Vietnam_Pro({
   weight: ["400", "500", "600", "700"],
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin", "vietnamese"],
-  display: "swap",
-  weight: ["500", "600", "700"],
-});
-
 export const metadata: Metadata = {
   title: {
     default: "ExamByHeu - Nền tảng Thi thử Trực tuyến",
@@ -42,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${plusJakartaSans.variable} ${beVietnamPro.variable} ${jetBrainsMono.variable} dark scroll-smooth h-full antialiased`}
+      className={`${plusJakartaSans.variable} ${beVietnamPro.variable} dark scroll-smooth h-full antialiased`}
     >
       <body className="min-h-screen bg-transparent font-body text-white antialiased selection:bg-white selection:text-black relative overflow-x-hidden custom-scrollbar">
         {/* Dark Starry Night Background */}

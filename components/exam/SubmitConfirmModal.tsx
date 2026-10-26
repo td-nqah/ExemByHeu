@@ -74,7 +74,7 @@ export function SubmitConfirmModal({
             </div>
 
             {/* Status Box */}
-            <div className="mb-5 rounded-2xl border border-[#252A37] bg-[#10131B] p-4 font-mono text-xs">
+            <div className="mb-5 rounded-2xl border border-[#252A37] bg-[#10131B] p-4 text-xs tabular-nums">
               <div className="flex items-center justify-between py-1">
                 <span className="text-[#8B93A5] uppercase tracking-wider">Tổng số câu hỏi:</span>
                 <span className="font-bold text-white">{totalQuestions} câu</span>

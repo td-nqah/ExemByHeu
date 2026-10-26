@@ -95,7 +95,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="mb-2 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2A2F3C] bg-[#10131B] px-3 py-1 text-[11px] font-mono text-[#9CA3AF]">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2A2F3C] bg-[#10131B] px-3 py-1 text-[11px] tabular-nums text-[#9CA3AF]">
                 <Calendar className="h-3 w-3 text-[#8B93A5]" />
                 {formatDate(submission.submitted_at)}
               </span>
@@ -123,18 +123,18 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
           <div className="flex items-center gap-4 rounded-2xl border border-[#252A37] bg-[#10131B] p-4">
             <div className="text-right">
               <p className="text-[10px] font-heading font-bold uppercase tracking-wide text-[#8B93A5]">Tổng điểm</p>
-              <p className="text-2xl font-black text-white font-mono">
+              <p className="text-2xl font-black text-white tabular-nums">
                 {submission.total_score}
               </p>
             </div>
             <div className="h-8 w-px bg-[#252A37]" />
             <div className="space-y-0.5 text-xs text-[#9CA3AF]">
               <p>
-                Trắc nghiệm: <span className="font-bold text-white font-mono">{submission.mcq_score}</span>
+                Trắc nghiệm: <span className="font-bold text-white tabular-nums">{submission.mcq_score}</span>
               </p>
               <p>
                 Tự luận:{" "}
-                <span className="font-bold text-white font-mono">
+                <span className="font-bold text-white tabular-nums">
                   {submission.essay_score !== null ? submission.essay_score : "Chờ chấm"}
                 </span>
               </p>
@@ -165,7 +165,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
             >
               <div className="mb-4 flex items-center justify-between border-b border-[#252A37] pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs font-mono font-bold text-white">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs font-bold text-white tabular-nums">
                     {index + 1}
                   </span>
                   <span className="text-xs font-bold text-white">
@@ -226,18 +226,18 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                     let rowStyle =
                       "border-[#252A37] bg-[#10131B] text-[#9CA3AF]";
                     let letterBadgeStyle =
-                      "border border-[#252A37] bg-[#161A24] text-[#8B93A5] font-mono";
+                      "border border-[#252A37] bg-[#161A24] text-[#8B93A5]";
 
                     if (isCorrectAnswer) {
                       rowStyle =
                         "border-emerald-500/60 bg-emerald-950/30 text-emerald-300 font-semibold";
                       letterBadgeStyle =
-                        "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300 font-mono";
+                        "border border-emerald-400/50 bg-emerald-500/20 text-emerald-300";
                     } else if (isCandidateChoice && !isCorrectAnswer) {
                       rowStyle =
                         "border-rose-500/60 bg-rose-950/30 text-rose-300 font-semibold";
                       letterBadgeStyle =
-                        "border border-rose-400/50 bg-rose-500/20 text-rose-300 font-mono";
+                        "border border-rose-400/50 bg-rose-500/20 text-rose-300";
                     }
 
                     return (
@@ -285,7 +285,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="mb-1.5 block text-[11px] font-mono uppercase tracking-wider text-[#8B93A5]">
+                    <label className="mb-1.5 block text-[11px] uppercase tracking-wider text-[#8B93A5] font-semibold">
                       Bài làm của sinh viên
                     </label>
                     <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">

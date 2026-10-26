@@ -33,7 +33,7 @@
 @theme {
   --font-heading: var(--font-heading), "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-body: var(--font-body), "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-mono), "JetBrains Mono", Consolas, "SF Mono", monospace;
+  --font-mono: var(--font-body), "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
   --font-sans: var(--font-body), "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
 
   --color-background: var(--background);

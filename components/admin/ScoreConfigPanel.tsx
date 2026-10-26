@@ -126,7 +126,7 @@ export function ScoreConfigPanel({
               <HelpCircle className="h-3.5 w-3.5 text-[#8B93A5]" />
               <span>Điểm mỗi câu trắc nghiệm</span>
             </label>
-            <span className="rounded-full bg-[#161A24] border border-[#252A37] px-2.5 py-0.5 text-[10px] font-mono font-semibold text-[#E5E7EB]">
+            <span className="rounded-full bg-[#161A24] border border-[#252A37] px-2.5 py-0.5 text-[10px] tabular-nums font-semibold text-[#E5E7EB]">
               {mcqCount} câu
             </span>
           </div>
@@ -141,19 +141,19 @@ export function ScoreConfigPanel({
               disabled={mcqCount === 0}
               className="w-full justify-between"
             />
-            <span className="shrink-0 text-xs font-mono font-medium text-[#8B93A5]">đ/câu</span>
+            <span className="shrink-0 text-xs tabular-nums font-medium text-[#8B93A5]">đ/câu</span>
           </div>
 
           {/* Quick MCQ Presets */}
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-[#8B93A5] font-mono">Chọn nhanh:</span>
+            <span className="text-[10px] text-[#8B93A5]">Chọn nhanh:</span>
             {[0.2, 0.25, 0.5, 1.0].map((val) => (
               <button
                 key={val}
                 type="button"
                 disabled={mcqCount === 0}
                 onClick={() => handleMcqChange(String(val))}
-                className={`rounded-full border px-2.5 py-0.5 text-[10px] font-mono font-semibold transition disabled:opacity-40 cursor-pointer ${
+                className={`rounded-full border px-2.5 py-0.5 text-[10px] tabular-nums font-semibold transition disabled:opacity-40 cursor-pointer ${
                   parseFloat(mcqInput) === val
                     ? "border-transparent bg-white text-black"
                     : "border-[#252A37] bg-[#161A24] text-slate-300 hover:border-white/30 hover:text-white"
@@ -172,7 +172,7 @@ export function ScoreConfigPanel({
               <FileText className="h-3.5 w-3.5 text-[#8B93A5]" />
               <span>Điểm mỗi câu tự luận</span>
             </label>
-            <span className="rounded-full bg-[#161A24] border border-[#252A37] px-2.5 py-0.5 text-[10px] font-mono font-semibold text-[#E5E7EB]">
+            <span className="rounded-full bg-[#161A24] border border-[#252A37] px-2.5 py-0.5 text-[10px] tabular-nums font-semibold text-[#E5E7EB]">
               {essayCount} câu
             </span>
           </div>
@@ -187,19 +187,19 @@ export function ScoreConfigPanel({
               disabled={essayCount === 0}
               className="w-full justify-between"
             />
-            <span className="shrink-0 text-xs font-mono font-medium text-[#8B93A5]">đ/câu</span>
+            <span className="shrink-0 text-xs tabular-nums font-medium text-[#8B93A5]">đ/câu</span>
           </div>
 
           {/* Quick Essay Presets */}
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-[#8B93A5] font-mono">Chọn nhanh:</span>
+            <span className="text-[10px] text-[#8B93A5]">Chọn nhanh:</span>
             {[1.0, 2.0, 3.0, 5.0].map((val) => (
               <button
                 key={val}
                 type="button"
                 disabled={essayCount === 0}
                 onClick={() => handleEssayChange(String(val))}
-                className={`rounded-full border px-2.5 py-0.5 text-[10px] font-mono font-semibold transition disabled:opacity-40 cursor-pointer ${
+                className={`rounded-full border px-2.5 py-0.5 text-[10px] tabular-nums font-semibold transition disabled:opacity-40 cursor-pointer ${
                   parseFloat(essayInput) === val
                     ? "border-transparent bg-white text-black"
                     : "border-[#252A37] bg-[#161A24] text-slate-300 hover:border-white/30 hover:text-white"
@@ -218,19 +218,19 @@ export function ScoreConfigPanel({
               <Calculator className="h-3.5 w-3.5 text-white" />
               <span>Tổng điểm toàn bài</span>
             </span>
-            <span className="rounded-full border border-[#2A2F3C] bg-[#232836] px-2.5 py-0.5 text-[10px] font-mono font-bold text-white">
+            <span className="rounded-full border border-[#2A2F3C] bg-[#232836] px-2.5 py-0.5 text-[10px] font-bold text-white">
               Tự động tính
             </span>
           </div>
 
-          <div className="my-2 flex items-baseline gap-1.5 font-mono">
+          <div className="my-2 flex items-baseline gap-1.5 tabular-nums">
             <span className="text-3xl font-black tracking-tight text-white">
               {formattedTotal}
             </span>
             <span className="text-xs font-semibold text-[#8B93A5]">điểm</span>
           </div>
 
-          <div className="border-t border-[#252A37] pt-2 text-[11px] text-[#9CA3AF] font-mono">
+          <div className="border-t border-[#252A37] pt-2 text-[11px] text-[#9CA3AF] tabular-nums">
             <span>Trắc nghiệm: </span>
             <strong className="text-white">{formattedMcqTotal}đ</strong>
             <span className="mx-1.5 text-[#252A37]">•</span>
@@ -265,7 +265,7 @@ export function ScoreConfigPanel({
                   key={preset}
                   type="button"
                   onClick={() => setDesiredTotalInput(String(preset))}
-                  className={`rounded-full border px-2.5 py-1 text-[10px] font-mono font-bold transition cursor-pointer ${
+                  className={`rounded-full border px-2.5 py-1 text-[10px] tabular-nums font-bold transition cursor-pointer ${
                     parseFloat(desiredTotalInput) === preset
                       ? "border-transparent bg-white text-black"
                       : "border-[#252A37] bg-[#161A24] text-slate-300 hover:border-white/30 hover:text-white"

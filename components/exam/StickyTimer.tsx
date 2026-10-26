@@ -57,7 +57,7 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
         <span className="text-[10px] font-heading font-semibold uppercase tracking-wide text-[#8B93A5] leading-none mb-0.5">
           Thời gian còn lại
         </span>
-        <span className="font-mono text-xs font-bold tracking-normal tabular-nums text-white">
+        <span className="text-xs font-bold tracking-normal tabular-nums text-white">
           {formatTimeLeft(secondsLeft)}
         </span>
       </div>

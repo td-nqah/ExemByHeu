@@ -33,12 +33,12 @@ export function QuestionNav({
         </h3>
         <div className="flex items-center gap-2">
           {flaggedCount > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#232836] text-amber-300 border border-[#2A2F3C] px-2 py-0.5 text-[10px] font-mono font-bold">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#232836] text-amber-300 border border-[#2A2F3C] px-2 py-0.5 text-[10px] tabular-nums font-bold">
               <Flag className="h-2.5 w-2.5 fill-current" />
               {flaggedCount} cờ
             </span>
           )}
-          <span className="text-xs font-mono font-bold text-white">
+          <span className="text-xs tabular-nums font-bold text-white">
             {answeredCount}/{total} ({progressPercent}%)
           </span>
         </div>
@@ -74,7 +74,7 @@ export function QuestionNav({
             <button
               key={question.id}
               onClick={() => onSelectQuestion(question.id)}
-              className={`relative flex h-9 w-full items-center justify-center rounded-xl text-xs font-mono font-bold transition ${
+              className={`relative flex h-9 w-full items-center justify-center rounded-xl text-xs tabular-nums font-bold transition ${
                 isActive
                   ? "ring-2 ring-white ring-offset-2 ring-offset-[#05070D] scale-105 z-10"
                   : ""

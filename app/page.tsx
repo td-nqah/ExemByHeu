@@ -218,7 +218,7 @@ export default function LoginPage() {
 
             {/* Subdued Watermark */}
             <div className="pt-6 sm:pt-8 text-center select-none">
-              <span className="font-mono text-xs sm:text-[11px] tracking-[0.25em] uppercase text-slate-500 hover:text-slate-300 transition-colors duration-300 cursor-default">
+              <span className="font-heading text-xs sm:text-[11px] font-semibold tracking-[0.25em] uppercase text-slate-500 hover:text-slate-300 transition-colors duration-300 cursor-default">
                 MADE BY HEU
               </span>
             </div>

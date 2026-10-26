@@ -303,7 +303,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           <div className="flex items-center gap-1.5 sm:gap-2.5">
             <div className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3.5 py-1.5 text-xs font-medium text-[#9CA3AF]">
               <ListChecks className="h-3.5 w-3.5 text-white" />
-              <span>Tổng <strong className="font-mono font-bold text-white">{questions.length}</strong> câu</span>
+              <span>Tổng <strong className="tabular-nums font-bold text-white">{questions.length}</strong> câu</span>
             </div>
 
             <div className="hidden lg:inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3.5 py-1.5 text-xs font-medium text-[#9CA3AF]">
@@ -321,7 +321,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               >
                 <Send className="h-3.5 w-3.5 text-[#05070D]" />
                 <span>Nộp bài thi</span>
-                <span className="hidden sm:inline font-mono font-bold text-slate-700">({answeredCount}/{questions.length})</span>
+                <span className="hidden sm:inline tabular-nums font-bold text-slate-700">({answeredCount}/{questions.length})</span>
               </button>
             )}
           </div>
@@ -386,7 +386,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 >
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-[#252A37] pb-3">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs font-mono font-bold text-white">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs tabular-nums font-bold text-white">
                         {index + 1}
                       </span>
                       <span className="text-xs font-bold text-white">
@@ -422,7 +422,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                       </button>
 
                       <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-medium text-[#9CA3AF]">
-                        Điểm: <span className="font-bold text-white font-mono tabular-nums">{question.max_score}</span>
+                        Điểm: <span className="font-bold text-white tabular-nums">{question.max_score}</span>
                       </span>
 
                       {isAnswered ? (
@@ -482,7 +482,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                             />
                             <span
                               className={cn(
-                                "flex shrink-0 items-center justify-center rounded-xl font-bold font-mono transition h-6 w-6 text-xs",
+                                "flex shrink-0 items-center justify-center rounded-xl font-bold transition h-6 w-6 text-xs",
                                 isSelected
                                   ? "bg-white text-black shadow-sm"
                                   : "border border-[#252A37] bg-[#161A24] text-[#8B93A5]"
@@ -504,7 +504,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         placeholder="Nhập phần trả lời tự luận của bạn vào đây..."
                         className="w-full rounded-2xl border border-[#252A37] bg-[#10131B] p-4 text-xs sm:text-sm text-white placeholder-[#8B93A5] focus:border-white/50 focus:outline-none transition-colors"
                       />
-                      <div className="flex items-center justify-between text-[11px] text-[#8B93A5] font-mono">
+                      <div className="flex items-center justify-between text-[11px] text-[#8B93A5] tabular-nums">
                         <span>
                           Số từ: <span className="font-bold text-white">{currentVal.trim() ? currentVal.trim().split(/\s+/).length : 0}</span> từ
                         </span>
@@ -531,7 +531,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                       <div />
                     )}
 
-                    <span className="text-xs font-mono font-medium text-[#8B93A5]">
+                    <span className="text-xs tabular-nums font-medium text-[#8B93A5]">
                       Câu <span className="font-bold text-white">{index + 1}</span> / <span>{questions.length}</span>
                     </span>
 
@@ -630,7 +630,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               </p>
 
               {/* Summary Pill Box */}
-              <div className="my-5 space-y-2.5 rounded-2xl border border-[#252A37] bg-[#10131B] p-4 text-left font-mono">
+              <div className="my-5 space-y-2.5 rounded-2xl border border-[#252A37] bg-[#10131B] p-4 text-left tabular-nums">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-[#8B93A5] uppercase tracking-wider">Trắc nghiệm:</span>
                   <span className="font-bold text-emerald-400">

@@ -240,7 +240,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
               </span>
             )}
 
-            <span className="text-xs text-[#9CA3AF] font-mono flex items-center gap-1">
+            <span className="text-xs text-[#9CA3AF] tabular-nums flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5 text-[#8B93A5]" />
               {formattedDate}
             </span>
@@ -257,7 +257,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           )}
 
           <div className="flex items-center gap-3 pt-2 text-xs text-[#9CA3AF]">
-            <div className="h-8 w-8 rounded-full bg-[#10131B] border border-[#252A37] text-white flex items-center justify-center font-bold text-xs font-mono shadow-md">
+            <div className="h-8 w-8 rounded-full bg-[#10131B] border border-[#252A37] text-white flex items-center justify-center font-bold text-xs shadow-md">
               {(material.author || "B")[0]}
             </div>
             <div>
@@ -310,7 +310,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
                       href={`/knowledge/${rel.id}`}
                       className="p-5 rounded-2xl border border-[#252A37] bg-[#161A24] hover:border-white/30 hover:bg-[#141824] transition block group hover:-translate-y-0.5 shadow-lg"
                     >
-                      <span className="text-[10px] font-bold text-[#8B93A5] font-mono uppercase tracking-wider">
+                      <span className="text-[10px] font-heading font-bold text-[#8B93A5] uppercase tracking-wider">
                         {rel.category_name || "Chuyên đề"}
                       </span>
                       <h4 className="font-heading text-xs sm:text-sm font-bold text-white group-hover:text-slate-200 transition mt-1 line-clamp-2">
@@ -330,11 +330,11 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
           <aside className="lg:col-span-4 hidden lg:block sticky top-20 space-y-6">
             <div className="rounded-3xl border border-[#252A37] bg-[#161A24] p-5 shadow-xl">
               <div className="flex items-center justify-between pb-3 border-b border-[#252A37]">
-                <h3 className="text-xs font-mono font-bold text-[#8B93A5] uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-xs font-heading font-bold text-[#8B93A5] uppercase tracking-wider flex items-center gap-2">
                   <List className="h-4 w-4 text-white" />
                   Mục lục bài viết (TOC)
                 </h3>
-                <span className="text-[11px] text-white font-mono font-bold">
+                <span className="text-[11px] text-white tabular-nums font-bold">
                   {Math.round(readingProgress)}%
                 </span>
               </div>
@@ -368,7 +368,7 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
 
               <div className="mt-4 pt-3 border-t border-[#252A37] text-[11px] text-[#8B93A5] flex items-center justify-between">
                 <span>Cuộn để theo dõi tiến độ</span>
-                <span className="text-white font-mono font-semibold">Tự do ôn tập</span>
+                <span className="text-white font-semibold">Tự do ôn tập</span>
               </div>
             </div>
           </aside>

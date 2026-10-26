@@ -140,14 +140,14 @@ export default function HistoryPage() {
                         "hover:bg-[#191e2b]"
                       )}
                     >
-                      <td className="py-4 px-3 text-center font-bold font-mono text-[#8b93a5] text-xs">
+                      <td className="py-4 px-3 text-center font-bold tabular-nums text-[#8b93a5] text-xs">
                         #{idx + 1}
                       </td>
                       <td className="max-w-xs truncate py-4 px-4 font-semibold text-white group-hover:text-slate-200 transition-colors">
                         {sub.exam?.title || "Đề thi thử trực tuyến"}
                       </td>
                       <td className="whitespace-nowrap py-4 px-4 text-slate-400">
-                        <span className="flex items-center gap-1.5 font-mono">
+                        <span className="flex items-center gap-1.5 tabular-nums">
                           <Calendar className="h-3.5 w-3.5 text-[#8b93a5]" />
                           {formatDate(sub.submitted_at)}
                         </span>
@@ -165,17 +165,17 @@ export default function HistoryPage() {
                           </span>
                         )}
                       </td>
-                      <td className="py-4 px-4 font-mono font-semibold text-slate-200">
+                      <td className="py-4 px-4 font-semibold text-slate-200 tabular-nums">
                         {sub.mcq_score}
                         {maxMcq > 0 ? ` / ${maxMcq}` : ""} điểm
                       </td>
-                      <td className="py-4 px-4 font-mono text-slate-300">
+                      <td className="py-4 px-4 text-slate-300 tabular-nums">
                         {sub.essay_score !== null
                           ? `${sub.essay_score}${maxEssay > 0 ? ` / ${maxEssay}` : ""} điểm`
                           : "Đang chờ chấm"}
                       </td>
                       <td className="py-4 px-4">
-                        <span className="text-sm font-extrabold text-white font-mono">
+                        <span className="text-sm font-extrabold text-white tabular-nums">
                           {sub.total_score}
                           {maxTotal > 0 ? ` / ${maxTotal}` : ""} điểm
                         </span>
@@ -219,7 +219,7 @@ export default function HistoryPage() {
                 <div key={sub.id} className="p-4 space-y-3">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <span className="text-xs font-bold font-mono text-[#8b93a5] mr-1.5">
+                      <span className="text-xs font-bold text-[#8b93a5] mr-1.5 tabular-nums">
                         #{idx + 1}
                       </span>
                       <h3 className="text-sm font-bold text-white inline font-heading">
@@ -239,23 +239,23 @@ export default function HistoryPage() {
                     )}
                   </div>
 
-                  <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
                     <Calendar className="h-3 w-3 text-[#8b93a5]" />
                     <span>{formatDate(sub.submitted_at)}</span>
                   </div>
 
                   <div className="grid grid-cols-3 gap-2 rounded-2xl bg-[#10131b] border border-[#252a37] p-2.5 text-center text-xs">
                     <div>
-                      <p className="text-[10px] text-[#8b93a5] font-mono uppercase">Trắc nghiệm</p>
-                      <p className="font-bold text-white font-mono text-xs">{sub.mcq_score}{maxMcq > 0 ? `/${maxMcq}` : ""}</p>
+                      <p className="text-[10px] text-[#8b93a5] uppercase font-semibold">Trắc nghiệm</p>
+                      <p className="font-bold text-white tabular-nums text-xs">{sub.mcq_score}{maxMcq > 0 ? `/${maxMcq}` : ""}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] text-[#8b93a5] font-mono uppercase">Tự luận</p>
-                      <p className="font-bold text-white font-mono text-xs">{sub.essay_score !== null ? `${sub.essay_score}${maxEssay > 0 ? `/${maxEssay}` : ""}` : "—"}</p>
+                      <p className="text-[10px] text-[#8b93a5] uppercase font-semibold">Tự luận</p>
+                      <p className="font-bold text-white tabular-nums text-xs">{sub.essay_score !== null ? `${sub.essay_score}${maxEssay > 0 ? `/${maxEssay}` : ""}` : "—"}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] text-[#8b93a5] font-mono uppercase">Tổng điểm</p>
-                      <p className="font-bold text-white font-mono text-xs">{sub.total_score}{maxTotal > 0 ? `/${maxTotal}` : ""}</p>
+                      <p className="text-[10px] text-[#8b93a5] uppercase font-semibold">Tổng điểm</p>
+                      <p className="font-bold text-white tabular-nums text-xs">{sub.total_score}{maxTotal > 0 ? `/${maxTotal}` : ""}</p>
                     </div>
                   </div>
 
