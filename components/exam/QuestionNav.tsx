@@ -28,7 +28,7 @@ export function QuestionNav({
   return (
     <div className="bg-[#161A24] border border-[#252A37] rounded-3xl p-5 shadow-xl">
       <div className="mb-3.5 flex items-center justify-between border-b border-[#252A37] pb-3">
-        <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+        <h3 className="text-xs font-heading font-bold uppercase tracking-wide text-[#8B93A5]">
           Mục lục câu hỏi
         </h3>
         <div className="flex items-center gap-2">

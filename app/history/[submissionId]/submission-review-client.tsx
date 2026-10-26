@@ -122,7 +122,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
 
           <div className="flex items-center gap-4 rounded-2xl border border-[#252A37] bg-[#10131B] p-4">
             <div className="text-right">
-              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#8B93A5]">Tổng điểm</p>
+              <p className="text-[10px] font-heading font-bold uppercase tracking-wide text-[#8B93A5]">Tổng điểm</p>
               <p className="text-2xl font-black text-white font-mono">
                 {submission.total_score}
               </p>
@@ -144,7 +144,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
       </motion.div>
 
       <div className="space-y-6">
-        <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+        <h2 className="text-xs font-heading font-bold uppercase tracking-wide text-[#8B93A5]">
           Chi tiết từng câu hỏi ({answers.length} câu)
         </h2>
 

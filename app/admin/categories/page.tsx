@@ -271,7 +271,7 @@ export default function AdminCategoriesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-[#252A37] bg-[#10131B] text-[#8B93A5] font-mono uppercase tracking-wider font-bold">
+                <tr className="border-b border-[#252A37] bg-[#10131B] text-[#8B93A5] font-heading uppercase tracking-wide text-xs font-bold">
                   <th className="py-3.5 px-4">Tên Học phần</th>
                   <th className="py-3.5 px-4">Mã Học phần (Slug)</th>
                   <th className="py-3.5 px-4">Biểu tượng đại diện</th>

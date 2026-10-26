@@ -101,7 +101,7 @@ export default function HistoryPage() {
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#10131b] text-[#8b93a5] uppercase font-mono tracking-wider text-xs border-b border-[#252a37]">
+              <thead className="bg-[#10131b] text-[#8b93a5] uppercase font-heading tracking-wide text-xs font-bold border-b border-[#252a37]">
                 <tr>
                   <th className="py-3.5 px-3 font-semibold w-12 text-center">#</th>
                   <th className="py-3.5 px-4 font-semibold">Tên đề thi</th>

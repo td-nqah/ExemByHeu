@@ -485,7 +485,7 @@ export default function AdminMaterialsPage() {
                     transition={{ duration: 0.15 }}
                     className="absolute left-0 right-0 top-full mt-2 z-40 rounded-3xl border border-[#252A37] bg-[#0A0C12] p-2.5 shadow-2xl space-y-1.5 min-w-[280px]"
                   >
-                    <div className="px-3 py-1.5 text-[11px] font-bold text-[#8B93A5] uppercase tracking-wider font-mono flex items-center justify-between border-b border-[#252A37] pb-2">
+                    <div className="px-3 py-1.5 text-[11px] font-bold text-[#8B93A5] uppercase tracking-wide font-heading flex items-center justify-between border-b border-[#252A37] pb-2">
                       <span>Chọn danh mục học phần</span>
                       <span>{categories.length + 2} phân loại</span>
                     </div>

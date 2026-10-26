@@ -372,7 +372,7 @@ export default function AdminDashboardPage() {
         ) : (
           <div className="max-h-[560px] overflow-y-auto overflow-x-auto custom-scrollbar">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#10131B] text-[#8B93A5] font-mono uppercase tracking-wider text-[11px] font-bold border-b border-[#252A37] sticky top-0 z-10 backdrop-blur-md">
+              <thead className="bg-[#10131B] text-[#8B93A5] font-heading uppercase tracking-wide text-xs font-bold border-b border-[#252A37] sticky top-0 z-10 backdrop-blur-md">
                 <tr>
                   <th className="py-3.5 px-4 font-bold">TÊN ĐỀ THI</th>
                   <th className="py-3.5 px-4 font-bold">DANH MỤC</th>

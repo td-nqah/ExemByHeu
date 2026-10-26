@@ -54,7 +54,7 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
       )}
 
       <div className="flex flex-col">
-        <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#8B93A5]">
+        <span className="text-[10px] font-heading font-semibold uppercase tracking-wide text-[#8B93A5] leading-none mb-0.5">
           Thời gian còn lại
         </span>
         <span className="font-mono text-xs font-bold tracking-normal tabular-nums text-white">

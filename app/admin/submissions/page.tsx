@@ -128,7 +128,7 @@ export default function AdminSubmissionsListPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#10131B] text-[#8B93A5] uppercase tracking-wider text-[11px] font-mono font-bold border-b border-[#252A37]">
+              <thead className="bg-[#10131B] text-[#8B93A5] uppercase tracking-wide text-xs font-heading font-bold border-b border-[#252A37]">
                 <tr>
                   <th className="py-3.5 px-3 font-bold w-12 text-center">#</th>
                   <th className="py-3.5 px-4 font-bold">Sinh viên</th>

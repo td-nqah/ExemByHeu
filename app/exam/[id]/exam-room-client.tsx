@@ -301,12 +301,12 @@ export function ExamRoomClient({ examId }: { examId: string }) {
 
           {/* Right Side: Questions badge + User + Submit CTA */}
           <div className="flex items-center gap-1.5 sm:gap-2.5">
-            <div className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3.5 py-1.5 text-xs font-mono font-semibold text-[#9CA3AF]">
+            <div className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3.5 py-1.5 text-xs font-medium text-[#9CA3AF]">
               <ListChecks className="h-3.5 w-3.5 text-white" />
-              <span>Tổng {questions.length} câu</span>
+              <span>Tổng <strong className="font-mono font-bold text-white">{questions.length}</strong> câu</span>
             </div>
 
-            <div className="hidden lg:inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3.5 py-1.5 text-xs font-mono font-medium text-[#9CA3AF]">
+            <div className="hidden lg:inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3.5 py-1.5 text-xs font-medium text-[#9CA3AF]">
               <User className="h-3.5 w-3.5 text-white" />
               <span>{getCurrentUser()?.username || "User"}</span>
             </div>
@@ -342,11 +342,20 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               />
 
               <div className="bg-[#161A24] border border-[#252A37] rounded-3xl p-5 text-xs text-[#9CA3AF] shadow-xl">
-                <p className="mb-2 font-bold font-mono uppercase tracking-wider text-white">Quy chế phòng thi:</p>
-                <ul className="list-disc space-y-1.5 pl-4 text-[11px] text-[#9CA3AF] leading-relaxed">
-                  <li>Điểm trắc nghiệm được hệ thống tự động ghi nhận khi nộp bài.</li>
-                  <li>Bài làm tự luận được lưu trữ và chấm điểm theo barem đánh giá học phần.</li>
-                  <li>Khi hết thời gian, hệ thống tự động khóa và gửi bài làm.</li>
+                <p className="mb-3 font-heading font-bold uppercase tracking-wide text-white text-xs">Quy chế phòng thi:</p>
+                <ul className="space-y-2 text-xs text-[#9CA3AF] leading-relaxed list-none p-0 m-0">
+                  <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
+                    <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
+                    <span>Điểm trắc nghiệm được hệ thống tự động ghi nhận khi nộp bài.</span>
+                  </li>
+                  <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
+                    <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
+                    <span>Bài làm tự luận được lưu trữ và chấm điểm theo barem đánh giá học phần.</span>
+                  </li>
+                  <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
+                    <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
+                    <span>Khi hết thời gian, hệ thống tự động khóa và gửi bài làm.</span>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -412,16 +421,16 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         <span>{isFlagged ? "Đang đánh dấu" : "Đánh dấu xem lại"}</span>
                       </button>
 
-                      <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-mono text-[#9CA3AF]">
-                        Điểm: <span className="font-bold text-white">{question.max_score}</span>
+                      <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-medium text-[#9CA3AF]">
+                        Điểm: <span className="font-bold text-white font-mono tabular-nums">{question.max_score}</span>
                       </span>
 
                       {isAnswered ? (
-                        <span className="rounded-full border border-[#2A2F3C] bg-[#232836] px-3 py-1 text-[11px] font-semibold text-white">
+                        <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold text-emerald-400">
                           Đã làm
                         </span>
                       ) : (
-                        <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-mono text-[#8B93A5]">
+                        <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-medium text-[#8B93A5]">
                           Chưa làm
                         </span>
                       )}
