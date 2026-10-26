@@ -80,7 +80,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </div>
               <span className="brand-logo font-heading text-[17px] font-bold tracking-tight select-none">
                 <span className="text-white">Exam</span>
-                <span className="text-[#9ca3af]">ByHeu</span>
+                <span className="text-[#818cf8]">ByHeu</span>
               </span>
             </Link>
           </div>

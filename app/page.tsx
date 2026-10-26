@@ -77,7 +77,7 @@ export default function LoginPage() {
             <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-white" />
             <span>
               <span className="text-white font-bold">Exam</span>
-              <span className="text-[#9ca3af] font-bold">ByHeu</span>{" "}
+              <span className="text-[#818cf8] font-bold">ByHeu</span>{" "}
               <span className="text-slate-400">v2.0 • Khảo thí &amp; Đánh giá Học phần</span>
             </span>
           </div>

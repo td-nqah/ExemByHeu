@@ -25,7 +25,7 @@ function renderHighlightedExamTitle(title: string) {
         <>
           <span className="text-white font-bold">{prefix}</span>{" "}
           {before && <span className="text-white font-extrabold">{before}</span>}
-          <span className="text-[#818cf8] font-extrabold">{deText}</span>
+          <span className="text-[#9ca3af] font-extrabold">{deText}</span>
           {after && <span className="text-white font-extrabold">{after}</span>}
         </>
       );
@@ -50,7 +50,7 @@ function renderHighlightedExamTitle(title: string) {
         <>
           <span className="text-white font-bold">{prefix}</span>{" "}
           {before && <span className="text-white font-extrabold">{before}</span>}
-          <span className="text-[#818cf8] font-extrabold">{deText}</span>
+          <span className="text-[#9ca3af] font-extrabold">{deText}</span>
           {after && <span className="text-white font-extrabold">{after}</span>}
         </>
       );
@@ -69,7 +69,7 @@ function renderHighlightedExamTitle(title: string) {
     return (
       <>
         {before && <span className="text-white font-extrabold">{before}</span>}
-        <span className="text-[#818cf8] font-extrabold">{deText}</span>
+        <span className="text-[#9ca3af] font-extrabold">{deText}</span>
         {after && <span className="text-white font-extrabold">{after}</span>}
       </>
     );
@@ -167,8 +167,8 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
                 </span>
               </span>
             ) : (
-              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-indigo-950/40 text-indigo-300 border border-indigo-500/25 select-none">
-                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
+              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium bg-[#10131b] text-[#9ca3af] border border-[#252a37] select-none">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#6b7280] shrink-0" />
                 <span>Chưa làm</span>
               </span>
             )}
