@@ -150,7 +150,7 @@ export default function AdminSubmissionsListPage() {
                       key={sub.id}
                       className="hover:bg-indigo-500/[0.06] transition-colors"
                     >
-                      <td className="py-3.5 px-3 text-center font-mono font-bold text-indigo-400">
+                      <td className="py-3.5 px-3 text-center font-bold font-heading text-indigo-400 text-xs">
                         #{idx + 1}
                       </td>
                       <td className="whitespace-nowrap py-3.5 px-4 font-bold text-white">

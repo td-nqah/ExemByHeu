@@ -117,7 +117,7 @@ export default function HomePage() {
             <span>{greetingInfo.greeting} • {greetingInfo.label}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 text-xs text-emerald-300 bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full font-mono backdrop-blur-md shadow-xs">
+          <span className="inline-flex items-center gap-1.5 text-xs text-emerald-300 bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full font-medium backdrop-blur-md shadow-xs">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
             <span>Hà Nội (GMT+7)</span>
           </span>
@@ -169,7 +169,7 @@ export default function HomePage() {
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-[#818cf8] shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                 <BookOpen className="h-5 w-5" />
               </div>
-              <span className="font-mono text-2xl font-bold text-white tabular-nums drop-shadow-sm">
+              <span className="font-heading text-2xl font-extrabold text-white tabular-nums drop-shadow-sm">
                 {examsCount}
               </span>
             </div>
@@ -190,7 +190,7 @@ export default function HomePage() {
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.2)]">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
-              <span className="font-mono text-2xl font-bold text-emerald-400 tabular-nums drop-shadow-sm">
+              <span className="font-heading text-2xl font-extrabold text-emerald-400 tabular-nums drop-shadow-sm">
                 {submissionsCount}
               </span>
             </div>

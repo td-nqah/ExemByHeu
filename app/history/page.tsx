@@ -135,7 +135,7 @@ export default function HistoryPage() {
                       key={sub.id}
                       className="group border-b border-white/5 hover:bg-indigo-950/20 transition-colors"
                     >
-                      <td className="py-4 px-3 text-center font-mono font-bold text-indigo-400">
+                      <td className="py-4 px-3 text-center font-bold font-heading text-indigo-400 text-xs">
                         #{idx + 1}
                       </td>
                       <td className="max-w-xs truncate py-4 px-4 font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">
@@ -214,7 +214,7 @@ export default function HistoryPage() {
                 <div key={sub.id} className="p-4 space-y-3">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <span className="text-[10px] font-mono font-bold text-indigo-400 mr-1.5">
+                      <span className="text-xs font-bold font-heading text-indigo-400 mr-1.5">
                         #{idx + 1}
                       </span>
                       <h4 className="text-sm font-bold text-white inline">

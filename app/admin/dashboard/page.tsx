@@ -270,7 +270,7 @@ export default function AdminDashboardPage() {
           <div>
             <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
               Ngân hàng Đề thi
-              <span className="text-xs font-mono font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/25 px-2 py-0.5 rounded-full">
+              <span className="text-xs font-bold font-heading text-indigo-400 bg-indigo-500/10 border border-indigo-500/25 px-2 py-0.5 rounded-full">
                 {sortedExams.length}{searchKeyword ? `/${exams.length}` : ""} đề
               </span>
             </h2>
@@ -447,7 +447,7 @@ export default function AdminDashboardPage() {
                             type="button"
                             onClick={() => handleToggleSingleShuffle(exam.id)}
                             className={cn(
-                              "inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-md border font-mono transition cursor-pointer select-none",
+                              "inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-md border transition cursor-pointer select-none",
                               exam.is_shuffled
                                 ? "bg-[#4f46e5]/20 text-indigo-300 border-[#4f46e5]/40 hover:bg-[#4f46e5]/30 shadow-[0_0_8px_rgba(79,70,229,0.2)]"
                                 : "bg-slate-900/50 text-slate-500 border-white/5 hover:text-slate-300 hover:border-white/10"

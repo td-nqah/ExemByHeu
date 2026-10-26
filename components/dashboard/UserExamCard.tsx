@@ -198,14 +198,14 @@ export function UserExamCard({ exam, submission }: UserExamCardProps) {
       {/* Bottom Row: Left Metadata (Time + Questions) & Right Pill Button */}
       <div className="mt-5 flex items-center justify-between gap-3 select-none">
         {/* Left: Time and Question Count with Icons */}
-        <div className="flex items-center gap-3 text-xs text-[#9ca3af] font-mono tabular-nums shrink-0">
+        <div className="flex items-center gap-3 text-xs text-slate-400 font-medium shrink-0">
           <span className="inline-flex items-center gap-1.5 shrink-0">
             <Clock className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
-            <span>{formatDuration(exam.duration_minutes)}</span>
+            <span className="text-slate-300">{formatDuration(exam.duration_minutes)}</span>
           </span>
           <span className="inline-flex items-center gap-1.5 shrink-0">
             <ClipboardList className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
-            <span>{questionCount} câu</span>
+            <span className="text-slate-300"><strong className="text-white font-semibold font-heading">{questionCount}</strong> câu</span>
           </span>
         </div>
 

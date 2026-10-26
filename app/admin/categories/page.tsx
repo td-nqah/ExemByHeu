@@ -217,18 +217,18 @@ export default function AdminCategoriesPage() {
       {/* 2. Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="obsidian-card rounded-2xl p-4 px-5">
-          <span className="text-xs text-indigo-300 uppercase tracking-wider font-semibold font-mono">Tổng số học phần</span>
-          <div className="mt-2 text-2xl font-bold text-white">{categories.length}</div>
+          <span className="text-[11px] text-indigo-300 uppercase tracking-wider font-bold">Tổng số học phần</span>
+          <div className="mt-2 text-3xl font-extrabold text-white font-heading tracking-tight">{categories.length}</div>
         </div>
         <div className="obsidian-card rounded-2xl p-4 px-5">
-          <span className="text-xs text-emerald-400 uppercase tracking-wider font-semibold font-mono">Đang kích hoạt (Active)</span>
-          <div className="mt-2 text-2xl font-bold text-emerald-400">
+          <span className="text-[11px] text-emerald-400 uppercase tracking-wider font-bold">Đang kích hoạt (Active)</span>
+          <div className="mt-2 text-3xl font-extrabold text-emerald-400 font-heading tracking-tight">
             {categories.filter((c) => c.status === "active").length}
           </div>
         </div>
         <div className="obsidian-card rounded-2xl p-4 px-5">
-          <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold font-mono">Đang ẩn (Hidden)</span>
-          <div className="mt-2 text-2xl font-bold text-slate-400">
+          <span className="text-[11px] text-slate-400 uppercase tracking-wider font-bold">Đang ẩn (Hidden)</span>
+          <div className="mt-2 text-3xl font-extrabold text-slate-300 font-heading tracking-tight">
             {categories.filter((c) => c.status === "hidden").length}
           </div>
         </div>
@@ -288,18 +288,18 @@ export default function AdminCategoriesPage() {
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono text-slate-300">
+                      <td className="py-3.5 px-4 text-slate-300">
                         <span className="px-2 py-0.5 rounded bg-indigo-950/50 border border-indigo-500/25 text-indigo-300 text-[11px] font-mono">
                           {cat.slug}
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4 text-slate-400 font-mono text-[11px]">
+                      <td className="py-3.5 px-4 text-slate-400 text-xs">
                         {cat.icon || "BookText"}
                       </td>
 
-                      <td className="py-3.5 px-4 text-center font-bold text-white font-mono">
-                        <span className="px-2 py-0.5 rounded-full bg-indigo-950/50 border border-indigo-500/25 text-white font-bold text-xs">
+                      <td className="py-3.5 px-4 text-center">
+                        <span className="px-2.5 py-0.5 rounded-full bg-indigo-950/50 border border-indigo-500/25 text-white font-bold font-heading text-xs">
                           {examCount}
                         </span>
                       </td>

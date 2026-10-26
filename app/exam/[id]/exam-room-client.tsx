@@ -325,7 +325,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               >
                 <Send className="h-3.5 w-3.5" />
                 <span>Nộp bài thi</span>
-                <span className="hidden sm:inline font-mono tabular-nums">({answeredCount}/{questions.length})</span>
+                <span className="hidden sm:inline font-semibold text-indigo-200">({answeredCount}/{questions.length})</span>
               </button>
             )}
           </div>
@@ -381,7 +381,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                 >
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400 font-mono tabular-nums">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/15 text-xs font-bold text-indigo-300 font-heading">
                         {index + 1}
                       </span>
                       <span className="text-xs font-bold text-white">
@@ -417,7 +417,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                       </button>
 
                       <span className="rounded-lg bg-slate-800/90 border border-slate-700/50 px-2.5 py-1 text-[11px] font-medium text-slate-300">
-                        Điểm: <span className="font-mono tabular-nums">{question.max_score}</span>
+                        Điểm: <span className="font-bold text-white font-heading">{question.max_score}</span>
                       </span>
 
                       {isAnswered ? (
@@ -477,7 +477,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                             />
                             <span
                               className={cn(
-                                "flex shrink-0 items-center justify-center rounded-full font-bold transition h-6 w-6 text-xs",
+                                "flex shrink-0 items-center justify-center rounded-full font-bold font-heading transition h-6 w-6 text-xs",
                                 isSelected
                                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
                                   : "border border-slate-700 bg-slate-800 text-slate-300"
@@ -499,11 +499,11 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         placeholder="Nhập phần trả lời tự luận của bạn vào đây..."
                         className="glass-input w-full rounded-xl p-4 font-body leading-relaxed text-xs sm:text-sm"
                       />
-                      <div className="flex items-center justify-between text-[11px] text-slate-400">
+                      <div className="flex items-center justify-between text-[11px] text-slate-400 font-medium">
                         <span>
-                          Số từ: <span className="font-mono tabular-nums">{currentVal.trim() ? currentVal.trim().split(/\s+/).length : 0}</span> từ
+                          Số từ: <span className="font-bold text-slate-200">{currentVal.trim() ? currentVal.trim().split(/\s+/).length : 0}</span> từ
                         </span>
-                        <span><span className="font-mono tabular-nums">{currentVal.length}</span> ký tự</span>
+                        <span><span className="font-bold text-slate-200">{currentVal.length}</span> ký tự</span>
                       </div>
                     </div>
                   )}
@@ -526,8 +526,8 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                       <div />
                     )}
 
-                    <span className="text-[11px] text-slate-500 font-mono">
-                      Câu {index + 1} / {questions.length}
+                    <span className="text-xs font-medium text-slate-400">
+                      Câu <span className="font-bold text-white font-heading">{index + 1}</span> / <span className="font-medium text-slate-300">{questions.length}</span>
                     </span>
 
                     {index < questions.length - 1 ? (
