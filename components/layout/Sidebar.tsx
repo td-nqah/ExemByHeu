@@ -288,11 +288,11 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
               <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
             </div>
 
-            {/* Brand Text: Exam Trắng - ByHeu Tím */}
+            {/* Brand Text: Exam Trắng - ByHeu Xám */}
             <div className="flex flex-col min-w-0">
               <span className="brand-logo font-heading text-[19px] font-black tracking-tight leading-none select-none">
                 <span className="text-white">Exam</span>
-                <span className="text-[#818cf8]">ByHeu</span>
+                <span className="text-[#9ca3af]">ByHeu</span>
               </span>
               <span className="text-[11px] font-medium text-[#9ca3af] leading-none mt-1">
                 Hệ thống đánh giá
