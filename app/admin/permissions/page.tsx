@@ -410,9 +410,9 @@ export default function AdminPermissionsPage() {
             <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-500/40 text-rose-200 flex items-start gap-3 shadow-sm">
               <AlertTriangle className="h-5 w-5 text-rose-400 shrink-0 mt-0.5" />
               <div>
-                <h4 className="font-bold text-sm text-rose-300">
+                <h3 className="font-bold text-sm text-rose-300">
                   CẢNH BÁO: Dung lượng bộ nhớ đã vượt quá 80% ({storagePercentage}%)!
-                </h4>
+                </h3>
                 <p className="text-xs text-rose-300/80 mt-0.5">
                   Bộ nhớ đã dùng {usedStorageMB} MB trên tổng {maxStorageMB} MB. Vui lòng dọn dẹp các bài nộp cũ hoặc tệp đính kèm để tránh gián đoạn các kỳ thi tiếp theo.
                 </p>
@@ -423,7 +423,7 @@ export default function AdminPermissionsPage() {
               <div className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-4.5 w-4.5 text-emerald-400 shrink-0" />
                 <div>
-                  <h4 className="font-semibold text-xs text-white">Dung lượng trong ngưỡng an toàn</h4>
+                  <h3 className="font-semibold text-xs text-white">Dung lượng trong ngưỡng an toàn</h3>
                   <p className="text-[11px] text-[#9ca3af]">
                     Đang sử dụng <strong className="text-white font-mono">{isScanning ? "..." : usedStorageMB} MB</strong> / {maxStorageMB} MB ({isScanning ? "..." : storagePercentage}% khả dụng).
                   </p>

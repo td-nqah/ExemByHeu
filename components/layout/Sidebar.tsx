@@ -61,7 +61,7 @@ function SidebarActivePill() {
   return (
     <motion.span
       layoutId="sidebar-flying-pill"
-      className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#5852d6] to-[#4f46e5] shadow-[0_4px_20px_rgba(88,82,214,0.5),0_0_12px_rgba(129,140,248,0.35)] border border-[#818cf8]/40 pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
+      className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 shadow-md shadow-indigo-600/30 border border-indigo-400/25 pointer-events-none group-data-[collapsible=icon]:rounded-full z-0"
       transition={{
         type: "spring",
         stiffness: 300,
@@ -76,7 +76,7 @@ function SidebarSubActivePill() {
   return (
     <motion.span
       layoutId="sidebar-sub-flying-pill"
-      className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#5852d6]/80 to-[#4f46e5]/80 border border-[#818cf8]/30 shadow-[0_2px_12px_rgba(88,82,214,0.35)] pointer-events-none z-0"
+      className="absolute inset-0 rounded-lg bg-indigo-600/60 border border-indigo-400/25 shadow-xs pointer-events-none z-0"
       transition={{
         type: "spring",
         stiffness: 320,
@@ -570,7 +570,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                               </span>
                               {/* Badge số lượng đề thi */}
                               {item.badge !== undefined && (
-                                <span className="ml-auto flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-[#f43f5e] text-white text-[11px] font-bold shadow-sm group-data-[collapsible=icon]:hidden relative z-10">
+                                <span className="ml-auto flex items-center justify-center min-w-[22px] h-5 px-2 rounded-full bg-rose-600 text-white text-xs font-bold font-heading shadow-xs group-data-[collapsible=icon]:hidden relative z-10">
                                   {item.badge}
                                 </span>
                               )}
@@ -649,12 +649,12 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       <SidebarFooter className="border-t border-[#1f2937]/70 p-2.5 group-data-[collapsible=icon]:px-1 group-data-[collapsible=icon]:py-2 group-data-[collapsible=icon]:items-center">
         {user ? (
           <div className="flex flex-col gap-2 w-full group-data-[collapsible=icon]:items-center">
-            {/* User Profile Card */}
-            <div className="flex items-center justify-between rounded-xl bg-[#0b0f19]/80 border border-[#1f2937] shadow-sm p-2 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:w-full">
+            {/* User Profile Info */}
+            <div className="flex items-center justify-between px-2 py-1.5 w-full group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center">
               <div className="flex items-center gap-2.5 min-w-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full">
                 <div
                   title={`${formatDisplayName(user.username)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1e293b] border border-[#334155] font-bold text-white text-xs select-none shadow-sm cursor-default group-data-[collapsible=icon]:mx-auto"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-800 text-slate-200 font-bold text-xs select-none shadow-xs cursor-default group-data-[collapsible=icon]:mx-auto"
                 >
                   {formatDisplayName(user.username).charAt(0).toUpperCase()}
                 </div>
@@ -662,7 +662,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                   <p className="truncate text-xs font-semibold text-white">
                     {formatDisplayName(user.username)}
                   </p>
-                  <p className="text-[10px] text-[#9ca3af] truncate">
+                  <p className="text-[11px] text-slate-400 truncate">
                     {user.role === "admin" ? "Quản trị viên" : "Người dùng"}
                   </p>
                 </div>

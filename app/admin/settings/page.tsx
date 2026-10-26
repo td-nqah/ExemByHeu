@@ -267,9 +267,9 @@ export default function AdminSettingsPage() {
                   <UserPlus className="h-5 w-5 text-[#6366f1]" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white">
+                  <h2 className="text-sm font-bold text-white">
                     Tạo tài khoản mới
-                  </h3>
+                  </h2>
                   <p className="text-xs text-[#9ca3af]">
                     Cấp phát tài khoản đăng nhập cho Quản trị viên hoặc User
                   </p>
@@ -418,9 +418,9 @@ export default function AdminSettingsPage() {
                   <KeyRound className="h-5 w-5 text-[#6366f1]" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white">
+                  <h2 className="text-sm font-bold text-white">
                     Đổi Username &amp; Mật khẩu
-                  </h3>
+                  </h2>
                   <p className="text-xs text-[#9ca3af]">
                     Đổi tên đăng nhập hoặc đặt lại mật khẩu cho bất kỳ tài khoản nào trong hệ thống
                   </p>
