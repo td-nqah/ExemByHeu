@@ -117,12 +117,12 @@ function UserDashboardContent() {
           ========================================================================= */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2.5">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight">
             {activeCategory
               ? `Học phần: ${currentCategoryObj.label}`
               : "Bài đánh giá học phần khả dụng"}
-          </h2>
-          <p className="mt-1 text-xs text-[#9ca3af] max-w-xl">
+          </h1>
+          <p className="mt-1.5 text-xs sm:text-sm text-[#9ca3af] max-w-xl leading-relaxed">
             {activeCategory
               ? `Đang lọc các bài đánh giá thuộc học phần "${currentCategoryObj.label}". Chọn đề bên dưới để bắt đầu làm bài.`
               : "Chọn bài đánh giá bên dưới để bắt đầu làm bài. Thời gian làm bài sẽ được tính tự động."}

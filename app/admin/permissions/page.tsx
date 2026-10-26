@@ -380,11 +380,11 @@ export default function AdminPermissionsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[#252A37]">
         <div>
-          <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-3">
-            <Sliders className="h-7 w-7 text-white" />
+          <h1 className="font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight flex items-center gap-3">
+            <Sliders className="h-7 w-7 text-white shrink-0" />
             <span>Quản trị Tài khoản & Phân quyền Học vụ</span>
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-[#9CA3AF] max-w-xl">
+          <p className="mt-1.5 text-xs sm:text-sm text-[#9CA3AF] max-w-xl leading-relaxed">
             Giám sát tài nguyên lưu trữ học vụ, quản trị quyền truy cập và bảo mật thiết bị sinh viên.
           </p>
         </div>

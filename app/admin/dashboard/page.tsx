@@ -224,13 +224,13 @@ export default function AdminDashboardPage() {
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white flex flex-wrap items-center gap-3">
+            <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight flex flex-wrap items-center gap-3">
               Quản lý Đề thi
               <span className="text-[11px] bg-[#10131B] text-[#9CA3AF] border border-[#252A37] px-3 py-1 rounded-full font-mono">
                 Admin Panel
               </span>
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-[#9CA3AF] max-w-xl">
+            <p className="mt-1.5 text-xs sm:text-sm text-[#9CA3AF] max-w-xl leading-relaxed">
               Tổng quan hệ thống ExamByHeu, quản lý ngân hàng đề thi và phân loại danh mục.
             </p>
           </div>

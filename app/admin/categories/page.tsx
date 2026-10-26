@@ -196,13 +196,13 @@ export default function AdminCategoriesPage() {
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white flex flex-wrap items-center gap-3">
+            <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight flex flex-wrap items-center gap-3">
               Quản lý Danh mục Học phần
               <span className="text-xs bg-[#10131B] text-[#9CA3AF] border border-[#252A37] px-3 py-1 rounded-full font-mono">
                 Course Management
               </span>
             </h1>
-            <p className="mt-1 text-sm text-[#9CA3AF] max-w-xl">
+            <p className="mt-1.5 text-xs sm:text-sm text-[#9CA3AF] max-w-xl leading-relaxed">
               Tạo mới, cập nhật hoặc điều chỉnh trạng thái hiển thị các danh mục học phần trong chương trình đào tạo.
             </p>
           </div>

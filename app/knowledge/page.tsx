@@ -89,10 +89,10 @@ export default function KnowledgeHubPage() {
             <BookOpen className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
+            <h1 className="font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight flex items-center gap-2">
               Tài liệu ôn tập
             </h1>
-            <p className="text-xs text-[#9CA3AF] mt-0.5">
+            <p className="text-xs sm:text-sm text-[#9CA3AF] mt-1.5 leading-relaxed">
               Hệ thống học liệu, đề cương chi tiết và tài liệu tham khảo theo học phần
             </p>
           </div>

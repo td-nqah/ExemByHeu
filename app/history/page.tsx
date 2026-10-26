@@ -51,10 +51,10 @@ export default function HistoryPage() {
         className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center"
       >
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white font-heading">
+          <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight">
             Lịch sử Đánh giá Học phần
           </h1>
-          <p className="mt-1 text-sm text-slate-400 max-w-xl">
+          <p className="mt-1.5 text-xs sm:text-sm text-[#9ca3af] max-w-xl leading-relaxed">
             Lưu trữ 20 bài đánh giá gần nhất theo cơ chế xoay vòng dữ liệu, kèm điểm số và nhận xét học vụ chi tiết.
           </p>
         </div>

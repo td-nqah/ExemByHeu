@@ -112,7 +112,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               )}
             </div>
 
-            <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+            <h1 className="font-heading text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight">
               {submission.exam?.title || "Bài kiểm tra"}
             </h1>
             <p className="mt-1 text-xs text-[#9CA3AF]">

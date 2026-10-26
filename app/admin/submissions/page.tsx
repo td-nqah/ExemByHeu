@@ -49,10 +49,10 @@ export default function AdminSubmissionsListPage() {
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+        <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white/95 to-white/40 leading-tight">
           Quản lý Bài nộp & Đánh giá Học phần
         </h1>
-        <p className="mt-1 text-xs sm:text-sm text-[#9CA3AF]">
+        <p className="mt-1.5 text-xs sm:text-sm text-[#9CA3AF] max-w-2xl leading-relaxed">
           Theo dõi bài nộp của sinh viên, xác nhận điểm trắc nghiệm và đánh giá tự luận (hệ thống lưu trữ 20 bài nộp gần nhất).
         </p>
       </div>

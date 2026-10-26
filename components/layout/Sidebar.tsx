@@ -34,7 +34,7 @@ import {
   LogOut,
   User,
   Menu,
-  Shield,
+  FileStack,
   FileText,
   BarChart2,
   GraduationCap,
@@ -443,7 +443,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                         className="relative flex items-center gap-2.5 w-full"
                       >
                         {activeNavKey === "/dashboard" && <SidebarActivePill />}
-                        <Shield
+                        <FileStack
                           className={cn(
                             "h-4 w-4 shrink-0 transition-colors relative z-10",
                             activeNavKey === "/dashboard"
