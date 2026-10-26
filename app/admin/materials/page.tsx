@@ -401,7 +401,7 @@ export default function AdminMaterialsPage() {
             }}
             className="inline-flex items-center gap-2 rounded-full bg-[#10131B] hover:bg-[#161A24] border border-[#2A2F3C] text-slate-200 hover:text-white font-medium px-4 py-2 text-xs transition-colors cursor-pointer"
           >
-            <FolderPlus className="h-4 w-4 text-white shrink-0" />
+            <FolderPlus className="h-4 w-4 text-indigo-400 shrink-0" />
             <span>Phân loại học phần</span>
           </button>
 
@@ -441,7 +441,7 @@ export default function AdminMaterialsPage() {
               )}
             >
               <div className="flex items-center gap-2 truncate">
-                <FolderTree className={cn("h-4 w-4 shrink-0", selectedCategory !== "all" ? "text-black" : "text-white")} />
+                <FolderTree className={cn("h-4 w-4 shrink-0", selectedCategory !== "all" ? "text-black" : "text-indigo-400")} />
                 <span className={cn("font-normal", selectedCategory !== "all" ? "text-slate-700" : "text-[#8B93A5]")}>Học phần:</span>
                 <span className="font-bold truncate">
                   {selectedCategory === "all"

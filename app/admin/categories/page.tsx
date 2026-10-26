@@ -249,7 +249,7 @@ export default function AdminCategoriesPage() {
       >
         <div className="p-4 sm:p-5 border-b border-[#252A37] flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <FolderTree className="h-4 w-4 text-white" />
+            <FolderTree className="h-4 w-4 text-indigo-400" />
             <span>Danh sách Học phần ({categories.length})</span>
           </h2>
           <span className="text-xs text-[#9CA3AF]">Đồng bộ với phân hệ khảo thí và điều hướng</span>

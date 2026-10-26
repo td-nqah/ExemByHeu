@@ -395,7 +395,7 @@ export default function AdminPermissionsPage() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <HardDrive className="h-4.5 w-4.5 text-white" />
+            <HardDrive className="h-4.5 w-4.5 text-indigo-400" />
             <span>1. Giám sát Dung lượng Lưu trữ Học vụ (Đo lường từng MB)</span>
           </h2>
           <span className="text-xs text-[#9CA3AF] font-sans tracking-normal">
@@ -472,7 +472,7 @@ export default function AdminPermissionsPage() {
             <div className="p-4 rounded-2xl bg-[#10131B] border border-[#252A37] flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                  <Database className="h-4 w-4 text-white" />
+                  <Database className="h-4 w-4 text-indigo-400" />
                   <span>Dữ liệu Bảng (DB)</span>
                 </div>
                 <span className="font-mono text-sm font-bold text-white">
@@ -497,7 +497,7 @@ export default function AdminPermissionsPage() {
             <div className="p-4 rounded-2xl bg-[#10131B] border border-[#252A37] flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                  <FolderArchive className="h-4 w-4 text-white" />
+                  <FolderArchive className="h-4 w-4 text-indigo-400" />
                   <span>Tệp lưu trữ (Storage)</span>
                 </div>
                 <span className="font-mono text-sm font-bold text-white">
@@ -522,7 +522,7 @@ export default function AdminPermissionsPage() {
             <div className="p-4 rounded-2xl bg-[#10131B] border border-[#252A37] flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                  <Layers className="h-4 w-4 text-white" />
+                  <Layers className="h-4 w-4 text-indigo-400" />
                   <span>Bộ nhớ đệm (Cache)</span>
                 </div>
                 <span className="font-mono text-sm font-bold text-white">
@@ -583,7 +583,7 @@ export default function AdminPermissionsPage() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <ShieldCheck className="h-4.5 w-4.5 text-white" />
+            <ShieldCheck className="h-4.5 w-4.5 text-indigo-400" />
             <span>2. Quản trị Tài khoản &amp; Giám sát Truy cập Trực tuyến</span>
           </h2>
           <span className="text-xs text-[#9CA3AF]">Kiểm soát bảo mật tài khoản học vụ và theo dõi sinh viên trực tuyến thời gian thực</span>
@@ -594,8 +594,8 @@ export default function AdminPermissionsPage() {
           <div className="relative rounded-3xl border border-[#252A37] bg-[#161A24] p-6 space-y-4 flex flex-col justify-between h-full shadow-xl">
             <div className="flex items-center justify-between pb-4 border-b border-[#252A37]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#10131B] border border-[#252A37] text-white shadow-sm">
-                  <ShieldCheck className="h-5 w-5" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#10131B] border border-[#252A37] text-indigo-400 shadow-sm">
+                  <ShieldCheck className="h-5 w-5 text-indigo-400" />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white flex items-center gap-2">
@@ -769,8 +769,8 @@ export default function AdminPermissionsPage() {
           <div className="relative rounded-3xl border border-[#252A37] bg-[#161A24] p-6 space-y-4 flex flex-col justify-between h-full shadow-xl">
             <div className="flex items-center justify-between pb-4 border-b border-[#252A37]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#10131B] border border-[#252A37] text-white shadow-sm">
-                  <Radio className="h-5 w-5" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#10131B] border border-[#252A37] text-indigo-400 shadow-sm">
+                  <Radio className="h-5 w-5 text-indigo-400" />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white flex items-center gap-2">
