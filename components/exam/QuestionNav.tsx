@@ -67,7 +67,7 @@ export function QuestionNav({
               "border-amber-400 bg-amber-500/20 text-amber-300 ring-1 ring-amber-400/50 shadow-[0_0_12px_rgba(251,191,36,0.25)] hover:bg-amber-500/30";
           } else if (isAnswered) {
             btnColor =
-              "border-[#2A2F3C] bg-[#232836] text-white hover:border-white/30";
+              "border-white bg-[#161A24] text-white hover:border-white/80 shadow-xs";
           }
 
           return (
@@ -108,10 +108,10 @@ export function QuestionNav({
       </div>
 
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-[#252A37] pt-3 text-[11px] text-[#8B93A5] font-mono">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-[#252A37] pt-3 text-[11px] text-[#8B93A5] font-sans">
         <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-[#232836] border border-[#2A2F3C]" />
-          <span>Đã làm</span>
+          <span className="h-2.5 w-2.5 rounded-sm bg-[#161A24] border border-white" />
+          <span className="text-white font-medium">Đã làm</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-sm border border-amber-400 bg-amber-500/30" />

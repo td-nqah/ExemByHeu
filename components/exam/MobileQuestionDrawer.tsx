@@ -150,7 +150,7 @@ export function MobileQuestionDrawer({
               if (isFlagged) {
                 btnStyle = "border-amber-400 bg-amber-500/20 text-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.25)] font-bold";
               } else if (isAnswered) {
-                btnStyle = "border-[#2A2F3C] bg-[#232836] text-white font-bold";
+                btnStyle = "border-white bg-[#161A24] text-white font-bold shadow-xs";
               }
 
               return (
@@ -186,11 +186,11 @@ export function MobileQuestionDrawer({
         </div>
 
         {/* Legend & Safe Footer */}
-        <div className="border-t border-[#252A37] bg-[#0A0C12] px-5 pt-3 pb-6 text-[11px] text-[#8B93A5] font-mono">
+        <div className="border-t border-[#252A37] bg-[#0A0C12] px-5 pt-3 pb-6 text-[11px] text-[#8B93A5] font-sans">
           <div className="flex items-center justify-around gap-2">
             <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-sm bg-[#232836] border border-[#2A2F3C]" />
-              <span className="text-white">Đã làm</span>
+              <span className="h-2.5 w-2.5 rounded-sm bg-[#161A24] border border-white" />
+              <span className="text-white font-medium">Đã làm</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="h-2.5 w-2.5 rounded-sm border border-amber-400 bg-amber-500/30" />
