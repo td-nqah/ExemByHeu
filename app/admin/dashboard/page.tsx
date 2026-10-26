@@ -264,7 +264,7 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            {/* Nút Bật/Tắt Trộn Đề (đồng bộ UX kích thước với 2 card bên cạnh) */}
+            {/* Nút Bật/Tắt Đảo Câu Hỏi (đồng bộ UX kích thước với 2 card bên cạnh) */}
             <div
               className={cn(
                 "inline-flex items-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-950/40 px-3.5 py-2 text-xs select-none transition-colors",
@@ -272,7 +272,7 @@ export default function AdminDashboardPage() {
               )}
             >
               <Shuffle className="h-4 w-4 text-[#6366f1] shrink-0" />
-              <span className="font-medium text-slate-200">Trộn đề thi</span>
+              <span className="font-medium text-slate-200">Đảo thứ tự câu hỏi</span>
 
               {/* Toggle Switch */}
               <button
@@ -285,7 +285,7 @@ export default function AdminDashboardPage() {
                   "relative ml-0.5 inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50",
                   shuffledCount > 0 ? "bg-[#4f46e5]" : "bg-slate-700"
                 )}
-                title="Bật/Tắt chế độ trộn đề cho toàn bộ đề thi"
+                title="Bật/Tắt chế độ đảo thứ tự câu hỏi cho toàn bộ đề thi"
               >
                 <span
                   className={cn(
@@ -400,10 +400,10 @@ export default function AdminDashboardPage() {
                                 ? "bg-[#4f46e5]/20 text-indigo-300 border-[#4f46e5]/40 hover:bg-[#4f46e5]/30 shadow-[0_0_8px_rgba(79,70,229,0.2)]"
                                 : "bg-slate-900/50 text-slate-500 border-white/5 hover:text-slate-300 hover:border-white/10"
                             )}
-                            title={exam.is_shuffled ? "Đề này đang bật trộn (bấm để tắt nhanh)" : "Đề này đang tắt trộn (bấm để bật nhanh)"}
+                            title={exam.is_shuffled ? "Đề này đang bật đảo câu hỏi (bấm để tắt nhanh)" : "Đề này đang tắt đảo câu hỏi (bấm để bật nhanh)"}
                           >
                             <Shuffle className="h-2.5 w-2.5 shrink-0" />
-                            <span>{exam.is_shuffled ? "Trộn đề: Bật" : "Không trộn"}</span>
+                            <span>{exam.is_shuffled ? "Đảo câu: Bật" : "Cố định"}</span>
                           </button>
                         </div>
                       </td>

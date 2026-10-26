@@ -455,7 +455,7 @@ export function EditExamClient({ examId }: { examId: string }) {
                     htmlFor="shuffle-toggle-edit"
                     className="text-sm font-semibold text-white flex items-center gap-2 cursor-pointer"
                   >
-                    <span>Trộn ngẫu nhiên câu hỏi & đáp án</span>
+                    <span>Xáo trộn thứ tự câu hỏi</span>
                     {isShuffled && (
                       <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5852d6]/25 text-indigo-300 border border-[#5852d6]/40 font-mono">
                         BẬT (ACTIVE)
@@ -463,7 +463,7 @@ export function EditExamClient({ examId }: { examId: string }) {
                     )}
                   </label>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Tự động xáo trộn vị trí câu hỏi và các phương án A, B, C, D cho từng lượt đánh giá.
+                    Tự động đảo ngẫu nhiên vị trí các câu hỏi cho từng lượt đánh giá (giữ nguyên thứ tự các phương án A, B, C, D).
                   </p>
                 </div>
               </div>
