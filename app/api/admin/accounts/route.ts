@@ -4,8 +4,8 @@ import bcrypt from "bcryptjs";
 import { AccountSecurity } from "@/types/exam";
 
 const DEFAULT_SECURITY_MAP: Record<string, AccountSecurity> = {
-  adm: {
-    username: "adm",
+  admin: {
+    username: "admin",
     role: "admin",
     is_active: true,
     ips: ["127.0.0.1"],
@@ -98,13 +98,54 @@ export async function GET() {
     const sb = getSupabaseAdmin();
     const secMap = await getSecurityMap(sb);
 
-    // Ensure super admin account is always active
-    if (secMap.adm && secMap.adm.is_active === false) {
-      secMap.adm.is_active = true;
+    let mapChanged = false;
+
+    // Permanently remove 'adm'
+    if (secMap.adm) {
+      delete secMap.adm;
+      mapChanged = true;
+    }
+
+    // Ensure 'admin' is configured as the SOLE master Admin account
+    if (!secMap.admin) {
+      secMap.admin = {
+        username: "admin",
+        role: "admin",
+        is_active: true,
+        ips: ["127.0.0.1"],
+        devices: ["Windows (Chrome)"],
+        last_active_at: new Date().toISOString(),
+        last_ip: "127.0.0.1",
+        last_device: "Windows (Chrome)",
+        current_activity: "Bảng Quản trị & Phân quyền",
+        updated_at: new Date().toISOString(),
+      };
+      mapChanged = true;
+    } else {
+      if (secMap.admin.role !== "admin" || secMap.admin.is_active === false) {
+        secMap.admin.role = "admin";
+        secMap.admin.is_active = true;
+        mapChanged = true;
+      }
+    }
+
+    if (mapChanged) {
       await saveSecurityMap(sb, secMap);
     }
 
-    const accounts = Object.values(secMap);
+    // Delete 'adm' from Supabase profiles table and ensure 'admin' is role: 'admin'
+    if (sb) {
+      try {
+        await sb.from("profiles").delete().ilike("username", "adm");
+        await sb.from("profiles").update({ role: "admin" }).ilike("username", "admin");
+      } catch (sbErr) {
+        console.error("Supabase cleanup error:", sbErr);
+      }
+    }
+
+    const accounts = Object.values(secMap).filter(
+      (a) => !["adm", "user", "user1"].includes(a.username.toLowerCase())
+    );
     return NextResponse.json({
       success: true,
       accounts,
@@ -147,9 +188,9 @@ export async function POST(req: NextRequest) {
       }
 
       // Check if user already exists
-      if (secMap[cleanUser] && (["adm", "tth", "tmh"].includes(cleanUser) || secMap[cleanUser].password_hash)) {
+      if (["adm", "admin"].includes(cleanUser) || (secMap[cleanUser] && secMap[cleanUser].password_hash)) {
         return NextResponse.json(
-          { error: `Tài khoản '${cleanUser}' đã tồn tại trong hệ thống.` },
+          { error: `Tài khoản '${cleanUser}' đã tồn tại hoặc là tên dành riêng của hệ thống.` },
           { status: 400 }
         );
       }
@@ -204,7 +245,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "delete_account") {
-      if (cleanUser === "adm" || secMap[cleanUser]?.role === "admin") {
+      if (cleanUser === "admin" || cleanUser === "adm" || secMap[cleanUser]?.role === "admin") {
         return NextResponse.json(
           { error: "Không thể xóa tài khoản Quản trị viên (Admin) của hệ thống." },
           { status: 400 }
@@ -238,7 +279,7 @@ export async function POST(req: NextRequest) {
     if (!secMap[cleanUser]) {
       secMap[cleanUser] = {
         username: cleanUser,
-        role: cleanUser === "adm" ? "admin" : "user",
+        role: cleanUser === "admin" ? "admin" : "user",
         is_active: true,
         ips: [],
         devices: [],
@@ -247,7 +288,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "toggle_active") {
-      if ((cleanUser === "adm" || secMap[cleanUser]?.role === "admin") && !is_active) {
+      if ((cleanUser === "admin" || cleanUser === "adm" || secMap[cleanUser]?.role === "admin") && !is_active) {
         return NextResponse.json(
           { error: "Không thể tắt kích hoạt tài khoản Quản trị viên (Admin) để tránh tự khóa hệ thống." },
           { status: 400 }

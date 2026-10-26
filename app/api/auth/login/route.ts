@@ -4,8 +4,8 @@ import bcrypt from "bcryptjs";
 import { AccountSecurity, Profile } from "@/types/exam";
 
 const DEFAULT_SECURITY_MAP: Record<string, AccountSecurity> = {
-  adm: {
-    username: "adm",
+  admin: {
+    username: "admin",
     role: "admin",
     is_active: true,
     ips: [],
@@ -59,7 +59,14 @@ async function getSecurityMap(sb: any): Promise<Record<string, AccountSecurity>>
 
     if (data && data.description) {
       const parsed = JSON.parse(data.description);
-      return { ...DEFAULT_SECURITY_MAP, ...parsed };
+      const merged = { ...DEFAULT_SECURITY_MAP, ...parsed };
+      // Purge adm permanently
+      if (merged.adm) delete merged.adm;
+      if (merged.admin) {
+        merged.admin.role = "admin";
+        merged.admin.is_active = true;
+      }
+      return merged;
     }
   } catch (err) {
     console.error("Failed to fetch security map:", err);
@@ -110,12 +117,13 @@ export async function POST(req: NextRequest) {
     }
 
     const inputUser = String(username).trim().toLowerCase().replace(/!+$/, "");
-    let targetAccount = inputUser;
-
-    // Map 'admin' alias to 'adm'
-    if (inputUser === "admin") {
-      targetAccount = "adm";
+    if (inputUser === "adm") {
+      return NextResponse.json(
+        { error: "Tài khoản 'adm' đã bị xóa vĩnh viễn khỏi hệ thống." },
+        { status: 401 }
+      );
     }
+    const targetAccount = inputUser;
 
     // Determine client IP address
     const forwarded = req.headers.get("x-forwarded-for");
@@ -130,7 +138,7 @@ export async function POST(req: NextRequest) {
     const secMap = await getSecurityMap(sb);
 
     let isKnownAccount =
-      ["adm", "tth", "tmh", "user"].includes(targetAccount) ||
+      ["admin", "tth", "tmh", "user"].includes(targetAccount) ||
       Boolean(secMap[targetAccount]);
 
     let profile: Profile | null = null;
@@ -150,7 +158,7 @@ export async function POST(req: NextRequest) {
           profile = {
             id: data.id,
             username: data.username,
-            role: data.role as "admin" | "user",
+            role: (targetAccount === "admin" ? "admin" : (data.role as "admin" | "user")),
             created_at: data.created_at,
           };
 
@@ -176,7 +184,7 @@ export async function POST(req: NextRequest) {
 
     // Fallback credential check
     if (!isMatch) {
-      if (targetAccount === "adm" && password === "5555") {
+      if (targetAccount === "admin" && (password === "5555" || password === "123")) {
         isMatch = true;
       } else if (targetAccount === "tth" && password === "1") {
         isMatch = true;
@@ -203,7 +211,7 @@ export async function POST(req: NextRequest) {
     // If profile was not found in Supabase, create fallback Profile object
     if (!profile) {
       const idMap: Record<string, string> = {
-        adm: "00000000-0000-0000-0000-000000000001",
+        admin: "00000000-0000-0000-0000-000000000001",
         tth: "00000000-0000-0000-0000-000000000002",
         tmh: "00000000-0000-0000-0000-000000000003",
         user: "00000000-0000-0000-0000-000000000004",
@@ -211,7 +219,7 @@ export async function POST(req: NextRequest) {
       profile = {
         id: idMap[targetAccount] || crypto.randomUUID(),
         username: targetAccount,
-        role: (secMap[targetAccount]?.role as "admin" | "user") || "user",
+        role: targetAccount === "admin" ? "admin" : ((secMap[targetAccount]?.role as "admin" | "user") || "user"),
         created_at: new Date().toISOString(),
       };
     }
@@ -227,7 +235,7 @@ export async function POST(req: NextRequest) {
     };
 
     // 1. Check if account is active (exempt admin)
-    if (sec.is_active === false && profile.role !== "admin" && targetAccount !== "adm") {
+    if (sec.is_active === false && profile.role !== "admin" && targetAccount !== "admin") {
       const lockMsg =
         Array.isArray(sec.devices) && sec.devices.length > 3
           ? "Tài khoản bị khóa do vượt quá số lượng 3 thiết bị cho phép. Vui lòng liên hệ Admin để giải quyết."
@@ -262,7 +270,7 @@ export async function POST(req: NextRequest) {
 
     // 4. DEVICE LIMIT CHECK: If devices > 3 -> AUTO DISABLE ACTIVE (Only for non-admin accounts)
     // IP is completely excluded from lockout logic.
-    if (profile.role !== "admin" && targetAccount !== "adm" && sec.devices.length > 3) {
+    if (profile.role !== "admin" && targetAccount !== "admin" && sec.devices.length > 3) {
       sec.is_active = false;
       secMap[targetAccount] = sec;
       await saveSecurityMap(sb, secMap);

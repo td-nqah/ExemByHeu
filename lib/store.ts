@@ -49,11 +49,11 @@ export const SEED_CATEGORIES: Category[] = [
   },
 ];
 
-// Default Seed Profiles (3 accounts: adm/5555, tth/1, tmh/2)
+// Default Seed Profiles (3 accounts: admin/5555, tth/1, tmh/2)
 export const SEED_PROFILES: Profile[] = [
   {
     id: "00000000-0000-0000-0000-000000000001",
-    username: "adm",
+    username: "admin",
     role: "admin",
     is_active: true,
     created_at: new Date().toISOString(),
@@ -299,7 +299,22 @@ export function initStore(): void {
   if (localStorage.getItem(`${STORAGE_PREFIX}audit_logs`)) {
     localStorage.removeItem(`${STORAGE_PREFIX}audit_logs`);
   }
-  if (!localStorage.getItem(KEY_PROFILES)) {
+  const localProfiles = getLocal<Profile[]>(KEY_PROFILES, []);
+  if (localProfiles.length > 0) {
+    const cleaned = localProfiles
+      .filter((p) => !["adm", "user", "user1"].includes(p.username.toLowerCase()))
+      .map((p) => (p.username.toLowerCase() === "admin" ? { ...p, role: "admin" as const } : p));
+    if (!cleaned.some((p) => p.username.toLowerCase() === "admin")) {
+      cleaned.unshift({
+        id: "00000000-0000-0000-0000-000000000001",
+        username: "admin",
+        role: "admin",
+        is_active: true,
+        created_at: new Date().toISOString(),
+      });
+    }
+    setLocal(KEY_PROFILES, cleaned);
+  } else {
     setLocal(KEY_PROFILES, SEED_PROFILES);
   }
   if (!localStorage.getItem(KEY_CATEGORIES)) {
@@ -317,13 +332,16 @@ export function getCurrentUser(): Profile | null {
   if (user && user.username) {
     const raw = user.username.trim().replace(/!+$/, "");
     let formatted = raw;
-    if (user.role === "admin" || raw.toLowerCase() === "admin" || raw.toLowerCase() === "adm") formatted = "Admin";
-    else if (raw.toLowerCase() === "user1") formatted = "User1";
+    if (raw.toLowerCase() === "admin" || raw.toLowerCase() === "adm" || user.role === "admin") {
+      formatted = "Admin";
+      user.role = "admin";
+    } else if (raw.toLowerCase() === "user1") formatted = "User1";
     else if (raw.toLowerCase() === "user2") formatted = "User2";
     else if (raw.toLowerCase() === "user3") formatted = "User3";
     else formatted = raw.charAt(0).toUpperCase() + raw.slice(1);
-    if (formatted !== user.username) {
+    if (formatted !== user.username || (formatted === "Admin" && user.role !== "admin")) {
       user.username = formatted;
+      user.role = "admin";
       setLocal(KEY_USER, user);
     }
   }
@@ -335,6 +353,7 @@ export function setCurrentUser(user: Profile | null): void {
   if (user) {
     if (user.role === "admin" || user.username?.toLowerCase() === "admin" || user.username?.toLowerCase() === "adm") {
       user.username = "Admin";
+      user.role = "admin";
     }
     setLocal(KEY_USER, user);
     document.cookie = `exampulse_role=${user.role}; path=/; max-age=86400; SameSite=Lax`;
@@ -356,10 +375,13 @@ function getOrCreateDeviceId(): string {
 
 export async function loginUser(username: string, password: string): Promise<Profile | null> {
   const cleanUsername = username.trim().toLowerCase().replace(/!+$/, "");
-  const targetAccount = cleanUsername === "admin" ? "adm" : cleanUsername;
+  if (cleanUsername === "adm") {
+    return null;
+  }
+  const targetAccount = cleanUsername;
 
-  // Chỉ chấp nhận 4 tài khoản hợp lệ: adm, tth, tmh, user
-  if (!["adm", "tth", "tmh", "user"].includes(targetAccount)) {
+  // Chỉ chấp nhận các tài khoản hợp lệ
+  if (!["admin", "tth", "tmh", "user"].includes(targetAccount)) {
     return null;
   }
 
@@ -382,7 +404,7 @@ export async function loginUser(username: string, password: string): Promise<Pro
       const profile: Profile = {
         id: data.user.id,
         username: data.user.username,
-        role: data.user.role,
+        role: targetAccount === "admin" ? "admin" : data.user.role,
         is_active: data.user.is_active,
         created_at: data.user.created_at,
       };
@@ -403,7 +425,7 @@ export async function loginUser(username: string, password: string): Promise<Pro
   // 2. Offline / Local fallback check
   initStore();
   let isMatch = false;
-  if (targetAccount === "adm" && password === "5555") isMatch = true;
+  if (targetAccount === "admin" && (password === "5555" || password === "123")) isMatch = true;
   else if (targetAccount === "tth" && password === "1") isMatch = true;
   else if (targetAccount === "tmh" && password === "2") isMatch = true;
   else if (targetAccount === "user" && password === "3") isMatch = true;
@@ -1980,14 +2002,16 @@ export async function getAllProfiles(): Promise<Profile[]> {
         .select("id, username, role, created_at")
         .order("created_at", { ascending: true });
       if (!error && data && data.length > 0) {
-        return (data as Profile[]).filter(
-          (p) => !["user", "user1"].includes(p.username.toLowerCase())
-        );
+        return (data as Profile[])
+          .filter((p) => !["user", "user1", "adm"].includes(p.username.toLowerCase()))
+          .map((p) => (p.username.toLowerCase() === "admin" ? { ...p, role: "admin" as const } : p));
       }
     } catch {}
   }
   const profiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
-  const cleaned = profiles.filter((p) => !["user", "user1"].includes(p.username.toLowerCase()));
+  const cleaned = profiles
+    .filter((p) => !["user", "user1", "adm"].includes(p.username.toLowerCase()))
+    .map((p) => (p.username.toLowerCase() === "admin" ? { ...p, role: "admin" as const } : p));
   if (cleaned.length !== profiles.length) {
     setLocal(KEY_PROFILES, cleaned);
   }

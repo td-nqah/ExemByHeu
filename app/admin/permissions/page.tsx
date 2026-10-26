@@ -201,7 +201,7 @@ export default function AdminPermissionsPage() {
         ? [...accountsSecurity]
         : [
             {
-              username: "adm",
+              username: "admin",
               role: "admin" as const,
               is_active: true,
               ips: ["127.0.0.1"],
@@ -226,16 +226,19 @@ export default function AdminPermissionsPage() {
               current_activity: "Chưa trực tuyến",
             },
           ]
-    ).filter((a) => !["user", "user1"].includes(a.username.toLowerCase()));
+    )
+      .filter((a) => !["user", "user1", "adm"].includes(a.username.toLowerCase()))
+      .map((a) => (a.username.toLowerCase() === "admin" ? { ...a, role: "admin" as const } : a));
 
     // Ensure current user is in the list
     if (
       currentUser?.username &&
+      currentUser.username.toLowerCase() !== "adm" &&
       !list.some((a) => a.username.toLowerCase() === currentUser.username.toLowerCase())
     ) {
       list.unshift({
-        username: currentUser.username,
-        role: currentUser.role,
+        username: currentUser.username.toLowerCase() === "admin" ? "admin" : currentUser.username,
+        role: currentUser.username.toLowerCase() === "admin" ? ("admin" as const) : currentUser.role,
         is_active: true,
         ips: ["127.0.0.1"],
         devices: ["Thiết bị hiện tại"],
@@ -648,8 +651,7 @@ export default function AdminPermissionsPage() {
                 ).filter(
                   (acc) =>
                     acc.role !== "admin" &&
-                    acc.username !== "adm" &&
-                    !["user", "user1"].includes(acc.username.toLowerCase())
+                    !["admin", "adm", "user", "user1"].includes(acc.username.toLowerCase())
                 );
 
                 if (filtered.length === 0) {

@@ -92,9 +92,12 @@ export default function AdminSettingsPage() {
 
     async function loadInitialData() {
       const profiles = await getAllProfiles();
-      setAllProfiles(profiles);
-      if (profiles.length > 0 && !selectedUser) {
-        setSelectedUser(profiles[0].username);
+      const cleaned = profiles
+        .filter((p) => !["adm", "user", "user1"].includes(p.username.toLowerCase()))
+        .map((p) => (p.username.toLowerCase() === "admin" ? { ...p, role: "admin" as const } : p));
+      setAllProfiles(cleaned);
+      if (cleaned.length > 0 && !selectedUser) {
+        setSelectedUser(cleaned[0].username);
       }
       fetchAccountsSecurity();
     }
@@ -114,6 +117,14 @@ export default function AdminSettingsPage() {
       setCreateNotice({
         type: "error",
         message: "Vui lòng nhập tên tài khoản (username).",
+      });
+      return;
+    }
+
+    if (cleanUser === "adm" || cleanUser === "admin") {
+      setCreateNotice({
+        type: "error",
+        message: "Tên tài khoản này là tài khoản Quản trị viên dành riêng của hệ thống.",
       });
       return;
     }
