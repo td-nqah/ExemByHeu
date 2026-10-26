@@ -45,11 +45,12 @@ export interface SidebarProps {
   onCloseMobile?: () => void;
 }
 
-function formatDisplayName(name?: string): string {
+function formatDisplayName(name?: string, role?: string): string {
+  if (role === "admin") return "Admin";
   if (!name) return "";
   const cleaned = name.trim().replace(/!+$/, "");
   const lower = cleaned.toLowerCase();
-  if (lower === "admin") return "Admin";
+  if (lower === "admin" || lower === "adm") return "Admin";
   if (lower === "user1") return "User1";
   if (lower === "user2") return "User2";
   if (lower === "user3") return "User3";
@@ -653,14 +654,14 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
             <div className="flex items-center justify-between px-2 py-1.5 w-full group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center">
               <div className="flex items-center gap-2.5 min-w-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full">
                 <div
-                  title={`${formatDisplayName(user.username)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}
+                  title={`${formatDisplayName(user.username, user.role)} (${user.role === "admin" ? "Quản trị viên" : "Người dùng"})`}
                   className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-800 text-slate-200 font-bold text-xs select-none shadow-xs cursor-default group-data-[collapsible=icon]:mx-auto"
                 >
-                  {formatDisplayName(user.username).charAt(0).toUpperCase()}
+                  {formatDisplayName(user.username, user.role).charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0 group-data-[collapsible=icon]:hidden">
                   <p className="truncate text-xs font-semibold text-white">
-                    {formatDisplayName(user.username)}
+                    {formatDisplayName(user.username, user.role)}
                   </p>
                   <p className="text-[11px] text-slate-400 truncate">
                     {user.role === "admin" ? "Quản trị viên" : "Người dùng"}

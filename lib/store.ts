@@ -317,7 +317,7 @@ export function getCurrentUser(): Profile | null {
   if (user && user.username) {
     const raw = user.username.trim().replace(/!+$/, "");
     let formatted = raw;
-    if (raw.toLowerCase() === "admin") formatted = "Admin";
+    if (user.role === "admin" || raw.toLowerCase() === "admin" || raw.toLowerCase() === "adm") formatted = "Admin";
     else if (raw.toLowerCase() === "user1") formatted = "User1";
     else if (raw.toLowerCase() === "user2") formatted = "User2";
     else if (raw.toLowerCase() === "user3") formatted = "User3";
@@ -333,6 +333,9 @@ export function getCurrentUser(): Profile | null {
 export function setCurrentUser(user: Profile | null): void {
   if (typeof window === "undefined") return;
   if (user) {
+    if (user.role === "admin" || user.username?.toLowerCase() === "admin" || user.username?.toLowerCase() === "adm") {
+      user.username = "Admin";
+    }
     setLocal(KEY_USER, user);
     document.cookie = `exampulse_role=${user.role}; path=/; max-age=86400; SameSite=Lax`;
   } else {

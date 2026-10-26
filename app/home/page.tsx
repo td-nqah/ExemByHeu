@@ -14,11 +14,12 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-function formatDisplayName(name?: string): string {
+function formatDisplayName(name?: string, role?: string): string {
+  if (role === "admin") return "Admin";
   if (!name) return "";
   const cleaned = name.trim().replace(/!+$/, "");
   const lower = cleaned.toLowerCase();
-  if (lower === "admin") return "Admin";
+  if (lower === "admin" || lower === "adm") return "Admin";
   if (lower === "user1") return "User1";
   if (lower === "user2") return "User2";
   if (lower === "user3") return "User3";
@@ -127,7 +128,7 @@ export default function HomePage() {
         <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
           <span>{greetingInfo.greeting}, </span>
           <span className="text-[#818cf8]">
-            {formatDisplayName(currentUser?.username || "User1")}
+            {formatDisplayName(currentUser?.username || "Admin", currentUser?.role)}
           </span>
         </h1>
 
