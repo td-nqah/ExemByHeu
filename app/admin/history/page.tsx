@@ -35,6 +35,7 @@ import {
   GraduationCap,
 } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { PopoverSelect } from "@/components/ui/PopoverSelect";
 
 export default function AdminHistoryPage() {
   const router = useRouter();
@@ -407,40 +408,48 @@ export default function AdminHistoryPage() {
 
           {/* Account Filter */}
           <div className="lg:col-span-3">
-            <div className="relative">
-              <select
-                value={selectedUser}
-                onChange={(e) => setSelectedUser(e.target.value)}
-                className="w-full px-4 py-2.5 bg-[#10131B] border border-[#252A37] rounded-full text-xs text-white focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer pr-10"
-              >
-                <option value="all">Tất cả tài khoản ({accountOptions.length})</option>
-                {accountOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label} ({opt.count} bài)
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3.5 top-3 h-4 w-4 text-[#8B93A5]" />
-            </div>
+            <PopoverSelect<string>
+              className="w-full"
+              buttonClassName="w-full py-2.5"
+              menuClassName="w-full sm:min-w-[260px]"
+              value={selectedUser}
+              onChange={(val) => setSelectedUser(val)}
+              options={[
+                {
+                  value: "all",
+                  label: "Tất cả tài khoản",
+                  badge: accountOptions.length,
+                },
+                ...accountOptions.map((opt) => ({
+                  value: opt.value,
+                  label: opt.label,
+                  badge: `${opt.count} bài`,
+                })),
+              ]}
+            />
           </div>
 
           {/* Exam Filter */}
           <div className="lg:col-span-4">
-            <div className="relative">
-              <select
-                value={selectedExam}
-                onChange={(e) => setSelectedExam(e.target.value)}
-                className="w-full px-4 py-2.5 bg-[#10131B] border border-[#252A37] rounded-full text-xs text-white focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer pr-10 truncate"
-              >
-                <option value="all">Tất cả đề đánh giá ({exams.length})</option>
-                {exams.map((ex) => (
-                  <option key={ex.id} value={ex.id}>
-                    {ex.title}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3.5 top-3 h-4 w-4 text-[#8B93A5]" />
-            </div>
+            <PopoverSelect<string>
+              className="w-full"
+              buttonClassName="w-full py-2.5"
+              menuClassName="w-full sm:min-w-[320px] max-w-md"
+              value={selectedExam}
+              onChange={(val) => setSelectedExam(val)}
+              options={[
+                {
+                  value: "all",
+                  label: "Tất cả đề đánh giá",
+                  badge: exams.length,
+                },
+                ...exams.map((ex) => ({
+                  value: ex.id,
+                  label: ex.title,
+                  description: ex.duration_minutes ? `${ex.duration_minutes} phút` : undefined,
+                })),
+              ]}
+            />
           </div>
         </div>
 
@@ -485,19 +494,18 @@ export default function AdminHistoryPage() {
 
           {/* Sort & Reset */}
           <div className="flex items-center gap-2">
-            <div className="relative">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="px-3.5 py-1.5 bg-[#10131B] border border-[#252A37] rounded-full text-xs text-white focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer pr-8"
-              >
-                <option value="newest">Mới nhất trước</option>
-                <option value="oldest">Cũ nhất trước</option>
-                <option value="score_high">Điểm cao nhất</option>
-                <option value="score_low">Điểm thấp nhất</option>
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-2.5 top-2.5 h-3.5 w-3.5 text-[#8B93A5]" />
-            </div>
+            <PopoverSelect<"newest" | "oldest" | "score_high" | "score_low">
+              value={sortBy}
+              onChange={(val) => setSortBy(val)}
+              align="right"
+              buttonClassName="py-1.5"
+              options={[
+                { value: "newest", label: "Mới nhất trước" },
+                { value: "oldest", label: "Cũ nhất trước" },
+                { value: "score_high", label: "Điểm cao nhất" },
+                { value: "score_low", label: "Điểm thấp nhất" },
+              ]}
+            />
 
             {hasActiveFilters && (
               <button

@@ -278,8 +278,28 @@ body {
 }
 
 /*
- * Scrollbar Utilities
+ * Scrollbar Styling
  */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #252a37;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4252;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #252a37 transparent;
+}
+
 .custom-scrollbar,
 .no-scrollbar,
 .scrollbar-none {
