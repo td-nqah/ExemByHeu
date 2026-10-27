@@ -502,7 +502,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
                         transition={{ duration: 0.2, ease: "easeInOut" }}
                         className="overflow-hidden group-data-[collapsible=icon]:hidden"
                       >
-                        <SidebarMenuSub className="pl-6 pr-1 py-1 space-y-1">
+                        <SidebarMenuSub className="ml-5 border-l border-[#282e3d] pl-2 pr-1 py-1 space-y-1 my-1">
                           <LayoutGroup id="sidebar-sub-nav">
                             {categories.map((cat) => {
                               const catKey = cat.slug || cat.id;
