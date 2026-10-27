@@ -182,32 +182,12 @@ export default function LoginPage() {
 
               {/* Mật khẩu */}
               <div className="space-y-1.5 sm:space-y-2">
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="login-password"
-                    className="block text-[13px] sm:text-sm font-semibold text-slate-200"
-                  >
-                    Mật khẩu
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setForgotNotice(!forgotNotice)}
-                    className="text-xs sm:text-[13px] text-slate-400 hover:text-white font-medium transition-colors cursor-pointer"
-                  >
-                    Quên mật khẩu?
-                  </button>
-                </div>
-
-                {forgotNotice && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="rounded-xl bg-[#0e1119] border border-[#252a37] p-3 text-xs sm:text-sm text-slate-300 flex items-start gap-2.5 shadow-sm"
-                  >
-                    <span className="shrink-0 text-base leading-none">💡</span>
-                    <span className="leading-relaxed">Vui lòng liên hệ Quản trị viên (Admin) để được cấp lại hoặc đặt lại mật khẩu mới.</span>
-                  </motion.div>
-                )}
+                <label
+                  htmlFor="login-password"
+                  className="block text-[13px] sm:text-sm font-semibold text-slate-200"
+                >
+                  Mật khẩu
+                </label>
 
                 <div className="relative group">
                   <input
@@ -277,6 +257,28 @@ export default function LoginPage() {
                   )}
                 </AnimatePresence>
               </motion.button>
+
+              {/* Dòng Quên mật khẩu bên dưới nút Đăng nhập */}
+              <div className="pt-2 text-center">
+                <button
+                  type="button"
+                  onClick={() => setForgotNotice(!forgotNotice)}
+                  className="text-xs sm:text-[13px] text-slate-400 hover:text-white font-medium transition-colors cursor-pointer select-none inline-flex items-center gap-1.5"
+                >
+                  <span>Quên mật khẩu?</span>
+                </button>
+              </div>
+
+              {forgotNotice && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-xl bg-[#0e1119] border border-[#252a37] p-3 text-xs sm:text-sm text-slate-300 flex items-start gap-2.5 shadow-sm text-left"
+                >
+                  <span className="shrink-0 text-base leading-none">💡</span>
+                  <span className="leading-relaxed">Vui lòng liên hệ Quản trị viên (Admin) để được cấp lại hoặc đặt lại mật khẩu mới.</span>
+                </motion.div>
+              )}
             </form>
           </div>
         </div>
