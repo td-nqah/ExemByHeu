@@ -13,8 +13,18 @@ export function useOfflineSync({
   sessionId,
   initialAnswers = {},
 }: UseOfflineSyncOptions) {
-  const [isOnline, setIsOnline] = useState<boolean>(true);
-  const [showOfflineBanner, setShowOfflineBanner] = useState<boolean>(false);
+  const [isOnline, setIsOnline] = useState<boolean>(() => {
+    if (typeof navigator !== "undefined") {
+      return navigator.onLine;
+    }
+    return true;
+  });
+  const [showOfflineBanner, setShowOfflineBanner] = useState<boolean>(() => {
+    if (typeof navigator !== "undefined") {
+      return !navigator.onLine;
+    }
+    return false;
+  });
   const [showReconnectedBanner, setShowReconnectedBanner] = useState<boolean>(false);
   const [answers, setAnswers] = useState<Record<string, string>>(() => {
     if (typeof window !== "undefined" && examId) {
@@ -30,15 +40,6 @@ export function useOfflineSync({
 
   const answersRef = useRef(answers);
   answersRef.current = answers;
-
-  // Initialize online state
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    setIsOnline(navigator.onLine);
-    if (!navigator.onLine) {
-      setShowOfflineBanner(true);
-    }
-  }, []);
 
   // Flush queued mutations to server
   const flushOfflineQueue = useCallback(async () => {

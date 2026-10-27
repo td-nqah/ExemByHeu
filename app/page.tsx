@@ -113,163 +113,175 @@ export default function LoginPage() {
         initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md"
+        className="w-full max-w-[420px] sm:max-w-[440px]"
       >
-        <div className="relative bg-[#161a24] border border-[#252a37] hover:border-[#2a2f3c] transition-all duration-300 rounded-3xl p-7 sm:p-9 shadow-2xl">
-          {/* Ambient Top Subtle Line */}
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#252a37] to-transparent rounded-t-3xl" />
+        <div className="relative">
+          {/* Subtle Ambient Glow Behind Card */}
+          <div
+            className="pointer-events-none absolute -inset-1 rounded-[32px] bg-gradient-to-b from-indigo-500/10 via-indigo-500/5 to-transparent blur-xl opacity-75 -z-10"
+            aria-hidden="true"
+          />
 
-          {/* Logo with ExamByHeu beside it, followed by "Đăng nhập" below */}
-          <div className="mb-6 sm:mb-7 flex flex-col items-center text-center">
-            <div className="flex items-center justify-center gap-3">
-              <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white shadow-sm">
-                <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
-              </div>
-              <span className="brand-logo font-heading text-2xl sm:text-[26px] font-black tracking-tight select-none">
-                <span className="text-white">Exam</span>
-                <span className="text-[#9ca3af]">ByHeu</span>
-              </span>
-            </div>
+          <div className="relative bg-[#141722]/95 backdrop-blur-2xl border border-[#262c3c] hover:border-[#30384c] transition-all duration-300 rounded-[28px] sm:rounded-3xl p-6 sm:p-8 md:p-9 shadow-[0_20px_50px_rgba(0,0,0,0.65),0_0_0_1px_rgba(255,255,255,0.05)]">
+            {/* Ambient Top Subtle Line */}
+            <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent rounded-t-3xl" />
 
-            <h2 className="mt-4 sm:mt-5 text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-              Đăng nhập
-            </h2>
-          </div>
-
-          {error && (
-            <div className="mb-5 rounded-xl border border-rose-500/30 bg-[#232836] p-3.5 text-center text-sm font-medium text-rose-300 flex items-center justify-center gap-2">
-              <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
-              <span>{error}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-            {/* Tên đăng nhập */}
-            <div className="space-y-2">
-              <label
-                htmlFor="login-username"
-                className="block text-sm sm:text-[15px] font-semibold text-slate-200"
-              >
-                Tên đăng nhập
-              </label>
-              <div className="relative">
-                <input
-                  id="login-username"
-                  type="text"
-                  required
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Email/Username"
-                  autoCapitalize="none"
-                  autoCorrect="off"
-                  className="glass-input h-[50px] sm:h-[52px] w-full rounded-xl pl-11 pr-4 text-base text-white placeholder-slate-500 focus:outline-none transition-all font-medium"
-                />
-                <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-4 text-[#8b93a5]">
-                  <User className="h-5 w-5 text-[#8b93a5]" strokeWidth={2.2} />
+            {/* Logo with ExamByHeu beside it, followed by "Đăng nhập hệ thống" below */}
+            <div className="mb-6 sm:mb-7 flex flex-col items-center text-center">
+              <div className="flex items-center justify-center gap-3">
+                <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-b from-[#1c2230] to-[#10131b] border border-[#2e3648] text-white shadow-md shadow-black/40 ring-1 ring-white/5">
+                  <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
                 </div>
+                <span className="brand-logo font-heading text-2xl sm:text-[27px] font-black tracking-tight select-none">
+                  <span className="text-white">Exam</span>
+                  <span className="text-[#9ca3af]">ByHeu</span>
+                </span>
               </div>
+
+              <h2 className="mt-4 sm:mt-5 text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+                Đăng nhập hệ thống
+              </h2>
             </div>
 
-            {/* Mật khẩu */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
+            {error && (
+              <div className="mb-5 rounded-xl border border-rose-500/30 bg-[#232836] p-3.5 text-center text-sm font-medium text-rose-300 flex items-center justify-center gap-2">
+                <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+              {/* Tên đăng nhập */}
+              <div className="space-y-1.5 sm:space-y-2">
                 <label
-                  htmlFor="login-password"
-                  className="block text-sm sm:text-[15px] font-semibold text-slate-200"
+                  htmlFor="login-username"
+                  className="block text-[13px] sm:text-sm font-semibold text-slate-200"
                 >
-                  Mật khẩu
+                  Tên đăng nhập
                 </label>
-                <button
-                  type="button"
-                  onClick={() => setForgotNotice(!forgotNotice)}
-                  className="text-xs sm:text-sm text-slate-400 hover:text-white font-medium transition cursor-pointer"
-                >
-                  Quên mật khẩu?
-                </button>
+                <div className="relative group">
+                  <input
+                    id="login-username"
+                    type="text"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Email/Username"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    className="h-[48px] sm:h-[52px] w-full rounded-xl bg-[#0e1119] border border-[#252a37] pl-11 pr-4 text-base text-white placeholder-slate-500 focus:border-indigo-500/70 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none hover:border-[#333a4c] transition-all font-medium"
+                  />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-[#8b93a5] group-focus-within:text-white transition-colors">
+                    <User className="h-5 w-5" strokeWidth={2.2} />
+                  </div>
+                </div>
               </div>
 
-              {forgotNotice && (
-                <div className="rounded-xl bg-[#10131b] border border-[#252a37] p-3 text-xs sm:text-sm text-slate-300 flex items-start gap-2">
-                  <span className="shrink-0">💡</span>
-                  <span>Vui lòng liên hệ Quản trị viên (Admin) để được cấp lại hoặc đặt lại mật khẩu mới.</span>
-                </div>
-              )}
-
-              <div className="relative">
-                <input
-                  id="login-password"
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  className="glass-input h-[50px] sm:h-[52px] w-full rounded-xl pl-11 pr-11 text-base text-white placeholder-slate-500 focus:outline-none transition-all font-medium"
-                />
-                <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-4 text-[#8b93a5]">
-                  <Lock className="h-5 w-5 text-[#8b93a5]" strokeWidth={2.2} />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 z-10 flex items-center pr-3.5 text-[#8b93a5] hover:text-white transition-colors cursor-pointer"
-                  aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-[#8b93a5]" strokeWidth={2.2} />
-                  ) : (
-                    <Eye className="h-5 w-5 text-[#8b93a5]" strokeWidth={2.2} />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Submit Button with press-down (chìm xuống) and rotating dots spinner */}
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileTap={reduceMotion ? undefined : { scale: 0.95, y: 2 }}
-              transition={{ type: "spring", stiffness: 450, damping: 25 }}
-              className={`mt-6 flex h-[50px] sm:h-[52px] w-full items-center justify-center gap-2.5 rounded-full bg-white hover:bg-slate-100 px-6 text-base sm:text-lg font-bold text-black select-none cursor-pointer shadow-md transition-all active:scale-[0.95] active:translate-y-1 active:shadow-inner ${
-                loading
-                  ? "cursor-not-allowed scale-[0.98] translate-y-0.5 shadow-inner bg-slate-100 opacity-90"
-                  : ""
-              }`}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {loading ? (
-                  <motion.div
-                    key="loading"
-                    initial={{ opacity: 0, scale: 0.85 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.85 }}
-                    transition={{ duration: 0.15 }}
-                    className="flex items-center justify-center gap-2.5"
+              {/* Mật khẩu */}
+              <div className="space-y-1.5 sm:space-y-2">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="login-password"
+                    className="block text-[13px] sm:text-sm font-semibold text-slate-200"
                   >
-                    <DotsSpinner className="h-5 w-5 text-black" />
-                    <span>Đang đăng nhập...</span>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="idle"
-                    initial={{ opacity: 0, scale: 0.85 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.85 }}
-                    transition={{ duration: 0.15 }}
-                    className="flex items-center justify-center gap-2"
+                    Mật khẩu
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setForgotNotice(!forgotNotice)}
+                    className="text-xs sm:text-[13px] text-slate-400 hover:text-white font-medium transition-colors cursor-pointer"
                   >
-                    <span>Đăng nhập</span>
-                    <ArrowRight className="h-5 w-5" strokeWidth={2.2} />
+                    Quên mật khẩu?
+                  </button>
+                </div>
+
+                {forgotNotice && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="rounded-xl bg-[#0e1119] border border-[#252a37] p-3 text-xs sm:text-sm text-slate-300 flex items-start gap-2.5 shadow-sm"
+                  >
+                    <span className="shrink-0 text-base leading-none">💡</span>
+                    <span className="leading-relaxed">Vui lòng liên hệ Quản trị viên (Admin) để được cấp lại hoặc đặt lại mật khẩu mới.</span>
                   </motion.div>
                 )}
-              </AnimatePresence>
-            </motion.button>
-          </form>
+
+                <div className="relative group">
+                  <input
+                    id="login-password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    className="h-[48px] sm:h-[52px] w-full rounded-xl bg-[#0e1119] border border-[#252a37] pl-11 pr-11 text-base text-white placeholder-slate-500 focus:border-indigo-500/70 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none hover:border-[#333a4c] transition-all font-medium"
+                  />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-[#8b93a5] group-focus-within:text-white transition-colors">
+                    <Lock className="h-5 w-5" strokeWidth={2.2} />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 z-10 flex items-center pr-3.5 text-[#8b93a5] hover:text-white transition-colors cursor-pointer"
+                    aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" strokeWidth={2.2} />
+                    ) : (
+                      <Eye className="h-5 w-5" strokeWidth={2.2} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Submit Button with press-down (chìm xuống) and rotating dots spinner */}
+              <motion.button
+                type="submit"
+                disabled={loading}
+                whileTap={reduceMotion ? undefined : { scale: 0.95, y: 2 }}
+                transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                className={`mt-6 flex h-[48px] sm:h-[52px] w-full items-center justify-center gap-2.5 rounded-full bg-white hover:bg-slate-100 px-6 text-base sm:text-lg font-bold text-black select-none cursor-pointer shadow-md transition-all active:scale-[0.95] active:translate-y-1 active:shadow-inner ${
+                  loading
+                    ? "cursor-not-allowed scale-[0.98] translate-y-0.5 shadow-inner bg-slate-100 opacity-90"
+                    : ""
+                }`}
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  {loading ? (
+                    <motion.div
+                      key="loading"
+                      initial={{ opacity: 0, scale: 0.85 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.85 }}
+                      transition={{ duration: 0.15 }}
+                      className="flex items-center justify-center gap-2.5"
+                    >
+                      <DotsSpinner className="h-5 w-5 text-black" />
+                      <span>Đang đăng nhập...</span>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="idle"
+                      initial={{ opacity: 0, scale: 0.85 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.85 }}
+                      transition={{ duration: 0.15 }}
+                      className="flex items-center justify-center gap-2"
+                    >
+                      <span>Đăng nhập</span>
+                      <ArrowRight className="h-5 w-5" strokeWidth={2.2} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+            </form>
+          </div>
         </div>
       </motion.div>
 
       {/* 3. Text ExamByHeu (Exam Trắng, ByHeu Tím) at Bottom Right of Screen */}
-      <div className="fixed bottom-4 right-5 sm:bottom-6 sm:right-8 z-20 select-none pointer-events-none">
-        <span className="brand-logo font-heading text-sm sm:text-base font-black tracking-tight">
+      <div className="fixed bottom-3.5 right-4 sm:bottom-6 sm:right-8 z-20 select-none pointer-events-none">
+        <span className="brand-logo font-heading text-xs sm:text-sm md:text-base font-black tracking-tight opacity-85 sm:opacity-95">
           <span className="text-white">Exam</span>
           <span className="text-[#818cf8]">ByHeu</span>
         </span>

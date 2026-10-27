@@ -216,8 +216,6 @@ body {
  * Dark Starry Night Card & Panel System
  * Xám xanh than #161A24, viền #252A37, bo góc lớn (24-32px)
  */
-.obsidian-card,
-.obsidian-card-interactive,
 .glass-card,
 .glass-card-interactive,
 .glass-panel,
@@ -232,14 +230,12 @@ body {
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.obsidian-card:hover,
 .glass-panel:hover,
 .glow-card:hover {
   background-color: #181d29;
   border-color: #2a2f3c;
 }
 
-.obsidian-card-interactive:hover,
 .glass-card-interactive:hover {
   background-color: #191e2b;
   border-color: #32384a;
@@ -247,7 +243,6 @@ body {
   box-shadow: 0 8px 26px -4px rgba(0, 0, 0, 0.65);
 }
 
-.obsidian-card-interactive:active,
 .glass-card-interactive:active {
   background-color: #141720;
   border-color: #252a37;
