@@ -113,7 +113,7 @@ export default function LoginPage() {
         initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[420px] sm:max-w-[440px]"
+        className="w-full max-w-[450px] sm:max-w-[470px] md:max-w-[490px]"
       >
         <div className="relative">
           {/* Subtle Ambient Glow Behind Card */}
@@ -122,11 +122,11 @@ export default function LoginPage() {
             aria-hidden="true"
           />
 
-          <div className="relative bg-[#141722]/95 backdrop-blur-2xl border border-[#262c3c] hover:border-[#30384c] transition-all duration-300 rounded-[28px] sm:rounded-3xl p-6 sm:p-8 md:p-9 shadow-[0_20px_50px_rgba(0,0,0,0.65),0_0_0_1px_rgba(255,255,255,0.05)]">
+          <div className="relative bg-[#141722]/95 backdrop-blur-2xl border border-[#262c3c] hover:border-[#30384c] transition-all duration-300 rounded-[28px] sm:rounded-3xl p-7 sm:p-9 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.65),0_0_0_1px_rgba(255,255,255,0.05)]">
             {/* Ambient Top Subtle Line */}
             <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent rounded-t-3xl" />
 
-            {/* Logo with ExamByHeu beside it, followed by "Đăng nhập hệ thống" below */}
+            {/* Logo with ExamByHeu beside it, followed by divider line and "Đăng nhập hệ thống" below */}
             <div className="mb-6 sm:mb-7 flex flex-col items-center text-center">
               <div className="flex items-center justify-center gap-3">
                 <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-b from-[#1c2230] to-[#10131b] border border-[#2e3648] text-white shadow-md shadow-black/40 ring-1 ring-white/5">
@@ -138,7 +138,10 @@ export default function LoginPage() {
                 </span>
               </div>
 
-              <h2 className="mt-4 sm:mt-5 text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+              {/* Gạch giữa giống trong sidebar */}
+              <div className="w-full my-4.5 sm:my-5 h-[1px] bg-[#252a37]" />
+
+              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
                 Đăng nhập hệ thống
               </h2>
             </div>
