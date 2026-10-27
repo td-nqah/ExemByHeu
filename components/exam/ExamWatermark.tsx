@@ -5,24 +5,23 @@ import React, { useMemo } from "react";
 interface ExamWatermarkProps {
   userName?: string;
   userCode?: string;
-  sessionId: string;
+  sessionId?: string;
 }
 
 export function ExamWatermark({
   userName = "Thí sinh",
   userCode = "STUDENT",
-  sessionId,
+  sessionId = "",
 }: ExamWatermarkProps) {
   const currentDate = useMemo(() => {
     const d = new Date();
     const day = String(d.getDate()).padStart(2, "0");
     const month = String(d.getMonth() + 1).padStart(2, "0");
     const year = d.getFullYear();
-    const time = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
-    return `${day}/${month}/${year} ${time}`;
+    return `${day}/${month}/${year}`;
   }, []);
 
-  const watermarkText = `${userName} • ${userCode} • ${sessionId.slice(0, 8)} • ${currentDate}`;
+  const watermarkText = `${userName} - ${currentDate}`;
 
   // Generate an array of repeated tiles to cover any viewport size
   const tiles = useMemo(() => {
@@ -38,7 +37,7 @@ export function ExamWatermark({
         {tiles.map((idx) => (
           <div
             key={idx}
-            className="whitespace-nowrap text-xs sm:text-sm font-mono font-bold tracking-widest text-slate-900 dark:text-slate-100 uppercase"
+            className="whitespace-nowrap text-xs sm:text-sm font-mono font-bold tracking-widest text-slate-900 dark:text-slate-100"
           >
             {watermarkText}
           </div>
