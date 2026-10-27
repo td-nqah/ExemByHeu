@@ -6,21 +6,34 @@ import { Clock, AlertTriangle } from "lucide-react";
 
 interface StickyTimerProps {
   durationMinutes: number;
+  secondsLeft?: number;
+  totalSeconds?: number;
   onTimeUp: () => void;
 }
 
-export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
-  const totalSeconds = durationMinutes * 60;
-  const [secondsLeft, setSecondsLeft] = useState<number>(totalSeconds);
+export function StickyTimer({
+  durationMinutes,
+  secondsLeft: externalSecondsLeft,
+  totalSeconds: externalTotalSeconds,
+  onTimeUp,
+}: StickyTimerProps) {
+  const calcTotalSeconds = externalTotalSeconds ?? durationMinutes * 60;
+  const [internalSeconds, setInternalSeconds] = useState<number>(
+    externalSecondsLeft ?? calcTotalSeconds
+  );
+
+  const activeSeconds = externalSecondsLeft ?? internalSeconds;
 
   useEffect(() => {
-    if (secondsLeft <= 0) {
+    if (externalSecondsLeft !== undefined) return;
+
+    if (internalSeconds <= 0) {
       onTimeUp();
       return;
     }
 
     const timer = setInterval(() => {
-      setSecondsLeft((prev) => {
+      setInternalSeconds((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
           onTimeUp();
@@ -31,11 +44,14 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [secondsLeft, onTimeUp]);
+  }, [internalSeconds, externalSecondsLeft, onTimeUp]);
 
-  const percentage = Math.max(0, Math.min(100, (secondsLeft / totalSeconds) * 100));
-  const isCritical = secondsLeft < 120;
-  const isWarning = secondsLeft < 300 && !isCritical;
+  const percentage = Math.max(
+    0,
+    Math.min(100, (activeSeconds / calcTotalSeconds) * 100)
+  );
+  const isCritical = activeSeconds < 120;
+  const isWarning = activeSeconds < 300 && !isCritical;
 
   return (
     <div
@@ -57,8 +73,8 @@ export function StickyTimer({ durationMinutes, onTimeUp }: StickyTimerProps) {
         <span className="text-[10px] font-heading font-semibold uppercase tracking-wide text-[#8B93A5] leading-none mb-0.5">
           Thời gian còn lại
         </span>
-        <span className="text-xs font-bold tracking-normal tabular-nums text-white">
-          {formatTimeLeft(secondsLeft)}
+        <span className="text-xs font-mono font-bold tracking-normal tabular-nums text-white">
+          {formatTimeLeft(activeSeconds)}
         </span>
       </div>
 

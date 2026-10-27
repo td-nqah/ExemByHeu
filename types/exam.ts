@@ -26,7 +26,7 @@ export interface AccountSecurity {
 
 export type ExamStatus = "draft" | "published";
 export type QuestionType = "multiple_choice" | "essay";
-export type SubmissionStatus = "pending_grading" | "graded";
+export type SubmissionStatus = "pending_grading" | "graded" | "violation_terminated";
 
 export interface QuestionOptionItem {
   id: string; // Unique option ID, e.g. `${question_id}_opt_${original_index}`
@@ -101,6 +101,7 @@ export interface Submission {
   user?: Profile;
   exam?: Exam;
   answers?: SubmissionAnswer[];
+  termination_reason?: string;
 }
 
 export interface ParsedQuestionDraft {

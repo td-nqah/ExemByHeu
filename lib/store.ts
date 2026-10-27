@@ -4,6 +4,7 @@ import {
   Exam,
   Question,
   Submission,
+  SubmissionStatus,
   SubmissionAnswer,
   Profile,
   ParsedQuestionDraft,
@@ -1543,7 +1544,8 @@ export async function deleteExam(id: string): Promise<boolean> {
 // 3. SUBMISSIONS & GRADING OPERATIONS
 export async function submitExam(
   examId: string,
-  userAnswers: Record<string, string>
+  userAnswers: Record<string, string>,
+  options?: { status?: SubmissionStatus; reason?: string }
 ): Promise<Submission> {
   initStore();
   const currentUser = getCurrentUser();
@@ -1640,7 +1642,10 @@ export async function submitExam(
   }
 
   // If there are no essay questions, submission is immediately graded!
-  const status: "pending_grading" | "graded" = hasEssay ? "pending_grading" : "graded";
+  const defaultStatus: "pending_grading" | "graded" = hasEssay ? "pending_grading" : "graded";
+  // Supabase check constraint strictly requires status IN ('pending_grading', 'graded')
+  const dbStatus: "pending_grading" | "graded" = defaultStatus;
+  const status: SubmissionStatus = options?.status || defaultStatus;
   const essayScore = hasEssay ? null : 0;
   const totalScore = Math.round(mcqScore * 100) / 100;
 
@@ -1655,7 +1660,7 @@ export async function submitExam(
         .insert({
           exam_id: examId,
           user_id: userId,
-          status,
+          status: dbStatus,
           mcq_score: mcqScore,
           essay_score: essayScore,
           total_score: totalScore,
@@ -1722,6 +1727,7 @@ export async function submitExam(
     submitted_at: submittedAt,
     exam,
     answers: submissionAnswers,
+    termination_reason: options?.reason,
   };
 
   // Sync to local fallback cache as backup (Tối đa 20 bài gần nhất cho từng tài khoản)

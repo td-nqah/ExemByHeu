@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import {
   getExamById,
@@ -15,6 +15,12 @@ import { StickyTimer } from "@/components/exam/StickyTimer";
 import { QuestionNav } from "@/components/exam/QuestionNav";
 import { MobileQuestionDrawer } from "@/components/exam/MobileQuestionDrawer";
 import { SubmitConfirmModal } from "@/components/exam/SubmitConfirmModal";
+import { ExamWatermark } from "@/components/exam/ExamWatermark";
+import { ViolationWarningModal } from "@/components/exam/ViolationWarningModal";
+import { useExamSecurity } from "@/hooks/useExamSecurity";
+import { useExamShortcuts } from "@/hooks/useExamShortcuts";
+import { useOfflineSync } from "@/hooks/useOfflineSync";
+import { useExamHeartbeat } from "@/hooks/useExamHeartbeat";
 import {
   Send,
   AlertCircle,
@@ -28,6 +34,9 @@ import {
   Flag,
   ChevronLeft,
   ChevronRight,
+  Wifi,
+  WifiOff,
+  ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
@@ -38,21 +47,64 @@ export function ExamRoomClient({ examId }: { examId: string }) {
   const shouldReduceMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // 1. Session ID for security tracking & watermarking
+  const [sessionId] = useState<string>(() => {
+    if (typeof window !== "undefined" && examId) {
+      const stored = sessionStorage.getItem(`exam_session_id_${examId}`);
+      if (stored) return stored;
+      const newSessionId = `sess_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+      sessionStorage.setItem(`exam_session_id_${examId}`, newSessionId);
+      return newSessionId;
+    }
+    return `sess_${Date.now()}`;
+  });
+
+  const currentUser = useMemo(() => getCurrentUser(), []);
+
+  // 2. Exam Data & State
   const [exam, setExam] = useState<Exam | null>(null);
   const [loading, setLoading] = useState(true);
-  const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
-  const [flaggedQuestions, setFlaggedQuestions] = useState<Record<string, boolean>>({});
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isTerminated, setIsTerminated] = useState(false);
   const [completedSubmission, setCompletedSubmission] = useState<Submission | null>(null);
 
-  const toggleFlagQuestion = (questionId: string) => {
-    setFlaggedQuestions((prev) => ({
-      ...prev,
-      [questionId]: !prev[questionId],
-    }));
-  };
+  // 3. Offline Sync & LocalStorage Fallback Hook (Module 4)
+  const {
+    answers: userAnswers,
+    updateAnswer,
+    showOfflineBanner,
+    showReconnectedBanner,
+    clearExamCache,
+  } = useOfflineSync({
+    examId,
+    sessionId,
+  });
+
+  // Flagged questions with persistence
+  const [flaggedQuestions, setFlaggedQuestions] = useState<Record<string, boolean>>(() => {
+    if (typeof window !== "undefined" && examId) {
+      try {
+        const stored = localStorage.getItem(`exam_flagged_${examId}`);
+        if (stored) return JSON.parse(stored);
+      } catch {}
+    }
+    return {};
+  });
+
+  const toggleFlagQuestion = useCallback((questionId: string) => {
+    setFlaggedQuestions((prev) => {
+      const next = { ...prev, [questionId]: !prev[questionId] };
+      if (typeof window !== "undefined" && examId) {
+        try {
+          localStorage.setItem(`exam_flagged_${examId}`, JSON.stringify(next));
+        } catch {}
+      }
+      return next;
+    });
+  }, [examId]);
+
   const [aiGradingState, setAiGradingState] = useState<{
     isGrading: boolean;
     statusText: string;
@@ -61,6 +113,113 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     statusText: "",
   });
 
+  // 4. Submission Handler (Normal or Violation Terminated)
+  const handlePerformSubmit = useCallback(
+    async (options?: { status?: any; reason?: string }) => {
+      if (isSubmitting) return;
+      setIsSubmitting(true);
+      setShowConfirmModal(false);
+
+      try {
+        const submission = await submitExam(examId, userAnswers, options);
+        clearExamCache();
+
+        if (options?.status === "violation_terminated") {
+          setIsTerminated(true);
+          router.push(
+            `/exam/${examId}/result?submissionId=${submission.id}&reason=OUT_OF_TAB_LIMIT_EXCEEDED`
+          );
+          return;
+        }
+
+        setCompletedSubmission(submission);
+
+        const essayQuestions = (exam?.questions || []).filter((q) => q.type === "essay");
+
+        if (essayQuestions.length > 0) {
+          setAiGradingState({
+            isGrading: true,
+            statusText: "Đang xử lý đánh giá tự luận (Trợ lý học thuật AI đang đối sánh barem)...",
+          });
+
+          try {
+            const res = await fetch("/api/ai/grade-submission", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                submissionId: submission.id,
+                examId,
+                essayQuestions: essayQuestions.map((q) => ({
+                  questionId: q.id,
+                  content: q.content,
+                  studentAnswer: userAnswers[q.id] || "",
+                  maxScore: q.max_score || 5.0,
+                })),
+              }),
+            });
+
+            if (res.ok) {
+              const data = await res.json();
+              if (data.results && data.results.length > 0) {
+                const updatedSub = await finalizeGrading(submission.id, data.results);
+                if (updatedSub) {
+                  setCompletedSubmission(updatedSub);
+                }
+              }
+            }
+          } catch (aiErr) {
+            console.warn("AI grading error, saved as pending:", aiErr);
+          } finally {
+            setAiGradingState({ isGrading: false, statusText: "" });
+          }
+        }
+      } catch (err) {
+        console.error("Submission failed:", err);
+        alert("Nộp bài thất bại. Vui lòng kiểm tra lại kết nối mạng!");
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [examId, userAnswers, exam, isSubmitting, clearExamCache, router]
+  );
+
+  // 5. Exam Room Security Hook (Modules 1 & 2: Tab-Switch Violation & Anti-Cheat)
+  const handleViolationTermination = useCallback(
+    (reason: string) => {
+      setIsTerminated(true);
+      handlePerformSubmit({
+        status: "violation_terminated",
+        reason,
+      });
+    },
+    [handlePerformSubmit]
+  );
+
+  const isExamActive = !loading && !completedSubmission && !isTerminated && Boolean(exam);
+
+  const {
+    violationCount,
+    isWarningOpen,
+    acknowledgeWarning,
+    handleContextMenu,
+  } = useExamSecurity({
+    examId,
+    sessionId,
+    enabled: isExamActive,
+    maxStrikes: 3,
+    onTerminate: handleViolationTermination,
+  });
+
+  // 6. Server-Synced Heartbeat Timer Hook (Module 5)
+  const { secondsLeft, totalSeconds } = useExamHeartbeat({
+    examId,
+    sessionId,
+    durationMinutes: exam?.duration_minutes || 45,
+    enabled: isExamActive,
+    onTimeUp: () => handlePerformSubmit(),
+  });
+
+  // Load Exam Data on Mount
   useEffect(() => {
     const user = getCurrentUser();
     if (!user) {
@@ -81,12 +240,11 @@ export function ExamRoomClient({ examId }: { examId: string }) {
           let questionsList = [...data.questions];
 
           // If is_shuffled is active:
-          // 1. Shuffle question order with Fisher-Yates
           if (data.is_shuffled) {
             questionsList = shuffleArray(questionsList);
           }
 
-          // 2. Prepare and shuffle option_items for each question
+          // Prepare and shuffle option_items for each question
           const processedQuestions = questionsList.map((q) => {
             if (q.type === "multiple_choice" && Array.isArray(q.options) && q.options.length > 0) {
               const baseOpts = getQuestionOptionsWithIds(q);
@@ -125,113 +283,70 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     loadExam();
   }, [examId, router]);
 
-  const handleSelectMCQ = (questionId: string, optionId: string) => {
-    setUserAnswers((prev) => ({
-      ...prev,
-      [questionId]: optionId,
-    }));
-  };
+  // Answer Select Handlers
+  const handleSelectMCQ = useCallback(
+    (questionId: string, optionId: string) => {
+      if (completedSubmission || isSubmitting || isTerminated) return;
+      updateAnswer(questionId, optionId);
+    },
+    [completedSubmission, isSubmitting, isTerminated, updateAnswer]
+  );
 
-  // Keyboard shortcut listener for fast answering (A, B, C, D)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement;
-      if (
-        target?.tagName === "TEXTAREA" ||
-        target?.tagName === "INPUT" ||
-        target?.isContentEditable
-      ) {
-        return;
-      }
-      if (isSubmitting || completedSubmission) return;
+  const handleEssayChange = useCallback(
+    (questionId: string, text: string) => {
+      if (completedSubmission || isSubmitting || isTerminated) return;
+      updateAnswer(questionId, text);
+    },
+    [completedSubmission, isSubmitting, isTerminated, updateAnswer]
+  );
 
-      const key = e.key.toUpperCase();
-      if (["A", "B", "C", "D"].includes(key)) {
-        const qId = activeQuestionId || exam?.questions?.[0]?.id;
-        if (!qId || !exam) return;
-        const currentQ = exam.questions?.find((q) => q.id === qId);
-        if (currentQ?.type === "multiple_choice") {
-          const optIndex = key.charCodeAt(0) - 65;
-          const optionId = currentQ.option_items?.[optIndex]?.id || `${currentQ.id}_opt_${optIndex}`;
-          handleSelectMCQ(qId, optionId);
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeQuestionId, exam, isSubmitting, completedSubmission]);
-
-  const handleEssayChange = (questionId: string, text: string) => {
-    setUserAnswers((prev) => ({
-      ...prev,
-      [questionId]: text,
-    }));
-  };
-
-  // Nộp bài thi
-  const handlePerformSubmit = useCallback(async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setShowConfirmModal(false);
-    try {
-      const submission = await submitExam(examId, userAnswers);
-      setCompletedSubmission(submission);
-
-      const essayQuestions = (exam?.questions || []).filter((q) => q.type === "essay");
-
-      if (essayQuestions.length > 0) {
-        setAiGradingState({
-          isGrading: true,
-          statusText: "Đang xử lý đánh giá tự luận (Trợ lý học thuật AI đang đối sánh barem)...",
-        });
-
-        try {
-          const res = await fetch("/api/ai/grade-submission", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              submissionId: submission.id,
-              examId,
-              essayQuestions: essayQuestions.map((q) => ({
-                questionId: q.id,
-                content: q.content,
-                studentAnswer: userAnswers[q.id] || "",
-                maxScore: q.max_score || 5.0,
-              })),
-            }),
-          });
-
-          if (res.ok) {
-            const data = await res.json();
-            if (data.results && data.results.length > 0) {
-              const updatedSub = await finalizeGrading(submission.id, data.results);
-              if (updatedSub) {
-                setCompletedSubmission(updatedSub);
-              }
-            }
-          }
-        } catch (aiErr) {
-          console.warn("AI grading error, saved as pending:", aiErr);
-        } finally {
-          setAiGradingState({ isGrading: false, statusText: "" });
-        }
-      }
-    } catch (err) {
-      console.error("Submission failed:", err);
-      alert("Nộp bài thất bại. Vui lòng kiểm tra lại kết nối mạng!");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [examId, userAnswers, exam, isSubmitting]);
-
-  const scrollToQuestion = (questionId: string) => {
+  const scrollToQuestion = useCallback((questionId: string) => {
     setActiveQuestionId(questionId);
     const el = document.getElementById(`q_${questionId}`);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  };
+  }, []);
+
+  // 7. Desktop Exam Keyboard Shortcuts (Module 6)
+  const questions = useMemo(() => exam?.questions || [], [exam]);
+
+  const handlePrevQuestion = useCallback(() => {
+    if (!questions.length) return;
+    const currentIndex = questions.findIndex((q) => q.id === activeQuestionId);
+    if (currentIndex > 0) {
+      scrollToQuestion(questions[currentIndex - 1].id);
+    }
+  }, [questions, activeQuestionId, scrollToQuestion]);
+
+  const handleNextQuestion = useCallback(() => {
+    if (!questions.length) return;
+    const currentIndex = questions.findIndex((q) => q.id === activeQuestionId);
+    if (currentIndex >= 0 && currentIndex < questions.length - 1) {
+      scrollToQuestion(questions[currentIndex + 1].id);
+    }
+  }, [questions, activeQuestionId, scrollToQuestion]);
+
+  const handleKeyboardSelectOption = useCallback(
+    (questionId: string, optionIndex: number) => {
+      const q = questions.find((item) => item.id === questionId);
+      if (q && q.type === "multiple_choice") {
+        const optionId = q.option_items?.[optionIndex]?.id || `${q.id}_opt_${optionIndex}`;
+        handleSelectMCQ(questionId, optionId);
+      }
+    },
+    [questions, handleSelectMCQ]
+  );
+
+  useExamShortcuts({
+    enabled: isExamActive && !isWarningOpen && !showConfirmModal,
+    questions,
+    activeQuestionId,
+    onSelectOption: handleKeyboardSelectOption,
+    onNavigatePrev: handlePrevQuestion,
+    onNavigateNext: handleNextQuestion,
+    onToggleFlag: toggleFlagQuestion,
+  });
 
   if (loading) {
     return (
@@ -239,7 +354,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
         <div className="rounded-3xl border border-[#252A37] bg-[#161A24] px-8 py-6 text-center shadow-xl">
           <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
           <p className="mt-3 text-xs font-semibold text-slate-300">
-            Đang kết nối phòng thi trực tuyến...
+            Đang khởi tạo phòng thi bảo mật...
           </p>
         </div>
       </div>
@@ -263,15 +378,61 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     );
   }
 
-  const questions = exam.questions;
   const answeredCount = questions.filter((q) => (userAnswers[q.id] || "").trim().length > 0).length;
   const hasEssay = questions.some((q) => q.type === "essay");
 
   return (
     <div
       ref={containerRef}
-      className="min-h-[100dvh] pb-24 bg-transparent"
+      onContextMenu={handleContextMenu}
+      className="min-h-[100dvh] pb-24 bg-transparent select-none relative"
+      style={{
+        WebkitUserSelect: "none",
+        userSelect: "none",
+      }}
     >
+      {/* MODULE 3: Dynamic Anti-Photo Security Watermark */}
+      <ExamWatermark
+        userName={currentUser?.username || "Thí sinh"}
+        userCode={currentUser?.id ? currentUser.id.slice(0, 8) : "STUDENT"}
+        sessionId={sessionId}
+      />
+
+      {/* MODULE 1: Strike 1 & 2 Warning Modal */}
+      <ViolationWarningModal
+        isOpen={isWarningOpen}
+        violationCount={violationCount}
+        maxViolations={3}
+        onAcknowledge={acknowledgeWarning}
+      />
+
+      {/* MODULE 4: Network Resilience Floating Notification Pills */}
+      <AnimatePresence>
+        {showOfflineBanner && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-18 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 rounded-full border border-amber-500/40 bg-[#161A24]/95 px-4 py-1.5 text-xs font-semibold text-amber-300 shadow-xl backdrop-blur-md"
+          >
+            <WifiOff className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Đang mất kết nối mạng. Bài làm vẫn được lưu tạm trên máy của bạn...</span>
+          </motion.div>
+        )}
+
+        {showReconnectedBanner && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-18 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 rounded-full border border-emerald-500/40 bg-[#161A24]/95 px-4 py-1.5 text-xs font-semibold text-emerald-300 shadow-xl backdrop-blur-md"
+          >
+            <Wifi className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+            <span>Đã kết nối lại &amp; đồng bộ dữ liệu thành công</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Top Header Bar */}
       <header className="sticky top-0 z-30 shrink-0 border-b border-[#1B1F2A] bg-[#0A0C12]/95 backdrop-blur-md">
         <div className="mx-auto flex h-16 items-center justify-between gap-2.5 px-3 sm:px-6 lg:px-8 max-w-7xl">
@@ -288,7 +449,9 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             {!completedSubmission && (
               <StickyTimer
                 durationMinutes={exam.duration_minutes}
-                onTimeUp={handlePerformSubmit}
+                secondsLeft={secondsLeft}
+                totalSeconds={totalSeconds}
+                onTimeUp={() => handlePerformSubmit()}
               />
             )}
 
@@ -299,16 +462,24 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             </div>
           </div>
 
-          {/* Right Side: Questions badge + User + Submit CTA */}
+          {/* Right Side: Security Badge + Questions badge + User + Submit CTA */}
           <div className="flex items-center gap-1.5 sm:gap-2.5">
+            {/* Integrity Mode Indicator */}
+            <div className="hidden xl:inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-semibold text-emerald-400">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+              <span>Phòng thi bảo mật</span>
+            </div>
+
             <div className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3.5 py-1.5 text-xs font-medium text-[#9CA3AF]">
               <ListChecks className="h-3.5 w-3.5 text-white" />
-              <span>Tổng <strong className="tabular-nums font-bold text-white">{questions.length}</strong> câu</span>
+              <span>
+                Tổng <strong className="tabular-nums font-bold text-white">{questions.length}</strong> câu
+              </span>
             </div>
 
             <div className="hidden lg:inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] px-3.5 py-1.5 text-xs font-medium text-[#9CA3AF]">
               <User className="h-3.5 w-3.5 text-white" />
-              <span>{getCurrentUser()?.username || "User"}</span>
+              <span>{currentUser?.username || "User"}</span>
             </div>
 
             {/* Submit Button */}
@@ -321,16 +492,19 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               >
                 <Send className="h-3.5 w-3.5 text-[#05070D]" />
                 <span>Nộp bài thi</span>
-                <span className="hidden sm:inline tabular-nums font-bold text-slate-700">({answeredCount}/{questions.length})</span>
+                <span className="hidden sm:inline tabular-nums font-bold text-slate-700">
+                  ({answeredCount}/{questions.length})
+                </span>
               </button>
             )}
           </div>
         </div>
       </header>
 
+      {/* Main Examination Workspace */}
       <div className="mx-auto px-4 py-6 sm:px-6 lg:px-8 transition-all duration-300 w-full max-w-7xl">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-          {/* Desktop Question Index Sidebar - Hidden on mobile (< 768px) */}
+          {/* Desktop Question Index Sidebar */}
           <aside className="hidden md:block md:col-span-4 lg:col-span-4 xl:col-span-3">
             <div className="sticky top-20 space-y-4">
               <QuestionNav
@@ -342,15 +516,24 @@ export function ExamRoomClient({ examId }: { examId: string }) {
               />
 
               <div className="bg-[#161A24] border border-[#252A37] rounded-3xl p-5 text-xs text-[#9CA3AF] shadow-xl">
-                <p className="mb-3 font-heading font-bold uppercase tracking-wide text-white text-xs">Quy chế phòng thi:</p>
+                <p className="mb-3 font-heading font-bold uppercase tracking-wide text-white text-xs flex items-center justify-between">
+                  <span>Quy chế phòng thi:</span>
+                  <span className="text-[10px] font-mono text-slate-400 lowercase">
+                    {violationCount > 0 ? `${violationCount}/3 vi phạm` : "giám sát bật"}
+                  </span>
+                </p>
                 <ul className="space-y-2 text-xs text-[#9CA3AF] leading-relaxed list-none p-0 m-0">
+                  <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
+                    <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
+                    <span>Không chuyển tab hoặc rời màn hình (tối đa 3 lần cảnh báo).</span>
+                  </li>
                   <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
                     <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
                     <span>Điểm trắc nghiệm được hệ thống tự động ghi nhận khi nộp bài.</span>
                   </li>
                   <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
                     <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
-                    <span>Bài làm tự luận được lưu trữ và chấm điểm theo barem đánh giá học phần.</span>
+                    <span>Phím tắt: 1-4 (hoặc A-D) chọn đáp án, Mũi tên (← →) chuyển câu, F cắm cờ.</span>
                   </li>
                   <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
                     <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
@@ -361,6 +544,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
             </div>
           </aside>
 
+          {/* Questions Area */}
           <main className="space-y-6 md:col-span-8 lg:col-span-8 xl:col-span-9">
             {questions.map((question, index) => {
               const currentVal = userAnswers[question.id] || "";
@@ -410,7 +594,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         title={
                           isFlagged
                             ? "Bỏ cờ đánh dấu xem lại"
-                            : "Đánh dấu câu hỏi này để xem lại trước khi nộp bài"
+                            : "Đánh dấu câu hỏi này để xem lại trước khi nộp bài (Phím F)"
                         }
                       >
                         <Flag
@@ -418,7 +602,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                             isFlagged ? "fill-current text-amber-300" : "text-[#8B93A5]"
                           }`}
                         />
-                        <span>{isFlagged ? "Đang đánh dấu" : "Đánh dấu xem lại"}</span>
+                        <span>{isFlagged ? "Đang đánh dấu" : "Đánh dấu xem lại (F)"}</span>
                       </button>
 
                       <span className="rounded-full bg-[#10131B] border border-[#252A37] px-3 py-1 text-[11px] font-medium text-[#9CA3AF]">
@@ -508,7 +692,9 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         <span>
                           Số từ: <span className="font-bold text-white">{currentVal.trim() ? currentVal.trim().split(/\s+/).length : 0}</span> từ
                         </span>
-                        <span><span className="font-bold text-white">{currentVal.length}</span> ký tự</span>
+                        <span>
+                          <span className="font-bold text-white">{currentVal.length}</span> ký tự
+                        </span>
                       </div>
                     </div>
                   )}
@@ -525,7 +711,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[#9CA3AF] hover:text-white bg-[#10131B] border border-[#252A37] transition active:scale-95 cursor-pointer"
                       >
                         <ChevronLeft className="h-4 w-4" />
-                        <span>Câu trước</span>
+                        <span>Câu trước (←)</span>
                       </button>
                     ) : (
                       <div />
@@ -544,7 +730,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         }}
                         className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-white bg-[#10131B] hover:bg-[#161A24] border border-[#252A37] transition active:scale-95 font-medium cursor-pointer"
                       >
-                        <span>Câu tiếp theo</span>
+                        <span>Câu tiếp (→)</span>
                         <ChevronRight className="h-4 w-4" />
                       </button>
                     ) : (
@@ -592,7 +778,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
       <SubmitConfirmModal
         isOpen={showConfirmModal}
         onClose={() => setShowConfirmModal(false)}
-        onConfirm={handlePerformSubmit}
+        onConfirm={() => handlePerformSubmit()}
         totalQuestions={questions.length}
         answeredCount={answeredCount}
         isSubmitting={isSubmitting}

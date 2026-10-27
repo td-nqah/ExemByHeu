@@ -11,6 +11,7 @@ import {
   History,
   Award,
   Sparkles,
+  AlertCircle,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
@@ -67,6 +68,17 @@ export function ExamResultClient({ examId: _examId }: { examId: string }) {
         transition={{ duration: 0.35 }}
         className="w-full max-w-lg rounded-3xl border border-[#252A37] bg-[#161A24] p-6 sm:p-8 text-center shadow-2xl"
       >
+        {/* Violation Termination Notice if applicable */}
+        {(searchParams.get("reason") === "OUT_OF_TAB_LIMIT_EXCEEDED" ||
+          submission?.termination_reason === "OUT_OF_TAB_LIMIT_EXCEEDED") && (
+          <div className="mb-4 rounded-2xl border border-rose-500/40 bg-rose-500/10 p-3.5 text-xs text-rose-300 flex items-center gap-2.5 text-left">
+            <AlertCircle className="h-5 w-5 shrink-0 text-rose-400" />
+            <span className="leading-relaxed">
+              Bài thi đã bị tự động thu bài và khóa phòng thi do phát hiện hành vi rời khỏi màn hình/chuyển tab quá số lần quy định (3/3 lần vi phạm).
+            </span>
+          </div>
+        )}
+
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#252A37] bg-[#10131B] text-emerald-400">
           <CheckCircle2 className="h-8 w-8 text-emerald-400" />
         </div>
