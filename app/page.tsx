@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { loginUser, getCurrentUser } from "@/lib/store";
 import {
   GraduationCap,
@@ -14,6 +14,27 @@ import {
   EyeOff,
   AlertCircle,
 } from "lucide-react";
+
+function DotsSpinner({ className = "h-5 w-5 text-black" }: { className?: string }) {
+  return (
+    <svg
+      className={`animate-spin shrink-0 ${className}`}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="3.5" r="1.8" opacity="1.0" />
+      <circle cx="18.01" cy="5.99" r="1.8" opacity="0.875" />
+      <circle cx="20.5" cy="12" r="1.8" opacity="0.75" />
+      <circle cx="18.01" cy="18.01" r="1.8" opacity="0.625" />
+      <circle cx="12" cy="20.5" r="1.8" opacity="0.5" />
+      <circle cx="5.99" cy="18.01" r="1.8" opacity="0.375" />
+      <circle cx="3.5" cy="12" r="1.8" opacity="0.25" />
+      <circle cx="5.99" cy="5.99" r="1.8" opacity="0.125" />
+    </svg>
+  );
+}
 
 export default function LoginPage() {
   const router = useRouter();
@@ -38,11 +59,15 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
     setError("");
     setLoading(true);
 
     try {
-      const user = await loginUser(username, password);
+      const [user] = await Promise.all([
+        loginUser(username, password),
+        new Promise((resolve) => setTimeout(resolve, 600)),
+      ]);
       if (user) {
         if (user.role === "admin") {
           router.push("/admin/dashboard");
@@ -198,15 +223,46 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Submit Button */}
-            <button
+            {/* Submit Button with press-down (chìm xuống) and rotating dots spinner */}
+            <motion.button
               type="submit"
               disabled={loading}
-              className="mt-6 flex h-[50px] sm:h-[52px] w-full items-center justify-center gap-2.5 rounded-full bg-white hover:bg-slate-100 px-6 text-base sm:text-lg font-bold text-black transition-all active:scale-[0.98] disabled:opacity-50 select-none cursor-pointer shadow-md"
+              whileTap={reduceMotion ? undefined : { scale: 0.95, y: 2 }}
+              transition={{ type: "spring", stiffness: 450, damping: 25 }}
+              className={`mt-6 flex h-[50px] sm:h-[52px] w-full items-center justify-center gap-2.5 rounded-full bg-white hover:bg-slate-100 px-6 text-base sm:text-lg font-bold text-black select-none cursor-pointer shadow-md transition-all active:scale-[0.95] active:translate-y-1 active:shadow-inner ${
+                loading
+                  ? "cursor-not-allowed scale-[0.98] translate-y-0.5 shadow-inner bg-slate-100 opacity-90"
+                  : ""
+              }`}
             >
-              <span>{loading ? "Đang xác thực..." : "Đăng nhập ngay"}</span>
-              <ArrowRight className="h-5 w-5" strokeWidth={2} />
-            </button>
+              <AnimatePresence mode="wait" initial={false}>
+                {loading ? (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.85 }}
+                    transition={{ duration: 0.15 }}
+                    className="flex items-center justify-center gap-2.5"
+                  >
+                    <DotsSpinner className="h-5 w-5 text-black" />
+                    <span>Đang đăng nhập...</span>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="idle"
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.85 }}
+                    transition={{ duration: 0.15 }}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <span>Đăng nhập</span>
+                    <ArrowRight className="h-5 w-5" strokeWidth={2.2} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </form>
         </div>
       </motion.div>
