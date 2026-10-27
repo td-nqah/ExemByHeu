@@ -136,7 +136,8 @@ export default function AdminHistoryPage() {
     // Count submissions per username
     const counts: Record<string, number> = {};
     for (const sub of submissions) {
-      const uname = (sub.user?.username || sub.user_id || "Khác").toLowerCase();
+      let uname = (sub.user?.username || sub.user_id || "Khác").toLowerCase();
+      if (uname === "00000000-0000-0000-0000-000000000001") uname = "admin";
       counts[uname] = (counts[uname] || 0) + 1;
     }
 
@@ -152,10 +153,11 @@ export default function AdminHistoryPage() {
 
     // Include any users found in submissions that aren't in profiles
     for (const sub of submissions) {
-      const uname = (sub.user?.username || sub.user_id || "khác").toLowerCase();
+      let uname = (sub.user?.username || sub.user_id || "khác").toLowerCase();
+      if (uname === "00000000-0000-0000-0000-000000000001") uname = "admin";
       if (!userMap.has(uname)) {
         userMap.set(uname, {
-          label: sub.user?.username || sub.user_id || "Học viên",
+          label: uname === "admin" ? "Admin" : (sub.user?.username || sub.user_id || "Học viên"),
           count: counts[uname] || 0,
         });
       }
@@ -175,7 +177,7 @@ export default function AdminHistoryPage() {
         // Search query
         if (searchQuery.trim()) {
           const q = searchQuery.toLowerCase().trim();
-          const username = (sub.user?.username || "").toLowerCase();
+          const username = (sub.user?.username || (sub.user_id === "00000000-0000-0000-0000-000000000001" ? "admin" : "")).toLowerCase();
           const examTitle = (sub.exam?.title || "").toLowerCase();
           if (!username.includes(q) && !examTitle.includes(q)) {
             return false;
@@ -184,8 +186,10 @@ export default function AdminHistoryPage() {
 
         // Account filter
         if (selectedUser !== "all") {
-          const subUser = (sub.user?.username || sub.user_id || "").toLowerCase();
-          if (subUser !== selectedUser.toLowerCase()) {
+          let subUser = (sub.user?.username || sub.user_id || "").toLowerCase();
+          if (subUser === "00000000-0000-0000-0000-000000000001") subUser = "admin";
+          const target = selectedUser.toLowerCase() === "00000000-0000-0000-0000-000000000001" ? "admin" : selectedUser.toLowerCase();
+          if (subUser !== target) {
             return false;
           }
         }

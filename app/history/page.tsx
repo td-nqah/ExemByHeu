@@ -31,7 +31,12 @@ export default function HistoryPage() {
 
     async function loadHistory() {
       try {
-        const data = await getSubmissions(user?.id);
+        const targetUserId =
+          user?.id ||
+          (user?.username?.toLowerCase() === "admin"
+            ? "00000000-0000-0000-0000-000000000001"
+            : undefined);
+        const data = await getSubmissions(targetUserId);
         setSubmissions(data);
       } finally {
         setLoading(false);

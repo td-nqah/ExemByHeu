@@ -333,18 +333,40 @@ export function getCurrentUser(): Profile | null {
   if (user && user.username) {
     const raw = user.username.trim().replace(/!+$/, "");
     let formatted = raw;
+    let role = user.role;
+    let id = user.id;
+
     if (raw.toLowerCase() === "admin" || raw.toLowerCase() === "adm" || user.role === "admin") {
       formatted = "Admin";
-      user.role = "admin";
+      role = "admin";
+      if (!id || id === "admin") {
+        id = "00000000-0000-0000-0000-000000000001";
+      }
+    } else if (raw.toLowerCase() === "tth") {
+      formatted = "tth";
+      if (!id) id = "00000000-0000-0000-0000-000000000002";
+    } else if (raw.toLowerCase() === "tmh") {
+      formatted = "tmh";
+      if (!id) id = "00000000-0000-0000-0000-000000000003";
+    } else if (raw.toLowerCase() === "user") {
+      formatted = "user";
+      if (!id) id = "00000000-0000-0000-0000-000000000004";
     } else if (raw.toLowerCase() === "user1") formatted = "User1";
     else if (raw.toLowerCase() === "user2") formatted = "User2";
     else if (raw.toLowerCase() === "user3") formatted = "User3";
     else formatted = raw.charAt(0).toUpperCase() + raw.slice(1);
-    if (formatted !== user.username || (formatted === "Admin" && user.role !== "admin")) {
+
+    if (
+      formatted !== user.username ||
+      role !== user.role ||
+      id !== user.id
+    ) {
       user.username = formatted;
-      user.role = "admin";
+      user.role = role;
+      user.id = id;
       setLocal(KEY_USER, user);
     }
+    return user;
   }
   return user;
 }
@@ -355,6 +377,9 @@ export function setCurrentUser(user: Profile | null): void {
     if (user.role === "admin" || user.username?.toLowerCase() === "admin" || user.username?.toLowerCase() === "adm") {
       user.username = "Admin";
       user.role = "admin";
+      if (!user.id || user.id === "admin") {
+        user.id = "00000000-0000-0000-0000-000000000001";
+      }
     }
     setLocal(KEY_USER, user);
     document.cookie = `exampulse_role=${user.role}; path=/; max-age=86400; SameSite=Lax`;
@@ -1549,7 +1574,14 @@ export async function submitExam(
 ): Promise<Submission> {
   initStore();
   const currentUser = getCurrentUser();
-  const userId = currentUser?.id || "00000000-0000-0000-0000-000000000002";
+  let userId = currentUser?.id;
+  if (!userId || userId === "admin") {
+    if (currentUser?.username?.toLowerCase() === "admin") {
+      userId = "00000000-0000-0000-0000-000000000001";
+    } else {
+      userId = "00000000-0000-0000-0000-000000000002";
+    }
+  }
 
   const exam = await getExamById(examId);
   if (!exam || !exam.questions) {
@@ -1758,6 +1790,7 @@ export async function getSubmissions(userId?: string, limitCount?: number): Prom
   const effectiveLimit = limitCount ?? 20;
 
   // 1. Live Supabase fetch (Tối đa số bài yêu cầu)
+  let supabaseMapped: Submission[] = [];
   if (isSupabaseConfigured && supabase) {
     try {
       let query = supabase
@@ -1772,12 +1805,17 @@ export async function getSubmissions(userId?: string, limitCount?: number): Prom
       }
 
       if (userId) {
-        query = query.eq("user_id", userId);
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId);
+        if (isUuid) {
+          query = query.eq("user_id", userId);
+        } else if (userId.toLowerCase() === "admin") {
+          query = query.eq("user_id", "00000000-0000-0000-0000-000000000001");
+        }
       }
 
       const { data, error } = await query;
       if (!error && Array.isArray(data)) {
-        const mapped: Submission[] = data.map((sub: any) => ({
+        supabaseMapped = data.map((sub: any) => ({
           id: sub.id,
           exam_id: sub.exam_id,
           user_id: sub.user_id,
@@ -1789,37 +1827,75 @@ export async function getSubmissions(userId?: string, limitCount?: number): Prom
           exam: sub.exam,
           user: sub.user,
         }));
-        return effectiveLimit > 0 ? mapped.slice(0, effectiveLimit) : mapped;
       }
     } catch (e) {
       console.warn("Supabase getSubmissions failed:", e);
     }
   }
 
-  // 2. Local fallback
-  const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  // 2. Local fallback & merging (Đảm bảo không bao giờ thất lạc bài nộp đã lưu trong trình duyệt)
+  const localSubmissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
   const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
   const profiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
 
-  const enriched = submissions
+  const enrichedLocal = localSubmissions
     .map((sub) => {
       const exam = exams.find((e) => e.id === sub.exam_id);
       const examQuestions = questions.filter((q) => q.exam_id === sub.exam_id);
-      const user = profiles.find((p) => p.id === sub.user_id || p.username.toLowerCase() === (sub.user_id || "").toLowerCase());
+      const user = profiles.find(
+        (p) => p.id === sub.user_id || p.username.toLowerCase() === (sub.user_id || "").toLowerCase()
+      );
       return {
         ...sub,
-        exam: exam ? { ...exam, questions: examQuestions } : undefined,
-        user: user || { id: sub.user_id, username: sub.user_id || "Thí sinh", role: "user" as const, created_at: sub.submitted_at || new Date().toISOString() },
+        exam: sub.exam || (exam ? { ...exam, questions: examQuestions } : undefined),
+        user:
+          sub.user ||
+          user || {
+            id: sub.user_id,
+            username: sub.user_id || "Thí sinh",
+            role: "user" as const,
+            created_at: sub.submitted_at || new Date().toISOString(),
+          },
       };
     })
     .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
 
-  let result = enriched;
-  if (userId) {
-    result = result.filter((s) => s.user_id === userId);
+  // Hợp nhất dữ liệu: Supabase + Local (ưu tiên Supabase, giữ lại các bài nộp cục bộ chưa có trên Supabase)
+  const combinedMap = new Map<string, Submission>();
+  for (const s of supabaseMapped) {
+    combinedMap.set(s.id, s);
   }
-  return effectiveLimit > 0 ? result.slice(0, effectiveLimit) : result;
+  for (const s of enrichedLocal) {
+    if (!combinedMap.has(s.id)) {
+      combinedMap.set(s.id, s);
+    }
+  }
+
+  let combined = Array.from(combinedMap.values()).sort(
+    (a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime()
+  );
+
+  // Lọc theo userId nếu có yêu cầu (hỗ trợ cả UUID lẫn username, ví dụ 'admin' hay '0000...0001')
+  if (userId) {
+    const norm = userId.toLowerCase();
+    combined = combined.filter((s) => {
+      if (s.user_id === userId) return true;
+      if (s.user?.id === userId) return true;
+      if (s.user?.username && s.user.username.toLowerCase() === norm) return true;
+      if (
+        (norm === "admin" || norm === "00000000-0000-0000-0000-000000000001") &&
+        (s.user_id === "00000000-0000-0000-0000-000000000001" ||
+          s.user_id?.toLowerCase() === "admin" ||
+          s.user?.username?.toLowerCase() === "admin")
+      ) {
+        return true;
+      }
+      return false;
+    });
+  }
+
+  return effectiveLimit > 0 ? combined.slice(0, effectiveLimit) : combined;
 }
 
 export async function getSubmissionById(id: string): Promise<Submission | null> {
