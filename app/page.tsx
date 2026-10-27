@@ -94,12 +94,12 @@ export default function LoginPage() {
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-xl text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-8"
       >
-        <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#10131b] border border-[#252a37] px-3.5 py-1.5 text-[11px] sm:text-xs font-medium text-slate-300 shadow-xs">
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#10131b] border border-[#252a37] px-3.5 py-1.5 text-[11px] sm:text-xs font-medium text-white shadow-xs">
           <Sparkles className="h-3.5 w-3.5 text-white" />
           <span>
             <span className="text-white font-bold">Exam</span>
             <span className="text-[#9ca3af] font-bold">ByHeu</span>{" "}
-            <span className="text-slate-400">v2.0 • Thi thử &amp; Đánh giá</span>
+            <span className="text-white font-medium">v2.0 – Thi thử &amp; Đánh giá</span>
           </span>
         </div>
 
