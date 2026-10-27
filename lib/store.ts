@@ -1747,10 +1747,11 @@ export async function submitExam(
   return newSubmission;
 }
 
-export async function getSubmissions(userId?: string): Promise<Submission[]> {
+export async function getSubmissions(userId?: string, limitCount?: number): Promise<Submission[]> {
   initStore();
+  const effectiveLimit = limitCount ?? 20;
 
-  // 1. Live Supabase fetch (Tối đa 20 bài mới nhất)
+  // 1. Live Supabase fetch (Tối đa số bài yêu cầu)
   if (isSupabaseConfigured && supabase) {
     try {
       let query = supabase
@@ -1758,8 +1759,11 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
         .select(
           "id, exam_id, user_id, status, mcq_score, essay_score, total_score, submitted_at, exam:exams(id, title, duration_minutes, questions(id, max_score, type)), user:profiles(id, username, role)"
         )
-        .order("submitted_at", { ascending: false })
-        .limit(100);
+        .order("submitted_at", { ascending: false });
+
+      if (effectiveLimit > 0) {
+        query = query.limit(effectiveLimit);
+      }
 
       if (userId) {
         query = query.eq("user_id", userId);
@@ -1779,7 +1783,7 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
           exam: sub.exam,
           user: sub.user,
         }));
-        return mapped.slice(0, 20);
+        return effectiveLimit > 0 ? mapped.slice(0, effectiveLimit) : mapped;
       }
     } catch (e) {
       console.warn("Supabase getSubmissions failed:", e);
@@ -1790,25 +1794,26 @@ export async function getSubmissions(userId?: string): Promise<Submission[]> {
   const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
   const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
   const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
-  const profiles = SEED_PROFILES;
+  const profiles = getLocal<Profile[]>(KEY_PROFILES, SEED_PROFILES);
 
   const enriched = submissions
     .map((sub) => {
       const exam = exams.find((e) => e.id === sub.exam_id);
       const examQuestions = questions.filter((q) => q.exam_id === sub.exam_id);
-      const user = profiles.find((p) => p.id === sub.user_id);
+      const user = profiles.find((p) => p.id === sub.user_id || p.username.toLowerCase() === (sub.user_id || "").toLowerCase());
       return {
         ...sub,
         exam: exam ? { ...exam, questions: examQuestions } : undefined,
-        user,
+        user: user || { id: sub.user_id, username: sub.user_id || "Thí sinh", role: "user" as const, created_at: sub.submitted_at || new Date().toISOString() },
       };
     })
     .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
 
+  let result = enriched;
   if (userId) {
-    return enriched.filter((s) => s.user_id === userId).slice(0, 20);
+    result = result.filter((s) => s.user_id === userId);
   }
-  return enriched.slice(0, 20);
+  return effectiveLimit > 0 ? result.slice(0, effectiveLimit) : result;
 }
 
 export async function getSubmissionById(id: string): Promise<Submission | null> {

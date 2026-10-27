@@ -172,6 +172,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       return "/admin/dashboard";
     }
     if (pathname.startsWith("/admin/materials")) return "/admin/materials";
+    if (pathname.startsWith("/admin/history") || pathname.startsWith("/admin/submissions")) return "/admin/history";
     if (pathname.startsWith("/admin/permissions")) return "/admin/permissions";
     if (pathname.startsWith("/admin/settings")) return "/admin/settings";
     return "";
@@ -250,6 +251,12 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Tài liệu",
       href: "/admin/materials",
       icon: BarChart2,
+      color: "text-white",
+    },
+    {
+      title: "Lịch sử",
+      href: "/admin/history",
+      icon: History,
       color: "text-white",
     },
   ];

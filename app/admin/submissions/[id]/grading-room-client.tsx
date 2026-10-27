@@ -88,7 +88,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
       try {
         const data = await getSubmissionById(submissionId);
         if (!data) {
-          router.push("/admin/submissions");
+          router.push("/admin/history");
           return;
         }
         setSubmission(data);
@@ -148,7 +148,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
         setSubmission(updated);
         setSavedSuccess(true);
         setTimeout(() => {
-          router.push("/admin/submissions");
+          router.push("/admin/history");
         }, 1200);
       }
     } catch (err: any) {
@@ -174,8 +174,8 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
           <h2 className="text-base font-bold text-white">
             Không tìm thấy bài nộp
           </h2>
-          <Link href="/admin/submissions" className="mt-4 inline-flex items-center rounded-full bg-white px-5 py-2 text-xs font-bold text-black hover:bg-slate-200 transition">
-            Quay lại danh sách bài nộp
+          <Link href="/admin/history" className="mt-4 inline-flex items-center rounded-full bg-white px-5 py-2 text-xs font-bold text-black hover:bg-slate-200 transition">
+            Quay lại Lịch sử đánh giá
           </Link>
         </div>
       </div>
@@ -191,11 +191,11 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6">
         <Link
-          href="/admin/submissions"
+          href="/admin/history"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9CA3AF] transition hover:text-white"
         >
           <ArrowLeft className="h-3.5 w-3.5 text-white" />
-          <span>Quay lại Quản lý Bài nộp & Đánh giá</span>
+          <span>Quay lại Lịch sử đánh giá của các tài khoản</span>
         </Link>
       </div>
 
