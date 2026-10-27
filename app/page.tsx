@@ -119,24 +119,28 @@ export default function LoginPage() {
         initial={reduceMotion ? false : { opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-xl text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-8"
+        className="w-full max-w-xl text-center flex flex-col items-center space-y-2.5 sm:space-y-3.5 mb-6 sm:mb-8"
       >
-        {/* Dòng logo icon và tên ExamByHeu */}
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white shadow-sm">
-            <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
+        {/* Badge v2.0 đưa lên trên đầu */}
+        <div>
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#10131b] border border-[#252a37] px-3.5 py-1.5 text-[11px] sm:text-xs font-medium text-white shadow-xs">
+            <Sparkles className="h-3.5 w-3.5 text-white" />
+            <span>v2.0 – Thi thử &amp; Đánh giá</span>
           </div>
-          <span className="brand-logo font-heading text-2xl sm:text-3xl font-black tracking-tight select-none">
+        </div>
+
+        {/* Dòng logo icon và tên ExamByHeu (cỡ chữ to ngang Heading Hệ thống) */}
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex h-11 w-11 sm:h-12 sm:w-12 lg:h-14 lg:w-14 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white shadow-sm">
+            <GraduationCap className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" strokeWidth={2.2} />
+          </div>
+          <span className="brand-logo font-heading text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight select-none">
             <span className="text-white">Exam</span>
             <span className="text-[#9ca3af]">ByHeu</span>
           </span>
         </div>
 
-        <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#10131b] border border-[#252a37] px-3.5 py-1.5 text-[11px] sm:text-xs font-medium text-white shadow-xs">
-          <Sparkles className="h-3.5 w-3.5 text-white" />
-          <span>v2.0 – Thi thử &amp; Đánh giá</span>
-        </div>
-
+        {/* Heading Hệ thống */}
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
           Hệ thống Thi thử &amp; Đánh giá
         </h1>
