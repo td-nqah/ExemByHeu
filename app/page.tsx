@@ -74,12 +74,12 @@ export default function LoginPage() {
           <span>
             <span className="text-white font-bold">Exam</span>
             <span className="text-[#9ca3af] font-bold">ByHeu</span>{" "}
-            <span className="text-slate-400">v2.0 • Khảo thí &amp; Đánh giá Học phần</span>
+            <span className="text-slate-400">v2.0 • Thi thử &amp; Đánh giá</span>
           </span>
         </div>
 
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
-          Hệ thống Khảo thí &amp; Đánh giá Học thuật
+          Hệ thống Thi thử &amp; Đánh giá
         </h1>
       </motion.div>
 
@@ -94,17 +94,21 @@ export default function LoginPage() {
           {/* Ambient Top Subtle Line */}
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#252a37] to-transparent rounded-t-3xl" />
 
-          {/* Centered Icon & Header Title */}
+          {/* Logo with ExamByHeu beside it, followed by "Đăng nhập" below */}
           <div className="mb-6 sm:mb-7 flex flex-col items-center text-center">
-            <div className="mb-3.5 sm:mb-4 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white shadow-sm">
-              <GraduationCap className="h-7 w-7 sm:h-8 sm:w-8 text-white" strokeWidth={2.2} />
+            <div className="flex items-center justify-center gap-3">
+              <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white shadow-sm">
+                <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
+              </div>
+              <span className="brand-logo font-heading text-2xl sm:text-[26px] font-black tracking-tight select-none">
+                <span className="text-white">Exam</span>
+                <span className="text-[#9ca3af]">ByHeu</span>
+              </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-              Đăng nhập Cổng Khảo thí
+
+            <h2 className="mt-4 sm:mt-5 text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+              Đăng nhập
             </h2>
-            <p className="mt-2 text-sm text-slate-400 max-w-sm mx-auto leading-relaxed">
-              Vui lòng nhập thông tin xác thực để truy cập môi trường khảo thí và học vụ
-            </p>
           </div>
 
           {error && (
