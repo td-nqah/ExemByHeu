@@ -265,6 +265,20 @@ export function initStore(): void {
     localStorage.setItem(KEY_HISTORY_CLEARED, "true");
   }
 
+  // Auto-clean admin test submissions on next client load per user request
+  const KEY_HISTORY_CLEARED_V2 = `${STORAGE_PREFIX}history_cleared_v2`;
+  if (!localStorage.getItem(KEY_HISTORY_CLEARED_V2)) {
+    const currentSubs = getLocal<Submission[]>(KEY_SUBMISSIONS, []);
+    const filteredSubs = currentSubs.filter(
+      (s) =>
+        s.user_id !== "00000000-0000-0000-0000-000000000001" &&
+        s.user_id?.toLowerCase() !== "admin" &&
+        s.user?.username?.toLowerCase() !== "admin"
+    );
+    setLocal(KEY_SUBMISSIONS, filteredSubs);
+    localStorage.setItem(KEY_HISTORY_CLEARED_V2, "true");
+  }
+
   // Clean up legacy demo exams from localStorage if stored on client devices
   const legacyDemoIds = new Set([
     "11111111-1111-1111-1111-111111111111",
@@ -2076,6 +2090,81 @@ export async function finalizeGrading(
   setLocal(KEY_SUBMISSION_ANSWERS, updatedAnswers);
 
   return updatedSubmission;
+}
+
+export async function deleteSubmission(submissionId: string): Promise<boolean> {
+  initStore();
+  // 1. Delete from Supabase
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(submissionId);
+      if (isUuid) {
+        await supabase.from("submissions").delete().eq("id", submissionId);
+      }
+    } catch (e) {
+      console.warn("Supabase deleteSubmission error:", e);
+    }
+  }
+
+  // 2. Delete from LocalStorage
+  const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  const answers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
+
+  const updatedSubmissions = submissions.filter((s) => s.id !== submissionId);
+  const updatedAnswers = answers.filter((a) => a.submission_id !== submissionId);
+
+  setLocal(KEY_SUBMISSIONS, updatedSubmissions);
+  setLocal(KEY_SUBMISSION_ANSWERS, updatedAnswers);
+  return true;
+}
+
+export async function clearUserSubmissions(userId?: string): Promise<boolean> {
+  initStore();
+  const effectiveUserId = userId || "00000000-0000-0000-0000-000000000001";
+  const norm = effectiveUserId.toLowerCase();
+
+  // 1. Delete from Supabase
+  if (isSupabaseConfigured && supabase) {
+    try {
+      if (norm === "admin" || norm === "00000000-0000-0000-0000-000000000001") {
+        await supabase.from("submissions").delete().eq("user_id", "00000000-0000-0000-0000-000000000001");
+      } else {
+        await supabase.from("submissions").delete().eq("user_id", effectiveUserId);
+      }
+    } catch (e) {
+      console.warn("Supabase clearUserSubmissions error:", e);
+    }
+  }
+
+  // 2. Delete from LocalStorage
+  const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  const answers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
+
+  const isAdmin = norm === "admin" || norm === "00000000-0000-0000-0000-000000000001";
+
+  const removedIds = new Set<string>();
+  const updatedSubmissions = submissions.filter((s) => {
+    const isThisUser =
+      s.user_id === effectiveUserId ||
+      s.user?.id === effectiveUserId ||
+      s.user?.username?.toLowerCase() === norm ||
+      (isAdmin &&
+        (s.user_id === "00000000-0000-0000-0000-000000000001" ||
+          s.user_id?.toLowerCase() === "admin" ||
+          s.user?.username?.toLowerCase() === "admin"));
+
+    if (isThisUser) {
+      removedIds.add(s.id);
+      return false;
+    }
+    return true;
+  });
+
+  const updatedAnswers = answers.filter((a) => !removedIds.has(a.submission_id));
+
+  setLocal(KEY_SUBMISSIONS, updatedSubmissions);
+  setLocal(KEY_SUBMISSION_ANSWERS, updatedAnswers);
+  return true;
 }
 
 

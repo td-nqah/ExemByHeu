@@ -9,6 +9,7 @@ import {
   getCurrentUser,
   getAllProfiles,
   getExams,
+  deleteSubmission,
 } from "@/lib/store";
 import { Submission, Profile, Exam } from "@/types/exam";
 import { formatDate, cn } from "@/lib/utils";
@@ -33,6 +34,7 @@ import {
   ChevronDown,
   Layers,
   GraduationCap,
+  Trash2,
 } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
@@ -109,6 +111,14 @@ export default function AdminHistoryPage() {
   const handleCloseDetail = () => {
     setViewingId(null);
     setDetailSubmission(null);
+  };
+
+  const handleDeleteSubmission = async (id: string) => {
+    if (!window.confirm("Bạn có chắc chắn muốn xóa bài nộp này khỏi hệ thống không? Thao tác này không thể hoàn tác.")) {
+      return;
+    }
+    await deleteSubmission(id);
+    setSubmissions((prev) => prev.filter((s) => s.id !== id));
   };
 
   // Statistics calculation
@@ -712,6 +722,15 @@ export default function AdminHistoryPage() {
                               <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                           )}
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteSubmission(sub.id)}
+                            title="Xóa bài nộp"
+                            className="p-1.5 rounded-full text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer select-none"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
                         </div>
                       </td>
                     </tr>
