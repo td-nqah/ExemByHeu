@@ -156,7 +156,7 @@ export default function LoginPage() {
         <div className="relative rounded-[20px] sm:rounded-2xl bg-[#161a24] border border-[#252a37] p-6 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.65)]">
           {/* Title */}
           <h2 className="text-center text-2xl sm:text-[28px] font-bold text-white tracking-tight mb-5 sm:mb-6">
-            Login
+            Đăng Nhập
           </h2>
 
           {error && (
@@ -184,7 +184,7 @@ export default function LoginPage() {
                 placeholder=""
                 autoCapitalize="none"
                 autoCorrect="off"
-                className="h-[42px] sm:h-[46px] w-full rounded-lg bg-[#10131b] border border-[#252a37] px-3.5 text-sm sm:text-base text-white placeholder-slate-500 focus:border-[#a78bfa] focus:ring-1 focus:ring-[#a78bfa] focus:outline-none transition-colors"
+                className="h-[42px] sm:h-[46px] w-full rounded-lg bg-[#10131b] border border-[#252a37] px-3.5 text-sm sm:text-base text-white placeholder-slate-500 focus:border-white focus:ring-1 focus:ring-white focus:outline-none transition-colors"
               />
             </div>
 
@@ -204,7 +204,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder=""
-                  className="h-[42px] sm:h-[46px] w-full rounded-lg bg-[#10131b] border border-[#252a37] pl-3.5 pr-10 text-sm sm:text-base text-white placeholder-slate-500 focus:border-[#a78bfa] focus:ring-1 focus:ring-[#a78bfa] focus:outline-none transition-colors"
+                  className="h-[42px] sm:h-[46px] w-full rounded-lg bg-[#10131b] border border-[#252a37] pl-3.5 pr-10 text-sm sm:text-base text-white placeholder-slate-500 focus:border-white focus:ring-1 focus:ring-white focus:outline-none transition-colors"
                 />
                 <button
                   type="button"
@@ -229,7 +229,7 @@ export default function LoginPage() {
                     setSignupNotice(false);
                     setSocialNotice(null);
                   }}
-                  className="text-xs sm:text-[13px] font-medium text-slate-200 hover:text-[#a78bfa] hover:underline transition-colors cursor-pointer select-none"
+                  className="text-xs sm:text-[13px] font-medium text-slate-300 hover:text-white hover:underline transition-colors cursor-pointer select-none"
                 >
                   Forgot Password ?
                 </button>
@@ -247,13 +247,13 @@ export default function LoginPage() {
               </motion.div>
             )}
 
-            {/* Sign in Button */}
+            {/* Đăng nhập Button */}
             <motion.button
               type="submit"
               disabled={loading}
               whileTap={reduceMotion ? undefined : { scale: 0.97 }}
               transition={{ type: "spring", stiffness: 450, damping: 25 }}
-              className={`w-full mt-2 flex h-[44px] sm:h-[48px] items-center justify-center rounded-lg bg-[#a78bfa] hover:bg-[#9678f8] py-2.5 sm:py-3 text-center text-sm sm:text-base font-bold text-slate-950 transition-all select-none cursor-pointer shadow-sm active:scale-[0.97] ${
+              className={`w-full mt-2 flex h-[44px] sm:h-[48px] items-center justify-center rounded-lg bg-white hover:bg-slate-200 py-2.5 sm:py-3 text-center text-sm sm:text-base font-bold text-black transition-all select-none cursor-pointer shadow-sm active:scale-[0.97] ${
                 loading ? "opacity-85 cursor-not-allowed" : ""
               }`}
             >
@@ -267,8 +267,8 @@ export default function LoginPage() {
                     transition={{ duration: 0.15 }}
                     className="flex items-center justify-center gap-2"
                   >
-                    <DotsSpinner className="h-4 w-4 text-slate-950" />
-                    <span>Signing in...</span>
+                    <DotsSpinner className="h-4 w-4 text-black" />
+                    <span>Đang đăng nhập...</span>
                   </motion.div>
                 ) : (
                   <motion.span
@@ -278,7 +278,7 @@ export default function LoginPage() {
                     exit={{ opacity: 0, scale: 0.85 }}
                     transition={{ duration: 0.15 }}
                   >
-                    Sign in
+                    Đăng nhập
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -304,7 +304,7 @@ export default function LoginPage() {
                 setSignupNotice(false);
               }}
               title="Login with Google"
-              className="text-white hover:text-[#a78bfa] hover:scale-115 active:scale-95 transition-all cursor-pointer"
+              className="text-slate-200 hover:text-white hover:scale-115 active:scale-95 transition-all cursor-pointer"
             >
               <GoogleIcon className="h-5 w-5" />
             </button>
@@ -317,7 +317,7 @@ export default function LoginPage() {
                 setSignupNotice(false);
               }}
               title="Login with Twitter"
-              className="text-white hover:text-[#a78bfa] hover:scale-115 active:scale-95 transition-all cursor-pointer"
+              className="text-slate-200 hover:text-white hover:scale-115 active:scale-95 transition-all cursor-pointer"
             >
               <TwitterIcon className="h-5 w-5" />
             </button>
@@ -330,7 +330,7 @@ export default function LoginPage() {
                 setSignupNotice(false);
               }}
               title="Login with GitHub"
-              className="text-white hover:text-[#a78bfa] hover:scale-115 active:scale-95 transition-all cursor-pointer"
+              className="text-slate-200 hover:text-white hover:scale-115 active:scale-95 transition-all cursor-pointer"
             >
               <GithubIcon className="h-5 w-5" />
             </button>
@@ -356,7 +356,7 @@ export default function LoginPage() {
                 setForgotNotice(false);
                 setSocialNotice(null);
               }}
-              className="font-bold text-white hover:text-[#a78bfa] hover:underline transition-colors cursor-pointer"
+              className="font-bold text-white hover:text-slate-200 hover:underline transition-colors cursor-pointer"
             >
               Sign up
             </button>
