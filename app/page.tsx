@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { loginUser, getCurrentUser } from "@/lib/store";
 import {
+  GraduationCap,
   Sparkles,
   Eye,
   EyeOff,
@@ -120,13 +121,20 @@ export default function LoginPage() {
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-xl text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-8"
       >
+        {/* Dòng logo icon và tên ExamByHeu */}
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white shadow-sm">
+            <GraduationCap className="h-6 w-6 text-white" strokeWidth={2.2} />
+          </div>
+          <span className="brand-logo font-heading text-2xl sm:text-3xl font-black tracking-tight select-none">
+            <span className="text-white">Exam</span>
+            <span className="text-[#9ca3af]">ByHeu</span>
+          </span>
+        </div>
+
         <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#10131b] border border-[#252a37] px-3.5 py-1.5 text-[11px] sm:text-xs font-medium text-white shadow-xs">
           <Sparkles className="h-3.5 w-3.5 text-white" />
-          <span>
-            <span className="text-white font-bold">Exam</span>
-            <span className="text-[#9ca3af] font-bold">ByHeu</span>{" "}
-            <span className="text-white font-medium">v2.0 – Thi thử &amp; Đánh giá</span>
-          </span>
+          <span>v2.0 – Thi thử &amp; Đánh giá</span>
         </div>
 
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
@@ -134,14 +142,14 @@ export default function LoginPage() {
         </h1>
       </motion.div>
 
-      {/* 2. Centered Login Card (Uiverse Clean Layout) */}
+      {/* 2. Centered Login Card (Matching system dark theme) */}
       <motion.div
         initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-[340px] sm:max-w-[365px]"
       >
-        <div className="relative rounded-[20px] sm:rounded-2xl bg-[#111625] border border-[#232d42] p-6 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.65)]">
+        <div className="relative rounded-[20px] sm:rounded-2xl bg-[#161a24] border border-[#252a37] p-6 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.65)]">
           {/* Title */}
           <h2 className="text-center text-2xl sm:text-[28px] font-bold text-white tracking-tight mb-5 sm:mb-6">
             Login
@@ -172,7 +180,7 @@ export default function LoginPage() {
                 placeholder=""
                 autoCapitalize="none"
                 autoCorrect="off"
-                className="h-[42px] sm:h-[46px] w-full rounded-lg bg-[#111827] border border-[#374151] px-3.5 text-sm sm:text-base text-white placeholder-slate-500 focus:border-[#a78bfa] focus:ring-1 focus:ring-[#a78bfa] focus:outline-none transition-colors"
+                className="h-[42px] sm:h-[46px] w-full rounded-lg bg-[#10131b] border border-[#252a37] px-3.5 text-sm sm:text-base text-white placeholder-slate-500 focus:border-[#a78bfa] focus:ring-1 focus:ring-[#a78bfa] focus:outline-none transition-colors"
               />
             </div>
 
@@ -192,7 +200,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder=""
-                  className="h-[42px] sm:h-[46px] w-full rounded-lg bg-[#111827] border border-[#374151] pl-3.5 pr-10 text-sm sm:text-base text-white placeholder-slate-500 focus:border-[#a78bfa] focus:ring-1 focus:ring-[#a78bfa] focus:outline-none transition-colors"
+                  className="h-[42px] sm:h-[46px] w-full rounded-lg bg-[#10131b] border border-[#252a37] pl-3.5 pr-10 text-sm sm:text-base text-white placeholder-slate-500 focus:border-[#a78bfa] focus:ring-1 focus:ring-[#a78bfa] focus:outline-none transition-colors"
                 />
                 <button
                   type="button"
@@ -275,11 +283,11 @@ export default function LoginPage() {
 
           {/* Divider: Login with social accounts */}
           <div className="flex items-center my-5">
-            <div className="flex-1 h-[1px] bg-[#2d3748]" />
+            <div className="flex-1 h-[1px] bg-[#252a37]" />
             <span className="px-3 text-xs text-slate-400 select-none">
               Login with social accounts
             </span>
-            <div className="flex-1 h-[1px] bg-[#2d3748]" />
+            <div className="flex-1 h-[1px] bg-[#252a37]" />
           </div>
 
           {/* Social Icons (Google, Twitter, GitHub) */}
