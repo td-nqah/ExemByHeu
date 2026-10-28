@@ -17,6 +17,7 @@ import {
   Calendar,
   AlertCircle,
   Sparkles,
+  FileCheck,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { NumberStepper } from "@/components/ui/NumberStepper";
@@ -42,7 +43,8 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
     questionId: string,
     questionContent: string,
     studentAnswer: string,
-    maxScore: number
+    maxScore: number,
+    rubric?: string
   ) => {
     setAiLoadingId(questionId);
     try {
@@ -53,6 +55,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
           questionContent,
           studentAnswer,
           maxScore: maxScore || 5.0,
+          rubric: rubric || "",
         }),
       });
 
@@ -407,6 +410,18 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                 </div>
               ) : (
                 <div className="space-y-4">
+                  {q.correct_answer && (
+                    <div>
+                      <label className="mb-1.5 flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-emerald-400 font-semibold">
+                        <FileCheck className="h-3.5 w-3.5 text-emerald-400" />
+                        Dàn ý / Barem chấm điểm chuẩn của đề thi (Căn cứ AI đối sánh)
+                      </label>
+                      <div className="rounded-2xl border border-emerald-500/25 bg-[#10131B] p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-200">
+                        {q.correct_answer}
+                      </div>
+                    </div>
+                  )}
+
                   <div>
                     <label className="mb-1.5 block text-[11px] uppercase tracking-wider text-[#8B93A5] font-semibold">
                       Bài làm của sinh viên
@@ -426,7 +441,7 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                         <button
                           type="button"
                           disabled={aiLoadingId === q.id}
-                          onClick={() => handleGradeWithAI(q.id, q.content, ans.user_answer, q.max_score)}
+                          onClick={() => handleGradeWithAI(q.id, q.content, ans.user_answer, q.max_score, q.correct_answer)}
                           className="inline-flex items-center gap-1.5 rounded-full bg-[#232836] border border-[#2A2F3C] px-3 py-1 text-[11px] font-semibold text-white transition hover:bg-white hover:text-black active:scale-[0.98] disabled:opacity-50 cursor-pointer"
                           title="Sử dụng Trợ lý học thuật AI để phân tích câu trả lời và đề xuất điểm theo barem"
                         >

@@ -154,6 +154,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   content: q.content,
                   studentAnswer: userAnswers[q.id] || "",
                   maxScore: q.max_score || 5.0,
+                  rubric: q.correct_answer || "",
                 })),
               }),
             });

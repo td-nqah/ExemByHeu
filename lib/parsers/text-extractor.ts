@@ -88,6 +88,25 @@ function extractAnswerMapFromText(text: string): Map<number, string> {
   return map;
 }
 
+// Extract Essay Rubric / Grading Guide (e.g. "2. Hướng dẫn chấm Tự luận (Tổng 5.0 điểm):", "Dàn ý chấm điểm tự luận:", "Đáp án tự luận:")
+function extractEssayRubricFromText(text: string): { rubric: string; score?: number } {
+  if (!text) return { rubric: "" };
+  const essayRubricRegex =
+    /(?:^|\n)\s*(?:\d+[.:)-]\s*)?(?:(?:Hướng\s*dẫn\s*chấm|Đáp\s*án|Barem|Dàn\s*ý|Thang\s*điểm)\s*(?:chấm)?\s*(?:phần\s*)?tự\s*luận|(?:PHẦN\s*[IVX\d]*\s*[-:.]\s*)?HƯỚNG\s*DẪN\s*CHẤM\s*TỰ\s*LUẬN)(?:\s*\([^)]*\))?[-:.\s]+([\s\S]+)$/iu;
+  const m = text.match(essayRubricRegex);
+  if (m && m[1]) {
+    const rawRubric = m[1].trim();
+    const matchedPrefix = m[0].slice(0, m[0].indexOf(m[1]));
+    const scoreMatch = matchedPrefix.match(/(?:Tổng\s*)?(\d+(?:[.,]\d+)?)\s*(?:đ|điểm|pts?)/i);
+    let score: number | undefined;
+    if (scoreMatch) {
+      score = parseFloat(scoreMatch[1].replace(",", "."));
+    }
+    return { rubric: rawRubric, score };
+  }
+  return { rubric: "" };
+}
+
 /**
  * Robust regex-based question extractor that parses standard & semi-structured Vietnamese & English exam patterns.
  * Supports:
@@ -107,6 +126,15 @@ export function parseQuestionsFromRawText(rawText: string): ParsedQuestionDraft[
 
   // Extract answer map if an answer table is present at the end
   const answerMap = extractAnswerMapFromText(normalized);
+
+  // Check if there is a section header with score for essay, e.g. "PHẦN II: TỰ LUẬN (5.0 điểm)"
+  let sectionEssayScore: number | undefined;
+  const essaySectionScoreMatch = normalized.match(
+    /(?:PHẦN|PART|MỤC)\s+[IVX\d]*[\s:.-]*TỰ\s*LUẬN\s*\((?:Tổng\s*)?(\d+(?:[.,]\d+)?)\s*(?:đ|điểm|pts?)\)/i
+  );
+  if (essaySectionScoreMatch) {
+    sectionEssayScore = parseFloat(essaySectionScoreMatch[1].replace(",", "."));
+  }
 
   // Strip answer key section from exam text so it never becomes a question or merges into questions
   const answerKeyHeaderRegex =
@@ -279,6 +307,36 @@ export function parseQuestionsFromRawText(rawText: string): ParsedQuestionDraft[
       correct_answer: isMCQ ? correctAnswer || "" : "",
       max_score: detectedScore ?? (isMCQ ? 0.5 : 2.0),
     });
+  }
+
+  // Extract and attach essay rubric & score if available
+  const essayRubricInfo = extractEssayRubricFromText(normalized);
+  const essayQuestions = results.filter((q) => q.type === "essay");
+
+  if (essayQuestions.length === 1 && essayRubricInfo.rubric) {
+    if (!essayQuestions[0].correct_answer) {
+      essayQuestions[0].correct_answer = essayRubricInfo.rubric;
+    }
+    const finalEssayScore = essayRubricInfo.score ?? sectionEssayScore;
+    if (finalEssayScore && essayQuestions[0].max_score === 2.0) {
+      essayQuestions[0].max_score = finalEssayScore;
+    }
+  } else if (essayQuestions.length > 1 && essayRubricInfo.rubric) {
+    for (const eq of essayQuestions) {
+      if (!eq.correct_answer) {
+        eq.correct_answer = essayRubricInfo.rubric;
+      }
+      const finalEssayScore = essayRubricInfo.score ?? sectionEssayScore;
+      if (finalEssayScore && eq.max_score === 2.0) {
+        eq.max_score = finalEssayScore;
+      }
+    }
+  } else if (essayQuestions.length > 0 && sectionEssayScore) {
+    for (const eq of essayQuestions) {
+      if (eq.max_score === 2.0) {
+        eq.max_score = sectionEssayScore;
+      }
+    }
   }
 
   // Fallback: If no structured blocks matched, create at least 1 draft question from the text

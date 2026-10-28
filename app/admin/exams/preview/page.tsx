@@ -19,6 +19,7 @@ import {
   HelpCircle,
   CheckCircle2,
   FileText,
+  FileCheck,
   Send,
   Pencil,
 } from "lucide-react";
@@ -425,11 +426,25 @@ function AdminExamPreviewContent() {
                   })}
                 </div>
               ) : (
-                <div className="flex items-center gap-2 rounded-2xl border border-[#252A37] bg-[#10131B] p-3.5 text-xs text-slate-300">
-                  <FileText className="h-4 w-4 shrink-0 text-white" />
-                  <span>
-                    Câu hỏi tự luận (Điểm tối đa: {q.max_score} điểm • Chấm tự động bằng Gemini AI hoặc Giảng viên duyệt).
-                  </span>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 rounded-2xl border border-[#252A37] bg-[#10131B] p-3.5 text-xs text-slate-300">
+                    <FileText className="h-4 w-4 shrink-0 text-white" />
+                    <span>
+                      Câu hỏi tự luận (Điểm tối đa: {q.max_score} điểm • Chấm tự động bằng Gemini AI hoặc Giảng viên duyệt).
+                    </span>
+                  </div>
+
+                  {q.correct_answer && (
+                    <div className="rounded-2xl border border-emerald-500/30 bg-[#10131B] p-4 text-xs">
+                      <div className="flex items-center gap-1.5 font-semibold text-emerald-400 mb-2">
+                        <FileCheck className="h-4 w-4 text-emerald-400" />
+                        Dàn ý / Barem chấm điểm chuẩn (AI Agent đối sánh):
+                      </div>
+                      <div className="whitespace-pre-wrap text-slate-200 leading-relaxed text-xs bg-[#161A24] p-3.5 rounded-xl border border-[#252A37]">
+                        {q.correct_answer}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </motion.article>

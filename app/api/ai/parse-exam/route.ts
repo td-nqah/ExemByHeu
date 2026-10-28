@@ -71,6 +71,8 @@ function normalizeAiQuestions(rawItems: any[]): ParsedQuestionDraft[] {
       if (!correctAnswer) {
         correctAnswer = "";
       }
+    } else {
+      correctAnswer = String(item.correct_answer || "").trim();
     }
 
     const parsedScore = Number(item.max_score);
@@ -143,7 +145,7 @@ export async function POST(request: Request) {
     const prompt = `Phân tích đề thi sau thành mảng JSON: [{"type":"multiple_choice"|"essay","content":"nội dung câu hỏi (bỏ 'Câu X:')","options":["A. ...","B. ...","C. ...","D. ..."],"correct_answer":"A"|"B"|"C"|"D"|"","max_score":number}].
 Quy tắc:
 - Trắc nghiệm: chuẩn hóa options có tiền tố A./B./C./D., correct_answer chỉ gồm 1 chữ cái A-D (tự giải nếu đề chưa ghi đáp án), max_score mặc định 0.5.
-- Tự luận: options=[], correct_answer="", max_score mặc định 2.0.
+- Tự luận: options=[], correct_answer=dàn ý/barem chấm điểm nếu đề bài hoặc phần đáp án có nêu (nếu không có thì để trống ""), max_score theo đề bài hoặc mặc định 2.0 đến 5.0.
 ĐỀ THI:
 ${rawText.slice(0, 35000)}`;
 

@@ -83,20 +83,27 @@ export async function POST(request: Request) {
         maxScore: Number(item.maxScore) || 5.0,
         question: item.content.trim(),
         answer: item.studentAnswer.trim(),
+        rubric: item.rubric ? item.rubric.trim() : undefined,
       }));
 
       const batchPrompt = `Bạn là Giám khảo chấm thi học thuật chuyên nghiệp. Hãy chấm tất cả các câu hỏi tự luận dưới đây.
 Quy tắc chấm:
 - Điểm (score): từ 0 đến maxScore của từng câu (làm tròn bước 0.25).
-- Tiêu chí: Đúng trọng tâm (50%), Lập luận & dẫn chứng (30%), Diễn đạt & trình bày (20%).
+- Tiêu chí chuẩn: Đúng trọng tâm (50%), Lập luận & dẫn chứng (30%), Diễn đạt & trình bày (20%).
+
+QUY TẮC ĐỐI CHIẾU DÀN Ý / BAREM (NẾU CÓ):
+- Nếu câu hỏi có cung cấp trường 'rubric' (dàn ý / barem chấm điểm / đáp án mẫu), bạn BẮT BUỘC phải đối chiếu bài làm ('answer') với 'rubric' đó:
+  + Chấm điểm dựa trên tỷ lệ các luận điểm/ý chính trong rubric mà học viên đáp ứng được (tối đa maxScore).
+  + Trong nhận xét "Chưa đạt điểm tối đa vì ... Cần bổ sung ...", BẮT BUỘC phải chỉ ra chính xác luận điểm nào trong rubric mà học viên còn thiếu hoặc phân tích chưa đầy đủ.
+- Nếu không có rubric, chấm theo kiến thức học thuật chuyên sâu và các tiêu chí chuẩn ở trên.
 
 QUY TẮC NHẬN XÉT (FEEDBACK) BẮT BUỘC CHO MỖI CÂU:
 1. Nếu điểm đạt tối đa (score == maxScore, ví dụ 5/5 điểm):
-   - BẮT BUỘC nhận xét phải khen ngợi bài làm xuất sắc (ví dụ: "Xuất sắc! Bài làm nắm rất vững kiến thức, lập luận sắc bén, dẫn chứng đầy đủ và trình bày rất chuẩn mực.").
+   - BẮT BUỘC nhận xét phải khen ngợi bài làm xuất sắc (ví dụ: "Xuất sắc! Bài làm nắm rất vững kiến thức, lập luận sắc bén, dẫn chứng đầy đủ và đáp ứng toàn diện barem.").
 2. Nếu điểm dưới tối đa (score < maxScore, ví dụ dưới 5 điểm):
    - BẮT BUỘC nhận xét phải nêu ngắn gọn 2 phần:
-     + Lý do chưa đạt điểm tối đa (nói rõ thiếu sót hoặc điểm chưa chuẩn xác của bài làm).
-     + Nội dung cần bổ sung (nói cụ thể học viên cần bổ sung thêm luận điểm, kiến thức hay dẫn chứng gì để đạt điểm tuyệt đối).
+     + Lý do chưa đạt điểm tối đa (nêu rõ thiếu sót hoặc điểm chưa chuẩn xác của bài làm so với barem).
+     + Nội dung cần bổ sung (nêu cụ thể luận điểm trong barem mà học viên cần bổ sung để đạt điểm tuyệt đối).
    - Định dạng nhận xét bắt buộc:
      "Chưa đạt điểm tối đa vì: [Nêu lý do ngắn gọn]. Cần bổ sung: [Nêu cụ thể nội dung cần bổ sung]."
 

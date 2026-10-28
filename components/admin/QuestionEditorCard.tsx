@@ -1,7 +1,7 @@
 "use client";
 
 import { ParsedQuestionDraft, QuestionType } from "@/types/exam";
-import { Trash2, Plus, Check, HelpCircle, FileText } from "lucide-react";
+import { Trash2, Plus, Check, HelpCircle, FileText, FileCheck, Sparkles } from "lucide-react";
 import { NumberStepper } from "@/components/ui/NumberStepper";
 
 interface QuestionEditorCardProps {
@@ -225,8 +225,31 @@ export function QuestionEditorCard({
           </div>
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-[#252A37] bg-[#10131B] p-3.5 text-xs text-[#9CA3AF]">
-          Câu hỏi tự luận: User nhập câu trả lời dạng văn bản trong phòng thi. Hệ thống sẽ chấm điểm tự luận trên thang điểm chuẩn.
+        <div className="space-y-3">
+          <div className="rounded-2xl border border-dashed border-[#252A37] bg-[#10131B] p-3.5 text-xs text-[#9CA3AF]">
+            Học viên sẽ nhập câu trả lời dạng văn bản trong phòng thi. Trợ lý AI sẽ tự động đối chiếu bài làm với Dàn ý / Barem bên dưới để chấm điểm.
+          </div>
+
+          <div>
+            <div className="mb-2 flex items-center justify-between">
+              <label className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+                <FileCheck className="h-3.5 w-3.5 text-emerald-400" />
+                Dàn ý chấm điểm / Đáp án mẫu / Barem tự luận (AI Agent dùng để đối sánh)
+              </label>
+              <span className="text-[11px] text-[#8B93A5]">Tự động bóc tách hoặc dán thủ công</span>
+            </div>
+            <textarea
+              rows={5}
+              value={question.correct_answer || ""}
+              onChange={(e) => onChange({ ...question, correct_answer: e.target.value })}
+              placeholder="Dán dàn ý các luận điểm cần có, thang điểm chi tiết từng phần hoặc bài làm mẫu vào đây. AI Agent sẽ bám sát barem này để chấm điểm chính xác và chỉ ra các ý còn thiếu..."
+              className="w-full rounded-2xl border border-[#252A37] bg-[#10131B] p-3.5 text-xs leading-relaxed text-slate-100 placeholder-[#8B93A5] focus:border-emerald-500/50 focus:outline-none transition-colors"
+            />
+            <p className="mt-1 flex items-center gap-1.5 text-[11px] text-[#8B93A5]">
+              <Sparkles className="h-3 w-3 text-emerald-400 shrink-0" />
+              AI Agent sẽ phân tích bài làm của sinh viên, đối sánh từng luận điểm với barem này để tính điểm và chỉ ra những ý còn thiếu.
+            </p>
+          </div>
         </div>
       )}
     </div>
