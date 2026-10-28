@@ -9,15 +9,9 @@ import { cn } from "@/lib/utils";
 import {
   ChevronLeft,
   Trophy,
-  ShieldCheck,
-  Award,
   Crown,
-  Flame,
-  Gem,
-  Medal,
-  Star,
-  Zap,
   Compass,
+  History,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
@@ -560,139 +554,18 @@ export default function AnalyticsPage() {
           transition={{ duration: 0.35, delay: 0.1 }}
           className="lg:col-span-6 space-y-4"
         >
-          {/* Top Metric Cluster (4 Cards in responsive grid) */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            {/* Card 1: Số lượt thi */}
-            <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-3 text-center flex flex-col justify-between shadow-md">
-              <span className="text-[10px] font-medium text-[#8b93a5] uppercase leading-tight">
-                Số lượt thi
-              </span>
-              <p className="font-mono text-2xl font-extrabold text-white my-1 tabular-nums">
-                {stats.totalExams}
-              </p>
-              <span className="text-[9px] text-[#10B981] font-semibold">Tích lũy</span>
-            </div>
-
-            {/* Card 2: Circular Progress Gauge (Tỷ lệ đạt chuẩn) */}
-            <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-3 text-center flex flex-col items-center justify-between shadow-md">
-              <span className="text-[10px] font-medium text-[#8b93a5] uppercase leading-tight">
-                Đạt chuẩn
-              </span>
-              <div className="relative w-12 h-12 flex items-center justify-center my-0.5">
-                <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                  {/* Track */}
-                  <path
-                    className="text-[#252a37]"
-                    strokeWidth="3.5"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  {/* Active Arc */}
-                  <path
-                    className="text-[#F59E0B]"
-                    strokeDasharray={`${stats.passRate}, 100`}
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                </svg>
-                <span className="absolute font-mono text-[11px] font-bold text-white">
-                  {stats.passRate}%
-                </span>
-              </div>
-              <span className="text-[9px] text-amber-400 font-semibold">&gt;= 5.0 điểm</span>
-            </div>
-
-            {/* Card 3: Điểm tuyệt đối (10.0) */}
-            <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-3 text-center flex flex-col justify-between shadow-md">
-              <span className="text-[10px] font-medium text-[#8b93a5] uppercase leading-tight">
-                Tuyệt đối
-              </span>
-              <p className="font-mono text-2xl font-extrabold text-[#F59E0B] my-1 tabular-nums">
-                {stats.perfectScores}
-              </p>
-              <span className="text-[9px] text-amber-400 font-semibold">10.0 hoàn hảo</span>
-            </div>
-
-            {/* Card 4: Kỷ luật phòng thi */}
-            <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-3 text-center flex flex-col justify-between shadow-md">
-              <span className="text-[10px] font-medium text-[#8b93a5] uppercase leading-tight">
-                Kỷ luật thi
-              </span>
-              <p className="font-mono text-2xl font-extrabold text-[#10B981] my-1 tabular-nums">
-                {stats.integrityScore}
-              </p>
-              <span className="text-[9px] text-[#10B981] font-semibold">Chuẩn chỉ 100%</span>
-            </div>
-          </div>
-
-          {/* Achievement & Rank Badge Grid (2-Column Grid of 8 Gaming-Styled Crests) */}
+          {/* Achievement & Rank Badge Grid (4 Cards: SSS, SS, S, Số lần thi) */}
           <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-4.5 space-y-3 shadow-xl">
             <div className="flex items-center justify-between pb-2 border-b border-[#252a37]">
               <span className="font-heading text-xs uppercase tracking-wider font-bold text-white flex items-center gap-1.5">
                 <Trophy className="w-3.5 h-3.5 text-[#F59E0B]" />
                 <span>Huân chương &amp; Thành tích</span>
               </span>
-              <span className="text-[10px] font-mono text-[#8b93a5]">8 Danh hiệu</span>
+              <span className="text-[10px] font-mono text-[#8b93a5]">4 Danh hiệu</span>
             </div>
 
             <div className="grid grid-cols-2 gap-2.5">
-              {/* Badge 1: Thủ khoa phòng thi */}
-              <div className="p-2.5 rounded-xl bg-[#10131b] border border-amber-500/20 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-700/10 border border-amber-500/30 text-amber-400 shadow-sm">
-                  <Crown className="w-4 h-4" />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-mono text-sm font-extrabold text-white leading-tight">
-                    {stats.badges.valedictorian}
-                  </p>
-                  <p className="text-[10px] text-[#8b93a5] truncate">Thủ khoa phòng</p>
-                </div>
-              </div>
-
-              {/* Badge 2: Hoàn hảo tuyệt đối */}
-              <div className="p-2.5 rounded-xl bg-[#10131b] border border-cyan-500/20 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-700/10 border border-cyan-500/30 text-cyan-400 shadow-sm">
-                  <Gem className="w-4 h-4" />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-mono text-sm font-extrabold text-white leading-tight">
-                    {stats.badges.flawless}
-                  </p>
-                  <p className="text-[10px] text-[#8b93a5] truncate">Hoàn hảo 100%</p>
-                </div>
-              </div>
-
-              {/* Badge 3: Chuỗi đúng 50 câu */}
-              <div className="p-2.5 rounded-xl bg-[#10131b] border border-indigo-500/20 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-700/10 border border-indigo-500/30 text-indigo-400 shadow-sm">
-                  <Zap className="w-4 h-4" />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-mono text-sm font-extrabold text-white leading-tight">
-                    {stats.badges.streak50}
-                  </p>
-                  <p className="text-[10px] text-[#8b93a5] truncate">Chuỗi 50 câu</p>
-                </div>
-              </div>
-
-              {/* Badge 4: Chuỗi đúng 20 câu */}
-              <div className="p-2.5 rounded-xl bg-[#10131b] border border-orange-500/20 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/20 to-amber-700/10 border border-orange-500/30 text-orange-400 shadow-sm">
-                  <Award className="w-4 h-4" />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-mono text-sm font-extrabold text-white leading-tight">
-                    {stats.badges.streak20}
-                  </p>
-                  <p className="text-[10px] text-[#8b93a5] truncate">Chuỗi 20 câu</p>
-                </div>
-              </div>
-
-              {/* Badge 5: Cúp Tinh Anh SSS */}
+              {/* Badge 1: Cúp Tinh Anh SSS */}
               <div className="p-2.5 rounded-xl bg-[#10131b] border border-purple-500/20 flex items-center gap-2.5">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500/20 to-fuchsia-700/10 border border-purple-500/30 text-purple-400 shadow-sm font-heading font-black text-xs">
                   SSS
@@ -705,7 +578,7 @@ export default function AnalyticsPage() {
                 </div>
               </div>
 
-              {/* Badge 6: Cúp Ưu Tú SS */}
+              {/* Badge 2: Cúp Ưu Tú SS */}
               <div className="p-2.5 rounded-xl bg-[#10131b] border border-amber-500/20 flex items-center gap-2.5">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-700/10 border border-amber-500/30 text-amber-300 shadow-sm font-heading font-black text-xs">
                   SS
@@ -718,7 +591,7 @@ export default function AnalyticsPage() {
                 </div>
               </div>
 
-              {/* Badge 7: Cúp Giỏi S */}
+              {/* Badge 3: Cúp Giỏi S */}
               <div className="p-2.5 rounded-xl bg-[#10131b] border border-blue-500/20 flex items-center gap-2.5">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/20 to-slate-700/10 border border-blue-500/30 text-blue-300 shadow-sm font-heading font-black text-xs">
                   S
@@ -731,16 +604,16 @@ export default function AnalyticsPage() {
                 </div>
               </div>
 
-              {/* Badge 8: MVP Suýt hoàn hảo */}
-              <div className="p-2.5 rounded-xl bg-[#10131b] border border-rose-500/20 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-rose-500/20 to-red-700/10 border border-rose-500/30 text-rose-400 shadow-sm">
-                  <Flame className="w-4 h-4" />
+              {/* Badge 4: Số lần thi */}
+              <div className="p-2.5 rounded-xl bg-[#10131b] border border-indigo-500/20 flex items-center gap-2.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/20 to-indigo-700/10 border border-indigo-500/30 text-indigo-400 shadow-sm">
+                  <History className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
                   <p className="font-mono text-sm font-extrabold text-white leading-tight">
-                    {stats.badges.nearPerfect}
+                    {stats.totalExams}
                   </p>
-                  <p className="text-[10px] text-[#8b93a5] truncate">Điểm &gt;= 9.0</p>
+                  <p className="text-[10px] text-[#8b93a5] truncate">Số lần thi</p>
                 </div>
               </div>
             </div>
