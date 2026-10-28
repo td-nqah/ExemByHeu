@@ -80,7 +80,6 @@ export default function AnalyticsPage() {
   const [loading, setLoading] = useState(true);
 
   // Filters
-  const [activeTab, setActiveTab] = useState<string>("Tổng quan");
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
   const [activeNavSection, setActiveNavSection] = useState<string>("competency");
   const [useDemoFallback, setUseDemoFallback] = useState<boolean>(false);
@@ -117,31 +116,19 @@ export default function AnalyticsPage() {
     loadData();
   }, [router]);
 
-  // Filter submissions by Tab & Subject
+  // Filter submissions by Subject
   const filteredSubmissions = useMemo(() => {
     return submissions.filter((sub) => {
-      // 1. Subject filter
+      // Subject filter
       if (selectedSubject !== "all") {
         const subCat = (sub.exam?.category_id || sub.exam?.title || "").toLowerCase();
         if (!subCat.includes(selectedSubject.toLowerCase())) {
           return false;
         }
       }
-      // 2. Tab filter
-      if (activeTab === "Đề trắc nghiệm") {
-        const qList = sub.exam?.questions || [];
-        if (qList.length > 0 && qList.every((q) => q.type !== "multiple_choice")) {
-          return false;
-        }
-      } else if (activeTab === "Tự luận & Code") {
-        const qList = sub.exam?.questions || [];
-        if (qList.length > 0 && !qList.some((q) => q.type === "essay")) {
-          return false;
-        }
-      }
       return true;
     });
-  }, [submissions, selectedSubject, activeTab]);
+  }, [submissions, selectedSubject]);
 
   // Compute Gamified Stats from Real Submissions or Showcase Defaults
   const stats: StudentPerformanceStats = useMemo(() => {
@@ -365,37 +352,6 @@ export default function AnalyticsPage() {
               Mô hình đánh giá 5 trục năng lực chuẩn mực, thông số hiệu suất và huân chương học thuật.
             </p>
           </div>
-        </div>
-
-        {/* Top Filter Bar */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pt-1 border-b border-[#252a37] pb-4">
-          {/* Segmented Horizontal Filter Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
-            {["Tổng quan", "Học kỳ 1 (2026)", "Tất cả học kỳ", "Đề trắc nghiệm", "Tự luận & Code"].map((tab) => {
-              const isActive = activeTab === tab;
-              return (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => setActiveTab(tab)}
-                  className={cn(
-                    "relative whitespace-nowrap px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer select-none",
-                    isActive
-                      ? "bg-[#6366F1]/15 text-white border border-[#6366F1]/40 shadow-xs"
-                      : "text-[#8b93a5] hover:text-white hover:bg-white/[0.04] border border-transparent"
-                  )}
-                >
-                  {tab}
-                  {isActive && (
-                    <motion.div
-                      layoutId="active-tab-glow"
-                      className="absolute inset-x-2 -bottom-4 h-[2px] bg-gradient-to-r from-transparent via-[#F59E0B] to-transparent"
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
 
           {/* Right-aligned Subject Selector Dropdown */}
           <div className="flex items-center gap-2 shrink-0">
@@ -468,7 +424,6 @@ export default function AnalyticsPage() {
                 id: "competency",
                 label: "Hồ sơ Năng lực",
                 icon: Brain,
-                active: true,
                 badge: "Radar 5D",
               },
               {
@@ -486,7 +441,7 @@ export default function AnalyticsPage() {
               },
             ].map((item) => {
               const Icon = item.icon;
-              const isActive = item.active || activeNavSection === item.id;
+              const isActive = activeNavSection === item.id;
 
               return (
                 <div key={item.id}>

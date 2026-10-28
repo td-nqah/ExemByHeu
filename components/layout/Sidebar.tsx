@@ -227,15 +227,15 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       color: "text-white",
     },
     {
-      title: "Phân tích thông số",
-      href: "/analytics",
-      icon: LineChart,
-      color: "text-white",
-    },
-    {
       title: "Lịch sử đánh giá",
       href: "/history",
       icon: History,
+      color: "text-white",
+    },
+    {
+      title: "Phân tích thông số",
+      href: "/analytics",
+      icon: LineChart,
       color: "text-white",
     },
   ];
