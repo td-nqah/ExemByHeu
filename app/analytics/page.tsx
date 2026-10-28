@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSubmissions, getCurrentUser, getCategories } from "@/lib/store";
 import { Submission, Category, Profile } from "@/types/exam";
 import { cn } from "@/lib/utils";
 import {
-  ChevronLeft,
   Trophy,
   Crown,
   Compass,
@@ -317,32 +315,6 @@ export default function AnalyticsPage() {
         transition={{ duration: 0.3 }}
         className="space-y-4"
       >
-        {/* Breadcrumb & Navigation */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link
-            href="/home"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer group"
-          >
-            <ChevronLeft className="w-4 h-4 text-[#6366F1] group-hover:-translate-x-0.5 transition-transform" />
-            <span>Thông tin thí sinh / Năng lực học tập</span>
-          </Link>
-
-          {/* Toggle between real live submissions and demo showcase if submissions are 0 */}
-          {submissions.length === 0 && (
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#161a24] border border-[#252a37] text-[11px] text-[#8b93a5]">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-              <span>Dữ liệu mẫu chuẩn khảo thí</span>
-              <button
-                type="button"
-                onClick={() => setUseDemoFallback(!useDemoFallback)}
-                className="ml-1 text-white underline hover:text-amber-400 cursor-pointer font-medium"
-              >
-                {useDemoFallback ? "Hiển thị thực tế (0 bài)" : "Xem dữ liệu mẫu (268 bài)"}
-              </button>
-            </div>
-          )}
-        </div>
-
         {/* Title Header Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
