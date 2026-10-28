@@ -4,12 +4,13 @@ import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { getSubmissions, getCurrentUser, getCategories } from "@/lib/store";
 import { Submission, Category, Profile } from "@/types/exam";
-import { cn } from "@/lib/utils";
 import {
   Trophy,
   Crown,
   Compass,
   History,
+  BarChart3,
+  ShieldCheck,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
@@ -307,24 +308,24 @@ export default function AnalyticsPage() {
   }, [categories]);
 
   return (
-    <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 select-none">
+    <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 pt-8 sm:pt-10 pb-10 space-y-6 select-none">
       {/* 1. Header & Navigation Context */}
       <motion.div
         initial={shouldReduceMotion ? false : { opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="space-y-4"
+        className="space-y-3"
       >
         {/* Title Header Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
+            <h1 className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5 leading-normal pt-1">
               <span>Hồ sơ Năng lực &amp; Phân tích Thông số</span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#6366F1]/15 text-[#a5b4fc] border border-[#6366F1]/30 uppercase tracking-wider">
+              <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-white/10 text-white border border-white/20 uppercase tracking-wider">
                 Khảo Thí Chuẩn Hóa
               </span>
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-[#8b93a5]">
+            <p className="mt-1.5 text-xs sm:text-sm text-slate-400 max-w-xl leading-relaxed">
               Mô hình đánh giá 5 trục năng lực chuẩn mực, thông số hiệu suất và huân chương học thuật.
             </p>
           </div>
@@ -332,18 +333,18 @@ export default function AnalyticsPage() {
           <div className="flex items-center gap-3 shrink-0 flex-wrap">
             {/* User Info Tag */}
             <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#161a24] border border-[#252a37] text-xs">
-              <span className="h-2 w-2 rounded-full bg-[#10B981]" />
+              <span className="h-2 w-2 rounded-full bg-emerald-400" />
               <span className="font-semibold text-white">{user?.username || "Thí sinh"}</span>
-              <span className="text-[#8b93a5]">({user?.role === "admin" ? "Quản trị viên" : "Sinh viên"})</span>
-              <span className="text-amber-400 font-mono font-bold flex items-center gap-1">
-                <Crown className="w-3 h-3" />
-                Cao Thủ
+              <span className="text-slate-400">({user?.role === "admin" ? "Quản trị viên" : "Sinh viên"})</span>
+              <span className="text-slate-300 font-mono font-bold flex items-center gap-1">
+                <Crown className="w-3.5 h-3.5 text-slate-400" />
+                Chuẩn Khảo Thí
               </span>
             </div>
 
             {/* Right-aligned Subject Selector Dropdown */}
             <div className="flex items-center gap-2 shrink-0">
-              <span className="text-xs text-[#8b93a5] font-medium hidden sm:inline">Học phần:</span>
+              <span className="text-xs text-slate-400 font-medium hidden sm:inline">Học phần:</span>
               <PopoverSelect<string>
                 value={selectedSubject}
                 onChange={(val) => setSelectedSubject(val)}
@@ -368,54 +369,52 @@ export default function AnalyticsPage() {
           className="lg:col-span-6 space-y-4"
         >
           <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 sm:p-6 shadow-xl relative overflow-hidden flex flex-col justify-between">
-            {/* Ambient Background Accents */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#F59E0B]/5 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute top-10 left-10 w-32 h-32 bg-[#6366F1]/10 rounded-full blur-2xl pointer-events-none" />
+            {/* Ambient Monochrome Background Accents */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-white/[0.02] rounded-full blur-3xl pointer-events-none" />
 
             {/* Header of Radar Widget */}
             <div className="flex items-center justify-between pb-3 border-b border-[#252a37] relative z-10">
               <div>
                 <h2 className="font-heading text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                  <Compass className="w-4 h-4 text-[#F59E0B]" />
+                  <Compass className="w-4 h-4 text-white" />
                   <span>Biểu đồ Năng lực 5 Chiều</span>
                 </h2>
-                <p className="text-[11px] text-[#8b93a5]">
+                <p className="text-xs text-slate-400 mt-0.5">
                   Định lượng hóa 5 năng lực cốt lõi theo chuẩn khảo thí học thuật
                 </p>
               </div>
 
-              <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-[#F59E0B]/10 text-[#F59E0B] border border-[#F59E0B]/30 uppercase">
+              <span className="px-2.5 py-1 rounded-full text-xs font-mono font-medium bg-white/10 text-white border border-white/20 uppercase">
                 5-Axis Radar
               </span>
             </div>
 
-            {/* SVG Radar Chart (Custom Mathematical Polygon) */}
+            {/* SVG Radar Chart (Monochrome Geometric Polygon) */}
             <div className="relative py-4 flex items-center justify-center">
               <svg
                 viewBox="0 0 400 390"
                 className="w-full max-w-[380px] h-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] overflow-visible"
               >
                 <defs>
-                  {/* Smooth amber/indigo gradient fill */}
-                  <linearGradient id="academicRadarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#6366F1" stopOpacity="0.8" />
-                    <stop offset="60%" stopColor="#F59E0B" stopOpacity="0.7" />
-                    <stop offset="100%" stopColor="#D97706" stopOpacity="0.5" />
+                  {/* Clean Monochrome gradient fill */}
+                  <linearGradient id="monochromeRadarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.22" />
+                    <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.05" />
                   </linearGradient>
 
-                  <filter id="goldGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                  <filter id="whiteGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
                     <feGaussianBlur stdDeviation="3" result="blur" />
                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
                   </filter>
                 </defs>
 
-                {/* Clean geometric polygon with low-opacity slate border (stroke-white/10) */}
+                {/* Clean geometric concentric polygons (stroke-white/10) */}
                 {radarSvgData.webs.map(({ lvl, points }) => (
                   <polygon
                     key={lvl}
                     points={points}
                     fill="none"
-                    stroke="rgba(255, 255, 255, 0.1)"
+                    stroke="rgba(255, 255, 255, 0.12)"
                     strokeWidth={lvl === 1.0 ? "1.5" : "1"}
                     strokeDasharray={lvl === 1.0 ? "none" : "3,3"}
                   />
@@ -429,20 +428,19 @@ export default function AnalyticsPage() {
                     y1={spoke.y1}
                     x2={spoke.x2}
                     y2={spoke.y2}
-                    stroke="rgba(255, 255, 255, 0.1)"
+                    stroke="rgba(255, 255, 255, 0.08)"
                     strokeWidth="1"
                     strokeDasharray="2,2"
                   />
                 ))}
 
-                {/* Smooth amber/indigo gradient fill (fillOpacity={0.35}) with a crisp 2px glowing stroke */}
+                {/* Monochrome gradient fill with crisp 2px white stroke */}
                 <polygon
                   points={radarSvgData.polygonPointsString}
-                  fill="url(#academicRadarGrad)"
-                  fillOpacity={0.35}
-                  stroke="#F59E0B"
+                  fill="url(#monochromeRadarGrad)"
+                  stroke="#FFFFFF"
                   strokeWidth="2"
-                  filter="url(#goldGlowFilter)"
+                  filter="url(#whiteGlowFilter)"
                   className="transition-all duration-500 ease-out"
                 />
 
@@ -452,31 +450,31 @@ export default function AnalyticsPage() {
                     <circle
                       cx={pt.x}
                       cy={pt.y}
-                      r="4.5"
+                      r="4"
                       fill="#FFFFFF"
-                      stroke="#F59E0B"
+                      stroke="#161a24"
                       strokeWidth="2"
                       className="transition-transform duration-200 group-hover:scale-150"
                     />
                     <circle
                       cx={pt.x}
                       cy={pt.y}
-                      r="8"
+                      r="7"
                       fill="none"
-                      stroke="#F59E0B"
+                      stroke="#FFFFFF"
                       strokeWidth="1"
-                      opacity="0.35"
+                      opacity="0.3"
                     />
                   </g>
                 ))}
 
                 {/* Labels around the 5 axes (100% Pure Academic & Exam Metrics) */}
                 {/* 1. Top Axis: Độ chính xác */}
-                <g transform="translate(200, 36)" textAnchor="middle">
+                <g transform="translate(200, 34)" textAnchor="middle">
                   <text className="font-heading text-xs font-semibold fill-slate-300">
                     Độ chính xác
                   </text>
-                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                  <text className="font-mono text-sm font-bold fill-white tabular-nums" y="16">
                     {radarSvgData.dataPoints[0]?.display}
                   </text>
                 </g>
@@ -486,7 +484,7 @@ export default function AnalyticsPage() {
                   <text className="font-heading text-xs font-semibold fill-slate-300">
                     Thời gian xử lý
                   </text>
-                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                  <text className="font-mono text-sm font-bold fill-white tabular-nums" y="16">
                     {radarSvgData.dataPoints[1]?.display}
                   </text>
                 </g>
@@ -496,7 +494,7 @@ export default function AnalyticsPage() {
                   <text className="font-heading text-xs font-semibold fill-slate-300">
                     Khối lượng ôn tập
                   </text>
-                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                  <text className="font-mono text-sm font-bold fill-white tabular-nums" y="16">
                     {radarSvgData.dataPoints[2]?.display}
                   </text>
                 </g>
@@ -506,7 +504,7 @@ export default function AnalyticsPage() {
                   <text className="font-heading text-xs font-semibold fill-slate-300">
                     Vận dụng nâng cao
                   </text>
-                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                  <text className="font-mono text-sm font-bold fill-white tabular-nums" y="16">
                     {radarSvgData.dataPoints[3]?.display}
                   </text>
                 </g>
@@ -516,36 +514,20 @@ export default function AnalyticsPage() {
                   <text className="font-heading text-xs font-semibold fill-slate-300">
                     Kỷ luật phòng thi
                   </text>
-                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                  <text className="font-mono text-sm font-bold fill-white tabular-nums" y="16">
                     {radarSvgData.dataPoints[4]?.display}
                   </text>
                 </g>
               </svg>
             </div>
 
-            {/* Quick Dimension Cards Below Radar */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-3 border-t border-[#252a37]">
-              {RADAR_AXES.map((axis) => {
-                const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics] ?? 0;
-                return (
-                  <div
-                    key={axis.key}
-                    className="p-2.5 rounded-xl bg-[#10131b] border border-[#252a37] flex flex-col justify-between"
-                  >
-                    <span className="font-heading text-[11px] font-semibold text-slate-300 truncate">
-                      {axis.metric}
-                    </span>
-                    <div className="flex items-center justify-between mt-1.5">
-                      <span className="font-mono text-sm font-bold text-amber-400 tabular-nums">
-                        {axis.getDisplay(val)}
-                      </span>
-                      <span className="text-[10px] text-slate-400 font-medium">
-                        {val >= 90 ? "Xuất sắc" : val >= 80 ? "Giỏi" : "Đạt chuẩn"}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Bottom Integrity & Standards Note (No nested cards) */}
+            <div className="pt-4 border-t border-[#252a37] flex items-center justify-between text-xs text-slate-400">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-slate-300" />
+                <span>Chỉ số tuân thủ phòng thi: <strong className="text-white font-mono">{stats.integrityScore}/100</strong></span>
+              </span>
+              <span className="font-mono text-slate-400">Chuẩn hóa Pearson</span>
             </div>
           </div>
         </motion.div>
@@ -557,70 +539,107 @@ export default function AnalyticsPage() {
           initial={shouldReduceMotion ? false : { opacity: 0, x: 12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.35, delay: 0.1 }}
-          className="lg:col-span-6 space-y-4"
+          className="lg:col-span-6 space-y-5"
         >
-          {/* Achievement & Rank Badge Grid (4 Cards: SSS, SS, S, Số lần thi) */}
-          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-4.5 space-y-3 shadow-xl">
-            <div className="flex items-center justify-between pb-2 border-b border-[#252a37]">
-              <span className="font-heading text-xs uppercase tracking-wider font-bold text-white flex items-center gap-1.5">
-                <Trophy className="w-3.5 h-3.5 text-[#F59E0B]" />
+          {/* Card 1: Achievement & Rank Badge Grid (4 Badges: SSS, SS, S, Số lần thi) */}
+          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 space-y-4 shadow-xl">
+            <div className="flex items-center justify-between pb-3 border-b border-[#252a37]">
+              <span className="font-heading text-xs uppercase tracking-wider font-bold text-white flex items-center gap-2">
+                <Trophy className="w-4 h-4 text-white" />
                 <span>Huân chương &amp; Thành tích</span>
               </span>
-              <span className="text-[10px] font-mono text-[#8b93a5]">4 Danh hiệu</span>
+              <span className="text-xs font-mono text-slate-400">4 Danh hiệu</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 gap-3">
               {/* Badge 1: Cúp Tinh Anh SSS */}
-              <div className="p-2.5 rounded-xl bg-[#10131b] border border-purple-500/20 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500/20 to-fuchsia-700/10 border border-purple-500/30 text-purple-400 shadow-sm font-heading font-black text-xs">
+              <div className="p-3 rounded-xl bg-[#10131b] border border-[#252a37] hover:border-white/20 transition-all flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 border border-white/15 text-white shadow-sm font-heading font-black text-xs">
                   SSS
                 </div>
                 <div className="min-w-0">
-                  <p className="font-mono text-sm font-extrabold text-white leading-tight">
+                  <p className="font-mono text-base font-extrabold text-white leading-tight">
                     {stats.badges.tierSSS}
                   </p>
-                  <p className="text-[10px] text-[#8b93a5] truncate">Điểm 9.5 – 10</p>
+                  <p className="text-xs text-slate-400 truncate mt-0.5">Điểm 9.5 – 10.0</p>
                 </div>
               </div>
 
               {/* Badge 2: Cúp Ưu Tú SS */}
-              <div className="p-2.5 rounded-xl bg-[#10131b] border border-amber-500/20 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-700/10 border border-amber-500/30 text-amber-300 shadow-sm font-heading font-black text-xs">
+              <div className="p-3 rounded-xl bg-[#10131b] border border-[#252a37] hover:border-white/20 transition-all flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 border border-white/15 text-white shadow-sm font-heading font-black text-xs">
                   SS
                 </div>
                 <div className="min-w-0">
-                  <p className="font-mono text-sm font-extrabold text-white leading-tight">
+                  <p className="font-mono text-base font-extrabold text-white leading-tight">
                     {stats.badges.tierSS}
                   </p>
-                  <p className="text-[10px] text-[#8b93a5] truncate">Điểm 8.5 – 9.4</p>
+                  <p className="text-xs text-slate-400 truncate mt-0.5">Điểm 8.5 – 9.4</p>
                 </div>
               </div>
 
               {/* Badge 3: Cúp Giỏi S */}
-              <div className="p-2.5 rounded-xl bg-[#10131b] border border-blue-500/20 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/20 to-slate-700/10 border border-blue-500/30 text-blue-300 shadow-sm font-heading font-black text-xs">
+              <div className="p-3 rounded-xl bg-[#10131b] border border-[#252a37] hover:border-white/20 transition-all flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 border border-white/15 text-white shadow-sm font-heading font-black text-xs">
                   S
                 </div>
                 <div className="min-w-0">
-                  <p className="font-mono text-sm font-extrabold text-white leading-tight">
+                  <p className="font-mono text-base font-extrabold text-white leading-tight">
                     {stats.badges.tierS}
                   </p>
-                  <p className="text-[10px] text-[#8b93a5] truncate">Điểm 7.0 – 8.4</p>
+                  <p className="text-xs text-slate-400 truncate mt-0.5">Điểm 7.0 – 8.4</p>
                 </div>
               </div>
 
               {/* Badge 4: Số lần thi */}
-              <div className="p-2.5 rounded-xl bg-[#10131b] border border-indigo-500/20 flex items-center gap-2.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/20 to-indigo-700/10 border border-indigo-500/30 text-indigo-400 shadow-sm">
-                  <History className="w-4 h-4" />
+              <div className="p-3 rounded-xl bg-[#10131b] border border-[#252a37] hover:border-white/20 transition-all flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 border border-white/15 text-white shadow-sm">
+                  <History className="w-4 h-4 text-white" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-mono text-sm font-extrabold text-white leading-tight">
+                  <p className="font-mono text-base font-extrabold text-white leading-tight">
                     {stats.totalExams}
                   </p>
-                  <p className="text-[10px] text-[#8b93a5] truncate">Số lần thi</p>
+                  <p className="text-xs text-slate-400 truncate mt-0.5">Số lần thi</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Card 2: Standalone Card for 5 Dimension Metrics (Ảnh 1) */}
+          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 space-y-4 shadow-xl">
+            <div className="flex items-center justify-between pb-3 border-b border-[#252a37]">
+              <span className="font-heading text-xs uppercase tracking-wider font-bold text-white flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 text-white" />
+                <span>Chi tiết Chỉ số Năng lực</span>
+              </span>
+              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded-full bg-white/10 text-white border border-white/15">
+                5 Trục Khảo thí
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {RADAR_AXES.map((axis) => {
+                const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics] ?? 0;
+                return (
+                  <div
+                    key={axis.key}
+                    className="p-3 rounded-xl bg-[#10131b] border border-[#252a37] hover:border-white/20 transition-all flex flex-col justify-between gap-2"
+                  >
+                    <span className="font-heading text-xs font-semibold text-slate-300 truncate" title={axis.desc}>
+                      {axis.metric}
+                    </span>
+                    <div className="flex items-baseline justify-between gap-2 mt-1">
+                      <span className="font-mono text-base font-bold text-white tabular-nums">
+                        {axis.getDisplay(val)}
+                      </span>
+                      <span className="text-xs text-slate-300 font-medium px-1.5 py-0.5 rounded bg-white/5 border border-white/10 shrink-0">
+                        {val >= 90 ? "Xuất sắc" : val >= 80 ? "Giỏi" : "Đạt chuẩn"}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </motion.div>
