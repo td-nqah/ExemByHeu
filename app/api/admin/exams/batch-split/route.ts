@@ -68,14 +68,25 @@ function splitTextIntoExamChunks(rawText: string): { title: string; text: string
   if (!normalized) return [];
 
   // Primary Regex matching exam headers:
-  // e.g. "ĐỀ SỐ 1", "ĐỀ THI SỐ 02", "ĐỀ 1:", "ĐỀ 01.", "MÃ ĐỀ: 101", "BỘ ĐỀ SỐ 1", "EXAM 1"
+  // e.g. "ĐỀ SỐ 1", "ĐỀ 1", "ĐỀ THI SỐ 02", "ĐỀ 01:", "ĐỀ ÔN TẬP SỐ 1", "MÃ ĐỀ: 101", "BỘ ĐỀ SỐ 1", "EXAM 1"
   const EXAM_HEADER_REGEX =
-    /(?:^|\n)(?=\s*(?:ĐỀ|BỘ\s*ĐỀ|MÃ\s*ĐỀ|EXAM)\s*(?:THI|SỐ|KIỂM\s*TRA)?\s*[:\.\s\-]?\s*\d+)/i;
+    /(?:^|\n)(?=\s*(?:[-*#_\[(]*\s*)?(?:ĐỀ|BỘ\s*ĐỀ|MÃ\s*ĐỀ|EXAM|TEST)(?:[^\n\d]{0,40})\d+)/i;
 
   let rawChunks = normalized
     .split(EXAM_HEADER_REGEX)
     .map((c) => c.trim())
     .filter(Boolean);
+
+  // If the first chunk does not have an exam header or questions (e.g. document title/cover page), drop it
+  if (rawChunks.length > 1) {
+    const isFirstHeader = /^(?:[-*#_\[(]*\s*)?(?:ĐỀ|BỘ\s*ĐỀ|MÃ\s*ĐỀ|EXAM|TEST)(?:[^\n\d]{0,40})\d+/i.test(
+      rawChunks[0]
+    );
+    const hasQ1 = /(?:Câu(?:\s+hỏi)?|Question|Bài)\s*1\s*[\.\:\)\-\/]/i.test(rawChunks[0]);
+    if (!isFirstHeader && !hasQ1) {
+      rawChunks = rawChunks.slice(1);
+    }
+  }
 
   // Fallback 1: If regex yielded only 1 chunk but multiple "Câu 1" resets are detected, split by "Câu 1" resets
   if (rawChunks.length <= 1) {
@@ -98,9 +109,17 @@ function splitTextIntoExamChunks(rawText: string): { title: string; text: string
 
     if (lines.length > 0) {
       const firstLine = lines[0];
-      if (/^(?:ĐỀ|BỘ\s+ĐỀ|MÃ\s+ĐỀ|EXAM|TEST)/i.test(firstLine)) {
-        detectedTitle = firstLine.replace(/[\:\.\-]+$/, "").trim();
-        if (lines.length > 1 && lines[1].length < 80 && !/^(?:Câu|Question|\d+[\.\)])/i.test(lines[1])) {
+      if (/^(?:[-*#_\[(]*\s*)?(?:ĐỀ|BỘ\s+ĐỀ|MÃ\s+ĐỀ|EXAM|TEST)/i.test(firstLine)) {
+        detectedTitle = firstLine
+          .replace(/[\:\.\-]+$/, "")
+          .replace(/^[-*#_\[(]+\s*/, "")
+          .replace(/\s*[-*#_\])]+$/, "")
+          .trim();
+        if (
+          lines.length > 1 &&
+          lines[1].length < 80 &&
+          !/^(?:Câu|Question|\d+[\.\)])/i.test(lines[1])
+        ) {
           detectedTitle += ` - ${lines[1].trim()}`;
         }
       }
@@ -120,7 +139,8 @@ async function parseExamChunkWithAI(
   chunk: { title: string; text: string },
   index: number,
   apiKey: string | null,
-  candidateModels: string[]
+  candidateModels: string[],
+  defaultDuration: number = 45
 ): Promise<{
   tempId: string;
   title: string;
@@ -150,7 +170,7 @@ async function parseExamChunkWithAI(
     return {
       tempId,
       title: chunk.title || `Đề số ${index + 1}`,
-      durationMinutes: 45,
+      durationMinutes: defaultDuration,
       questionCount: sanitized.length,
       hasIssues: missingCount > 0,
       issuesCount: missingCount,
@@ -270,7 +290,7 @@ ${chunk.text}`;
   return {
     tempId,
     title: String(resultJson.examTitle || chunk.title || `Đề số ${index + 1}`).trim(),
-    durationMinutes: Number(resultJson.estimatedDuration) || 45,
+    durationMinutes: Number(resultJson.estimatedDuration) || defaultDuration,
     questionCount: questions.length,
     hasIssues: missingCount > 0,
     issuesCount: missingCount,
@@ -282,6 +302,7 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
+    const defaultDuration = Number(formData.get("defaultDuration")) || 45;
 
     if (!file) {
       return NextResponse.json(
@@ -298,9 +319,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // 1. Extract raw text from docx via mammoth
+    // 1. Extract raw text from docx via mammoth (Buffer required in Node.js)
     const arrayBuffer = await file.arrayBuffer();
-    const mammothResult = await mammoth.extractRawText({ arrayBuffer });
+    const buffer = Buffer.from(arrayBuffer);
+    const mammothResult = await mammoth.extractRawText({ buffer, arrayBuffer } as any);
     const rawText = (mammothResult.value || "").trim();
 
     if (!rawText) {
@@ -326,7 +348,7 @@ export async function POST(request: Request) {
 
     // 4. Concurrent LLM structured parsing (Pool size: 4 concurrent requests)
     const parsedExams = await runConcurrent(chunks, 4, async (chunk, idx) => {
-      return await parseExamChunkWithAI(chunk, idx, apiKey, candidateModels);
+      return await parseExamChunkWithAI(chunk, idx, apiKey, candidateModels, defaultDuration);
     });
 
     const totalQuestions = parsedExams.reduce((sum, e) => sum + e.questionCount, 0);
