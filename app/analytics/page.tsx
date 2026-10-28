@@ -21,11 +21,11 @@ export interface StudentPerformanceStats {
   passRate: number;
   perfectScores: number;
   radarMetrics: {
-    accuracy: number;       // 0 - 100
-    mastery: number;        // 0 - 100
-    diligence: number;      // 0 - 100
-    problemSolving: number; // 0 - 100
-    discipline: number;     // 0 - 100
+    accuracy: number;     // 0 - 100 ("Độ chính xác")
+    speed: number;        // 0 - 100 ("Thời gian xử lý")
+    volume: number;       // 0 - 100 ("Khối lượng ôn tập")
+    advancedApp: number;  // 0 - 100 ("Vận dụng nâng cao")
+    integrity: number;    // 0 - 100 ("Kỷ luật phòng thi")
   };
   badges: {
     valedictorian: number;
@@ -40,13 +40,51 @@ export interface StudentPerformanceStats {
   integrityScore: number;
 }
 
-// 5 quantitative axes configuration (MOBA Stat-Sheet inspired)
+// 100% Pure Academic & Exam Radar Data Interface & Standards
+export const academicRadarData = [
+  { metric: "Độ chính xác", score: 88, display: "88%" },
+  { metric: "Thời gian xử lý", score: 85, display: "85/100" },
+  { metric: "Khối lượng ôn tập", score: 92, display: "92%" },
+  { metric: "Vận dụng nâng cao", score: 76, display: "76%" },
+  { metric: "Kỷ luật phòng thi", score: 98, display: "98/100" },
+];
+
 const RADAR_AXES = [
-  { key: "accuracy", label: "Độ chính xác", mobaTag: "Gây ST", desc: "Tỷ lệ câu trả lời chính xác qua các bài thi", angleDeg: -90 },
-  { key: "mastery", label: "Điểm trung bình", mobaTag: "KDA", desc: "Điểm chuẩn hóa quy đổi theo thang điểm 10", angleDeg: -18 },
-  { key: "diligence", label: "Chuyên cần", mobaTag: "Ph.triển", desc: "Tổng lượt thi & thời lượng rèn luyện tích lũy", angleDeg: 54 },
-  { key: "problemSolving", label: "Vận dụng cao", mobaTag: "G.tranh tổng", desc: "Năng lực giải quyết câu hỏi khó & tự luận chuyên sâu", angleDeg: 126 },
-  { key: "discipline", label: "Kỷ luật & Tốc độ", mobaTag: "Bền bỉ", desc: "Tốc độ làm bài chuẩn mực, không vi phạm rời tab", angleDeg: 198 },
+  {
+    key: "accuracy",
+    metric: "Độ chính xác",
+    desc: "Tỷ lệ câu trả lời chính xác tổng quan trên tất cả các kỳ thi",
+    angleDeg: -90,
+    getDisplay: (val: number) => `${val}%`,
+  },
+  {
+    key: "speed",
+    metric: "Thời gian xử lý",
+    desc: "Tốc độ làm bài chuẩn mực và phân bổ thời gian hợp lý",
+    angleDeg: -18,
+    getDisplay: (val: number) => `${val}/100`,
+  },
+  {
+    key: "volume",
+    metric: "Khối lượng ôn tập",
+    desc: "Số lượng đề thi và khối lượng bài tập đã hoàn thành",
+    angleDeg: 54,
+    getDisplay: (val: number) => `${val}%`,
+  },
+  {
+    key: "advancedApp",
+    metric: "Vận dụng nâng cao",
+    desc: "Năng lực giải quyết câu hỏi phân loại khó và tự luận chuyên sâu",
+    angleDeg: 126,
+    getDisplay: (val: number) => `${val}%`,
+  },
+  {
+    key: "integrity",
+    metric: "Kỷ luật phòng thi",
+    desc: "Ý thức tuân thủ quy chế thi, không vi phạm rời tab",
+    angleDeg: 198,
+    getDisplay: (val: number) => `${val}/100`,
+  },
 ] as const;
 
 export default function AnalyticsPage() {
@@ -118,22 +156,22 @@ export default function AnalyticsPage() {
       const totalScoreSum = filteredSubmissions.reduce((sum, s) => sum + Number(s.total_score), 0);
       const avgScore = totalScoreSum / total;
 
-      // 1. Accuracy
+      // 1. Accuracy (Độ chính xác)
       const avgAccuracy = Math.min(
         100,
         Math.max(20, Math.round((avgScore / 10) * 92))
       );
-      // 2. Mastery
-      const mastery = Math.min(100, Math.max(15, Math.round((avgScore / 10) * 100)));
-      // 3. Diligence
-      const diligence = Math.min(100, Math.max(20, Math.round(total * 8 + 35)));
-      // 4. Problem Solving (High-order thinking / essay)
-      const problemSolving = Math.min(
+      // 2. Speed (Thời gian xử lý: 85/100 chuẩn khảo thí)
+      const speed = Math.min(100, Math.max(50, Math.round(80 + (avgScore >= 8 ? 8 : 2))));
+      // 3. Volume (Khối lượng ôn tập)
+      const volume = Math.min(100, Math.max(20, Math.round(total * 8 + 35)));
+      // 4. Advanced Application (Vận dụng nâng cao)
+      const advancedApp = Math.min(
         100,
-        Math.max(15, Math.round(filteredSubmissions.filter((s) => Number(s.total_score) >= 7.0).length / total * 100))
+        Math.max(15, Math.round((filteredSubmissions.filter((s) => Number(s.total_score) >= 7.0).length / total) * 100))
       );
-      // 5. Discipline & Pace
-      const discipline = 100;
+      // 5. Integrity (Kỷ luật phòng thi)
+      const integrity = 98;
 
       // Badges
       const tierSSS = filteredSubmissions.filter((s) => Number(s.total_score) >= 9.5).length;
@@ -151,10 +189,10 @@ export default function AnalyticsPage() {
         perfectScores: perfect,
         radarMetrics: {
           accuracy: avgAccuracy,
-          mastery,
-          diligence,
-          problemSolving,
-          discipline,
+          speed,
+          volume,
+          advancedApp,
+          integrity,
         },
         badges: {
           valedictorian,
@@ -166,21 +204,21 @@ export default function AnalyticsPage() {
           tierS,
           nearPerfect,
         },
-        integrityScore: 100,
+        integrityScore: 98,
       };
     }
 
-    // Benchmark Showcase MOBA stat-sheet data (Preserved exactly per specification)
+    // Benchmark Academic Testing Showcase Data
     return {
       totalExams: 268,
       passRate: 78.5,
       perfectScores: 40,
       radarMetrics: {
         accuracy: 88,
-        mastery: 84,
-        diligence: 92,
-        problemSolving: 76,
-        discipline: 98,
+        speed: 85,
+        volume: 92,
+        advancedApp: 76,
+        integrity: 98,
       },
       badges: {
         valedictorian: 25,
@@ -192,7 +230,7 @@ export default function AnalyticsPage() {
         tierS: 12,
         nearPerfect: 34,
       },
-      integrityScore: 100,
+      integrityScore: 98,
     };
   }, [filteredSubmissions, useDemoFallback]);
 
@@ -230,22 +268,22 @@ export default function AnalyticsPage() {
         x2: outerPt.x,
         y2: outerPt.y,
         angleDeg: axis.angleDeg,
-        label: axis.label,
-        mobaTag: axis.mobaTag,
+        metric: axis.metric,
       };
     });
 
     // Data Polygon Points
     const dataPoints = RADAR_AXES.map((axis) => {
-      const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics] || 0;
+      const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics] ?? 80;
       const normalizedRadius = rMax * (Math.max(15, Math.min(100, val)) / 100);
       const pt = getVertex(axis.angleDeg, normalizedRadius);
+      const display = axis.getDisplay(val);
       return {
         ...pt,
         val,
         key: axis.key,
-        label: axis.label,
-        mobaTag: axis.mobaTag,
+        metric: axis.metric,
+        display,
       };
     });
 
@@ -293,13 +331,13 @@ export default function AnalyticsPage() {
           {submissions.length === 0 && (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#161a24] border border-[#252a37] text-[11px] text-[#8b93a5]">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-              <span>Chế độ mô phỏng MOBA</span>
+              <span>Dữ liệu mẫu chuẩn khảo thí</span>
               <button
                 type="button"
                 onClick={() => setUseDemoFallback(!useDemoFallback)}
                 className="ml-1 text-white underline hover:text-amber-400 cursor-pointer font-medium"
               >
-                {useDemoFallback ? "Hiển thị thực tế (0 bài)" : "Xem mẫu MOBA (268 bài)"}
+                {useDemoFallback ? "Hiển thị thực tế (0 bài)" : "Xem dữ liệu mẫu (268 bài)"}
               </button>
             </div>
           )}
@@ -311,7 +349,7 @@ export default function AnalyticsPage() {
             <h1 className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
               <span>Hồ sơ Năng lực &amp; Phân tích Thông số</span>
               <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#6366F1]/15 text-[#a5b4fc] border border-[#6366F1]/30 uppercase tracking-wider">
-                MOBA Stat-Sheet v2.0
+                Khảo Thí Chuẩn Hóa
               </span>
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-[#8b93a5]">
@@ -370,7 +408,7 @@ export default function AnalyticsPage() {
                   <span>Biểu đồ Năng lực 5 Chiều</span>
                 </h2>
                 <p className="text-[11px] text-[#8b93a5]">
-                  Định lượng hóa 5 năng lực cốt lõi theo phong cách MOBA Game
+                  Định lượng hóa 5 năng lực cốt lõi theo chuẩn khảo thí học thuật
                 </p>
               </div>
 
@@ -386,16 +424,11 @@ export default function AnalyticsPage() {
                 className="w-full max-w-[380px] h-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] overflow-visible"
               >
                 <defs>
-                  {/* Golden / Amber Radiant Gradient Fill for Competency Polygon */}
-                  <radialGradient id="amberGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.75" />
-                    <stop offset="65%" stopColor="#D97706" stopOpacity="0.45" />
-                    <stop offset="100%" stopColor="#B45309" stopOpacity="0.2" />
-                  </radialGradient>
-
-                  <linearGradient id="gridStrokeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#6366F1" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#252a37" stopOpacity="0.8" />
+                  {/* Smooth amber/indigo gradient fill */}
+                  <linearGradient id="academicRadarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#6366F1" stopOpacity="0.8" />
+                    <stop offset="60%" stopColor="#F59E0B" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="#D97706" stopOpacity="0.5" />
                   </linearGradient>
 
                   <filter id="goldGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
@@ -404,16 +437,15 @@ export default function AnalyticsPage() {
                   </filter>
                 </defs>
 
-                {/* Concentric Dark Indigo Pentagons (Grid Web) */}
+                {/* Clean geometric polygon with low-opacity slate border (stroke-white/10) */}
                 {radarSvgData.webs.map(({ lvl, points }) => (
                   <polygon
                     key={lvl}
                     points={points}
                     fill="none"
-                    stroke="url(#gridStrokeGrad)"
+                    stroke="rgba(255, 255, 255, 0.1)"
                     strokeWidth={lvl === 1.0 ? "1.5" : "1"}
                     strokeDasharray={lvl === 1.0 ? "none" : "3,3"}
-                    opacity={lvl === 1.0 ? 0.9 : 0.6}
                   />
                 ))}
 
@@ -425,18 +457,19 @@ export default function AnalyticsPage() {
                     y1={spoke.y1}
                     x2={spoke.x2}
                     y2={spoke.y2}
-                    stroke="#282e3d"
+                    stroke="rgba(255, 255, 255, 0.1)"
                     strokeWidth="1"
                     strokeDasharray="2,2"
                   />
                 ))}
 
-                {/* Data Polygon Fill & Border Stroke */}
+                {/* Smooth amber/indigo gradient fill (fillOpacity={0.35}) with a crisp 2px glowing stroke */}
                 <polygon
                   points={radarSvgData.polygonPointsString}
-                  fill="url(#amberGlow)"
+                  fill="url(#academicRadarGrad)"
+                  fillOpacity={0.35}
                   stroke="#F59E0B"
-                  strokeWidth="2.5"
+                  strokeWidth="2"
                   filter="url(#goldGlowFilter)"
                   className="transition-all duration-500 ease-out"
                 />
@@ -447,95 +480,95 @@ export default function AnalyticsPage() {
                     <circle
                       cx={pt.x}
                       cy={pt.y}
-                      r="5"
+                      r="4.5"
                       fill="#FFFFFF"
                       stroke="#F59E0B"
-                      strokeWidth="2.5"
+                      strokeWidth="2"
                       className="transition-transform duration-200 group-hover:scale-150"
                     />
                     <circle
                       cx={pt.x}
                       cy={pt.y}
-                      r="9"
+                      r="8"
                       fill="none"
                       stroke="#F59E0B"
                       strokeWidth="1"
-                      opacity="0.4"
+                      opacity="0.35"
                     />
                   </g>
                 ))}
 
-                {/* Labels around the 5 axes */}
+                {/* Labels around the 5 axes (100% Pure Academic & Exam Metrics) */}
                 {/* 1. Top Axis: Độ chính xác */}
-                <g transform="translate(200, 42)" textAnchor="middle">
-                  <text className="font-heading font-extrabold fill-white text-[12px]">
+                <g transform="translate(200, 36)" textAnchor="middle">
+                  <text className="font-heading text-xs font-semibold fill-slate-300">
                     Độ chính xác
                   </text>
-                  <text className="font-mono text-[10px] fill-[#F59E0B] font-bold" y="14">
-                    {stats.radarMetrics.accuracy}% ({RADAR_AXES[0].mobaTag})
+                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                    {radarSvgData.dataPoints[0]?.display}
                   </text>
                 </g>
 
-                {/* 2. Top-Right: Điểm trung bình */}
-                <g transform="translate(335, 142)" textAnchor="start">
-                  <text className="font-heading font-extrabold fill-white text-[12px]">
-                    Điểm trung bình
+                {/* 2. Top-Right: Thời gian xử lý */}
+                <g transform="translate(332, 145)" textAnchor="start">
+                  <text className="font-heading text-xs font-semibold fill-slate-300">
+                    Thời gian xử lý
                   </text>
-                  <text className="font-mono text-[10px] fill-[#F59E0B] font-bold" y="14">
-                    {(stats.radarMetrics.mastery / 10).toFixed(1)}/10 ({RADAR_AXES[1].mobaTag})
-                  </text>
-                </g>
-
-                {/* 3. Bottom-Right: Chuyên cần */}
-                <g transform="translate(300, 320)" textAnchor="start">
-                  <text className="font-heading font-extrabold fill-white text-[12px]">
-                    Chuyên cần
-                  </text>
-                  <text className="font-mono text-[10px] fill-[#F59E0B] font-bold" y="14">
-                    {stats.radarMetrics.diligence}% ({RADAR_AXES[2].mobaTag})
+                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                    {radarSvgData.dataPoints[1]?.display}
                   </text>
                 </g>
 
-                {/* 4. Bottom-Left: Vận dụng cao */}
-                <g transform="translate(100, 320)" textAnchor="end">
-                  <text className="font-heading font-extrabold fill-white text-[12px]">
-                    Vận dụng cao
+                {/* 3. Bottom-Right: Khối lượng ôn tập */}
+                <g transform="translate(295, 320)" textAnchor="start">
+                  <text className="font-heading text-xs font-semibold fill-slate-300">
+                    Khối lượng ôn tập
                   </text>
-                  <text className="font-mono text-[10px] fill-[#F59E0B] font-bold" y="14">
-                    {stats.radarMetrics.problemSolving}% ({RADAR_AXES[3].mobaTag})
+                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                    {radarSvgData.dataPoints[2]?.display}
                   </text>
                 </g>
 
-                {/* 5. Top-Left: Kỷ luật & Tốc độ */}
-                <g transform="translate(65, 142)" textAnchor="end">
-                  <text className="font-heading font-extrabold fill-white text-[12px]">
-                    Kỷ luật &amp; Tốc độ
+                {/* 4. Bottom-Left: Vận dụng nâng cao */}
+                <g transform="translate(105, 320)" textAnchor="end">
+                  <text className="font-heading text-xs font-semibold fill-slate-300">
+                    Vận dụng nâng cao
                   </text>
-                  <text className="font-mono text-[10px] fill-[#F59E0B] font-bold" y="14">
-                    {stats.radarMetrics.discipline}% ({RADAR_AXES[4].mobaTag})
+                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                    {radarSvgData.dataPoints[3]?.display}
+                  </text>
+                </g>
+
+                {/* 5. Top-Left: Kỷ luật phòng thi */}
+                <g transform="translate(68, 145)" textAnchor="end">
+                  <text className="font-heading text-xs font-semibold fill-slate-300">
+                    Kỷ luật phòng thi
+                  </text>
+                  <text className="font-mono text-sm font-bold fill-amber-400 tabular-nums" y="16">
+                    {radarSvgData.dataPoints[4]?.display}
                   </text>
                 </g>
               </svg>
             </div>
 
             {/* Quick Dimension Cards Below Radar */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2 border-t border-[#252a37]">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-3 border-t border-[#252a37]">
               {RADAR_AXES.map((axis) => {
-                const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics];
+                const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics] ?? 0;
                 return (
                   <div
                     key={axis.key}
-                    className="p-2 rounded-xl bg-[#10131b] border border-[#252a37] flex flex-col justify-between"
+                    className="p-2.5 rounded-xl bg-[#10131b] border border-[#252a37] flex flex-col justify-between"
                   >
-                    <span className="text-[10px] text-[#8b93a5] uppercase font-semibold">
-                      {axis.label}
+                    <span className="font-heading text-[11px] font-semibold text-slate-300 truncate">
+                      {axis.metric}
                     </span>
-                    <div className="flex items-center justify-between mt-1">
-                      <span className="font-mono text-xs font-bold text-white">
-                        {axis.key === "mastery" ? `${(val / 10).toFixed(1)}/10` : `${val}%`}
+                    <div className="flex items-center justify-between mt-1.5">
+                      <span className="font-mono text-sm font-bold text-amber-400 tabular-nums">
+                        {axis.getDisplay(val)}
                       </span>
-                      <span className="text-[10px] font-mono text-[#F59E0B] bg-[#F59E0B]/10 px-1.5 py-0.2 rounded">
-                        {axis.mobaTag}
+                      <span className="text-[10px] text-slate-400 font-medium">
+                        {val >= 90 ? "Xuất sắc" : val >= 80 ? "Giỏi" : "Đạt chuẩn"}
                       </span>
                     </div>
                   </div>
