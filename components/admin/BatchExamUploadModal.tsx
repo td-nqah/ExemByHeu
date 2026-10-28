@@ -336,6 +336,57 @@ export function BatchExamUploadModal({
     );
   };
 
+  const [isSolvingAi, setIsSolvingAi] = useState(false);
+
+  const handleAiAutoSolve = async () => {
+    if (!activeDrawerExam) return;
+    setIsSolvingAi(true);
+
+    try {
+      const examText = activeDrawerExam.questions
+        .map((q, idx) => `Câu ${idx + 1}: ${q.content}\n${q.options.join("\n")}`)
+        .join("\n\n");
+
+      const res = await fetch("/api/ai/parse-exam", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rawText: examText }),
+      });
+
+      const data = await res.json();
+      if (Array.isArray(data.questions) && data.questions.length > 0) {
+        const updatedQuestions = activeDrawerExam.questions.map((q, idx) => {
+          const solved = data.questions[idx];
+          if (!q.correct_answer && solved?.correct_answer) {
+            return { ...q, correct_answer: solved.correct_answer };
+          }
+          return q;
+        });
+
+        const issuesCount = updatedQuestions.filter(
+          (q) => q.type === "multiple_choice" && !q.correct_answer
+        ).length;
+
+        const updatedExam = {
+          ...activeDrawerExam,
+          questions: updatedQuestions,
+          hasIssues: issuesCount > 0,
+          issuesCount,
+        };
+
+        setActiveDrawerExam(updatedExam);
+        setParsedExams((prev) =>
+          prev.map((e) => (e.tempId === updatedExam.tempId ? updatedExam : e))
+        );
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert("Không thể giải tự động: " + (err?.message || "Lỗi kết nối AI"));
+    } finally {
+      setIsSolvingAi(false);
+    }
+  };
+
   // Batch Save all verified exams
   const handleBatchSave = async () => {
     if (parsedExams.length === 0) return;
@@ -900,13 +951,26 @@ export function BatchExamUploadModal({
                     </p>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setActiveDrawerExam(null)}
-                    className="p-1.5 rounded-full border border-white/10 text-slate-400 hover:text-white"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleAiAutoSolve}
+                      disabled={isSolvingAi}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 text-xs font-semibold transition disabled:opacity-50 cursor-pointer"
+                      title="Sử dụng AI tự động giải và điền đáp án cho các câu đang bị thiếu"
+                    >
+                      <Sparkles className={`h-3.5 w-3.5 ${isSolvingAi ? "animate-spin" : ""}`} />
+                      <span>{isSolvingAi ? "Đang giải..." : "AI Điền Đáp Án"}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveDrawerExam(null)}
+                      className="p-1.5 rounded-full border border-white/10 text-slate-400 hover:text-white cursor-pointer"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Drawer Questions List */}
@@ -937,13 +1001,19 @@ export function BatchExamUploadModal({
                                     e.target.value
                                   )
                                 }
-                                className="bg-[#10131b] border border-[#252a37] rounded-lg px-2 py-0.5 text-xs text-white font-bold"
+                                className={`border rounded-lg px-2 py-0.5 text-xs font-bold transition-colors ${
+                                  !q.correct_answer
+                                    ? "bg-amber-500/20 border-amber-500/50 text-amber-300"
+                                    : "bg-[#10131b] border-[#252a37] text-white"
+                                }`}
                               >
-                                <option value="">-- Chưa chọn --</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
+                                <option value="" className="bg-[#10131b] text-slate-400">
+                                  -- Chưa chọn (Thiếu Đ/A) --
+                                </option>
+                                <option value="A" className="bg-[#10131b] text-white">A</option>
+                                <option value="B" className="bg-[#10131b] text-white">B</option>
+                                <option value="C" className="bg-[#10131b] text-white">C</option>
+                                <option value="D" className="bg-[#10131b] text-white">D</option>
                               </select>
                             </div>
                           )}

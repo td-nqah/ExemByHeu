@@ -45,6 +45,83 @@ function cleanExamTitle(rawTitle: string): string {
   return title.trim() || rawTitle;
 }
 
+// Convert Mammoth HTML into marked text so formatting (bold, underline) is preserved as answer markers
+function convertHtmlToMarkedText(html: string): string {
+  return html
+    // Bold or underline on option letter or whole option indicates correct answer
+    .replace(/<(?:strong|b|u|em)>(\s*\*?[A-D][\.\:\)])/gi, "*$1")
+    .replace(/(\*?[A-D][\.\:\)][^<]+)<\/(?:strong|b|u|em)>/gi, "$1 (đáp án đúng)")
+    // Line breaks & tables
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/tr>/gi, "\n")
+    .replace(/<\/td>/gi, "\t")
+    // Strip other HTML tags
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"');
+}
+
+// Extract Answer Key Table / List (e.g., "1. C  2. D", "1-C  2-D", "1C  2D", or horizontal table)
+function extractAnswerMapFromSection(text: string): Map<number, string> {
+  const map = new Map<number, string>();
+  if (!text) return map;
+
+  const answerKeyHeaderRegex =
+    /(?:^|\n)\s*(?:(?:PHẦN|BẢNG|DANH\s*SÁCH|PHIẾU)?\s*(?:ĐÁP\s*ÁN|TRẢ\s*LỜI)(?:\s*TRẮC\s*NGHIỆM|\s*CHI\s*TIẾT)?|HƯỚNG\s*DẪN\s*CHẤM|ANSWER\s*KEYS?|KEYS?)[\:\s\-\n]/i;
+
+  const headerIdx = text.search(answerKeyHeaderRegex);
+
+  // 1. If explicit answer section header exists, extract Pattern 1 & Pattern 2 from targetText
+  if (headerIdx !== -1) {
+    const targetText = text.slice(headerIdx);
+    const p1 = /(?:Câu\s*)?(\d+)[^\n\S]*(?:[:.\-\/]|[ \t]+)[^\n\S]*([A-D])\b/gi;
+    let m: RegExpExecArray | null;
+    while ((m = p1.exec(targetText)) !== null) {
+      const qNum = parseInt(m[1], 10);
+      if (!map.has(qNum)) {
+        map.set(qNum, m[2].toUpperCase());
+      }
+    }
+
+    const p2 = /\b(\d+)([A-D])\b/gi;
+    while ((m = p2.exec(targetText)) !== null) {
+      const qNum = parseInt(m[1], 10);
+      if (!map.has(qNum)) {
+        map.set(qNum, m[2].toUpperCase());
+      }
+    }
+  }
+
+  // 2. Horizontal table detection (run on full text so Row 1 'Câu' is never lost)
+  const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
+  for (let i = 0; i < lines.length - 1; i++) {
+    const curLine = lines[i];
+    const nextLine = lines[i + 1];
+    if (
+      /(?:Câu|STT|No)/i.test(curLine) &&
+      /(?:Đáp\s*án|Đ\/A|Key|Answer)/i.test(nextLine)
+    ) {
+      const numMatches = curLine.match(/\b\d+\b/g);
+      const cleanNext = nextLine.replace(/^(?:Đáp\s*án|Đ\/A|Key|Answer)[^\t\s]*/i, "");
+      const letterMatches = cleanNext.match(/\b[A-D]\b/gi);
+      if (numMatches && letterMatches && numMatches.length === letterMatches.length) {
+        for (let k = 0; k < numMatches.length; k++) {
+          const qNum = parseInt(numMatches[k], 10);
+          if (!map.has(qNum)) {
+            map.set(qNum, letterMatches[k].toUpperCase());
+          }
+        }
+      }
+    }
+  }
+
+  return map;
+}
+
 // Split entire text into discrete exam chunks
 function splitTextIntoExamChunks(rawText: string): { title: string; text: string }[] {
   const normalized = rawText
@@ -135,6 +212,9 @@ function parseExamChunkSmart(
     .replace(/\u00A0/g, " ")
     .trim();
 
+  // Extract any Answer Key Table in this chunk
+  const chunkAnswerMap = extractAnswerMapFromSection(text);
+
   // 1. Separate Header metadata vs Question body
   const firstQMatch = text.search(
     /(?:^|\n)\s*(?:(?:PHẦN|PART|MỤC)\s+[IVX\d]+|(?:Câu(?:\s+hỏi)?|Question|Bài)\s*\d+|(?:CÂU\s*HỎI\s+)?TỰ\s*LUẬN)/i
@@ -185,6 +265,21 @@ function parseExamChunkSmart(
     essayText = bodyText.slice(essaySplitIdx).trim();
   }
 
+  // Strip answer key section from mcqText so it doesn't get merged into the last MCQ question
+  const ansKeyHeaderInMcq = mcqText.search(
+    /(?:^|\n)\s*(?:(?:PHẦN|BẢNG|DANH\s*SÁCH|PHIẾU)?\s*(?:ĐÁP\s*ÁN|TRẢ\s*LỜI)(?:\s*TRẮC\s*NGHIỆM|\s*CHI\s*TIẾT)?|HƯỚNG\s*DẪN\s*CHẤM|ANSWER\s*KEYS?|KEYS?)[\:\s\-\n]/i
+  );
+  if (ansKeyHeaderInMcq !== -1) {
+    mcqText = mcqText.slice(0, ansKeyHeaderInMcq).trim();
+  }
+
+  const tableHeaderInMcq = mcqText.search(
+    /(?:^|\n)\s*(?:Câu|STT|No)\s*[\t\s]+\d+\b[^\n]*\n\s*(?:Đáp\s*án|Đ\/A|Key|Answer)/i
+  );
+  if (tableHeaderInMcq !== -1) {
+    mcqText = mcqText.slice(0, tableHeaderInMcq).trim();
+  }
+
   const questions: ParsedQuestionDraft[] = [];
   let missingCount = 0;
 
@@ -206,23 +301,39 @@ function parseExamChunkSmart(
       const optionRegex = /^([A-D])[\.\:\)]\s*(.+)$/i;
       const answerKeyRegex =
         /^(?:\[|\()? *(?:Đáp\s*án(?:\s*đúng)?|Answer(?:\s*key)?|Key|Đ\/A|ĐA)[\:\s\-]+([A-D])\b/i;
+      const asteriskOptionRegex = /^\*\s*([A-D])[\.\:\)]\s*(.+)$/i;
 
       for (let j = 0; j < lines.length; j++) {
         const line = lines[j];
 
+        // 1. Standalone answer key line (e.g. "Đáp án: A")
         const ansMatch = line.match(answerKeyRegex);
         if (ansMatch) {
           correctAnswer = ansMatch[1].toUpperCase();
           continue;
         }
 
+        // 2. Option marked with asterisk (from bold/underline formatting: e.g. "*C. ...")
+        const asteriskMatch = line.match(asteriskOptionRegex);
+        if (asteriskMatch) {
+          const letter = asteriskMatch[1].toUpperCase();
+          let optText = asteriskMatch[2].replace(/\(đáp\s*án\s*đúng\)/gi, "").trim();
+          options.push(`${letter}. ${optText}`);
+          if (!correctAnswer) correctAnswer = letter;
+          continue;
+        }
+
+        // 3. Standard option (A. ..., B. ...)
         const optMatch = line.match(optionRegex);
         if (optMatch) {
           const letter = optMatch[1].toUpperCase();
           let optText = optMatch[2].trim();
-          if (/\(\s*(?:đúng|correct)\s*\)$/i.test(optText) || optText.endsWith("*")) {
+          if (
+            /\(\s*(?:đúng|correct|đáp\s*án\s*đúng)\s*\)$/i.test(optText) ||
+            optText.endsWith("*")
+          ) {
             optText = optText
-              .replace(/\(\s*(?:đúng|correct)\s*\)$/i, "")
+              .replace(/\(\s*(?:đúng|correct|đáp\s*án\s*đúng)\s*\)$/i, "")
               .replace(/\*+$/, "")
               .trim();
             if (!correctAnswer) correctAnswer = letter;
@@ -245,15 +356,21 @@ function parseExamChunkSmart(
         }
       }
 
+      // Check if answer is in the chunk's Answer Table (e.g. Question 1 -> answerMap.get(1))
+      const currentQNumber = questions.length + 1;
+      if (!correctAnswer && chunkAnswerMap.has(currentQNumber)) {
+        correctAnswer = chunkAnswerMap.get(currentQNumber)!;
+      }
+
       const qContent = cleanQuestionContent(contentLines.join("\n"));
       if (qContent || options.length > 0) {
         if (!correctAnswer) missingCount++;
         questions.push({
-          id: `q_draft_${tempIdPrefix}_${questions.length + 1}`,
+          id: `q_draft_${tempIdPrefix}_${currentQNumber}`,
           type: "multiple_choice",
-          content: qContent || `Câu hỏi số ${questions.length + 1}`,
+          content: qContent || `Câu hỏi số ${currentQNumber}`,
           options: normalizeOptions(options),
-          correct_answer: correctAnswer || "A",
+          correct_answer: correctAnswer || "", // Keep empty if missing, don't fake with "A"
           max_score: 0.5,
         });
       }
@@ -328,11 +445,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // 1. Extract raw text from docx via mammoth (Buffer required in Node.js)
+    // 1. Extract text via mammoth convertToHtml (preserves bold, underline, tables, and formatting)
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const mammothResult = await mammoth.extractRawText({ buffer, arrayBuffer } as any);
-    const rawText = (mammothResult.value || "").trim();
+    const htmlResult = await mammoth.convertToHtml({ buffer, arrayBuffer } as any);
+    const rawText = convertHtmlToMarkedText(htmlResult.value || "").trim();
 
     if (!rawText) {
       return NextResponse.json(
@@ -352,7 +469,7 @@ export async function POST(request: Request) {
     }
 
     // 3. Intelligent High-Speed Chunk Parsing
-    // Extracts headers, cleanly isolates MCQs & Essays, captures essay outline into explanation
+    // Extracts headers, detects bold/underline answers, maps answer key tables, isolates essays
     const parsedExams = chunks.map((chunk, idx) => {
       const tempId = `batch_exam_${Date.now()}_${idx + 1}_${Math.random().toString(36).substring(2, 6)}`;
       const parsed = parseExamChunkSmart(chunk.text, chunk.title, defaultDuration, tempId);
