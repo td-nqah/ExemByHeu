@@ -51,6 +51,30 @@ PHẦN II: CÂU HỎI TỰ LUẬN
 
 Câu 4 (5.0 điểm): Hãy phân tích cơ chế hoạt động của tính năng Row Level Security (RLS) trong PostgreSQL / Supabase và viết ví dụ chính sách bảo mật để đảm bảo mỗi user chỉ có thể xem lịch sử bài thi của chính mình.`;
 
+function DotCircleSpinner({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      className={`animate-spin ${className}`}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="12" cy="3" r="1.7" opacity="1" />
+      <circle cx="16.5" cy="4.2" r="1.6" opacity="0.92" />
+      <circle cx="19.8" cy="7.5" r="1.5" opacity="0.84" />
+      <circle cx="21" cy="12" r="1.5" opacity="0.75" />
+      <circle cx="19.8" cy="16.5" r="1.4" opacity="0.67" />
+      <circle cx="16.5" cy="19.8" r="1.4" opacity="0.58" />
+      <circle cx="12" cy="21" r="1.3" opacity="0.5" />
+      <circle cx="7.5" cy="19.8" r="1.3" opacity="0.42" />
+      <circle cx="4.2" cy="16.5" r="1.2" opacity="0.33" />
+      <circle cx="3" cy="12" r="1.2" opacity="0.25" />
+      <circle cx="4.2" cy="7.5" r="1.1" opacity="0.17" />
+      <circle cx="7.5" cy="4.2" r="1.1" opacity="0.1" />
+    </svg>
+  );
+}
+
 export default function ExamCreatePage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -619,7 +643,11 @@ export default function ExamCreatePage() {
                 disabled={isParsing}
                 className="inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-200 text-black px-5 py-2.5 text-xs font-bold shadow-md transition active:scale-[0.98] disabled:opacity-50 cursor-pointer"
               >
-                <Sparkles className="h-3.5 w-3.5" />
+                {isParsing ? (
+                  <DotCircleSpinner className="h-3.5 w-3.5 text-black" />
+                ) : (
+                  <Sparkles className="h-3.5 w-3.5" />
+                )}
                 <span>
                   {isParsing
                     ? "Đang Trích Xuất"
@@ -705,7 +733,11 @@ export default function ExamCreatePage() {
                 disabled={isParsing || !clipboardText.trim()}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-white hover:bg-slate-200 text-black px-6 py-2.5 text-xs font-bold shadow-md transition active:scale-[0.98] disabled:opacity-50 cursor-pointer"
               >
-                <Sparkles className="h-4 w-4" />
+                {isParsing ? (
+                  <DotCircleSpinner className="h-4 w-4 text-black" />
+                ) : (
+                  <Sparkles className="h-4 w-4" />
+                )}
                 <span>
                   {isParsing
                     ? "Đang Trích Xuất"
