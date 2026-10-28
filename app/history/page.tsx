@@ -23,6 +23,7 @@ export default function HistoryPage() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -30,6 +31,7 @@ export default function HistoryPage() {
       router.push("/");
       return;
     }
+    setIsAdmin(user.role === "admin");
 
     async function loadHistory() {
       try {
@@ -49,6 +51,10 @@ export default function HistoryPage() {
   }, [router]);
 
   const handleDeleteOne = async (id: string) => {
+    if (!isAdmin) {
+      alert("Chỉ Quản trị viên (Admin) mới có quyền xóa bài làm khỏi lịch sử đánh giá.");
+      return;
+    }
     if (!window.confirm("Bạn có chắc chắn muốn xóa bài làm này khỏi lịch sử đánh giá không?")) {
       return;
     }
@@ -62,6 +68,10 @@ export default function HistoryPage() {
   };
 
   const handleClearAll = async () => {
+    if (!isAdmin) {
+      alert("Chỉ Quản trị viên (Admin) mới có quyền xóa toàn bộ lịch sử bài làm.");
+      return;
+    }
     if (!window.confirm("Bạn có chắc chắn muốn xóa toàn bộ lịch sử bài làm không? Thao tác này sẽ đặt lại lịch sử đánh giá.")) {
       return;
     }
@@ -99,13 +109,13 @@ export default function HistoryPage() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
-          {submissions.length > 0 && (
+          {isAdmin && submissions.length > 0 && (
             <button
               type="button"
               onClick={handleClearAll}
               disabled={isDeleting}
               className="inline-flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 px-3.5 py-2.5 text-xs font-semibold text-rose-300 shadow-sm transition-all select-none cursor-pointer"
-              title="Xóa toàn bộ lịch sử làm bài"
+              title="Xóa toàn bộ lịch sử làm bài (Dành cho Admin)"
             >
               <Trash2 className="h-3.5 w-3.5 text-rose-400" />
               <span>Xóa toàn bộ lịch sử</span>
@@ -243,14 +253,16 @@ export default function HistoryPage() {
                             <span>Xem chi tiết</span>
                             <ArrowRight className="h-3 w-3" />
                           </Link>
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteOne(sub.id)}
-                            title="Xóa bài làm này"
-                            className="inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition cursor-pointer select-none"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
+                          {isAdmin && (
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteOne(sub.id)}
+                              title="Xóa bài làm này (Dành cho Admin)"
+                              className="inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition cursor-pointer select-none"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -331,14 +343,16 @@ export default function HistoryPage() {
                       <span>Xem chi tiết bài làm</span>
                       <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteOne(sub.id)}
-                      title="Xóa bài làm này"
-                      className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 transition cursor-pointer select-none"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    {isAdmin && (
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteOne(sub.id)}
+                        title="Xóa bài làm này (Dành cho Admin)"
+                        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 transition cursor-pointer select-none"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    )}
                   </div>
                 </div>
               );

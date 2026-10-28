@@ -2094,6 +2094,12 @@ export async function finalizeGrading(
 
 export async function deleteSubmission(submissionId: string): Promise<boolean> {
   initStore();
+  const currentUser = getCurrentUser();
+  if (currentUser && currentUser.role !== "admin") {
+    console.warn("Unauthorized: Chỉ Quản trị viên (Admin) mới có quyền xóa lịch sử bài đánh giá.");
+    return false;
+  }
+
   // 1. Delete from Supabase
   if (isSupabaseConfigured && supabase) {
     try {
@@ -2120,6 +2126,12 @@ export async function deleteSubmission(submissionId: string): Promise<boolean> {
 
 export async function clearUserSubmissions(userId?: string): Promise<boolean> {
   initStore();
+  const currentUser = getCurrentUser();
+  if (currentUser && currentUser.role !== "admin") {
+    console.warn("Unauthorized: Chỉ Quản trị viên (Admin) mới có quyền xóa toàn bộ lịch sử.");
+    return false;
+  }
+
   const effectiveUserId = userId || "00000000-0000-0000-0000-000000000001";
   const norm = effectiveUserId.toLowerCase();
 
