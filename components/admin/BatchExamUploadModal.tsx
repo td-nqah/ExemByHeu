@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { Category, ParsedQuestionDraft } from "@/types/exam";
 import {
   UploadCloud,
@@ -25,6 +25,62 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
+import { NumberStepper } from "@/components/ui/NumberStepper";
+
+function TableDurationInput({
+  value,
+  onSave,
+}: {
+  value: number;
+  onSave: (val: number) => void;
+}) {
+  const [localVal, setLocalVal] = useState<string>(String(value || 45));
+  const isFocusedRef = useRef(false);
+
+  useEffect(() => {
+    if (!isFocusedRef.current) {
+      setLocalVal(String(value || 45));
+    }
+  }, [value]);
+
+  return (
+    <div className="inline-flex items-center gap-1 bg-[#161a24] border border-[#252a37] rounded-lg px-2 py-0.5 focus-within:border-white/50 transition-colors">
+      <input
+        type="text"
+        inputMode="numeric"
+        value={localVal}
+        onFocus={() => {
+          isFocusedRef.current = true;
+        }}
+        onChange={(e) => {
+          const v = e.target.value;
+          // Cho phép xóa hết để nhập số mới mà không bị kẹt
+          if (v === "" || /^\d*$/.test(v)) {
+            setLocalVal(v);
+            const num = Number(v);
+            if (!isNaN(num) && num > 0) {
+              onSave(num);
+            }
+          }
+        }}
+        onBlur={() => {
+          isFocusedRef.current = false;
+          const num = Number(localVal);
+          const clamped = isNaN(num) || num < 5 ? 45 : Math.min(300, num);
+          setLocalVal(String(clamped));
+          onSave(clamped);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.currentTarget.blur();
+          }
+        }}
+        className="w-8 text-center text-xs text-white bg-transparent outline-none font-medium tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      />
+      <span className="text-[11px] text-slate-400 select-none">ph</span>
+    </div>
+  );
+}
 
 export interface ParsedBatchExam {
   tempId: string;
@@ -203,7 +259,7 @@ export function BatchExamUploadModal({
   const handleUpdateExamDuration = (tempId: string, duration: number) => {
     setParsedExams((prev) =>
       prev.map((e) =>
-        e.tempId === tempId ? { ...e, durationMinutes: Math.max(5, duration) } : e
+        e.tempId === tempId ? { ...e, durationMinutes: duration } : e
       )
     );
   };
@@ -515,18 +571,15 @@ export function BatchExamUploadModal({
                     <Clock className="h-3.5 w-3.5 text-white" />
                     <span>Thời gian làm bài mặc định:</span>
                   </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      min={5}
-                      max={240}
-                      step={5}
-                      value={defaultDuration}
-                      onChange={(e) => setDefaultDuration(Number(e.target.value) || 45)}
-                      className="w-full rounded-xl border border-[#252a37] bg-[#161a24] px-3 py-2 text-xs text-white focus:border-white/50 focus:outline-none"
-                    />
-                    <span className="absolute right-3 top-2 text-xs text-slate-400">phút</span>
-                  </div>
+                  <NumberStepper
+                    value={defaultDuration}
+                    onChange={(val) => setDefaultDuration(val)}
+                    min={5}
+                    max={300}
+                    step={5}
+                    suffix="phút"
+                    className="w-full justify-between h-9 bg-[#161a24] border-[#252a37]"
+                  />
                 </div>
               </div>
 
@@ -670,22 +723,10 @@ export function BatchExamUploadModal({
                               />
                             </td>
                             <td className="py-3 px-3 text-center">
-                              <div className="inline-flex items-center gap-1">
-                                <input
-                                  type="number"
-                                  min={5}
-                                  max={240}
-                                  value={exam.durationMinutes}
-                                  onChange={(e) =>
-                                    handleUpdateExamDuration(
-                                      exam.tempId,
-                                      Number(e.target.value)
-                                    )
-                                  }
-                                  className="w-14 text-center bg-[#161a24] border border-[#252a37] rounded-lg py-0.5 text-xs text-white"
-                                />
-                                <span className="text-[11px] text-slate-400">ph</span>
-                              </div>
+                              <TableDurationInput
+                                value={exam.durationMinutes}
+                                onSave={(dur) => handleUpdateExamDuration(exam.tempId, dur)}
+                              />
                             </td>
                             <td className="py-3 px-3 text-center font-mono font-bold text-white">
                               {exam.questionCount}
