@@ -69,7 +69,7 @@ function normalizeAiQuestions(rawItems: any[]): ParsedQuestionDraft[] {
         }
       }
       if (!correctAnswer) {
-        correctAnswer = "A";
+        correctAnswer = "";
       }
     }
 

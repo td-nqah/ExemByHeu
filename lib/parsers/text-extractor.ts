@@ -18,6 +18,61 @@ function splitInlineOptions(line: string): string[] {
   return [line];
 }
 
+// Extract Answer Key Table / List (e.g. "1. C  2. D", "1-C  2-D", "1C  2D", or horizontal table)
+function extractAnswerMapFromText(text: string): Map<number, string> {
+  const map = new Map<number, string>();
+  if (!text) return map;
+
+  const answerKeyHeaderRegex =
+    /(?:^|\n)\s*(?:(?:PHẦN|BẢNG|DANH\s*SÁCH|PHIẾU)?\s*(?:ĐÁP\s*ÁN|TRẢ\s*LỜI)(?:\s*TRẮC\s*NGHIỆM|\s*CHI\s*TIẾT)?|HƯỚNG\s*DẪN\s*CHẤM|ANSWER\s*KEYS?|KEYS?)[\:\s\-\n]/i;
+
+  const headerIdx = text.search(answerKeyHeaderRegex);
+  if (headerIdx !== -1) {
+    const targetText = text.slice(headerIdx);
+    const p1 = /(?:Câu\s*)?(\d+)[^\n\S]*(?:[:.\-\/]|[ \t]+)[^\n\S]*([A-D])\b/gi;
+    let m: RegExpExecArray | null;
+    while ((m = p1.exec(targetText)) !== null) {
+      const qNum = parseInt(m[1], 10);
+      if (!map.has(qNum)) {
+        map.set(qNum, m[2].toUpperCase());
+      }
+    }
+
+    const p2 = /\b(\d+)([A-D])\b/gi;
+    while ((m = p2.exec(targetText)) !== null) {
+      const qNum = parseInt(m[1], 10);
+      if (!map.has(qNum)) {
+        map.set(qNum, m[2].toUpperCase());
+      }
+    }
+  }
+
+  // Horizontal table detection
+  const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
+  for (let i = 0; i < lines.length - 1; i++) {
+    const curLine = lines[i];
+    const nextLine = lines[i + 1];
+    if (
+      /(?:Câu|STT|No)/i.test(curLine) &&
+      /(?:Đáp\s*án|Đ\/A|Key|Answer)/i.test(nextLine)
+    ) {
+      const numMatches = curLine.match(/\b\d+\b/g);
+      const cleanNext = nextLine.replace(/^(?:Đáp\s*án|Đ\/A|Key|Answer)[^\t\s]*/i, "");
+      const letterMatches = cleanNext.match(/\b[A-D]\b/gi);
+      if (numMatches && letterMatches && numMatches.length === letterMatches.length) {
+        for (let k = 0; k < numMatches.length; k++) {
+          const qNum = parseInt(numMatches[k], 10);
+          if (!map.has(qNum)) {
+            map.set(qNum, letterMatches[k].toUpperCase());
+          }
+        }
+      }
+    }
+  }
+
+  return map;
+}
+
 /**
  * Robust regex-based question extractor that parses standard & semi-structured Vietnamese & English exam patterns.
  * Supports:
@@ -34,6 +89,9 @@ export function parseQuestionsFromRawText(rawText: string): ParsedQuestionDraft[
     .trim();
 
   if (!normalized) return [];
+
+  // Extract answer map if an answer table is present at the end
+  const answerMap = extractAnswerMapFromText(normalized);
 
   // Remove standalone section headers like "PHẦN I: TRẮC NGHIỆM", "PHẦN II: TỰ LUẬN" from merging into questions
   const cleanedRaw = normalized.replace(
@@ -184,12 +242,17 @@ export function parseQuestionsFromRawText(rawText: string): ParsedQuestionDraft[
         })
       : [];
 
+    const currentQNumber = results.length + 1;
+    if (!correctAnswer && answerMap.has(currentQNumber)) {
+      correctAnswer = answerMap.get(currentQNumber)!;
+    }
+
     results.push({
       id: `draft_${Date.now()}_${i + 1}`,
       type,
       content: finalContent,
       options: normalizedOptions,
-      correct_answer: isMCQ ? correctAnswer || "A" : "",
+      correct_answer: isMCQ ? correctAnswer || "" : "",
       max_score: detectedScore ?? (isMCQ ? 0.5 : 2.0),
     });
   }
