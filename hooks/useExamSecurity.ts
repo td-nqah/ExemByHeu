@@ -112,11 +112,14 @@ export function useExamSecurity({
       const isCtrlOrMeta = e.ctrlKey || e.metaKey;
       const keyLower = e.key.toLowerCase();
 
-      // 1. Block Copy (Ctrl+C / Cmd+C) & Paste (Ctrl+V / Cmd+V)
-      if (isCtrlOrMeta && (keyLower === "c" || keyLower === "v")) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
+      // 1. Block Copy (Ctrl+C / Cmd+C outside of input fields), Allow Paste (Ctrl+V / Cmd+V)
+      if (isCtrlOrMeta && keyLower === "c") {
+        const target = e.target as HTMLElement | null;
+        if (target?.tagName !== "INPUT" && target?.tagName !== "TEXTAREA" && !target?.isContentEditable) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
       }
 
       // 2. Block View Source (Ctrl+U / Cmd+U)
@@ -154,8 +157,16 @@ export function useExamSecurity({
     };
   }, [enabled]);
 
-  // Context Menu blocker
+  // Context Menu blocker (allow inside inputs & textareas for pasting)
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    const target = e.target as HTMLElement | null;
+    if (
+      target?.tagName === "INPUT" ||
+      target?.tagName === "TEXTAREA" ||
+      target?.isContentEditable
+    ) {
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
   }, []);

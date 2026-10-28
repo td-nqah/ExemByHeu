@@ -524,19 +524,19 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   </span>
                 </p>
                 <ul className="space-y-2 text-xs text-[#9CA3AF] leading-relaxed list-none p-0 m-0">
-                  <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
+                  <li className="flex items-start gap-2">
                     <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
                     <span>Không chuyển tab hoặc rời màn hình (tối đa 3 lần cảnh báo).</span>
                   </li>
-                  <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
+                  <li className="flex items-start gap-2">
                     <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
                     <span>Điểm trắc nghiệm được hệ thống tự động ghi nhận khi nộp bài.</span>
                   </li>
-                  <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
+                  <li className="flex items-start gap-2">
                     <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
                     <span>Phím tắt: 1-4 (hoặc A-D) chọn đáp án, Mũi tên (← →) chuyển câu, F cắm cờ.</span>
                   </li>
-                  <li className="flex items-start gap-2" style={{ paddingLeft: "1cm" }}>
+                  <li className="flex items-start gap-2">
                     <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
                     <span>Khi hết thời gian, hệ thống tự động khóa và gửi bài làm.</span>
                   </li>
