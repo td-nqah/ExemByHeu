@@ -25,7 +25,6 @@ import {
   ChevronDown,
   Layers,
   History,
-  Target,
   Zap,
   Brain,
   Timer,
@@ -81,7 +80,6 @@ export default function AnalyticsPage() {
 
   // Filters
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
-  const [activeNavSection, setActiveNavSection] = useState<string>("competency");
   const [useDemoFallback, setUseDemoFallback] = useState<boolean>(false);
 
   // Deep Analysis Drawer & Share Toast
@@ -353,181 +351,43 @@ export default function AnalyticsPage() {
             </p>
           </div>
 
-          {/* Right-aligned Subject Selector Dropdown */}
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs text-[#8b93a5] font-medium hidden sm:inline">Học phần:</span>
-            <PopoverSelect<string>
-              value={selectedSubject}
-              onChange={(val) => setSelectedSubject(val)}
-              options={subjectOptions}
-              align="right"
-              buttonClassName="h-8 text-xs bg-[#10131b] border-[#252a37] text-white rounded-xl min-w-[170px]"
-            />
+          <div className="flex items-center gap-3 shrink-0 flex-wrap">
+            {/* User Info Tag */}
+            <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#161a24] border border-[#252a37] text-xs">
+              <span className="h-2 w-2 rounded-full bg-[#10B981]" />
+              <span className="font-semibold text-white">{user?.username || "Thí sinh"}</span>
+              <span className="text-[#8b93a5]">({user?.role === "admin" ? "Quản trị viên" : "Sinh viên"})</span>
+              <span className="text-amber-400 font-mono font-bold flex items-center gap-1">
+                <Crown className="w-3 h-3" />
+                Cao Thủ
+              </span>
+            </div>
+
+            {/* Right-aligned Subject Selector Dropdown */}
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-xs text-[#8b93a5] font-medium hidden sm:inline">Học phần:</span>
+              <PopoverSelect<string>
+                value={selectedSubject}
+                onChange={(val) => setSelectedSubject(val)}
+                options={subjectOptions}
+                align="right"
+                buttonClassName="h-8 text-xs bg-[#10131b] border-[#252a37] text-white rounded-xl min-w-[170px]"
+              />
+            </div>
           </div>
         </div>
       </motion.div>
 
-      {/* 2. Main 3-Column Architecture */}
+      {/* 2. Main Dashboard Layout (2-Column Architecture) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
         {/* ============================================================ */}
-        {/* COLUMN 1: LEFT VERTICAL SUB-NAVIGATION PANEL (lg:col-span-3) */}
-        {/* ============================================================ */}
-        <motion.div
-          initial={shouldReduceMotion ? false : { opacity: 0, x: -12 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.35, delay: 0.05 }}
-          className="lg:col-span-3 space-y-4"
-        >
-          {/* User Profile Card */}
-          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-4.5 shadow-lg relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-[#6366F1]/10 rounded-full blur-2xl pointer-events-none" />
-            <div className="flex items-center gap-3 relative z-10">
-              <div className="relative">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#10131b] border border-[#252a37] text-white font-bold text-base shadow-sm">
-                  {(user?.username || "A").charAt(0).toUpperCase()}
-                </div>
-                <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-[#10B981] border-2 border-[#161a24]" />
-              </div>
-              <div className="min-w-0">
-                <p className="font-heading text-sm font-bold text-white truncate">
-                  {user?.username || "Thí sinh"}
-                </p>
-                <p className="text-[11px] text-[#8b93a5]">
-                  {user?.role === "admin" ? "Quản trị viên hệ thống" : "Sinh viên chính quy"}
-                </p>
-                <div className="mt-1 flex items-center gap-1.5 text-[10px] text-amber-400 font-mono font-bold">
-                  <Crown className="w-3 h-3" />
-                  <span>Cấp bậc: Cao Thủ Học Thuật</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Compact Vertical Sub-Navigation List */}
-          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-2 space-y-1 shadow-lg">
-            {[
-              {
-                id: "focus_subjects",
-                label: "Môn học trọng tâm",
-                icon: Target,
-                badge: categories.length > 0 ? `${categories.length}` : "3",
-                href: "/dashboard",
-              },
-              {
-                id: "exam_history",
-                label: "Lịch sử thi",
-                icon: History,
-                badge: `${submissions.length}`,
-                href: "/history",
-              },
-              {
-                id: "competency",
-                label: "Hồ sơ Năng lực",
-                icon: Brain,
-                badge: "Radar 5D",
-              },
-              {
-                id: "discipline",
-                label: "Điểm Kỷ luật Phòng thi",
-                icon: ShieldCheck,
-                badge: "100/100",
-                badgeColor: "text-[#10B981] bg-[#10B981]/15 border-[#10B981]/30",
-              },
-              {
-                id: "achievements",
-                label: "Huy hiệu & Chứng chỉ",
-                icon: Award,
-                badge: "8 Crests",
-              },
-            ].map((item) => {
-              const Icon = item.icon;
-              const isActive = activeNavSection === item.id;
-
-              return (
-                <div key={item.id}>
-                  {item.href ? (
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "relative flex items-center justify-between w-full px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer",
-                        isActive
-                          ? "bg-[#1f2638] text-white border-l-4 border-l-[#F59E0B]"
-                          : "text-[#8b93a5] hover:text-white hover:bg-white/[0.04]"
-                      )}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <Icon className={cn("w-4 h-4 shrink-0", isActive ? "text-[#F59E0B]" : "text-[#8b93a5]")} />
-                        <span className="truncate">{item.label}</span>
-                      </div>
-                      {item.badge && (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#10131b] border border-[#252a37] text-slate-300">
-                          {item.badge}
-                        </span>
-                      )}
-                    </Link>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setActiveNavSection(item.id)}
-                      className={cn(
-                        "relative flex items-center justify-between w-full px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer text-left",
-                        isActive
-                          ? "bg-[#1f2638] text-white border-l-4 border-l-[#F59E0B]"
-                          : "text-[#8b93a5] hover:text-white hover:bg-white/[0.04]"
-                      )}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <Icon className={cn("w-4 h-4 shrink-0", isActive ? "text-[#F59E0B]" : "text-[#8b93a5]")} />
-                        <span className="truncate">{item.label}</span>
-                      </div>
-                      {item.badge && (
-                        <span
-                          className={cn(
-                            "text-[10px] font-mono px-2 py-0.5 rounded-md border",
-                            item.badgeColor || "bg-[#10131b] border-[#252a37] text-slate-300"
-                          )}
-                        >
-                          {item.badge}
-                        </span>
-                      )}
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Exam Integrity Score Badge Card */}
-          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-4.5 space-y-3 shadow-lg">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-heading uppercase tracking-wider text-[#8b93a5] font-bold">
-                Kỷ luật phòng thi
-              </span>
-              <span className="flex items-center gap-1 text-[11px] font-mono font-bold text-[#10B981]">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                Chuẩn chỉ
-              </span>
-            </div>
-
-            <div className="flex items-baseline gap-2">
-              <span className="font-mono text-3xl font-extrabold text-white">100</span>
-              <span className="text-xs font-mono text-[#8b93a5]">/ 100 điểm</span>
-            </div>
-
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              Không có bất kỳ ghi nhận vi phạm rời tab, gian lận hoặc ngắt kết nối bất thường nào trong các kỳ thi.
-            </p>
-          </div>
-        </motion.div>
-
-        {/* ============================================================ */}
-        {/* COLUMN 2: CENTER 5-AXIS COMPETENCY RADAR WIDGET (lg:col-span-5) */}
+        {/* COLUMN 1: 5-AXIS COMPETENCY RADAR WIDGET (lg:col-span-6)    */}
         {/* ============================================================ */}
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: 0.1 }}
-          className="lg:col-span-5 space-y-4"
+          transition={{ duration: 0.35, delay: 0.05 }}
+          className="lg:col-span-6 space-y-4"
         >
           <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 sm:p-6 shadow-xl relative overflow-hidden flex flex-col justify-between">
             {/* Ambient Background Accents */}
@@ -730,16 +590,16 @@ export default function AnalyticsPage() {
         </motion.div>
 
         {/* ============================================================ */}
-        {/* COLUMN 3: RIGHT OVERVIEW METRICS & CRESTS (lg:col-span-4)   */}
+        {/* COLUMN 2: RIGHT OVERVIEW METRICS & CRESTS (lg:col-span-6)   */}
         {/* ============================================================ */}
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, x: 12 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.35, delay: 0.15 }}
-          className="lg:col-span-4 space-y-4"
+          transition={{ duration: 0.35, delay: 0.1 }}
+          className="lg:col-span-6 space-y-4"
         >
-          {/* Top Metric Cluster (3 Cards in horizontal flow) */}
-          <div className="grid grid-cols-3 gap-2.5">
+          {/* Top Metric Cluster (4 Cards in responsive grid) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             {/* Card 1: Số lượt thi */}
             <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-3 text-center flex flex-col justify-between shadow-md">
               <span className="text-[10px] font-medium text-[#8b93a5] uppercase leading-tight">
@@ -793,6 +653,17 @@ export default function AnalyticsPage() {
                 {stats.perfectScores}
               </p>
               <span className="text-[9px] text-amber-400 font-semibold">10.0 hoàn hảo</span>
+            </div>
+
+            {/* Card 4: Kỷ luật phòng thi */}
+            <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-3 text-center flex flex-col justify-between shadow-md">
+              <span className="text-[10px] font-medium text-[#8b93a5] uppercase leading-tight">
+                Kỷ luật thi
+              </span>
+              <p className="font-mono text-2xl font-extrabold text-[#10B981] my-1 tabular-nums">
+                {stats.integrityScore}
+              </p>
+              <span className="text-[9px] text-[#10B981] font-semibold">Chuẩn chỉ 100%</span>
             </div>
           </div>
 
