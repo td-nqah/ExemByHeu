@@ -38,6 +38,7 @@ import {
   FileText,
   BarChart2,
   GraduationCap,
+  LineChart,
 } from "lucide-react";
 
 export interface SidebarProps {
@@ -159,6 +160,7 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
   // Navigation Active States
   const getActiveNavKey = (): string => {
     if (pathname === "/home") return "/home";
+    if (pathname.startsWith("/analytics") || pathname.startsWith("/student/profile/stats")) return "/analytics";
     if (pathname.startsWith("/history")) return "/history";
     if (pathname.startsWith("/knowledge")) return "/knowledge";
     if (pathname === "/dashboard" || pathname.startsWith("/exam")) return "/dashboard";
@@ -222,6 +224,12 @@ export function Sidebar({ onCloseMobile }: SidebarProps = {}) {
       title: "Trang chủ",
       href: "/home",
       icon: Home,
+      color: "text-white",
+    },
+    {
+      title: "Phân tích thông số",
+      href: "/analytics",
+      icon: LineChart,
       color: "text-white",
     },
     {
