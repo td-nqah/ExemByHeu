@@ -8,9 +8,7 @@ import { Submission, Category, Profile } from "@/types/exam";
 import { cn } from "@/lib/utils";
 import {
   ChevronLeft,
-  Share2,
   Trophy,
-  Sparkles,
   ShieldCheck,
   Award,
   Crown,
@@ -18,21 +16,10 @@ import {
   Gem,
   Medal,
   Star,
-  CheckCircle2,
-  Clock,
-  BookOpen,
-  ArrowRight,
-  ChevronDown,
-  Layers,
-  History,
   Zap,
-  Brain,
-  Timer,
-  Check,
-  X,
   Compass,
 } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
 
 export interface StudentPerformanceStats {
@@ -81,10 +68,6 @@ export default function AnalyticsPage() {
   // Filters
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
   const [useDemoFallback, setUseDemoFallback] = useState<boolean>(false);
-
-  // Deep Analysis Drawer & Share Toast
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [showShareToast, setShowShareToast] = useState(false);
 
   useEffect(() => {
     const curUser = getCurrentUser();
@@ -276,15 +259,6 @@ export default function AnalyticsPage() {
 
     return { cx, cy, rMax, webs, spokes, dataPoints, polygonPointsString, getVertex };
   }, [stats.radarMetrics]);
-
-  // Handle Share link copy
-  const handleShare = () => {
-    if (typeof window !== "undefined") {
-      navigator.clipboard?.writeText(window.location.href);
-      setShowShareToast(true);
-      setTimeout(() => setShowShareToast(false), 3000);
-    }
-  };
 
   // Subject options for dropdown
   const subjectOptions = useMemo(() => {
@@ -574,18 +548,6 @@ export default function AnalyticsPage() {
                 );
               })}
             </div>
-
-            {/* Bottom CTA Button */}
-            <div className="pt-4">
-              <button
-                type="button"
-                onClick={() => setIsDrawerOpen(true)}
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-slate-200 text-black py-2.5 px-4 text-xs font-bold transition shadow-md cursor-pointer select-none active:scale-[0.98]"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-black" />
-                <span>Xem chi tiết phân tích chuyên sâu</span>
-              </button>
-            </div>
           </div>
         </motion.div>
 
@@ -783,143 +745,8 @@ export default function AnalyticsPage() {
               </div>
             </div>
           </div>
-
-          {/* Bottom Action Bar */}
-          <div className="p-4 rounded-2xl bg-[#161a24] border border-[#252a37] flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
-            <span className="text-[11px] text-[#8b93a5] text-center sm:text-left leading-relaxed">
-              Tính trên chế độ thi chuẩn, sát hạch chính thức &amp; tự luyện.
-            </span>
-
-            <button
-              type="button"
-              onClick={handleShare}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#10131b] hover:bg-[#1a202c] border border-[#252a37] hover:border-[#6366F1]/50 text-white text-xs font-semibold transition cursor-pointer select-none active:scale-95 shrink-0"
-            >
-              <Share2 className="w-3.5 h-3.5 text-[#6366F1]" />
-              <span>Chia sẻ hồ sơ</span>
-            </button>
-          </div>
         </motion.div>
       </div>
-
-      {/* Share Toast Notification */}
-      <AnimatePresence>
-        {showShareToast && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-6 right-6 z-50 rounded-2xl bg-[#161a24] border border-[#10B981]/50 p-3.5 shadow-2xl flex items-center gap-2.5 text-xs text-white"
-          >
-            <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
-            <span>Đã sao chép liên kết Hồ sơ Năng lực (Gamified Stats) vào bộ nhớ tạm!</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* 3. Deep Analysis Drawer / Modal */}
-      <AnimatePresence>
-        {isDrawerOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-md overflow-y-auto">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              transition={{ duration: 0.25 }}
-              className="relative w-full max-w-2xl rounded-3xl bg-[#161a24] border border-[#252a37] p-6 shadow-2xl space-y-5"
-            >
-              {/* Drawer Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-[#252a37]">
-                <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30">
-                    <Sparkles className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading text-lg font-bold text-white">
-                      Báo Cáo Phân Tích Năng Lực Chuyên Sâu
-                    </h3>
-                    <p className="text-xs text-[#8b93a5]">
-                      Đánh giá chi tiết từng khía cạnh học thuật &amp; Khuyến nghị cải thiện
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setIsDrawerOpen(false)}
-                  className="h-8 w-8 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* 5 Axes Detailed Breakdown */}
-              <div className="space-y-3.5">
-                {RADAR_AXES.map((axis) => {
-                  const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics];
-                  return (
-                    <div
-                      key={axis.key}
-                      className="p-3.5 rounded-2xl bg-[#10131b] border border-[#252a37] space-y-2"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="font-heading text-xs font-bold text-white">
-                            {axis.label}
-                          </span>
-                          <span className="text-[10px] font-mono px-2 py-0.2 rounded bg-[#6366F1]/20 text-[#a5b4fc] border border-[#6366F1]/30">
-                            {axis.mobaTag}
-                          </span>
-                        </div>
-                        <span className="font-mono text-xs font-bold text-[#F59E0B]">
-                          {axis.key === "mastery" ? `${(val / 10).toFixed(1)} / 10.0` : `${val} / 100`}
-                        </span>
-                      </div>
-
-                      {/* Progress Bar */}
-                      <div className="w-full h-2 rounded-full bg-[#1b202e] overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-[#6366F1] to-[#F59E0B] transition-all duration-500"
-                          style={{ width: `${Math.min(100, Math.max(10, val))}%` }}
-                        />
-                      </div>
-
-                      <p className="text-[11px] text-slate-400 leading-relaxed">
-                        {axis.desc}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Academic Advisor Recommendations */}
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-[#6366F1]/10 to-[#10131b] border border-[#6366F1]/30 space-y-2">
-                <h4 className="text-xs font-heading font-bold text-white flex items-center gap-1.5">
-                  <Brain className="w-3.5 h-3.5 text-[#6366F1]" />
-                  <span>Lời khuyên từ Trợ lý Học vụ AI</span>
-                </h4>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Chỉ số <strong>Chuyên cần ({stats.radarMetrics.diligence}%)</strong> và{" "}
-                  <strong>Kỷ luật phòng thi ({stats.radarMetrics.discipline}%)</strong> của bạn đang ở mức rất cao. Hãy
-                  tiếp tục rèn luyện các dạng bài tập tự luận nâng cao để bứt phá thêm ở trục{" "}
-                  <strong>Vận dụng cao ({stats.radarMetrics.problemSolving}%)</strong> và đạt thêm nhiều huân chương Cúp Tinh Anh SSS!
-                </p>
-              </div>
-
-              {/* Close Button */}
-              <div className="flex justify-end pt-2">
-                <button
-                  type="button"
-                  onClick={() => setIsDrawerOpen(false)}
-                  className="px-5 py-2 rounded-full bg-white hover:bg-slate-200 text-black text-xs font-bold transition shadow-sm cursor-pointer select-none"
-                >
-                  Đóng phân tích
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
