@@ -18,55 +18,70 @@ function splitInlineOptions(line: string): string[] {
   return [line];
 }
 
-// Extract Answer Key Table / List (e.g. "1. C  2. D", "1-C  2-D", "1C  2D", or horizontal table)
+// Extract Answer Key Table / List (e.g. "1. C  2. D", "1-C  2-D", "1C  2D", "C1 ... \n A ...", or horizontal/vertical table)
 function extractAnswerMapFromText(text: string): Map<number, string> {
   const map = new Map<number, string>();
   if (!text) return map;
 
   const answerKeyHeaderRegex =
-    /(?:^|\n)\s*(?:(?:PHẦN|BẢNG|DANH\s*SÁCH|PHIẾU)?\s*(?:ĐÁP\s*ÁN|TRẢ\s*LỜI)(?:\s*TRẮC\s*NGHIỆM|\s*CHI\s*TIẾT)?|HƯỚNG\s*DẪN\s*CHẤM|ANSWER\s*KEYS?|KEYS?)[\:\s\-\n]/i;
+    /(?:^|\n)\s*(?:(?:PHẦN|BẢNG|DANH\s*SÁCH|PHIẾU)?\s*(?:ĐÁP\s*ÁN|TRẢ\s*LỜI)(?:\s*TRẮC\s*NGHIỆM|\s*CHI\s*TIẾT)?|HƯỚNG\s*DẪN\s*CHẤM|ANSWER\s*KEYS?|KEYS?)[-:\s\n]/iu;
 
   const headerIdx = text.search(answerKeyHeaderRegex);
-  if (headerIdx !== -1) {
-    const targetText = text.slice(headerIdx);
-    const p1 = /(?:Câu\s*)?(\d+)[^\n\S]*(?:[:.\-\/]|[ \t]+)[^\n\S]*([A-D])\b/gi;
-    let m: RegExpExecArray | null;
-    while ((m = p1.exec(targetText)) !== null) {
-      const qNum = parseInt(m[1], 10);
-      if (!map.has(qNum)) {
-        map.set(qNum, m[2].toUpperCase());
-      }
-    }
+  const targetText = headerIdx !== -1 ? text.slice(headerIdx) : text;
 
-    const p2 = /\b(\d+)([A-D])\b/gi;
-    while ((m = p2.exec(targetText)) !== null) {
-      const qNum = parseInt(m[1], 10);
-      if (!map.has(qNum)) {
-        map.set(qNum, m[2].toUpperCase());
+  // 1. Grid/Table row pairing: Lines of question indices (C1, C2, ... or 1, 2, ...) followed by lines of letters (A, B, C, D)
+  const lines = targetText.split("\n").map((l) => l.trim()).filter(Boolean);
+  for (let i = 0; i < lines.length - 1; i++) {
+    const curLine = lines[i];
+    const nextLine = lines[i + 1];
+
+    // Split by tab or multiple spaces
+    const numTokens = curLine.split(/[\t\s]+/).filter(Boolean);
+    const parsedNums = numTokens
+      .map((tok) => {
+        const m = tok.match(/^(?:C|Câu|STT|No)?\.?\s*(\d+)$/i);
+        return m ? parseInt(m[1], 10) : null;
+      })
+      .filter((n): n is number => n !== null);
+
+    const letterTokens = nextLine.split(/[\t\s]+/).filter(Boolean);
+    const parsedLetters = letterTokens
+      .map((tok) => {
+        const m = tok.match(/^(?<!\p{L})([A-D])(?!\p{L})$/iu);
+        return m ? m[1].toUpperCase() : null;
+      })
+      .filter((l): l is string => Boolean(l));
+
+    // If both lines have at least 2 items and equal counts of numbers and letters
+    if (
+      parsedNums.length >= 2 &&
+      parsedLetters.length >= 2 &&
+      parsedNums.length === parsedLetters.length
+    ) {
+      for (let k = 0; k < parsedNums.length; k++) {
+        if (!map.has(parsedNums[k])) {
+          map.set(parsedNums[k], parsedLetters[k]);
+        }
       }
     }
   }
 
-  // Horizontal table detection
-  const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
-  for (let i = 0; i < lines.length - 1; i++) {
-    const curLine = lines[i];
-    const nextLine = lines[i + 1];
-    if (
-      /(?:Câu|STT|No)/i.test(curLine) &&
-      /(?:Đáp\s*án|Đ\/A|Key|Answer)/i.test(nextLine)
-    ) {
-      const numMatches = curLine.match(/\b\d+\b/g);
-      const cleanNext = nextLine.replace(/^(?:Đáp\s*án|Đ\/A|Key|Answer)[^\t\s]*/i, "");
-      const letterMatches = cleanNext.match(/\b[A-D]\b/gi);
-      if (numMatches && letterMatches && numMatches.length === letterMatches.length) {
-        for (let k = 0; k < numMatches.length; k++) {
-          const qNum = parseInt(numMatches[k], 10);
-          if (!map.has(qNum)) {
-            map.set(qNum, letterMatches[k].toUpperCase());
-          }
-        }
-      }
+  // 2. Pattern 1: Inline pairs e.g. "1. A", "Câu 1: A", "1 - A", "1:A"
+  const p1 = /(?:Câu\s*|C)?(\d+)[^\n\S]*(?:[-.:\/]|[ \t]+)[^\n\S]*(?<!\p{L})([A-D])(?!\p{L})/giu;
+  let m: RegExpExecArray | null;
+  while ((m = p1.exec(targetText)) !== null) {
+    const qNum = parseInt(m[1], 10);
+    if (!map.has(qNum)) {
+      map.set(qNum, m[2].toUpperCase());
+    }
+  }
+
+  // 3. Pattern 2: Compact pairs e.g. "1A", "2C", "3B", "C1A", "C2C"
+  const p2 = /(?:^|\s)(?:C|Câu)?(\d+)([A-D])(?!\p{L})/giu;
+  while ((m = p2.exec(targetText)) !== null) {
+    const qNum = parseInt(m[1], 10);
+    if (!map.has(qNum)) {
+      map.set(qNum, m[2].toUpperCase());
     }
   }
 
@@ -93,16 +108,25 @@ export function parseQuestionsFromRawText(rawText: string): ParsedQuestionDraft[
   // Extract answer map if an answer table is present at the end
   const answerMap = extractAnswerMapFromText(normalized);
 
+  // Strip answer key section from exam text so it never becomes a question or merges into questions
+  const answerKeyHeaderRegex =
+    /(?:^|\n)\s*(?:(?:PHẦN|BẢNG|DANH\s*SÁCH|PHIẾU)?\s*(?:ĐÁP\s*ÁN|TRẢ\s*LỜI)(?:\s*TRẮC\s*NGHIỆM|\s*CHI\s*TIẾT)?|HƯỚNG\s*DẪN\s*CHẤM|ANSWER\s*KEYS?|KEYS?)[-:\s\n]/iu;
+  const headerIdx = normalized.search(answerKeyHeaderRegex);
+  let examBody = normalized;
+  if (headerIdx !== -1) {
+    examBody = normalized.slice(0, headerIdx).trim();
+  }
+
   // Remove standalone section headers like "PHẦN I: TRẮC NGHIỆM", "PHẦN II: TỰ LUẬN" from merging into questions
-  const cleanedRaw = normalized.replace(
+  const cleanedRaw = examBody.replace(
     /^(?:PHẦN|PART|MỤC)\s+[IVX\d]+[\.\:\-\s]+.*$/gim,
     "\n"
   );
 
   // Split into chunks based on question headers
-  // E.g. "Câu 1:", "Câu hỏi 1:", "Question 1:", "Bài 1:", "1.", "1)"
+  // E.g. "Câu 1:", "Câu hỏi 1:", "Câu hỏi tự luận:", "Question 1:", "Bài 1:", "1.", "1)"
   const questionHeaderRegex =
-    /(?:^|\n)(?=(?:(?:Câu(?:\s+hỏi)?|Question|Bài)\s*\d+\s*[\.\:\)\-\/]?|\d+\s*[\.\)\/]\s+))/i;
+    /(?:^|\n)(?=(?:(?:Câu(?:\s+hỏi)?|Question|Bài)\s*(?:\d+|tự\s*luận)\b[\.\:\)\-\/]?|\d+\s*[\.\)\/]\s+|(?:CÂU\s*HỎI\s+)?TỰ\s*LUẬN[\:\.\s\-]))/i;
 
   let rawBlocks = cleanedRaw
     .split(questionHeaderRegex)
@@ -220,9 +244,9 @@ export function parseQuestionsFromRawText(rawText: string): ParsedQuestionDraft[
       questionContent = questionContent.replace(scoreHintRegex, "").trim();
     }
 
-    // Clean question header prefix like "Câu 1: " or "1. " if present
+    // Clean question header prefix like "Câu 1: " or "Câu hỏi tự luận: " if present
     const cleanedContent = questionContent
-      .replace(/^(?:Câu(?:\s+hỏi)?|Question|Bài)\s*\d+\s*[\.\:\)\-\/]*\s*/i, "")
+      .replace(/^(?:(?:Câu(?:\s+hỏi)?|Question|Bài)\s*(?:\d+|tự\s*luận)?|(?:CÂU\s*HỎI\s+)?TỰ\s*LUẬN)\s*[\.\:\)\-\/]*\s*/i, "")
       .replace(/^\d+\s*[\.\)\/]\s*/, "")
       .trim();
 
