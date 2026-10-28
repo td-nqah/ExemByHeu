@@ -111,6 +111,7 @@ export interface ParsedQuestionDraft {
   options: string[];
   correct_answer: string;
   max_score: number;
+  explanation?: string;
 }
 
 export interface StudyMaterial {

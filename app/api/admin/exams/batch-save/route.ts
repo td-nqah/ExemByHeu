@@ -90,6 +90,7 @@ export async function POST(request: Request) {
           content: String(q.content || `Câu hỏi số ${qIdx + 1}`).trim(),
           options: Array.isArray(q.options) ? q.options : [],
           correct_answer: String(q.correctAnswer || q.correct_answer || "A").trim().toUpperCase(),
+          explanation: q.explanation || null,
           max_score: maxScore,
           order_index: qIdx + 1,
         };
@@ -159,14 +160,21 @@ export async function POST(request: Request) {
             content: q.content,
             options: q.options,
             correct_answer: q.correct_answer,
+            explanation: q.explanation,
             max_score: q.max_score,
             order_index: q.order_index,
           }));
 
           try {
-            await supabase.from("questions").insert(questionsPayload);
-          } catch (qErr) {
-            console.error(`Failed to insert questions for exam ${actualExamId}:`, qErr);
+            const { error: insErr } = await supabase.from("questions").insert(questionsPayload);
+            if (insErr) {
+              // Fallback without explanation if column doesn't exist
+              const basePayload = questionsPayload.map(({ explanation, ...rest }) => rest);
+              await supabase.from("questions").insert(basePayload);
+            }
+          } catch {
+            const basePayload = questionsPayload.map(({ explanation, ...rest }) => rest);
+            await supabase.from("questions").insert(basePayload);
           }
         }
       }

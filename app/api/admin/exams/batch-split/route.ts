@@ -1,14 +1,17 @@
 import { NextResponse } from "next/server";
 import mammoth from "mammoth";
-import { parseQuestionsFromRawText } from "@/lib/parsers/text-extractor";
 import { ParsedQuestionDraft } from "@/types/exam";
 
 export const maxDuration = 60;
 
-// Strip leading "Câu 1:", "Question 1.", "1.", etc.
+// Strip leading "Câu 1:", "Question 1.", "1.", "PHẦN I...", "Câu hỏi tự luận:", etc.
 function cleanQuestionContent(raw: string): string {
   return raw
-    .replace(/^(?:Câu(?:\s+hỏi)?|Question|Bài)\s*\d+\s*[\.\:\)\-\/]*\s*/i, "")
+    .replace(/^(?:PHẦN|PART|MỤC)\s+[IVX\d]+[\.\:\-\s]+.*$/gim, "")
+    .replace(
+      /^(?:(?:Câu(?:\s+hỏi)?|Question|Bài)\s*(?:\d+|tự\s*luận)?|CÂU\s*HỎI\s*TỰ\s*LUẬN)\s*[\.\:\)\-\/]*\s*/i,
+      ""
+    )
     .replace(/^\d+\s*[\.\)\/]\s*/i, "")
     .trim();
 }
@@ -27,6 +30,19 @@ function normalizeOptions(rawOptions: any[]): string[] {
       return `${letter}. ${str}`;
     })
     .filter(Boolean);
+}
+
+// Clean exam title extracted from header
+function cleanExamTitle(rawTitle: string): string {
+  let title = rawTitle
+    .replace(/(?:Thời\s*gian(?:\s*làm\s*bài)?|Thời\s*lượng)[\:\s\-]+.*$/i, "")
+    .replace(/\(Không\s*sử\s*dụng\s*tài\s*liệu\)/gi, "")
+    .replace(/[\(\[]?(?:Mã\s*HP|Mã\s*học\s*phần)[\:\s\-]+[^\)\s\]]+[\)\]]?/gi, "")
+    .replace(/[\:\.\-]+$/, "")
+    .trim();
+
+  title = title.replace(/\s*Môn\s*(?:học)?[\:\s\-]+/i, " - ");
+  return title.trim() || rawTitle;
 }
 
 // Split entire text into discrete exam chunks
@@ -82,17 +98,13 @@ function splitTextIntoExamChunks(rawText: string): { title: string; text: string
     if (lines.length > 0) {
       const firstLine = lines[0];
       if (/^(?:[-*#_\[(]*\s*)?(?:ĐỀ|BỘ\s+ĐỀ|MÃ\s+ĐỀ|EXAM|TEST)/i.test(firstLine)) {
-        detectedTitle = firstLine
-          .replace(/[\:\.\-]+$/, "")
-          .replace(/^[-*#_\[(]+\s*/, "")
-          .replace(/\s*[-*#_\])]+$/, "")
-          .trim();
+        detectedTitle = cleanExamTitle(firstLine);
         if (
           lines.length > 1 &&
-          lines[1].length < 80 &&
-          !/^(?:Câu|Question|\d+[\.\)])/i.test(lines[1])
+          lines[1].length < 100 &&
+          !/^(?:Câu|Question|\d+[\.\)]|Thời\s*gian)/i.test(lines[1])
         ) {
-          detectedTitle += ` - ${lines[1].trim()}`;
+          detectedTitle += ` - ${cleanExamTitle(lines[1])}`;
         }
       }
     }
@@ -102,6 +114,197 @@ function splitTextIntoExamChunks(rawText: string): { title: string; text: string
       text: chunk,
     };
   });
+}
+
+// Parse an individual exam chunk intelligently
+function parseExamChunkSmart(
+  chunkText: string,
+  fallbackTitle: string = "Đề thi",
+  defaultDuration: number = 45,
+  tempIdPrefix: string = "batch_exam"
+): {
+  title: string;
+  durationMinutes: number;
+  questions: ParsedQuestionDraft[];
+  hasIssues: boolean;
+  issuesCount: number;
+} {
+  let text = chunkText
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/\u00A0/g, " ")
+    .trim();
+
+  // 1. Separate Header metadata vs Question body
+  const firstQMatch = text.search(
+    /(?:^|\n)\s*(?:(?:PHẦN|PART|MỤC)\s+[IVX\d]+|(?:Câu(?:\s+hỏi)?|Question|Bài)\s*\d+|(?:CÂU\s*HỎI\s+)?TỰ\s*LUẬN)/i
+  );
+
+  let headerText = "";
+  let bodyText = text;
+
+  if (firstQMatch > 0) {
+    headerText = text.slice(0, firstQMatch).trim();
+    bodyText = text.slice(firstQMatch).trim();
+  }
+
+  // Extract metadata from header
+  let detectedDuration = defaultDuration;
+  const durMatch = headerText.match(
+    /(?:Thời\s*gian(?:\s*làm\s*bài)?|Thời\s*lượng)[\:\s\-]+(\d+)\s*phút/i
+  );
+  if (durMatch) {
+    detectedDuration = parseInt(durMatch[1], 10);
+  }
+
+  let detectedTitle = fallbackTitle;
+  if (headerText) {
+    const lines = headerText.split("\n").map((l) => l.trim()).filter(Boolean);
+    if (lines.length > 0) {
+      detectedTitle = cleanExamTitle(lines[0]);
+      if (
+        lines.length > 1 &&
+        lines[1].length < 100 &&
+        !/^(?:Thời\s*gian|Câu|Học\s*kỳ|Mã\s*đề)/i.test(lines[1])
+      ) {
+        detectedTitle += ` - ${cleanExamTitle(lines[1])}`;
+      }
+    }
+  }
+
+  // 2. Separate MCQ section vs Essay section
+  const essaySectionRegex =
+    /(?:^|\n)\s*(?=(?:(?:PHẦN|PART|MỤC)\s+(?:II|2|[B-Z])\b.*?(?:TỰ\s*LUẬN|ESSAY)|(?:II|B)[\.\:\-]\s*TỰ\s*LUẬN|(?:CÂU\s*HỎI\s+)?TỰ\s*LUẬN[\:\.\s\-]))/i;
+
+  const essaySplitIdx = bodyText.search(essaySectionRegex);
+  let mcqText = bodyText;
+  let essayText = "";
+
+  if (essaySplitIdx !== -1) {
+    mcqText = bodyText.slice(0, essaySplitIdx).trim();
+    essayText = bodyText.slice(essaySplitIdx).trim();
+  }
+
+  const questions: ParsedQuestionDraft[] = [];
+  let missingCount = 0;
+
+  // 3. Parse MCQ Text
+  if (mcqText) {
+    const qRegex =
+      /(?:^|\n)(?=(?:(?:Câu(?:\s+hỏi)?|Question|Bài)\s*\d+\s*[\.\:\)\-\/]?|\d+\s*[\.\)\/]\s+))/i;
+    const blocks = mcqText.split(qRegex).map((b) => b.trim()).filter(Boolean);
+
+    for (let i = 0; i < blocks.length; i++) {
+      const block = blocks[i];
+      const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+      if (lines.length === 0) continue;
+
+      let contentLines: string[] = [];
+      let options: string[] = [];
+      let correctAnswer = "";
+
+      const optionRegex = /^([A-D])[\.\:\)]\s*(.+)$/i;
+      const answerKeyRegex =
+        /^(?:\[|\()? *(?:Đáp\s*án(?:\s*đúng)?|Answer(?:\s*key)?|Key|Đ\/A|ĐA)[\:\s\-]+([A-D])\b/i;
+
+      for (let j = 0; j < lines.length; j++) {
+        const line = lines[j];
+
+        const ansMatch = line.match(answerKeyRegex);
+        if (ansMatch) {
+          correctAnswer = ansMatch[1].toUpperCase();
+          continue;
+        }
+
+        const optMatch = line.match(optionRegex);
+        if (optMatch) {
+          const letter = optMatch[1].toUpperCase();
+          let optText = optMatch[2].trim();
+          if (/\(\s*(?:đúng|correct)\s*\)$/i.test(optText) || optText.endsWith("*")) {
+            optText = optText
+              .replace(/\(\s*(?:đúng|correct)\s*\)$/i, "")
+              .replace(/\*+$/, "")
+              .trim();
+            if (!correctAnswer) correctAnswer = letter;
+          }
+          options.push(`${letter}. ${optText}`);
+          continue;
+        }
+
+        if (options.length === 0) {
+          contentLines.push(line);
+        } else {
+          const trailingAns = line.match(
+            /(?:Đáp\s*án(?:\s*đúng)?|Answer|Key|Đ\/A)[\:\s\-]+([A-D])\s*[\]\)]?$/i
+          );
+          if (trailingAns) {
+            correctAnswer = trailingAns[1].toUpperCase();
+          } else {
+            options[options.length - 1] += ` ${line}`;
+          }
+        }
+      }
+
+      const qContent = cleanQuestionContent(contentLines.join("\n"));
+      if (qContent || options.length > 0) {
+        if (!correctAnswer) missingCount++;
+        questions.push({
+          id: `q_draft_${tempIdPrefix}_${questions.length + 1}`,
+          type: "multiple_choice",
+          content: qContent || `Câu hỏi số ${questions.length + 1}`,
+          options: normalizeOptions(options),
+          correct_answer: correctAnswer || "A",
+          max_score: 0.5,
+        });
+      }
+    }
+  }
+
+  // 4. Parse Essay Section
+  if (essayText) {
+    const outlineRegex =
+      /(?:^|\n)\s*(?=(?:(?:DÀN\s*Ý|GỢI\s*Ý|HƯỚNG\s*DẪN)\s*(?:TRẢ\s*LỜI|ĐÁP\s*ÁN|CHẤM)?|ĐÁP\s*ÁN(?:\s*TỰ\s*LUẬN|\s*CHI\s*TIẾT)?|YÊU\s*CẦU\s*CẦN\s*ĐẠT)[\:\s\-])/i;
+
+    const outlineMatch = essayText.search(outlineRegex);
+    let promptPart = essayText;
+    let outlinePart = "";
+
+    if (outlineMatch !== -1) {
+      promptPart = essayText.slice(0, outlineMatch).trim();
+      outlinePart = essayText.slice(outlineMatch).trim();
+    }
+
+    const essayQRegex =
+      /(?:^|\n)(?=(?:(?:Câu(?:\s+hỏi)?|Question|Bài)\s*\d+\s*[\.\:\)\-\/]?))/i;
+    let essayBlocks = promptPart.split(essayQRegex).map((b) => b.trim()).filter(Boolean);
+    if (essayBlocks.length === 0) {
+      essayBlocks = [promptPart];
+    }
+
+    for (let eIdx = 0; eIdx < essayBlocks.length; eIdx++) {
+      const block = essayBlocks[eIdx];
+      const cleaned = cleanQuestionContent(block);
+      if (!cleaned) continue;
+
+      questions.push({
+        id: `q_draft_${tempIdPrefix}_${questions.length + 1}`,
+        type: "essay",
+        content: cleaned,
+        options: [],
+        correct_answer: "",
+        explanation: outlinePart || undefined,
+        max_score: 2.0,
+      });
+    }
+  }
+
+  return {
+    title: detectedTitle,
+    durationMinutes: detectedDuration,
+    questions,
+    hasIssues: missingCount > 0,
+    issuesCount: missingCount,
+  };
 }
 
 export async function POST(request: Request) {
@@ -148,37 +351,20 @@ export async function POST(request: Request) {
       );
     }
 
-    // 3. High-Speed Deterministic Parsing across all chunks
-    // Parses all questions, choices, answers, and scores in ~0.2s without serverless timeout
+    // 3. Intelligent High-Speed Chunk Parsing
+    // Extracts headers, cleanly isolates MCQs & Essays, captures essay outline into explanation
     const parsedExams = chunks.map((chunk, idx) => {
       const tempId = `batch_exam_${Date.now()}_${idx + 1}_${Math.random().toString(36).substring(2, 6)}`;
-      const rawQuestions = parseQuestionsFromRawText(chunk.text);
-      let missingCount = 0;
-
-      const questions: ParsedQuestionDraft[] = rawQuestions.map((q, qIdx) => {
-        const cleaned = cleanQuestionContent(q.content);
-        const options = normalizeOptions(q.options || []);
-        const isMissing = q.type === "multiple_choice" && !q.correct_answer;
-        if (isMissing) missingCount++;
-
-        return {
-          id: `q_draft_${tempId}_${qIdx + 1}`,
-          type: q.type,
-          content: cleaned || `Câu hỏi số ${qIdx + 1}`,
-          options,
-          correct_answer: q.correct_answer ? q.correct_answer.toUpperCase() : "A",
-          max_score: q.max_score > 0 ? q.max_score : q.type === "multiple_choice" ? 0.5 : 2.0,
-        };
-      });
+      const parsed = parseExamChunkSmart(chunk.text, chunk.title, defaultDuration, tempId);
 
       return {
         tempId,
-        title: chunk.title || `Đề số ${idx + 1}`,
-        durationMinutes: defaultDuration,
-        questionCount: questions.length,
-        hasIssues: missingCount > 0,
-        issuesCount: missingCount,
-        questions,
+        title: parsed.title,
+        durationMinutes: parsed.durationMinutes,
+        questionCount: parsed.questions.length,
+        hasIssues: parsed.hasIssues,
+        issuesCount: parsed.issuesCount,
+        questions: parsed.questions,
       };
     });
 

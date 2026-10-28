@@ -357,6 +357,7 @@ export function BatchExamUploadModal({
             type: q.type,
             options: q.options,
             correctAnswer: q.correct_answer,
+            explanation: q.explanation,
             maxScore: q.max_score,
           })),
         })),
@@ -984,6 +985,24 @@ export function BatchExamUploadModal({
                               className="w-full text-xs bg-[#10131b] border border-[#252a37] rounded-xl px-2.5 py-1.5 text-slate-300 focus:outline-none focus:border-white/50"
                             />
                           ))}
+                        </div>
+                      )}
+
+                      {/* Essay Outline / Answer Key Editor */}
+                      {q.type === "essay" && (
+                        <div className="space-y-1 pt-1">
+                          <span className="text-[11px] font-medium text-amber-400 block">
+                            Dàn ý gợi ý trả lời / Đáp án tự luận:
+                          </span>
+                          <textarea
+                            rows={4}
+                            value={q.explanation || ""}
+                            placeholder="Nhập dàn ý hoặc các ý chính cần đạt cho câu tự luận này..."
+                            onChange={(e) =>
+                              handleUpdateDrawerQuestion(q.id, "explanation", e.target.value)
+                            }
+                            className="w-full text-xs bg-[#10131b] border border-[#252a37] rounded-xl p-2.5 text-slate-300 focus:outline-none focus:border-white/50 font-sans leading-relaxed"
+                          />
                         </div>
                       )}
                     </div>
