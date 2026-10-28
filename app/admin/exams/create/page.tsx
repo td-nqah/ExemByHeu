@@ -824,6 +824,7 @@ export default function ExamCreatePage() {
             />
           </div>
 
+          {/* Row 4: Thời gian làm bài & Trạng thái đề thi trên cùng dòng, độ dài bằng nhau */}
           <div>
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Thời gian làm bài (Phút)
@@ -834,10 +835,22 @@ export default function ExamCreatePage() {
               min={5}
               max={300}
               step={5}
+              suffix="phút"
+              className="w-full h-[50px] px-2"
             />
           </div>
 
           <div>
+            <ExamStatusSelector
+              value={status}
+              onChange={setStatus}
+              defaultViewMode="cards"
+              showModeSwitch={false}
+            />
+          </div>
+
+          {/* Row 5: Thời hạn đóng ca thi */}
+          <div className="sm:col-span-2">
             <label className="mb-1.5 block text-xs font-medium text-slate-300">
               Thời hạn đóng ca thi (Tùy chọn)
             </label>
@@ -845,15 +858,7 @@ export default function ExamCreatePage() {
               type="datetime-local"
               value={expiresAt}
               onChange={(e) => setExpiresAt(e.target.value)}
-              className="h-10 w-full rounded-full border border-[#252A37] bg-[#10131B] px-4 text-xs text-white [color-scheme:dark] focus:border-white focus:outline-none"
-            />
-          </div>
-
-          <div className="sm:col-span-2">
-            <ExamStatusSelector
-              value={status}
-              onChange={setStatus}
-              defaultViewMode="cards"
+              className="h-10 w-full rounded-xl border border-[#252A37] bg-[#10131B] px-4 text-xs text-white [color-scheme:dark] focus:border-white focus:outline-none"
             />
           </div>
 

@@ -436,6 +436,8 @@ export function EditExamClient({ examId }: { examId: string }) {
               min={5}
               max={300}
               step={5}
+              suffix="phút"
+              className="w-full h-[50px] px-2"
             />
           </div>
 
@@ -443,7 +445,8 @@ export function EditExamClient({ examId }: { examId: string }) {
             <ExamStatusSelector
               value={status}
               onChange={setStatus}
-              defaultViewMode="dropdown"
+              defaultViewMode="cards"
+              showModeSwitch={false}
             />
           </div>
 

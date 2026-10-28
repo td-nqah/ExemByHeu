@@ -26,9 +26,9 @@ export function ExamStatusSelector({
   value,
   onChange,
   className,
-  defaultViewMode = "dropdown",
+  defaultViewMode = "cards",
   label = "Trạng thái đề thi",
-  showModeSwitch = true,
+  showModeSwitch = false,
 }: ExamStatusSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"dropdown" | "cards">(defaultViewMode);
@@ -61,7 +61,7 @@ export function ExamStatusSelector({
     <div className={cn("space-y-1.5", className)}>
       {/* Label & View Mode Switcher Header */}
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5]">
+        <label className="mb-1.5 block text-xs font-medium text-slate-300">
           {label}
         </label>
         {showModeSwitch && (
@@ -259,34 +259,34 @@ export function ExamStatusSelector({
         </div>
       ) : (
         /* VIEW MODE 2: DUAL SEGMENTED CARDS */
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-2 gap-2">
           {/* Card 1: Published */}
           <button
             type="button"
             onClick={() => onChange("published")}
             className={cn(
-              "group relative flex items-center justify-between p-3.5 rounded-2xl border text-left transition-all duration-200 cursor-pointer select-none",
+              "group relative flex items-center justify-between p-2.5 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none h-[50px]",
               isPublished
-                ? "bg-[#232836] border-[#2A2F3C] text-white shadow-sm"
+                ? "bg-[#232836] border-white/40 text-white shadow-sm ring-1 ring-white/20"
                 : "bg-[#10131B] border-[#252A37] text-[#9CA3AF] hover:text-white hover:border-white/30"
             )}
           >
-            <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
               <div
                 className={cn(
-                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border transition-all",
+                  "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border transition-all",
                   isPublished
-                    ? "bg-[#161A24] border-[#252A37] text-white"
+                    ? "bg-[#161A24] border-white/20 text-white"
                     : "bg-[#10131B] border-[#252A37] text-[#8B93A5]"
                 )}
               >
-                <LockOpen className="h-4 w-4" />
+                <LockOpen className="h-3.5 w-3.5" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-bold truncate text-white">Đã xuất bản</span>
                   {isPublished && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
                   )}
                 </div>
                 <p className="text-[10px] text-[#9CA3AF] truncate">Vào thi ngay</p>
@@ -294,9 +294,9 @@ export function ExamStatusSelector({
             </div>
 
             {isPublished ? (
-              <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 ml-2" />
+              <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 ml-1.5" />
             ) : (
-              <div className="h-3.5 w-3.5 rounded-full border border-[#252A37] shrink-0 ml-2" />
+              <div className="h-3.5 w-3.5 rounded-full border border-[#252A37] shrink-0 ml-1.5" />
             )}
           </button>
 
@@ -305,28 +305,28 @@ export function ExamStatusSelector({
             type="button"
             onClick={() => onChange("draft")}
             className={cn(
-              "group relative flex items-center justify-between p-3.5 rounded-2xl border text-left transition-all duration-200 cursor-pointer select-none",
+              "group relative flex items-center justify-between p-2.5 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none h-[50px]",
               !isPublished
-                ? "bg-[#232836] border-[#2A2F3C] text-white shadow-sm"
+                ? "bg-[#232836] border-white/40 text-white shadow-sm ring-1 ring-white/20"
                 : "bg-[#10131B] border-[#252A37] text-[#9CA3AF] hover:text-white hover:border-white/30"
             )}
           >
-            <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
               <div
                 className={cn(
-                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border transition-all",
+                  "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border transition-all",
                   !isPublished
-                    ? "bg-[#161A24] border-[#252A37] text-white"
+                    ? "bg-[#161A24] border-white/20 text-white"
                     : "bg-[#10131B] border-[#252A37] text-[#8B93A5]"
                 )}
               >
-                <Lock className="h-4 w-4" />
+                <Lock className="h-3.5 w-3.5" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-bold truncate text-white">Bản nháp</span>
                   {!isPublished && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
                   )}
                 </div>
                 <p className="text-[10px] text-[#9CA3AF] truncate">Chỉ Admin thấy</p>
@@ -334,9 +334,9 @@ export function ExamStatusSelector({
             </div>
 
             {!isPublished ? (
-              <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0 ml-2" />
+              <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0 ml-1.5" />
             ) : (
-              <div className="h-3.5 w-3.5 rounded-full border border-[#252A37] shrink-0 ml-2" />
+              <div className="h-3.5 w-3.5 rounded-full border border-[#252A37] shrink-0 ml-1.5" />
             )}
           </button>
         </div>
