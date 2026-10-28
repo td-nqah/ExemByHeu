@@ -11,6 +11,7 @@ import { ScoreConfigPanel } from "@/components/admin/ScoreConfigPanel";
 import { ExamStatusSelector } from "@/components/admin/ExamStatusSelector";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
 import { NumberStepper } from "@/components/ui/NumberStepper";
+import { BatchExamUploadModal } from "@/components/admin/BatchExamUploadModal";
 import {
   UploadCloud,
   Plus,
@@ -83,6 +84,7 @@ export default function ExamCreatePage() {
   const [isTestingAi, setIsTestingAi] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isBatchModalOpen, setIsBatchModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -552,6 +554,16 @@ export default function ExamCreatePage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsBatchModalOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 px-3.5 py-1.5 text-[11px] font-semibold transition cursor-pointer"
+              title="Nhập hàng loạt nhiều đề thi từ một file Word (.docx) duy nhất"
+            >
+              <Layers className="h-3.5 w-3.5 text-white" />
+              <span>Nhập nhiều đề (.docx)</span>
+            </button>
+
             <button
               type="button"
               onClick={handleTestAiConnection}
@@ -1070,6 +1082,16 @@ export default function ExamCreatePage() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Batch Multi-Exam Upload Modal */}
+      <BatchExamUploadModal
+        isOpen={isBatchModalOpen}
+        onClose={() => setIsBatchModalOpen(false)}
+        categories={categories}
+        onSuccess={() => {
+          router.push("/admin/dashboard");
+        }}
+      />
     </div>
   );
 }
