@@ -32,13 +32,11 @@ import {
   LockOpen,
   Lock,
   Search,
-  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
 import { NumberStepper } from "@/components/ui/NumberStepper";
 import { ComboboxInput } from "@/components/ui/ComboboxInput";
-import { BatchExamUploadModal } from "@/components/admin/BatchExamUploadModal";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -48,9 +46,6 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [examToDelete, setExamToDelete] = useState<Exam | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-
-  // Batch Multi-Exam Upload Modal State
-  const [isBatchUploadModalOpen, setIsBatchUploadModalOpen] = useState(false);
 
   // Quick Exam Creation Modal State
   const [isQuickExamModalOpen, setIsQuickExamModalOpen] = useState(false);
@@ -114,19 +109,6 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const loadDashboardData = async () => {
-    try {
-      const [allExams, allCats] = await Promise.all([
-        getExams(false),
-        getCategories(false),
-      ]);
-      setExams(allExams);
-      setCategories(allCats);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     const user = getCurrentUser();
     if (!user || user.role !== "admin") {
@@ -134,7 +116,20 @@ export default function AdminDashboardPage() {
       return;
     }
 
-    loadDashboardData();
+    async function loadData() {
+      try {
+        const [allExams, allCats] = await Promise.all([
+          getExams(false),
+          getCategories(false),
+        ]);
+        setExams(allExams);
+        setCategories(allCats);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
   }, [router]);
 
   const handleToggleStatus = async (examId: string) => {
@@ -330,16 +325,6 @@ export default function AdminDashboardPage() {
             >
               <FolderPlus className="h-4 w-4 text-white shrink-0" />
               <span>Thêm vào Danh mục</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsBatchUploadModalOpen(true)}
-              className="inline-flex items-center gap-2 rounded-full bg-[#10131B] border border-white/20 hover:border-white/40 text-white hover:bg-[#161A24] font-semibold px-4 py-2 text-xs transition-colors cursor-pointer shadow-sm"
-              title="Nhập hàng loạt nhiều đề thi từ một file Word (.docx) duy nhất"
-            >
-              <Layers className="h-4 w-4 text-white shrink-0" />
-              <span>Nhập nhiều đề (.docx)</span>
             </button>
 
             <Link
@@ -796,16 +781,6 @@ export default function AdminDashboardPage() {
           </div>
         )}
       </AnimatePresence>
-
-      {/* Batch Multi-Exam Upload Modal */}
-      <BatchExamUploadModal
-        isOpen={isBatchUploadModalOpen}
-        onClose={() => setIsBatchUploadModalOpen(false)}
-        categories={categories}
-        onSuccess={() => {
-          loadDashboardData();
-        }}
-      />
     </div>
   );
 }
