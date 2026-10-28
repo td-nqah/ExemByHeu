@@ -899,7 +899,7 @@ export async function createExam(
   initStore();
   const currentUser = getCurrentUser();
   const createdBy = currentUser?.id || "00000000-0000-0000-0000-000000000001";
-  const examId = `exam_${Date.now()}`;
+  const examId = `exam_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
 
   const cleanCategorySlug = examData.category_slug || (examData.title.toLowerCase().includes("cnxh") ? "cnxh" : "cnxh");
   const cleanCategoryId = examData.category_id || "cat_cnxh";
@@ -925,7 +925,7 @@ export async function createExam(
     const cleanScore =
       Math.round((Number(d.max_score) > 0 ? Number(d.max_score) : 1) * 100) / 100;
     return {
-      id: `q_${Date.now()}_${index + 1}`,
+      id: `q_${Date.now()}_${index + 1}_${Math.random().toString(36).substring(2, 6)}`,
       exam_id: examId,
       type: d.type,
       content: d.content,

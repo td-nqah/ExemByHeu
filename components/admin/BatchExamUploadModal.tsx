@@ -223,7 +223,15 @@ export function BatchExamUploadModal({
       clearTimeout(timer1);
       clearTimeout(timer2);
 
-      const data = await res.json();
+      const text = await res.text();
+      let data: any = {};
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(
+          `Máy chủ không phản hồi JSON (Mã ${res.status}): ${text.slice(0, 150)}`
+        );
+      }
 
       if (!res.ok) {
         throw new Error(data.error || "Không thể phân tích tệp nhiều đề thi.");
@@ -360,7 +368,16 @@ export function BatchExamUploadModal({
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      let data: any = {};
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(
+          `Máy chủ không phản hồi JSON (Mã ${res.status}): ${text.slice(0, 150)}`
+        );
+      }
+
       if (!res.ok) {
         throw new Error(data.error || "Không thể lưu danh sách đề thi.");
       }
