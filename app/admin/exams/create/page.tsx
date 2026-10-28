@@ -102,7 +102,7 @@ export default function ExamCreatePage() {
       setAiStatusMessage(
         data?.message ||
           (data?.connected
-            ? `Đã kết nối Gemini AI (${data?.model})`
+            ? "Đã kết nối Google Gemini AI"
             : "Chưa kết nối được Gemini AI (Đang dùng Fallback Regex).")
       );
     } catch {

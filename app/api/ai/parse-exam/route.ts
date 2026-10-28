@@ -261,7 +261,7 @@ export async function GET() {
           model: modelName,
           latencyMs,
           reply: res.text.trim(),
-          message: `Đã kết nối Google Gemini AI (${modelName}) • Phản hồi trong ${latencyMs}ms`,
+          message: "Đã kết nối Google Gemini AI",
         });
       }
     } catch {
