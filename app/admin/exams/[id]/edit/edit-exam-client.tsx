@@ -426,81 +426,87 @@ export function EditExamClient({ examId }: { examId: string }) {
             />
           </div>
 
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-slate-300">
-              Thời lượng làm bài (Phút)
-            </label>
-            <NumberStepper
-              value={durationMinutes}
-              onChange={setDurationMinutes}
-              min={5}
-              max={300}
-              step={5}
-              suffix="phút"
-              className="w-full h-[50px] px-2"
-            />
-          </div>
-
-          <div>
-            <ExamStatusSelector
-              value={status}
-              onChange={setStatus}
-              defaultViewMode="cards"
-              showModeSwitch={false}
-            />
-          </div>
-
-          {/* Toggle Switch: Shuffle Exam */}
-          <div className="sm:col-span-2 rounded-2xl bg-[#10131B] border border-[#252A37] p-4 transition-all duration-200 hover:border-white/40">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-start gap-3">
-                <div
-                  className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border transition-all ${
-                    isShuffled
-                      ? "border-white/40 bg-white/10 text-white"
-                      : "border-[#252A37] bg-[#161A24] text-slate-400"
-                  }`}
-                >
-                  <Shuffle className="h-4 w-4" />
-                </div>
-                <div>
-                  <label
-                    htmlFor="shuffle-toggle-edit"
-                    className="text-sm font-semibold text-white flex items-center gap-2 cursor-pointer"
-                  >
-                    <span>Xáo trộn thứ tự câu hỏi</span>
-                    {isShuffled && (
-                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#232836] text-white border border-[#2A2F3C] font-semibold">
-                        BẬT (ACTIVE)
-                      </span>
-                    )}
-                  </label>
-                  <p className="text-xs text-[#9CA3AF] mt-0.5">
-                    Tự động đảo ngẫu nhiên vị trí các câu hỏi cho từng lượt đánh giá (giữ nguyên thứ tự các phương án A, B, C, D).
-                  </p>
-                </div>
+          {/* Row 4: 4 Cards trên cùng 1 dòng (Thời lượng, Đã xuất bản, Bản nháp, Xáo trộn câu hỏi) */}
+          <div className="sm:col-span-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+              {/* Card 1: Thời lượng làm bài */}
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-slate-300">
+                  Thời lượng làm bài (Phút)
+                </label>
+                <NumberStepper
+                  value={durationMinutes}
+                  onChange={setDurationMinutes}
+                  min={5}
+                  max={300}
+                  step={5}
+                  suffix="phút"
+                  className="w-full h-[50px] px-2"
+                />
               </div>
 
-              {/* Custom Switch */}
-              <button
-                type="button"
-                id="shuffle-toggle-edit"
-                role="switch"
-                aria-checked={isShuffled}
-                onClick={() => setIsShuffled(!isShuffled)}
-                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none ${
-                  isShuffled
-                    ? "border-white bg-white"
-                    : "border-[#252A37] bg-[#161A24]"
-                }`}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out ${
-                    isShuffled ? "translate-x-5 bg-black" : "translate-x-0 bg-white"
-                  }`}
+              {/* Card 2 & 3: Trạng thái đề thi (Đã xuất bản & Bản nháp) */}
+              <div className="lg:col-span-2">
+                <ExamStatusSelector
+                  value={status}
+                  onChange={setStatus}
+                  defaultViewMode="cards"
+                  showModeSwitch={false}
                 />
-              </button>
+              </div>
+
+              {/* Card 4: Xáo trộn thứ tự câu hỏi */}
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-slate-300">
+                  Xáo trộn đề thi
+                </label>
+                <div
+                  onClick={() => setIsShuffled(!isShuffled)}
+                  className={`group relative flex items-center justify-between p-2.5 rounded-xl border text-left transition-all duration-200 cursor-pointer select-none h-[50px] ${
+                    isShuffled
+                      ? "bg-[#232836] border-white/40 text-white shadow-sm ring-1 ring-white/20"
+                      : "bg-[#10131B] border-[#252A37] text-[#9CA3AF] hover:text-white hover:border-white/30"
+                  }`}
+                  title="Tự động đảo ngẫu nhiên vị trí các câu hỏi khi thí sinh làm bài"
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border transition-all ${
+                        isShuffled
+                          ? "bg-[#161A24] border-white/20 text-white"
+                          : "bg-[#10131B] border-[#252A37] text-[#8B93A5]"
+                      }`}
+                    >
+                      <Shuffle className="h-3.5 w-3.5" />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-bold truncate text-white block">
+                        Xáo trộn câu hỏi
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Switch */}
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={isShuffled}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsShuffled(!isShuffled);
+                    }}
+                    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none ml-1.5 ${
+                      isShuffled ? "border-white bg-white" : "border-[#252A37] bg-[#161A24]"
+                    }`}
+                  >
+                    <span
+                      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-md transition duration-200 ease-in-out ${
+                        isShuffled ? "translate-x-4 bg-black" : "translate-x-0 bg-white"
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
