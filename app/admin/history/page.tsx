@@ -35,9 +35,89 @@ import {
   Layers,
   GraduationCap,
   Trash2,
+  HelpCircle,
 } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
+
+interface ParsedEssayEvaluation {
+  isFull: boolean;
+  score: number;
+  maxScore: number;
+  praise: string;
+  reason: string;
+  missingPoints: string;
+}
+
+function parseEssayEvaluation(
+  feedback: string | undefined | null,
+  scoreAwarded: number | null | undefined,
+  maxScore: number | undefined
+): ParsedEssayEvaluation {
+  const max = Number(maxScore) || 5.0;
+  const score = typeof scoreAwarded === "number" ? scoreAwarded : 0;
+  const isFull = score >= max && max > 0;
+  const raw = (feedback || "").trim();
+
+  if (isFull) {
+    let praise = raw;
+    if (!praise || praise.includes("Đang chờ") || praise.includes("Chưa có nhận xét")) {
+      praise =
+        "Xuất sắc! Bài làm nắm rất vững kiến thức trọng tâm, lập luận sắc bén, dẫn chứng đầy đủ và trình bày rất chuẩn mực theo tiêu chí chấm thi.";
+    } else if (!praise.toLowerCase().includes("xuất sắc")) {
+      praise = `Xuất sắc! ${praise}`;
+    }
+    return {
+      isFull: true,
+      score,
+      maxScore: max,
+      praise,
+      reason: "",
+      missingPoints: "",
+    };
+  }
+
+  // Not full score (< maxScore or < 5)
+  let reason = "";
+  let missingPoints = "";
+
+  const reasonMatch = raw.match(
+    /(?:chưa đạt điểm tối đa vì|lý do chưa đạt điểm tối đa|lý do|nguyên nhân)\s*:\s*([\s\S]*?)(?=(?:cần bổ sung|nội dung cần bổ sung)\s*:|$)/i
+  );
+  const missingMatch = raw.match(
+    /(?:cần bổ sung|nội dung cần bổ sung)\s*:\s*([\s\S]*)/i
+  );
+
+  if (reasonMatch && reasonMatch[1]?.trim()) {
+    reason = reasonMatch[1].trim();
+  }
+  if (missingMatch && missingMatch[1]?.trim()) {
+    missingPoints = missingMatch[1].trim();
+  }
+
+  if (!reason && !missingPoints) {
+    if (raw && !raw.includes("Chưa có nhận xét") && !raw.includes("Đang chờ")) {
+      reason = raw;
+      missingPoints = `Bổ sung thêm luận điểm phân tích cốt lõi, mở rộng dẫn chứng và liên kết chặt chẽ hơn với yêu cầu đề thi để đạt trọn vẹn ${max}/${max} điểm.`;
+    } else {
+      reason = `Bài làm chưa đáp ứng toàn diện các tiêu chí đánh giá theo barem điểm (${score}/${max} điểm).`;
+      missingPoints = `Cần hoàn thiện đầy đủ các ý chính của đề bài, làm rõ cơ sở lý luận và liên hệ thực tiễn để đạt trọn vẹn ${max}/${max} điểm.`;
+    }
+  } else if (!missingPoints) {
+    missingPoints = `Bổ sung thêm các luận cứ phân tích chuyên sâu và ví dụ minh họa cụ thể để đạt trọn vẹn ${max}/${max} điểm.`;
+  } else if (!reason) {
+    reason = `Bài làm còn một số thiếu sót cần hoàn thiện để đạt trọn vẹn ${max}/${max} điểm.`;
+  }
+
+  return {
+    isFull: false,
+    score,
+    maxScore: max,
+    praise: "",
+    reason,
+    missingPoints,
+  };
+}
 
 export default function AdminHistoryPage() {
   const router = useRouter();
@@ -853,6 +933,9 @@ export default function AdminHistoryPage() {
                           const q = ans.question;
                           const isMCQ = q?.type === "multiple_choice";
                           const isCorrect = ans.is_correct;
+                          const evalResult = !isMCQ
+                            ? parseEssayEvaluation(ans.admin_feedback, ans.score_awarded, q?.max_score)
+                            : null;
 
                           return (
                             <div
@@ -881,8 +964,13 @@ export default function AdminHistoryPage() {
                                     >
                                       {isCorrect ? `Đúng (+${ans.score_awarded} đ)` : "Sai (0 đ)"}
                                     </span>
+                                  ) : evalResult?.isFull ? (
+                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold tabular-nums bg-white/10 text-white border border-white/20">
+                                      <CheckCircle2 className="h-3 w-3 text-white" />
+                                      Điểm tuyệt đối: {ans.score_awarded} / {q?.max_score || 5} đ
+                                    </span>
                                   ) : (
-                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold tabular-nums bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold tabular-nums bg-white/5 text-slate-300 border border-white/15">
                                       {ans.score_awarded !== null ? `${ans.score_awarded} đ` : "Chờ chấm"} / {q?.max_score || 5} đ
                                     </span>
                                   )}
@@ -945,18 +1033,55 @@ export default function AdminHistoryPage() {
 
                               {/* Essay Answer Display */}
                               {!isMCQ && (
-                                <div className="space-y-2 pt-1">
+                                <div className="space-y-3 pt-1">
                                   <div className="rounded-xl border border-[#252A37] bg-[#161A24] p-3 text-xs text-white whitespace-pre-wrap leading-relaxed font-mono">
                                     {ans.user_answer ? ans.user_answer : <span className="text-slate-500 italic">Thí sinh để trống câu trả lời.</span>}
                                   </div>
 
-                                  {ans.admin_feedback && (
-                                    <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-3 text-xs space-y-1">
-                                      <p className="font-bold text-indigo-300 flex items-center gap-1">
-                                        <Sparkles className="h-3 w-3" />
-                                        <span>Nhận xét đánh giá:</span>
-                                      </p>
-                                      <p className="text-slate-300 italic">{ans.admin_feedback}</p>
+                                  {evalResult?.isFull ? (
+                                    <div className="rounded-xl border border-white/20 bg-white/[0.03] p-3 text-xs space-y-1.5">
+                                      <div className="flex items-center justify-between gap-2">
+                                        <p className="font-bold text-white flex items-center gap-1.5">
+                                          <Sparkles className="h-3.5 w-3.5 text-white" />
+                                          <span>Đánh giá từ Trợ lý AI:</span>
+                                        </p>
+                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white border border-white/20">
+                                          <CheckCircle2 className="h-3 w-3 text-white" />
+                                          Khen ngợi xuất sắc ({evalResult.score}/{evalResult.maxScore} đ)
+                                        </span>
+                                      </div>
+                                      <p className="text-slate-200 leading-relaxed whitespace-pre-wrap">{evalResult.praise}</p>
+                                    </div>
+                                  ) : (
+                                    <div className="rounded-xl border border-[#252A37] bg-[#161A24] p-3 text-xs space-y-2">
+                                      <div className="flex items-center justify-between gap-2 pb-1 border-b border-[#252A37]">
+                                        <p className="font-bold text-white flex items-center gap-1.5">
+                                          <Sparkles className="h-3.5 w-3.5 text-white" />
+                                          <span>Đánh giá từ Trợ lý AI:</span>
+                                        </p>
+                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/5 text-slate-300 border border-white/10">
+                                          <AlertCircle className="h-3 w-3 text-slate-400" />
+                                          Chưa đạt điểm tối đa ({evalResult?.score}/{evalResult?.maxScore} đ)
+                                        </span>
+                                      </div>
+
+                                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                                        <div className="p-2.5 rounded-lg bg-[#10131B] border border-[#252A37] space-y-1">
+                                          <p className="font-bold text-slate-200 flex items-center gap-1 text-[11px]">
+                                            <AlertCircle className="h-3 w-3 text-slate-400" />
+                                            <span>Lý do chưa đạt điểm tối đa:</span>
+                                          </p>
+                                          <p className="text-slate-300 text-xs leading-relaxed whitespace-pre-wrap">{evalResult?.reason}</p>
+                                        </div>
+
+                                        <div className="p-2.5 rounded-lg bg-[#10131B] border border-[#252A37] space-y-1">
+                                          <p className="font-bold text-white flex items-center gap-1 text-[11px]">
+                                            <HelpCircle className="h-3 w-3 text-white" />
+                                            <span>Nội dung cần bổ sung:</span>
+                                          </p>
+                                          <p className="text-slate-300 text-xs leading-relaxed whitespace-pre-wrap">{evalResult?.missingPoints}</p>
+                                        </div>
+                                      </div>
                                     </div>
                                   )}
                                 </div>

@@ -44,18 +44,29 @@ export async function POST(request: Request) {
         resultsMap.set(item.questionId, {
           questionId: item.questionId,
           score: 0,
-          feedback: `User bỏ trống câu trả lời này. Điểm: 0 / ${maxScore}.`,
+          feedback: `Chưa đạt điểm tối đa vì: Thí sinh không làm hoặc để trống câu trả lời này (0/${maxScore} điểm). Cần bổ sung: Trả lời đầy đủ các ý chính của đề bài để được tính điểm.`,
         });
       } else if (!apiKey) {
         const wordCount = studentAnswer.split(/\s+/).length;
-        const simulatedScore = Math.min(
-          maxScore,
-          Math.max(1.0, Math.round((wordCount > 30 ? 4.0 : 2.5) * 4) / 4)
-        );
+        const isFull = wordCount >= 60;
+        const simulatedScore = isFull
+          ? maxScore
+          : Math.min(
+              maxScore - 0.5,
+              Math.max(1.0, Math.round((wordCount > 30 ? 4.0 : 2.5) * 4) / 4)
+            );
+
+        let feedback = "";
+        if (simulatedScore >= maxScore) {
+          feedback = `Xuất sắc! Bài làm (${wordCount} từ) phân tích rất chuẩn mực, lập luận chặt chẽ, đầy đủ luận điểm trọng tâm và đáp ứng hoàn hảo tiêu chí đề thi.`;
+        } else {
+          feedback = `Chưa đạt điểm tối đa vì: Bài làm (${wordCount} từ) còn tóm lược, một số luận điểm chưa thực sự sâu sắc và còn thiếu dẫn chứng thực tiễn minh họa. Cần bổ sung: Bổ sung thêm các luận cứ phân tích cốt lõi, làm rõ cơ sở lý luận và liên hệ thực tế để đạt trọn vẹn ${maxScore}/${maxScore} điểm.`;
+        }
+
         resultsMap.set(item.questionId, {
           questionId: item.questionId,
           score: simulatedScore,
-          feedback: `[Gemini AI Chấm nhanh]: Bài làm mạch lạc, nêu được ý chính (${wordCount} từ). Điểm đạt: ${simulatedScore}/${maxScore}.`,
+          feedback,
         });
       } else {
         nonEmptyItems.push(item);
@@ -74,12 +85,23 @@ export async function POST(request: Request) {
         answer: item.studentAnswer.trim(),
       }));
 
-      const batchPrompt = `Bạn là Giám khảo chấm thi học thuật. Hãy chấm tất cả các câu tự luận dưới đây.
-Quy tắc:
-- Điểm (score) từ 0 đến maxScore của từng câu, làm tròn bước 0.25.
-- Tiêu chí: Chính xác (50%), Lập luận & dẫn chứng (30%), Diễn đạt (20%).
-- Nhận xét (feedback): 2-3 câu ngắn gọn, khách quan bằng tiếng Việt.
-- Trả về mảng JSON: [{"questionId":"...","score":number,"feedback":"..."}]
+      const batchPrompt = `Bạn là Giám khảo chấm thi học thuật chuyên nghiệp. Hãy chấm tất cả các câu hỏi tự luận dưới đây.
+Quy tắc chấm:
+- Điểm (score): từ 0 đến maxScore của từng câu (làm tròn bước 0.25).
+- Tiêu chí: Đúng trọng tâm (50%), Lập luận & dẫn chứng (30%), Diễn đạt & trình bày (20%).
+
+QUY TẮC NHẬN XÉT (FEEDBACK) BẮT BUỘC CHO MỖI CÂU:
+1. Nếu điểm đạt tối đa (score == maxScore, ví dụ 5/5 điểm):
+   - BẮT BUỘC nhận xét phải khen ngợi bài làm xuất sắc (ví dụ: "Xuất sắc! Bài làm nắm rất vững kiến thức, lập luận sắc bén, dẫn chứng đầy đủ và trình bày rất chuẩn mực.").
+2. Nếu điểm dưới tối đa (score < maxScore, ví dụ dưới 5 điểm):
+   - BẮT BUỘC nhận xét phải nêu ngắn gọn 2 phần:
+     + Lý do chưa đạt điểm tối đa (nói rõ thiếu sót hoặc điểm chưa chuẩn xác của bài làm).
+     + Nội dung cần bổ sung (nói cụ thể học viên cần bổ sung thêm luận điểm, kiến thức hay dẫn chứng gì để đạt điểm tuyệt đối).
+   - Định dạng nhận xét bắt buộc:
+     "Chưa đạt điểm tối đa vì: [Nêu lý do ngắn gọn]. Cần bổ sung: [Nêu cụ thể nội dung cần bổ sung]."
+
+Trả về duy nhất mảng JSON:
+[{"questionId":"...","score":number,"feedback":"...","reason":"...","missing_points":"..."}]
 
 DANH SÁCH BÀI LÀM:
 ${JSON.stringify(batchPayload)}`;
@@ -119,17 +141,34 @@ ${JSON.stringify(batchPayload)}`;
           let finalScore = typeof matched.score === "number" ? matched.score : 0;
           finalScore = Math.max(0, Math.min(maxScore, finalScore));
           finalScore = Math.round(finalScore * 4) / 4;
+
+          let feedback = (matched.feedback || "").trim();
+          if (finalScore >= maxScore) {
+            if (!feedback.toLowerCase().includes("xuất sắc")) {
+              feedback = `Xuất sắc! ${feedback || "Bài làm lập luận chặt chẽ, đầy đủ luận điểm và đáp ứng toàn diện yêu cầu đề bài."}`;
+            }
+          } else {
+            const hasReason = feedback.toLowerCase().includes("vì:") || feedback.toLowerCase().includes("lý do");
+            const hasSupplement = feedback.toLowerCase().includes("bổ sung");
+            if (!hasReason || !hasSupplement) {
+              if (matched.reason && matched.missing_points) {
+                feedback = `Chưa đạt điểm tối đa vì: ${matched.reason}. Cần bổ sung: ${matched.missing_points}`;
+              } else if (!hasSupplement) {
+                feedback = `Chưa đạt điểm tối đa vì: ${feedback || "bài làm chưa triển khai đầy đủ các ý chính"}. Cần bổ sung: Bổ sung thêm luận điểm phân tích, làm rõ dẫn chứng và mở rộng giải thích để đạt trọn vẹn ${maxScore}/${maxScore} điểm.`;
+              }
+            }
+          }
+
           resultsMap.set(item.questionId, {
             questionId: item.questionId,
             score: finalScore,
-            feedback: matched.feedback || "Đã hoàn thành đánh giá bài làm.",
+            feedback,
           });
         } else {
           resultsMap.set(item.questionId, {
             questionId: item.questionId,
             score: Math.round(maxScore * 0.5 * 4) / 4,
-            feedback:
-              "[AI Đang bảo trì]: Bài làm đã được ghi nhận. Vui lòng để giáo viên xác nhận lại điểm.",
+            feedback: `Chưa đạt điểm tối đa vì: Hệ thống đang chờ giáo viên phụ trách thẩm định lại bài làm (${Math.round(maxScore * 0.5 * 4) / 4}/${maxScore} điểm). Cần bổ sung: Vui lòng đợi giảng viên rà soát tiêu chí và cập nhật nhận xét chi tiết.`,
           });
         }
       }

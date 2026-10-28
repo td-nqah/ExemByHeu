@@ -14,8 +14,91 @@ import {
   Award,
   Calendar,
   Sparkles,
+  AlertCircle,
+  HelpCircle,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+
+interface ParsedEssayEvaluation {
+  isFull: boolean;
+  score: number;
+  maxScore: number;
+  praise: string;
+  reason: string;
+  missingPoints: string;
+}
+
+function parseEssayEvaluation(
+  feedback: string | undefined | null,
+  scoreAwarded: number | null | undefined,
+  maxScore: number | undefined
+): ParsedEssayEvaluation {
+  const max = Number(maxScore) || 5.0;
+  const score = typeof scoreAwarded === "number" ? scoreAwarded : 0;
+  const isFull = score >= max && max > 0;
+  const raw = (feedback || "").trim();
+
+  if (isFull) {
+    let praise = raw;
+    if (!praise || praise.includes("Đang chờ") || praise.includes("Chưa có nhận xét")) {
+      praise =
+        "Xuất sắc! Bài làm nắm rất vững kiến thức trọng tâm, lập luận sắc bén, dẫn chứng đầy đủ và trình bày rất chuẩn mực theo tiêu chí chấm thi.";
+    } else if (!praise.toLowerCase().includes("xuất sắc")) {
+      praise = `Xuất sắc! ${praise}`;
+    }
+    return {
+      isFull: true,
+      score,
+      maxScore: max,
+      praise,
+      reason: "",
+      missingPoints: "",
+    };
+  }
+
+  // Not full score (< maxScore or < 5)
+  let reason = "";
+  let missingPoints = "";
+
+  // Try parsing "Chưa đạt điểm tối đa vì: ... Cần bổ sung: ..."
+  const reasonMatch = raw.match(
+    /(?:chưa đạt điểm tối đa vì|lý do chưa đạt điểm tối đa|lý do|nguyên nhân)\s*:\s*([\s\S]*?)(?=(?:cần bổ sung|nội dung cần bổ sung)\s*:|$)/i
+  );
+  const missingMatch = raw.match(
+    /(?:cần bổ sung|nội dung cần bổ sung)\s*:\s*([\s\S]*)/i
+  );
+
+  if (reasonMatch && reasonMatch[1]?.trim()) {
+    reason = reasonMatch[1].trim();
+  }
+  if (missingMatch && missingMatch[1]?.trim()) {
+    missingPoints = missingMatch[1].trim();
+  }
+
+  // Intelligent fallback if raw text was not in the strict 2-part format
+  if (!reason && !missingPoints) {
+    if (raw && !raw.includes("Chưa có nhận xét") && !raw.includes("Đang chờ")) {
+      reason = raw;
+      missingPoints = `Bổ sung thêm luận điểm phân tích cốt lõi, mở rộng dẫn chứng và liên kết chặt chẽ hơn với yêu cầu đề thi để đạt trọn vẹn ${max}/${max} điểm.`;
+    } else {
+      reason = `Bài làm chưa đáp ứng toàn diện các tiêu chí đánh giá theo barem điểm (${score}/${max} điểm).`;
+      missingPoints = `Cần hoàn thiện đầy đủ các ý chính của đề bài, làm rõ cơ sở lý luận và liên hệ thực tiễn để đạt trọn vẹn ${max}/${max} điểm.`;
+    }
+  } else if (!missingPoints) {
+    missingPoints = `Bổ sung thêm các luận cứ phân tích chuyên sâu và ví dụ minh họa cụ thể để đạt trọn vẹn ${max}/${max} điểm.`;
+  } else if (!reason) {
+    reason = `Bài làm còn một số thiếu sót cần hoàn thiện để đạt trọn vẹn ${max}/${max} điểm.`;
+  }
+
+  return {
+    isFull: false,
+    score,
+    maxScore: max,
+    praise: "",
+    reason,
+    missingPoints,
+  };
+}
 
 export function SubmissionReviewClient({ submissionId }: { submissionId: string }) {
   const router = useRouter();
@@ -86,6 +169,7 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
         </Link>
       </div>
 
+      {/* Overview Card */}
       <motion.div
         initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -122,29 +206,21 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
 
           <div className="flex items-center gap-4 rounded-2xl border border-[#252A37] bg-[#10131B] p-4">
             <div className="text-right">
-              <p className="text-[10px] font-heading font-bold uppercase tracking-wide text-[#8B93A5]">Tổng điểm</p>
-              <p className="text-2xl font-black text-white tabular-nums">
-                {submission.total_score}
+              <p className="text-[11px] font-medium text-[#8B93A5]">
+                Điểm tổng kết
               </p>
-            </div>
-            <div className="h-8 w-px bg-[#252A37]" />
-            <div className="space-y-0.5 text-xs text-[#9CA3AF]">
-              <p>
-                Trắc nghiệm: <span className="font-bold text-white tabular-nums">{submission.mcq_score}</span>
-              </p>
-              <p>
-                Tự luận:{" "}
-                <span className="font-bold text-white tabular-nums">
-                  {submission.essay_score !== null ? submission.essay_score : "Chờ chấm"}
-                </span>
-              </p>
+              <div className="flex items-baseline gap-1 text-2xl font-black text-white tabular-nums">
+                <span>{submission.total_score}</span>
+                <span className="text-xs font-normal text-[#8B93A5]">/ 10 đ</span>
+              </div>
             </div>
           </div>
         </div>
       </motion.div>
 
-      <div className="space-y-6">
-        <h2 className="text-xs font-heading font-bold uppercase tracking-wide text-[#8B93A5]">
+      {/* Questions Breakdown List */}
+      <div className="space-y-4">
+        <h2 className="text-xs font-heading font-bold uppercase tracking-wider text-[#8B93A5] px-1">
           Chi tiết từng câu hỏi ({answers.length} câu)
         </h2>
 
@@ -153,7 +229,10 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
           if (!q) return null;
 
           const isMCQ = q.type === "multiple_choice";
-          const isCorrect = answer.is_correct === true;
+          const isCorrect = answer.is_correct;
+          const evalResult = !isMCQ
+            ? parseEssayEvaluation(answer.admin_feedback, answer.score_awarded, q.max_score)
+            : null;
 
           return (
             <motion.article
@@ -161,9 +240,9 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
               initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.25) }}
-              className="rounded-3xl border border-[#252A37] bg-[#161A24] p-6 shadow-lg"
+              className="rounded-3xl border border-[#252A37] bg-[#161A24] p-6 shadow-lg space-y-4"
             >
-              <div className="mb-4 flex items-center justify-between border-b border-[#252A37] pb-3">
+              <div className="flex items-center justify-between border-b border-[#252A37] pb-3">
                 <div className="flex items-center gap-2.5">
                   <span className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#252A37] bg-[#10131B] text-xs font-bold text-white tabular-nums">
                     {index + 1}
@@ -186,16 +265,21 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                         Sai (0 / {q.max_score} điểm)
                       </span>
                     )
+                  ) : evalResult?.isFull ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold text-white">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                      Điểm tuyệt đối: {answer.score_awarded} / {q.max_score} điểm
+                    </span>
                   ) : (
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2A2F3C] bg-[#232836] px-3 py-1 text-xs font-semibold text-[#E5E7EB]">
-                      <Award className="h-3.5 w-3.5 text-white" />
+                      <Award className="h-3.5 w-3.5 text-slate-400" />
                       Điểm đạt: {answer.score_awarded} / {q.max_score} điểm
                     </span>
                   )}
                 </div>
               </div>
 
-              <p className="mb-4 whitespace-pre-wrap text-sm font-medium leading-relaxed text-slate-100">
+              <p className="whitespace-pre-wrap text-sm font-medium leading-relaxed text-slate-100">
                 {q.content}
               </p>
 
@@ -259,21 +343,21 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                         <div className="flex shrink-0 flex-wrap items-center gap-1.5 text-[11px] font-semibold">
                           {isCandidateChoice && isCorrectAnswer && (
                             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
-                              <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
                               <span>Lựa chọn của bạn (Đáp án đúng)</span>
                             </span>
                           )}
 
                           {isCandidateChoice && !isCorrectAnswer && (
                             <span className="inline-flex items-center gap-1 rounded-full border border-rose-500/40 bg-rose-950/80 px-2.5 py-0.5 text-[10px] font-bold text-rose-400">
-                              <XCircle className="h-3 w-3 text-rose-400" />
+                              <XCircle className="h-3.5 w-3.5 text-rose-400" />
                               <span>Lựa chọn của bạn</span>
                             </span>
                           )}
 
                           {!isCandidateChoice && isCorrectAnswer && (
                             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
-                              <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
                               <span>Đáp án đúng</span>
                             </span>
                           )}
@@ -284,8 +368,9 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                 </div>
               ) : (
                 <div className="space-y-4">
+                  {/* Bài làm của thí sinh */}
                   <div>
-                    <label className="mb-1.5 block text-[11px] uppercase tracking-wider text-[#8B93A5] font-semibold">
+                    <label className="mb-1.5 block text-xs uppercase tracking-wider text-[#8B93A5] font-semibold">
                       Bài làm của sinh viên
                     </label>
                     <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-4 whitespace-pre-wrap text-xs leading-relaxed text-slate-100">
@@ -293,24 +378,77 @@ export function SubmissionReviewClient({ submissionId }: { submissionId: string 
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-4">
-                    <div className="mb-1.5 flex items-center gap-2 text-white">
-                      <Sparkles className="h-4 w-4 text-white" />
-                      <span className="text-xs font-bold text-white">
-                        Đánh giá & Nhận xét học vụ (Trợ lý học thuật AI & Giảng viên phụ trách)
-                      </span>
+                  {/* Phần hiển thị Đánh giá & Nhận xét của Trợ lý AI */}
+                  {evalResult?.isFull ? (
+                    <div className="rounded-2xl border border-white/20 bg-[#10131B] p-4 sm:p-5 space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[#252A37]">
+                        <div className="flex items-center gap-2 text-white">
+                          <Sparkles className="h-4 w-4 text-white" />
+                          <span className="text-xs font-bold">
+                            Đánh giá &amp; Nhận xét học vụ (Trợ lý học thuật AI)
+                          </span>
+                        </div>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-white border border-white/20">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                          Khen ngợi: Xuất sắc ({evalResult.score} / {evalResult.maxScore} điểm)
+                        </span>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/10 space-y-1">
+                        <p className="text-xs font-bold text-white flex items-center gap-1.5">
+                          <span>🌟 Lời khen từ Trợ lý AI:</span>
+                        </p>
+                        <p className="text-xs text-slate-200 leading-relaxed whitespace-pre-wrap">
+                          {evalResult.praise}
+                        </p>
+                      </div>
                     </div>
-                    <p className="whitespace-pre-wrap text-xs leading-relaxed text-[#9CA3AF]">
-                      {answer.admin_feedback ||
-                        "Chưa có nhận xét chi tiết hoặc bài thi đang trong quá trình chấm."}
-                    </p>
-                  </div>
+                  ) : (
+                    <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-4 sm:p-5 space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[#252A37]">
+                        <div className="flex items-center gap-2 text-white">
+                          <Sparkles className="h-4 w-4 text-white" />
+                          <span className="text-xs font-bold">
+                            Đánh giá &amp; Nhận xét học vụ (Trợ lý học thuật AI)
+                          </span>
+                        </div>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-slate-300 border border-white/15">
+                          <AlertCircle className="h-3.5 w-3.5 text-slate-400" />
+                          Chưa đạt điểm tối đa ({evalResult?.score} / {evalResult?.maxScore} điểm)
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-0.5">
+                        {/* 1. Lý do không full điểm */}
+                        <div className="p-3.5 rounded-xl bg-[#161A24] border border-[#252A37] space-y-1.5">
+                          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-200">
+                            <AlertCircle className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                            <span>Lý do chưa đạt điểm tối đa:</span>
+                          </div>
+                          <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">
+                            {evalResult?.reason}
+                          </p>
+                        </div>
+
+                        {/* 2. Phải bổ sung nội dung gì */}
+                        <div className="p-3.5 rounded-xl bg-[#161A24] border border-[#252A37] space-y-1.5">
+                          <div className="flex items-center gap-1.5 text-xs font-bold text-white">
+                            <HelpCircle className="h-3.5 w-3.5 text-white shrink-0" />
+                            <span>Nội dung cần bổ sung để full điểm:</span>
+                          </div>
+                          <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">
+                            {evalResult?.missingPoints}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
               {/* Lời giải chi tiết / Giải thích đáp án nếu có */}
               {q.explanation && (
-                <div className="mt-3.5 rounded-2xl border border-[#252A37] bg-[#10131B] p-3.5">
+                <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-3.5">
                   <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-white">
                     <Sparkles className="h-3.5 w-3.5 text-white" />
                     <span>Lời giải chi tiết:</span>

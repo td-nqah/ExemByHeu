@@ -448,15 +448,26 @@ export function GradingRoomClient({ submissionId }: { submissionId: string }) {
                     </div>
 
                     <div>
-                      <label className="mb-1.5 flex items-center gap-1 text-xs font-medium text-slate-300">
-                        <MessageSquare className="h-3.5 w-3.5 text-white" />
-                        Nhận xét học vụ của Giảng viên phụ trách
-                      </label>
+                      <div className="mb-1.5 flex items-center justify-between">
+                        <label className="flex items-center gap-1 text-xs font-medium text-slate-300">
+                          <MessageSquare className="h-3.5 w-3.5 text-white" />
+                          Nhận xét học vụ của Giảng viên phụ trách
+                        </label>
+                        {(essayGrades[q.id]?.score ?? 0) >= q.max_score && q.max_score > 0 ? (
+                          <span className="text-[10px] font-bold text-white bg-white/10 px-2 py-0.5 rounded-full border border-white/20">
+                            🌟 Khen xuất sắc (Full {q.max_score}/{q.max_score} đ)
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-semibold text-slate-400 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                            Lý do chưa full &amp; Cần bổ sung
+                          </span>
+                        )}
+                      </div>
                       <textarea
                         rows={3}
                         value={essayGrades[q.id]?.feedback ?? ""}
                         onChange={(e) => handleFeedbackChange(q.id, e.target.value)}
-                        placeholder="Nhập nhận xét học vụ chi tiết, đối sánh barem điểm và hướng dẫn cải thiện..."
+                        placeholder="Nhập nhận xét học vụ: Khen xuất sắc (nếu full điểm) hoặc Lý do chưa đạt & Nội dung cần bổ sung..."
                         className="w-full rounded-2xl border border-[#252A37] bg-[#161A24] p-3.5 text-xs leading-relaxed text-white placeholder-[#8B93A5] focus:border-white/50 focus:outline-none transition-colors"
                       />
                     </div>
