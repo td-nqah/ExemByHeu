@@ -622,7 +622,7 @@ export default function ExamCreatePage() {
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>
                   {isParsing
-                    ? "Trợ lý AI đang trích xuất dữ liệu..."
+                    ? "Đang Trích Xuất"
                     : "Chọn tệp từ máy tính"}
                 </span>
               </button>
@@ -708,7 +708,7 @@ export default function ExamCreatePage() {
                 <Sparkles className="h-4 w-4" />
                 <span>
                   {isParsing
-                    ? "Đang trích xuất câu hỏi bằng Trợ lý AI..."
+                    ? "Đang Trích Xuất"
                     : "Trích xuất câu hỏi"}
                 </span>
               </button>
