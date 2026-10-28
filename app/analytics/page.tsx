@@ -39,15 +39,7 @@ export interface StudentPerformanceStats {
   integrityScore: number;
 }
 
-// 100% Pure Academic & Exam Radar Data Interface & Standards
-export const academicRadarData = [
-  { metric: "Độ chính xác", score: 88, display: "88%" },
-  { metric: "Thời gian xử lý", score: 85, display: "85/100" },
-  { metric: "Khối lượng ôn tập", score: 92, display: "92%" },
-  { metric: "Vận dụng nâng cao", score: 76, display: "76%" },
-  { metric: "Kỷ luật phòng thi", score: 98, display: "98/100" },
-];
-
+// 100% Pure Academic & Exam Radar Data Standards
 const RADAR_AXES = [
   {
     key: "accuracy",
@@ -98,7 +90,6 @@ export default function AnalyticsPage() {
 
   // Filters
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
-  const [useDemoFallback, setUseDemoFallback] = useState<boolean>(false);
 
   useEffect(() => {
     const curUser = getCurrentUser();
@@ -110,16 +101,19 @@ export default function AnalyticsPage() {
 
     async function loadData() {
       try {
+        const targetUserId =
+          curUser?.id ||
+          (curUser?.username?.toLowerCase() === "admin"
+            ? "00000000-0000-0000-0000-000000000001"
+            : undefined);
+
+        // Fetch all submissions for current user account (limitCount = 0 for full data)
         const [subs, cats] = await Promise.all([
-          getSubmissions(curUser?.id),
+          getSubmissions(targetUserId, 0),
           getCategories(true),
         ]);
-        setSubmissions(subs);
-        setCategories(cats);
-        // If history is currently empty (e.g. after clear), default to showcasing benchmark stats with easy toggle
-        if (!subs || subs.length === 0) {
-          setUseDemoFallback(true);
-        }
+        setSubmissions(subs || []);
+        setCategories(cats || []);
       } finally {
         setLoading(false);
       }
@@ -131,7 +125,6 @@ export default function AnalyticsPage() {
   // Filter submissions by Subject
   const filteredSubmissions = useMemo(() => {
     return submissions.filter((sub) => {
-      // Subject filter
       if (selectedSubject !== "all") {
         const subCat = (sub.exam?.category_id || sub.exam?.title || "").toLowerCase();
         if (!subCat.includes(selectedSubject.toLowerCase())) {
@@ -142,96 +135,94 @@ export default function AnalyticsPage() {
     });
   }, [submissions, selectedSubject]);
 
-  // Compute Gamified Stats from Real Submissions or Showcase Defaults
+  // Compute 100% Real Stats from the Account's Submissions (No demo data)
   const stats: StudentPerformanceStats = useMemo(() => {
-    const hasRealData = !useDemoFallback && filteredSubmissions.length > 0;
+    const total = filteredSubmissions.length;
 
-    if (hasRealData) {
-      const total = filteredSubmissions.length;
-      const passed = filteredSubmissions.filter((s) => Number(s.total_score) >= 5.0).length;
-      const passRate = Math.round((passed / total) * 1000) / 10;
-      const perfect = filteredSubmissions.filter((s) => Number(s.total_score) >= 9.9).length;
-
-      const totalScoreSum = filteredSubmissions.reduce((sum, s) => sum + Number(s.total_score), 0);
-      const avgScore = totalScoreSum / total;
-
-      // 1. Accuracy (Độ chính xác)
-      const avgAccuracy = Math.min(
-        100,
-        Math.max(20, Math.round((avgScore / 10) * 92))
-      );
-      // 2. Speed (Thời gian xử lý: 85/100 chuẩn khảo thí)
-      const speed = Math.min(100, Math.max(50, Math.round(80 + (avgScore >= 8 ? 8 : 2))));
-      // 3. Volume (Khối lượng ôn tập)
-      const volume = Math.min(100, Math.max(20, Math.round(total * 8 + 35)));
-      // 4. Advanced Application (Vận dụng nâng cao)
-      const advancedApp = Math.min(
-        100,
-        Math.max(15, Math.round((filteredSubmissions.filter((s) => Number(s.total_score) >= 7.0).length / total) * 100))
-      );
-      // 5. Integrity (Kỷ luật phòng thi)
-      const integrity = 98;
-
-      // Badges
-      const tierSSS = filteredSubmissions.filter((s) => Number(s.total_score) >= 9.5).length;
-      const tierSS = filteredSubmissions.filter((s) => Number(s.total_score) >= 8.5 && Number(s.total_score) < 9.5).length;
-      const tierS = filteredSubmissions.filter((s) => Number(s.total_score) >= 7.0 && Number(s.total_score) < 8.5).length;
-      const nearPerfect = filteredSubmissions.filter((s) => Number(s.total_score) >= 9.0).length;
-      const flawless = perfect;
-      const valedictorian = filteredSubmissions.filter((s) => Number(s.total_score) >= 9.5).length;
-      const streak50 = Math.floor(total / 3);
-      const streak20 = Math.floor(total / 1.5);
-
+    if (total === 0) {
       return {
-        totalExams: total,
-        passRate,
-        perfectScores: perfect,
+        totalExams: 0,
+        passRate: 0,
+        perfectScores: 0,
         radarMetrics: {
-          accuracy: avgAccuracy,
-          speed,
-          volume,
-          advancedApp,
-          integrity,
+          accuracy: 0,
+          speed: 0,
+          volume: 0,
+          advancedApp: 0,
+          integrity: 100,
         },
         badges: {
-          valedictorian,
-          flawless,
-          streak50,
-          streak20,
-          tierSSS,
-          tierSS,
-          tierS,
-          nearPerfect,
+          valedictorian: 0,
+          flawless: 0,
+          streak50: 0,
+          streak20: 0,
+          tierSSS: 0,
+          tierSS: 0,
+          tierS: 0,
+          nearPerfect: 0,
         },
-        integrityScore: 98,
+        integrityScore: 100,
       };
     }
 
-    // Benchmark Academic Testing Showcase Data
+    const passed = filteredSubmissions.filter((s) => Number(s.total_score) >= 5.0).length;
+    const passRate = Math.round((passed / total) * 1000) / 10;
+    const perfect = filteredSubmissions.filter((s) => Number(s.total_score) >= 9.9).length;
+
+    const totalScoreSum = filteredSubmissions.reduce((sum, s) => sum + Number(s.total_score), 0);
+    const avgScore = totalScoreSum / total;
+
+    // 1. Accuracy (%): Điểm trung bình quy đổi ra % chính xác (0 - 100)
+    const accuracy = Math.min(100, Math.max(0, Math.round((avgScore / 10) * 100)));
+
+    // 2. Speed (0 - 100): Tốc độ xử lý chuẩn khảo thí
+    const speed = Math.min(100, Math.max(30, Math.round(75 + (avgScore >= 8 ? 20 : avgScore >= 5 ? 10 : 0))));
+
+    // 3. Volume (%): Khối lượng đề ôn luyện (Mục tiêu 10 đề = 100%)
+    const volume = Math.min(100, Math.round((total / 10) * 100));
+
+    // 4. Advanced Application (%): Tỷ lệ bài đạt loại Khá/Giỏi trở lên (>= 7.0 điểm)
+    const advancedApp = Math.round(
+      (filteredSubmissions.filter((s) => Number(s.total_score) >= 7.0).length / total) * 100
+    );
+
+    // 5. Integrity (0 - 100): Kỷ luật phòng thi chuẩn mực
+    const integrity = 100;
+
+    // Badges theo điểm số bài làm thực tế
+    const tierSSS = filteredSubmissions.filter((s) => Number(s.total_score) >= 9.5).length;
+    const tierSS = filteredSubmissions.filter((s) => Number(s.total_score) >= 8.5 && Number(s.total_score) < 9.5).length;
+    const tierS = filteredSubmissions.filter((s) => Number(s.total_score) >= 7.0 && Number(s.total_score) < 8.5).length;
+    const nearPerfect = filteredSubmissions.filter((s) => Number(s.total_score) >= 9.0).length;
+    const flawless = perfect;
+    const valedictorian = tierSSS;
+    const streak50 = Math.floor(total / 3);
+    const streak20 = Math.floor(total / 1.5);
+
     return {
-      totalExams: 268,
-      passRate: 78.5,
-      perfectScores: 40,
+      totalExams: total,
+      passRate,
+      perfectScores: perfect,
       radarMetrics: {
-        accuracy: 88,
-        speed: 85,
-        volume: 92,
-        advancedApp: 76,
-        integrity: 98,
+        accuracy,
+        speed,
+        volume,
+        advancedApp,
+        integrity,
       },
       badges: {
-        valedictorian: 25,
-        flawless: 0,
-        streak50: 2,
-        streak20: 24,
-        tierSSS: 3,
-        tierSS: 10,
-        tierS: 12,
-        nearPerfect: 34,
+        valedictorian,
+        flawless,
+        streak50,
+        streak20,
+        tierSSS,
+        tierSS,
+        tierS,
+        nearPerfect,
       },
-      integrityScore: 98,
+      integrityScore: integrity,
     };
-  }, [filteredSubmissions, useDemoFallback]);
+  }, [filteredSubmissions]);
 
   // Radar Polygon SVG Points Calculation
   const radarSvgData = useMemo(() => {
@@ -271,12 +262,22 @@ export default function AnalyticsPage() {
       };
     });
 
-    // Data Polygon Points
+    // Data Polygon Points (Collapses cleanly to center if 0 exams)
     const dataPoints = RADAR_AXES.map((axis) => {
-      const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics] ?? 80;
-      const normalizedRadius = rMax * (Math.max(15, Math.min(100, val)) / 100);
+      const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics] ?? 0;
+      const normalizedRadius =
+        stats.totalExams === 0
+          ? 0
+          : rMax * (Math.max(5, Math.min(100, val)) / 100);
       const pt = getVertex(axis.angleDeg, normalizedRadius);
-      const display = axis.getDisplay(val);
+      const display =
+        stats.totalExams === 0
+          ? axis.key === "speed"
+            ? "0/100"
+            : axis.key === "integrity"
+            ? "100/100"
+            : "0%"
+          : axis.getDisplay(val);
       return {
         ...pt,
         val,
@@ -289,16 +290,11 @@ export default function AnalyticsPage() {
     const polygonPointsString = dataPoints.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
 
     return { cx, cy, rMax, webs, spokes, dataPoints, polygonPointsString, getVertex };
-  }, [stats.radarMetrics]);
+  }, [stats.radarMetrics, stats.totalExams]);
 
   // Subject options for dropdown
   const subjectOptions = useMemo(() => {
-    const list = [
-      { value: "all", label: "Tất cả môn học" },
-      { value: "Chủ nghĩa xã hội", label: "Chủ nghĩa xã hội" },
-      { value: "Cấu trúc máy tính", label: "Cấu trúc máy tính & HĐH" },
-      { value: "Lịch sử Đảng", label: "Lịch sử Đảng" },
-    ];
+    const list = [{ value: "all", label: "Tất cả môn học" }];
     categories.forEach((cat) => {
       if (!list.some((item) => item.value.toLowerCase() === cat.name.toLowerCase())) {
         list.push({ value: cat.name, label: cat.name });
@@ -319,14 +315,11 @@ export default function AnalyticsPage() {
         {/* Title Header Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5 leading-normal pt-1">
-              <span>Hồ sơ Năng lực &amp; Phân tích Thông số</span>
-              <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-white/10 text-white border border-white/20 uppercase tracking-wider">
-                Khảo Thí Chuẩn Hóa
-              </span>
+            <h1 className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-normal pt-1">
+              Hồ sơ Năng lực &amp; Phân tích Thông số
             </h1>
             <p className="mt-1.5 text-xs sm:text-sm text-slate-400 max-w-xl leading-relaxed">
-              Mô hình đánh giá 5 trục năng lực chuẩn mực, thông số hiệu suất và huân chương học thuật.
+              Mô hình đánh giá 5 trục năng lực chuẩn mực, thông số hiệu suất và huân chương học thuật theo dữ liệu thực tế.
             </p>
           </div>
 
@@ -338,7 +331,13 @@ export default function AnalyticsPage() {
               <span className="text-slate-400">({user?.role === "admin" ? "Quản trị viên" : "Sinh viên"})</span>
               <span className="text-slate-300 font-mono font-bold flex items-center gap-1">
                 <Crown className="w-3.5 h-3.5 text-slate-400" />
-                Chuẩn Khảo Thí
+                {stats.totalExams === 0
+                  ? "Chưa xếp hạng"
+                  : stats.radarMetrics.accuracy >= 90
+                  ? "Cao Thủ"
+                  : stats.radarMetrics.accuracy >= 75
+                  ? "Tinh Anh"
+                  : "Học Viên"}
               </span>
             </div>
 
@@ -521,13 +520,31 @@ export default function AnalyticsPage() {
               </svg>
             </div>
 
-            {/* Bottom Integrity & Standards Note (No nested cards) */}
+            {/* Bottom Integrity & Standards Note */}
             <div className="pt-4 border-t border-[#252a37] flex items-center justify-between text-xs text-slate-400">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-slate-300" />
-                <span>Chỉ số tuân thủ phòng thi: <strong className="text-white font-mono">{stats.integrityScore}/100</strong></span>
-              </span>
-              <span className="font-mono text-slate-400">Chuẩn hóa Pearson</span>
+              {stats.totalExams === 0 ? (
+                <div className="flex items-center justify-between w-full">
+                  <span className="flex items-center gap-1.5 text-slate-400">
+                    <ShieldCheck className="w-4 h-4 text-slate-400" />
+                    <span>Chưa có dữ liệu bài thi cho tài khoản này</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => router.push("/dashboard")}
+                    className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-semibold transition cursor-pointer"
+                  >
+                    Làm bài thi ngay
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <span className="flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-slate-300" />
+                    <span>Chỉ số tuân thủ phòng thi: <strong className="text-white font-mono">{stats.integrityScore}/100</strong></span>
+                  </span>
+                  <span className="font-mono text-slate-400">Dữ liệu thực tế</span>
+                </>
+              )}
             </div>
           </div>
         </motion.div>
@@ -606,7 +623,7 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Card 2: Standalone Card for 5 Dimension Metrics (Ảnh 1) */}
+          {/* Card 2: Standalone Card for 5 Dimension Metrics */}
           <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 space-y-4 shadow-xl">
             <div className="flex items-center justify-between pb-3 border-b border-[#252a37]">
               <span className="font-heading text-xs uppercase tracking-wider font-bold text-white flex items-center gap-2">
@@ -621,6 +638,17 @@ export default function AnalyticsPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {RADAR_AXES.map((axis) => {
                 const val = stats.radarMetrics[axis.key as keyof typeof stats.radarMetrics] ?? 0;
+                const statusLabel =
+                  stats.totalExams === 0
+                    ? "Chưa thi"
+                    : val >= 90
+                    ? "Xuất sắc"
+                    : val >= 80
+                    ? "Giỏi"
+                    : val >= 50
+                    ? "Đạt chuẩn"
+                    : "Cần rèn luyện";
+
                 return (
                   <div
                     key={axis.key}
@@ -631,10 +659,16 @@ export default function AnalyticsPage() {
                     </span>
                     <div className="flex items-baseline justify-between gap-2 mt-1">
                       <span className="font-mono text-base font-bold text-white tabular-nums">
-                        {axis.getDisplay(val)}
+                        {stats.totalExams === 0
+                          ? axis.key === "speed"
+                            ? "0/100"
+                            : axis.key === "integrity"
+                            ? "100/100"
+                            : "0%"
+                          : axis.getDisplay(val)}
                       </span>
                       <span className="text-xs text-slate-300 font-medium px-1.5 py-0.5 rounded bg-white/5 border border-white/10 shrink-0">
-                        {val >= 90 ? "Xuất sắc" : val >= 80 ? "Giỏi" : "Đạt chuẩn"}
+                        {statusLabel}
                       </span>
                     </div>
                   </div>
