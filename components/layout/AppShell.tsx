@@ -11,6 +11,56 @@ import { getCurrentUser } from "@/lib/store";
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
+  // Global Clipboard Guardrail: Restrict Ctrl+C, Ctrl+V, Cut & Paste for all non-admin accounts.
+  // Only Admin accounts are allowed to use Ctrl+C and Ctrl+V.
+  useEffect(() => {
+    const isClipboardAllowed = () => {
+      const user = getCurrentUser();
+      // Not logged in (e.g. on public login/landing page) -> allow pasting login credentials
+      if (!user) return true;
+      // Only Admin has full permission for Ctrl+C and Ctrl+V
+      return user.role === "admin";
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const isCtrlOrMeta = e.ctrlKey || e.metaKey;
+      const keyLower = e.key.toLowerCase();
+      const code = e.code;
+
+      const isCopy = isCtrlOrMeta && (keyLower === "c" || code === "KeyC");
+      const isPaste =
+        (isCtrlOrMeta && (keyLower === "v" || code === "KeyV")) ||
+        (e.shiftKey && (e.key === "Insert" || code === "Insert" || code === "Numpad0"));
+      const isCut = isCtrlOrMeta && (keyLower === "x" || code === "KeyX");
+
+      if (isCopy || isPaste || isCut) {
+        if (!isClipboardAllowed()) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
+    };
+
+    const handleClipboardEvent = (e: ClipboardEvent) => {
+      if (!isClipboardAllowed()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown, true);
+    window.addEventListener("copy", handleClipboardEvent, true);
+    window.addEventListener("cut", handleClipboardEvent, true);
+    window.addEventListener("paste", handleClipboardEvent, true);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown, true);
+      window.removeEventListener("copy", handleClipboardEvent, true);
+      window.removeEventListener("cut", handleClipboardEvent, true);
+      window.removeEventListener("paste", handleClipboardEvent, true);
+    };
+  }, [pathname]);
+
   // Send periodic presence heartbeat for any active logged-in user
   useEffect(() => {
     const user = getCurrentUser();

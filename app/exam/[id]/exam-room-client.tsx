@@ -208,6 +208,7 @@ export function ExamRoomClient({ examId }: { examId: string }) {
     sessionId,
     enabled: isExamActive,
     maxStrikes: 3,
+    isAdmin: currentUser?.role === "admin",
     onTerminate: handleViolationTermination,
   });
 
@@ -530,6 +531,10 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
+                    <span>Nghiêm cấm sao chép (Ctrl+C) hoặc dán (Ctrl+V) bài làm.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="select-none text-slate-400 shrink-0 font-medium">–</span>
                     <span>Điểm trắc nghiệm được hệ thống tự động ghi nhận khi nộp bài.</span>
                   </li>
                   <li className="flex items-start gap-2">
@@ -686,6 +691,30 @@ export function ExamRoomClient({ examId }: { examId: string }) {
                         rows={6}
                         value={currentVal}
                         onChange={(e) => handleEssayChange(question.id, e.target.value)}
+                        onPaste={(e) => {
+                          if (currentUser?.role !== "admin") {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }
+                        }}
+                        onCopy={(e) => {
+                          if (currentUser?.role !== "admin") {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }
+                        }}
+                        onCut={(e) => {
+                          if (currentUser?.role !== "admin") {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }
+                        }}
+                        onDrop={(e) => {
+                          if (currentUser?.role !== "admin") {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }
+                        }}
                         placeholder="Nhập phần trả lời tự luận của bạn vào đây..."
                         className="w-full rounded-2xl border border-[#252A37] bg-[#10131B] p-4 text-xs sm:text-sm text-white placeholder-[#8B93A5] focus:border-white/50 focus:outline-none transition-colors"
                       />
