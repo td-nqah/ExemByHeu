@@ -303,7 +303,7 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="mx-auto w-full max-w-[1720px] px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* 1. Page Header Title Block */}
       <motion.div
         initial={reduceMotion ? false : { opacity: 0, y: 14 }}
@@ -538,14 +538,14 @@ export default function AdminDashboardPage() {
                         ) : null}
                       </button>
                     </th>
-                    <th className="py-3.5 px-4 font-bold">TÊN ĐỀ THI</th>
-                    <th className="py-3.5 px-4 font-bold">DANH MỤC</th>
-                    <th className="py-3.5 px-4 font-bold">THỜI LƯỢNG</th>
-                    <th className="py-3.5 px-4 font-bold">SỐ CÂU HỎI</th>
-                    <th className="py-3.5 px-4 font-bold">THANG ĐIỂM</th>
-                    <th className="py-3.5 px-4 font-bold">DẠNG ĐỀ</th>
-                    <th className="py-3.5 px-4 font-bold">TRẠNG THÁI</th>
-                    <th className="py-3.5 px-4 text-right font-bold">THAO TÁC</th>
+                    <th className="py-3.5 px-4 font-bold whitespace-nowrap">TÊN ĐỀ THI</th>
+                    <th className="py-3.5 px-4 font-bold whitespace-nowrap">DANH MỤC</th>
+                    <th className="py-3.5 px-4 font-bold whitespace-nowrap">THỜI LƯỢNG</th>
+                    <th className="py-3.5 px-4 font-bold whitespace-nowrap">SỐ CÂU HỎI</th>
+                    <th className="py-3.5 px-4 font-bold whitespace-nowrap">THANG ĐIỂM</th>
+                    <th className="py-3.5 px-4 font-bold whitespace-nowrap">DẠNG ĐỀ</th>
+                    <th className="py-3.5 px-4 font-bold whitespace-nowrap">TRẠNG THÁI</th>
+                    <th className="py-3.5 px-4 text-right font-bold whitespace-nowrap">THAO TÁC</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#252A37]">
@@ -596,7 +596,7 @@ export default function AdminDashboardPage() {
                             {isSelected && <Check className="h-3 w-3 stroke-[3]" />}
                           </button>
                         </td>
-                        <td className="max-w-xs truncate py-3.5 px-4 font-bold text-white transition-colors">
+                        <td className="max-w-md lg:max-w-lg truncate py-3.5 px-4 font-bold text-white transition-colors">
                         {exam.title}
                       </td>
 
@@ -610,7 +610,7 @@ export default function AdminDashboardPage() {
                         {formatDuration(exam.duration_minutes)}
                       </td>
 
-                      <td className="py-3.5 px-4 text-[#9CA3AF] tabular-nums">
+                      <td className="whitespace-nowrap py-3.5 px-4 text-[#9CA3AF] tabular-nums">
                         <span className="text-white font-bold">{questionCount}</span> câu
                       </td>
 
@@ -621,9 +621,9 @@ export default function AdminDashboardPage() {
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4 text-[#9CA3AF]">
+                      <td className="whitespace-nowrap py-3.5 px-4 text-[#9CA3AF]">
                         <div className="flex flex-col gap-1 items-start">
-                          <span className="capitalize font-medium text-slate-300">
+                          <span className="capitalize font-medium text-slate-300 whitespace-nowrap">
                             {exam.question_type === "essay"
                               ? "Tự luận"
                               : exam.question_type === "mixed"
@@ -634,15 +634,15 @@ export default function AdminDashboardPage() {
                             type="button"
                             onClick={() => handleToggleSingleShuffle(exam.id)}
                             className={cn(
-                              "inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-0.5 rounded-full border transition cursor-pointer select-none",
+                              "inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full border transition cursor-pointer select-none whitespace-nowrap shrink-0",
                               exam.is_shuffled
                                 ? "bg-[#232836] text-white border-[#2A2F3C]"
                                 : "bg-[#10131B] text-[#9CA3AF] border-[#252A37] hover:text-white hover:border-white/30"
                             )}
                             title={exam.is_shuffled ? "Đề này đang bật đảo câu hỏi (bấm để tắt nhanh)" : "Đề này đang tắt đảo câu hỏi (bấm để bật nhanh)"}
                           >
-                            <Shuffle className="h-2.5 w-2.5 shrink-0" />
-                            <span>{exam.is_shuffled ? "Đảo câu: Bật" : "Cố định"}</span>
+                            <Shuffle className="h-3 w-3 shrink-0" />
+                            <span className="whitespace-nowrap">{exam.is_shuffled ? "Đảo câu: Bật" : "Cố định"}</span>
                           </button>
                         </div>
                       </td>
