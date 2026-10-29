@@ -245,9 +245,8 @@ export async function GET() {
   }
 
   const ai = new GoogleGenAI({ apiKey });
-  cachedWorkingModel = null;
-  const candidateModels = getCandidateGeminiModels();
-  const configuredModel = (process.env.GEMINI_MODEL || "").trim();
+  const candidateModels = getCandidateGeminiModels(cachedWorkingModel);
+  const configuredModel = (process.env.GEMINI_MODEL || "gemini-3.6-flash").trim();
 
   for (const modelName of candidateModels) {
     try {
@@ -271,7 +270,7 @@ export async function GET() {
           latencyMs,
           reply: res.text.trim(),
           message: isFallback
-            ? `Đã kết nối Google Gemini AI (${modelName} – tự động dự phòng do ${configuredModel} đang tạm thời quá tải trên Google)`
+            ? `Đã kết nối Google Gemini AI (${modelName} – tự động dự phòng do ${configuredModel} đang hết hạn mức 20 lượt/ngày hoặc tạm quá tải trên Google)`
             : `Đã kết nối Google Gemini AI (${modelName})`,
         });
       }
