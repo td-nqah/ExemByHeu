@@ -246,7 +246,7 @@ export async function GET() {
 
   const ai = new GoogleGenAI({ apiKey });
   const candidateModels = getCandidateGeminiModels(cachedWorkingModel);
-  const configuredModel = (process.env.GEMINI_MODEL || "gemini-3.6-flash").trim();
+  const configuredModel = (process.env.GEMINI_MODEL || "gemini-3.5-flash-lite").trim();
 
   for (const modelName of candidateModels) {
     try {
