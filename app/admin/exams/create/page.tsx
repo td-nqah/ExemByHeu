@@ -104,7 +104,7 @@ export default function ExamCreatePage() {
   const [parseNotice, setParseNotice] = useState("");
   const [aiStatusMessage, setAiStatusMessage] = useState("");
   const [aiConnected, setAiConnected] = useState<boolean | null>(null);
-  const [aiModel, setAiModel] = useState<string>("gemini-3.8-flash");
+  const [aiModel, setAiModel] = useState<string>("gemini-3.6-flash");
   const [aiLatencyMs, setAiLatencyMs] = useState<number | null>(null);
   const [isTestingAi, setIsTestingAi] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -127,7 +127,7 @@ export default function ExamCreatePage() {
       const connected = Boolean(data?.connected);
       setAiConnected(connected);
       if (connected) {
-        const model = data?.model || "gemini-3.8-flash";
+        const model = data?.model || "gemini-3.6-flash";
         const latency = data?.latencyMs !== undefined ? data.latencyMs : null;
         setAiModel(model);
         setAiLatencyMs(latency);
@@ -198,7 +198,7 @@ export default function ExamCreatePage() {
       }
       setParseNotice(
         result.mode === "ai"
-          ? `Đã bóc tách thông minh ${result.questions.length} câu hỏi từ "${file.name}" bằng Gemini AI (${result.model || aiModel || "gemini-3.8-flash"}${result.latencyMs ? ` - Thời gian phản hồi: ${result.latencyMs}ms` : ""}).`
+          ? `Đã bóc tách thông minh ${result.questions.length} câu hỏi từ "${file.name}" bằng Gemini AI (${result.model || aiModel || "gemini-3.6-flash"}${result.latencyMs ? ` - Thời gian phản hồi: ${result.latencyMs}ms` : ""}).`
           : `Đã bóc tách ${result.questions.length} câu hỏi từ "${file.name}" bằng Bộ phân tích dự phòng (Fallback Parser).`
       );
       syncInitialScoreInputs(result.questions);
@@ -240,7 +240,7 @@ export default function ExamCreatePage() {
       }
       setParseNotice(
         result.mode === "ai"
-          ? `Gemini AI đã phân tích và bóc tách thành công ${result.questions.length} câu hỏi (${result.model || aiModel || "gemini-3.8-flash"}${result.latencyMs ? ` - Thời gian phản hồi: ${result.latencyMs}ms` : ""}).`
+          ? `Gemini AI đã phân tích và bóc tách thành công ${result.questions.length} câu hỏi (${result.model || aiModel || "gemini-3.6-flash"}${result.latencyMs ? ` - Thời gian phản hồi: ${result.latencyMs}ms` : ""}).`
           : `Đã bóc tách thành công ${result.questions.length} câu hỏi từ văn bản bằng Bộ phân tích Regex dự phòng.`
       );
       syncInitialScoreInputs(result.questions);

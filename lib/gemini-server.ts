@@ -43,19 +43,26 @@ export async function getServerGeminiApiKey(): Promise<string> {
 }
 
 export function getCandidateGeminiModels(cachedModel?: string | null): string[] {
-  const configuredModel = (process.env.GEMINI_MODEL || cachedConfiguredModel || "").trim();
+  const configuredModel = (process.env.GEMINI_MODEL || cachedConfiguredModel || "gemini-3.6-flash").trim();
   return Array.from(
     new Set(
       [
+        // 1. Ưu tiên số 1: Model cấu hình (luôn ưu tiên gemini-3.6-flash)
         configuredModel,
-        cachedModel,
+        "gemini-3.6-flash",
+
+        // 2. Dự phòng tầng 1: Các model Flash khác khi 3.6 bị lỗi/hết quota
         "gemini-3.8-flash",
         "gemini-flash-latest",
+        "gemini-3.5-flash",
         "gemini-3.7-flash",
-        "gemini-3.6-flash",
-        "gemini-3.5-flash-lite",
+
+        // 3. Dự phòng tầng 2: Dòng Flash-Lite siêu nhẹ, hạn mức TPM/RPM riêng
         "gemini-flash-lite-latest",
+        "gemini-3.5-flash-lite",
         "gemini-3.1-flash-lite",
+
+        cachedModel,
       ].filter((m): m is string => Boolean(m))
     )
   );
