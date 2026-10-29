@@ -245,7 +245,9 @@ export async function GET() {
   }
 
   const ai = new GoogleGenAI({ apiKey });
-  const candidateModels = getCandidateGeminiModels(cachedWorkingModel);
+  cachedWorkingModel = null;
+  const candidateModels = getCandidateGeminiModels();
+  const configuredModel = (process.env.GEMINI_MODEL || "").trim();
 
   for (const modelName of candidateModels) {
     try {
@@ -260,12 +262,17 @@ export async function GET() {
       const latencyMs = Date.now() - start;
       if (res.text) {
         cachedWorkingModel = modelName;
+        const isFallback = Boolean(configuredModel && configuredModel !== modelName);
         return NextResponse.json({
           connected: true,
           model: modelName,
+          configuredModel: configuredModel || modelName,
+          isFallback,
           latencyMs,
           reply: res.text.trim(),
-          message: "Đã kết nối Google Gemini AI",
+          message: isFallback
+            ? `Đã kết nối Google Gemini AI (${modelName} – tự động dự phòng do ${configuredModel} đang tạm thời quá tải trên Google)`
+            : `Đã kết nối Google Gemini AI (${modelName})`,
         });
       }
     } catch {

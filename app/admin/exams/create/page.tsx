@@ -132,7 +132,9 @@ export default function ExamCreatePage() {
         setAiModel(model);
         setAiLatencyMs(latency);
         setAiStatusMessage(
-          `Đã kết nối Google Gemini AI (${model})${latency !== null ? ` - Thời gian phản hồi: ${latency}ms` : ""}`
+          data?.message
+            ? `${data.message}${latency !== null && !data.message.includes("Thời gian") ? ` – Thời gian phản hồi: ${latency}ms` : ""}`
+            : `Đã kết nối Google Gemini AI (${model})${latency !== null ? ` – Thời gian phản hồi: ${latency}ms` : ""}`
         );
       } else {
         setAiModel("");
@@ -621,24 +623,7 @@ export default function ExamCreatePage() {
           >
             <div className="flex flex-wrap items-center gap-2">
               <Sparkles className="h-3.5 w-3.5 shrink-0" />
-              <span>
-                {aiConnected ? (
-                  <>
-                    <span>Đã kết nối Google Gemini AI</span>{" "}
-                    <span className="font-semibold text-emerald-200">
-                      ({aiModel || "gemini-3.8-flash"})
-                    </span>
-                    {aiLatencyMs !== null && (
-                      <span className="text-emerald-300/80">
-                        {" "}– Thời gian phản hồi:{" "}
-                        <strong className="font-mono text-emerald-100">{aiLatencyMs}ms</strong>
-                      </span>
-                    )}
-                  </>
-                ) : (
-                  aiStatusMessage
-                )}
-              </span>
+              <span>{aiStatusMessage}</span>
             </div>
             <span className="font-semibold shrink-0">
               {aiConnected ? "SẴN SÀNG" : "CHẾ ĐỘ DỰ PHÒNG"}
