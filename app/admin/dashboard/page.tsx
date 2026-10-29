@@ -565,7 +565,7 @@ export default function AdminDashboardPage() {
                 "overflow-x-auto custom-scrollbar transition-all duration-300 rounded-b-3xl",
                 isTableExpanded
                   ? "max-h-none overflow-y-visible"
-                  : "max-h-[735px] overflow-y-auto"
+                  : "max-h-[936px] overflow-y-auto"
               )}
             >
               <table className="w-full text-left text-xs">
