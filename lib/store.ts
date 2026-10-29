@@ -1144,6 +1144,71 @@ export async function assignExamCategory(
   return null;
 }
 
+export async function assignMultipleExamsCategory(
+  examIds: string[],
+  categoryId: string,
+  categorySlug: string
+): Promise<Exam[]> {
+  initStore();
+  if (!examIds || examIds.length === 0) return [];
+  const idSet = new Set(examIds);
+
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const updatedList: Exam[] = [];
+
+  const updatedExams = exams.map((exam) => {
+    if (!idSet.has(exam.id)) return exam;
+
+    const meta = {
+      category_id: categoryId,
+      category_slug: categorySlug,
+      question_count: exam.question_count || exam.questions?.length || 40,
+      question_type: exam.question_type || "multiple_choice",
+      expires_at: exam.expires_at || null,
+    };
+    const cleanDesc = (exam.description || "").replace(/^<!--meta:[\s\S]*?-->\n?/, "");
+    const updated: Exam = {
+      ...exam,
+      category_id: categoryId,
+      category_slug: categorySlug,
+      description: cleanDesc,
+    };
+    updatedList.push(updated);
+    return updated;
+  });
+
+  setLocal(KEY_EXAMS, updatedExams);
+  invalidateExamCache();
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      for (const id of examIds) {
+        const target = updatedExams.find((e) => e.id === id);
+        if (target) {
+          const meta = {
+            category_id: categoryId,
+            category_slug: categorySlug,
+            question_count: target.question_count || 40,
+            question_type: target.question_type || "multiple_choice",
+            expires_at: target.expires_at || null,
+          };
+          const descWithMeta = `<!--meta:${JSON.stringify(meta)}-->\n${target.description || ""}`.trim();
+          await supabase
+            .from("exams")
+            .update({
+              description: descWithMeta,
+            })
+            .eq("id", id);
+        }
+      }
+    } catch (err) {
+      console.warn("assignMultipleExamsCategory Supabase error:", err);
+    }
+  }
+
+  return updatedList;
+}
+
 export async function updateExam(
   examId: string,
   examData: {
@@ -1575,6 +1640,46 @@ export async function deleteExam(id: string): Promise<boolean> {
       await supabase.from("questions").delete().eq("exam_id", id);
       await supabase.from("exams").delete().eq("id", id);
     } catch {}
+  }
+
+  return true;
+}
+
+export async function deleteMultipleExams(ids: string[]): Promise<boolean> {
+  initStore();
+  if (!ids || ids.length === 0) return true;
+  const idSet = new Set(ids);
+
+  const exams = getLocal<Exam[]>(KEY_EXAMS, SEED_EXAMS);
+  const questions = getLocal<Question[]>(KEY_QUESTIONS, SEED_QUESTIONS);
+  const submissions = getLocal<Submission[]>(KEY_SUBMISSIONS, SEED_SUBMISSIONS);
+  const answers = getLocal<SubmissionAnswer[]>(KEY_SUBMISSION_ANSWERS, SEED_SUBMISSION_ANSWERS);
+
+  const removedSubIds = new Set(
+    submissions.filter((s) => idSet.has(s.exam_id)).map((s) => s.id)
+  );
+  const removedQuestionIds = new Set(
+    questions.filter((q) => idSet.has(q.exam_id)).map((q) => q.id)
+  );
+
+  setLocal(KEY_EXAMS, exams.filter((e) => !idSet.has(e.id)));
+  setLocal(KEY_QUESTIONS, questions.filter((q) => !idSet.has(q.exam_id)));
+  setLocal(KEY_SUBMISSIONS, submissions.filter((s) => !idSet.has(s.exam_id)));
+  setLocal(
+    KEY_SUBMISSION_ANSWERS,
+    answers.filter(
+      (a) => !removedSubIds.has(a.submission_id) && !removedQuestionIds.has(a.question_id)
+    )
+  );
+  invalidateExamCache();
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from("questions").delete().in("exam_id", ids);
+      await supabase.from("exams").delete().in("id", ids);
+    } catch (err) {
+      console.warn("deleteMultipleExams Supabase error:", err);
+    }
   }
 
   return true;

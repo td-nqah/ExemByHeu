@@ -10,10 +10,12 @@ import {
   toggleAllExamsShuffle,
   toggleSingleExamShuffle,
   deleteExam,
+  deleteMultipleExams,
   getCurrentUser,
   getCategories,
   createExam,
   assignExamCategory,
+  assignMultipleExamsCategory,
   sortExamsAscending,
 } from "@/lib/store";
 import { Exam, Category } from "@/types/exam";
@@ -27,7 +29,9 @@ import {
   X,
   Pencil,
   FolderPlus,
+  FolderInput,
   CheckCircle2,
+  Check,
   Shuffle,
   LockOpen,
   Lock,
@@ -59,6 +63,14 @@ export default function AdminDashboardPage() {
   const [isCreatingQuick, setIsCreatingQuick] = useState(false);
   const [showAdvancedQuick, setShowAdvancedQuick] = useState(false);
 
+  // Batch Selection States & Modals
+  const [selectedExamIds, setSelectedExamIds] = useState<Set<string>>(new Set());
+  const [isBatchMoveModalOpen, setIsBatchMoveModalOpen] = useState(false);
+  const [batchTargetCategoryId, setBatchTargetCategoryId] = useState("");
+  const [isMovingBatch, setIsMovingBatch] = useState(false);
+  const [isBatchDeleteModalOpen, setIsBatchDeleteModalOpen] = useState(false);
+  const [isBatchDeleting, setIsBatchDeleting] = useState(false);
+
   const [searchKeyword, setSearchKeyword] = useState("");
 
   // Sorted exams in ascending order (Đề 1 -> Đề 5), filtered by searchKeyword
@@ -75,6 +87,83 @@ export default function AdminDashboardPage() {
     }
     return list;
   }, [exams, searchKeyword]);
+
+  // Batch Selection Computed & Handlers
+  const allSelected = useMemo(() => {
+    return (
+      sortedExams.length > 0 &&
+      sortedExams.every((e) => selectedExamIds.has(e.id))
+    );
+  }, [sortedExams, selectedExamIds]);
+
+  const someSelected = useMemo(() => {
+    return (
+      !allSelected &&
+      sortedExams.some((e) => selectedExamIds.has(e.id))
+    );
+  }, [allSelected, sortedExams, selectedExamIds]);
+
+  const handleSelectAll = () => {
+    if (allSelected) {
+      setSelectedExamIds(new Set());
+    } else {
+      setSelectedExamIds(new Set(sortedExams.map((e) => e.id)));
+    }
+  };
+
+  const handleToggleSelect = (id: string) => {
+    setSelectedExamIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const handleConfirmBatchMove = async () => {
+    if (!batchTargetCategoryId || selectedExamIds.size === 0) return;
+    setIsMovingBatch(true);
+    try {
+      const targetCat = categories.find((c) => c.id === batchTargetCategoryId);
+      const targetSlug = targetCat?.slug || "general";
+      await assignMultipleExamsCategory(
+        Array.from(selectedExamIds),
+        batchTargetCategoryId,
+        targetSlug
+      );
+      setExams((prev) =>
+        prev.map((e) =>
+          selectedExamIds.has(e.id)
+            ? { ...e, category_id: batchTargetCategoryId, category_slug: targetSlug }
+            : e
+        )
+      );
+      setSelectedExamIds(new Set());
+      setIsBatchMoveModalOpen(false);
+    } catch (err) {
+      console.error("Batch move error:", err);
+      alert("Lỗi khi chuyển danh mục đề thi!");
+    } finally {
+      setIsMovingBatch(false);
+    }
+  };
+
+  const handleConfirmBatchDelete = async () => {
+    if (selectedExamIds.size === 0) return;
+    setIsBatchDeleting(true);
+    try {
+      const ids = Array.from(selectedExamIds);
+      await deleteMultipleExams(ids);
+      setExams((prev) => prev.filter((e) => !selectedExamIds.has(e.id)));
+      setSelectedExamIds(new Set());
+      setIsBatchDeleteModalOpen(false);
+    } catch (err) {
+      console.error("Batch delete error:", err);
+      alert("Lỗi khi xóa danh sách đề thi!");
+    } finally {
+      setIsBatchDeleting(false);
+    }
+  };
 
   // Shuffle Exam States & Handlers
   const [isTogglingGlobalShuffle, setIsTogglingGlobalShuffle] = useState(false);
@@ -370,39 +459,133 @@ export default function AdminDashboardPage() {
             </button>
           </div>
         ) : (
-          <div className="max-h-[560px] overflow-y-auto overflow-x-auto custom-scrollbar">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-[#10131B] text-[#8B93A5] font-heading uppercase tracking-wide text-xs font-bold border-b border-[#252A37] sticky top-0 z-10 backdrop-blur-md">
-                <tr>
-                  <th className="py-3.5 px-4 font-bold">TÊN ĐỀ THI</th>
-                  <th className="py-3.5 px-4 font-bold">DANH MỤC</th>
-                  <th className="py-3.5 px-4 font-bold">THỜI LƯỢNG</th>
-                  <th className="py-3.5 px-4 font-bold">SỐ CÂU HỎI</th>
-                  <th className="py-3.5 px-4 font-bold">DẠNG ĐỀ</th>
-                  <th className="py-3.5 px-4 font-bold">TRẠNG THÁI</th>
-                  <th className="py-3.5 px-4 text-right font-bold">THAO TÁC</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#252A37]">
-                {sortedExams.map((exam, idx) => {
-                  const isPublished = exam.status === "published";
-                  const questionCount =
-                    exam.question_count || exam.questions?.length || 0;
-                  const catSlug = exam.category_slug || (exam.title.toLowerCase().includes("cnxh") ? "cnxh" : "Khác");
-                  const catName =
-                    categories.find((c) => c.slug === catSlug)?.name ||
-                    (catSlug === "cnxh" ? "Chủ nghĩa xã hội (CNXH)" : catSlug);
+          <div>
+            <AnimatePresence>
+              {selectedExamIds.size > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/20 bg-[#161A24] px-4 py-2.5 shadow-lg backdrop-blur-md"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-xs font-bold text-black">
+                      {selectedExamIds.size}
+                    </span>
+                    <span className="text-xs font-semibold text-white">
+                      Đã chọn {selectedExamIds.size} đề thi
+                    </span>
+                  </div>
 
-                  return (
-                    <tr
-                      key={exam.id}
-                      className={cn(
-                        "transition-colors",
-                        idx % 2 === 0 ? "bg-[#141824]" : "bg-[#161A24]",
-                        "hover:bg-[#191E2B]"
-                      )}
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (categories.length > 0) {
+                          setBatchTargetCategoryId(categories[0].id);
+                        }
+                        setIsBatchMoveModalOpen(true);
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-[#252A37] hover:border-white/50 hover:bg-[#1f2433] px-3.5 py-1.5 text-xs font-medium text-slate-200 hover:text-white transition cursor-pointer"
                     >
-                      <td className="max-w-xs truncate py-3.5 px-4 font-bold text-white transition-colors">
+                      <FolderInput className="h-3.5 w-3.5 text-sky-400" />
+                      <span>Chuyển danh mục</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setIsBatchDeleteModalOpen(true)}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-[#10131B] border border-rose-500/30 hover:border-rose-500 hover:bg-rose-500/20 px-3.5 py-1.5 text-xs font-medium text-rose-300 hover:text-rose-200 transition cursor-pointer"
+                    >
+                      <Trash2 className="h-3.5 w-3.5 text-rose-400" />
+                      <span>Xóa ({selectedExamIds.size})</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedExamIds(new Set())}
+                      className="rounded-full px-2.5 py-1 text-xs text-[#9CA3AF] hover:text-white transition cursor-pointer"
+                    >
+                      Bỏ chọn
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="max-h-[560px] overflow-y-auto overflow-x-auto custom-scrollbar">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-[#10131B] text-[#8B93A5] font-heading uppercase tracking-wide text-xs font-bold border-b border-[#252A37] sticky top-0 z-10 backdrop-blur-md">
+                  <tr>
+                    <th className="py-3.5 pl-4 pr-1 w-10 text-center font-bold">
+                      <button
+                        type="button"
+                        onClick={handleSelectAll}
+                        className={cn(
+                          "flex h-4 w-4 items-center justify-center rounded border transition cursor-pointer mx-auto",
+                          allSelected
+                            ? "bg-white text-black border-white"
+                            : someSelected
+                            ? "bg-white/30 border-white text-white"
+                            : "border-[#3A4150] bg-[#10131B] hover:border-white/50"
+                        )}
+                        title={allSelected ? "Bỏ chọn tất cả" : "Chọn tất cả đề thi"}
+                      >
+                        {allSelected ? (
+                          <Check className="h-3 w-3 stroke-[3]" />
+                        ) : someSelected ? (
+                          <span className="block h-1.5 w-1.5 rounded-xs bg-white" />
+                        ) : null}
+                      </button>
+                    </th>
+                    <th className="py-3.5 px-4 font-bold">TÊN ĐỀ THI</th>
+                    <th className="py-3.5 px-4 font-bold">DANH MỤC</th>
+                    <th className="py-3.5 px-4 font-bold">THỜI LƯỢNG</th>
+                    <th className="py-3.5 px-4 font-bold">SỐ CÂU HỎI</th>
+                    <th className="py-3.5 px-4 font-bold">DẠNG ĐỀ</th>
+                    <th className="py-3.5 px-4 font-bold">TRẠNG THÁI</th>
+                    <th className="py-3.5 px-4 text-right font-bold">THAO TÁC</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#252A37]">
+                  {sortedExams.map((exam, idx) => {
+                    const isPublished = exam.status === "published";
+                    const questionCount =
+                      exam.question_count || exam.questions?.length || 0;
+                    const catSlug = exam.category_slug || (exam.title.toLowerCase().includes("cnxh") ? "cnxh" : "Khác");
+                    const catName =
+                      categories.find((c) => c.slug === catSlug)?.name ||
+                      (catSlug === "cnxh" ? "Chủ nghĩa xã hội (CNXH)" : catSlug);
+                    const isSelected = selectedExamIds.has(exam.id);
+
+                    return (
+                      <tr
+                        key={exam.id}
+                        className={cn(
+                          "transition-colors",
+                          isSelected
+                            ? "bg-white/[0.08] hover:bg-white/[0.11]"
+                            : idx % 2 === 0
+                            ? "bg-[#141824] hover:bg-[#191E2B]"
+                            : "bg-[#161A24] hover:bg-[#191E2B]"
+                        )}
+                      >
+                        <td className="py-3.5 pl-4 pr-1 text-center" onClick={(e) => e.stopPropagation()}>
+                          <button
+                            type="button"
+                            onClick={() => handleToggleSelect(exam.id)}
+                            className={cn(
+                              "flex h-4 w-4 items-center justify-center rounded border transition cursor-pointer mx-auto",
+                              isSelected
+                                ? "bg-white text-black border-white"
+                                : "border-[#3A4150] bg-[#10131B] hover:border-white/50"
+                            )}
+                            title={isSelected ? "Bỏ chọn đề này" : "Chọn đề này"}
+                          >
+                            {isSelected && <Check className="h-3 w-3 stroke-[3]" />}
+                          </button>
+                        </td>
+                        <td className="max-w-xs truncate py-3.5 px-4 font-bold text-white transition-colors">
                         {exam.title}
                       </td>
 
@@ -507,7 +690,8 @@ export default function AdminDashboardPage() {
               </tbody>
             </table>
           </div>
-        )}
+        </div>
+      )}
       </motion.div>
 
       {/* 3. Modal: Quick Exam Creation assigned to Category */}
@@ -775,6 +959,171 @@ export default function AdminDashboardPage() {
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                   <span>{isDeleting ? "Đang xóa..." : "Xác nhận xóa"}</span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 5. Batch Move Category Modal */}
+      <AnimatePresence>
+        {isBatchMoveModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-full max-w-lg rounded-3xl bg-[#161A24] border border-[#252A37] p-6 sm:p-7 shadow-2xl relative"
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-[#252A37]">
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <FolderInput className="h-4.5 w-4.5 text-sky-400 shrink-0" />
+                  <span>Chuyển danh mục ({selectedExamIds.size} đề thi)</span>
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setIsBatchMoveModalOpen(false)}
+                  className="p-1.5 rounded-full text-[#9CA3AF] hover:text-white hover:bg-[#10131B] transition cursor-pointer"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="space-y-4 pt-4">
+                <div className="rounded-2xl border border-[#252A37] bg-[#10131B] p-3.5 max-h-36 overflow-y-auto custom-scrollbar">
+                  <p className="text-[11px] font-semibold text-[#8B93A5] uppercase tracking-wider mb-2">
+                    Các đề thi được chọn ({selectedExamIds.size}):
+                  </p>
+                  <ul className="space-y-1 text-xs text-slate-300">
+                    {exams
+                      .filter((e) => selectedExamIds.has(e.id))
+                      .map((e) => (
+                        <li key={e.id} className="truncate flex items-center gap-1.5">
+                          <span className="h-1 w-1 rounded-full bg-sky-400 shrink-0" />
+                          <span className="truncate">{e.title}</span>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    Chọn danh mục đích mới
+                  </label>
+                  <PopoverSelect
+                    value={batchTargetCategoryId}
+                    onChange={(val) => setBatchTargetCategoryId(val)}
+                    placeholder="-- Chọn danh mục đích --"
+                    options={categories.map((c) => ({
+                      value: c.id,
+                      label: `${c.name} (${c.slug})`,
+                    }))}
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#252A37]">
+                  <button
+                    type="button"
+                    onClick={() => setIsBatchMoveModalOpen(false)}
+                    disabled={isMovingBatch}
+                    className="rounded-full bg-[#10131B] border border-[#252A37] px-5 py-2 text-xs font-semibold text-[#9CA3AF] transition hover:bg-[#161A24] hover:text-white cursor-pointer"
+                  >
+                    Hủy bỏ
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleConfirmBatchMove}
+                    disabled={isMovingBatch || !batchTargetCategoryId}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-white px-6 py-2 text-xs font-bold text-black shadow-lg hover:bg-slate-200 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+                  >
+                    <FolderInput className="h-3.5 w-3.5" />
+                    <span>
+                      {isMovingBatch
+                        ? "Đang chuyển..."
+                        : `Xác nhận chuyển (${selectedExamIds.size} đề)`}
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 6. Batch Delete Confirmation Modal */}
+      <AnimatePresence>
+        {isBatchDeleteModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-full max-w-md rounded-3xl bg-[#161A24] border border-[#252A37] p-6 shadow-2xl relative"
+            >
+              <button
+                type="button"
+                onClick={() => setIsBatchDeleteModalOpen(false)}
+                className="absolute right-4 top-4 rounded-full p-1.5 text-[#9CA3AF] hover:bg-[#10131B] hover:text-white cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
+
+              <div className="mb-4 flex items-center gap-3.5">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-rose-500/30 bg-[#10131B] text-rose-400">
+                  <AlertTriangle className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">
+                    Xác nhận xóa {selectedExamIds.size} đề thi
+                  </h3>
+                  <p className="text-xs text-[#9CA3AF]">
+                    Thao tác này sẽ xóa vĩnh viễn và không thể hoàn tác.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mb-4 rounded-2xl border border-[#252A37] bg-[#10131B] p-3.5 max-h-40 overflow-y-auto custom-scrollbar">
+                <p className="text-[11px] font-semibold text-rose-400 uppercase tracking-wider mb-2">
+                  Danh sách {selectedExamIds.size} đề thi sẽ bị xóa:
+                </p>
+                <ul className="space-y-1 text-xs text-slate-300">
+                  {exams
+                    .filter((e) => selectedExamIds.has(e.id))
+                    .map((e) => (
+                      <li key={e.id} className="truncate flex items-center gap-1.5">
+                        <span className="h-1 w-1 rounded-full bg-rose-400 shrink-0" />
+                        <span className="truncate">{e.title}</span>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+
+              <div className="mb-5 text-xs leading-relaxed text-[#9CA3AF]">
+                Toàn bộ câu hỏi, phương án và lịch sử bài nộp liên quan đến các đề thi này cũng sẽ được xóa sạch khỏi hệ thống.
+              </div>
+
+              <div className="flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsBatchDeleteModalOpen(false)}
+                  disabled={isBatchDeleting}
+                  className="rounded-full bg-[#10131B] border border-[#252A37] px-5 py-2 text-xs font-semibold text-[#9CA3AF] transition hover:bg-[#161A24] hover:text-white cursor-pointer"
+                >
+                  Hủy bỏ
+                </button>
+                <button
+                  type="button"
+                  onClick={handleConfirmBatchDelete}
+                  disabled={isBatchDeleting}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-6 py-2 text-xs font-bold text-white shadow-lg shadow-rose-600/20 transition hover:bg-rose-500 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  <span>
+                    {isBatchDeleting
+                      ? "Đang xóa..."
+                      : `Xóa vĩnh viễn (${selectedExamIds.size} đề)`}
+                  </span>
                 </button>
               </div>
             </motion.div>
