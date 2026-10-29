@@ -634,9 +634,20 @@ function parseExamRecord(
   let category_slug = rawExam.category_slug;
   let question_count = rawExam.question_count || rawExam.questions?.length;
   let question_type = rawExam.question_type;
+  let total_points = rawExam.total_points;
   let expires_at = rawExam.expires_at;
   let is_shuffled = rawExam.is_shuffled === true;
   let cleanDescription = rawExam.description || "";
+
+  if (Array.isArray(rawExam.questions) && rawExam.questions.length > 0) {
+    const sum = rawExam.questions.reduce(
+      (acc: number, q: any) => acc + (Number(q.max_score) || 0),
+      0
+    );
+    if (sum > 0) {
+      total_points = Math.round(sum * 100) / 100;
+    }
+  }
 
   // Robust meta extraction from description
   const metaMatch = cleanDescription.match(/^[\s\r\n]*<!--meta:([\s\S]*?)-->/);
@@ -647,6 +658,7 @@ function parseExamRecord(
       category_slug = category_slug || meta.category_slug;
       question_count = question_count || meta.question_count;
       question_type = question_type || meta.question_type;
+      total_points = total_points || meta.total_points;
       expires_at = expires_at || meta.expires_at;
       if (meta.is_shuffled !== undefined) {
         is_shuffled = Boolean(meta.is_shuffled);
@@ -697,6 +709,10 @@ function parseExamRecord(
     question_type = hasMcq && hasEssay ? "mixed" : hasEssay ? "essay" : "multiple_choice";
   }
 
+  if (!total_points && (question_count || 0) > 0) {
+    total_points = 10;
+  }
+
   return {
     ...rawExam,
     description: cleanDescription,
@@ -704,6 +720,7 @@ function parseExamRecord(
     category_slug: category_slug || "cnxh",
     question_count: question_count || rawExam.questions?.length || 0,
     question_type: question_type || "multiple_choice",
+    total_points: total_points || 10,
     expires_at: expires_at || null,
     is_shuffled,
     recent_submissions: recentSubs ?? rawExam.recent_submissions,

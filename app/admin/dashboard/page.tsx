@@ -542,6 +542,7 @@ export default function AdminDashboardPage() {
                     <th className="py-3.5 px-4 font-bold">DANH MỤC</th>
                     <th className="py-3.5 px-4 font-bold">THỜI LƯỢNG</th>
                     <th className="py-3.5 px-4 font-bold">SỐ CÂU HỎI</th>
+                    <th className="py-3.5 px-4 font-bold">THANG ĐIỂM</th>
                     <th className="py-3.5 px-4 font-bold">DẠNG ĐỀ</th>
                     <th className="py-3.5 px-4 font-bold">TRẠNG THÁI</th>
                     <th className="py-3.5 px-4 text-right font-bold">THAO TÁC</th>
@@ -552,6 +553,16 @@ export default function AdminDashboardPage() {
                     const isPublished = exam.status === "published";
                     const questionCount =
                       exam.question_count || exam.questions?.length || 0;
+                    const totalPoints =
+                      exam.total_points ??
+                      (exam.questions && exam.questions.length > 0
+                        ? Math.round(
+                            exam.questions.reduce(
+                              (s, q) => s + (Number(q.max_score) || 0),
+                              0
+                            ) * 100
+                          ) / 100
+                        : 10);
                     const catSlug = exam.category_slug || (exam.title.toLowerCase().includes("cnxh") ? "cnxh" : "Khác");
                     const catName =
                       categories.find((c) => c.slug === catSlug)?.name ||
@@ -601,6 +612,13 @@ export default function AdminDashboardPage() {
 
                       <td className="py-3.5 px-4 text-[#9CA3AF] tabular-nums">
                         <span className="text-white font-bold">{questionCount}</span> câu
+                      </td>
+
+                      <td className="whitespace-nowrap py-3.5 px-4 text-[#9CA3AF] tabular-nums">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[#10131B] border border-[#252A37] px-2.5 py-0.5 text-xs font-semibold text-white">
+                          <span className="font-bold text-white">{totalPoints}</span>
+                          <span className="text-[10px] text-[#8B93A5]">điểm</span>
+                        </span>
                       </td>
 
                       <td className="py-3.5 px-4 text-[#9CA3AF]">

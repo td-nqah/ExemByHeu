@@ -66,6 +66,7 @@ export interface Exam {
   category_slug?: string;
   question_count?: number;
   question_type?: "multiple_choice" | "essay" | "mixed";
+  total_points?: number;
   expires_at?: string | null;
   created_by: string;
   status: ExamStatus;
