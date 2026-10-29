@@ -36,6 +36,8 @@ import {
   LockOpen,
   Lock,
   Search,
+  Maximize2,
+  Minimize2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
@@ -72,6 +74,26 @@ export default function AdminDashboardPage() {
   const [isBatchDeleting, setIsBatchDeleting] = useState(false);
 
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [isTableExpanded, setIsTableExpanded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("admin_exams_table_expanded");
+      if (saved === "true") {
+        setIsTableExpanded(true);
+      }
+    } catch {}
+  }, []);
+
+  const toggleTableExpanded = () => {
+    setIsTableExpanded((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("admin_exams_table_expanded", String(next));
+      } catch {}
+      return next;
+    });
+  };
 
   // Sorted exams in ascending order (Đề 1 -> Đề 5), filtered by searchKeyword
   const sortedExams = useMemo(() => {
@@ -405,6 +427,31 @@ export default function AdminDashboardPage() {
               </button>
             </div>
 
+            {/* Nút Mở rộng / Thu gọn độ dài bảng */}
+            <button
+              type="button"
+              onClick={toggleTableExpanded}
+              className={cn(
+                "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold select-none transition-colors cursor-pointer",
+                isTableExpanded
+                  ? "bg-white text-[#05070D] border-white shadow-sm"
+                  : "bg-[#10131B] border-[#252A37] text-slate-200 hover:text-white hover:border-white/30"
+              )}
+              title={isTableExpanded ? "Thu gọn độ dài bảng vừa màn hình" : "Mở rộng bảng dài xuống phía dưới để xem toàn bộ đề"}
+            >
+              {isTableExpanded ? (
+                <>
+                  <Minimize2 className="h-4 w-4 shrink-0" />
+                  <span>Thu gọn bảng</span>
+                </>
+              ) : (
+                <>
+                  <Maximize2 className="h-4 w-4 shrink-0" />
+                  <span>Mở rộng dài bảng</span>
+                </>
+              )}
+            </button>
+
             <button
               onClick={() => {
                 setQuickTitle("");
@@ -513,7 +560,14 @@ export default function AdminDashboardPage() {
               )}
             </AnimatePresence>
 
-            <div className="max-h-[560px] overflow-y-auto overflow-x-auto custom-scrollbar">
+            <div
+              className={cn(
+                "overflow-x-auto custom-scrollbar transition-all duration-300",
+                isTableExpanded
+                  ? "max-h-none overflow-y-visible"
+                  : "max-h-[calc(100vh-215px)] min-h-[580px] sm:min-h-[640px] 2xl:max-h-[calc(100vh-190px)] overflow-y-auto"
+              )}
+            >
               <table className="w-full text-left text-xs">
                 <thead className="bg-[#10131B] text-[#8B93A5] font-heading uppercase tracking-wide text-xs font-bold border-b border-[#252A37] sticky top-0 z-10 backdrop-blur-md">
                   <tr>
@@ -707,6 +761,36 @@ export default function AdminDashboardPage() {
                 })}
               </tbody>
             </table>
+          </div>
+
+          {/* Table Footer Summary & Quick Length Toggle */}
+          <div className="border-t border-[#252A37] bg-[#10131B]/80 px-5 py-3 flex flex-wrap items-center justify-between gap-3 text-xs text-[#9CA3AF]">
+            <div className="flex items-center gap-2">
+              <span>
+                Hiển thị <strong className="text-white font-bold tabular-nums">{sortedExams.length}</strong> đề thi
+              </span>
+              {searchKeyword && (
+                <span className="text-[#8B93A5]">• Khớp với &ldquo;{searchKeyword}&rdquo;</span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={toggleTableExpanded}
+              className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white transition-colors cursor-pointer select-none"
+            >
+              {isTableExpanded ? (
+                <>
+                  <Minimize2 className="h-3.5 w-3.5 text-slate-400" />
+                  <span>Thu gọn độ dài bảng</span>
+                </>
+              ) : (
+                <>
+                  <Maximize2 className="h-3.5 w-3.5 text-slate-400" />
+                  <span>Mở rộng dài hết cỡ (Xem toàn bộ {sortedExams.length} đề)</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       )}
