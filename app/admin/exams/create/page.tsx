@@ -104,6 +104,8 @@ export default function ExamCreatePage() {
   const [parseNotice, setParseNotice] = useState("");
   const [aiStatusMessage, setAiStatusMessage] = useState("");
   const [aiConnected, setAiConnected] = useState<boolean | null>(null);
+  const [aiModel, setAiModel] = useState<string>("gemini-3.8-flash");
+  const [aiLatencyMs, setAiLatencyMs] = useState<number | null>(null);
   const [isTestingAi, setIsTestingAi] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -122,15 +124,27 @@ export default function ExamCreatePage() {
     try {
       const res = await fetch("/api/ai/parse-exam", { method: "GET" });
       const data = await res.json();
-      setAiConnected(Boolean(data?.connected));
-      setAiStatusMessage(
-        data?.message ||
-          (data?.connected
-            ? "Đã kết nối Google Gemini AI"
-            : "Chưa kết nối được Gemini AI (Đang dùng Fallback Regex).")
-      );
+      const connected = Boolean(data?.connected);
+      setAiConnected(connected);
+      if (connected) {
+        const model = data?.model || "gemini-3.8-flash";
+        const latency = data?.latencyMs !== undefined ? data.latencyMs : null;
+        setAiModel(model);
+        setAiLatencyMs(latency);
+        setAiStatusMessage(
+          `Đã kết nối Google Gemini AI (${model})${latency !== null ? ` - Thời gian phản hồi: ${latency}ms` : ""}`
+        );
+      } else {
+        setAiModel("");
+        setAiLatencyMs(null);
+        setAiStatusMessage(
+          data?.message || "Chưa kết nối được Gemini AI (Đang dùng Fallback Regex)."
+        );
+      }
     } catch {
       setAiConnected(false);
+      setAiModel("");
+      setAiLatencyMs(null);
       setAiStatusMessage("Không thể kiểm tra kết nối AI lúc này.");
     } finally {
       setIsTestingAi(false);
@@ -176,9 +190,13 @@ export default function ExamCreatePage() {
       }
       setQuestions(result.questions);
       setParseMode(result.mode);
+      if (result.mode === "ai") {
+        if (result.model) setAiModel(result.model);
+        if (result.latencyMs !== undefined) setAiLatencyMs(result.latencyMs);
+      }
       setParseNotice(
         result.mode === "ai"
-          ? `Đã bóc tách thông minh ${result.questions.length} câu hỏi từ "${file.name}" bằng Gemini AI.`
+          ? `Đã bóc tách thông minh ${result.questions.length} câu hỏi từ "${file.name}" bằng Gemini AI (${result.model || aiModel || "gemini-3.8-flash"}${result.latencyMs ? ` - Thời gian phản hồi: ${result.latencyMs}ms` : ""}).`
           : `Đã bóc tách ${result.questions.length} câu hỏi từ "${file.name}" bằng Bộ phân tích dự phòng (Fallback Parser).`
       );
       syncInitialScoreInputs(result.questions);
@@ -214,9 +232,13 @@ export default function ExamCreatePage() {
 
       setQuestions(result.questions);
       setParseMode(result.mode);
+      if (result.mode === "ai") {
+        if (result.model) setAiModel(result.model);
+        if (result.latencyMs !== undefined) setAiLatencyMs(result.latencyMs);
+      }
       setParseNotice(
         result.mode === "ai"
-          ? `Gemini AI đã phân tích và bóc tách thành công ${result.questions.length} câu hỏi từ văn bản Clipboard.`
+          ? `Gemini AI đã phân tích và bóc tách thành công ${result.questions.length} câu hỏi (${result.model || aiModel || "gemini-3.8-flash"}${result.latencyMs ? ` - Thời gian phản hồi: ${result.latencyMs}ms` : ""}).`
           : `Đã bóc tách thành công ${result.questions.length} câu hỏi từ văn bản bằng Bộ phân tích Regex dự phòng.`
       );
       syncInitialScoreInputs(result.questions);
@@ -597,11 +619,28 @@ export default function ExamCreatePage() {
                 : "border-amber-800/50 bg-amber-950/40 text-amber-300"
             }`}
           >
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Sparkles className="h-3.5 w-3.5 shrink-0" />
-              <span>{aiStatusMessage}</span>
+              <span>
+                {aiConnected ? (
+                  <>
+                    <span>Đã kết nối Google Gemini AI</span>{" "}
+                    <span className="font-semibold text-emerald-200">
+                      ({aiModel || "gemini-3.8-flash"})
+                    </span>
+                    {aiLatencyMs !== null && (
+                      <span className="text-emerald-300/80">
+                        {" "}– Thời gian phản hồi:{" "}
+                        <strong className="font-mono text-emerald-100">{aiLatencyMs}ms</strong>
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  aiStatusMessage
+                )}
+              </span>
             </div>
-            <span className="font-semibold">
+            <span className="font-semibold shrink-0">
               {aiConnected ? "SẴN SÀNG" : "CHẾ ĐỘ DỰ PHÒNG"}
             </span>
           </div>

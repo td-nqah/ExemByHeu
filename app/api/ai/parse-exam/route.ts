@@ -138,6 +138,7 @@ export async function POST(request: Request) {
     }
 
     // 2. Smart Parsing with Google Gemini AI (Token-Optimized Prompt & Cached Model)
+    const tStart = Date.now();
     const ai = new GoogleGenAI({ apiKey });
     const candidateModels = getCandidateGeminiModels(cachedWorkingModel);
 
@@ -196,6 +197,7 @@ ${rawText.slice(0, 35000)}`;
         questions: aiQuestions,
         mode: "ai",
         model: activeModelUsed,
+        latencyMs: Date.now() - tStart,
       });
     }
 

@@ -17,6 +17,8 @@ export {
 export interface SmartParseResult {
   questions: ParsedQuestionDraft[];
   mode: "ai" | "fallback";
+  model?: string;
+  latencyMs?: number;
   reason?: string;
 }
 
@@ -82,12 +84,14 @@ export async function parseExamTextWithAI(rawText: string): Promise<SmartParseRe
     throw new Error("Vui lòng nhập hoặc dán nội dung đề thi trước khi bóc tách.");
   }
 
+  const tStart = Date.now();
   try {
     const res = await fetch("/api/ai/parse-exam", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ rawText: cleanText }),
     });
+    const duration = Date.now() - tStart;
 
     if (res.ok) {
       const data = await res.json();
@@ -95,6 +99,8 @@ export async function parseExamTextWithAI(rawText: string): Promise<SmartParseRe
         return {
           questions: data.questions,
           mode: data.mode === "ai" ? "ai" : "fallback",
+          model: data.model,
+          latencyMs: data.latencyMs ?? duration,
           reason: data.reason,
         };
       }
