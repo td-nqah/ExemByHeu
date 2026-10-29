@@ -562,10 +562,10 @@ export default function AdminDashboardPage() {
 
             <div
               className={cn(
-                "overflow-x-auto custom-scrollbar transition-all duration-300",
+                "overflow-x-auto custom-scrollbar transition-all duration-300 rounded-b-3xl",
                 isTableExpanded
                   ? "max-h-none overflow-y-visible"
-                  : "max-h-[calc(100vh-215px)] min-h-[580px] sm:min-h-[640px] 2xl:max-h-[calc(100vh-190px)] overflow-y-auto"
+                  : "max-h-[735px] overflow-y-auto"
               )}
             >
               <table className="w-full text-left text-xs">
@@ -761,36 +761,6 @@ export default function AdminDashboardPage() {
                 })}
               </tbody>
             </table>
-          </div>
-
-          {/* Table Footer Summary & Quick Length Toggle */}
-          <div className="border-t border-[#252A37] bg-[#10131B]/80 px-5 py-3 flex flex-wrap items-center justify-between gap-3 text-xs text-[#9CA3AF]">
-            <div className="flex items-center gap-2">
-              <span>
-                Hiển thị <strong className="text-white font-bold tabular-nums">{sortedExams.length}</strong> đề thi
-              </span>
-              {searchKeyword && (
-                <span className="text-[#8B93A5]">• Khớp với &ldquo;{searchKeyword}&rdquo;</span>
-              )}
-            </div>
-
-            <button
-              type="button"
-              onClick={toggleTableExpanded}
-              className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white transition-colors cursor-pointer select-none"
-            >
-              {isTableExpanded ? (
-                <>
-                  <Minimize2 className="h-3.5 w-3.5 text-slate-400" />
-                  <span>Thu gọn độ dài bảng</span>
-                </>
-              ) : (
-                <>
-                  <Maximize2 className="h-3.5 w-3.5 text-slate-400" />
-                  <span>Mở rộng dài hết cỡ (Xem toàn bộ {sortedExams.length} đề)</span>
-                </>
-              )}
-            </button>
           </div>
         </div>
       )}
