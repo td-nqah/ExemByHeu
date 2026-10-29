@@ -3,13 +3,10 @@
 import { useState, useEffect } from "react";
 import {
   Sliders,
-  Sparkles,
   HelpCircle,
   FileText,
   Calculator,
-  CheckCircle2,
 } from "lucide-react";
-import { PopoverSelect } from "@/components/ui/PopoverSelect";
 import { NumberStepper } from "@/components/ui/NumberStepper";
 
 interface ScoreConfigPanelProps {
@@ -22,7 +19,7 @@ interface ScoreConfigPanelProps {
   initialEssayScore?: number;
   onChangeMcqScore: (scorePerMcq: number) => void;
   onChangeEssayScore: (scorePerEssay: number) => void;
-  onApplyAutoScale: (
+  onApplyAutoScale?: (
     desiredTotal: number,
     mode: "proportional" | "fix_essay_split_mcq"
   ) => { newMcqScore: number; newEssayScore: number };
@@ -38,15 +35,9 @@ export function ScoreConfigPanel({
   initialEssayScore = 2.0,
   onChangeMcqScore,
   onChangeEssayScore,
-  onApplyAutoScale,
 }: ScoreConfigPanelProps) {
   const [mcqInput, setMcqInput] = useState<string>(String(initialMcqScore));
   const [essayInput, setEssayInput] = useState<string>(String(initialEssayScore));
-  const [desiredTotalInput, setDesiredTotalInput] = useState<string>("10");
-  const [scaleMode, setScaleMode] = useState<"proportional" | "fix_essay_split_mcq">(
-    "proportional"
-  );
-  const [autoAppliedToast, setAutoAppliedToast] = useState<string>("");
 
   useEffect(() => {
     setMcqInput(String(initialMcqScore));
@@ -72,21 +63,6 @@ export function ScoreConfigPanel({
     }
   };
 
-  const handleTriggerAutoAllocate = () => {
-    const target = parseFloat(desiredTotalInput);
-    if (isNaN(target) || target <= 0) {
-      alert("Vui lòng nhập Tổng điểm mong muốn hợp lệ (lớn hơn 0).");
-      return;
-    }
-
-    const { newMcqScore, newEssayScore } = onApplyAutoScale(target, scaleMode);
-    if (mcqCount > 0) setMcqInput(String(newMcqScore));
-    if (essayCount > 0) setEssayInput(String(newEssayScore));
-
-    setAutoAppliedToast(`Đã tự động phân bổ theo thang ${target} điểm`);
-    setTimeout(() => setAutoAppliedToast(""), 3000);
-  };
-
   const formattedTotal = Math.round(currentTotalScore * 100) / 100;
   const formattedMcqTotal = Math.round(currentMcqTotal * 100) / 100;
   const formattedEssayTotal = Math.round(currentEssayTotal * 100) / 100;
@@ -101,20 +77,13 @@ export function ScoreConfigPanel({
           </div>
           <div>
             <h3 className="text-sm font-bold text-white">
-              Cấu hình & Tự động Phân bổ Điểm số
+              Cấu hình Điểm số Đề thi
             </h3>
             <p className="text-xs text-[#9CA3AF]">
-              Thiết lập điểm số hàng loạt cho câu hỏi trắc nghiệm, tự luận hoặc quy đổi tự động theo thang điểm mong muốn.
+              Thiết lập điểm số hàng loạt cho câu hỏi trắc nghiệm và câu hỏi tự luận.
             </p>
           </div>
         </div>
-
-        {autoAppliedToast && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2A2F3C] bg-[#232836] px-3 py-1 text-xs font-semibold text-white">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-            <span>{autoAppliedToast}</span>
-          </span>
-        )}
       </div>
 
       {/* Row 1: Per-Question Score Inputs + Live Total Exam Score */}
@@ -238,74 +207,6 @@ export function ScoreConfigPanel({
             <strong className="text-white">{formattedEssayTotal}đ</strong>
           </div>
         </div>
-      </div>
-
-      {/* Row 2: Auto-Calculate / Scale Score Bar */}
-      <div className="mt-4 flex flex-col justify-between gap-4 rounded-2xl border border-[#252A37] bg-[#10131B] p-4 lg:flex-row lg:items-center">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-white" />
-            <span className="text-xs font-bold text-white">
-              Quy đổi / Tự động chia điểm:
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <label className="text-xs text-[#9CA3AF]">Tổng điểm mong muốn:</label>
-            <NumberStepper
-              value={parseInt(desiredTotalInput) || 10}
-              onChange={(val) => setDesiredTotalInput(String(val))}
-              min={1}
-              max={1000}
-              step={1}
-            />
-            <div className="flex items-center gap-1">
-              {[10, 20, 100].map((preset) => (
-                <button
-                  key={preset}
-                  type="button"
-                  onClick={() => setDesiredTotalInput(String(preset))}
-                  className={`rounded-full border px-2.5 py-1 text-[10px] tabular-nums font-bold transition cursor-pointer ${
-                    parseFloat(desiredTotalInput) === preset
-                      ? "border-transparent bg-white text-black"
-                      : "border-[#252A37] bg-[#161A24] text-slate-300 hover:border-white/30 hover:text-white"
-                  }`}
-                >
-                  Thang {preset}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {mcqCount > 0 && essayCount > 0 && (
-            <PopoverSelect<"proportional" | "fix_essay_split_mcq">
-              className="w-full"
-              buttonClassName="w-full h-9"
-              menuClassName="w-full"
-              value={scaleMode}
-              onChange={(val) => setScaleMode(val)}
-              options={[
-                {
-                  value: "proportional",
-                  label: "Chia theo tỷ lệ điểm hiện tại",
-                },
-                {
-                  value: "fix_essay_split_mcq",
-                  label: "Giữ điểm Tự luận, chia đều phần còn lại cho Trắc nghiệm",
-                },
-              ]}
-            />
-          )}
-        </div>
-
-        <button
-          type="button"
-          onClick={handleTriggerAutoAllocate}
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white hover:bg-slate-200 px-5 py-2.5 text-xs font-bold text-[#05070D] shadow-lg transition active:scale-[0.98] cursor-pointer"
-        >
-          <Sparkles className="h-3.5 w-3.5 text-black" />
-          <span>Tự động phân bổ điểm</span>
-        </button>
       </div>
     </div>
   );
