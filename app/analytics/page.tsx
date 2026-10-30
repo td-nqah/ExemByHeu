@@ -10,7 +10,6 @@ import {
   Compass,
   History,
   BarChart3,
-  ShieldCheck,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { PopoverSelect } from "@/components/ui/PopoverSelect";
@@ -357,7 +356,7 @@ export default function AnalyticsPage() {
       </motion.div>
 
       {/* 2. Main Dashboard Layout (2-Column Architecture) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
         {/* ============================================================ */}
         {/* COLUMN 1: 5-AXIS COMPETENCY RADAR WIDGET (lg:col-span-6)    */}
         {/* ============================================================ */}
@@ -365,14 +364,14 @@ export default function AnalyticsPage() {
           initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="lg:col-span-6 space-y-4"
+          className="lg:col-span-6 flex flex-col h-full"
         >
-          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 sm:p-6 shadow-xl relative overflow-hidden flex flex-col justify-between">
+          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 sm:p-6 shadow-xl relative overflow-hidden flex-1 flex flex-col justify-between">
             {/* Ambient Monochrome Background Accents */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-white/[0.02] rounded-full blur-3xl pointer-events-none" />
 
             {/* Header of Radar Widget */}
-            <div className="flex items-center justify-between pb-3 border-b border-[#252a37] relative z-10">
+            <div className="flex items-center justify-between pb-3 border-b border-[#252a37] relative z-10 shrink-0">
               <div>
                 <h2 className="font-heading text-base sm:text-lg font-bold text-white flex items-center gap-2">
                   <Compass className="w-4 h-4 text-white" />
@@ -389,10 +388,10 @@ export default function AnalyticsPage() {
             </div>
 
             {/* SVG Radar Chart (Monochrome Geometric Polygon) */}
-            <div className="relative py-4 flex items-center justify-center">
+            <div className="relative flex-1 flex items-center justify-center py-4 min-h-0">
               <svg
                 viewBox="0 0 400 390"
-                className="w-full max-w-[380px] h-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] overflow-visible"
+                className="w-full max-w-[380px] max-h-[380px] h-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] overflow-visible"
               >
                 <defs>
                   {/* Clean Monochrome gradient fill */}
@@ -519,33 +518,6 @@ export default function AnalyticsPage() {
                 </g>
               </svg>
             </div>
-
-            {/* Bottom Integrity & Standards Note */}
-            <div className="pt-4 border-t border-[#252a37] flex items-center justify-between text-xs text-slate-400">
-              {stats.totalExams === 0 ? (
-                <div className="flex items-center justify-between w-full">
-                  <span className="flex items-center gap-1.5 text-slate-400">
-                    <ShieldCheck className="w-4 h-4 text-slate-400" />
-                    <span>Chưa có dữ liệu bài thi cho tài khoản này</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => router.push("/dashboard")}
-                    className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-semibold transition cursor-pointer"
-                  >
-                    Làm bài thi ngay
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <span className="flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-slate-300" />
-                    <span>Chỉ số tuân thủ phòng thi: <strong className="text-white font-mono">{stats.integrityScore}/100</strong></span>
-                  </span>
-                  <span className="font-mono text-slate-400">Dữ liệu thực tế</span>
-                </>
-              )}
-            </div>
           </div>
         </motion.div>
 
@@ -556,11 +528,11 @@ export default function AnalyticsPage() {
           initial={shouldReduceMotion ? false : { opacity: 0, x: 12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.35, delay: 0.1 }}
-          className="lg:col-span-6 space-y-5"
+          className="lg:col-span-6 flex flex-col gap-5 h-full"
         >
           {/* Card 1: Achievement & Rank Badge Grid (4 Badges: SSS, SS, S, Số lần thi) */}
-          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 space-y-4 shadow-xl">
-            <div className="flex items-center justify-between pb-3 border-b border-[#252a37]">
+          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 shadow-xl flex-1 flex flex-col justify-between gap-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#252a37] shrink-0">
               <span className="font-heading text-xs uppercase tracking-wider font-bold text-white flex items-center gap-2">
                 <Trophy className="w-4 h-4 text-white" />
                 <span>Huân chương &amp; Thành tích</span>
@@ -624,8 +596,8 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Card 2: Standalone Card for 5 Dimension Metrics */}
-          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 space-y-4 shadow-xl">
-            <div className="flex items-center justify-between pb-3 border-b border-[#252a37]">
+          <div className="rounded-2xl bg-[#161a24] border border-[#252a37] p-5 shadow-xl flex-1 flex flex-col justify-between gap-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#252a37] shrink-0">
               <span className="font-heading text-xs uppercase tracking-wider font-bold text-white flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-white" />
                 <span>Chi tiết Chỉ số Năng lực</span>
