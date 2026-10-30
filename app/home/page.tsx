@@ -127,7 +127,7 @@ export default function HomePage() {
         {/* Prominent Greeting Headline Centered */}
         <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
           <span>{greetingInfo.greeting}, </span>
-          <span className="text-[#818cf8]">
+          <span className="text-[#9ca3af]">
             {formatDisplayName(currentUser?.username || "Admin", currentUser?.role)}
           </span>
         </h1>
