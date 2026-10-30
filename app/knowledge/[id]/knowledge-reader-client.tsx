@@ -8,7 +8,6 @@ import {
   Share2,
   Check,
   List,
-  Sparkles,
   Calendar,
   Tag,
   Printer,
@@ -276,25 +275,6 @@ export function KnowledgeReaderClient({ materialId }: { materialId: string }) {
               className="magazine-article-content prose prose-invert max-w-none font-body text-slate-200 text-sm sm:text-base leading-relaxed space-y-6"
               dangerouslySetInnerHTML={{ __html: material.content_html }}
             />
-
-            {/* End of article notice */}
-            <div className="mt-12 p-6 rounded-3xl border border-[#252A37] bg-[#161A24] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
-              <div className="space-y-1">
-                <h4 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                  <Sparkles className="h-4 w-4 text-white" />
-                  Bạn đã đọc hết bài viết này!
-                </h4>
-                <p className="text-xs text-[#9CA3AF]">
-                  Hãy thực hiện các bài đánh giá tương ứng trong mục "Ngân hàng Đề đánh giá" để kiểm tra mức độ nắm vững chuẩn đầu ra.
-                </p>
-              </div>
-              <Link
-                href="/dashboard"
-                className="shrink-0 px-6 py-2.5 rounded-full bg-white text-[#05070D] font-bold text-xs hover:bg-slate-200 transition shadow-lg cursor-pointer"
-              >
-                Làm bài đánh giá ngay
-              </Link>
-            </div>
 
             {/* Related Materials / Next Reads */}
             {relatedMaterials.length > 0 && (

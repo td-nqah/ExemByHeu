@@ -194,7 +194,7 @@ function fallbackParseMaterial(
       const itemContent = line.replace(/^[*-]\s+/, "").replace(/^\d+\.\s+/, "");
       if (!inList) {
         inList = true;
-        html += `<ul class="list-disc pl-5 space-y-1.5 my-3 text-slate-300 text-xs sm:text-sm">\n`;
+        html += `<ul class="pl-5 space-y-1.5 my-3 text-slate-300 text-xs sm:text-sm">\n`;
       }
       const formatted = itemContent.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
       html += `  <li>${formatted}</li>\n`;
@@ -275,7 +275,7 @@ Quy tắc biên tập "content_html":
    - Cảnh báo/Bẫy đề thi: <div class="callout-box border-l-4 border-amber-500 bg-amber-950/30 p-4 rounded-r-xl my-4 text-amber-100 text-sm"><p class="font-bold uppercase tracking-wider text-xs mb-1">Cảnh Báo Hay Nhầm Lẫn</p><p>...</p></div>
 5. Nếu có so sánh, phân loại hoặc dữ liệu, BẮT BUỘC trình bày dạng bảng HTML:
    <div class="overflow-x-auto my-6 rounded-xl border border-white/10 bg-[#141829]/50"><table class="w-full text-left text-xs sm:text-sm"><thead><tr class="bg-indigo-950/60 text-indigo-200 border-b border-white/10"><th class="p-3">Tiêu chí</th><th class="p-3">...</th></tr></thead><tbody class="divide-y divide-white/5 text-slate-300"><tr class="hover:bg-white/[0.02]"><td class="p-3 font-mono font-medium text-slate-200">...</td><td class="p-3">...</td></tr></tbody></table></div>
-6. Danh sách liệt kê: <ul class="list-disc pl-5 space-y-1.5 my-3 text-slate-300 text-xs sm:text-sm"><li>...</li></ul>
+6. Danh sách liệt kê (Dùng gạch đầu dòng en-dash): <ul class="pl-5 space-y-1.5 my-3 text-slate-300 text-xs sm:text-sm"><li>...</li></ul>
 7. Từ khóa quan trọng in đậm bằng <strong>.
 
 Tiêu đề gợi ý (nếu có): ${titleHint || "Không có"}
